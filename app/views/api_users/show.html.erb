@@ -1,0 +1,13 @@
+<p>
+  <b>Api key:</b>
+  <%= @api_user.api_key %>
+</p>
+
+<p>
+  <b>Secret key:</b>
+  <%= @api_user.secret_key %>
+</p>
+
+
+<%= link_to 'Edit', edit_api_user_path(@api_user) %> |
+<%= link_to 'Back', api_users_path %>

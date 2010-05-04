@@ -1,0 +1,6 @@
+%li    
+  =f.label 'email', 'Email'
+  =f.text_field :email
+%li    
+  =f.label 'name', 'Name'
+  =select("association", "name", { "Admin" => "admin", "Band Member" => "member"})

@@ -1,0 +1,1 @@
+page.visual_effect :highlight, "photo_#{@photo.id}", :duration => 1

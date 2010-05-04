@@ -1,0 +1,5 @@
+#take out the table row
+page.remove "association-#{@old_association_id}"
+
+#show a new blank quick-add form
+page.replace_html 'quick-association', :partial => 'associations/short_add', :locals => {:fresh_association => @fresh_association}

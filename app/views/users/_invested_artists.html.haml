@@ -1,0 +1,19 @@
+#invested-artists.widget-box
+  %h2 
+    Invested Artists 
+  -if invested_artists.empty?
+    .no-content No Invested Artists Yet!
+  -else
+  %ol.ranking-list
+    -for invested_artist in invested_artists.in_groups_of(2)
+      %li.odd
+        %strong.username
+          =link_to invested_artist[0].name, band_url(invested_artist[0].band_id)
+        %strong.shares
+          =invested_artist[0].total + ' shares'
+      -if invested_artist[1]
+        %li.even
+          %strong.username
+            =link_to invested_artist[1].name, band_url(invested_artist[1].band_id)
+          %strong.shares
+            =invested_artist[1].total + ' shares'

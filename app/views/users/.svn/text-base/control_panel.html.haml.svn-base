@@ -1,0 +1,67 @@
+#content-utility.control-panel
+  #utility-overview
+    =render :partial => 'users/stat_box_primary', :locals => {:user => @user}
+    #overview-secondary
+      =link_to image_tag(@user.path_to_headline_image(:center_graphic)), :controller => 'users', :action => 'edit', :id => @user.id, :anchor => 'photo'
+
+  #utility-player
+    =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @random_band.playlist_url}
+    =render :partial => 'common_partials/user_player_playlist', :locals => {:playlist_songs => @random_band.playlist_songs}
+  =render :partial => "control_panel_tabs"
+#content-primary
+  .profile-column-wide
+    -unless @waiting_friends.empty?
+      #waiting.widget-box
+        %h2 Confirm Friends
+        -for friend in @waiting_friends
+          .user
+            %dl
+              %dt
+                Nick Name:
+              %dd
+                =friend.nickname
+              %dt
+                Full Name:
+              %dd
+                =friend.full_name
+              %dt
+                Email:
+              %dd
+                =friend.email
+            .actions
+              =link_to 'Confirm', :controller => 'users', :action => 'add_user_friend', :id => friend.id
+              =link_to 'Reject', :controller => 'users', :action => 'remove_user_friend', :id => friend.id
+                  
+    #bio.widget-box
+      %h2 About Me
+      =link_to 'edit', {:controller => 'users', :action => 'edit', :id => @user.id}, :class => 'utility-link'
+      %dl.location
+        %dt Location:
+        %dd<
+          =@user.location_zoom_city
+
+      %h3 Genres
+      %ul
+        -if @user.genre_1
+          %li
+            =@user.genre_1.name
+        -if @user.genre_2
+          %li
+            =@user.genre_2.name
+        -if @user.genre_3
+          %li
+            =@user.genre_3.name
+            
+      %h3 Profile
+      .profile
+        =RedCloth.new((@user.bio || ''), [:lite_mode] ).to_html
+  
+
+
+  .profile-column
+    =render :partial => 'users/invested_artists', :locals => {:invested_artists => @top_invested_artists}   
+    .content-ad
+      =render :partial => 'common_partials/medium_ad_block'
+      %p Advertisement
+    =render :partial => 'users/top_friends', :locals => {:top_friends => @top_friends}
+      

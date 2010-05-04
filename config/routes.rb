@@ -1,4 +1,26 @@
 Cobain::Application.routes.draw do |map|
+  resources :api_users
+
+  resources :live_stream_series
+
+  resources :live_stream_series_permissions
+
+  resources :streamapi_stream_permissions
+
+  resources :streamapi_streams
+
+  resources :sessions
+
+  resources :associations
+
+  resources :user_roles
+
+  resources :roles
+
+  resources :users
+
+  resources :bands
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

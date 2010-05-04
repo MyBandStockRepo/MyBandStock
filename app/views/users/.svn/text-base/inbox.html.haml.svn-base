@@ -1,0 +1,50 @@
+#content-utility.control-panel
+  #utility-overview
+    =render :partial => 'users/stat_box_primary', :locals => {:user => @user}
+    #overview-secondary
+      =link_to image_tag(@user.path_to_headline_image(:center_graphic)), :controller => 'users', :action => 'edit', :id => @user.id, :anchor => 'photo'
+  #utility-player
+    =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @random_band.playlist_url}
+    =render :partial => 'common_partials/user_player_playlist', :locals => {:playlist_songs => @random_band.playlist_songs}
+  =render :partial => "control_panel_tabs"
+
+#content-primary
+  .column
+    #inbox.widget-box
+      %h3 Message Stream
+      =#link_to "compose", "", :class => 'utility-link'
+      -unless @band_mail.empty?
+        %ul{:id => 'band-mail-list'}
+          =render :partial => 'band_mails/user_stream_message', :collection => @band_mail, :as => :message
+      -else
+        #no-band-mail.no-content
+          You have no messages
+    
+      
+  #composer.column
+    -remote_form_for(@fresh_band_mail, :loading => "make_busy_div('composer');", :interactive => "hide_busy_div('composer');") do |f|
+      #form-entry
+        %fieldset
+          %legend 
+            %strong
+              Compose from
+              =@user.nickname
+          %ul.form-fields
+            %li
+              %label{:for => 'recipient[band_name]'}
+                Recipient
+              =text_field_with_auto_complete :recipient, :band_name,{:value => @band_name},:skip_style => true, :autocomplete => 'off'
+            =render :partial => 'band_mails/form', :locals => {:f => f}
+          =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+
+  .column.last
+    #thread-view.widget-box
+      %h3 Conversation View
+      %ul{:id => 'message-list'}
+        -if @messages_in_thread
+          =render :partial => 'band_mails/message', :collection => @messages_in_thread, :as => :message
+          =will_paginate @messages_in_thread, :param_name => "message_#{@messages_in_thread.first.id}_page"
+        -else
+          %li
+            .message<
+            If you have mail, you can select a message from your message stream on the right and your conversation with that band (up to that message) will appear.

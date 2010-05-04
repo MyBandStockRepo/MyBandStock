@@ -1,0 +1,19 @@
+-unless top_fans.empty?
+  %ol.ranking-list
+    -index = 0
+    -top_fans.each_with_index do |fan, index|
+      -if (index%2 == 0) 
+        %li.odd
+          %strong.username
+            =link_to fan.nickname, user_url(fan.user_id)
+          %strong.shares
+            ="#{fan.tot_shares} shares"
+      -else
+        %li.even
+          %strong.username
+            =link_to fan.nickname, user_url(fan.user_id)
+          %strong.shares
+            ="#{fan.tot_shares} shares"
+-else
+  .no-content
+    No Fans Yet

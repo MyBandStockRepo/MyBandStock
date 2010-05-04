@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/!svn/ver/1/dev/public_html/app/views/roles
+END
+destroy.js.rjs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1/dev/public_html/app/views/roles/destroy.js.rjs
+END
+show.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1/dev/public_html/app/views/roles/show.html.haml
+END
+_list_row.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/1/dev/public_html/app/views/roles/_list_row.html.haml
+END
+_form.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1/dev/public_html/app/views/roles/_form.html.haml
+END
+_user_email_autocomplete.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1/dev/public_html/app/views/roles/_user_email_autocomplete.html.haml
+END
+edit.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1/dev/public_html/app/views/roles/edit.html.haml
+END
+index.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1/dev/public_html/app/views/roles/index.html.haml
+END
+new.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1/dev/public_html/app/views/roles/new.html.haml
+END

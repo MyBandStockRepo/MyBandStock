@@ -1,0 +1,9 @@
+-form_for(@role) do |f|
+  #form-entry
+    %fieldset
+      %legend 
+        %strong
+          Create a role
+      %div.form-fields
+        =render :partial => 'roles/form', :locals => {:f=>f}
+      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

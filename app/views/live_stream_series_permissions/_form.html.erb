@@ -1,0 +1,23 @@
+<%= form_for(@live_stream_series_permission) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :can_view %><br />
+    <%= f.check_box :can_view %>
+  </div>
+  <div class="field">
+    <%= f.label :can_listen %><br />
+    <%= f.check_box :can_listen %>
+  </div>
+  <div class="field">
+    <%= f.label :can_chat %><br />
+    <%= f.check_box :can_chat %>
+  </div>
+  <div class="field">
+    <%= f.label :stream_quality_level %><br />
+    <%= f.text_field :stream_quality_level %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

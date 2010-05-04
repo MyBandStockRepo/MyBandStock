@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/!svn/ver/1/dev/public_html/app/views/application
+END
+band_home.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1/dev/public_html/app/views/application/band_home.html.haml
+END
+fan_home.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1/dev/public_html/app/views/application/fan_home.html.haml
+END
+_user_welcome_updates.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1/dev/public_html/app/views/application/_user_welcome_updates.html.haml
+END
+._index.haml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1/dev/public_html/app/views/application/._index.haml
+END
+_band_welcome_updates.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1/dev/public_html/app/views/application/_band_welcome_updates.html.haml
+END
+index.haml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1/dev/public_html/app/views/application/index.haml
+END
+._fan_home.haml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1/dev/public_html/app/views/application/._fan_home.haml
+END
+event_splash.haml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1/dev/public_html/app/views/application/event_splash.haml
+END
+._band_home.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1/dev/public_html/app/views/application/._band_home.html.haml
+END

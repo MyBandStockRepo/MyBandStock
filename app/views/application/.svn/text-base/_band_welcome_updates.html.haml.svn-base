@@ -1,0 +1,16 @@
+%h2< 
+  Welcome
+  =band.name
+=link_to image_tag("buttons/global/btn-control-panel.gif"), {:controller => 'bands', :action => 'control_panel', :band_short_name => band.short_name}, :class => "control-panel"
+%h3 Updates:
+%ul
+  %li<
+    =band.unread_mail.size
+    new messages
+  %li<
+    =band.stage_comments_yesterday.size
+    stage posts yesterday
+  %li<
+    =band.new_watchers_yesterday.size
+    people started watching you yesterday
+=link_to "Inbox (#{band.unread_mail.size})", {:controller => 'bands', :action => 'inbox', :band_short_name => band.short_name}, :id => "inbox"

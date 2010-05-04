@@ -1,0 +1,25 @@
+%li
+  =f.label :email, '* Email'
+  =f.text_field :email, :class => 'text'
+  %label.desc We will never sell or disclose your email to any third parties
+%li
+  =f.label :username, 'Nickname'
+  =f.text_field :nickname, :class => 'text'
+%li
+  =f.label :password, '* Password'
+  =f.password_field :password, :class => 'text'
+  %label.desc At least 6 characters long
+%li
+  =f.label :password_confirmation, '* Confirm Password'
+  =f.password_field :password_confirmation, :class => 'text'
+%li
+  =f.label :country_id, '* Country'
+  =collection_select "user", "country_id", Country.cached_all, 'id', 'name', :class => 'select'
+  %label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
+  =observe_field 'user_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'user'), :with => 'country_id'
+%li#state_select
+  =render :partial=>'common_partials/state_select', :locals => {:states => states, :model => 'user'}
+%li.checkbox
+  =f.label :receive_updates, 'Receive Updates'
+  =f.check_box :receive_updates, :checked => true, :class => 'checkbox'
+  %strong Keep me updated on MyBandStock with at most bi-weely emails (if we have anything to say).

@@ -1,0 +1,9 @@
+=label model, 'state_id', 'State/Province/Region'
+-if states
+  -unless states.empty?
+    =collection_select model, 'state_id', states, 'id', 'name', :class => 'select'
+  -else
+    =collection_select model, 'state_id', states.push(State.find(1)), 'id', 'name', :class => 'select'
+-else
+  %label.desc If after selecting a country nothing appears here, don't worry about it.  Just finish the rest of the form and hit register -- we'll then take you to a page where you can pick a state.
+  =hidden_field_tag 'user[state_id]', -1

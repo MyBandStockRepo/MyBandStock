@@ -1,0 +1,109 @@
+#content-utility.perks
+  #utility-overview
+    %h2.manage-perks Perks
+    #overview-primary
+      .stats-box
+        %dl
+          %dt.new<
+            =@band.filled_perks
+          %dd Total Perks Awarded
+          %dt.unfullfilled<
+            =@band.unfilled_perks
+          %dd Unfullfilled Perks
+          %dt.waiting<
+            =@band.flagged_perks
+          %dd Flagged
+      =link_to image_tag("/images/buttons/control-panel/btn-perkscta.png", :alt => "Create New Perk", :width => "302", :height => "128"), new_perk_url(), :class => "call-to-action"
+    #overview-secondary
+      %h3 creative incentives
+      %p 
+        Your fans love you. Heck, they’re even investing in your success. Why not give back? This page allows you to offer incentives to those
+        fans that support your MyBandStock project. By offering perks that increase as fans climb the investment level ladder, you will inspire
+        further contributions!
+  #utility-ad
+    =render :partial => 'common_partials/medium_ad_block'
+    %p Advertisement
+  =render :partial => "control_panel_tabs"
+#content-primary
+  .content-section
+    .section-primary
+      %h2 
+        Manage Unfulfilled Perks
+        =link_to "What's this", :controller => 'help_articles', :action => 'by_name', :article_name => 'manage_unfulfilled_perks_explanation'
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table'}
+        %thead
+          %tr.table-header
+            %th.nickname Nickname
+            %th.realname Real Name
+            %th.type Perk Type
+            %th.awarded Perk Awarded
+            %th.action Action
+
+        %tfoot
+          %tr
+            %td{:colspan => "6"}
+              =will_paginate @earned_perks, :param_name => 'earned_perks_page'
+        %tbody
+          -unless @earned_perks.empty?
+            =render :partial => 'earned_perks/list_row', :collection => @earned_perks, :as => :earned_perk
+          -else
+            %tr
+              %td.no-content{:colspan => "6"}
+                No Unfullfilled Perks
+              
+              
+    .section-sidebar
+  .content-section
+    .section-primary
+      %h2 
+        Contribution Levels
+        =link_to "What's this", :controller => 'help_articles', :action => 'by_name', :article_name => 'manage_contribution_levels_explanation'  
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table', :id => 'contribution-levels-list'}
+        %thead
+          %tr.table-header
+            %th.investment $investment
+            %th.perks Perks
+            %th.amount< 
+              purchased/max
+            %th.edit Actions
+        %tfoot
+          %tr
+            %td{:colspan => "4"}
+              =will_paginate @contribution_levels, :param_name => "contribution_levels_page"
+              #contribution-levels-footer 
+                Add a new contribution level using the form on the right!
+        %tbody{:id => "contribution-levels-list-body"}
+          -if @contribution_levels.empty?
+            %tr 
+              %td{:colspan => "4", :class => "no-content"}
+                Please create a contribution level using the form on the right.
+          -else
+            =render :partial => 'contribution_levels/list_row', :collection => @contribution_levels, :as => :contribution_level
+    #quick-contribution-level.section-sidebar
+      =render :partial => 'contribution_levels/short_add', :locals => {:fresh_contribution_level => @fresh_contribution_level}
+  .content-section
+    .section-primary
+      %h2 
+        Perks
+        =link_to "Whats this", :controller => 'help_articles', :action => 'by_name', :article_name => 'manage_perks_explanation'   
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table', :id => 'perks-list'}
+        %thead
+          %tr.table-header
+            %th.name Name
+            %th.description Description
+            %th.edit Actions
+        %tfoot
+          %tr
+            %td{:colspan => "4"}
+              =will_paginate @perks, :param_name => "perks_page"
+              #perks-footer
+                Add a new perk using the form on the right!
+        %tbody{:id => 'perks-list-body'}
+          -if @perks.empty?
+            %tr
+              %td{:colspan => "4", :class => "no-content"} 
+                Please create a perk using the form on the right.
+          -else
+            =render :partial => 'perks/list_row', :collection => @perks, :as => :perk
+    #quick-perk.section-sidebar
+      =render :partial => 'perks/short_add', :locals => {:fresh_perk => @fresh_perk}

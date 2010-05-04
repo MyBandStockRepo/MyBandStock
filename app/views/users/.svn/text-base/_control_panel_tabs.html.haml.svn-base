@@ -1,0 +1,50 @@
+%ul.utility-nav
+  -link = link_to 'Control Panel', :action => 'control_panel'
+  -if controller.action_name == 'control_panel'
+    %li.current.control-panel<
+      =link
+  -else
+    %li.control-panel<
+      =link
+      
+  -link = link_to 'Artists', '/me/manage_artists'
+  -if controller.action_name == 'manage_artists'
+    %li.current<
+      =link
+  -else
+    %li<
+      =link
+  
+  -link = link_to 'Friends', '/me/manage_friends'
+  -if controller.action_name == 'manage_friends'  
+    %li.current<
+      =link
+  -else
+    %li<
+      =link
+    
+  -link = link_to 'Mail', '/me/inbox'
+  -if controller.action_name == 'inbox'  
+    %li.current<
+      =link
+  -else
+    %li<
+      =link
+
+  -link = link_to 'Purchases', '/me/purchases'
+  -if controller.action_name == 'purchases'
+    %li.current<
+      =link
+  -else
+    %li<
+      =link
+      
+  -link = link_to 'Account', '/me/account'
+  -if controller.action_name == 'edit'  
+    %li.current<
+      =link
+  -else
+    %li<
+      =link
+      
+  

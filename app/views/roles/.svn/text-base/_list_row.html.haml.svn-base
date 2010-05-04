@@ -1,0 +1,3 @@
+%ul{:id => "role_#{role.id}"}
+  %li.name
+    =link_to role.name

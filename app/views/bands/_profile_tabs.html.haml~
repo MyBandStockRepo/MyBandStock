@@ -1,0 +1,27 @@
+%ul.utility-nav
+  -url_hash = {:controller => 'bands', :action => 'show', :band_short_name => band.short_name}
+  -if controller.action_name == 'show'
+    %li.first.current<
+      =link_to "Profile", url_hash
+  -else
+    %li.first<
+      =link_to "Profile", url_hash
+  
+  -url_hash = {:controller => 'news_entries', :action => 'by_band', :band_short_name => band.short_name}
+  -if controller.action_name == 'by_band'
+    %li.first.current<
+      =link_to "News", url_hash
+  -else
+    %li.first<
+      =link_to "News", url_hash
+      
+  -url_hash = {:controller => 'users', :action => 'toggle_band_watching', :id => band.id}
+  %li#add.profile-utility<
+    -if session[:user_id]
+      -if @band.has_friend_by_user_id(session[:user_id]) 
+        =link_to_remote '<strong>Remove</strong>', {:update => 'add', :url => url_hash }, {:class => 'remove', :href => url_for(url_hash)}
+      -else
+        =link_to_remote '<strong>Watch</strong>', {:update => 'add', :url => url_hash }, {:class => 'add', :href => url_for(url_hash)}
+  
+  %li.profile-utility<
+    =link_to '<strong>Message</strong>', { :controller => 'users', :action => 'inbox', :band_name => band.name}, :class => 'message'
