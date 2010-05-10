@@ -19,17 +19,27 @@
     %input#api_key{ :type => 'text', :name => 'api_key' }
 
   %div.form_element
-    %label{ :for => 'secret_key' } Secret key:
-    %input#api_key{ :type => 'text', :name => 'secret_key' }
-
-  %div.form_element
-    %label{ :for => 'auto_generate_hash' } Auto-generate hash:
+    %label{ :for => 'hash' } Hash:
+    %input{ :type => 'text', :name => 'hash' }
+    %label{ :for => 'auto_generate_hash' } Auto-generate hash [not currently working-->]:
     %input#auto_generate_hash{ :type => 'checkbox', :name => 'auto_generate_hash' }
 
   %div.form_element
     %label{ :for => 'api_version' } API version:
     %select#api_key{ :name => 'api_version' }
       %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_view' } Email:
+    %input#api_key{ :type => 'text', :name => 'email' }
+
+  %div.form_element
+    %label{ :for => 'can_view' } Can view:
+    %input{ :type => 'checkbox', :name => 'can_view' }
+
+  %div.form_element
+    %label{ :for => 'can_chat' } Can chat:
+    %input{ :type => 'checkbox', :name => 'can_chat' }
 
   = token_tag
   
