@@ -1,0 +1,38 @@
+%h1 API Tester
+
+%form{ :method => 'POST', :action => api_change_stream_permission_url }
+
+  %div.form_element
+    %label{ :for => 'function' } Function:
+    %select{ :name => 'function' }
+      %option{ :value => 'change_stream_permission' } change_stream_permission
+
+  %div.form_element
+    %label{ :for => 'format' } Response format:
+    %select{ :name => 'format' }
+      %option{ :value => 'xml' } XML
+      %option{ :value => 'yaml' } YAML
+      %option{ :value => 'json' } JSON
+
+  %div.form_element
+    %label{ :for => 'api_key' } API key:
+    %input#api_key{ :type => 'text', :name => 'api_key' }
+
+  %div.form_element
+    %label{ :for => 'secret_key' } Secret key:
+    %input#api_key{ :type => 'text', :name => 'secret_key' }
+
+  %div.form_element
+    %label{ :for => 'auto_generate_hash' } Auto-generate hash:
+    %input#auto_generate_hash{ :type => 'checkbox', :name => 'auto_generate_hash' }
+
+  %div.form_element
+    %label{ :for => 'api_version' } API version:
+    %select#api_key{ :name => 'api_version' }
+      %option{ :value => '1' } 1
+
+  = token_tag
+  
+  %input{ :type => 'submit', :value => 'Submit request' }
+
+

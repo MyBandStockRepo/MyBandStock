@@ -1,4 +1,10 @@
 Cobain::Application.routes.draw do |map|
+# http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
+
+  # API methods
+  match 'api/test', :to => 'api#test'
+  match 'api/change_stream_permission', :to => 'api#change_stream_permission'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
