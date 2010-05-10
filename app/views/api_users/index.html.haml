@@ -1,0 +1,27 @@
+%h1 Listing api_users
+
+%table
+	%tr
+		%th Api key
+		%th Secret key
+		%th
+		%th
+		%th
+
+
+- @api_users.each do |api_user|
+	%tr
+		%td 
+			= api_user.api_key
+		%td 
+			= api_user.secret_key
+		%td 
+			= link_to 'Show', api_user
+		%td 
+			= link_to 'Edit', edit_api_user_path(api_user)
+		%td 
+			= link_to 'Destroy', api_user, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Api user', new_api_user_path

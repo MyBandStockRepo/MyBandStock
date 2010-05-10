@@ -1,5 +1,0 @@
--if news_entries.empty?
-  #no-news-entries.no-content No news has been created yet.
--else
-  -for news_entry in news_entries
-    =render :partial => 'news_entries/news_entry', :locals => {:news_entry => news_entry}

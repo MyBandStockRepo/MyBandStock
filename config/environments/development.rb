@@ -16,4 +16,17 @@ Cobain::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  
+  
+	
+	# ENVIRONMENT CONSTANTS
+	#google checkout sandbox stuff
+	GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
+	
+	SITE_URL = 'http://127.0.0.1:3000'
+	SECURE_SITE_URL = 'http://127.0.0.1:3000'
+	
+	STREAMS_URL = 'rtmp://localhost/vod'
+  
+  
 end

@@ -1,6 +1,9 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.beta2'
+gem 'haml'
+gem 'acts_as_dropdown'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

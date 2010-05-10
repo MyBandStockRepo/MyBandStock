@@ -4,108 +4,15 @@
       %h2 
         =@band.name
         %br
-        %strong<
-          -if @band.genre_1
-            ="#{@band.genre_1.name} /" 
-          -if @band.genre_2
-            ="#{@band.genre_2.name} /"
-          -if @band.genre_3
-            ="#{@band.genre_3.name}"
       .stats
         %dl
-          %dt Total Fans:
-          %dd<
-            =@band.total_fans
-          %dt New Fans Yesterday:
-          %dd<
-            =@new_fans_yesterday
-          %dt New Shares Yesterday:
-          %dd<
-            =@new_shares_yesterday
-          %dt Date of Formation:
           %dd<
             =@band.created_at.strftime("%m/%d/%Y")
           %dt.worth Total Shares:
-          %dd.worth<
-            =@band.stocks_sold.to_s
-          -if @user_can_buy_stock
-            =link_to image_tag('buttons/global/btn-buy-stock.png', :width => '122', :height => '28'), {:controller => 'bands', :action => 'select_contribution_level', :id => @band.id}, {:class => 'call-to-action'}
 
-        
-        
-    #overview-secondary
-      =image_tag(@band.path_to_headline_photo(:center_graphic))
-
-  #utility-player
-    =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @band.playlist_url}
-    =render :partial => 'common_partials/band_player_playlist', :locals => {:playlist_songs => @band.playlist_songs}
-  %ul.utility-nav
-    =render :partial => 'bands/profile_tabs', :locals => {:band => @band}
-  
 #content-primary
-  .profile-column
-    #perks.widget-box
-      %h2 Perks
-      .help-link<
-        -url_hash = {:controller => 'help_articles', :action => 'by_name', :article_name => 'perks_explanation'}
-        =link_to_remote image_tag('backgrounds/icons/icon-16x16-question.png'), {:url => url_hash}, :href => url_for(url_hash)
-      =render :partial => 'bands/perks_widget', :locals => {:perks => @perks.uniq}
-    #top-fans.widget-box
-      %h2 Top Fans
-      =render :partial => 'bands/top_fans', :locals => {:top_fans => @top_fans, :band => @band}
-
   .profile-column
     #bio.widget-box
       %h2 Bio
-      #bio-content 
-        =RedCloth.new(@band.bio, [:lite_mode]).to_html
-  .profile-column.last
-    #news.widget-box
-      %h2 news
-      -if @news_entries.empty?
-        .no-content
-          No news has been created yet
-      -else
-        -for news_entry in @news_entries
-          %h3
-            =news_entry.title
-          %p
-            =RedCloth.new(news_entry.article_text, [:lite_mode] ).to_html
-        =link_to 'Read more news entries...', {:controller => 'news_entries', :action => 'by_band', :band_short_name => @band.short_name}, {:class => 'read-more'}
-        =will_paginate @news_entries, :param_name => 'news_entries_page'
-    #concerts.widget-box
-      %h2 
-        Concerts 
-      -if @concerts.empty?
-        .no-content
-          No Concerts
-      -else
-        =render :partial => 'concerts/short_concert_public', :collection => @concerts, :as  => :concert
-      =will_paginate @concerts, :param_name => 'concerts_page'
-    #budget.widget-box
-      %h2 Budget
-      .help-link<
-        -url_hash = {:controller => 'help_articles', :action => 'by_name', :article_name => 'budget_entries_explanation'}
-        =link_to_remote image_tag('backgrounds/icons/icon-16x16-question.png'), {:url => url_hash}, :href => url_for(url_hash)
-      #budget-content
-        %table{:cellpadding => "0", :cellspacing => "0", :class => "utility-table"}
-          %thead
-            %tr
-              %th.amount Amount
-              %th.desc Description
-          %tbody
-            =render :partial => 'bands/budget_widget', :locals => {:ledger_entries => @ledger_entries}
-  .profile-column-wide
-    #stage
-      %h2 Stage
-      #stage_comments_list
-        -if @stage_comments.empty?
-          #no-stage-comments.no-content
-            No Stage Comments Yet
-        -else
-          =render :partial => 'stage_comments/list_row', :collection => @stage_comments, :as => :stage_comment
-          =will_paginate @stage_comments, :param_name => 'stage_comments_page'
-      #stage_comments_form
-        -if session[:user_id]
-          =render :partial => 'stage_comments/short_add', :locals => {:fresh_stage_comment => @fresh_stage_comment}
-      
+      #bio-content
+        %p =@band.bio
