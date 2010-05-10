@@ -1,0 +1,2 @@
+page.replace_html 'quick-association', :partial => 'associations/remote_form', :locals => {:association => @association}
+page.replace_html 'associations-footer', :inline => '<%= link_to_remote "Add New Association", {:url => new_association_url(:band_id => @association.band_id)}, :href => new_association_url(:band_id => @association.band_id) %>'

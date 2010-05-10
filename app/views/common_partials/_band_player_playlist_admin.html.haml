@@ -1,0 +1,15 @@
+%ul.playlist
+  -index = -1
+  -playlist_songs.each_with_index do |song, index|
+    %li{:id => "playlist-position-#{index}", :class => 'playlist'}
+      =link_to image_tag("backgrounds/icons/icon-x-delete.gif"), {:controller => 'bands', :action => 'clear_playlist_slot', :id => index, :band_id => song.band.id}, :class => 'song-delete', :onclick => "make_busy_div(\'player-playlist\')"
+      %strong.song
+        =song.name
+      -if song.downloadable
+        =link_to "download", {:controller => 'files', :action => 'download', :id => song.id, :quality => 'lq_stream'}, :class => "download"
+      =drop_receiving_element "playlist-position-#{index}", :url => { :controller => 'bands', :action => "update_playlist_position", :position => index }, :accept => "songs-list-row", :hoverclass => "overview-secondary-drop-active", :loading => "make_busy_div(\'player-playlist\')", :interactive => "hide_busy_div(\'player-playlist\')"
+  -for index in (index+1)..6
+    %li{:id => "playlist-position-#{index}", :class => 'playlist'}
+      .song empty slot
+      =link_to '-', '#download', :class => 'download'
+      =drop_receiving_element "playlist-position-#{index}", :url => { :controller => 'bands', :action => "update_playlist_position", :position => index }, :accept => "songs-list-row", :hoverclass => "overview-secondary-drop-active", :loading => "make_busy_div(\'player-playlist\')", :interactive => "hide_busy_div(\'player-playlist\')"

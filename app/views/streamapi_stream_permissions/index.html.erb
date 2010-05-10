@@ -1,0 +1,27 @@
+<h1>Listing streamapi_stream_permissions</h1>
+
+<table>
+  <tr>
+    <th>Can view</th>
+    <th>Can chat</th>
+    <th>Stream quality level</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @streamapi_stream_permissions.each do |streamapi_stream_permission| %>
+  <tr>
+    <td><%= streamapi_stream_permission.can_view %></td>
+    <td><%= streamapi_stream_permission.can_chat %></td>
+    <td><%= streamapi_stream_permission.stream_quality_level %></td>
+    <td><%= link_to 'Show', streamapi_stream_permission %></td>
+    <td><%= link_to 'Edit', edit_streamapi_stream_permission_path(streamapi_stream_permission) %></td>
+    <td><%= link_to 'Destroy', streamapi_stream_permission, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Streamapi stream permission', new_streamapi_stream_permission_path %>

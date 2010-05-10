@@ -1,0 +1,18 @@
+<p>
+  <b>Title:</b>
+  <%= @live_stream_series.title %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @live_stream_series.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @live_stream_series.end_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_live_stream_series_path(@live_stream_series) %> |
+<%= link_to 'Back', live_stream_series_path %>

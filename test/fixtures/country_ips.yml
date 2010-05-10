@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  begin_ip: MyString
+  end_ip: MyString
+  begin_num: 1
+  end_num: 1
+  country_code: MyString
+  name: MyString
+
+two:
+  begin_ip: MyString
+  end_ip: MyString
+  begin_num: 1
+  end_num: 1
+  country_code: MyString
+  name: MyString

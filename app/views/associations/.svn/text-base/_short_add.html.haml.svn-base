@@ -1,0 +1,10 @@
+-form_remote_for(fresh_association) do |f|
+  .form-entry
+    %fieldset
+      %legend
+        %strong Add Association
+      %ul.form-fields
+        =f.hidden_field :band_id
+        =render :partial => "associations/form", :locals => {:f=>f}
+        .form-actions
+          =image_submit_tag 'buttons/global/btn-form-add.png', :class => 'submit'

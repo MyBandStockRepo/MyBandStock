@@ -1,0 +1,4 @@
+-images_path = 'homepage/band-images/'
+-band_images = [{:image =>'img-lightning-love-homepic.jpg', :name => 'lightning_love'}, {:image => 'img-mydeardisco-homepic.jpg', :name => 'mdd'}, {:image => 'img-souldub-homepic.jpg', :name => 'souldub'}]
+-@band = band_images[rand(3)]
+=link_to image_tag(images_path+@band[:image]), :contorller => 'bands', :action => 'show', :band_short_name => @band[:name]

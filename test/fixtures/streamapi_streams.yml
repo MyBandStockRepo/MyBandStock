@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  private_hostid: MyString
+  public_hostid: MyString
+  title: MyString
+  start_time: 2010-05-05 14:26:37
+  end_time: 2010-05-05 14:26:37
+  quality: MyString
+  public: false
+
+two:
+  private_hostid: MyString
+  public_hostid: MyString
+  title: MyString
+  start_time: 2010-05-05 14:26:37
+  end_time: 2010-05-05 14:26:37
+  quality: MyString
+  public: false

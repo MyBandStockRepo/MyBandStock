@@ -1,0 +1,1 @@
+=render :partial => 'roles/list_row', :collection => @roles, :as => :role

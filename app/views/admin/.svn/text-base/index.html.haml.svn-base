@@ -1,0 +1,17 @@
+Cool Admin Stuff!
+%ul
+  %li
+    =link_to 'Band Applications', :controller => 'band_applications', :action => 'index'
+  %li
+    =link_to 'Projects Waiting Approval', :controller => 'projects', :action => 'waiting_approval'
+  %li
+    =link_to 'Projects Waiting Activation', :controller => 'projects', :action => 'waiting_activation'
+  %li
+    =link_to 'Recently Completed Projects', :controller => 'projects', :action => 'recently_completed'
+  %li
+    =link_to 'Help Articles', :controller => 'help_articles', :action => 'index'
+  %li
+    =link_to 'Roles and Users', :controller => 'roles', :action => 'index'
+  %li
+    =link_to 'Press Releases', :controller => 'press_releases', :action => 'index'
+    

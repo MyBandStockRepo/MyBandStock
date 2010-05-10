@@ -1,0 +1,64 @@
+#content-utility.control-panel
+  #utility-overview
+    #overview-primary
+      %h2< 
+        =@user.nickname
+        %br
+          %strong<
+            -if @user.genre_1
+              ="#{@user.genre_1.name} /" 
+            -if @user.genre_2
+              ="#{@user.genre_2.name} /"
+            -if @user.genre_3
+              ="#{@user.genre_3.name}"
+      .stats
+        %dl#fan
+          %dt Total Friends:
+          %dd<
+            =@user.friends.size
+          %dt Concerts Attended:
+          %dd Coming Q4 2009
+          %dt Join Date:
+          %dd<
+            =@user.created_at.strftime("%m/%d/%Y")
+          %dt.worth Total Shares:
+          %dd.worth<
+            =@user.total_shares
+        =#link_to image_tag("/images/buttons/global/btn-invitecta.png", :alt => "Invite a Friend", :width => "302", :height => "74"), '',:class => "call-to-action"
+    #overview-secondary
+      =image_tag(@user.path_to_headline_image(:center_graphic))
+
+  #utility-player
+    =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @random_band.playlist_url}
+    =render :partial => 'common_partials/user_player_playlist', :locals => {:playlist_songs => @random_band.playlist_songs}
+  %ul.utility-nav
+    =render :partial => 'users/profile_tabs', :locals => {:user => @user}
+#content-primary
+  .profile-column-wide
+    #bio.widget-box
+      %h2 About Me
+      %dl.location
+        %dt Location:
+        %dd<
+          =@user.location_zoom_city
+      %h3 Genres
+      %ul
+        -if @user.genre_1
+          %li
+            =@user.genre_1.name
+        -if @user.genre_2
+          %li
+            =@user.genre_2.name
+        -if @user.genre_3
+          %li
+            =@user.genre_3.name
+      %h3 Profile
+      .profile
+        =RedCloth.new((@user.bio || 'No bio entered yet.'), [:lite_mode] ).to_html
+    
+  .profile-column
+    =render :partial => 'users/invested_artists', :locals => {:invested_artists => @top_invested_artists}   
+    .content-ad
+      =render :partial => 'common_partials/medium_ad_block'
+      %p Advertisement
+    =render :partial => 'users/top_friends', :locals => {:top_friends => @top_friends}

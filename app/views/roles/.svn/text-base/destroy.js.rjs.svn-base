@@ -1,0 +1,1 @@
+page.remove "role_#{@old_role_id}"

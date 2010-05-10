@@ -1,0 +1,7 @@
+Welcome to MyBandStock!
+Thanks for registering <%=@name%>.
+
+Your login credentials are the following, HANG ON TO THIS.
+email: <%=@email%>
+
+password: <%=@password%>
