@@ -4,46 +4,13 @@
       %h2 
         =@band.name 
         %br
-        %strong<
-          -if @band.genre_1
-            ="#{@band.genre_1.name} /" 
-          -if @band.genre_2
-            ="#{@band.genre_2.name} /"
-          -if @band.genre_3
-            ="#{@band.genre_3.name}"
       .stats
         %dl
-          %dt Total Fans:
-          %dd<
-            -unless @band_fans
-              0
-            -else
-              =@band_fans
-          %dt Total Shares:
-          %dd<
-            -unless  @band_total_shares
-              0
-            -else
-              =@band_total_shares
-          %dt New Fans Yesterday:
-          %dd<
-            -unless  @new_fans_yesterday
-              0
-            -else
-              =@new_fans_yesterday
-          %dt New Shares Yesterday:
-          %dd<
-            -unless  @new_shares_yesterday
-              0
-            -else
-              =@new_shares_yesterday
           %dt Date of Formation:
           %dd<
             =@band.created_at.strftime("%m/%d/%Y")
           %dt.worth Total Net Worth:
-          %dd.worth<
-            ='$'+@band.stocks_sold.to_s
-          %dt Public Profile
+\          %dt Public Profile
           %dd<
             =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
           -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
@@ -55,15 +22,6 @@
             %dt Profile Published!
             %dd<
               =link_to 'Hide!', url_hash
-    #overview-secondary
-      =image_tag(@band.path_to_headline_photo(:center_graphic))
-
-  #utility-player
-    =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @band.playlist_url}
-    =render :partial => 'common_partials/band_player_playlist', :locals => {:playlist_songs => @band.playlist_songs}  
-    
-  =render :partial => 'control_panel_tabs'
-
 
 - form_for(@band) do |f|
   #form-entry
