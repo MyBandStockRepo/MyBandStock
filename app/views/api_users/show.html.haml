@@ -1,0 +1,14 @@
+%p
+	%b Api key:
+	= @api_user.api_key
+
+
+%p
+	%b Secret key:
+	= @api_user.secret_key
+
+
+
+= link_to 'Edit', edit_api_user_path(@api_user)
+|
+= link_to 'Back', api_users_path
