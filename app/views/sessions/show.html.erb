@@ -1,0 +1,13 @@
+<p>
+  <b>Session:</b>
+  <%= @session.session_id %>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= @session.data %>
+</p>
+
+
+<%= link_to 'Edit', edit_session_path(@session) %> |
+<%= link_to 'Back', sessions_path %>

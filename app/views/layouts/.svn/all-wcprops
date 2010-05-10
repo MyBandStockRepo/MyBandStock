@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/!svn/ver/1/dev/public_html/app/views/layouts
+END
+event-layout.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1/dev/public_html/app/views/layouts/event-layout.html.haml
+END
+root-layout.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1/dev/public_html/app/views/layouts/root-layout.html.haml
+END
+._root-layout.haml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1/dev/public_html/app/views/layouts/._root-layout.haml
+END
+._root-layout.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1/dev/public_html/app/views/layouts/._root-layout.html.haml
+END

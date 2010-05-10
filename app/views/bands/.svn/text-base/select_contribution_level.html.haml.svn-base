@@ -1,0 +1,63 @@
+#form-entry
+  %fieldset
+    %legend 
+      %strong
+        =@band.name
+        %em<
+          Member Since:
+          =@band.created_at.strftime("%B %Y")
+        %em<
+          Total Fans:
+          =@band.total_fans
+    -form_tag(:controller => 'bands', :action => 'buy_stock') do
+      .form-fields
+        %h3.shares-header Amount of Shares
+        %ul
+          -for c_level in @active_contribution_levels
+            %li
+              .level
+                =radio_button_tag 'contribution_level', c_level.id,'', :class => 'radio'
+                %strong
+                  %em.money<
+                    $
+                    =c_level.us_dollar_amount
+                  \-
+                  %em.share<
+                    =c_level.number_of_shares
+                    Shares
+              .perks
+                %h4.perk-header Perks
+                -unless c_level.perks.empty?
+                  %p
+                    -for perk in c_level.perks
+                      %strong<
+                        =perk.item_type
+                      \-
+                      =perk.name
+
+                -else
+                  %p
+                    %strong<
+                      No Perks
+        
+      .actions
+        -if @requires_acceptance
+          #errorExplanation.errorExplanation
+            %h2 You must indicate your agreement with the both statements
+        .agreement
+          =check_box_tag 'agreement', '1', @agreement, :class => 'checkbox'
+          %strong<
+            I Agree to MyBandstock's 
+            =link_to 'Fan Agreement (PDF 72KB)', "/docs/fan_aggreement.pdf"
+          =hidden_field_tag 'agreement', '0'
+        .agreement
+          =check_box_tag 'security', '1', @security, :class => 'checkbox'
+          %strong<
+            I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary
+            value and are NOT securities under United States Code Title 15, Chapter 2B § 78c or any other applicable law, as referenced in
+            the Fan Agreement
+          =hidden_field_tag 'security', '0'
+      
+        .buttons
+          =link_to image_tag('buttons/global/btn-cancel.png'), :controller => 'bands', :action => 'show', :band_short_name => @band.short_name
+          =image_submit_tag 'buttons/global/btn-buy-stock-submit.png'

@@ -1,0 +1,75 @@
+#content-utility.media
+  #utility-overview
+    %h2.manage-media Manage Media
+    #overview-primary
+      .stats-box
+        %dl
+          %dt<
+            =@photos_uploaded.to_s
+          %dd Pictures Uploaded
+          %dt<
+            =@photo_albums_created.to_s
+          %dd Photo Albums
+          %dt<
+            ="#{@megabytes_available.to_s}mb"
+          %dd Of space available
+      %a.call-to-action{:href => ''}=image_tag "/images/buttons/control-panel/btn-mediacta.png", :alt => "Add Music", :width => "302", :height => "128" 
+    #overview-secondary
+      %h3 Managing Photos
+      %p 
+        Show your fans what you’re all about! MyBandStock is the perfect place to express yourself to the people that matter—your fans! The Manage
+        Photos page lets you upload your own pictures to your profile! Organize your photos in a flash, always with the ability to remove or
+        modify at a later time.
+  #utility-ad
+    =render :partial => 'common_partials/medium_ad_block'
+    %p Advertisement
+  =render :partial => "control_panel_tabs"
+  
+#content-primary
+  .section-sidebar
+    #photo-drop
+      %h2 Profile Photo
+      .drop-zone
+        =image_tag "backgrounds/control-panel/bg-drag-photo-profile.png"
+    =drop_receiving_element "photo-drop", :url => { :controller => 'bands', :action => "update_headline_photo" }, :accept => "photos-box", :hoverclass => "photo-drop-active", :loading => "make_busy_div('photo-drop');", :interactive => "hide_busy_div('photo-drop');"
+  #photos.content-section
+    .section-primary
+      %h2 Photo Collection
+      #manage-photos
+        -if @photos.empty?
+          .no-content
+            No photos uploaded yet.
+        -else
+          =render :partial => 'photos/list_row', :collection => @photos.in_groups_of(3), :as => :photo_group
+  
+      #photos-footer
+        Add a new photo using the form on the right!
+    .section-sidebar{:id => 'quick-photo'}
+      =render :partial => 'photos/short_add', :locals => {:fresh_photo => @fresh_photo}
+      
+
+  #photo-albums.content-section
+    .section-primary
+      %h2 Manage Photo Albums
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table', :id => 'photo-albums-list'}
+        %thead
+          %tr.table-header
+            %th Album Name
+            %th Photo Names
+            %th Actions
+        %tfoot
+          %tr
+            %td{:id => 'photo-albums-footer', :colspan => "5"}
+              Add a new photo album using the form on the right!
+          %tbody
+            -unless @photo_albums.empty?
+              =render :partial => 'photo_albums/list_row', :collection => @photo_albums, :as => :photo_album
+            -else
+              %tr
+                %td.no-content{:colspan => "5"}
+                  No Photo Album Created yet!
+  
+            
+
+    #quick-photo-album.section-sidebar
+      =render :partial => 'photo_albums/short_add', :locals => {:fresh_photo_album => @fresh_photo_album}

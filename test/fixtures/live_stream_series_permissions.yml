@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  can_view: false
+  can_listen: false
+  can_chat: false
+  stream_quality_level: MyString
+
+two:
+  can_view: false
+  can_listen: false
+  can_chat: false
+  stream_quality_level: MyString

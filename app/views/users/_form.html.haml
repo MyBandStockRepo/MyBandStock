@@ -1,0 +1,35 @@
+%li
+  =f.label :first_name, '* First Name'
+  =f.text_field :first_name, :class => 'text'
+%li
+  =f.label :last_name, '* Last Name'
+  =f.text_field :last_name, :class => 'text'
+%li
+  =f.label :bio, 'Bio'
+  =textile_editor 'user', :bio, :class =>'text'
+%li
+  =f.label :phone, '* Phone Number'
+  =f.text_field :phone, :class => 'text'
+%li
+  =f.label :address1, 'Address 1'
+  =f.text_field :address1, :class => 'text'
+%li
+  =f.label :address2, 'Address 2'
+  =f.text_field :address2, :class => 'text'
+%li
+  =f.label :city, 'City'
+  =f.text_field :city, :class => 'text'
+%li
+  =f.label :zipcode, '* Zip Code'
+  =f.text_field :zipcode, :class => 'text'
+%li
+  =f.label :genre_1, 'Genre 1'
+  =collection_select 'user', 'genre_1_id', Genre.cached_all, 'id', 'name', :class => 'select'
+%li
+  =f.label :genre_2, 'Genre 2'
+  =collection_select 'user', 'genre_2_id', Genre.cached_all, 'id', 'name', :class => 'select'
+%li
+  =f.label :genre_3, 'Genre 3'
+  =collection_select 'user', 'genre_3_id', Genre.cached_all, 'id', 'name', :class => 'select'
+  
+=textile_editor_initialize

@@ -1,0 +1,26 @@
+%h2 Grant User Roles
+-if @roles.empty?
+  No users have been assigned to any roles (and how are you editing this page?)
+-else
+  -for r in @roles
+    -for u in r.users
+      %ul
+        %li.name
+          =u.full_name
+        %li.role
+          =r.name
+        %li.remove
+          =link_to 'remove role', :controller => 'roles', :action => 'toggle_user_role', 'role[user_email]' => u.email, 'role[id]' => r.id
+-form_tag({:controller => 'roles', :action => 'toggle_user_role'}, :method => :post) do |f|
+  =collection_select 'role', 'id', @roles.uniq, 'id', 'name'
+  =text_field_with_auto_complete :role, :user_email, {:size => ''}, :skip_style => true, :autocomplete => 'off'
+  =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+      
+
+%h2 Roles
+=link_to 'New Role', :controller => 'roles', :action => 'new'
+-if @roles.empty?
+  No roles! AHH HURRY UP AND make admin!
+-else
+  =render :partial => 'roles/list_row', :collection => @roles, :as => :role
+    

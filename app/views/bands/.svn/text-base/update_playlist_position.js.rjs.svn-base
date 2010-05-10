@@ -1,0 +1,2 @@
+page.replace_html 'player-playlist', :partial => 'common_partials/band_player_playlist_admin', :locals => {:playlist_songs => @playlist_songs}
+page.visual_effect :shake, "playlist-position-#{@position}", :duration => 3

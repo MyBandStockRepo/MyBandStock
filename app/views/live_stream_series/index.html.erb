@@ -1,0 +1,27 @@
+<h1>Listing live_stream_series</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Start time</th>
+    <th>End time</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @live_stream_series.each do |live_stream_series| %>
+  <tr>
+    <td><%= live_stream_series.title %></td>
+    <td><%= live_stream_series.start_time %></td>
+    <td><%= live_stream_series.end_time %></td>
+    <td><%= link_to 'Show', live_stream_series %></td>
+    <td><%= link_to 'Edit', edit_live_stream_series_path(live_stream_series) %></td>
+    <td><%= link_to 'Destroy', live_stream_series, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Live stream series', new_live_stream_series_path %>

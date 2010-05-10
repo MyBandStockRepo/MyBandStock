@@ -1,0 +1,1 @@
+page.replace_html 'state_select', :partial => 'common_partials/state_select', :locals => {:states => @states, :model => params[:model]}

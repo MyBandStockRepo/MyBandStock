@@ -1,0 +1,83 @@
+#content-utility.media
+  #utility-overview
+    %h2.manage-media Music
+    #overview-primary
+      .stats-box
+        %dl
+          %dt<
+            =@tracks_uploaded.to_s
+          %dd Tracks Uploaded
+          %dt<
+            =@music_albums_created.to_s
+          %dd Music Albums
+          %dt<
+            ="#{@megabytes_available.to_s}mb"
+          %dd Of space available
+      %a.call-to-action{:href => '#manage_music'}=image_tag "/images/buttons/control-panel/btn-mediacta.png", :alt => "Add Music", :width => "302", :height => "128"
+    #overview-secondary
+      %h3 Music
+      %p<
+        Use this page to upload your music and get it on your profile.  Organize your audio by album, or leave them unclassified.  If you select "Downloadable" when creating or editing a song, that means any registered user will be able to download that song in its entirety at streaming quality for free.
+  #utility-ad
+    =render :partial => 'common_partials/medium_ad_block'
+    %p Advertisement
+  =render :partial => "control_panel_tabs"
+  
+#content-primary
+  =image_tag ("content-images/img-drag-playlist-profile.png", :alt => "drag songs from your song list into box on the right", :width => "309", :height => "198", :class => "instruction-image")
+  #player-playlist.section-sidebar
+    =render :partial => 'common_partials/band_player_playlist_admin', :locals => {:playlist_songs => @band.playlist_songs}
+  #songs.content-section
+    .section-primary
+      %h2 
+        Manage Music  
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table', :id => 'manage-music'}
+        %thead
+          %tr.table-header
+            %th.title Title
+            %th.album-title  Album Title
+            %th.size File Size
+            %th.edit Actions
+        %tfoot
+          %tr
+            %td{:colspan => "5"}
+              =will_paginate @songs, :param_name => "songs_page"
+              #songs-footer
+                Add a new song using the form on the right!
+        %tbody#music-list
+          -if @songs.empty?
+            %tr
+              %td.no-content{:colspan => "5"} 
+                No Songs have been uploaded
+
+          -else
+            =render :partial => 'songs/list_row', :collection => @songs, :as => :song
+
+          
+    #quick-song.section-sidebar
+      =render :partial => 'songs/short_add', :locals => {:fresh_song => @fresh_song}
+  #music-albums.content-section
+    .section-primary
+      %h2 Manage Music Albums
+      %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table', :id => 'music-albums-list'}
+        %thead
+          %tr.table-header
+            %th Album Name
+            %th Song Names
+            %th Actions
+        %tfoot
+          %tr
+            %td{:colspan => "5"}
+              =will_paginate @music_albums, :param_name => "music_albums_page"
+              #music-albums-footer
+                Add a new music album using the form on the right!
+        %tbody{:id => 'music-albums-list-body'}
+          -unless @music_albums.empty?
+            =render :partial => 'music_albums/list_row', :collection => @music_albums, :as => :music_album
+          -else
+            %tr
+              %td.no-content{:colspan => "5"}
+                No Music Albums have been created
+
+    #quick-music-album.section-sidebar
+      =render :partial => 'music_albums/short_add', :locals => {:fresh_music_album => @fresh_music_album}

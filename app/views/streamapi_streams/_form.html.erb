@@ -1,0 +1,35 @@
+<%= form_for(@streamapi_stream) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :private_hostid %><br />
+    <%= f.text_field :private_hostid %>
+  </div>
+  <div class="field">
+    <%= f.label :public_hostid %><br />
+    <%= f.text_field :public_hostid %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :start_time %><br />
+    <%= f.datetime_select :start_time %>
+  </div>
+  <div class="field">
+    <%= f.label :end_time %><br />
+    <%= f.datetime_select :end_time %>
+  </div>
+  <div class="field">
+    <%= f.label :quality %><br />
+    <%= f.text_field :quality %>
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,122 @@
+#content-utility
+  #utility-overview.manage-fans
+    %h2.manage-fans Fans
+    #overview-primary
+      %dl.stats-new
+        %dt<
+          =@new_investors_yesterday
+          investors and 
+        %dd<
+          ='$' + @new_investments_yesterday.to_s
+          in investments yesterday
+      .stats-box
+        %h3 Totals
+        %dl
+          %dt Fans:
+          %dd
+            -if @fans.nil?
+              0
+            -else
+              =@fans.length
+          %dt Shares:
+          %dd
+            =@total_shares
+          %dt Capital:
+          %dd
+            =@total_capital
+      %div{:id => 'averages', :class => 'stats-box'}
+        %h3 Averages
+        %dl
+          %dt Fans per day:
+          %dd<
+            =@band.band_statistics.find_by_name("fans_per_day", :order => "created_at desc").value
+          %dt Shares per day:
+          %dd<
+            =@band.band_statistics.find_by_name("shares_per_day", :order => "created_at desc").value
+          %dt Shares per Fan:
+          %dd<
+            =@band.band_statistics.find_by_name("shares_per_fan", :order => "created_at desc").value
+          %dt Capital per day:
+          %dd<
+            ='$' + @band.band_statistics.find_by_name("capital_per_day", :order => "created_at desc").value.to_s
+          %dt Capital per Fan:
+          %dd<
+            ='$' + @band.band_statistics.find_by_name("capital_per_fan", :order => "created_at desc").value.to_s
+    #overview-secondary
+      %h3 Managing Investors
+      %p For a bird’s eye view of fan activity, visit this page.  It contains a summary of your total number of fans, an up-to-date investment tabulation, and daily contribution activity.  Plus, if you would like to organize or message your fans on the basis of location or level of investment, specify your search parameters in the silver box and then click “SORT.” It's perfect for planning your next tour or communicating with a target group of fans!
+  #utility-ad
+    =render :partial => 'common_partials/medium_ad_block'
+    %p Advertisement
+  =render :partial => "control_panel_tabs"
+#content-primary
+  .content-section
+    .table-sort
+      -form_tag({:controller => :bands, :action => "manage_fans", :band_short_name => @band.short_name}, :method => 'get') do
+        .investment
+          Investment: $ 
+          %input{:type => 'text', :name => 'invest_low', :value => @invest_low_passed}
+          to
+          %input{:type => 'text', :name => 'invest_high', :value => @invest_high_passed}
+        .extra 
+          Or
+        .location
+          Within
+          =render :partial => "common_partials/miles_away_select", :locals => {:passed => @miles_away_passed}
+          miles of:
+          %input{:type => 'text', :name => 'zipcode', :value => @zipcode_passed}
+        =image_submit_tag "/images/buttons/control-panel/btn-sort.png", {:alt => "Sort", :width => "108", :height => "76", :class => "sort"}
+
+        
+        
+    %table{:border => '0', :cellpadding => '0', :cellspacing => '0', :class => 'utility-table'}
+      %thead
+        %tr.table-header
+          %th 
+          %th Name
+          %th Location
+          %th Status
+          %th Total Shares
+          %th $USD
+          %th Email
+      %tfoot
+        %tr
+          %td{:colspan => "7"}
+            Pagination not available for these results at this time.
+            =#will_paginate @fans, :param_name => 'fans_results_page'
+      %tbody
+      -if (@fans_empty)
+        %tr
+          %td.no-content{:colspan => "7"}
+            ="Here\'s #{@fans.length} random fans."
+      -else
+        -for fan in @fans
+          %tr
+            %td
+              %input{:type => 'checkbox', :name => 'select'}
+            %td
+              =fan.full_name
+            %td
+              =fan.location_zoom_city
+            %td
+              -if @band.contributors.include? fan
+                Fan
+              -else
+                Friend
+            %td
+              =fan.shares_donated_to_band(@band.id)
+            %td 
+              =fan.contributions_made_to_band(@band.id).collect{|c| c.contribution_level.us_dollar_amount}.sum
+            %td
+              =mail_to fan.email
+
+  #sidebar
+    .stats
+      %h3 Top Fans
+      =render :partial => 'bands/top_fans', :locals => {:top_fans => @top_fans, :band => @band}
+    
+
+       
+              
+    
+     

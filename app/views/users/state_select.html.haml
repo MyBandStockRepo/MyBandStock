@@ -1,0 +1,11 @@
+#form-entry
+  %fieldset
+    %legend 
+      %strong
+        Select your state
+    %div.form-fields
+      -form_for(@user_search) do |f|
+        Please select a state
+        =render :partial => 'common_partials/state_select', :locals => {:states => @states, :model => 'user'}
+        =submit_tag 'Update state'
+

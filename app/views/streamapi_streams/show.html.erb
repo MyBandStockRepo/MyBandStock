@@ -1,0 +1,38 @@
+<p>
+  <b>Private hostid:</b>
+  <%= @streamapi_stream.private_hostid %>
+</p>
+
+<p>
+  <b>Public hostid:</b>
+  <%= @streamapi_stream.public_hostid %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @streamapi_stream.title %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @streamapi_stream.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @streamapi_stream.end_time %>
+</p>
+
+<p>
+  <b>Quality:</b>
+  <%= @streamapi_stream.quality %>
+</p>
+
+<p>
+  <b>Public:</b>
+  <%= @streamapi_stream.public %>
+</p>
+
+
+<%= link_to 'Edit', edit_streamapi_stream_path(@streamapi_stream) %> |
+<%= link_to 'Back', streamapi_streams_path %>

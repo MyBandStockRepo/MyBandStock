@@ -1,0 +1,20 @@
+#container
+  #header
+    #headerlinks
+      =link_to image_tag("event/mybandstock.gif"), :controller => 'application', :action => 'index', :no_splash => 'true'
+    #headerlinksright
+      %a{:href => 'http://www.mybandstock.com/thesummerhighlight', :class => 'support'}
+        =image_tag("/images/event/support.jpg")
+      %a{:href => 'http://www.mybandstock.com/thesummerhighlight'}
+        =image_tag("/images/event/bandprofile.jpg")
+  #video 
+    #video_embed
+      %object{ :width => 920, :height => 518 }
+        %param{ :name => "allowfullscreen", :value => "true" }/
+        %param{ :name => "allowscriptaccess", :value => "always" }/
+        %param{ :name => "movie", :value => "http://vimeo.com/moogaloop.swf?clip_id=6063285&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" }/
+        %embed{ :src => "http://vimeo.com/moogaloop.swf?clip_id=6063285&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1", :width => 920, :height => 518, :allowscriptaccess => 'always', :allowfullscreen => 'true', :type => 'application/x-shockwave-flash' }
+      =link_to image_tag("event/enter.gif"), :controller => 'application', :action => 'index', :no_splash => 'true'
+      %p
+        &copy;2009 - MyBandStock and The Summer Highlight | 
+        =link_to 'Mybandstock.com', :controller => 'application', :action => 'index', :no_splash => 'true'
