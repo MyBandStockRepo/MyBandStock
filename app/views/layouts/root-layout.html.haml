@@ -35,7 +35,7 @@
       #header
         %h1 
           =link_to 'mybandstock.com<em>The Music Revolution</em>', :controller => 'application', :action => 'index'
-          %strong revision 1
+          %strong cobain
         
         #header-forms
           -unless session[:auth_success]
@@ -88,7 +88,7 @@
         -unless flash[:notice].blank?
           .notice
             =flash[:notice]
-        =@content_for_layout
+        =yield
       #site-info
         %ul
           %li

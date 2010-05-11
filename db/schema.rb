@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100507200343) do
+ActiveRecord::Schema.define(:version => 20100511183615) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -117,13 +117,6 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
     t.datetime "updated_at"
   end
 
-  create_table "user_emails", :force => true do |t|
-    t.string   "email",                         :null => false
-    t.boolean  "confirmed",  :default => false, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "user_roles", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -140,6 +133,9 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
     t.string   "status",     :default => "pending", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "country_id"
+    t.string   "address1"
+    t.string   "address2"
   end
 
   create_table "zipcodes", :force => true do |t|

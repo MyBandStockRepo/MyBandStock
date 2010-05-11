@@ -1,9 +1,0 @@
-User
-=@user.username
-is a member of the following bands
-%ul#membership
-  -for user_band in @user_bands
-    %li
-      =user_band.name
-      =link_to 'Band Profile', :controller => 'bands', :action => 'show', :id => user_band.id
-      

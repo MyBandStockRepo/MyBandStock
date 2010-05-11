@@ -23,8 +23,8 @@ class UsersController < ApplicationController
     
 =end    
     @random_band = get_random_band()
-    
-    
+
+
     respond_to do |format|
       format.html
       format.js
@@ -170,6 +170,7 @@ class UsersController < ApplicationController
   
   
   def create
+=begin
     #validate the captcha
     if ((session[:passed_captcha] && params[:captcha_response]) || (session[:passed_captcha] != true) )
       unless captcha_valid?(params[:captcha_response])
@@ -185,6 +186,7 @@ class UsersController < ApplicationController
         return false
       end
     end
+=end
     
     #check to see if they've posted
     if params[:user]
@@ -209,13 +211,13 @@ class UsersController < ApplicationController
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
       UserNotifier.deliver_welcome(@user.id)
-        if @user.state_id == -1 
-        redirect_to :action => :state_select
-        return
-      else
+      #if @user.state_id == -1 
+      #  redirect_to :action => :state_select
+      #  return
+      #else
         redirect_to (session[:last_clean_url] || ('/fan_home'))
         return
-      end
+      #end
       
     else
       state_select(@user.country_id)
