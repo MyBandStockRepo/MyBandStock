@@ -19,7 +19,3 @@
   =observe_field 'user_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'user'), :with => 'country_id'
 %li#state_select
   =render :partial=>'common_partials/state_select', :locals => {:states => states, :model => 'user'}
-%li.checkbox
-  =f.label :receive_updates, 'Receive Updates'
-  =f.check_box :receive_updates, :checked => true, :class => 'checkbox'
-  %strong Keep me updated on MyBandStock with at most bi-weely emails (if we have anything to say).

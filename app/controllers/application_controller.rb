@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     #  return
     #end
     
-    @bands = Band.find_all(:limit => 10)
+    @bands = Band.all(:limit => 10)
   end
   
   def event_splash

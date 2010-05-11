@@ -6,12 +6,3 @@
   -else
     %li.first<
       =link_to "Profile", url_hash
-      
-  -unless (user.id == session[:user_id])
-    %li#friend.profile-utility<
-      -if user.has_friend_by_id(session[:user_id])    
-        -url_hash = {:controller => 'users', :action => 'remove_user_friend', :id => user.id}
-        =link_to_remote '<strong>Unfriend</strong>', {:update => 'friend', :url => url_hash }, :class => 'remove', :href => url_for(url_hash)
-      -else
-        -url_hash = {:controller => 'users', :action => 'add_user_friend', :id => user.id}
-        =link_to_remote '<strong>Friend</strong>', {:update => 'friend', :url => url_hash }, :class => 'add', :href => url_for(url_hash)

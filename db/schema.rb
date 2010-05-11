@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100507200343) do
+ActiveRecord::Schema.define(:version => 20100511201832) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -19,9 +19,11 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
   end
 
   create_table "associations", :force => true do |t|
-    t.string   "type",       :null => false
+    t.string   "type",                      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",    :default => 0, :null => false
+    t.integer  "band_id",    :default => 0, :null => false
   end
 
   create_table "bands", :force => true do |t|
@@ -33,6 +35,8 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
     t.string   "status",     :default => "active", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "country_id"
+    t.integer  "state_id"
   end
 
   create_table "countries", :force => true do |t|
@@ -52,20 +56,24 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
   end
 
   create_table "live_stream_series", :force => true do |t|
-    t.string   "title",          :null => false
-    t.datetime "start_datetime", :null => false
-    t.datetime "end_datetime",   :null => false
+    t.string   "title",                         :null => false
+    t.datetime "start_datetime",                :null => false
+    t.datetime "end_datetime",                  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "band_id",        :default => 0, :null => false
+    t.integer  "api_user_id",    :default => 0, :null => false
   end
 
   create_table "live_stream_series_permissions", :force => true do |t|
-    t.boolean  "can_view",             :null => false
-    t.boolean  "can_listen",           :null => false
-    t.boolean  "can_chat",             :null => false
-    t.string   "stream_quality_level", :null => false
+    t.boolean  "can_view",                             :null => false
+    t.boolean  "can_listen",                           :null => false
+    t.boolean  "can_chat",                             :null => false
+    t.string   "stream_quality_level",                 :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",               :default => 0, :null => false
+    t.integer  "live_stream_series_id", :default => 0, :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -105,16 +113,18 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
   end
 
   create_table "streamapi_streams", :force => true do |t|
-    t.string   "private_hostid", :null => false
-    t.string   "public_hostid",  :null => false
-    t.string   "title",          :null => false
-    t.datetime "start_datetime", :null => false
-    t.datetime "end_datetime",   :null => false
-    t.string   "layout_path",    :null => false
-    t.string   "skin_path",      :null => false
-    t.boolean  "public",         :null => false
+    t.string   "private_hostid",                       :null => false
+    t.string   "public_hostid",                        :null => false
+    t.string   "title",                                :null => false
+    t.datetime "start_datetime",                       :null => false
+    t.datetime "end_datetime",                         :null => false
+    t.string   "layout_path",                          :null => false
+    t.string   "skin_path",                            :null => false
+    t.boolean  "public",                               :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "band_id",               :default => 0, :null => false
+    t.integer  "live_stream_series_id", :default => 0, :null => false
   end
 
   create_table "user_emails", :force => true do |t|
@@ -122,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
     t.boolean  "confirmed",  :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",    :default => 0,     :null => false
   end
 
   create_table "user_roles", :force => true do |t|
@@ -140,6 +151,8 @@ ActiveRecord::Schema.define(:version => 20100507200343) do
     t.string   "status",     :default => "pending", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "country_id"
+    t.integer  "state_id"
   end
 
   create_table "zipcodes", :force => true do |t|
