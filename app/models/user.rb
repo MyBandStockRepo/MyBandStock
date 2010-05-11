@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   belongs_to :state
 #  has_many :earned_perks, :dependent => :destroy
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
-  has_many :emails, :through => 'emails', :dependent => :destroy
+#  has_many :emails, :through => 'emails', :dependent => :destroy
   belongs_to :country
 #  has_many :stage_comments, :dependent => :destroy
 #  has_many :contributions, :dependent => :destroy
@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   #validations -- goes down to the first def
   
   #empty?
-#  validates_presence_of :email
+  validates_presence_of :email
   validates_presence_of :password
   validates_presence_of :password_confirmation, :on => :create
   validates_confirmation_of :password, :on => :create
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   #field specific
 #  validates_uniqueness_of :nickname
-#  validates_uniqueness_of :email
+  validates_uniqueness_of :email
   validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
   validates_numericality_of :country_id
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
-#  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
+  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
    
    
