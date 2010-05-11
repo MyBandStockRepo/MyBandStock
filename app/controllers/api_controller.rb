@@ -18,6 +18,7 @@ class ApiController < ApplicationController
     # If email is not specified, nothing will happen (but still return success)
     # If email is specified, the specified privileges will be applied to that user.
     # On success, the parameters are sent back in the format specified
+
     if (auth(params[:api_key], params[:hash], params[:api_version]) == false)
       raise unauthorized
 =begin
@@ -62,6 +63,7 @@ class ApiController < ApplicationController
   end
 
   def test
+    render :layout => false
   end
 
 private
