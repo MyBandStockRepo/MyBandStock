@@ -104,14 +104,6 @@ ActiveRecord::Schema.define(:version => 20100511212421) do
     t.datetime "updated_at"
   end
 
-  create_table "streamapi_stream_permissions", :force => true do |t|
-    t.boolean  "can_view"
-    t.boolean  "can_chat"
-    t.string   "stream_quality_level"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "streamapi_streams", :force => true do |t|
     t.string   "private_hostid",                       :null => false
     t.string   "public_hostid",                        :null => false
@@ -125,19 +117,6 @@ ActiveRecord::Schema.define(:version => 20100511212421) do
     t.datetime "updated_at"
     t.integer  "band_id",               :default => 0, :null => false
     t.integer  "live_stream_series_id", :default => 0, :null => false
-  end
-
-  create_table "user_emails", :force => true do |t|
-    t.string   "email",                         :null => false
-    t.boolean  "confirmed",  :default => false, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id",    :default => 0,     :null => false
-  end
-
-  create_table "user_roles", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
