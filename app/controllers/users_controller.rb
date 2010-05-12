@@ -424,12 +424,12 @@ class UsersController < ApplicationController
   def control_panel
     @user = User.find(session[:user_id])
     
-    @top_friends = @user.top_friends
-    @top_invested_artists = @user.top_invested_artists
+    #@top_friends = @user.top_friends
+    #@top_invested_artists = @user.top_invested_artists
     
 #    @waiting_friends = (UserFriend.find(:all, :conditions => ['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
-	#rails 3
-	@waiting_friends = (UserFriend.where(['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
+    #rails 3
+    #@waiting_friends = (UserFriend.where(['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
 
     @random_band = get_random_band()
     
