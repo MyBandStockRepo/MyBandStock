@@ -215,7 +215,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
-      UserNotifier.deliver_welcome(@user.id)
+      UserNotifier.registration_notification(@user).deliver
       #if @user.state_id == -1 
       #  redirect_to :action => :state_select
       #  return
@@ -238,49 +238,6 @@ class UsersController < ApplicationController
       # If we're in XML mode, just return a 201 Created response.
       format.xml { head :created, :location => user_path(@user) }
     end
-  end
-
-  def new_email
-    
-  end
-  
-  def create_email
-    unless @user = User.find(session[:user_id])
-      #FAIL
-    else
-      the_confirmation_key = ActiveSupport::SecureRandom.base64(254)
-      @email = @user.emails.new( :address => the_address, :confirmed => false, :confirmation_key => the_confirmation_key )
-      respond_to do |format|  
-         if @email.save 
-           format.html { redirect_to(@user, :notice => 'Email was added, please confirm it.') }  
-           format.xml  { render :xml => @email, :status => :created, :location => @user }  
-         else  
-           format.html { render :action => "new_email" }  
-           format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }  
-         end  
-       end  
-     end
-    
-  end
-  
-  def confirm_email
-    unless (ck = params[:confirmation_key] && ea = params[:email_address])
-      #fail!
-    else
-      if ( @email = Email.find.where(:address => ea).where(:confirmation_key = ck) )
-        @email.confirmed = true
-      else
-        #fail
-      end
-      if @email && @email.save 
-         format.html { redirect_to(@user, :notice => 'Email was confirmed, thank you.') }  
-         format.xml  { render :xml => @email, :status => :created, :location => @user }  
-       else  
-         format.html { render :action => "new_email" }  
-         format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }  
-       end
-     end
-    
   end
   
   
