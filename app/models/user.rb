@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   #the length of these is maxed by the field width in the database.  And that width was chosen rather arbitrarily - while being long enough to be safe.
 #  validates_length_of :nickname, :maximum => 50, :unless => Proc.new {|user| user.nickname.nil?}
   
-  validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?}
+  #validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?} --- commented because all hashes now are going to be 40/64 characters long
   validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
   
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
-  
+
   #**********************
   # User privileges
   #**********************          

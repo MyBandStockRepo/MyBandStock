@@ -50,8 +50,8 @@ class ApplicationController < ActionController::Base
   
   def fan_home
     @bodytag_id = "homepages"
-    @spotlight_bands = Band.where(['status = ?', 'active'], :order => 'RAND()', :limit => 10)
 =begin
+    @spotlight_bands = Band.where(['status = ?', 'active'], :order => 'RAND()', :limit => 10)
     if @user = User.find_by_id(session[:user_id])
       @number_of_unopened_mail = @user.band_mails.find(:all, :conditions => ['opened = ?', false]).size
       @number_of_new_friends = 3

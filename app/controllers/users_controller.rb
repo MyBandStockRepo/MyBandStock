@@ -201,9 +201,14 @@ class UsersController < ApplicationController
       redirect_to :action => "new"
     end
 
-      
+    # Hash the password before putting it into DB
+    user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
+    # We must also hash the confirmation entry so the model can check them together
+    user_registration_info[:password_confirmation] = Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
+   
     #we can assume at this point that we've got something ready to authenticate in user_registration_info
     @user = User.new(user_registration_info)
+
     if (@user.save)
       #clear out the session
       session[:user_registration_info] = nil
@@ -221,6 +226,8 @@ class UsersController < ApplicationController
       
     else
       state_select(@user.country_id)
+      @user.password = ''
+      @user.password_confirmation = ''
       render :action => :new
       return
     end
