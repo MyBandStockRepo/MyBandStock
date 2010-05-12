@@ -21,5 +21,6 @@ class CreateZipcodes < ActiveRecord::Migration
   end
 
   def self.down
+    drop_table :zipcodes
   end
 end
