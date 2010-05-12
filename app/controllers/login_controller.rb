@@ -32,9 +32,8 @@ class LoginController < ApplicationController
       passed_email = params[:user][:email]
       passed_password = params[:user][:password]
     end
-# HERE    
-#    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == Digest::SHA1.hexdigest(passed_password) )
-    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == passed_password )
+#    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == passed_password ) --- old, not-hashed
+    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == Digest::SHA2.hexdigest(passed_password) )
       session[:auth_success] = true
       session[:user_id] = @user.id
       flash[:notice] = "Thanks for logging in " + @user.full_name + "!"

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100511212421) do
+ActiveRecord::Schema.define(:version => 20100511183615) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -131,7 +131,8 @@ ActiveRecord::Schema.define(:version => 20100511212421) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "country_id"
-    t.integer  "state_id"
+    t.string   "address1"
+    t.string   "address2"
     t.string   "email",      :default => "",        :null => false
   end
 

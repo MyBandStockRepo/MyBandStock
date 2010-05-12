@@ -13,7 +13,6 @@ class UserNotifier < ActionMailer::Base
     
     body[:name] = user.full_name
     body[:email] = user.email
-    body[:password] = user.password
     
   end
   

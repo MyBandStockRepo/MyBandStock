@@ -5,16 +5,16 @@
       MyBandStock - The Music Revolution
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html'}
     = stylesheet_link_tag "global"
-    = stylesheet_link_tag "sIFR-screen.css", :media => 'screen'
-    = stylesheet_link_tag "sIFR-print.css", :media => 'print'
+    -# = stylesheet_link_tag "sIFR-screen.css", :media => 'screen'
+    -# = stylesheet_link_tag "sIFR-print.css", :media => 'print'
     = stylesheet_link_tag "/shadowbox/skin/classic/skin.css", :media => 'screen'
     <!--[if lte IE 7]>
     = stylesheet_link_tag "ie.css", :media => 'screen'
     <![endif]-->
     %link{:rel => "icon", :type => "image/ico", :href => "/favicon.ico"}
     = javascript_include_tag :defaults
-    = javascript_include_tag "sifr.js"
-    = javascript_include_tag "sifr-config.js"
+    -# = javascript_include_tag "sifr.js"
+    -# = javascript_include_tag "sifr-config.js"
     = javascript_include_tag "shadowbox-2.0.js"
     = javascript_include_tag "/shadowbox/skin/classic/skin.js"
     = javascript_include_tag "flash_helper.js"
@@ -52,8 +52,8 @@
                   =submit_tag "Login", :name => 'loginSubmit', :tabindex => "4", :id => 'login-submit', :class => 'submit', :type => 'image', :src => image_path('buttons/global/btn-login.gif')
           -else
             .user
-              =User.find(session[:user_id]).nickname + ' - '
-              -if cp_association = User.find(session[:user_id]).associations.find(:first, :conditions => ['name = ?', 'admin'])
+              =User.find(session[:user_id]).first_name + ' - '
+              -if cp_association = User.find(session[:user_id]).associations.find(:first, :conditions => ['type = ?', 'admin'])
                 =link_to 'Band CP', :controller => 'bands', :action => 'control_panel', :band_short_name => cp_association.band.short_name
                 ="-"
               =link_to "User CP", {:controller => :users, :action => 'control_panel'}

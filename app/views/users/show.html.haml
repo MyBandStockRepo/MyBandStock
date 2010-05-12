@@ -2,7 +2,7 @@
   #utility-overview
     #overview-primary
       %h2< 
-        =@user.nickname
+        =@user.full_name
         %br
       .stats
         %dl#fan
@@ -25,5 +25,5 @@
   
       %h3 Profile
       .profile
-        =@user.bio
+        -# =@user.bio
     

@@ -1,16 +1,3 @@
 %h2#sign-up Sign Up
--form_for(@user) do |f|
-  #form-entry
-    %fieldset.user-info
-      %legend 
-        %strong New User Registration
-      =error_messages_for :user
-      %ul.form-fields
-        -if @captcha_error
-          .captcha_error
-            =@captcha_error
-        =render :partial => 'required_form', :locals => {:f => f, :states => @states }
-        %li.captcha
-          =make_captcha
+=render 'form'
 
-      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

@@ -1,6 +1,7 @@
 #primary-content
-  #banner-area
-    =render :partial => 'common_partials/promo_bands_banner'
+  -# __commented__
+    #banner-area
+      =render :partial => 'common_partials/promo_bands_banner'
   #news
     %h2 MBS News
     =render :partial => 'common_partials/mbs_news', :collection => @news_templates, :as => :news_template
@@ -9,8 +10,9 @@
   -unless session[:user_id]
     =link_to image_tag("buttons/global/btn-join-now.gif"), '/register', :class => "join"
   -else
-    =render :partial => 'application/user_welcome_updates', :locals => {:user => @user}
-  =render :partial => 'common_partials/spotlight_bands', :locals => {:top_share_earners => @top_share_earners}
+    =@user
+    -# =render :partial => 'application/user_welcome_updates', :locals => {:user => @user}
+  -# =render :partial => 'common_partials/spotlight_bands', :locals => {:top_share_earners => @top_share_earners}
   %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour];", :class => "first", :onclick => "shadowbox.next()"}
     =image_tag("homepage/tour/img-mbs-tour.gif", :alt => "MBS Tour") 
   %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
@@ -21,8 +23,4 @@
   %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
   %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
   
-      
- 
-            
 
-  
