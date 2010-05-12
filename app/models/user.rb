@@ -64,7 +64,41 @@ class User < ActiveRecord::Base
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
-   
+  
+  #**********************
+  # User privileges
+  #**********************          
+
+  def set_privilege(user = nil, priv_hash = nil)
+  # Takes a user object, then applies the privileges specified in the hash.
+  # Input priv_hash looks like:
+  #   { :can_view => 1, :can_listen => 0, :stream_quality_level => 'high' }
+  # where can_view is set to 1, etc, and can_chat is left alone (because it was unspecified)
+    
+    if (priv_hash.nil? || email.nil?)
+      return false
+    end
+
+    possible_privs = [:can_view, :can_chat, :can_listen, :stream_quality_level]
+
+    priv_hash.each do |priv_name, priv_value|
+      # Skip if priv_value is nil, 'nil' (from the API test tool), or if priv_value is not one of 1 or 0
+      unless (  priv_value.nil? ||
+                priv_value == 'nil' ||
+                (priv_value != 1 || priv_value != 0) ||
+                !possible_privs.include?(priv_name)
+              )
+        user[priv_name] = priv_value
+      end
+    end
+
+    #if (can_view == 0)  # We're explicit about input values
+    #  user.can_view = 0
+    #elsif (can_view == 1)
+    #  user.can_view = 1
+
+    return true
+  end
    
   #************************************
   # Methods for quick and cached stats

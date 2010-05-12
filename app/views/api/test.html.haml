@@ -1,4 +1,4 @@
-%h1 API Tester
+%h2 API Tester
 
 %form{ :method => 'POST', :action => api_change_stream_permission_url }
 
@@ -35,7 +35,30 @@
 
   %div.form_element
     %label{ :for => 'can_view' } Can view:
-    %input{ :type => 'checkbox', :name => 'can_view' }
+    %select{ :name => 'can_view' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_chat' } Can chat:
+    %select{ :name => 'can_chat' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_listen' } Can listen:
+    %select{ :name => 'can_listen' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'stream_quality_level' } Stream quality level:
+    %select{ :name => 'stream_quality_level' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => 'high' } High
 
   %div.form_element
     %label{ :for => 'can_chat' } Can chat:

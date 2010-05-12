@@ -1,8 +1,0 @@
-Welcome to MyBandStock!
-
-YES!  You're officially a member of The Music Revolution™ !  Thanks for registering!  Have fun exploring the site, discovering great music, making new friends, and directly supporting the bands that you believe in!  Welcome to MyBandStock.com.
-
-Your login credentials are the following, HANG ON TO THIS.
-email: <%=@email%>
-
-password: <%=@password%>
