@@ -1,3 +1,5 @@
+require 'active_support/secure_random'  # For generating random values for API key, etc
+
 class ApiUsersController < ApplicationController
   # GET /api_users
   # GET /api_users.xml
@@ -25,6 +27,13 @@ class ApiUsersController < ApplicationController
   # GET /api_users/new.xml
   def new
     @api_user = ApiUser.new
+
+    # Should do these in a loop that checks for existence in DB. I'll learn some more Rails magic before doing that.
+    api_key = ActiveSupport::SecureRandom.hex(8)
+    secret_key = ActiveSupport::SecureRandom.hex(16)
+
+    @api_user.api_key = api_key
+    @api_user.secret_key = secret_key
 
     respond_to do |format|
       format.html # new.html.erb

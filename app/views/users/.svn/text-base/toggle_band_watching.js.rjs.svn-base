@@ -1,1 +1,0 @@
-page.remove "prospective-artist-#{@assoc.band_id}"

@@ -1,4 +1,4 @@
-%h1 API Tester
+%h2 API Tester
 
 %form{ :method => 'POST', :action => api_change_stream_permission_url }
 
@@ -19,17 +19,50 @@
     %input#api_key{ :type => 'text', :name => 'api_key' }
 
   %div.form_element
-    %label{ :for => 'secret_key' } Secret key:
-    %input#api_key{ :type => 'text', :name => 'secret_key' }
-
-  %div.form_element
-    %label{ :for => 'auto_generate_hash' } Auto-generate hash:
+    %label{ :for => 'hash' } Hash:
+    %input{ :type => 'text', :name => 'hash' }
+    %label{ :for => 'auto_generate_hash' } Auto-generate hash [not currently working-->]:
     %input#auto_generate_hash{ :type => 'checkbox', :name => 'auto_generate_hash' }
 
   %div.form_element
     %label{ :for => 'api_version' } API version:
     %select#api_key{ :name => 'api_version' }
       %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_view' } Email:
+    %input#api_key{ :type => 'text', :name => 'email' }
+
+  %div.form_element
+    %label{ :for => 'can_view' } Can view:
+    %select{ :name => 'can_view' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_chat' } Can chat:
+    %select{ :name => 'can_chat' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'can_listen' } Can listen:
+    %select{ :name => 'can_listen' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => '0' } 0
+      %option{ :value => '1' } 1
+
+  %div.form_element
+    %label{ :for => 'stream_quality_level' } Stream quality level:
+    %select{ :name => 'stream_quality_level' }
+      %option{ :value => 'nil' } (Unspecified)
+      %option{ :value => 'high' } High
+
+  %div.form_element
+    %label{ :for => 'can_chat' } Can chat:
+    %input{ :type => 'checkbox', :name => 'can_chat' }
 
   = token_tag
   

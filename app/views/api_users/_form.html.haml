@@ -1,0 +1,15 @@
+= form_for(@api_user) do |f|
+	= f.error_messages
+
+	.field
+		= f.label :api_key
+		%br
+		= f.text_field :api_key
+
+	.field
+		= f.label :secret_key
+		%br
+		= f.text_field :secret_key
+
+	.actions
+		= f.submit

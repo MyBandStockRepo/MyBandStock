@@ -1,0 +1,3388 @@
+/* @override http://dev.mybandstock.com/stylesheets/global.css?1230999123 */
+
+@import url(reset.css);
+@import url(typography.css);
+
+body { 
+  background: #333332 url(/images/backgrounds/global/bg-body.png) repeat-x top left;
+  text-align: center;
+}
+#page-wrapper{
+  width: 936px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Header Styles 
+---------------------------------------------------------------*/
+#corporate-contact h2,
+#help-articles-faq h2,
+#corporate-press h2,
+#mail h2,
+#legal-privacy-policy h2,
+#help-articles-how-it-works h2,
+#press-releases-index h2,
+#press-releases h2,
+#band-applications-index h2{
+  background: url(/images/backgrounds/global/bg-content-hdr.png) no-repeat top left;
+  width: 936px;
+  height: 58px;
+  padding: 1px;
+	line-height: 58px;
+	color: #fff;
+	font-size: 1.6em;
+	font-weight: normal;
+	text-align: center;
+  position: relative;
+}
+.widget-box h2,
+#stage h2,
+#homepages #primary-content #news h2,
+#mail #content .widget-box h3 {
+  background: #7f7f7f;
+  color: #fff;
+  padding: 0 0 0 48px;
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 1.6em;
+  height: 25px;
+  line-height: 24px;
+  position: relative;
+}
+
+/* Link Styles 
+---------------------------------------------------------------- */
+#form-entry a:hover{
+	color: #666;
+	
+}
+/* Header Area
+-------------------------------------------------------------- */
+#header {
+  background: url(/images/backgrounds/global/bg-header.png) no-repeat top left;
+  position: relative;
+  width: 936px;
+  height: 133px;
+}
+/* Logo */
+#header h1 {
+  position: absolute;
+  top: 26px;
+  left: 49px;
+}
+#header h1 a{
+  width: 220px;
+  height: 48px;
+  display: block;
+  text-indent: -9999px;
+}
+
+#header h1 strong{
+	color: #fff;
+	position: absolute;
+	top: -23px;
+	left: -10px;
+	font-size: .5em;
+}
+
+/* Search and Login Forms in header */
+#header-forms {
+  position: absolute;
+  top: 16px;
+  right: 43px;
+  width: 340px;
+  text-align: right;
+}
+#header-forms ul {
+  width: 325px;
+	margin: 0 0 5px;
+	list-style: none;
+	overflow: hidden;
+	text-align: left;
+	color: #999;
+	float: right;
+} 
+#header-forms #login .checkbox{
+	margin: 0;
+}
+
+#header-forms ul li{
+	float: left;
+	margin-right: 3px;
+}
+#header-forms #login li a {
+	color: #999;
+	text-decoration: none;
+	font-size: .8em;
+}
+
+#header-forms input,
+#header-forms label {
+  vertical-align: middle;
+  font-size: .8em;
+}
+#header-forms #login input.text {
+  width: 121px;
+	display: block;
+	margin-bottom: 2px;
+  color: #a3a3a3;
+}
+#header-forms input#username{
+  margin-left: 0;
+}
+#header-forms input#search-field{
+  width: 170px;
+}                               
+#header #search {
+	float: right;
+	width: 204px;
+}
+#header .submit {
+	margin-top: 1px;
+}
+#header .user {
+  margin: 0 10px 10px 0;
+  color: #ccc;
+  font-size:.9em;
+}
+
+#header .user a:hover{
+  color: #ccc;
+}
+/* Primary Nav
+-------------------------------------------------------------- */ 
+#primary-nav {
+  position: relative;
+  top: 91px;
+  width: 836px; 
+  margin: 0 50px;
+  list-style: none;
+}
+#primary-nav li{
+  float: left;
+}
+#primary-nav li a{
+	display: block;
+	text-indent: -9999px;
+	height: 42px;
+	background: url(/images/backgrounds/global/bg-header.png) no-repeat top left;
+}
+#primary-nav li#home-nav a{
+  width: 68px;
+  background-position: -50px -91px;
+  margin-right: 54px;
+}
+#primary-nav li#search-nav a{
+  width: 77px;
+  margin-right: 56px;
+  background-position: -172px -91px;
+}
+#primary-nav li#blog-nav a{
+  width: 60px;
+  margin-right: 204px;
+  background-position: -305px -91px;
+}
+#primary-nav li#faq-nav a{
+  width: 41px;
+  margin-right: 60px;
+  background-position: -569px -91px;
+}
+#primary-nav li#about-nav a{
+  width: 66px;
+  margin-right: 63px;
+  background-position: -670px -91px;
+}
+#primary-nav li#contact-nav a{
+  width: 78px;
+  background-position: -799px -91px;
+}
+
+
+
+
+/* Main Content Area
+-------------------------------------------------------------- */ 
+#content {
+  overflow:hidden;
+  width: 936px;
+  background: #272727 url(/images/backgrounds/global/bg-content.png) no-repeat top left;
+	color: #fff;
+}
+
+#content-primary{
+  width: 930px;
+  overflow: hidden;
+  padding: 10px 3px 3px;
+  color: #fff;
+  
+  } 
+#corporate-about #content-primary {
+  padding-top: 0;
+}
+
+/* Utility Section at the top of CP and Profiles
+-------------------------------------------------------------- */ 
+#content-utility{
+  width: 930px;
+  padding: 13px 3px 0;
+  overflow: hidden;
+  background: url(/images/backgrounds/control-panel/bg-control-panel-primary.png) no-repeat top left;
+  min-height: 313px; 
+}
+body#users-edit #content-utility,
+body#bands-edit #content-utility{
+	text-align: left;
+}
+
+#content-utility h2{
+  font-size: 1.4em; /* check later to see if we should resize base h2 font settings */
+  letter-spacing: .2em;
+  color: #fff;
+  text-transform: uppercase;
+}
+#content-utility  #utility-overview h2{
+  font-size: 1.4em; /* check later to see if we should resize base h2 font settings */
+  letter-spacing: .2em;
+  color: #fff;
+  text-transform: uppercase;
+  background: url(/images/backgrounds/control-panel/bg-control-overiew-hdr.png) no-repeat top left;
+  height: 24px;
+  margin: 0;
+  width: 508px;
+  padding-left: 110px;
+  padding-top: 15px;
+}
+
+#content-utility.control-panel  #utility-overview h2  {
+  font-size: 1.9em; /* check later to see if we should resize base h2 font settings */
+  letter-spacing: 0em;
+  color: #ff9900;
+  text-transform: none;
+  background: none;
+  height: auto;
+  width: auto;
+  margin: 0;
+  padding-left: 0;
+  padding-top: 0;
+  position: absolute;
+  left: 50px;
+  top: 10px;
+}
+#content-utility.control-panel  #utility-overview h2 strong {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  font-weight: normal;
+}
+#utility-overview {
+  background: url(/images/backgrounds/control-panel/bg-control-overiew.png) repeat-x 0 39px;
+  width: 618px;
+  float: left;
+  overflow: hidden;
+}
+
+.control-panel #utility-overview{
+ background: none;
+ width: 620px;
+}
+
+#overview-primary {
+  background: none;
+  float: left;
+  position: relative;
+}
+
+.control-panel #overview-primary{
+  background: url(/images/backgrounds/control-panel/bg-control-overiew-hdr-main.png) no-repeat top left;
+  padding-top: 63px;
+  width: 309px;
+}
+
+
+/* Stats boxes */
+.control-panel #overview-primary .stats {
+ background: url(/images/backgrounds/control-panel/bg-control-overiew.png) repeat-x 0 -63px;
+  min-height: 221px;
+ overflow: hidden;
+}
+
+
+.control-panel #overview-primary .stats dl {
+  position: relative;
+  width: 309px; 
+  overflow: hidden;
+  font-size: .8em;
+}
+.control-panel #overview-primary .stats dl dd,
+.control-panel #overview-primary .stats dl dt{
+  margin-top: 3px;
+  background: #000;
+  padding: 3px 0;
+  float: left;
+}
+.control-panel #overview-primary .stats dl dt{
+  clear: both;
+  color: #ccc;
+  font-weight: normal;
+  width: 170px;
+  padding-left: 25px;
+}
+
+.control-panel #overview-primary .stats dl dd{
+  color: #fff;
+  width: 114px;
+  margin-left: 0;
+}
+
+
+.control-panel #overview-primary .stats dl dt.profile,
+.control-panel #overview-primary .stats dl#fan dt.profile,
+.control-panel #overview-primary .stats dl#fan dt.shares,
+.control-panel #overview-primary .stats dl#fan dt.rank{
+  font-size: 1.3em;
+  color: #fff;
+  font-weight: bold;
+}
+.control-panel #overview-primary div.stats dl#fan dd.profile,
+.control-panel #overview-primary div.stats dl#fan dt.profile{
+	margin-top: 3px;
+}
+.control-panel #overview-primary .stats dl dd.profile {
+  font-size: 1.3em;
+  color: #00ff33;
+  font-weight: bold;
+}
+
+
+
+.control-panel #overview-primary .stats dl#fan dt.profile,
+.control-panel #overview-primary .stats dl#fan dt.shares,
+.control-panel #overview-primary .stats dl#fan dt.rank,
+.control-panel #overview-primary .stats dl#fan dd.profile,
+.control-panel #overview-primary .stats dl#fan dd.shares,
+.control-panel #overview-primary .stats dl#fan dd.rank{
+  background: #141414;
+  font-size: 1.4em;
+  margin-top: -1px;
+  margin-bottom: 2px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.control-panel #overview-primary .stats dl#fan dd.shares,
+.control-panel #overview-primary .stats dl#fan dd.rank{
+  color: #ff9900;
+  font-weight: bold;
+}
+
+#bands-show .stats .call-to-action {
+  float: right;
+  margin: 5px 10px 0 0;
+}
+
+.manage-fans dl.stats-new{
+  margin: 5px 0 2px 30px;
+  background: #000;
+  overflow: hidden;
+  width: 245px;
+  color: #fff;
+  padding: 5px 10px 5px 20px;
+  font-size: .9em;
+}
+
+/* Stats Boxes on Non CP pages */
+div.stats-box{
+  background: #000 url(/images/backgrounds/control-panel/bg-stats-box.png) repeat-x 0 00;
+  margin: 0 0 5px 30px;
+  padding: 20px 20px 5px 20px;
+  color: #fff;
+  clear: both;
+  width: 235px;
+  overflow: hidden;
+}
+
+.perks div.stats-box,
+.manage-budget div.stats-box,
+.media div.stats-box,
+.users div.stats-box{
+	margin: 5px 0 5px 6px;
+	width: 261px;
+  overflow: hidden;
+}
+
+.manage-budget div.stats-box {
+  padding-top: 5px;
+}
+.manage-fans div#averages {
+  background-image: none;
+}
+div.stats-box h3{
+  float: left;
+  color: #c60;
+  font-weight: bold;
+  font-size: 1em;
+}
+.manage-budget div.stats-box h3 {
+  color: #ccc;
+  float: none;
+  display: block;
+}
+
+.manage-budget div.stats-box .avatar{
+float: left;
+}
+div.stats-box dl {
+  float: right;
+  width: 178px;
+  margin: 0 0 10px;
+}
+.perks div.stats-box dl,
+.media div.stats-box dl,
+.users div.stats-box dl{
+	width: 279px;
+}
+div.stats-box dl dt,div.stats-box dl dd {
+  float: left;
+  margin-bottom: 5px;
+}
+div.stats-box dl dt{
+  clear: both;
+  text-align: right;
+  width: 90px;
+  color: #ccc;
+  font-size: .9em;
+}
+div.stats-box dl dd{
+  width: 70px;
+}
+
+.perks div.stats-box dl dd,
+.media div.stats-box dl dd,
+.users div.stats-box dl dd{
+  width: 206px;
+  color: #ccc;
+  font-size: 1.2em;
+}
+.perks div.stats-box dl dt,
+.media div.stats-box dl dt,
+.users div.stats-box dl dt{
+ text-align: right;
+ width: 23px;
+ font-size: 1.2em;
+}
+
+.manage-fans  dl.stats-new dt{
+  font-weight: normal;
+}
+.manage-fans  dl.stats-new dt,dl.stats-new dd{
+  float: left;
+}
+.perks div.stats-box dl dt.new {color: #00ff00;}
+.perks div.stats-box dl dt.unfullfilled {color: #ffff00;}
+.perks div.stats-box dl dt.waiting {color: #ff0000;}
+#overview-primary a.call-to-action{
+	margin: 0 0 0 6px;
+  display: block;
+}
+
+/* Middle column of Utility in Control Panel section next to Stats Boxes */
+/*ADDED BY JM FOR DRAG DROP */
+#photo-box-drop-active{
+  float: right;
+  display: inline;
+  color: #333;
+  padding: 10px;
+  margin: 5px 10px 0 0;
+  width: 270px;
+  height: 221px;
+}
+
+#overview-secondary{
+  float: right;
+  display: inline;
+  color: #fff;
+  padding: 10px;
+  margin: 5px 10px 0 0;
+  width: 270px;
+  height: 221px;
+}
+.control-panel #overview-secondary{
+  padding: 0;
+  margin: 0;
+  width: 311px;
+  height: 284px;
+}
+
+.control-panel #overview-secondary img {
+  display: block;
+}
+
+.manage-fans #overview-secondary{
+  background: url(/images/backgrounds/control-panel/bg-tips-blue.png) repeat-x 0 0;
+}
+.perks #overview-secondary{
+  background: url(/images/backgrounds/control-panel/bg-tips-red.png) repeat-x 0 0;
+}
+.manage-budget #overview-secondary{
+  background: url(/images/backgrounds/control-panel/bg-tips-graph.png) repeat-x 0 0;
+}
+.media #overview-secondary,
+.users #overview-secondary{
+  background: #000;
+}
+#overview-secondary h3 {
+  font-size: 1.4em; /* check later to see if we should resize base h2 font settings */
+  text-transform: uppercase;
+}
+.manage-fans #overview-secondary h3{
+  color: #a7ced9;
+}
+.perks #overview-secondary h3{
+  color: #ffd3b9;
+}
+.media #overview-secondary h3,
+.users #overview-secondary h3{
+  color: #fff;
+}
+#bands-show #overview-secondary,
+#users-show #overview-secondary,
+#bands-control-panel #overview-secondary,
+#users-control-panel  #overview-secondary,
+.control-panel #overview-secondary{
+	text-align: center;
+	background: #1b1b1b;
+}
+#bands-show #overview-secondary img{
+	margin: 0 auto;
+}
+
+/* Ad Area / Music Player */
+#utility-ad,#utility-player{
+  float: right; 
+}
+
+#utility-ad{
+  padding-top: 19px;
+  text-align: right;
+  color: #fff;
+  font-size: .9em;
+}
+#utility-ad p{
+  margin: 2px 5px 0 0;
+}
+
+#utility-player ul,
+ ul.playlist{
+	margin: 0;
+	padding:  9px 0 10px ;
+	list-style: none;
+	width: 310px;
+	height: 179px;
+	background: url(/images/media_player/bg_playlist.gif) no-repeat;
+}
+#utility-player img {
+	display: block;
+}
+#utility-player ul li,
+ ul.playlist li{
+	height:  23px;
+	position:  relative;
+	padding: 0 20px;
+	margin-bottom: 3px;
+}
+#utility-player ul li a,
+ ul.playlist li a{
+	color:  #ccc;
+	text-decoration: none;
+}
+#utility-player ul li a:hover,
+#utility-player ul li.current a,
+ ul.playlist li a:hover,
+ ul.playlist li.current a{
+	color: #ff9900;
+}
+
+#utility-player ul li a.download,
+ ul.playlist li a.download{
+	position: absolute;
+	right: 20px;
+	top: 5px;
+	font-size: .8em;
+}
+
+#utility-player ul li a.song,
+ ul.playlist li a.song,
+#bands-manage-music ul.playlist strong.song,
+#bands-manage-music ul.playlist a.song-delete{
+	position: absolute;
+	top: 5px;
+	font-size: .9em;
+}
+#bands-manage-music ul.playlist strong.song {
+	left: 35px;
+}
+#bands-manage-music ul.playlist a.song-delete,
+#utility-player ul li a.song,
+ ul.playlist li a.song{
+	left: 20px;	
+}
+#utility-player ul.playlist li.current a.song{
+	color: #fff;
+}
+ul.playlist #user-playlist-explain a{
+	position: absolute;
+	bottom: 5px;
+	left: 20px;
+}
+/* Utility Area for Manage Budget */
+.manage-budget div.stats-box .album-news dl{
+  float: none;
+  margin-top: 5px;
+  width: 175px;
+}
+
+.manage-budget div.stats-box .album-news dl dt{
+  width: 25px;
+  text-align: left;
+  float: left;
+}
+
+.manage-budget div.stats-box .album-news dl dd{
+ width: 96px;
+ float: none;
+}
+
+.manage-budget .album-news {
+  width: 300px;
+  overflow: hidden;
+}
+.manage-budget .album-news a,
+.manage-budget .album-news{
+  color: #ccc;
+}
+
+
+
+
+
+/* Registration and Login forms
+-------------------------------------------------------------- */
+body#bands-new #content,
+body#bands-create #content,
+body#bands-edit #content,
+body#users-new #content,
+body#users-create #content,
+body#users-edit #content,
+body#login-user #content,
+body#perks-new #content,
+body#perks-edit #content,
+body#concerts-new #content,
+body#concerts-edit #content,
+body#concerts-show #content,
+body#news-new #content,
+body#contribution-levels-new #content
+body#contribution-levels-edit #content{
+  text-align: center;
+  padding-bottom: 10px;
+}
+body#concerts-show #content {
+ padding-top: 10px;
+}
+h2#sign-up {
+  text-indent: -9999px;
+  width: 312px;
+  height: 58px;
+  margin: 0 auto;
+}
+#users-new h2#sign-up {
+  background:  url(/images/backgrounds/registration/bg-user-registration.png) no-repeat top left;
+}
+#bands-new h2#sign-up {
+  background:  url(/images/backgrounds/registration/bg-artist-application.png) no-repeat top left;
+}
+div#form-entry{
+  width: 603px;
+  margin: 10px auto 20px auto;
+  text-align: left;
+  overflow: hidden;
+  background:  #fff url(/images/backgrounds/registration/bg-registration-main.png) no-repeat bottom left;
+	color: #222;
+}
+
+body#mail #form-entry {
+	background:  #0d0d0d;
+	width: 286px;
+	margin: 0;	
+	padding: 10px;
+	overflow: hidden;
+}
+
+#form-entry  fieldset{
+  width: 583px;
+  position: relative;
+  padding: 10px;
+}
+#mail #form-entry fieldset{
+	width: 306px;
+	padding: 0;
+	color: #fff;
+}
+
+#form-entry legend strong{
+  display: block;
+  width: 572px;
+  height: 31px;
+  padding: 0 0 0 31px;
+  margin: 0;
+  line-height: 31px;
+  margin: 0 0 0 -10px;
+  display: block;
+  font-size: .8em;
+  color: #666;
+  text-align: left;
+  letter-spacing: 1px;
+  background:   url(/images/backgrounds/registration/bg-registration-header.png) no-repeat top left;
+}
+#mail #form-entry fieldset legend strong{
+	width: 286px;
+	padding:  0;
+	background: none;
+	color:  #fff;
+	margin: 0;
+	font-size: 1.2em;
+	line-height: 1.2;
+}
+
+#form-entry ul.form-fields{
+  padding: 5px 0 0 20px;
+	margin: 0;
+  width: 320px;
+  overflow: hidden;
+	list-style: none;
+}
+#login-password-reminder #form-entry ul.form-fields,
+#login-password-reminder #form-entry ul.form-fields li{
+	width: 500px;
+}
+#mail #form-entry ul.form-fields{
+	padding:  0;
+	width: 286px;
+}
+
+#form-entry li,
+#form-entry input,
+#form-entry textarea,
+#form-entry select{
+  display: block;
+  margin-top: 5px;
+  width: 300px;
+  clear: both;
+}
+#mail #form-entry li,
+#mail #form-entry input,
+#mail #form-entry textarea,
+#mail #form-entry select{
+	width: 286px;
+}
+
+#form-entry li{
+  color: #666;
+  font-weight: bold;
+  margin-top: 20px;
+  position: relative;
+}
+#mail #form-entry li {
+	color: #fff;
+	margin: 0;
+}
+
+#form-entry label.desc {
+  font-weight: normal;
+  font-size: .8em;
+  color: #999;
+  width: 300px;
+  margin-top: 5px;
+}
+
+#form-entry li.checkbox {
+  margin-bottom: 20px;
+}
+#form-entry li.checkbox .fieldWithErrors{
+	padding: 0;
+}
+#form-entry div.fieldWithErrors input,#form-entry div.fieldWithErrors textarea{
+width: 275px;
+}
+#form-entry li.checkbox label{
+	margin-bottom: 10px;
+	display: block;
+}
+#form-entry li.checkbox input,#form-entry div.fieldWithErrors input.checkbox {
+  float: left;
+  width: 15px;
+  margin: 0;
+}
+#form-entry li.checkbox strong{
+  margin-left: 20px;
+  font-weight: normal;
+  display: block;
+}
+#form-entry li.captcha img{
+	display: block;
+	margin-bottom: 5px;
+}
+#form-entry p {
+  padding: 0 22px;
+  line-height: 1.3;
+}
+
+#form-entry .submit {
+ margin-left: 22px;
+ width: 100px;
+}
+#mail #form-entry .submit{
+	width:  100px;
+	margin: 0;
+}
+body#login-user #form-entry .submit {
+  margin-top: 15px;
+}
+
+#form-entry .errorExplanation {
+ margin: 0 31px 0 20px;
+}
+
+.fieldWithErrors {
+  background: url(/images/icons/global/icon-error.png) no-repeat 0 10px;
+  padding: 10px 0 10px 25px;
+}
+.fieldWithErrors input.text,.fieldWithErrors textarea {
+  background: #FFCCCC; 
+border: 1px solid #990000;
+}
+#form-entry div.fieldWithErrors input, #form-entry div.fieldWithErrors textarea{
+	margin: 0;
+}
+#form-entry .errorExplanation {
+ margin: 0 31px 0 20px;
+}
+
+
+#form-entry div.fieldWithErrors input,#form-entry div.fieldWithErrors textarea{
+width: 275px;
+}
+div.section-sidebar .form-entry li.checkbox input,div.section-sidebar .form-entry div.fieldWithErrors input.checkbox {
+  float: left;
+  width: 15px;
+  margin: 0;
+}
+
+
+
+/* Mail Auto Complete */
+#mail #recipient_nickname_auto_complete ul{
+	margin: 0;
+	background: #fff;
+	width: 282px;
+	border: 2px solid #666;
+}
+#mail #form-entry #recipient_nickname_auto_complete ul li{
+	margin: 0;
+	width: auto;
+	padding: 5px;
+	color: #000;
+}
+#mail #form-entry #recipient_nickname_auto_complete{
+	width: 284px;
+	z-index: 1000;
+}
+#mail #form-entry #recipient_nickname_auto_complete ul li.selected{
+	background: #ccc;
+}
+
+/* Concerts Form */
+#form-entry .multiple-fields select{
+  float: left;
+  clear: none;
+}
+
+.multiple-fields{
+  width: 315px;
+  overflow: hidden;
+}
+
+.multiple-fields #day{
+  width: 50px;
+  margin-right: 10px;
+}
+
+.multiple-fields #month{
+  width: 140px;
+  margin-right: 10px;
+}
+
+.multiple-fields #year{
+  width: 90px;
+}
+
+
+
+
+/* Forms in Content Pages  Needs to be optimized later*/
+
+div.section-sidebar div.form-entry{
+  width: 304px;
+  margin-top: 33px;
+  background:   url(/images/backgrounds/global/bg-bottom-roundedblk-small.png) no-repeat bottom left;
+  padding-bottom: 23px;
+}
+
+div.section-sidebar #photo-drop {
+	width: 304px;
+  background:   url(/images/backgrounds/global/bg-bottom-roundedblk-small.png) no-repeat bottom left;
+  padding-bottom: 23px;
+	margin-bottom: 10px;
+}
+div.section-sidebar .drop-zone {
+	padding: 0;
+	margin: 0;
+  width: 304px;
+	text-align: center;
+  background: #4e4e4e url(/images/backgrounds/global/bg-sidebar-form.png) no-repeat top left;
+}
+div.section-sidebar .drop-zone img{
+	margin: 10px 0;
+	width: auto;
+}
+#photos div.form-entry {
+  margin: 0
+}
+
+div.section-sidebar .form-entry  fieldset{
+  width: 284px;
+  position: relative;
+}
+
+div.section-sidebar .form-entry  legend strong{
+  display: block;
+  width: 294px;
+  height: 24px;
+  padding: 0 0 0 11px;
+  margin: 0;
+  line-height: 24px;
+  display: block;
+  font-size: .8em;
+  color: #666;
+  text-align: left;
+  letter-spacing: 1px;
+  background:   url(/images/backgrounds/global/bg-form-header-small.png) no-repeat top left;
+}
+div.section-sidebar #photo-drop h2{
+	background:   url(/images/backgrounds/global/bg-form-header-small.png) no-repeat top left;
+	width: 294px;
+  height: 24px;
+	padding: 0 0 0 11px;
+  margin: 10px 0 0;
+  line-height: 24px;
+	font-size: .8em;
+	font-weight: normal;
+}
+div.section-sidebar .form-entry .form-fields{
+  padding: 5px 0 0 20px;
+	margin: 0;
+	list-style: none;
+  width: 284px;
+  background: #4e4e4e url(/images/backgrounds/global/bg-sidebar-form.png) no-repeat top left;
+  overflow: hidden;
+}
+
+
+div.section-sidebar .form-entry label,
+div.section-sidebar .form-entry input.text,
+div.section-sidebar .form-entry textarea,
+div.section-sidebar .form-entry select{
+  display: block;
+  margin: 5px 0 0;
+  width: 200px;
+  
+}
+
+
+div.section-sidebar .form-entry li{
+  color: #fff;
+  margin-top: 10px;
+  position: relative;
+}
+
+div.section-sidebar .form-entry label.desc {
+  font-weight: normal;
+  font-size: .8em;
+  color: #fff;
+  margin-top: 5px;
+	display: block;
+}
+
+
+div.section-sidebar .form-entry label.checkbox strong{
+  margin-left: 20px;
+  font-weight: normal;
+  display: block;
+}
+
+div.section-sidebar .form-entry  .form-actions {
+	padding: 10px 0;
+	width: 100px;
+}
+
+
+
+
+/* Control Panel Content Areas
+-------------------------------------------------------------- */   
+ 
+ /* Content Sections that have content solumns and sidebars */                  
+.content-section{
+  width: 930px;
+  overflow: hidden;
+  margin-bottom: 20px; 
+	clear: both;
+}
+#bands-manage-fans .content-section,
+#users-manage-friends .content-section{
+  float: left;
+  width: 618px;
+}
+.content-section h2 {
+  background: url(/images/backgrounds/global/bg-table-headerblk.png) no-repeat top left;
+  margin: 10px 0 0 7px;
+  padding: 0 7px;
+  color: #fff;
+  height: 23px;
+  line-height: 23px;
+  width: 197px;
+  font-size: 1em;
+  position: relative;
+}
+#bands-manage-project .content-section h2{
+	float:  left;
+}
+.section-primary div.status{
+	float: right;
+	background: url(/images/backgrounds/global/bg-tab-blk-extended.png) no-repeat top left;
+	height: 23px;
+	width: 300px;
+	overflow: hidden;
+	
+	margin:  10px 0 0;
+}
+.section-primary div.status h3{
+	display: inline;
+	color: #fff;
+	font-size: .9em;
+	margin: 0 20px 0 10px;
+	line-height: 23px;
+	padding:10px 25px 10px 0;
+}
+.section-primary div.status h3.completed{
+	background: url(/images/backgrounds/icons/icon-check.gif) no-repeat center right;
+}
+.section-primary div.status h3.incomplete{
+	background: url(/images/backgrounds/icons/icon-exclamation.gif) no-repeat center right;
+	padding-right: 15px;
+	margin-right: 30px;
+}
+#photos h2,
+.artists .content-section h3{
+  background: transparent url(/images/backgrounds/control-panel/bg-table-header.png) no-repeat scroll left top;
+  width: 619px;
+  margin: 0;
+  color: #333;
+  font-weight: bold;
+  padding: 0 10px;
+  width: 599px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.content-section h2 a {
+  position: absolute;
+  top: 0;
+  right: 7px;
+  color: #999;
+  font-size: .8em;
+}
+
+.section-primary {
+  float: left;
+  width: 619px;
+  
+}
+.section-sidebar {
+  float: right;
+  width: 306px;
+}
+
+/* Manage Photos */
+#manage-photos{
+  background: #1d1d1d;
+  width: 619px;
+  overflow: hidden;
+}
+
+.photos-row {
+  width: 605px;
+  clear: both;
+  overflow: hidden;
+  padding: 0 7px;
+  margin-bottom: 5px;
+}
+.photos-box{
+  float: left;
+  width: 199px;
+  background: #000;
+  margin:0 4px 0 0;
+  text-align: center;
+  padding: 15px 0 0;
+  font-size: .8em;
+	position: relative;
+}
+.empty{
+	background: #0F0F0F;
+	margin: 0;
+	padding: 5px 7px;
+}
+
+.photos-row .last{
+  margin: 0;
+}
+.photos-box .box-image{
+  min-height: 100px;
+}
+.photos-box p{
+  margin: 15px 0 5px;
+}
+.photos-box ul{
+  list-style: none;
+  width: 50px;
+  margin: 0 auto 10px auto;
+  overflow: hidden;
+	position: absolute;
+	top: 20px;
+	left: 10px;
+}
+
+.photos-box ul li{
+  display: block;
+  padding-right: 10px;
+  width: 50px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.photos-box ul li a {
+  color: #ccc;
+}
+
+#photos-footer{
+  background: transparent url(/images/backgrounds/global/bg-bottom-roundedblk-619.png) no-repeat scroll left top;
+  width: 609px;
+  height: 23px;
+  line-height: 23px;
+  position: relative;
+	text-align: right;
+	padding-right: 10px;
+	font-size: .9em;
+}
+#photos-footer a.add{
+   color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+/* 	Manage Perks */
+
+#bands-manage-perks .content-section table.utility-table th.edit{
+	width: 150px;
+}
+/* Manage Project */
+#bands-manage-project .content-section table.utility-table th.amount{
+	width: 38px;
+}
+/* 	Manage Music */
+#bands-manage-music .content-section table.utility-table th.edit{
+	width: 104px;
+}
+#bands-manage-music img.instruction-image{
+	float: left;
+	margin: 0 0 0 180px;
+}
+/* Utility Tables*/
+
+.content-section table.utility-table th{
+  background: none;
+  font-weight: normal;
+  font-size: .9em;
+  color: #666;
+  margin: 0; 
+  padding: 8px 10px 5px 5px;
+}
+
+.content-section table.utility-table td{
+	border-bottom: 2px solid #1d1d1d;
+  font-size: .9em;
+	vertical-align: middle;
+}
+
+.content-section table.utility-table tr{
+ background: #0f0f0f url(/images/backgrounds/control-panel/bg-table-row.png) repeat-x top left;
+}
+.content-section table.utility-table tr.table-header{
+  background: none;
+}
+.content-section table.utility-table{
+  width: 618px;
+  background:  url(/images/backgrounds/control-panel/bg-table-header.png) no-repeat top left;
+	clear: both;
+}
+
+.content-section table.utility-table tfoot{
+  empty-cells: show;
+}
+
+.content-section table.utility-table tfoot tr{
+background:  url(/images/backgrounds/global/bg-bottom-roundedblk.png) no-repeat bottom left;
+}
+.content-section table.utility-table tfoot td{
+  border: none;
+  padding: 0px 10px;
+  text-align: right;
+  height: 8px;
+  line-height: 23px;
+  }
+.content-section table.utility-table tfoot td .pagination{
+	float: left;
+}
+.content-section table.utility-table tfoot td a {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+}
+.content-section table.utility-table a {
+  color: #ccc;
+  font-style: normal;
+}
+
+
+
+/* Control Panel Page specific table styles */
+.content-section table.utility-table td.edit{width: 65px;}
+.content-section table.utility-table th.investment,
+.content-section table.utility-table th.amount{width: 77px;}
+.content-section table.utility-table th.perks{width: 348px;}
+.content-section table.utility-table th.description{width: 346px;}
+.content-section table.utility-table th.name,
+.content-section table.utility-table th.title{width: 135px;}
+.content-section table#perks-list th.description{width: 417px;}
+.content-section table.utility-table th.album-title{width: 300px;}
+.content-section table.utility-table th.size{width: 100px;}
+.content-section table.utility-table td.investment,
+.content-section table.utility-table td.amount{
+  color: #00ff00;
+  font-weight: bold;
+}
+
+
+/* User table sorting */
+.table-sort{
+  background:  url(/images/backgrounds/control-panel/bg-sort.png) no-repeat top left;
+  min-height: 75px;
+  margin-bottom: 5px;
+  color: #666;
+  width: 618px;
+  overflow: hidden;
+  position: relative;
+}
+.table-sort div.investment,.table-sort div.extra {
+  float: left;
+  display: inline;
+}
+.table-sort div.investment {
+  display: inline;
+  margin: 2px 0 0 30px;
+  background:  url(/images/backgrounds/control-panel/bg-form-sep.png) no-repeat top right;
+  padding: 7px 24px 3px 0;
+}
+.table-sort div.extra {
+  margin-left: 20px;
+  margin-top: 15px;
+	font-weight: bold;
+}
+
+.table-sort div.location{
+  clear: both;
+  float: left;
+  display: inline;
+  margin: 10px 0 0 30px;
+  width: 588px;
+}
+.table-sort div.investment input{
+  width: 50px;
+}
+.table-sort input.sort {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+	
+.table-sort a.advanced {
+  position: absolute;
+  top: 49px;
+  right: 148px;
+  color: #666;
+}
+#sidebar {
+  float: right;
+  width: 306px;
+}
+
+
+
+#sidebar h3 {
+  color: #ff6600;
+  background: #1e1e1e;
+  padding: 3px 50px 3px 3px;
+  text-align: right;
+  text-transform: uppercase;
+  margin: 0 0 2px 0;
+}
+
+
+#sidebar .stats {
+  margin-bottom: 10px;
+}
+.show-pagination{
+  margin: 0;
+  padding: 3px 3px 3px 10px;
+  list-style:none;
+  color: #ff6600;
+  background: url(/images/backgrounds/control-panel/bg-showpag.png) repeat-y top left;
+}
+.show-pagination li {
+  display: inline;
+  padding-right: 3px;
+}
+.show-pagination li.current {
+  color: #fff;
+}
+.show-pagination li a {
+  color: #ff6600;
+  text-decoration: none;
+}
+
+
+
+/* Control Panel / Profile Pages Content Areas
+-------------------------------------------------------------- */ 
+.profile-column {
+  float: left;
+  width: 306px;
+  margin-right: 6px;
+}
+.profile-column.last {
+  margin: 0;
+	float: right;
+ }
+.profile-column-wide {
+  float: left;
+}
+.widget-box {
+  margin-bottom: 10px;
+  background: #0d0d0d url(/images/backgrounds/control-panel/bg-widget-bottom.png) no-repeat bottom left;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+#bands-show .widget-box,
+#users-show .widget-box{
+  background: #0d0d0d  url(/images/backgrounds/global/bg-widget-bottom-org.png) no-repeat bottom left;
+}
+
+.widget-box .help-link{
+	position: absolute;
+	top: 27px;
+	right: 5px;
+}
+#bands-show .widget-box h2,
+#users-show .widget-box h2,
+#home-secondary .widget-box h2{
+  background: #ff5a00 url(/images/backgrounds/global/bg-main-column-hdr-org.png) no-repeat top left;
+  height: 23px;
+}
+#bands-show  #bio {
+  background: #0d0d0d none;
+}
+.widget-box h2 em{
+  font-style: normal;
+  position: absolute;
+  top: -2px;
+  right: 20px;
+  text-transform: none;
+}
+
+.widget-box a.utility-link,
+.widget-box a.utility-edit,
+.widget-box a.utility-new{
+  font-style: normal;
+  position: absolute;
+  text-transform: none;
+  color: #fff;
+}
+.widget-box a.utility-link {
+  top: 5px;
+  right: 20px;
+}
+.widget-box a.utility-edit{
+  top: 5px;
+  right: 60px;
+}
+.widget-box a.utility-new{
+  top: 5px;
+  right: 20px;
+}
+.widget-box h2 em a {
+  color: #fff;
+  font-size: .7em;
+}
+.widget-box .pagination{
+	padding: 4px 10px;
+	text-align: right;
+}
+/* Tables in Widget Boxes */
+.widget-box table.utility-table{
+	margin: 0;
+}
+.widget-box table.utility-table th{
+	background: url(/images/backgrounds/control-panel/bg-widget-table.gif) repeat-x top left;
+	color: #666;
+	font-size: .9em;
+	padding: 7px 10px;
+	font-weight: normal;
+}
+.widget-box table.utility-table  td{
+	padding: 5px 10px;
+	font-size: .9em;
+}
+.widget-box table.utility-table tr.odd td{
+	background: #1f1f1f;
+}
+.widget-box table.utility-table tr.even td{
+	background: #0d0d0d;	
+}
+.widget-box table.utility-table td.amount{
+	color: #0f0;
+}
+/* Project */
+
+/* Top Fans */
+.widget-box ol.ranking-list li{
+  margin: 0;
+}
+
+/* Concerts */
+.concert {
+  background: #1f1f1f;
+  border-bottom: 2px  #0d0d0d solid;
+  width: 306px;
+  padding-bottom: 5px;  
+  overflow: hidden;  
+}
+
+.concert .location{
+  float: left;
+  padding-left: 10px;
+}
+.concert .location p,
+.concert .details p, 
+.concert .details .edit,
+.concert .details .rsvp,
+.concert .details strong{
+  margin: 3px 0 0;
+}
+
+.concert .details {
+  float: right;
+  padding-right: 10px;
+  width: 75px;
+}
+
+.concert .details a{
+ color: #fff;
+
+}
+.concert .details p.date-info {
+	margin-bottom: 5px;
+}
+.concert .details p.date-info a {
+  color: #ff9900;
+  margin-left: 15px;
+}
+
+.concert .details a.edit{
+  text-transform: uppercase;
+	margin: 0 5px 0;
+}
+.concert .details a.rsvp {
+  text-decoration: none;
+  background: #ff9900;
+  width: 33px;
+  padding: 1px;
+ margin-left: 20px;
+display: block;
+
+}
+#concerts.widget-box .pagination{
+		background: transparent url(/images/backgrounds/control-panel/bg-showpag.png) repeat-y scroll left top;
+		padding: 6px;
+		text-align: right;
+}
+#concerts-new .concert,
+#concerts-edit .concert,
+#concerts-show .concert{
+ width: 580px;
+ margin: 0 auto;
+border-top: 2px #0d0d0d solid;
+border-bottom: none;
+text-align: left;
+padding: 10px;
+}
+#concerts-new .concert h2 ,
+#concerts-edit .concert h2,
+#concerts-show .concert h2{
+ color: #fff;
+font-size: 1.2em;
+}
+
+#concerts-new .concert p,
+#concerts-edit .concert p,
+#concerts-show .concert p{
+margin: 0 0 2px;
+color: #fff;
+}
+
+#concerts-new .concert .utility-links,
+#concerts-edit .concert .utility-links,
+#concerts-show .concert .utility-links{
+  margin-top: 10px;
+}
+
+#concerts-new .concert .utility-links a,
+#concerts-edit.concert .utility-links a,
+#concerts-show .concert .utility-links a{
+ margin-right:  10px;
+}
+/* News */
+#news {
+  background: #000;
+  padding-bottom: 10px;
+
+}
+#bands-show #news,
+#users-show #news{
+  background: #000 none;
+  }
+#news h3{
+  color: #ff9900;
+  margin: 10px 10px 5px; 
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.widget-box .news-entry .utility-links{
+	margin: 10px;
+}
+#news.widget-box .pagination{
+	margin: 10px 10px 0 10px;
+	text-align: right;
+}
+#bands-show #news h3,
+#users-show #news h3{
+  color: #ff9900;
+}
+#news p {
+  margin: 0 10px;
+  color: #ccc;
+}
+
+#news a.read-more {
+  color: #fff;
+  font-weight: bold;
+  margin: 20px 10px 10px;
+  display: block;
+}
+
+/* Stage */
+#stage {
+  width: 618px;
+}
+#users-control-panel #news h2,
+#homepages #primary-content #news h2 {
+  background: #666;
+  margin: 0;
+  height: 23px;
+}
+#bands-show #stage h2,
+#users-show #stage h2{
+  background: url(/images/backgrounds/global/bg-main-column-hdr-wide-org.png) no-repeat top left;
+}
+.comment-row{
+  background: #151515;
+  border-bottom: 2px solid #444444;
+  width: 618px;
+  overflow: hidden;
+}
+.comment-row .pro-image{
+  float: left;
+  margin: 15px;
+}
+
+.comment-row .comment{
+  margin-left: 90px;
+}
+
+.comment-row .comment h3{
+  margin: 15px 0 3px 0;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #fff;
+}
+.comment-row .comment strong.date{
+  color: #ff9900;
+  font-size: .8em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.comment-row .comment p{
+  font-size: .8em;
+  line-height: 1.2em;
+  padding-right: 10px;
+}
+.comment-row .utility-links{
+  margin-bottom: 10px;
+}
+
+.comment-row .utility-links a{
+ margin-right:  10px;
+ color: #ff9900;
+}
+.comment-row .utility-links a:hover {
+  color: #fff;
+}
+#stage .pagination{
+	background: #1b1b1b;
+	padding: 5px;
+	text-align: right;
+}
+
+#stage_comments_form{
+	background: #666;
+}
+#stage_comments_form .form-entry legend strong{
+	display: block;
+	margin: 10px 0 0 20px;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+#stage_comments_form .form-entry ul{
+	list-style: none;
+	margin: 20px;
+}
+#stage_comments_form .form-entry ul li{
+	margin-bottom: 10px;
+}
+#stage_comments_form .form-entry ul li label{
+	display: block;
+}
+#stage_comments_form textarea{
+	width: 580px;
+	height: 180px;
+}
+/* News Entries */
+#news-entries-by-band h2{
+	color: #fff;
+	margin: 10px 15px;
+}
+#news-entries-by-band div.news-entry{
+	background: #1b1b1b;
+	padding: 10px;
+	margin: 0 10px 10px;
+	color: #fff;
+}
+
+#news-entries-by-band  div.sort:-child{
+	margin: 100px 10px 0;
+	font-size:  100px;
+}
+
+#news-entries-by-band h3{
+	color: #ff9900;
+}
+#news-entries-by-band .sort,
+#news-entries-by-band .show-pagination{
+	background: #1b1b1b;
+	overflow: hidden;
+	padding: 5px;
+	margin: 0 10px 3px;
+}
+#news-entries-by-band .show-pagination{
+	text-align: right;
+	margin-bottom: 3px;
+}
+
+
+#news-entries-by-band .sort  {
+	list-style: none;
+	position: relative;
+	padding: 5px;
+	width: 906px;
+	overflow: auto;
+}
+#news-entries-by-band .sort  li {
+	float:  left;
+	color: #fff;
+	margin-right: 20px;
+}
+#news-entries-by-band .sort  li label{
+	display: block;
+	margin: 0 0 5px 4px;
+}
+
+#news-entries-by-band .sort  li.submit{
+	position: absolute;
+	right: 5px;
+	top:  12px;
+	margin: 0;
+}
+
+
+/* Bio */
+#bio{
+	background: #0d0d0d;
+}
+
+#bio h2 {
+  margin-bottom: 10px;
+}
+#bio h3 {
+	color: #ccc;
+	font-size: 1.4em;
+	margin: 10px 0  5px 20px;
+}
+#bio ul {
+	margin: 0 0 0 38px;
+	padding: 0;
+	color: #ccc;
+}
+#bio ul li{
+	margin: 0 0 5px;
+}
+#bio .profile{
+	margin: 0 0 0 20px;
+}
+#bio-content{
+	min-height: 176px;
+	font-size: .8em;
+	margin: 0 10px 10px;
+}
+
+/* Fan Control Panel / Profile */
+
+#users-show .control-panel  .stats dl#fan dt.profile,
+#users-show .control-panel  .stats dl#fan dd.profile{
+  background: none;
+	margin-top: 2px;
+}
+
+#users-show .control-panel #overview-primary .stats dl{
+  margin-bottom: 5px;
+}
+
+#users-show #overview-primary a.call-to-action {
+  margin: 0 0 0 3px;
+}
+
+#users-control-panel .profile-column,
+#users-show .profile-column{
+	margin: 0 0 0 6px;
+}
+#users-show #bio{
+	background-image: none;
+}
+
+.content-ad{
+  margin-bottom: 10px;
+  text-align: right;
+  color: #fff;
+  font-size: .9em;
+}
+.content-ad p{
+  margin: 2px 5px 0 0;
+}
+
+#users-control-panel #waiting{
+	background-image: none;
+	padding-bottom: 0;
+}
+#users-control-panel #waiting div.user{
+	background: #1f1f1f;
+	margin-bottom: 1px;
+	padding: 10px;
+	position: relative;
+	min-height: 60px;
+}
+#users-control-panel #waiting dl{
+	width: 600px;
+	overflow: hidden;
+	margin: 0;
+}
+#users-control-panel #waiting dl dt,
+#users-control-panel #waiting dl dd{
+	float: left;
+	margin-bottom: 5px;
+}
+#users-control-panel #waiting dl dt{
+	width: 80px;
+	text-align: right;
+}
+#users-control-panel #waiting dl dd{
+	width: 496px;
+}
+#users-control-panel #waiting .actions{
+	position: absolute;
+	top: 50%;
+	height: 30px;
+	width: 100px;
+	margin-top: -15px;
+	right: 20px;
+}
+#users-control-panel #waiting .actions a{
+	margin: 0 5px;
+}
+
+/* Fan Control Panel / Profile Top Friends */
+
+
+
+
+/* Fan Control Panel / Profile Concerts */
+.details strong {
+  margin-left: 0;
+  font-weight: normal;
+  text-transform: none;
+}
+#users-control-panel #concerts{
+  padding-bottom: 0;
+ }
+
+/* Fan profile Bio  */
+#bio dl { 
+  margin-left: 20px;
+}
+
+#bio dl dt {
+  color: #ccc;
+  font-weight: normal;
+}
+#bio dl.location dt {
+  float: left;
+}
+
+#bio dl.location dd {
+  margin-left: 60px;
+  color: #fff;
+}
+
+#bio dl.bands dt {
+  margin-bottom: 5px;
+}
+
+#bio dl.bands dd  {
+  margin-left: 0;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+#bio dl.bands dd  a{
+  text-decoration: none;
+}
+
+#bio dl.bands dd  a:hover {
+  color: #fff;
+}
+
+
+
+#users-control-panel .profile-column-wide,
+#users-show .profile-column-wide {
+  float: left;
+  clear: none;
+  width: 618px;
+}
+
+/* Fans Control Panel / Profile News */
+#users-control-panel #news {
+  padding-bottom: 1px;
+}
+#users-control-panel #news h3,
+#application-index #news h3{
+  color: #ff9900;
+}
+
+#users-control-panel #news h3 strong,
+#application-index #news h3 strong{
+  color: #fff;
+}
+
+
+/* Manage Friends Page in Fan Control Panel
+-------------------------------------------------------------- */ 
+
+.friends th.nick {
+  width: 140px;
+}
+
+.friends th.worth,
+.friends th.rank{
+  width: 80px;
+}
+
+.friends th.location {
+  width: 120px;
+}
+
+.friends td.worth{
+  color: #00ff33;
+}
+.friends td.rank{
+  color: #ff9900;
+}
+
+.friends td.utility a{
+  margin-left: 3px;
+}
+
+#users-manage-friends .table-sort{
+  margin-bottom: 15px;
+}
+#users-manage-friends .table-sort .sort{
+  z-index: 100;
+}
+
+/* Manage Artists User Control Panel
+-------------------------------------------------------------- */
+body#users-manage-artists #content-primary {
+  background: #414141 none;
+}
+#content-primary.artists h2 {
+background:#1D1D1D none repeat scroll 0 0;
+font-size:20px;
+height:auto;
+line-height:100%;
+margin:0 0 10px;
+padding:5px 5px 5px 30px;
+width:auto;
+}
+.artists .content-section h3 {
+  font-size: 1em;
+}
+
+.artists .section-primary {
+
+}
+.artist-stock {
+  width: 619px;
+	background: #1d1d1d;
+  overflow: hidden;
+}
+.artist{
+	background: transparent url(/images/backgrounds/global/bg-bottom-roundedblk-619.png) no-repeat scroll left bottom;
+  padding-bottom: 23px;
+	margin-bottom: 10px;
+}
+.artist-stock .artist-details {
+  float: left;
+  margin: 4px 4px 10px 8px;
+  width: 199px;
+}
+
+.artist-stock .user-details{
+  float: right;
+  width: 407px;
+}
+
+.artist-stock  .artist-image {
+  margin: 10px 0;
+}
+
+.artist-details dl,
+.prospect .details dl{
+  margin: 0 0 10px 15px;
+  width: 184px;
+  overflow: hidden;
+}
+
+.artist-details dl dt,
+.prospect .details dt{
+  font-weight: normal;
+  color: #ccc;
+  float: left;
+  width: 80px;
+  margin-bottom: 10px;
+  clear: left;
+ 
+}
+.artist-details dl dd,
+.prospect .details dd{
+  font-weight: normal;
+  color: #fff;
+  float: left;
+  width: 80px; 
+  font-weight: bold;
+}
+
+.artist-details dl dd.worth,
+.prospect div.details dl dd.worth{
+  color: #00ff00;
+}
+
+.artist-details p{
+  margin: 5px 0 0 15px;
+}
+.artist-details p a ,
+.prospect .details p a{
+  font-weight: bold;
+}
+.artist-details p a:hover ,
+.prospect .details p a:hover{
+  color: #fff;
+}
+.user-details .ranking {
+  background: #000;
+  margin: 10px 0;
+  padding: 10px;
+  width: 380px;
+}
+
+.user-details .ranking .ranks{
+border-bottom: 1px solid #666;
+width: 372px;
+overflow: hidden;
+padding-bottom: 10px;
+padding-left: 10px;
+}
+
+.user-details .ranking .ranks dt {
+  color: #ccc;
+}
+.user-details .ranking .ranks dd {
+ color: #ff9900;
+font-weight: bold;
+}
+.user-details .ranking .ranks dt,
+.user-details .ranking .ranks dd {
+  float: left;
+}
+.user-details .ranking .ranks dt.last {
+ margin-left: 100px;
+}
+
+
+.ranking h4,
+.perks h4{
+  color: #ff9900;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.ranking dl.shares {
+  margin: 0 0 0 60px;
+  width: 327px;
+  overflow: hidden;
+}
+
+.ranking dl.shares dt {
+  font-weight: normal;
+  float: left;
+  width: 170px;
+  margin-bottom: 10px;
+  clear: left;
+  color: #ccc;
+}
+
+.ranking dl.shares dd {
+  font-weight: bold;
+  float: left;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.perks {
+  width: 400px;
+  margin-bottom: 10px;
+}
+div.user-details .perks h4 {
+  background: url(/images/backgrounds/global/bg-row-gradient.png) repeat-x top left;
+  padding: 3px 3px 3px 10px;
+  margin-bottom: 2px;
+}
+
+div.user-details .perks ul{
+  background: #0f0f0f url(/images/backgrounds/global/bg-row-gradient.png) repeat-x top left;
+  margin: 0 0 2px;
+  width: 400px;
+  overflow: hidden;
+  list-style: none;
+	position: relative;
+}
+
+div.user-details .perks ul li {
+  float: left;
+	padding: 5px;
+}
+
+div.user-details .perks ul li.currency,
+div.user-details .perks ul li.fullfilled{
+  color: #00ff00;
+  font-weight: bold;
+}
+
+div.user-details .perks ul li.unfullfilled{
+  color: #ffff00;
+  font-weight: bold;
+	position: absolute;
+	right: 5px;
+	top: 1px;
+	line-height: 20px;
+	overflow: hidden;
+	width: 122px;
+}
+div.user-details .perks ul li.not-finished{
+  color: #ffff00;
+  font-weight: bold;
+	overflow: hidden;
+	float: left;
+	width: 200px;
+}
+div.user-details .perks ul li.not-finished a{
+	display: block;
+	width: 123px;
+	margin: 5px 0;
+	position: relative;
+}
+div.user-details .perks ul li.not-finished a img{
+	position: absolute;
+	right: -10px;
+	top: 1px;
+}
+
+div.user-details .perks ul li.unfullfilled a.utility-link {
+	margin-left: 10px;
+	width: 60px;
+	background: #ff9900;
+	color: #fff;
+	font-weight: bold;
+	text-align: center;
+	padding: 0 10px;
+	height: 20px;
+	line-height: 20px;
+	text-decoration: none;
+}
+div.user-details .perks ul li.unfullfilled a.help{
+ vertical-align: bottom;
+}
+div.user-details .perks ul li.currency {
+  padding-left:  10px;
+  width: 70px;
+}
+
+div.user-details .perks ul li.perk{
+  width: 180px;
+  font-size: .9em;
+}
+/* Prospect Artist area */
+.prospect {
+  position: relative;
+  padding-bottom: 23px;
+	margin-bottom: 10px;
+  background:  transparent url(/images/backgrounds/global/bg-bottom-roundedblk-small.png) no-repeat scroll left bottom;
+}
+
+.content-section  .prospect h3 {
+  background: transparent url(/images/backgrounds/global/bg-form-header-small.png) no-repeat scroll left top;
+  width: 294px;
+}
+
+.prospect a.utility-link{
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: #000;
+  font-weight: bold;
+}
+.prospect .details {
+  background:  #1d1d1d url(/images/backgrounds/artists/bg-details.png) no-repeat scroll left top;
+  padding: 10px 53px;
+  width: 198px;
+}
+
+.prospect .details img {
+  margin-bottom: 10px;
+}
+
+.prospect .details dl {
+  width: 228px;
+  margin-left: 0;
+}
+.prospect .details dt {
+  width: 124px;
+  color: #fff;
+}
+
+.prospect .details p {
+  margin: 5px 0 0;
+}
+
+.prospect div.details dl dd.rank{
+  color: #ff9900;
+}
+
+
+/* Home Page
+-------------------------------------------------------------- */
+#application-index #content {
+  background: none;
+  }
+#application-index #site-info > ul{
+	display: none;
+}
+#home-primary {
+  width: 936px;
+	height: 565px;
+  background: url(/images/homepage/bg-home.png) no-repeat top left;
+  overflow: hidden;
+	position: relative;
+}
+#home-uvp{
+  width: 609px;
+  height: 319px;
+  position: relative;
+  float: left;
+}
+ 
+#home-uvp p {
+  position: absolute;
+  top: 50px;
+  color: #000;
+  font-size: 1.4em;
+  width: 530px;
+  left: 213px;
+}
+
+#home-uvp p span {
+  color: #ff9900;
+}
+
+
+#application-index .primary-content{
+  width: 618px;
+  float: left;
+}
+
+
+#home-navigation{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: absolute;
+	top: 248px;
+	left: 50px;
+}
+#home-navigation a {
+	background: url(/images/homepage/bg-home.png) no-repeat top left;	
+}
+
+#home-navigation li#fans-enter a{
+	position: absolute;
+	left: 0;
+	display: block;
+	text-indent: -9999px;
+	width: 248px;
+	height: 295px;
+	background-position: -49px -248px;
+}
+#home-navigation li#bands-enter a{
+	position: absolute;
+	left: 591px;
+	top: -10px;
+	display: block;
+	text-indent: -9999px;
+	width: 248px;
+	height: 305px;
+	background-position: -640px -238px;
+}
+#home-navigation li#tour a.first{
+	position: absolute;
+	left: 304px;
+	top: 91px;
+	display: block;
+	text-indent: -9999px;
+	height: 66px;
+	width: 217px;
+	background-position: -355px -338px;
+}
+#homepages #primary-content #banner-area img{
+	display: block;
+}
+#homepages #primary-content{
+	float: left;
+	width: 609px;
+}
+#homepages #primary-content #news{
+	background: #0d0d0d;
+}
+
+#homepages #primary-content #news a {
+	color: #ccc;
+	text-decoration: none;
+}
+#homepages #primary-content #news h2 {
+  background: transparent url(/images/backgrounds/global/bg-main-column-hdr-wide-org.png) no-repeat  left top;
+}
+#homepages #primary-content #news .news-entry,
+#application-band-home #primary-content #news .news-entry{
+	padding: 10px;
+}
+#homepages #primary-content #news .news-entry p{
+	margin-bottom: 10px;
+	line-height: 1.4;
+}
+#homepages #primary-content #news h3{
+	color: #ff9900;
+}
+
+#homepages #primary-content #news h3 strong{
+	color: #fff;
+}
+#homepages #sidebar{
+	float: right;
+	background: #000 url(/images/backgrounds/home-pages/bg-sidebar-home.png) no-repeat top left;
+	width: 327px;
+}
+#homepages #content{
+	background: #000;
+}
+#homepages #sidebar h2{
+	color: #fff;
+	font-size: 1.4em;
+	margin: 10px 0 10px 20px;
+}
+#homepages #sidebar a.control-panel{
+	display: block;
+	margin: 10px 0 5px 20px;
+}
+#homepages #sidebar h3{
+	background: none;
+	color: #fff;
+	text-align: left;
+	text-transform: none;
+	font-size: 1.3em;
+	margin: 10px 10px 10px 20px;
+}
+#homepages #sidebar ul{
+	list-style: none;
+	margin: 10px  10px 10px 30px
+}
+#homepages #sidebar ul li{
+	margin:  0 0 5px;
+}
+#homepages #sidebar a#inbox{
+	color: #fff;
+	text-decoration: none;
+	background: url(/images/backgrounds/global/bg-orange-small-height.gif) no-repeat top left;
+	width: 307px;
+	height: 19px;
+	line-height: 19px;
+	padding-left: 20px;
+	font-size: 1.2em;
+	text-transform: uppercase;
+	display: block;
+}
+#homepages #sidebar h3.top-bands{
+  background: #ff9900 url(/images/backgrounds/global/bg-orange-band.gif) no-repeat;
+  color: #fff;
+  padding: 0 0 0 48px;
+  margin: 10px 0 0;
+  text-transform: uppercase;
+  font-size: 1.6em;
+  height: 25px;
+  line-height: 24px;
+  position: relative;
+}
+#homepages #sidebar ol.ranking-list{
+	width: 327px;
+}
+#homepages #sidebar ol.ranking-list li{
+	margin: 0;
+}
+#sidebar a.join{
+	display: block;
+	margin: 10px auto;
+	width: 191px;
+
+}
+/* Buy Stock Page
+-------------------------------------------------------------- */ 
+#bands-select-contribution-level #form-entry legend strong{
+  color: #ff9900;
+  font-size: 1.5em;
+}
+#bands-select-contribution-level #form-entry legend strong em  {
+  color: #000;
+  font-style: normal;
+  font-weight: normal;
+  font-size: .7em;
+  margin-left: 10px;
+}
+
+#bands-select-contribution-level #form-entry div.form-fields {
+  width: 583px;
+}
+
+
+
+
+#bands-select-contribution-level div.form-fields h3 {
+  color: #ff9900;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+#bands-select-contribution-level div.form-fields ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#bands-select-contribution-level div.form-fields li {
+	width: 583px;
+	overflow: hidden;
+	margin: 0 0 4px;
+	background: #faf5ed;
+}
+#bands-select-contribution-level div.form-fields li .level {
+  background: #faf5ed;
+  display: block;
+  margin: 10px 5px 5px;
+	width: 573px;
+	overflow: hidden;
+
+}
+#bands-select-contribution-level div.form-fields li .level strong {
+  float: left;
+  font-weight: normal;
+  padding: 4px 0 0 5px;
+}
+
+#bands-select-contribution-level div.form-fields li .level strong em {
+  font-style: normal;
+  font-weight: bold;
+}
+
+#bands-select-contribution-level div.form-fields li .level strong em.money {
+  color: #00cc33;
+}
+#bands-select-contribution-level div.form-fields li .level strong em.share {
+  color: #ff9900;
+}
+#bands-select-contribution-level li input.radio{
+  float: left;
+  width: 15px;
+	margin: 2px 0 0;
+}
+#bands-select-contribution-level .perks{
+	width: auto;
+	background: #fafafa;
+	margin: 5px 5px 5px;
+	padding: 5px;
+	text-align: left;
+}
+#bands-select-contribution-level .perks h4{
+	font-size: 1em;
+}
+#bands-select-contribution-level  .perks p {
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	font-size: .9em;
+}
+
+#bands-select-contribution-level .actions {
+  overflow: hidden;
+  padding-right: 30px;
+	margin-top: 10px;
+	clear: both;
+}
+
+#bands-select-contribution-level .actions .agreement {
+	width: 583px;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+#bands-select-contribution-level .actions .agreement input.checkbox{
+  float: left;
+  width: 15px;
+  margin: 0;
+}
+
+#bands-select-contribution-level .actions .agreement strong{
+  margin-left: 18px;
+  font-weight: normal;
+  font-size: .8em;
+	display: block;
+}
+
+#bands-select-contribution-level .actions  .buttons {
+  float: right;
+  padding-right: 20px;
+  clear: both;
+}
+
+#bands-select-contribution-level .actions  .buttons input {
+  display: inline;
+  margin-left: 5px;
+  
+  width: 98px;
+}
+
+/* Flash Notice
+-------------------------------------------------------------- */
+.notice {
+	margin: 0 auto;
+	width: 260px;
+	border: 1px solid #ff9900;
+	background: #333;
+	padding: 20px;
+	text-align: center;
+}
+
+/* Mail
+-------------------------------------------------------------- */
+#mail #content {
+	padding:  0 0 20px;
+}
+#mail #primary-content  div:first-child{
+	margin-left: 3px;
+}
+#mail .column{
+	width: 306px;
+	float: left;
+	margin-right: 6px;
+}
+#mail .column.last{
+	margin: 0;
+}
+#mail #inbox ul,
+#mail #thread-view ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#mail #inbox li,
+#mail #thread-view li {
+  background: #1f1f1f;
+  border-bottom: 2px  #0d0d0d solid;
+  width: 306px;
+  padding-bottom: 5px;  
+  overflow: hidden; 
+  position: relative; 
+}
+#mail #inbox li div.message-details,
+#mail #thread-view li div.message-details{
+	padding: 5px;
+}
+#mail #inbox li div.message-details p{
+	margin: 0 0 5px;
+	padding: 5px 0 0;
+	width: 200px;
+}
+#mail #thread-view li div.message-details{
+	overflow: hidden;
+}
+#mail #thread-view li div.message-details p{
+	margin: 0;
+}
+#mail #thread-view li div.message-details p.status{
+	float: left;
+}
+#mail #thread-view li div.message-details p.date{
+	float: right;
+}
+#mail #inbox li div.message-details p.date{
+	position: absolute;
+
+	right: 5px;
+	height: 11px;
+	top: 5px;
+	padding: 5px 0 0 30px;
+	width: auto;
+	font-size: .8em;
+}
+#mail #inbox li.read div.message-details p.date{
+		background: transparent url(/images/backgrounds/icons/icon-mail-read.gif) no-repeat;
+}
+#mail #inbox li.unread div.message-details p.date{
+		background: transparent url(/images/backgrounds/icons/icon-mail-unread.gif) no-repeat;
+}
+#mail #inbox li div.message-actions {
+	position: absolute;
+	right: 5px;
+	bottom: 27px;
+}
+#mail #inbox li div.message-actions a{
+	font-size: .8em;
+	margin-left: 3px;
+}
+#mail #thread-view li div.message{
+	padding: 5px;
+}
+/* About Us
+-------------------------------------------------------------- */ 
+#corporate-about h2 {
+  text-indent: -9999px;
+  background: url(/images/about/hdr-we-are.png) no-repeat top left;
+  width: 936px;
+  height: 58px;
+  margin: 0;
+}
+
+#corporate-about h3 {
+  color: #ff9900;
+  font-size: 1.6em;
+  text-transform: uppercase;
+  margin:  20px 20px 10px;
+}
+
+#corporate-about p {
+  font-size: 1.2em;
+  line-height: 1.4;
+  margin: 0 20px 10px;
+}
+
+#corporate-about ul.affilliates{
+  margin: 0 20px;
+  padding: 0;
+  list-style: none;
+  width: 896px;
+  overflow: hidden;
+}
+
+#corporate-about ul.affilliates li {
+  float: left;
+}
+
+#corporate-about .bio {
+  margin: 20px 20px 10px;
+  width: 896px;
+  overflow: hidden;
+}
+#corporate-about .bio h3 {
+  margin: 0 0 10px;
+}
+
+#corporate-about .bio .photo{
+  float: left;
+}
+
+#corporate-about .bio p {
+  margin-left: 210px;
+}
+/* Contact
+-------------------------------------------------------------- */
+
+#corporate-contact dl{
+	margin: 0 0 20px 40px;
+	padding: 54px 0 0;
+	font-weight: normal;
+	height: 296px;
+	background: url(/images/corporate/img-team.jpg) no-repeat 90% 20px;
+}
+#corporate-contact dt,
+#corporate-contact dd{
+	font-weight: normal;
+}
+#corporate-contact dt{
+	color: #ccc;
+	font-size: 1.2em;
+		margin: 0 0 15px;
+}
+#corporate-contact dd{
+	margin: 0 0 15px 20px;
+}
+#corporate-contact dd,
+#corporate-contact dd a{
+	color: #fff;
+	font-size: 1.1em;
+	text-decoration: none;
+}
+/* Press Release
+-------------------------------------------------------------- */
+#corporate-press #press-releases{
+	float: left;
+	width: 448px;
+	margin:  0 0 20px 80px; 
+}
+#corporate-press #press-kit{
+	float: right;
+	width: 300px;
+	margin:  0 20px 20px 0; 
+}
+#corporate-press #press-releases ul{
+	list-style: none;
+	margin: 0;
+}
+#corporate-press #press-releases ul li{
+	margin:  0 0 10px;
+	color: #ccc;
+	line-height: 1.2;
+}
+#corporate-press #press-releases ul li a,
+#corporate-press #press-kit a{
+	color: #fff;
+	font-size: 1.5em;
+	display: block;
+	margin: 0 0 7px;
+}
+#corporate-press #press-kit ul{
+	color:  #ccc;
+	list-style: none;
+	margin: 0;
+}
+#corporate-press #press-kit li{
+	margin: 0 0 4px;
+}
+#corporate-press #press-kit li strong{
+	font-weight: normal;
+	font-size: .9em;
+}
+
+#press-releases p{
+	margin: 10px 20px;
+	line-height: 1.3;
+}
+
+/* FAQ
+-------------------------------------------------------------- */
+#help-articles-faq #content h3{
+	margin: 5px 0 5px 20px;
+	text-transform: uppercase;
+}
+#help-articles-faq #content dl{
+	margin: 5px 0 20px 40px;
+	width: 600px;
+}
+#help-articles-faq dl dt{
+	color: #ccc;
+	font-weight: normal;
+	margin-bottom: 10px;
+	font-size: 1.2em;
+}
+#help-articles-faq #content dl dd{
+	color: #fff;
+	margin-bottom: 10px;
+	line-height: 1.2;
+}
+
+/* How it works
+-------------------------------------------------------------- */
+#help-articles-how-it-works .how-it-works{
+	width: 785px;
+	margin: 0 60px;
+	overflow: hidden;
+}
+#help-articles-how-it-works .intro{
+	margin: 10px 60px;
+	font-size: 1.2em;
+	line-height: 1.3;
+}
+#help-articles-how-it-works .intro strong{
+	color: #ff9900;
+}
+
+#help-articles-how-it-works ol{
+	float: left;
+	list-style-position: inside;
+	width: 327px;
+	color: #ff9900;
+	font-size: 1.3em;
+	padding-top: 160px;
+}
+#help-articles-how-it-works ol.fans{
+  background: url(/images/help-articles/bg-fans.png) no-repeat top left;
+}
+#help-articles-how-it-works ol.bands{
+  background: url(/images/help-articles/bg-bands.png) no-repeat top left;
+	margin-left: 60px;
+}
+
+#help-articles-how-it-works ol p{
+  font-size: .7em;
+  color: #ccc;
+  line-height: 1.2;
+  display: inline;
+}
+#help-articles-how-it-works ol h3{
+  color: #ff9900;
+  margin: 5px;
+  font-size: 1.3em;
+  display: inline;
+}
+#help-articles-how-it-works ol li{
+  margin: 0 0 15px
+}
+/* Privacy Policy
+-------------------------------------------------------------- */
+#legal-privacy-policy p{
+	margin: 10px 60px 10px 120px;
+	
+}
+#legal-privacy-policy h3{
+	margin: 10px 80px 10px 80px;
+	
+}
+/* Press Release Admin
+-------------------------------------------------------------- */
+#press-releases-index .press-release{
+	line-height: 1.4;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+#press-releases-index .press-release .edit{
+	display: block;
+	margin-top: 10px;
+}
+#press-releases-index h3#new{
+	display: block;
+	margin: 20px;
+}
+/* Search
+-------------------------------------------------------------- */
+.search-header {
+  background: url(/images/backgrounds/global/bg-content-hdr.png) no-repeat top left;
+  width: 936px;
+  height: 58px;
+  padding: 1px;
+  position: relative;
+}
+.search-header h2{
+  position: absolute;
+  top: 30px;
+  color: #fff;
+  font-size: 1.6em;
+}
+.search-header h2.results{
+  position: absolute;
+  left: 25px;
+}
+.search-header h2.advanced{
+  position: absolute;
+  right: 105px;
+}
+
+.search-header input.text{
+  width: 300px;
+  display: block;
+  position: relative;
+  top: 25px;
+  margin: 0 auto;
+}
+
+.search-result{
+  width: 533px;
+  padding:20px 0 0 70px;
+  overflow: hidden;
+  margin: 0 0 0 15px;
+}
+
+.search-result.odd{
+  background: #1b1b1b;
+}
+.search-result img {
+  float:left; 
+  position:relative; 
+  left:-60px; 
+  margin-right:-50px; 
+}
+
+.search-result h3 {
+  color: #fff;
+  font-size: 1.6em;
+  margin-bottom: 10px;
+}
+
+.search-result dl.details-main {
+  float: left; 
+  width: 300px;
+}
+
+.search-result dl.details-stats {
+  float: right;
+  width: 200px;
+}
+
+.search-result dl dt {
+  float: left;
+  padding-right: 3px;
+  color: #ff9900;
+  font-size: .9em;
+  font-weight: normal;
+}
+.search-result dl dd{
+  display: block;
+  font-size: .9em;
+  margin-bottom: 2px;
+}
+#search-new #content-primary,
+#search-results #content-primary{
+  width: 615px;
+  float: left;
+}
+#search-new #sidebar,
+#search-results #sidebar{
+  width: 297px;
+  margin-right: 3px;
+}
+#search-new #sidebar #refinements,
+#search-results #sidebar #refinements{
+  background: #ff9900;
+  margin: 10px 0 0;
+  padding: 15px 5px 5px 10px;
+	overflow:hidden;
+}
+#search-new #sidebar #refinements ul,
+#search-results #sidebar #refinements ul{
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style: none;
+}
+#search-new #sidebar #refinements li,
+#search-results #sidebar #refinements li{
+  color: #fff;
+  font-size: 1.3em;
+  margin-bottom: 10px;
+	padding-left: 120px;
+}
+#search-new #sidebar #refinements li label,
+#search-results #sidebar #refinements li label{
+	font-weight: bold;
+	padding-top: 3px;
+ float:left; 
+ position:relative; 
+ left:-120px; 
+ margin-right:-110px; 
+
+}
+
+#search-new #sidebar #refinements li select,
+#search-results #sidebar #refinements li select{
+  display: block;
+  width: 145px;
+  font-size: .8em;
+}
+
+#search-new #sidebar #refinements li select.multiple,
+#search-results #sidebar #refinements li select.multiple{
+  margin-bottom: 10px;
+}
+#search-new #sidebar #refinements ul.sort,
+#search-results #sidebar #refinements ul.sort{
+  padding-left: 120px;
+	overflow: hidden;
+}
+#sidebar .sort h3 {
+  background: none;
+  padding: 0;
+  text-align: left;
+  text-transform: none;
+  color: #fff;
+
+}
+#search-new #sidebar #refinements .sort  li.first,
+#search-results #sidebar #refinements .sort  li.first {
+ position:relative; 
+	float: left;
+ left:-120px; 
+ margin-right:-110px;
+	padding-left: 0;
+}
+
+#search-new #sidebar #refinements .sort  li,
+#search-results #sidebar #refinements .sort  li  {
+  padding: 0;
+  font-size: 1em;
+  padding-left: 15px;
+	overflow: hidden;
+	display: block;
+}
+#search-new #sidebar #refinements .sort  li label,
+#search-results #sidebar #refinements .sort  li label{
+	left: auto;
+	margin: auto;
+}
+#search-new #sidebar #refinements .sort  li input,
+#search-results #sidebar #refinements .sort  li input{
+ float:left; 
+ position:relative; 
+ left:-15px; 
+ margin: 0 -10px 0 0;
+}
+
+#search-new #sidebar .update,
+#search-results #sidebar .update{
+  float: right;
+}
+/* Footer
+-------------------------------------------------------------- */ 
+
+#site-info ul {
+  background: url(/images/backgrounds/global/bg-footer.png) no-repeat top left;
+  width: 896px;
+  color: #fff;
+  padding: 15px 30px 20px;
+  height: 80px;
+	margin: 0;
+	list-style: none;
+	overflow: hidden;
+}
+
+#site-info ul ul{
+	background: none;
+	width: 150px;
+	padding: 0;
+}
+#site-info ul li{
+		float: left;
+		margin-top: 3px;
+		width: 150px;
+}
+#site-info ul li li{
+	float:none;
+	display: block;
+}
+#site-info ul li h3{
+	color: #f90;
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+	font-size: 1.1em;
+	text-transform: uppercase;
+	
+}
+#site-info ul li a{
+	color: #fff;
+	font-size: .8em;
+	text-decoration: none;
+}
+#site-info #footer {
+	position: relative;
+	overflow: hidden;
+}
+#site-info #footer p {
+	margin: 10px 10px 10px 20px;
+	color: #666;
+	display: block;
+}
+#site-info #footer ul{
+	background: none;
+	width: 200px;
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	height: auto;
+	top: 10px;
+	right: 10px;
+}
+#site-info #footer ul li{
+	float: none;
+	display: inline;
+	margin: 0 10px 0 0;
+	width: auto;
+}
+#site-info #footer ul li a {
+	color: #666;
+}
+#site-info .disclaimer{
+color: #666;
+margin: 10px 200px;
+line-height: 1.2
+}
+#site-info .disclaimer a ,.disclaimer{
+font-size: .9em;
+}
+#site-info .disclaimer p{
+margin: 0 0 5px
+}
+
+/* Band Admin Page - Applications
+-------------------------------------------------------------- */
+#band-applications-index h2 {
+	margin: 0;
+}
+#band-applications-index  div.user-app{
+	background: #1f1f1f;
+	margin-bottom: 1px;
+	padding: 10px;
+	position: relative;
+	min-height: 60px;
+}
+#band-applications-index dl{
+	width: 600px;
+	overflow: hidden;
+	margin: 0;
+}
+#band-applications-index dl dt,
+#band-applications-index dl dd{
+	float: left;
+	margin-bottom: 5px;
+}
+#band-applications-index dl dt{
+	width: 80px;
+	text-align: right;
+}
+#band-applications-index dl dd{
+	width: 496px;
+}
+#band-applications-index .user-app .actions{
+	position: absolute;
+	top: 50%;
+	height: 30px;
+	width: 100px;
+	margin-top: -15px;
+	right: 20px;
+}
+#band-applications-index.user-app .actions a{
+	margin: 0 5px;
+}
+/* Overlays
+-------------------------------------------------------------- */
+/* Shadow Box Forms*/
+
+#shadowbox_body {
+	border: 5px solid #000;
+}
+#shadowbox_content form ul {
+	list-style: none;
+	margin: 20px;
+}
+
+#shadowbox_content form ul li {
+	list-style: none;
+	margin: 10px 0 0;
+}
+
+#shadowbox_content form ul li label {
+	display: block;
+	color: #fff;
+	margin-bottom: 5px
+}
+
+
+#shadowbox_content #bio {
+	width: 200px;
+	margin: 10px auto;
+}
+
+#shadowbox_content #bio .textarea {
+	width: 200px;
+}
+#shadowbox_body .article-content{
+	margin: 20px;
+	color: #fff;
+	line-height: 1.2;
+}
+#shadowbox_body .article-content h2{
+	color: #ff9900;
+	font-size: 1.4em;
+}
+/* Ajax Loading
+-----------------------------------------------------------------*/
+.loading{
+	background: #666;
+	display: block;
+	z-index: 10000;
+	position: absolute;
+}
+.loader{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100px;
+	height: 60px;
+	margin-top: -30px;
+	margin-left: -50px;
+	text-align: center;
+}
+.loader h3{
+	color: #fff;
+	font-weight: normal;
+	letter-spacing: 2px;
+	font-size: 1em;
+	margin: 10px 0 0 20px;
+}
+
+
+/* Special lists
+-------------------------------------------------------------- */    
+ol.ranking-list{
+  clear: both;
+  list-style-position: inside;
+  margin: 0;
+  width: 306px;
+  line-height: 1.2;
+} 
+ol.ranking-list li {
+  margin-bottom: 2px;
+  padding-left: 10px;
+  font-size: .8em;
+  position: relative;
+  padding: 3px 0 3px 10px;
+}
+ol.ranking-list li.odd{
+  background: #1a1a1a;
+}
+ol.ranking-list li.even{
+  background: #131313;
+}
+ol.ranking-list li strong.shares{
+  position: absolute;
+  right: 5px;
+  top: 3px;
+}
+
+/* Utility navigations
+-------------------------------------------------------------- */                    
+.utility-nav {
+  clear: both;
+  list-style:none;
+  border-top: 3px solid #ff6600;
+  margin: 0;
+  width: 100%;
+}
+.utility-nav li {
+  float:left;
+  display:inline;
+  background:url(/images/navigation/utility-navs/utility-right-black.png) no-repeat right bottom;
+  margin:0 0 0 6px;
+  width: 96px;
+  padding:0;
+}
+.utility-nav li.profile-utility {
+  background:url(/images/navigation/utility-navs/utility-right-white.png) no-repeat right bottom;
+}
+
+.utility-nav li#add {
+  margin-left: 16px;
+  }
+.utility-nav li.control-panel,
+.utility-nav li.first{
+  margin-left: 4px;
+}
+.utility-nav li a {
+  float:left;
+  display:block;
+  position:relative;
+  left: -4px;
+  margin-right: -4px;
+  background: url(/images/navigation/utility-navs/utility-left-black.png) no-repeat left bottom;
+  padding:5px 0;
+  text-decoration:none;
+  color:#999;
+  font-weight: bold;
+  font-size: .8em;
+  text-transform: uppercase;
+  width: 96px;
+  text-align: center;
+}
+
+.utility-nav li.profile-utility a,
+.utility-nav li.profile-utility a:hover{
+  background: url(/images/navigation/utility-navs/utility-left-white.png) no-repeat left bottom;
+  color: #333;
+  font-size: .9em;
+
+}
+.utility-nav li.profile-utility a.add strong {
+  padding: 1px 0  1px 18px;
+  margin-left: -5px;
+  background: url(/images/backgrounds/icons/icon-add.png) no-repeat left top;
+}
+
+.utility-nav li.profile-utility a.message strong {
+  padding: 1px 0  1px 20px;
+  margin-left: -5px;
+  background: url(/images/backgrounds/icons/icon-message-envelope.png) no-repeat left center;
+}
+.utility-nav li.current a {
+  background: url(/images/navigation/utility-navs/utility-left-current.png) no-repeat left bottom;
+  color: #333;
+  padding-bottom: 7px;
+}
+.utility-nav li.current {
+  background: url(/images/navigation/utility-navs/utility-right-current.png) no-repeat right bottom;
+}
+.utility-nav li.control-panel a {
+  background: url(/images/navigation/utility-navs/utility-left-control.png) no-repeat left bottom;
+  color: #333;
+  width: 102px;
+}
+.utility-nav li.control-panel {
+  background: url(/images/navigation/utility-navs/utility-right-control.png) no-repeat right bottom;
+  width: 102px;
+}
+.utility-nav li a:hover{
+  color: #fff;
+}        
+
+
+
+/* Message Boxes */
+.info{
+	border: 1px solid #ff9900;
+	margin: 10px;
+	padding:15px 10px 15px 50px;
+	background: #333;
+	text-align: left;
+}
+
+.no-content{
+	background: #666;
+	color: #fff;
+	font-size: 1.4em;
+	padding: 20px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,11 +3,10 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
+  belongs_to :state
 #  has_many :earned_perks, :dependent => :destroy
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
-  has_many :emails, :dependent => :destroy
-  
-  belongs_to :state
+#  has_many :emails, :through => 'emails', :dependent => :destroy
   belongs_to :country
 #  has_many :contributions, :dependent => :destroy
 #  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
@@ -30,7 +29,7 @@ class User < ActiveRecord::Base
   #validations -- goes down to the first def
   
   #empty?
-#  validates_presence_of :email
+  validates_presence_of :email
   validates_presence_of :password
   validates_presence_of :password_confirmation, :on => :create
   validates_confirmation_of :password, :on => :create
@@ -40,7 +39,7 @@ class User < ActiveRecord::Base
 
   #field specific
 #  validates_uniqueness_of :nickname
-#  validates_uniqueness_of :email
+  validates_uniqueness_of :email
   validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
   validates_numericality_of :country_id
@@ -49,7 +48,7 @@ class User < ActiveRecord::Base
   #the length of these is maxed by the field width in the database.  And that width was chosen rather arbitrarily - while being long enough to be safe.
 #  validates_length_of :nickname, :maximum => 50, :unless => Proc.new {|user| user.nickname.nil?}
   
-  validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?}
+  #validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?} --- commented because all hashes now are going to be 40/64 characters long
   validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
   
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
@@ -60,9 +59,43 @@ class User < ActiveRecord::Base
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
-#  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
+  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
-   
+
+  #**********************
+  # User privileges
+  #**********************          
+
+  def set_privilege(user = nil, priv_hash = nil)
+  # Takes a user object, then applies the privileges specified in the hash.
+  # Input priv_hash looks like:
+  #   { :can_view => 1, :can_listen => 0, :stream_quality_level => 'high' }
+  # where can_view is set to 1, etc, and can_chat is left alone (because it was unspecified)
+    
+    if (priv_hash.nil? || email.nil?)
+      return false
+    end
+
+    possible_privs = [:can_view, :can_chat, :can_listen, :stream_quality_level]
+
+    priv_hash.each do |priv_name, priv_value|
+      # Skip if priv_value is nil, 'nil' (from the API test tool), or if priv_value is not one of 1 or 0
+      unless (  priv_value.nil? ||
+                priv_value == 'nil' ||
+                (priv_value != 1 || priv_value != 0) ||
+                !possible_privs.include?(priv_name)
+              )
+        user[priv_name] = priv_value
+      end
+    end
+
+    #if (can_view == 0)  # We're explicit about input values
+    #  user.can_view = 0
+    #elsif (can_view == 1)
+    #  user.can_view = 1
+
+    return true
+  end
    
   #************************************
   # Methods for quick and cached stats

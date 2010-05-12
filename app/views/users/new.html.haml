@@ -1,28 +1,3 @@
 %h2#sign-up Sign Up
--form_for(@user) do |f|
-  #form-entry
-    %fieldset.user-info
-      %legend 
-        %strong New User Registration
-      =error_messages_for :user
-      %ul.form-fields
-        -if @captcha_error
-          .captcha_error
-            =@captcha_error
-        =render :partial => 'required_form', :locals => {:f => f, :states => @states }
-        %li.checkbox
-          %label{:for => 'user_terms_of_service'}
-            = f.check_box :agreed_to_tos, :class => 'checkbox'
-            %strong
-              I agree to MyBandStock's
-              =link_to 'Fan Agreement (PDF 72kb)', '/docs/fan_agreement.pdf'
-        %li.checkbox
-          %label{:for => 'user_privacy_policy', :class => 'checkbox'}
-            =f.check_box :agreed_to_pp, :class => 'checkbox'
-            %strong
-              I agree to MyBandStock's
-              = link_to 'Privacy Policy', :action => :privacy_policy, :controller => :legal
-        %li.captcha
-          =make_captcha
+=render 'form'
 
-      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

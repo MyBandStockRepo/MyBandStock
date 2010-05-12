@@ -1,1 +1,0 @@
-page.replace_html 'player-playlist', :partial => 'common_partials/player_playlist_admin', :locals => {:playlist_songs => @playlist_songs}

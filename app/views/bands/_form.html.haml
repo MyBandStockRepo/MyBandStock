@@ -1,43 +1,26 @@
 %li 
-  =f.label 'name'
-  =f.text_field :name, :class => 'text'
+	=f.label 'name'
+	=f.text_field :name, :class => 'text'
   
-%li
-  =f.label 'short_name'
-  =f.text_field :short_name, :class => 'text'
-  %label.desc This is how people will find your band web page. It must be all lower case and cannot contain spaces.  It can contain underscores. 
+%li  
+	=f.label 'bio'
+	=f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
+	%label.desc A description of your band.
 
 %li  
-  =f.label 'bio'
-  =textile_editor 'band', :bio, :rows => 10, :class => 'textarea'
-  %label.desc A description of your band.
-=textile_editor_initialize
-
-%li  
-  =f.label 'city'
-  =f.text_field 'city', :class => 'required'
+	=f.label 'city'
+	=f.text_field 'city', :class => 'required'
 
 %li
-  =f.label 'zip_code'
-  =f.text_field 'zip_code'
+	=f.label 'zip_code'
+	=f.text_field 'zip_code'
 
 %li
-  =f.label :country_id, '* Country'
-  =collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
-  %label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
+	=f.label :country_id, '* Country'
+	=collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
+	%label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
 
 %li
-  =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
-  #state_select
-    =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
-
-%li
-  =f.label :genre_1, 'Genre 1'
-  =collection_select 'band', 'genre_1_id', Genre.cached_all, 'id', 'name', :class => 'select'
-%li
-  =f.label :genre_2, 'Genre 2'
-  =collection_select 'band', 'genre_2_id', Genre.cached_all, 'id', 'name', :class => 'select'
-%li
-  =f.label :genre_3, 'Genre 3'
-  =collection_select 'band', 'genre_3_id', Genre.cached_all, 'id', 'name', :class => 'select'
-
+	=observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
+	#state_select
+		=render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
