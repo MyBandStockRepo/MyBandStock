@@ -19,6 +19,8 @@ test:
 
 production:
   adapter: mysql
-  database: db/production.sqlite3
+  database: cobain_prod
+  login: mbsprod
+  password: myb4ndst0ck
   pool: 5
   timeout: 5000

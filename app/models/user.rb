@@ -3,21 +3,19 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
-  belongs_to :state
 #  has_many :earned_perks, :dependent => :destroy
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
-  has_many :emails, :through => 'emails', :dependent => :destroy
+  has_many :emails, :dependent => :destroy
+  
+  belongs_to :state
   belongs_to :country
-#  has_many :stage_comments, :dependent => :destroy
 #  has_many :contributions, :dependent => :destroy
 #  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
   
 #  has_many :user_friends, :foreign_key => 'source_user_id'
 #  has_many :friends, :through => :user_friends, :source => 'destination'
   
-#  has_many :band_mails
 #  has_many :google_checkout_orders
-#  has_many :band_applications
 #  has_many :user_photos
  
   has_many :live_stream_series_permissions

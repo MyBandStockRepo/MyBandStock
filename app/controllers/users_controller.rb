@@ -231,7 +231,50 @@ class UsersController < ApplicationController
     end
   end
 
-
+  def new_email
+    
+  end
+  
+  def create_email
+    unless @user = User.find(session[:user_id])
+      #FAIL
+    else
+      the_confirmation_key = ActiveSupport::SecureRandom.base64(254)
+      @email = @user.emails.new( :address => the_address, :confirmed => false, :confirmation_key => the_confirmation_key )
+      respond_to do |format|  
+         if @email.save 
+           format.html { redirect_to(@user, :notice => 'Email was added, please confirm it.') }  
+           format.xml  { render :xml => @email, :status => :created, :location => @user }  
+         else  
+           format.html { render :action => "new_email" }  
+           format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }  
+         end  
+       end  
+     end
+    
+  end
+  
+  def confirm_email
+    unless (ck = params[:confirmation_key] && ea = params[:email_address])
+      #fail!
+    else
+      if ( @email = Email.find.where(:address => ea).where(:confirmation_key = ck) )
+        @email.confirmed = true
+      else
+        #fail
+      end
+      if @email && @email.save 
+         format.html { redirect_to(@user, :notice => 'Email was confirmed, thank you.') }  
+         format.xml  { render :xml => @email, :status => :created, :location => @user }  
+       else  
+         format.html { render :action => "new_email" }  
+         format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }  
+       end
+     end
+    
+  end
+  
+  
   def membership
   #this action shows all the bands a user is a part of
     @user = User.find(params[:id])

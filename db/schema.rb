@@ -9,21 +9,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100505190204) do
+ActiveRecord::Schema.define(:version => 20100510180305) do
+
+  create_table "api_users", :force => true do |t|
+    t.string   "api_key",    :null => false
+    t.string   "secret_key", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "associations", :force => true do |t|
-    t.string   "type"
+    t.string   "type",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "bands", :force => true do |t|
-    t.string   "name"
+    t.string   "name",                             :null => false
     t.text     "bio"
     t.string   "city"
     t.integer  "zipcode"
     t.string   "band_photo"
-    t.string   "status",     :default => "active"
+    t.string   "status",     :default => "active", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,15 +51,47 @@ ActiveRecord::Schema.define(:version => 20100505190204) do
     t.string  "name"
   end
 
-  create_table "roles", :force => true do |t|
-    t.string   "name"
+  create_table "emails", :force => true do |t|
+    t.string   "address"
+    t.boolean  "confirmed"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "live_stream_series", :force => true do |t|
+    t.string   "title",          :null => false
+    t.datetime "start_datetime", :null => false
+    t.datetime "end_datetime",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "live_stream_series_permissions", :force => true do |t|
+    t.boolean  "can_view",             :null => false
+    t.boolean  "can_listen",           :null => false
+    t.boolean  "can_chat",             :null => false
+    t.string   "stream_quality_level", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "role_id"
+    t.integer  "user_id"
+  end
+
   create_table "sessions", :force => true do |t|
-    t.string   "session_id"
-    t.text     "data"
+    t.string   "session_id", :null => false
+    t.text     "data",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -74,13 +113,21 @@ ActiveRecord::Schema.define(:version => 20100505190204) do
   end
 
   create_table "streamapi_streams", :force => true do |t|
-    t.string   "private_hostid"
-    t.string   "public_hostid"
-    t.string   "title"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.string   "quality"
-    t.boolean  "public"
+    t.string   "private_hostid", :null => false
+    t.string   "public_hostid",  :null => false
+    t.string   "title",          :null => false
+    t.datetime "start_datetime", :null => false
+    t.datetime "end_datetime",   :null => false
+    t.string   "layout_path",    :null => false
+    t.string   "skin_path",      :null => false
+    t.boolean  "public",         :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_emails", :force => true do |t|
+    t.string   "email",                         :null => false
+    t.boolean  "confirmed",  :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -93,12 +140,15 @@ ActiveRecord::Schema.define(:version => 20100505190204) do
   create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "password"
-    t.string   "address"
+    t.string   "password",                          :null => false
+    t.string   "address1"
+    t.string   "address2"
     t.string   "city"
     t.string   "zipcode"
-    t.string   "email"
-    t.string   "status",     :default => "active"
+    t.string   "phone"
+    t.string   "status",     :default => "pending", :null => false
+    t.integer  "state_id"
+    t.integer  "country_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
