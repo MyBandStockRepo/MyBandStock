@@ -33,9 +33,8 @@ class User < ActiveRecord::Base
   validates_presence_of :password
   validates_presence_of :password_confirmation, :on => :create
   validates_confirmation_of :password, :on => :create
-#  validates_presence_of :nickname
-#  validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
-#  validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
+  validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
+  validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
 
   #field specific
 #  validates_uniqueness_of :nickname
