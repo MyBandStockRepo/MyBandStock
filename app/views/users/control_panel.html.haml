@@ -1,68 +1,83 @@
-#content-utility.control-panel
-  #utility-overview
-    =render :partial => 'users/stat_box_primary', :locals => {:user => @user}
-    #overview-secondary
-      -# =link_to image_tag(@user.path_to_headline_image(:center_graphic)), :controller => 'users', :action => 'edit', :id => @user.id, :anchor => 'photo'
+#cp-user-info
+  = render :partial => 'users/user_info', :locals => { :user => @user }
+  %h3
+    = if @bands
+      - text = "You are a manager for the following band"
+      - text << 's' if (@bands.count > 1)
 
-  #utility-player
-    -# =render :partial => 'common_partials/audio_player', :locals => {:playlist_url => @random_band.playlist_url}
-    -# =render :partial => 'common_partials/user_player_playlist', :locals => {:playlist_songs => @random_band.playlist_songs}
-  =render :partial => "control_panel_tabs"
-#content-primary
-  .profile-column-wide
-    -unless @waiting_friends.nil? || @waiting_friends.empty?
-      #waiting.widget-box
-        %h2 Confirm Friends
-        -for friend in @waiting_friends
-          .user
-            %dl
-              %dt
-                Nick Name:
-              %dd
-                =friend.nickname
-              %dt
-                Full Name:
-              %dd
-                =friend.full_name
-              %dt
-                Email:
-              %dd
-                =friend.email
-            .actions
-              =link_to 'Confirm', :controller => 'users', :action => 'add_user_friend', :id => friend.id
-              =link_to 'Reject', :controller => 'users', :action => 'remove_user_friend', :id => friend.id
-                  
-    #bio.widget-box
-      %h2 About Me
-      =link_to 'edit', {:controller => 'users', :action => 'edit', :id => @user.id}, :class => 'utility-link'
-      %dl.location
-        %dt Location:
-        %dd<
-          =@user.location_zoom_city
-      -# __commented
-        %h3 Genres
-        %ul
-          -if @user.genre_1
-            %li
-              =@user.genre_1.name
-          -if @user.genre_2
-            %li
-              =@user.genre_2.name
-          -if @user.genre_3
-            %li
-              =@user.genre_3.name
-            
-      %h3 Profile
-      .profile
-        -# =RedCloth.new((@user.bio || ''), [:lite_mode] ).to_html
-  
+  = render :partial => 'bands/band_manage', :collection => @bands
 
-
-  .profile-column
-    -# =render :partial => 'users/invested_artists', :locals => {:invested_artists => @top_invested_artists}   
-    .content-ad
-      =render :partial => 'common_partials/medium_ad_block'
-    -#
-      %p Advertisement
-      =render :partial => 'users/top_friends', :locals => {:top_friends => @top_friends}
+-# __commented
+  #primary-content
+    #header
+      %h1 
+        =link_to 'mybandstock.com<em>The Music Revolution</em>', :controller => 'application', :action => 'index'
+        %strong cobain
       
+      #header-forms
+        -unless session[:auth_success]
+          =form_tag "#{SECURE_SITE_URL}/login/process_user_login" do
+            %ul#login
+              %li
+                =text_field_tag 'email', 'email', {:class => 'text', :type => 'text', :tabindex => "1"}
+                =check_box_tag 'remember','1', false, {:class => 'checkbox', :tabindex => "3"}
+                =label_tag 'Remember Me'
+              %li
+                =password_field_tag 'password', 'Password', {:class => 'text', :type => 'text', :tabindex => "2"}
+                =link_to 'Forgot your password?', :controller => 'login', :action => 'password_reminder'
+              %li
+                =submit_tag "Login", :name => 'loginSubmit', :tabindex => "4", :id => 'login-submit', :class => 'submit', :type => 'image', :src => image_path('buttons/global/btn-login.gif')
+        -else
+          .user
+            =User.find(session[:user_id]).first_name + ' - '
+            -if cp_association = User.find(session[:user_id]).associations.find(:first, :conditions => ['type = ?', 'admin'])
+              =link_to 'Band CP', :controller => 'bands', :action => 'control_panel', :band_short_name => cp_association.band.short_name
+              ="-"
+            =link_to "User CP", {:controller => :users, :action => 'control_panel'}
+            ="-"
+            =link_to "Logout", :controller => :login, :action => 'logout'
+        =form_tag('/search/results', :method => :get) do
+          %ul#search
+            %li
+              =text_field_tag 'search[band_name]', nil, :id => 'search_band_name', :class => 'text', :type => 'text', :tabindex => "5"
+            %li
+              %input{:name => 'searchSubmit', :id => 'search-submit', :class => 'submit', :type => 'image', :src => '/images/buttons/global/btn-search.gif'}
+
+
+    -# __commented__
+    %h2 Welcome
+
+    #mbs-news
+      %h2 MBS News
+      =render :partial => 'common_partials/mbs_news', :collection => @news_templates, :as => :news_template
+
+    -# __commented__
+      #banner-area
+        =render :partial => 'common_partials/promo_bands_banner'
+    #cp-user-info
+      = render :partial => 'users/user_info', :locals => { :user => @user }
+      %h3
+        = if @bands
+          - text = "You are a manager for the following band"
+          - text << 's' if (@bands.count > 1)
+
+      = render :partial => 'bands/band_manage', :collection => @bands
+  -#
+    #sidebar
+      -unless session[:user_id]
+        =link_to image_tag("buttons/global/btn-join-now.gif"), '/register', :class => "join"
+      -else
+        =@user
+        -# =render :partial => 'application/user_welcome_updates', :locals => {:user => @user}
+      -# =render :partial => 'common_partials/spotlight_bands', :locals => {:top_share_earners => @top_share_earners}
+      %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour];", :class => "first", :onclick => "shadowbox.next()"}
+        =image_tag("homepage/tour/img-mbs-tour.gif", :alt => "MBS Tour") 
+      %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
+      %a{:href => "/images/homepage/tour/3.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is an MBS Share
+      %a{:href => "/images/homepage/tour/4.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is a Project
+      %a{:href => "/images/homepage/tour/5.jpg", :rel => "shadowbox[tour]", :class => "hide"} Relationship Grows
+      %a{:href => "/images/homepage/tour/6.jpg", :rel => "shadowbox[tour]", :class => "hide"} The Value of MyBandStock
+      %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
+      %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
+    
+

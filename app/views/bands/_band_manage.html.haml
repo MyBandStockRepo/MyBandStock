@@ -17,10 +17,16 @@
       %dt Profile Published!
       %dd<
         =link_to 'Hide!', url_hash
+
+.band-schedules
+  - @band.live_stream_series.each do |series|
+    .band-schedule
+      .band-schedule-title
+        = series.title
               
 .profile-column
   #bio.widget-box
     %h2 Bio
-    =link_to_remote "edit", {  :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => @band.id}}, {:href => edit_band_url(@band), :class => 'utility-edit'}
+    =link_to_remote "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => @band.id}}, {:href => edit_band_url(@band), :class => 'utility-edit'}
     #bio-content
       =render :partial => 'bands/bio', :locals => {:band => @band}

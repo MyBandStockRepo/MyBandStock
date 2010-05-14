@@ -1,0 +1,183 @@
+/* My CSS brings all the boys to the yard */
+
+body {
+width:100%;
+background-image:url(/images/bg.gif);
+background-color:#37332c;
+background-repeat:repeat-x;
+margin:0px;
+font-family:"Trebuchet MS","Lucida Sans",Verdana,Sans-Serif;
+font-size:11px;
+line-height:15px;
+color:#666666;
+}
+
+img {border:0px;}
+
+a {color:#999999;text-decoration:underline;}
+	a:hover {color:#FFFFFF;text-decoration:none;}
+
+#wrap {width:980px;margin:0 auto;padding-top:10px;}
+
+/* HEADER */
+
+#header {height:80px;}
+	#head_top {height:34px;padding-top:6px;padding-left:14px;}
+	#head_bottom {width:980px;height:40px;background-image:url(/images/header_bar.jpg);}
+
+#logo_float {width:560px;height:34px;float:left;}
+
+.navlogo {display:block;width:137px;height:13px;background-image:url(/images/mybandstock_logotype.gif);background-position:0px 0px;margin-top:14px;margin-left:14px;}
+	.navlogo:hover {background-position:0px 13px;}
+
+.nav {display:block;width:80px;height:34px;background-image:url(/images/nav.gif);background-position:0px 0px;margin-top:3px;float:left;}
+	.navbands {background-position:0px 0px;}
+	.navfaq {background-position:-80px 0px;}
+	.navabout {background-position:-160px 0px;}
+	.navblog {background-position:-240px 0px;}
+	.navlogin {width:75px;background-position:-345px 0px;float:right;}
+		.navbands:hover {background-position:0px 34px;}
+		.navfaq:hover {background-position:-80px 34px;}
+		.navabout:hover {background-position:-160px 34px;}
+		.navblog:hover {background-position:-240px 34px;}
+		.navlogin:hover {width:75px;background-position:-345px 34px;float:right;}
+			.navbands_ON {background-position:0px 34px;}
+			.navfaq_ON {background-position:-80px 34px;}
+			.navabout_ON {background-position:-160px 34px;}
+		
+/* CONTENT */
+
+#content {background:#191919;margin-top:10px;}
+	#slides {height:400px;}
+	#search {width:620px;margin-left:180px;padding-top:20px;}
+
+fieldset {border:0px;padding:0px;margin:0px;}
+    input {outline:0px;}
+#searchbox {float:left;}
+    #searchbox input {width:455px;height:68px;line-height:68px;background:url(/images/search_area.gif);background-repeat:no-repeat;border:none;font-size:30px;line-height:68px;color:#333333;float:left;padding:0px;padding-left:25px;margin:0px;}
+#searchbutton {height:68px;float:left;}
+    #searchbutton input {height:68px;width:140px;float:left;padding:0px;margin:0px;background:url(/images/search_button.gif);outline:0px;border:0px;}
+		#searchbutton input:hover {height:68px;float:left;padding:0px;margin:0px;background:url(/images/search_button_over.gif);}
+	
+#artistlink {font-size:14px;text-align:center;padding-top:20px;padding-bottom:30px;}
+
+/* FOOTER */
+
+#footer {background:#2f2b25;padding:20px;}
+	#securities {width:420px;float:left;}
+	#copyright {padding-top:15px;float:right;}
+	.clear {clear:both;}
+	
+/* MODALS!!! */
+
+.modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
+	.modal_in {width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;}
+
+
+/* INFO MODAL */
+
+.modalhalf {width:440px;float:left;}
+	.lefthalf {width:340px;margin:0 auto;}
+
+.fanssuggested {height:90px;font-size:60px;line-height:90px;color:#ff9900;}
+	.artistname {height:106px;font-size:30px;line-height:36px;color:#FFFFFF;text-decoration:underline;margin-top:10px;}
+	.needemails {font-size:18px;line-height:28px;color:#FFFFFF;margin-top:40px;}
+	.greytext {color:#999999;}
+
+.vimeobox {width:440px;height:247px;margin:0px;padding:0px;float:left;}
+.emailform {width:390px;float:left;}
+
+fieldset {border:0px;padding:0px;margin:0px;}
+    input {outline:0px;}
+#namebox {float:left;}
+    #namebox input {width:380px;height:31px;background:url(/images/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;margin:0px;margin-top:40px;}
+#emailbox {float:left;}
+    #emailbox input {width:380px;height:31px;background:url(/images/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;margin:0px;margin-top:10px;}
+#emailbutton {height:30px;float:right;margin-top:10px;}
+    #emailbutton input {height:30px;width:176px;float:right;padding:0px;margin:0px;background:url(/images/email_submit.gif);outline:0px;border:0px;}
+		#emailbutton input:hover {height:30px;float:right;padding:0px;margin:0px;background:url(/images/email_submit_over.gif);}
+
+/* THANKS MODAL */
+
+.yousuggested {height:90px;width:620px;margin:0 auto;padding-top:37px;font-size:22px;color:#FFFFFF;}
+.thanks {width:620px;margin:0 auto;font-size:18px;line-height:24px;}
+	span.white {color:#FFFFFF;}
+
+.socialbox{clear:both}
+
+a.social {display:block;height:44px;background-image:url(/images/social.gif);margin-right:40px;margin-top:20px;float:left;}
+	a.facebook {width:140px;background-position:0px 0px;}
+		a.facebook:hover {background-position:0px -44px;}
+	a.myspace {width:140px;background-position:-140px 0px; float: left;}
+		a.myspace:hover {background-position:-140px -44px;}
+	a.twitter {width:140px;background-position:-280px 0px; float: left;}
+		a.twitter:hover {background-position:-280px -44px;}
+	a.digg {width:80px;background-position:-420px 0px;margin-right:0px;}
+		a.digg:hover {background-position:-420px -44px;}
+a.social facebook fb_login_not_logged_in FB_login_button FB_ElementReady{float: bottom;}
+.searchagain {width:620px;height:68px;clear:both;margin-top:40px;float:left;}
+
+
+/* BANDS PAGE */
+.orange_bar {height:30px;background-image:url(/images/orange_bar.gif);background-repeat:repeat-x;clear:both;}
+/* class => 'next_page' was called 'more_bands' before, this change is due to the will_paginate plugin */
+  a.next_page {width:113px;height:11px;display:block;margin-top:10px;margin-right:40px;float:right;background-image:url(/images/more_bands.gif);background-position:0px 0px;}
+  a.prev_page {width:145px;height:11px;display:block;margin-top:10px;margin-left:40px;float:left;background-image:url(/images/previous_bands.gif);background-position:0px 0px;}	
+
+.bands_list {width:489px;height:340px;float:left;line-height:20px;}
+	.bands_list  a{color:#ff9900;text-decoration:none;}
+		.bands_list  a:hover{color:#ffcc00;text-decoration:underline;}
+.bold1st {font-weight:bold;color:#FFFFFF;}
+	.bold1st a{color:#ffcc00;}
+		.bold1st a:hover{color:#FFFFFF;}
+	
+.middle_bar {width:2px;height:340px;background-image:url(/images/middle_bar.gif);background-repeat:no-repeat;float:left;}
+
+.light {height:20px;padding-left:40px;padding-right:40px;position: relative; }
+.dark {height:20px;background:#131313;padding-left:40px;padding-right:40px;position: relative;}
+		
+a.bandlink {padding-left:10px;}
+span.number_count {width:100px;position:absolute; right: 40px; text-align:right;}
+
+
+
+/* ABOUT US */
+
+#full_height {height:370px;}
+	#vimeo_about {width:480px;text-align:right;padding-top:40px;float:left;}
+	#about_right {width:420px;padding-top:40px;margin-left:40px;float:left;color:#FFFFFF;line-height:20px;font-size:14px;}
+
+.graysmall {color:#999999;font-size:12px;}
+.orange_mail {font-size:12px;font-weight:bold;color:#FF9900;}
+
+
+/* FAQ */
+
+#faq_left {width:430px;padding-top:40px;margin-left:40px;float:left;font-size:12px;line-height:18px;}
+#faq_right {width:430px;padding-top:40px;margin-right:40px;float:right;font-size:12px;line-height:18px;}
+
+.question {font-weight:bold;font-size:14px;color:#FFFFFF;}
+
+
+/* AUTOCOMPLETE */
+/* results list */
+div.ac_results{background-color: white}
+div.ac_results ul {list-style: none}
+
+/* rotator css */
+div#slides ul li {float:  left; position: absolute;list-style: none;margin-left: -40px;}
+div#slides ul li.show {z-index:500}
+
+/* LOGIN FORMS */
+form.ajax_login_form {position: absolute; z-index: 3;}
+
+/* SUBMIT FAN-NAME/EMAIL FORM VALIDATIONS */
+.error {font: normal 10px arial; padding: 3px; margin: 10px; background-color: #ffc; border: 1px solid #c00;
+}
+
+/*dashboard/admin_new_entry */
+div#admin_new_record_div{padding: 20px;}
+table.admin_new_record_table{margin: 20px;}
+table.admin_new_record_table tr td{padding: 10px;}
+
+

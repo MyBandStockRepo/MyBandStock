@@ -45,20 +45,9 @@ class UsersController < ApplicationController
     
     @user = User.find(id)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    # Clear the password field because it would otherwise be a huge ugly hash
-    @user.password = ''
-=======
     # Clear password field for editing
     @user.password = ''
     @user.password_confirmation = ''
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
-=======
-    # Clear password field for editing
-    @user.password = ''
-    @user.password_confirmation = ''
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
     
     @random_band = get_random_band()
     
@@ -241,7 +230,7 @@ class UsersController < ApplicationController
       #  redirect_to :action => :state_select
       #  return
       #else
-        redirect_to (session[:last_clean_url] || ('/cp'))
+        redirect_to (session[:last_clean_url] || ('/me/control_panel'))
         return
       #end
       
@@ -443,6 +432,7 @@ class UsersController < ApplicationController
   
 =end  
   def control_panel
+    authenticated?
     @user = User.find(session[:user_id])
     
     #@top_friends = @user.top_friends
@@ -453,7 +443,7 @@ class UsersController < ApplicationController
     #@waiting_friends = (UserFriend.where(['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
 
     @random_band = get_random_band()
-    
+    render :layout => 'root-layout'
   end  
   
 =begin  
@@ -541,5 +531,5 @@ protected
   end
   
   
-#end controller
-end
+
+end #end controller

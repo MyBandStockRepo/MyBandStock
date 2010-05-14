@@ -42,15 +42,6 @@ class ApplicationController < ActionController::Base
     
     @bands = Band.all(:limit => 10)
   end
-
-   #
-  # Landing control panel
-   #
-  def cp
-    authenticated?
-    @user = User.find(session[:user_id])
-    #render :layout => "cp-layout"
-  end
   
   def event_splash
     # whatever the event splash needs

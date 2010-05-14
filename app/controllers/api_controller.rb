@@ -38,16 +38,10 @@ class ApiController < ApplicationController
     hash = params[:hash]
 
 <<<<<<< HEAD
-<<<<<<< HEAD
     if (auth(api_key, hash, api_version) == false)
       # API caller did not pass authorization
       render :text => '-1'
       return false
-=======
-    if (auth(api_key, stream_series_id, hash, api_version) == false)
-      response.headers["Content-Type"] = 'text/html'
-      return render :text => '-1'
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
 =======
     if (auth(api_key, stream_series_id, hash, api_version) == false)
       response.headers["Content-Type"] = 'text/html'
@@ -59,13 +53,8 @@ class ApiController < ApplicationController
     if (user.nil?)
       # User does not exist
 <<<<<<< HEAD
-<<<<<<< HEAD
       render :text => '-1'
       return false
-=======
-      response.headers["Content-Type"] = 'text/html'
-      return render :text => '-1'
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
 =======
       response.headers["Content-Type"] = 'text/html'
       return render :text => '-1'
@@ -81,7 +70,6 @@ class ApiController < ApplicationController
                       }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
     #[5:28:10 PM] johnm1019: ssp = StreamSeriesPermission.find(params[:id])
     #[5:28:16 PM] johnm1019: ssp.update(big_hash)
 
@@ -89,8 +77,6 @@ class ApiController < ApplicationController
 
     user.set_privilege(user, privileges_hash)
 =======
-=======
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
     ssp = LiveStreamSeriesPermission.where(:user_id => user.id, :live_stream_series_id => stream_series_id)
 
     if (ssp.count == 0)
@@ -104,9 +90,6 @@ class ApiController < ApplicationController
     end
 
     #user.set_privilege(user, privileges_hash)
-<<<<<<< HEAD
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
-=======
 >>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
 
     @output = { :api_key => api_key,
