@@ -5,6 +5,8 @@ class CreateLiveStreamSeries < ActiveRecord::Migration
       t.datetime :starts_at, :null => false
       t.datetime :ends_at, :null => false
 
+			t.belongs_to :band
+
       t.timestamps
     end
   end
