@@ -46,6 +46,10 @@ class UsersController < ApplicationController
     @user = User.find(id)
 
 <<<<<<< HEAD
+    # Clear password field for editing
+    @user.password = ''
+    @user.password_confirmation = ''
+=======
 <<<<<<< HEAD
     # Clear the password field because it would otherwise be a huge ugly hash
     @user.password = ''
@@ -54,11 +58,7 @@ class UsersController < ApplicationController
     @user.password = ''
     @user.password_confirmation = ''
 >>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
-=======
-    # Clear password field for editing
-    @user.password = ''
-    @user.password_confirmation = ''
->>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
+>>>>>>> master
     
     @random_band = get_random_band()
     
