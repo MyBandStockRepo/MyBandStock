@@ -1,4 +1,4 @@
-%h2 Grant User Roles
+%h2 Toggle User Roles
 -if @roles.empty?
   No users have been assigned to any roles (and how are you editing this page?)
 -else
@@ -9,11 +9,12 @@
           =u.full_name
         %li.role
           =r.name
-        %li.remove
-          =link_to 'remove role', :controller => 'roles', :action => 'toggle_user_role', 'role[user_email]' => u.email, 'role[id]' => r.id
+        
+          =#link_to 'remove role', :controller => 'roles', :action => 'toggle_user_role', 'role[user_email]' => u.email, 'role[id]' => r.id
 =form_tag({:controller => 'roles', :action => 'toggle_user_role'}, :method => :post) do |f|
   =collection_select 'role', 'id', @roles.uniq, 'id', 'name'
-  =text_field_with_auto_complete :role, :user_email, {:size => ''}, :skip_style => true, :autocomplete => 'off'
+  =#text_field_with_auto_complete :role, :user_email, {:size => ''}, :skip_style => true, :autocomplete => 'off'
+  =collection_select :role, :user_email, @users.uniq, 'email', 'email'
   =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
       
 
