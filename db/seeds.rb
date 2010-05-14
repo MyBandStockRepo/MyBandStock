@@ -43,7 +43,38 @@ b = Band.create(  :name => 'The Dosimeters',
                   :country_id => 233)
 #make me an admin
 jm.associations.create(:band_id => b.id, :name => 'admin')
+#create an LSS
+lss = b.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
+#create some StreamAPI streams (fake of course)
+lss.streamapi_streams.create( :private_hostid => 123,
+                              :public_hostid => 123,
+                              :title => 'act 1',
+                              :starts_at => 1.weeks.from_now
+                              :ends_at => (1.weeks.from_now + 2.hours)
+                              :layout_path => 'noobs',
+                              :skin_path => 'l337',
+                              :public => false,
+                              :band_id => b.id )
+                              
+lss.streamapi_streams.create( :private_hostid => 1234,
+                              :public_hostid => 1234,
+                              :title => 'act 2',
+                              :starts_at => 2.weeks.from_now
+                              :ends_at => (2.weeks.from_now + 3.hours)
+                              :layout_path => 'noobs',
+                              :skin_path => 'l337',
+                              :public => false,
+                              :band_id => b.id )
 
+lss.streamapi_streams.create( :private_hostid => 12345,
+                              :public_hostid => 12345,
+                              :title => 'act 3, the COOOLEST ACT',
+                              :starts_at => 3.weeks.from_now
+                              :ends_at => (3.weeks.from_now + 4.hours)
+                              :layout_path => 'noobs',
+                              :skin_path => 'l337',
+                              :public => false,
+                              :band_id => b.id )
 
 
 #create Brians stuff
