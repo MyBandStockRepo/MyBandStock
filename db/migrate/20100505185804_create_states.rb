@@ -9,7 +9,7 @@ class CreateStates < ActiveRecord::Migration
       t.belongs_to :country
       t.timestamps
     end
-   
+=begin   
     #make the not spec state
     State.create(:name => 'Not Specified', :abbreviation => 'N/A', :country_id => 1)
     
@@ -19,6 +19,7 @@ class CreateStates < ActiveRecord::Migration
     reader = CSV.open("#{RAILS_ROOT}/lib/data/usa_states.csv", 'r') do |row|
       State.create(:name => row[0], :abbreviation => row[1], :country_id => usa_id)
     end
+=end
   end
 
   def self.down

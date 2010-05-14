@@ -7,7 +7,7 @@ class CreateCountries < ActiveRecord::Migration
       t.string :abbreviation, {:null => false, :length => 4}
       t.timestamps
     end
-    
+=begin    
     #make the not spec country
     Country.create(:name => 'Not Specified', :abbreviation => 'N/A')
     
@@ -15,6 +15,7 @@ class CreateCountries < ActiveRecord::Migration
     reader = CSV.open("#{RAILS_ROOT}/lib/data/countries.csv", 'r', ?;) do |row|
       Country.create(:name => row[0], :abbreviation => row[1])
     end
+=end    
   end
 
   def self.down
