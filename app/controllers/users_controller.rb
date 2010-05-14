@@ -224,7 +224,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
-      UserNotifier.deliver_welcome(@user.id)
+      UserNotifier.registration_notification(@user).deliver
       #if @user.state_id == -1 
       #  redirect_to :action => :state_select
       #  return
@@ -248,8 +248,8 @@ class UsersController < ApplicationController
       format.xml { head :created, :location => user_path(@user) }
     end
   end
-
-
+  
+  
   def membership
   #this action shows all the bands a user is a part of
     @user = User.find(params[:id])

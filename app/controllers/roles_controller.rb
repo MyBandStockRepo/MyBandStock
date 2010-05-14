@@ -1,7 +1,8 @@
 class RolesController < ApplicationController
 
-  before_filter :authenticated?
-  before_filter :user_has_site_admin
+#TEMP COMMENTS: UNCOMMENT BEFORE GOING LIVE
+#  before_filter :authenticated?
+#  before_filter :user_has_site_admin
   skip_filter :update_last_location, :except => [:index]
   protect_from_forgery :only => [:create, :update]
   

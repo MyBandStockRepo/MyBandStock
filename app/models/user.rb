@@ -8,16 +8,13 @@ class User < ActiveRecord::Base
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
 #  has_many :emails, :through => 'emails', :dependent => :destroy
   belongs_to :country
-#  has_many :stage_comments, :dependent => :destroy
 #  has_many :contributions, :dependent => :destroy
 #  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
   
 #  has_many :user_friends, :foreign_key => 'source_user_id'
 #  has_many :friends, :through => :user_friends, :source => 'destination'
   
-#  has_many :band_mails
 #  has_many :google_checkout_orders
-#  has_many :band_applications
 #  has_many :user_photos
  
   has_many :live_stream_series_permissions
