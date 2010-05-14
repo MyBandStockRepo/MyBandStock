@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :city
       t.integer :zipcode
       t.string :phone
+      t.integer :country_id
       t.string :status, :default => "pending", :null => false
 
       t.timestamps

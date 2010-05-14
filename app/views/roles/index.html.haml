@@ -11,7 +11,7 @@
           =r.name
         %li.remove
           =link_to 'remove role', :controller => 'roles', :action => 'toggle_user_role', 'role[user_email]' => u.email, 'role[id]' => r.id
--form_tag({:controller => 'roles', :action => 'toggle_user_role'}, :method => :post) do |f|
+=form_tag({:controller => 'roles', :action => 'toggle_user_role'}, :method => :post) do |f|
   =collection_select 'role', 'id', @roles.uniq, 'id', 'name'
   =text_field_with_auto_complete :role, :user_email, {:size => ''}, :skip_style => true, :autocomplete => 'off'
   =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

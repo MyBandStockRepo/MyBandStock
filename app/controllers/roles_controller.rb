@@ -8,7 +8,7 @@ class RolesController < ApplicationController
   
   
   def toggle_user_role
-    unless ( (@user = User.find_by_email(params[:role][:user_email].strip)) && (@role = Role.find(params[:role][:id])) )
+    unless ( (@user = User.find_by_email(params[:role][:user_email].to_s.strip)) && (@role = Role.find(params[:role][:id])) )
       redirect_to session[:last_clean_url]
       return false
     end
@@ -27,14 +27,14 @@ class RolesController < ApplicationController
     end
   end
   
-=begin  
+
   def auto_complete_for_role_user_email
     unless ( (params[:role] && (email_search = params[:role][:user_email]) ) && (email_search.length >= 3) )
       render :nothing => true
       return false
     end
     
-    @users = User.find(:all, :conditions => ['email LIKE ?', "%#{email_search}%"], :limit => 15)
+    @users = User.where(['email LIKE ?', "%#{email_search}%"], :limit => 15)
 
     respond_to do |format|
       format.html {
@@ -48,7 +48,7 @@ class RolesController < ApplicationController
     end
     
   end
-=end  
+
   
   def index
     @roles = Role.find(:all, :order => ['created_at asc'])
