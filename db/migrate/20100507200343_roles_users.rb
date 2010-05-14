@@ -5,7 +5,7 @@ class RolesUsers < ActiveRecord::Migration
       #references
       t.belongs_to :role, :user
     end
-
+		add_index(:roles_users, [:role_id, :user_id], :name => 'roles_users_join_index')
   end
 
   def self.down

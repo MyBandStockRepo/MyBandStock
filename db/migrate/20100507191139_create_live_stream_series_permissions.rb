@@ -5,7 +5,9 @@ class CreateLiveStreamSeriesPermissions < ActiveRecord::Migration
       t.boolean :can_listen, :null => false
       t.boolean :can_chat, :null => false
       t.string :stream_quality_level, :null => false
-
+			t.boolean :currently_viewing, {:null => false, :default => true}
+			t.belongs_to :user, :live_stream_series
+	
       t.timestamps
     end
   end

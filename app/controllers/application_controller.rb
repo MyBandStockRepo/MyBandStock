@@ -41,6 +41,9 @@ class ApplicationController < ActionController::Base
     #end
     
     @bands = Band.all(:limit => 10)
+    if (session[:user_id])
+      @user = User.find(session[:user_id])
+    end
   end
   
   def event_splash

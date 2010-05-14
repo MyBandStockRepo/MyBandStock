@@ -8,6 +8,8 @@ gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
+# gem 'rails', :git => 'git://github.com/rails/auto_complete.git'
+
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 

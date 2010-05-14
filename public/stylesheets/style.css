@@ -2,9 +2,10 @@
 
 body {
 width:100%;
-background-image:url(/images/bg.gif);
+height: 100%;
+/*background-image:url(/images/bg.gif);
+background-repeat:repeat-x;*/
 background-color:#37332c;
-background-repeat:repeat-x;
 margin:0px;
 font-family:"Trebuchet MS","Lucida Sans",Verdana,Sans-Serif;
 font-size:11px;

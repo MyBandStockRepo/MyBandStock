@@ -225,7 +225,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
-      UserNotifier.registration_notification(@user).deliver
+      UserMailer.registration_notification(@user).deliver
       #if @user.state_id == -1 
       #  redirect_to :action => :state_select
       #  return
@@ -434,6 +434,7 @@ class UsersController < ApplicationController
   def control_panel
     authenticated?
     @user = User.find(session[:user_id])
+raise asdf
     
     #@top_friends = @user.top_friends
     #@top_invested_artists = @user.top_invested_artists

@@ -7,8 +7,7 @@ class BandsController < ApplicationController
  skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users]
   
   def index
-    redirect_to :controller => 'stage', :action => 'index'
-    
+    redirect_to session[:last_clean_url]
   end
   
   def show

@@ -3,14 +3,10 @@
   %head
     %title Cobain
     -# = stylesheet_link_tag :all
-    = stylesheet_link_tag 'style'
+    = stylesheet_link_tag :all
     = javascript_include_tag :defaults
     = csrf_meta_tag
   %body
-
-
-
-
     #wrap
       #header
         #head_top
@@ -24,7 +20,7 @@
           = link_to '', root_path, :class => 'nav navfaq'
           = link_to '', root_path, :class => 'nav navabout'
           = link_to "", "http://blog.mybandstock.com/", :class => "nav navblog"
-          = link_to '', root_path, :class => "nav navlogin"
+          = link_to '', login_path, :class => "nav navlogin"
 
       -if session[:user_id]
         %div{ :style => 'float: right; color: red; margin-right: 10px' }
@@ -41,10 +37,10 @@
         = yield
       -# =image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; position: absolute; margin-top: -60px; margin-left: 450px", :size => '25x25'
 
-    #footer
-      #securities
-        I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law 
-        -# = link_to "Privacy Policy", "http://alpha.mybandstock.com/legal/privacy_policy"
-      #copyright
-        &copy; 2010 MyBandStock Corporation - All Rights Reserved
-      .clear
+      #footer
+        #securities
+          I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law 
+          -# = link_to "Privacy Policy", "http://alpha.mybandstock.com/legal/privacy_policy"
+        #copyright
+          &copy; 2010 MyBandStock Corporation - All Rights Reserved
+        .clear
