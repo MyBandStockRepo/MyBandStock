@@ -4,6 +4,7 @@ Cobain::Application.routes.draw do |map|
   # API methods
   match 'api/test', :to => 'api#test'
   match 'api/change_stream_permission', :to => 'api#change_stream_permission'
+  match 'api', :to => 'api#index'
 
   resources :api_users
 

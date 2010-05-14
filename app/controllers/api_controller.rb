@@ -12,6 +12,10 @@ class ApiController < ApplicationController
 
   #before_filter :auth_check
 
+  def index
+    render :nothing => true
+  end
+
   def change_stream_permission
     # Input: the above input is required; the following are optional:
     #   email, can_view, can_chat, quality_level
@@ -33,32 +37,30 @@ class ApiController < ApplicationController
     hash = params[:hash]
 
     if (auth(api_key, hash, api_version) == false)
-      raise unauthorized
-=begin
-      @output = false
-      respond_to do |output_format|
-        output_format.xml  { render :xml => @output }
-        output_format.json  { render :json => @output }
-        # output_format.yaml { render :yaml => @output }
-      end
-      #return
-=end
+      # API caller did not pass authorization
+      render :text => '-1'
+      return false
     end
 
-    email_object = UserEmail.find_by_email(email)
-    if (email_object.nil?)
-      raise user_does_not_exist
-    end
-    user = email_object.user
+    user = User.find_by_email(email)
     if (user.nil?)
-      raise user_does_not_exist
+      # User does not exist
+      render :text => '-1'
+      return false
     end
 
-    privileges_hash = { :can_view => can_view,
+    privileges_hash = {
+                        :can_view => can_view,
                         :can_chat => can_chat,
                         :can_listen => can_listen,
                         :stream_quality_level => stream_quality_level
+
                       }
+
+    #[5:28:10 PM] johnm1019: ssp = StreamSeriesPermission.find(params[:id])
+    #[5:28:16 PM] johnm1019: ssp.update(big_hash)
+
+
 
     user.set_privilege(user, privileges_hash)
 
@@ -76,6 +78,7 @@ class ApiController < ApplicationController
 #      output_format.json  { render :json => @output }
 #      # output_format.yaml { render :yaml => @output }
 #    end
+=begin
     if (output_format == 'json')
       render :json => @output
     elsif (output_format == 'xml')
@@ -83,10 +86,21 @@ class ApiController < ApplicationController
     elsif (output_format == 'yaml')
       # Output YAML from here
     end
+=end
+    respond_to do |format|
+      case output_format
+        when 'json'
+          render :json => @output
+        when 'xml'
+          render :xml => @output
+        when 'yaml'
+          #output YAML from here
+      end
+    end
+
   end
 
   def test
-    render :layout => 'root-layout'
   end
 
 private

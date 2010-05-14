@@ -74,6 +74,9 @@ class User < ActiveRecord::Base
   # Input priv_hash looks like:
   #   { :can_view => 1, :can_listen => 0, :stream_quality_level => 'high' }
   # where can_view is set to 1, etc, and can_chat is left alone (because it was unspecified)
+
+  # TODO streamseries_permissionObject.update(hash)
+  #   http://api.rubyonrails.org/classes/ActiveRecord/Base.html#M002270
     
     if (priv_hash.nil? || email.nil?)
       return false
@@ -88,6 +91,7 @@ class User < ActiveRecord::Base
                 (priv_value != 1 || priv_value != 0) ||
                 !possible_privs.include?(priv_name)
               )
+        
         user[priv_name] = priv_value
       end
     end

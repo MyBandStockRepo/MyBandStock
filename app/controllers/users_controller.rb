@@ -44,6 +44,9 @@ class UsersController < ApplicationController
     end
     
     @user = User.find(id)
+
+    # Clear the password field because it would otherwise be a huge ugly hash
+    @user.password = ''
     
     @random_band = get_random_band()
     
@@ -70,6 +73,12 @@ class UsersController < ApplicationController
       unless Country.find(params[:user][:country_id]).states.collect{|s| s.id}.include?(params[:user][:state_id].to_i)
       #if the state isn't in the country then reset the state_id update and redirect
       params[:user][:state_id] = 1
+
+      # Hash the password before putting it into DB
+      params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
+      # We must also hash the confirmation entry so the model can check them together
+      params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
+
       @user.update_attributes(params[:user])
       @user.save
       redirect_to :action => "state_select"
@@ -110,7 +119,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html { 
-                    unless success && photo_success
+                    unless success #&& photo_success
                       render :action => 'edit'
                       return false
                     else
