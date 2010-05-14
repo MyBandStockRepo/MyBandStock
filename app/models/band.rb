@@ -38,11 +38,11 @@ class Band < ActiveRecord::Base
   belongs_to :genre_3, :class_name => 'Genre', :foreign_key => 'genre_3_id', :readonly => true
 =end  
   
-#  validates_presence_of :name, :short_name, :bio, :country_id, :zip_code, :city
-  validates_presence_of :name, :country_id, :zip_code, :city
+#  validates_presence_of :name, :short_name, :bio, :country_id, :zipcode, :city
+  validates_presence_of :name, :country_id, :zipcode, :city
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
 #  validates_uniqueness_of :short_name
-  validates_numericality_of :zip_code, :country_id
+  validates_numericality_of :zipcode, :country_id
   
 #  validates_exclusion_of :short_name, :in => %w[admin application bands charts concerts contests contribution_levels earned_perks ledger_entries legal login merchant music_albums news_entries perks photo_albums photos projects search songs stage_comments users], :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
 

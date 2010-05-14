@@ -1,7 +1,7 @@
 class CreateAssociations < ActiveRecord::Migration
   def self.up
     create_table :associations do |t|
-      t.string :type, {:null => false, :length => 30} 
+      t.string :name, {:null => false, :length => 30} 
 
       #references
       t.belongs_to :user, :band

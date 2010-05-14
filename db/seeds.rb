@@ -41,9 +41,11 @@ jm.roles << site_admin_role
 #create a band
 b = Band.create(  :name => 'The Dosimeters',
                   :short_name => 'the_dosimeters',
-                  :country_id => 233)
+                  :country_id => 233,
+                  :zipcode => '48116',
+                  :city => 'Brighton')
 #make me an admin
-jm.associations.create(:band_id => b.id, :type => 'admin')
+jm.associations.create(:band_id => b.id, :name => 'admin')
 #create an LSS
 lss = b.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 #create some StreamAPI streams (fake of course)

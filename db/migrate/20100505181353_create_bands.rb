@@ -4,10 +4,10 @@ class CreateBands < ActiveRecord::Migration
     
       t.string :name, {:null => false, :length => 50}
       t.string :short_name, {:null => false, :length => 30}
-      t.text :bio, {:null => false, :length => 2000}
+      t.text :bio, {:null => true, :length => 2000}
       t.boolean :terms_of_service, {:null => false, :default => false}
       t.string :city, {:null => false, :length => 50}
-      t.integer :zip_code, {:null => false, :length => 10} 
+      t.integer :zipcode, {:null => false, :length => 10} 
       t.string :band_photo
       t.string :status, {:null => false, :default => "active"}
       t.string :twitter_user
