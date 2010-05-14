@@ -1,0 +1,26 @@
+%h2
+  =@band.name 
+.stats
+  %dl
+    %dt Date of Formation:
+    %dd<
+      =@band.created_at.strftime("%m/%d/%Y")
+    %dt Public Profile
+    %dd<
+      =link_to "Public Profile", :controller => 'bands', :name => @band.name, :action => 'show'
+    -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
+    -if @band.hidden
+      %dt Public Profile Hidden!
+      %dd<
+        =link_to 'Publish!', url_hash
+    -else
+      %dt Profile Published!
+      %dd<
+        =link_to 'Hide!', url_hash
+              
+.profile-column
+  #bio.widget-box
+    %h2 Bio
+    =link_to_remote "edit", {  :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => @band.id}}, {:href => edit_band_url(@band), :class => 'utility-edit'}
+    #bio-content
+      =render :partial => 'bands/bio', :locals => {:band => @band}

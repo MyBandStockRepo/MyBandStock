@@ -6,6 +6,8 @@ Cobain::Application.routes.draw do |map|
   match 'api/change_stream_permission', :to => 'api#change_stream_permission'
   match 'api', :to => 'api#index'
 
+  
+
   resources :api_users
 
   resources :live_stream_series
@@ -95,6 +97,7 @@ Cobain::Application.routes.draw do |map|
   
   
   # Band and Fan home and event splash
+  match '/cp', :to => 'application#cp'
   match '/fan_home', :to => 'application#fan_home'
   match '/band_home', :to =>'application#band_home'
 #  match '/event_splash', :to => 'application#event_splash'

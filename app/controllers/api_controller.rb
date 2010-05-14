@@ -18,7 +18,7 @@ class ApiController < ApplicationController
 
   def change_stream_permission
     # Input: the above input is required; the following are optional:
-    #   email, can_view, can_chat, quality_level
+    #   email, stream_series, can_view, can_chat, quality_level
     # If email is not specified, nothing will happen (but still return success)
     # If email is specified, the specified privileges will be applied to that user.
     # On success, the parameters are sent back in the output_format specified. Also, all
@@ -27,6 +27,7 @@ class ApiController < ApplicationController
     # TODO: output false in the format specified, wherever I wrote 'raise'
 
     stream_quality_level = params[:stream_quality_level]
+    stream_series_id = params[:stream_series]
     output_format = params[:output_format] || 'json'
     api_version = params[:api_version]
     can_listen = params[:can_listen].to_i
@@ -36,17 +37,28 @@ class ApiController < ApplicationController
     email = params[:email]
     hash = params[:hash]
 
+<<<<<<< HEAD
     if (auth(api_key, hash, api_version) == false)
       # API caller did not pass authorization
       render :text => '-1'
       return false
+=======
+    if (auth(api_key, stream_series_id, hash, api_version) == false)
+      response.headers["Content-Type"] = 'text/html'
+      return render :text => '-1'
+>>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
     end
 
     user = User.find_by_email(email)
     if (user.nil?)
       # User does not exist
+<<<<<<< HEAD
       render :text => '-1'
       return false
+=======
+      response.headers["Content-Type"] = 'text/html'
+      return render :text => '-1'
+>>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
     end
 
     privileges_hash = {
@@ -57,12 +69,28 @@ class ApiController < ApplicationController
 
                       }
 
+<<<<<<< HEAD
     #[5:28:10 PM] johnm1019: ssp = StreamSeriesPermission.find(params[:id])
     #[5:28:16 PM] johnm1019: ssp.update(big_hash)
 
 
 
     user.set_privilege(user, privileges_hash)
+=======
+    ssp = LiveStreamSeriesPermission.where(:user_id => user.id, :live_stream_series_id => stream_series_id)
+
+    if (ssp.count == 0)
+      # User currently has no permissions on the stream
+      ssp = LiveStreamSeriesPermission.new(privileges_hash)
+      ssp.user_id = user.id
+      ssp.live_stream_series_id = stream_series_id
+    else
+      # User permissions exist and will be changed
+      ssp.update(privileges_hash)
+    end
+
+    #user.set_privilege(user, privileges_hash)
+>>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
 
     @output = { :api_key => api_key,
                 :hash => hash,
@@ -105,13 +133,16 @@ class ApiController < ApplicationController
 
 private
 
-  def auth(api_key, input_hash, api_version)
+  def auth(api_key, stream_series_id, input_hash, api_version)
     # Takes API POST input as function parameters, and returns false if the request is unauthorized, true otherwise.
 
     # Retrun false if:
     #   a parameter is missing
     #   there is no association in the DB between the given api_key and secret_key
+    #   there is no association between the ApiUser and the given LiveStreamSeries
     #   the hash wasn't right
+
+    # TODO: check ApiUser-LiveStreamSeries association
 
     if (api_key.nil? || input_hash.nil? || api_version.nil?)
       return false

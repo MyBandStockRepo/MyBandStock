@@ -45,8 +45,14 @@ class UsersController < ApplicationController
     
     @user = User.find(id)
 
+<<<<<<< HEAD
     # Clear the password field because it would otherwise be a huge ugly hash
     @user.password = ''
+=======
+    # Clear password field for editing
+    @user.password = ''
+    @user.password_confirmation = ''
+>>>>>>> 32f83f4... Removed Alpha look-and-feel. Got a start on the user/manager control panel.
     
     @random_band = get_random_band()
     
@@ -229,7 +235,7 @@ class UsersController < ApplicationController
       #  redirect_to :action => :state_select
       #  return
       #else
-        redirect_to (session[:last_clean_url] || ('/fan_home'))
+        redirect_to (session[:last_clean_url] || ('/cp'))
         return
       #end
       

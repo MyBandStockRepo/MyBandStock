@@ -42,6 +42,15 @@ class ApplicationController < ActionController::Base
     
     @bands = Band.all(:limit => 10)
   end
+
+   #
+  # Landing control panel
+   #
+  def cp
+    authenticated?
+    @user = User.find(session[:user_id])
+    #render :layout => "cp-layout"
+  end
   
   def event_splash
     # whatever the event splash needs
@@ -50,6 +59,8 @@ class ApplicationController < ActionController::Base
   
   def fan_home
     @bodytag_id = "homepages"
+    authenticated?
+
 =begin
     @spotlight_bands = Band.where(['status = ?', 'active'], :order => 'RAND()', :limit => 10)
     if @user = User.find_by_id(session[:user_id])
