@@ -1,21 +1,23 @@
 class RolesController < ApplicationController
 
-#TEMP COMMENTS: UNCOMMENT BEFORE GOING LIVE
-#  before_filter :authenticated?
-#  before_filter :user_has_site_admin
+  before_filter :authenticated?
+  before_filter :user_has_site_admin
   skip_filter :update_last_location, :except => [:index]
   protect_from_forgery :only => [:create, :update]
   
   
   def toggle_user_role
-    unless ( (@user = User.find_by_email(params[:role][:user_email].strip)) && (@role = Role.find(params[:role][:id])) )
+    unless ( (@user = User.find_by_email(params[:role][:user_email].to_s.strip)) && (@role = Role.find(params[:role][:id])))
       redirect_to session[:last_clean_url]
       return false
     end
-    
-    
-    @user.toggle_role(@role.id)
-    
+
+
+		@siteadmins = User.includes(:roles).where('roles.name' => 'site_admin')
+
+		if ( @role.name == 'site_admin' && @siteadmins.count > 1 ) || ( @siteadmins.count == 1 && @siteadmins.first.email != @user.email )
+	    @user.toggle_role(@role.id)
+  	end  
     
     respond_to do |format|
         format.html {
@@ -27,14 +29,14 @@ class RolesController < ApplicationController
     end
   end
   
-=begin  
+
   def auto_complete_for_role_user_email
     unless ( (params[:role] && (email_search = params[:role][:user_email]) ) && (email_search.length >= 3) )
       render :nothing => true
       return false
     end
-    
-    @users = User.find(:all, :conditions => ['email LIKE ?', "%#{email_search}%"], :limit => 15)
+
+    @users = User.where(['email LIKE ?', "%#{email_search}%"], :limit => 15)
 
     respond_to do |format|
       format.html {
@@ -48,11 +50,11 @@ class RolesController < ApplicationController
     end
     
   end
-=end  
+
   
   def index
     @roles = Role.find(:all, :order => ['created_at asc'])
-
+		@users = User.all
     respond_to do |format|
         format.html
         format.js
