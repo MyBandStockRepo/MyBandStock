@@ -296,120 +296,11 @@ class UsersController < ApplicationController
     end
     
   end
-=begin  
-  
-  def add_user_friend
-    unless assoc = UserFriend.find_by_source_user_id_and_destination_user_id(session[:user_id], params[:id])
-      #create the association
-      UserFriend.new do |u|
-        u.source_user_id = session[:user_id]
-        u.destination_user_id = params[:id]
-        u.save
-      end
-    else
-      flash[:notice] = 'You\'ve already added this person as your friend!'
-      redirect_to session[:last_clean_url]
-      return false
-    end
-        
-        
-    respond_to do |format|
-      format.html {
-                    flash[:notice] = 'Friend added.'
-                    redirect_to session[:last_clean_url]
-                  }
-      format.js   {
-                    url_hash = {:controller => 'users', :action => 'remove_user_friend', :id => params[:id]}
-                    render :inline => "=link_to_remote '<strong>Unfriend</strong>', {:update => 'friend', :url =>  url_hash }, {:class => 'remove', :href => url_for(url_hash)}", :type => :haml, :locals => {:url_hash => url_hash}
-                  }                 
-    end
-    
-  end
-  
-  
-  def remove_user_friend
-    unless ( (@source_assoc = UserFriend.find_by_source_user_id_and_destination_user_id(session[:user_id], params[:id])) || (@dest_assoc = UserFriend.find_by_destination_user_id_and_source_user_id(session[:user_id], params[:id])) )
-      flash[:notice] = 'There isn\'t a friendship to delete'
-      redirect_to session[:last_clean_url]
-      return false
-    end  
-    #else
-    
-    #this is dirty but I'm assigning again    
-    @source_assoc = UserFriend.find_by_source_user_id_and_destination_user_id(session[:user_id], params[:id])
-    @dest_assoc = UserFriend.find_by_destination_user_id_and_source_user_id(session[:user_id], params[:id])
-    
-    @source_assoc.destroy if @source_assoc
-    @dest_assoc.destroy if @dest_assoc
-    
-    respond_to do |format|
-      format.html {
-                    flash[:notice] = 'Friend removed.'
-                    redirect_to session[:last_clean_url]
-                  }
-      format.js   {
-                    url_hash = url_hash = {:controller => 'users', :action => 'add_user_friend', :id => params[:id]}
-                    render :inline => "=link_to_remote '<strong>Friend</strong>', {:update => 'friend', :url => url_hash }, {:class => 'add', :href => url_for(url_hash)}", :type => :haml, :locals => {:url_hash => url_hash}
-                  }
-                 
-    end
-    
-  end
-  
-  
-  def blank_headline_photo
-    @user = User.find(session[:user_id])
-    if (p = @user.user_photos.first)
-      p.destroy
-    end
-    
-    @user.headline_photo_id = nil
-    @user.save
-    
-    respond_to do |format|
-      format.html {
-                    redirect_to session[:last_clean_url]
-                  }
-      format.js
-      format.xml
-    end
-    
-  end
   #************************
   #  USER Control Panel STUFF
   #************************
-
-
-  def inbox
-    unless @user = User.find_by_id(session[:user_id])
-      redirect_to session[:last_clean_url]
-    end
-    
-    @bodytag_id= "mail" #from dan for view stuff
-    
-    @random_band = get_random_band()
-    
-    @fresh_band_mail = BandMail.new(:user_id => @user.id, :from_band => false)
-    
-    if @message = BandMail.find_by_id(params[:message_id])
-      @messages_in_thread = @user.band_mail.paginate(:page => params["message_#{params[:message_id]}_messages"], :order => ['created_at desc'], :conditions => ['created_at < ? AND band_id = ?', message.created_at, message.band_id])
-    else
-      @messages_in_thread = nil
-    end
-    
-    @band_mail = @user.band_mails.paginate(:conditions => ['user_hidden = 0'], :page => params[:band_mails_page], :per_page => 15, :order => 'created_at DESC' )
-    
-    if (@band_name = params[:band_name])
-      @band_name.strip!
-    end
-    
-    respond_to do |format|
-      format.html
-    end
-    
-  end
   
-  
+=begin
   def auto_complete_for_recipient_band_name
     unless ( (params[:recipient] && (band_name_search = params[:recipient][:band_name]) ) && (band_name_search.length >= 2) )
       render :nothing => true
@@ -460,58 +351,7 @@ class UsersController < ApplicationController
     
     @random_band = get_random_band()
 
-  end
-  
-  
-  def manage_friends
-    @user = User.find(session[:user_id])
-    
-    @random_band = get_random_band()
-    
-    #Start Geo logic!
-    @zipcode_passed = params[:zipcode]
-    if params[:zipcode] == 'Zip Code'
-      zip = nil
-    else
-      zip = params[:zipcode]
-    end
-
-    if ( ( @zip = Zipcode.find_by_zipcode(zip) ) && ( @miles_away_passed = params[:miles_away].to_f ) )
-      miles_away = params[:miles_away].to_f
-      #1.8 used as a very scientific fudge factor -- yeah I know this isn't accurate, but nobody lives in the geographic center of their zip code anyway.
-      lat_lower = @zip.latitude.to_f-(miles_away/(1.8*MILES_PER_DEGREE))
-      lat_upper = @zip.latitude.to_f+(miles_away/(1.8*MILES_PER_DEGREE))
-      longi_lower = @zip.longitude.to_f-(miles_away/(1.8*MILES_PER_DEGREE))
-      longi_upper = @zip.longitude.to_f+(miles_away/(1.8*MILES_PER_DEGREE))
-      zipcodes = Zipcode.find(:all, :conditions => ['latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?',lat_lower,lat_upper,longi_lower,longi_upper]).collect{|z| z.zipcode}
-    end
-    
-    #now actually make the fans object
-    if (zipcodes && !zipcodes.empty?)
-      @friends = @user.friends.find_all_by_zipcode(zipcodes)
-    else
-      @friends = []
-    end
-    #End Geo logic!
-    
-    #give them random friends if they had an empty query
-    if @friends.empty?
-      @query_empty = true
-      @friends = @user.friends.find(:all, :limit => 10, :order => 'RAND()')
-    else
-      @query_empty = false
-    end
-    
-  end
-  
-  
-  def purchases
-    @user = User.find(session[:user_id])
-    
-    @random_band = get_random_band()
-    @purchases = @user.google_checkout_orders.paginate(:order => ['created_at DESC'], :page => params[:user_purchases_page], :per_page => 20)
-  end
-  
+  end  
 =end  
 protected
 

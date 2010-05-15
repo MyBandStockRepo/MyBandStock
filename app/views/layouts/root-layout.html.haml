@@ -24,7 +24,7 @@
           = link_to '', root_path, :class => 'nav navfaq'
           = link_to '', root_path, :class => 'nav navabout'
           = link_to "", "http://blog.mybandstock.com/", :class => "nav navblog"
-          = link_to '', root_path, :class => "nav navlogin"
+          = link_to '', login_path, :class => "nav navlogin"
 
       -if session[:user_id]
         %div{ :style => 'float: right; color: red; margin-right: 10px' }
