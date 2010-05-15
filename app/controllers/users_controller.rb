@@ -325,6 +325,7 @@ class UsersController < ApplicationController
   def control_panel
     authenticated?
     @user = User.find(session[:user_id])
+    #@bands = 
     
     #@top_friends = @user.top_friends
     #@top_invested_artists = @user.top_invested_artists
@@ -334,7 +335,6 @@ class UsersController < ApplicationController
     #@waiting_friends = (UserFriend.where(['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
 
     @random_band = get_random_band()
-    render :layout => 'root-layout'
   end  
   
 =begin  
