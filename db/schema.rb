@@ -123,16 +123,16 @@ ActiveRecord::Schema.define(:version => 20100511212421) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "password",                          :null => false
-    t.string   "address"
-    t.string   "city"
-    t.integer  "zipcode"
-    t.string   "phone"
-    t.string   "status",     :default => "pending", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "country_id"
     t.string   "address1"
     t.string   "address2"
+    t.string   "city"
+    t.string   "zipcode"
+    t.string   "phone"
+    t.string   "status",     :default => "pending", :null => false
+    t.integer  "state_id"
+    t.integer  "country_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "email",      :default => "",        :null => false
   end
 
