@@ -15,7 +15,7 @@ adminUser = User.create( :first_name => 'admin',
                         :country_id => 233, 
                         :email => 'mbstech@mybandstock.com', 
                         :status => 'active',
-                        :agred_to_tos => true,
+                        :agreed_to_tos => true,
                         :agreed_to_pp => true)
                         
 site_admin_role = Role.create(:name => 'site_admin')

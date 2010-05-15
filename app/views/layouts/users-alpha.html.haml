@@ -39,7 +39,7 @@
         
         #header-forms
           -unless session[:auth_success]
-            -form_tag "#{SECURE_SITE_URL}/login/process_user_login" do
+            =form_tag "#{SECURE_SITE_URL}/login/process_user_login" do
               %ul#login
                 %li
                   =text_field_tag 'email', 'email', {:class => 'text', :type => 'text', :tabindex => "1"}
@@ -59,7 +59,7 @@
               =link_to "User CP", {:controller => :users, :action => 'control_panel'}
               ="-"
               =link_to "Logout", :controller => :login, :action => 'logout'
-          -form_tag('/search/results', :method => :get) do
+          =form_tag('/search/results', :method => :get) do
             %ul#search
               %li
                 =text_field_tag 'search[band_name]', nil, :id => 'search_band_name', :class => 'text', :type => 'text', :tabindex => "5"
