@@ -8,7 +8,7 @@ background-repeat:repeat-x;*/
 background-color:#37332c;
 margin:0px;
 font-family:"Trebuchet MS","Lucida Sans",Verdana,Sans-Serif;
-font-size:11px;
+font-size:12px;
 line-height:15px;
 color:#666666;
 }
@@ -46,6 +46,44 @@ a {color:#999999;text-decoration:underline;}
 			.navfaq_ON {background-position:-80px 34px;}
 			.navabout_ON {background-position:-160px 34px;}
 		
+/* TEXT */
+h1 {
+  background: url(/images/backgrounds/global/bg-content-hdr.png) no-repeat top left;
+  width: 936px;
+  height: 58px;
+  padding: 1px;
+	line-height: 58px;
+	color: #fff;
+	font-size: 1.8em;
+	font-weight: normal;
+	text-align: center;
+  position: relative;
+}
+
+h2 {
+	color: #fff;
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+h3 {
+	color: #fff;
+	font-size: 1.6em;
+	font-weight: bold;
+  margin: 2px 0 4px;
+}
+
+.notice {
+  font-style: italic;
+  margin: .5em;
+}
+
+.profile-category {
+  font-weight: bold;
+  font-size: 1.2em;
+  display: inline;
+}
+
 /* CONTENT */
 
 #content {background:#191919;margin-top:10px;}
@@ -56,6 +94,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 #searchbox {float:left;}
     #searchbox input {width:455px;height:68px;line-height:68px;background:url(/images/search_area.gif);background-repeat:no-repeat;border:none;font-size:30px;line-height:68px;color:#333333;float:left;padding:0px;padding-left:25px;margin:0px;}
+
 #searchbutton {height:68px;float:left;}
     #searchbutton input {height:68px;width:140px;float:left;padding:0px;margin:0px;background:url(/images/search_button.gif);outline:0px;border:0px;}
 		#searchbutton input:hover {height:68px;float:left;padding:0px;margin:0px;background:url(/images/search_button_over.gif);}
@@ -178,7 +217,45 @@ form.ajax_login_form {position: absolute; z-index: 3;}
 
 /*dashboard/admin_new_entry */
 div#admin_new_record_div{padding: 20px;}
+
 table.admin_new_record_table{margin: 20px;}
 table.admin_new_record_table tr td{padding: 10px;}
+
+/* Band management */
+.band-manage-box {
+  border: 1px solid #222;
+  margin: 1em;
+  padding: .5em;
+  position: relative;
+  width: 90%;
+}
+.band-schedules {
+  width: 80%;
+  margin: 1em auto;
+}
+.schedules-table {
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
+}
+.schedules-table th {
+  font-weight: bold;
+}
+.schedules-table tr {
+  border: 1px solid #333;
+}
+.schedules-table td {
+  border: 1px solid #333;
+}
+
+.band-manage-link {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: .5em;
+  font-size: 1.5em;
+}
+
 
 

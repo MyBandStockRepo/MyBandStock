@@ -1,6 +1,10 @@
 %li 
 	=f.label 'name'
 	=f.text_field :name, :class => 'text'
+
+%li 
+	=f.label 'short_name'
+	=f.text_field :short_name, :class => 'text'
   
 %li  
 	=f.label 'bio'
@@ -12,15 +16,14 @@
 	=f.text_field 'city', :class => 'required'
 
 %li
-	=f.label 'zip_code'
-	=f.text_field 'zip_code'
+	=f.label 'zipcode'
+	=f.text_field 'zipcode'
 
 %li
 	=f.label :country_id, '* Country'
 	=collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
-	%label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
 
 %li
-	=observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
+	-# =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
 	#state_select
-		=render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
+		-# =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}

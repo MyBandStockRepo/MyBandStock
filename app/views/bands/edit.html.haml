@@ -1,7 +1,7 @@
 #content-utility.control-panel
   #utility-overview
     #overview-primary
-      %h2 
+      %h3
         =@band.name 
         %br
       .stats
@@ -9,8 +9,7 @@
           %dt Date of Formation:
           %dd<
             =@band.created_at.strftime("%m/%d/%Y")
-          %dt.worth Total Net Worth:
-\          %dt Public Profile
+          %dt Public Profile
           %dd<
             =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
           -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}

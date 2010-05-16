@@ -1,32 +1,35 @@
-%h2
-  =@band.name 
-.stats
-  %dl
-    %dt Date of Formation:
-    %dd<
-      =@band.created_at.strftime("%m/%d/%Y")
-    %dt Public Profile
-    %dd<
-      =link_to "Public Profile", :controller => 'bands', :name => @band.name, :action => 'show'
-    -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
-    -if @band.hidden
-      %dt Public Profile Hidden!
+-band = band_manage
+.band-manage-box
+  %h3
+    =link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }
+  .stats
+    %dl
+      %dt Date of Formation:
       %dd<
-        =link_to 'Publish!', url_hash
-    -else
-      %dt Profile Published!
+        =band.created_at.strftime("%m/%d/%Y")
+      %dt Public profile link:
       %dd<
-        =link_to 'Hide!', url_hash
+        =link_to "Public profile", :controller => 'bands', :name => band.name, :action => 'show'
+      -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => band.id}
+      -# __commented__
+        -if band.hidden
+          %dt Public Profile Hidden!
+          %dd<
+            =link_to 'Publish!', url_hash
+        -else
+          %dt Profile Published!
+          %dd<
+            =link_to 'Hide!', url_hash
 
-.band-schedules
-  - @band.live_stream_series.each do |series|
-    .band-schedule
-      .band-schedule-title
-        = series.title
-              
-.profile-column
-  #bio.widget-box
-    %h2 Bio
-    =link_to_remote "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => @band.id}}, {:href => edit_band_url(@band), :class => 'utility-edit'}
-    #bio-content
-      =render :partial => 'bands/bio', :locals => {:band => @band}
+  =render :partial => 'bands/series_list', :locals => { :band => band }
+                
+  .profile-column
+    #bio.widget-box
+      .profile-category Bio
+      -# =link_to_remote "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => band.id}}, {:href => edit_band_url(band), :class => 'utility-edit'}
+      =link_to "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => band.id}}, {:href => edit_band_url(band), :class => 'utility-edit'}
+      #bio-content
+        =render :partial => 'bands/bio', :locals => {:band => band}
+  .band-manage-link
+    More...
+    -# =link_to_unless_current 'More...', edit_band_path :id => band.id

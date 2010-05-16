@@ -1,9 +1,10 @@
 #cp-user-info
   = render :partial => 'users/user_info', :locals => { :user => @user }
-  %h3
-    = if @bands
+  .notice
+    - if @bands
       - text = "You are a manager for the following band"
       - text << 's' if (@bands.count > 1)
+      = text << '.'
 
   = render :partial => 'bands/band_manage', :collection => @bands
 

@@ -49,8 +49,6 @@ class UsersController < ApplicationController
     @user.password = ''
     @user.password_confirmation = ''
     
-    @random_band = get_random_band()
-    
     unless @user.country_id.nil?
       @states = State.find_all_by_country_id(@user.country_id)
     else
@@ -323,18 +321,14 @@ class UsersController < ApplicationController
   
 =end  
   def control_panel
+    # This is for the user's landing / main page. He sees some basic user editing stuff.
+    #  If the user is a manager of one or more bands, he sees management listings for each band.
     authenticated?
     @user = User.find(session[:user_id])
-    @bands
-    
-    #@top_friends = @user.top_friends
-    #@top_invested_artists = @user.top_invested_artists
-    
-#    @waiting_friends = (UserFriend.find(:all, :conditions => ['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
-    #rails 3
-    #@waiting_friends = (UserFriend.where(['destination_user_id = ?', @user.id]).collect{|uf| uf.source} - @user.user_friends.collect{|u| u.destination})
 
-    @random_band = get_random_band()
+    # @bands is an array of band objects, or an empty array (never nil)
+    @bands = @user.bands
+
   end  
   
 =begin  
@@ -355,6 +349,7 @@ class UsersController < ApplicationController
 =end  
 protected
 
+=begin
   def get_random_band()
     #this gets a random band playlist w/o dying 
     random_band = nil
@@ -369,7 +364,7 @@ protected
     end
     return (random_band || Band.new)
   end
-  
+=end
   
 
 end #end controller
