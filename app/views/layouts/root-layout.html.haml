@@ -23,6 +23,8 @@
           = link_to '', login_path, :class => "nav navlogin"
 
       -if session[:user_id]
+        -if @user.nil?  # If @user was not provided, populate it here.
+          -@user = User.find(session[:user_id])
         %div{ :style => 'float: right; color: red; margin-right: 10px' }
           Logged in as
           = link_to @user.email, '/me/control_panel'
