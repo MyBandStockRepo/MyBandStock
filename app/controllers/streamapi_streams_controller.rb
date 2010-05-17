@@ -1,4 +1,112 @@
+require 'builder'
+require 'net/http'
+require 'uri'
+require 'rexml/document'
+include REXML
+
 class StreamapiStreamsController < ApplicationController
+
+
+## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
+
+
+ protect_from_forgery :only => [:create, :update]
+ before_filter :only => :post, :only => [:create, :update] 
+ before_filter :authenticated?, :except => [:show]
+
+  def callback
+  # doesn't work correctly
+=begin
+#    @xml = Builder::XmlMarkup.new
+    @cuser = "bobby@mybandstock.com"
+    @cpass = "life347"
+    @action = params[:action]
+    @user = params[:username]
+    @pass = params[:password]
+    @public_hostid = params[:public_hostid]
+    @userip = params[:userip]
+    @code = "8"
+    
+		if (@action == "login" && @user == @cuser && @pass == @cpass)
+			@code = "0"
+		end
+    
+#    respond_to do |format|
+#    	format.xml  { render :xml => @xml}
+#    end
+=end
+  end
+	
+	
+	
+	
+	
+	def view
+		if request.xhr?
+			render :layout => false
+		end
+		@public_hostid = params[:id]
+
+	end
+	
+	
+	
+	
+	
+	
+	
+	def broadcast
+		if request.xhr?
+			render :layout => false
+		end
+  	apiurl = 'http://api.streamapi.com/service/session/create'
+  	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
+  	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
+  	apiridnum = (Time.now.to_f * 100000).to_i
+  	apirid = apiridnum.to_s
+  	
+  	apisig = Digest::MD5.hexdigest(apikey+apisecretkey+apirid)
+  
+		url = URI.parse(apiurl)
+		req = Net::HTTP::Post.new(url.path)
+		req.set_form_data({:key=>apikey, :rid=>apirid, :sig=>apisig})
+		res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
+		case res
+		when Net::HTTPSuccess, Net::HTTPRedirection
+			doc = Document.new(res.body)
+	
+			code = XPath.first(doc, "//code") { |e| puts e.text }
+			for c in code
+				c = c.to_s
+			end
+			code = c.to_s
+			
+			if (code == "0")
+				#OK
+				@private_hostid = XPath.first( doc, "//private_hostid" ) { |e| puts e.text }
+				for p in @private_hostid
+					p = p.to_s
+				end
+				@private_hostid = p.to_s
+				
+				@public_hostid = XPath.first( doc, "//public_hostid" ) { |e| puts e.text }
+				for p in @public_hostid
+					p = p.to_s
+				end
+				@public_hostid = p.to_s
+				#flash[:notice] = "API Call Success: "+apirid+" "+apisig+" "+code + " "+@public_hostid+" "+@private_hostid
+				flash[:notice] = "Streaming Video!"
+			else
+				#flash[:notice] = "API Call Success, but bad response (error code" + code+"): "+res.body 		
+				flash[:error] = "Error"
+	
+			end
+		else
+			res.error!
+		end
+	end
+
+
   # GET /streamapi_streams
   # GET /streamapi_streams.xml
   def index
