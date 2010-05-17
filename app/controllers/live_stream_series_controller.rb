@@ -1,13 +1,11 @@
 class LiveStreamSeriesController < ApplicationController
+  respond_to :html, :js, :xml
+  
   # GET /live_stream_series
   # GET /live_stream_series.xml
   def index
     @live_stream_series = LiveStreamSeries.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @live_stream_series }
-    end
+    respond_with(@live_stream_series)
   end
 
   # GET /live_stream_series/1
@@ -15,10 +13,7 @@ class LiveStreamSeriesController < ApplicationController
   def show
     @live_stream_series = LiveStreamSeries.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @live_stream_series }
-    end
+    respond_with(@live_stream_series)
   end
 
   # GET /live_stream_series/new
@@ -26,15 +21,14 @@ class LiveStreamSeriesController < ApplicationController
   def new
     @live_stream_series = LiveStreamSeries.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @live_stream_series }
-    end
+    respond_with(@live_stream_series)
   end
 
   # GET /live_stream_series/1/edit
   def edit
     @live_stream_series = LiveStreamSeries.find(params[:id])
+    
+    respond_with(@live_stream_series)
   end
 
   # POST /live_stream_series
