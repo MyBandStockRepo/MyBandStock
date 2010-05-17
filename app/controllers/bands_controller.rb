@@ -144,8 +144,7 @@ class BandsController < ApplicationController
       redirect_to session[:last_clean_url]
       return false
     end
-=end
-    
+=end    
     @band = Band.new(params[:band])
 =begin
     @band.short_name.downcase!

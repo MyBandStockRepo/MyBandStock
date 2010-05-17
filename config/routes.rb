@@ -16,6 +16,12 @@ Cobain::Application.routes.draw do |map|
 
   resources :live_stream_series_permissions
 
+  
+  #stream methods
+match '/streamapi_streams/view', :to => 'streamapi_streams#view'  
+match '/streamapi_streams/broadcast', :to => 'streamapi_streams#broadcast'      
+match '/streamapi_streams/callback', :to => 'streamapi_streams#callback'   
+
   resources :streamapi_streams
 
   resources :associations
@@ -126,7 +132,7 @@ Cobain::Application.routes.draw do |map|
 #  match '/me/purchases', :to => 'users#purchases'
   
   #band public profile
-#  match ':name/profile', :to => 'bands#show'
+  match ':name/profile', :to => 'bands#show'
   
   #users stuff
   match 'users/edit', :to => 'users#edit'
@@ -210,7 +216,5 @@ Cobain::Application.routes.draw do |map|
   
   match '/:one_term', :to => 'search#one_term_url'
   
-  
-  
-    
+   
 end

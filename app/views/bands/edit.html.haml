@@ -13,7 +13,7 @@
           %dd<
             =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
           -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
-          -if @band.hidden
+          -if @band.status != 'active'
             %dt Public Profile Hidden!
             %dd<
               =link_to 'Publish!', url_hash

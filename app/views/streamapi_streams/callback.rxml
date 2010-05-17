@@ -1,0 +1,6 @@
+xml = Builder::XmlMarkup.new
+xml.instruct!
+xml.response do  
+	xml.code(@code)
+end
+xml

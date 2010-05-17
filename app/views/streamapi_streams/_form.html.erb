@@ -14,17 +14,21 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.datetime_select :start_time %>
+    <%= f.label :starts_at %><br />
+    <%= f.datetime_select :starts_at %>
   </div>
   <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.datetime_select :end_time %>
+    <%= f.label :ends_at %><br />
+    <%= f.datetime_select :ends_at %>
   </div>
   <div class="field">
-    <%= f.label :quality %><br />
-    <%= f.text_field :quality %>
+    <%= f.label :layout_path %><br />
+    <%= f.text_field :layout_path %>
   </div>
+  <div class="field">
+    <%= f.label :skin_path %><br />
+    <%= f.text_field :skin_path %>
+  </div>  
   <div class="field">
     <%= f.label :public %><br />
     <%= f.check_box :public %>
