@@ -39,37 +39,39 @@ jm = User.create( :first_name => 'John-Michael',
 #grant admin
 jm.roles << site_admin_role
 #create some test bands
-=begin
+
 b_amp = Band.create(  :name => 'After Midnight Project',
                   :short_name => 'amp',
                   :country_id => 232,
                   :zipcode => '90001',
-                  :city => 'LA')
- =end
+                  :city => 'LA',
+                  :bio => 'After Midnight Project began in 2004 in Los Angeles, California. They are known for their energetic live shows, extensive touring, and close connection to fans. With the release of their EP, The Becoming, in 2007, they caught the attention of Universal Motown and were signed.'
+        )
 b_dos = Band.create(  :name => 'The Dosimeters',
                   :short_name => 'the_dosimeters',
                   :country_id => 232,
                   :zipcode => '48116',
                   :city => 'Brighton')
-=begin
 b_flo = Band.create(  :name => 'Flobots',
                   :short_name => 'flobots',
                   :country_id => 232,
                   :zipcode => '80201',
                   :city => 'Denver')
-=end
 #make user-band associations
-#jm.associations.create(:band_id => b_dos.id, :name => 'admin')
+jm.associations.create(:band_id => b_dos.id, :name => 'admin')
 
-#admin.associations.create(:band_id => b_amp.id, :name => 'admin')
-#admin.associations.create(:band_id => b_flo.id, :name => 'admin')
-#admin.associations.create(:band_id => b_dos.id, :name => 'admin')
+adminUser.associations.create(:band_id => b_amp.id, :name => 'admin')
+adminUser.associations.create(:band_id => b_flo.id, :name => 'admin')
+adminUser.associations.create(:band_id => b_dos.id, :name => 'admin')
 
 
-#create an LSS
-lss = b.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
+#create some LSSs
+lss_amp = b_amp.live_stream_series.create(:title => 'Warped Tour Twenty Ten',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
+lss_amp2 = b_amp.live_stream_series.create(:title => 'Summer tour',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
+lss_dos = b_dos.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
+
 #create some StreamAPI streams (fake of course)
-lss.streamapi_streams.create( :private_hostid => 123,
+lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
                               :title => 'act 1',
                               :starts_at => 1.weeks.from_now,
@@ -77,9 +79,9 @@ lss.streamapi_streams.create( :private_hostid => 123,
                               :layout_path => 'noobs',
                               :skin_path => 'l337',
                               :public => false,
-                              :band_id => b.id )
+                              :band_id => b_dos.id )
                               
-lss.streamapi_streams.create( :private_hostid => 1234,
+lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :public_hostid => 1234,
                               :title => 'act 2',
                               :starts_at => 2.weeks.from_now,
@@ -87,9 +89,9 @@ lss.streamapi_streams.create( :private_hostid => 1234,
                               :layout_path => 'noobs',
                               :skin_path => 'l337',
                               :public => false,
-                              :band_id => b.id )
+                              :band_id => b_dos.id )
 
-lss.streamapi_streams.create( :private_hostid => 12345,
+lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :public_hostid => 12345,
                               :title => 'act 3, the COOOLEST ACT',
                               :starts_at => 3.weeks.from_now,
@@ -97,7 +99,70 @@ lss.streamapi_streams.create( :private_hostid => 12345,
                               :layout_path => 'noobs',
                               :skin_path => 'l337',
                               :public => false,
-                              :band_id => b.id )
+                              :band_id => b_dos.id )
+
+
+lss_amp.streamapi_streams.create(
+                              :private_hostid => 123456,
+                              :public_hostid => 123456,
+                              :title => 'Home Depot Center - Carson, CA',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
+lss_amp.streamapi_streams.create(
+                              :private_hostid => 1234567,
+                              :public_hostid => 1234567,
+                              :title => 'Shoreline Amphitheatre - Mountain View, CA',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
+lss_amp.streamapi_streams.create(
+                              :private_hostid => 12345678,
+                              :public_hostid => 12345678,
+                              :title => 'Cricket Pavilion - Phoenix, AZ',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
+lss_amp.streamapi_streams.create(
+                              :private_hostid => 123456789,
+                              :public_hostid => 123456789,
+                              :title => 'AT&T Center - San Antonio, TX',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
+
+lss_amp2.streamapi_streams.create(
+                              :private_hostid => 01,
+                              :public_hostid => 01,
+                              :title => 'Comerica Park - Detroit, MI',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
+lss_amp2.streamapi_streams.create(
+                              :private_hostid => 012,
+                              :public_hostid => 012,
+                              :title => 'Danny\'s Bar Mitzvah - Brighton, MI',
+                              :starts_at => 3.weeks.from_now,
+                              :ends_at => (3.weeks.from_now + 4.hours),
+                              :layout_path => 'layoutPath123',
+                              :skin_path => 'skinPath123',
+                              :public => false,
+                              :band_id => b_amp.id )
 
 
 #create Brians stuff

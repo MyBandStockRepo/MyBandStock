@@ -1,0 +1,18 @@
+= form_for(@live_stream_series) do |f|
+  = f.error_messages
+
+  .field
+    = f.label :title
+    %br
+    = f.text_field :title
+  .field
+    = f.label :start_time
+    %br
+    = f.text_field :start_time
+  .field
+    = f.label :end_time
+    %br
+    = f.text_field :end_time
+  .actions
+    = f.submit
+
