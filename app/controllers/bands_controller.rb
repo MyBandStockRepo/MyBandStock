@@ -12,7 +12,7 @@ class BandsController < ApplicationController
   
   def show
     id = get_band_id_from_request()
-    @band = Band.find(id, :include => [:concerts, :news_entries, :stage_comments])
+    @band = Band.find(id) #, :include => [:concerts, :news_entries, :stage_comments])
     
     #make sure the band isn't hidden
     if @band.status != "active"
