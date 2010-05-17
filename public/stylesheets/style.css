@@ -263,5 +263,11 @@ table.admin_new_record_table tr td{padding: 10px;}
   font-size: 1.5em;
 }
 
+.add-band {
+  position: absolute;
+  top: 10em;
+  right: 3em;
+}
+
 
 

@@ -8,6 +8,10 @@
 
   = render :partial => 'bands/band_manage', :collection => @bands
 
+  -if @user.site_admin
+    .add-band
+      = link_to 'New band', new_band_path
+
 -# __commented
   #primary-content
     #header
