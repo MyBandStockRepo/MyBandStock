@@ -39,8 +39,14 @@ class ApplicationController < ActionController::Base
     #  redirect_to :controller => 'application', :action => 'event_splash'
     #  return
     #end
-    
+    if (session[:user_id])
+      @user = User.find(session[:user_id])
+      redirect_to '/me/control_panel'
+    end
     @bands = Band.all(:limit => 10)
+    if (session[:user_id])
+      @user = User.find(session[:user_id])
+    end
   end
   
   def event_splash
@@ -50,6 +56,8 @@ class ApplicationController < ActionController::Base
   
   def fan_home
     @bodytag_id = "homepages"
+    authenticated?
+
 =begin
     @spotlight_bands = Band.where(['status = ?', 'active'], :order => 'RAND()', :limit => 10)
     if @user = User.find_by_id(session[:user_id])

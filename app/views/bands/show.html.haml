@@ -8,11 +8,15 @@
         %dl
           %dd<
             =@band.created_at.strftime("%m/%d/%Y")
-          %dt.worth Total Shares:
 
 #content-primary
   .profile-column
+    -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
+      #manage-band
+        %p You are a manager for this band.
+        =link_to_unless_current 'Manage', edit_band_path, :id => @band.id
     #bio.widget-box
-      %h2 Bio
+      .profile-category Bio
       #bio-content
-        %p =@band.bio
+        %p
+          =@band.bio

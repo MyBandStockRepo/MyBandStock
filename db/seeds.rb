@@ -28,8 +28,9 @@ adminUser.roles << site_admin_role
 #create JM's stuff
 jm = User.create( :first_name => 'John-Michael',
                   :last_name => 'Fischer',
-                  :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
-                  :password_confirmation => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
+                  :password => Digest::SHA2.hexdigest('test123'),
+                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
+                  :zipcode => '48116',
                   :country_id => 233,
                   :email => 'jm@mybandstock.com',
                   :status => 'active',
@@ -40,9 +41,11 @@ jm.roles << site_admin_role
 #create a band
 b = Band.create(  :name => 'The Dosimeters',
                   :short_name => 'the_dosimeters',
-                  :country_id => 233)
+                  :country_id => 233,
+                  :zipcode => '48116',
+                  :city => 'Brighton')
 #make me an admin
-jm.associations.create(:band_id => b.id, :type => 'admin')
+jm.associations.create(:band_id => b.id, :name => 'admin')
 #create an LSS
 lss = b.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 #create some StreamAPI streams (fake of course)
@@ -80,8 +83,8 @@ lss.streamapi_streams.create( :private_hostid => 12345,
 #create Brians stuff
 brian = User.create( :first_name => 'Brian',
                   :last_name => 'Jennings',
-                  :password => 'test',
-                  :password_confirmation => 'test',
+                  :password => Digest::SHA2.hexdigest('test123'),
+                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'brian@mybandstock.com',
                   :status => 'active',
@@ -91,11 +94,15 @@ brian = User.create( :first_name => 'Brian',
 #create Jakes stuff
 jake = User.create( :first_name => 'Jake',
                   :last_name => 'Schwartz',
-                  :password => 'test',
-                  :password_confirmation => 'test',
+                  :password => Digest::SHA2.hexdigest('test123'),
+                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'jake@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
 
+
+adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
+#r = User.find(adminUser.id).roles.create(:name => 'site_admin')
+#roles = Role.create(:name => 'staff')

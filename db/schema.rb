@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
   end
 
   create_table "associations", :force => true do |t|
-    t.string   "type",       :null => false
+    t.string   "name",       :null => false
     t.integer  "user_id"
     t.integer  "band_id"
     t.datetime "created_at"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
   create_table "bands", :force => true do |t|
     t.string   "name",                                   :null => false
     t.string   "short_name",                             :null => false
-    t.text     "bio",                                    :null => false
+    t.text     "bio"
     t.boolean  "terms_of_service", :default => false,    :null => false
     t.string   "city",                                   :null => false
-    t.integer  "zip_code",                               :null => false
+    t.integer  "zipcode",                                :null => false
     t.string   "band_photo"
     t.string   "status",           :default => "active", :null => false
     t.string   "twitter_user"

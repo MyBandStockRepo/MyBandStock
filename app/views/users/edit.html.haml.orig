@@ -12,7 +12,12 @@
 
       %ul.form-fields
         =render :partial => 'required_form', :locals => {:f => f, :states => @states}
+<<<<<<< HEAD
+      -#
+        =render :partial => 'form', :locals => {:f => f}
+=======
         -#=render :partial => 'form', :locals => {:f => f}
+>>>>>>> master
         -# =render :partial => 'users/user_photo_form', :locals => {:user => @user}
       =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
       

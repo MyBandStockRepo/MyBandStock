@@ -1,6 +1,6 @@
 class LiveStreamSeries < ActiveRecord::Base
 	has_many :live_stream_permissions
 	belongs_to :band
-	belongs_to :api_user
-	has_many :streamapi_stream, :as => :stream
+	has_and_belongs_to_many :api_user
+	has_many :streamapi_streams
 end

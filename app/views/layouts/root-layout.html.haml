@@ -1,160 +1,48 @@
-!!! STRICT
-%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+!!! 5
+%html
   %head
-    %title
-      MyBandStock - The Music Revolution
-    %meta{'http-equiv' => 'Content-Type', :content => 'text/html'}
-    = stylesheet_link_tag "global"
-    -# = stylesheet_link_tag "sIFR-screen.css", :media => 'screen'
-    -# = stylesheet_link_tag "sIFR-print.css", :media => 'print'
-    = stylesheet_link_tag "/shadowbox/skin/classic/skin.css", :media => 'screen'
-    <!--[if lte IE 7]>
-    = stylesheet_link_tag "ie.css", :media => 'screen'
-    <![endif]-->
-    %link{:rel => "icon", :type => "image/ico", :href => "/favicon.ico"}
+    %title Cobain
+    -# = stylesheet_link_tag :all
+    = stylesheet_link_tag :all
     = javascript_include_tag :defaults
-    -# = javascript_include_tag "sifr.js"
-    -# = javascript_include_tag "sifr-config.js"
-    = javascript_include_tag "shadowbox-2.0.js"
-    = javascript_include_tag "/shadowbox/skin/classic/skin.js"
-    = javascript_include_tag "flash_helper.js"
-    <!--[if IE 6]>
-    = javascript_include_tag "dd_roundies.js"
-    = javascript_include_tag "png-fix.js"
-    <![endif]-->
-    :javascript
-      var options = {
-          resizeDuration:     '.11'
-      };
-      
-      Event.observe(window, 'load', function() {
-        Shadowbox.init(options);
-      });
-  %body{:id => (@bodytag_id ? @bodytag_id : bodytag_id)}
-    #page-wrapper
+    = csrf_meta_tag
+  %body
+    #wrap
       #header
-        %h1 
-          =link_to 'mybandstock.com<em>The Music Revolution</em>', :controller => 'application', :action => 'index'
-          %strong cobain
-        
-        #header-forms
-          -# __commented__
-          -unless session[:auth_success]
-            =form_tag "#{SECURE_SITE_URL}/login/process_user_login" do
-              %ul#login
-                %li
-                  =text_field_tag 'email', 'email', {:class => 'text', :type => 'text', :tabindex => "1"}
-                  =check_box_tag 'remember','1', false, {:class => 'checkbox', :tabindex => "3"}
-                  =label_tag 'Remember Me'
-                %li
-                  =password_field_tag 'password', 'Password', {:class => 'text', :type => 'text', :tabindex => "2"}
-                  =link_to 'Forgot your password?', :controller => 'login', :action => 'password_reminder'
-                %li
-                  =submit_tag "Login", :name => 'loginSubmit', :tabindex => "4", :id => 'login-submit', :class => 'submit', :type => 'image', :src => image_path('buttons/global/btn-login.gif')
-          -else
-            .user
-              =User.find(session[:user_id]).first_name + ' - '
-              -if cp_association = User.find(session[:user_id]).associations.find(:first, :conditions => ['type = ?', 'admin'])
-                =link_to 'Band CP', :controller => 'bands', :action => 'control_panel', :band_short_name => cp_association.band.short_name
-                ="-"
-              =link_to "User CP", {:controller => :users, :action => 'control_panel'}
-              ="-"
-              =link_to "Logout", :controller => :login, :action => 'logout'
-          =form_tag('/search/results', :method => :get) do
-            %ul#search
-              %li
-                =text_field_tag 'search[band_name]', nil, :id => 'search_band_name', :class => 'text', :type => 'text', :tabindex => "5"
-              %li
-                %input{:name => 'searchSubmit', :id => 'search-submit', :class => 'submit', :type => 'image', :src => '/images/buttons/global/btn-search.gif'}
-          
-          
-        %ul#primary-nav
-          %li#home-nav<
-            -if session[:user_id]
-              =link_to 'Home', '/me/control_panel'
-            -else
-              =link_to 'Home', '/'
-          %li#search-nav<
-            =link_to 'Search', :controller => 'search', :action => 'results'
-          %li#blog-nav<
-            =link_to 'Blog', 'http://blog.mybandstock.com'
-          %li#faq-nav<
-            =link_to 'FAQ', :controller => 'help_articles', :action => 'faq'
-          %li#about-nav<
-            =link_to 'About', :controller => :corporate, :action => 'about'
-          %li#contact-nav<
-            =link_to 'Contact', :controller => :corporate, :action => 'contact'
+        #head_top
+          -# = link_to( image_tag ('/images/mbs_logo.gif', :alt => 'MyBandStock'), root_path )
+          = image_tag ('/images/mbs_logo.gif', :alt => 'MyBandStock')
+        #head_bottom
+          #logo_float
+            = link_to '', root_path, :class => 'navlogo'
+
+          = link_to '', bands_path(:page => 1), :class => 'nav navbands'
+          = link_to '', root_path, :class => 'nav navfaq'
+          = link_to '', root_path, :class => 'nav navabout'
+          = link_to "", "http://blog.mybandstock.com/", :class => "nav navblog"
+          = link_to '', login_path, :class => "nav navlogin"
+
+      -if session[:user_id]
+        -if @user.nil?  # If @user was not provided, populate it here.
+          -@user = User.find(session[:user_id])
+        %div{ :style => 'float: right; color: red; margin-right: 10px' }
+          Logged in as
+          = link_to @user.email, '/me/control_panel'
+          /
+          = link_to 'Logout', logout_url
+  
+      -if flash[:logout]
+        #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
+          = flash[:logout]
+
       #content
-        %error_messages
-        -unless flash[:notice].blank?
-          .notice
-            =flash[:notice]
-        =yield
-      #site-info
-        %ul
-          %li
-            %h3 Main
-            %ul
-              %li
-                =link_to 'Fan Home', :controller => 'application', :action => 'fan_home'
-              %li
-                =link_to 'Band Home', :controller => 'application', :action => 'band_home'
-              %li
-                =link_to 'Search', :controller => 'search', :action => 'results'
-              %li
-                =link_to 'About', :controller => 'corporate', :action => 'about' 
+        = yield
+      -# =image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; position: absolute; margin-top: -60px; margin-left: 450px", :size => '25x25'
 
-          %li
-            %h3 Account
-            %ul
-              -if session[:user_id]
-                %li
-                  =link_to 'Logout', '/logout'
-              -else
-                %li
-                  =link_to 'Login', :controller => 'login', :action => 'user'
-              %li
-                =link_to 'Profile', '/me/control_panel'
-              %li
-                =link_to 'Account Settings', "/me/account"
-              %li
-                =link_to 'Mail', :controller => 'users', :action => 'inbox' 
-          %li
-            %h3 Help
-            %ul
-              %li
-                =link_to 'Frequently Asked Questions', :controller => 'help_articles', :action => 'faq'
-              %li
-                =link_to 'How MBS Works', :controller => 'help_articles', :action => 'how_it_works'
-              %li
-                =link_to 'Press', :controller => 'corporate', :action => 'press'
-              %li
-                =link_to 'Contact', :controller => 'corporate', :action => 'contact'
-        #footer
-          %p.copy
-            MyBandStock &copy 2010
-          %ul
-            %li
-              =link_to 'About Us', :controller => 'corporate', :action => 'about'
-            %li
-              =link_to 'Contact Us', :controller => 'corporate', :action => 'contact'
-            %li
-              =link_to 'Privacy Policy', :controller => 'legal', :action => 'privacy_policy'
-        .disclaimer
-          %p
-            I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary
-            value and are NOT securities under United States Code Title 15, Chapter 2B § 78c or any other applicable law"
-          %p
-            For more info visit our 
-            =link_to 'Fan Agreement (PDF 72kb)', "/docs/fan_agreement.pdf"  
-            \or 
-            =link_to 'Band Agreement (PDF 135kb)', "/docs/band_agreement.pdf"
-    :javascript 
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    :javascript
-      try {
-        var pageTracker = _gat._getTracker("UA-6679666-1");
-        pageTracker._trackPageview();
-      } catch(err) {}
-
+      #footer
+        #securities
+          I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law 
+          -# = link_to "Privacy Policy", "http://alpha.mybandstock.com/legal/privacy_policy"
+        #copyright
+          &copy; 2010 MyBandStock Corporation - All Rights Reserved
+        .clear

@@ -33,13 +33,13 @@ class User < ActiveRecord::Base
   validates_presence_of :password
   validates_presence_of :password_confirmation, :on => :create
   validates_confirmation_of :password, :on => :create
-  validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
-  validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
+  #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
+  #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
 
   #field specific
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
-  validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil?}
+  validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
   validates_numericality_of :country_id
   
@@ -70,6 +70,9 @@ class User < ActiveRecord::Base
   # Input priv_hash looks like:
   #   { :can_view => 1, :can_listen => 0, :stream_quality_level => 'high' }
   # where can_view is set to 1, etc, and can_chat is left alone (because it was unspecified)
+
+  # TODO streamseries_permissionObject.update(hash)
+  #   http://api.rubyonrails.org/classes/ActiveRecord/Base.html#M002270
     
     if (priv_hash.nil? || email.nil?)
       return false
@@ -84,6 +87,7 @@ class User < ActiveRecord::Base
                 (priv_value != 1 || priv_value != 0) ||
                 !possible_privs.include?(priv_name)
               )
+        
         user[priv_name] = priv_value
       end
     end
