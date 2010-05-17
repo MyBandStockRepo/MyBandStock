@@ -20,7 +20,6 @@ end
 
 def new
   @association = Association.new()
-asdf
   respond_to do |format|
       format.html {
                     @users = User.all
