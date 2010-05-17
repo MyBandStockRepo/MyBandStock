@@ -86,7 +86,10 @@ h3 {
 
 /* CONTENT */
 
-#content {background:#191919;margin-top:10px;}
+#content {
+  position: relative;
+  background:#191919;margin-top:10px;
+}
 	#slides {height:400px;}
 	#search {width:620px;margin-left:180px;padding-top:20px;}
 
@@ -261,12 +264,6 @@ table.admin_new_record_table tr td{padding: 10px;}
   bottom: 0;
   margin: .5em;
   font-size: 1.5em;
-}
-
-.add-band {
-  position: absolute;
-  top: 10em;
-  right: 3em;
 }
 
 
