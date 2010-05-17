@@ -219,7 +219,7 @@ class ApplicationController < ActionController::Base
   def get_band_id_from_request()
     id = nil #init ret val
     #if we got nothing send em away
-    if params[:id].nil? && params[:band_short_name].nil?
+    if params[:id].nil? && params[:band_short_name].nil? && params[:band_id].nil?
       redirect_to bands_path
     end
     
@@ -233,8 +233,8 @@ class ApplicationController < ActionController::Base
       #make sure the params id corresponds to a band
       if !params[:id].nil? && Band.find_by_id(params[:id])
         id = params[:id]
-      else
-        redirect_to bands_path
+      elsif !params[:band_id].nil? && Band.find_by_id(params[:band_id])
+        id = params[:band_id]
       end
     else
       id = band.id
