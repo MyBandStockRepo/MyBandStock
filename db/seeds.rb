@@ -38,14 +38,34 @@ jm = User.create( :first_name => 'John-Michael',
                   :agreed_to_pp => true)
 #grant admin
 jm.roles << site_admin_role
-#create a band
-b = Band.create(  :name => 'The Dosimeters',
+#create some test bands
+=begin
+b_amp = Band.create(  :name => 'After Midnight Project',
+                  :short_name => 'amp',
+                  :country_id => 232,
+                  :zipcode => '90001',
+                  :city => 'LA')
+ =end
+b_dos = Band.create(  :name => 'The Dosimeters',
                   :short_name => 'the_dosimeters',
-                  :country_id => 233,
+                  :country_id => 232,
                   :zipcode => '48116',
                   :city => 'Brighton')
-#make me an admin
-jm.associations.create(:band_id => b.id, :name => 'admin')
+=begin
+b_flo = Band.create(  :name => 'Flobots',
+                  :short_name => 'flobots',
+                  :country_id => 232,
+                  :zipcode => '80201',
+                  :city => 'Denver')
+=end
+#make user-band associations
+#jm.associations.create(:band_id => b_dos.id, :name => 'admin')
+
+#admin.associations.create(:band_id => b_amp.id, :name => 'admin')
+#admin.associations.create(:band_id => b_flo.id, :name => 'admin')
+#admin.associations.create(:band_id => b_dos.id, :name => 'admin')
+
+
 #create an LSS
 lss = b.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 #create some StreamAPI streams (fake of course)
@@ -103,6 +123,6 @@ jake = User.create( :first_name => 'Jake',
                   :agreed_to_pp => true)
 
 
-adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
+#adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
 #r = User.find(adminUser.id).roles.create(:name => 'site_admin')
 #roles = Role.create(:name => 'staff')
