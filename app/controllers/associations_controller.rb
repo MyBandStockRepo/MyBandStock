@@ -20,9 +20,10 @@ end
 
 def new
   @association = Association.new()
-  
+asdf
   respond_to do |format|
       format.html {
+                    @users = User.all
                     @bands = Band.find_all_by_id(User.find(session[:user_id]).associations.reject{|a| a.name == "fan"}.collect{|a| a.band_id}.uniq, :order => "bands.id desc") 
                   }
       format.js
@@ -48,13 +49,16 @@ def create
   end
   
   
-  
+
   respond_to do |format|
     format.html {
                    if success
                     flash[:notice] = 'Association was successfully created.'
+
                     redirect_to session[:last_clean_ur]
                   else
+                    @users = User.all
+                    @bands = Band.find_all_by_id(User.find(session[:user_id]).associations.reject{|a| a.name == "fan"}.collect{|a| a.band_id}.uniq, :order => "bands.id desc") 
                     render :action => :new
                   end
                 }

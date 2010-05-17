@@ -1,6 +1,7 @@
 %li    
   =f.label 'email', 'Email'
-  =text_field_tag 'association[email]', @user_email
+  =collection_select(:association, :user_id, @users, :id, :email, :class => 'required')
+  -# =text_field_tag 'association[email]', @user_email
 %li    
   =f.label 'name', 'Role'
   =select("association", "name", { "Admin" => "admin", "Band Member" => "member"}) 

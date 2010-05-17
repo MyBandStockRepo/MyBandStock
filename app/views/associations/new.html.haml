@@ -7,7 +7,8 @@
       =error_messages_for :association
       %ul.form-fields
         %li
-          =f.label :band_id, "Band" +collection_select(:association, :band_id, @bands, :id, :name), :class => 'required'
+          =f.label :band_id, "Band"
+          =collection_select(:association, :band_id, @bands, :id, :name, :class => 'required')
         =render :partial => 'associations/form', :locals => { :f => f }    
       =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
 

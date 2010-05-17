@@ -139,10 +139,12 @@ class BandsController < ApplicationController
     #bring in the user first and last name
     @user = User.find(session[:user_id])
     
+=begin
     unless ( @application = @user.band_applications.find_by_approved_and_created(true, false) )
       redirect_to session[:last_clean_url]
       return false
     end
+=end
     
     @band = Band.new(params[:band])
 =begin
