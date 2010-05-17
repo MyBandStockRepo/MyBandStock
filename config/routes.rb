@@ -6,6 +6,7 @@ Cobain::Application.routes.draw do |map|
   match 'api/change_stream_permission', :to => 'api#change_stream_permission'
   match 'api', :to => 'api#index'
 
+  match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
   
 
   
@@ -130,6 +131,7 @@ match '/streamapi_streams/callback', :to => 'streamapi_streams#callback'
   match '/me/profile', :to => 'users#show'
 #  match '/me/inbox', :to => 'users#inbox'
 #  match '/me/purchases', :to => 'users#purchases'
+  match '/access_schedule/:id', :to => 'asdf#test'
   
   #band public profile
   match ':name/profile', :to => 'bands#show'

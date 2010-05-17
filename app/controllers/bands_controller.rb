@@ -12,11 +12,17 @@ class BandsController < ApplicationController
   
   def show
     id = get_band_id_from_request()
-    @band = Band.find(id) #, :include => [:concerts, :news_entries, :stage_comments])
+    @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
     
     #make sure the band isn't hidden
     if @band.status != "active"
       render :action => 'is_hidden'
+    end
+
+    if (@band && @band.live_stream_series )
+      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
+        @band.live_stream_series.includes(:streamapi_streams)
+      end
     end
     
     #create the list vars

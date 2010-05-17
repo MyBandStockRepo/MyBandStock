@@ -1,3 +1,12 @@
+:javascript
+  $(function() {
+    $('a.lightbox').fancybox ({
+      'transitionIn': 'fade',
+      'transitionOut': 'fade',
+      'type': 'iframe'
+    });
+  })
+
 #content-utility.control-panel
   #utility-overview
     #overview-primary
@@ -20,3 +29,15 @@
       #bio-content
         %p
           =@band.bio
+  .access-schedule
+    =# render :controller => 'live_stream_series', :action => "by_band" #, :layout => false
+    = render :partial => 'live_stream_series/by_band', :locals => { :band => @band }
+
+#remote-page-test
+  %br
+  %h2
+    Underoath777.com
+  %br
+  %strong
+    =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
+

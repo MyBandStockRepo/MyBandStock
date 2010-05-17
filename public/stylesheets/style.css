@@ -48,7 +48,7 @@ a {color:#999999;text-decoration:underline;}
 		
 /* TEXT */
 h1 {
-  background: url(/images/backgrounds/global/bg-content-hdr.png) no-repeat top left;
+  /*background: url(/images/backgrounds/global/bg-content-hdr.png) no-repeat top left; */
   width: 936px;
   height: 58px;
   padding: 1px;
@@ -180,6 +180,12 @@ a.bandlink {padding-left:10px;}
 span.number_count {width:100px;position:absolute; right: 40px; text-align:right;}
 
 
+.access-schedule-list li {
+  text-indent: 1em;
+}
+.access-schedule-list .stream-name {
+  text-indent: .5em
+}
 
 /* ABOUT US */
 
