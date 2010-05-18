@@ -60,6 +60,8 @@ b_flo = Band.create(  :name => 'Flobots',
                   :zipcode => '80201',
                   :city => 'Denver')
 #make user-band associations
+jm.associations.create(:band_id => b_amp.id, :name => 'admin')
+jm.associations.create(:band_id => b_flo.id, :name => 'admin')
 jm.associations.create(:band_id => b_dos.id, :name => 'admin')
 
 adminUser.associations.create(:band_id => b_amp.id, :name => 'admin')
