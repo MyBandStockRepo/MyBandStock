@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
     #  redirect_to :controller => 'application', :action => 'event_splash'
     #  return
     #end
+
     if (session[:user_id])
       @user = User.find(session[:user_id])
       redirect_to '/me/control_panel'

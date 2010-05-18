@@ -1,0 +1,68 @@
+:javascript
+	$(function() {
+  
+		$('.lightbox a').fancybox({
+			'transitionIn'	:	'fade',
+			'transitionOut'	:	'fade',
+			'overlayOpacity' : 0.6,
+			'overlayColor' : 'black'
+		
+		});
+	});
+
+
+%h1 Listing streamapi_streams
+
+%table
+	%tr
+		%th Private hostid
+		%th Public hostid
+		%th Title
+		%th Starts At
+		%th Ends At
+		%th Layout Path
+		%th Skin Path    
+		%th Public
+		%th
+		%th
+		%th
+		%th
+		%th
+		
+	- @streamapi_streams.each do |streamapi_stream|
+		%tr
+			%td
+				= streamapi_stream.private_hostid
+			%td
+				= streamapi_stream.public_hostid
+			%td
+				= streamapi_stream.title
+			%td
+				= streamapi_stream.starts_at
+			%td
+				= streamapi_stream.ends_at
+			%td
+				= streamapi_stream.layout_path
+			%td
+				= streamapi_stream.skin_path
+			%td
+				= streamapi_stream.public
+			%td
+				= link_to 'Show', streamapi_stream
+			%td
+				= link_to 'Edit', edit_streamapi_stream_path(streamapi_stream)
+			%td
+				= link_to 'Destroy', streamapi_stream, :confirm => 'Are you sure?', :method => :delete
+			%td
+				.lightbox
+					= link_to 'Broadcast', :action => 'broadcast', :id => streamapi_stream.id
+			%td
+				.lightbox
+					= link_to 'View', :action => 'view', :id => streamapi_stream.id
+			
+%br
+
+
+
+
+= link_to 'New Streamapi stream', new_streamapi_stream_path

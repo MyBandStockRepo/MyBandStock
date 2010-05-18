@@ -54,8 +54,8 @@ lss.streamapi_streams.create( :private_hostid => 123,
                               :title => 'act 1',
                               :starts_at => 1.weeks.from_now,
                               :ends_at => (1.weeks.from_now + 2.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => '/themes/100/000/866/4/theme_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
+                              :skin_path => '/themes/100/000/866/4/skin_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
                               :public => false,
                               :band_id => b.id )
                               
@@ -64,8 +64,8 @@ lss.streamapi_streams.create( :private_hostid => 1234,
                               :title => 'act 2',
                               :starts_at => 2.weeks.from_now,
                               :ends_at => (2.weeks.from_now + 3.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => '/themes/100/000/866/4/theme_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
+                              :skin_path => '/themes/100/000/866/4/skin_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
                               :public => false,
                               :band_id => b.id )
 
@@ -74,8 +74,8 @@ lss.streamapi_streams.create( :private_hostid => 12345,
                               :title => 'act 3, the COOOLEST ACT',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => '/themes/100/000/866/4/theme_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
+                              :skin_path => '/themes/100/000/866/4/skin_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml',
                               :public => false,
                               :band_id => b.id )
 

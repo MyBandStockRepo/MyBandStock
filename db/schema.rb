@@ -120,8 +120,8 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
   end
 
   create_table "streamapi_streams", :force => true do |t|
-    t.string   "private_hostid",        :null => false
-    t.string   "public_hostid",         :null => false
+    t.string   "private_hostid"
+    t.string   "public_hostid"
     t.string   "title",                 :null => false
     t.datetime "starts_at",             :null => false
     t.datetime "ends_at",               :null => false
