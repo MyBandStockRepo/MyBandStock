@@ -5,7 +5,7 @@ require 'rexml/document'
 include REXML
 
 class StreamapiStreamsController < ApplicationController
-
+respond_to :html, :js
 
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
 
@@ -42,11 +42,17 @@ class StreamapiStreamsController < ApplicationController
 	
 	
 	def view
-		if request.xhr?
-			render :layout => false
-		end
-		@public_hostid = params[:id]
 
+		unless (@stream = StreamapiStream.find(params[:id]))
+      redirect_to session[:last_clean_url]      
+      return false
+    end
+    
+		respond_to do | format |
+		
+			format.js {render :layout => false}
+			format.html
+		end
 	end
 	
 	
@@ -56,9 +62,12 @@ class StreamapiStreamsController < ApplicationController
 	
 	
 	def broadcast
-		if request.xhr?
-			render :layout => false
-		end
+		unless (@stream = StreamapiStream.find(params[:id]))
+      redirect_to session[:last_clean_url]      
+      return false
+    end
+    
+
   	apiurl = 'http://api.streamapi.com/service/session/create'
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
@@ -83,26 +92,39 @@ class StreamapiStreamsController < ApplicationController
 			
 			if (code == "0")
 				#OK
-				@private_hostid = XPath.first( doc, "//private_hostid" ) { |e| puts e.text }
-				for p in @private_hostid
+				private_hostid = XPath.first( doc, "//private_hostid" ) { |e| puts e.text }
+				for p in private_hostid
 					p = p.to_s
 				end
-				@private_hostid = p.to_s
+				private_hostid = p.to_s
 				
-				@public_hostid = XPath.first( doc, "//public_hostid" ) { |e| puts e.text }
-				for p in @public_hostid
+				public_hostid = XPath.first( doc, "//public_hostid" ) { |e| puts e.text }
+				for p in public_hostid
 					p = p.to_s
 				end
-				@public_hostid = p.to_s
+				public_hostid = p.to_s
+				
+				@stream.private_hostid = private_hostid
+				@stream.public_hostid = public_hostid
+				
+ 				if @stream.save
+					flash[:notice] = "Streaming Video!"
+				else
+					flash[:notice] = "Error with getting host id."				
+				end
 				#flash[:notice] = "API Call Success: "+apirid+" "+apisig+" "+code + " "+@public_hostid+" "+@private_hostid
-				flash[:notice] = "Streaming Video!"
 			else
 				#flash[:notice] = "API Call Success, but bad response (error code" + code+"): "+res.body 		
-				flash[:error] = "Error"
+				flash[:error] = "Error with xml response."
 	
 			end
 		else
 			res.error!
+		end
+		respond_to do | format |
+		
+			format.js {render :layout => false}
+			format.html {}
 		end
 	end
 
