@@ -255,7 +255,7 @@ class ApplicationController < ActionController::Base
   
   def fix_site_base_url
     unless ( (request.host_with_port =~ /#{SITE_URL.gsub(/http:\/\//, '')}/) || request.ssl? )
-      redirect_to SITE_URL+request.request_uri
+      redirect_to SITE_URL+request.fullpath
     end
   end
   

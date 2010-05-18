@@ -1,0 +1,36 @@
+%p
+	%b Private hostid:
+	= @streamapi_stream.private_hostid
+
+%p
+	%b Public hostid:
+	= @streamapi_stream.public_hostid
+
+%p
+  %bTitle:
+	= @streamapi_stream.title
+
+%p
+	%b Starts At:
+	= @streamapi_stream.starts_at
+
+%p
+	%b Ends At:
+	= @streamapi_stream.ends_at
+
+%p
+	%b Layout Path:
+	= @streamapi_stream.layout_path
+
+%p
+	%b Skin Path:
+	= @streamapi_stream.skin_path
+
+%p
+	%b Public:
+	= @streamapi_stream.public
+
+
+= link_to 'Edit', edit_streamapi_stream_path(@streamapi_stream)
+|
+= link_to 'Back', streamapi_streams_path
