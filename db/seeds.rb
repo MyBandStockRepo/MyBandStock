@@ -73,8 +73,8 @@ lss_amp2 = b_amp.live_stream_series.create(:title => 'Summer tour',:starts_at =>
 lss_dos = b_dos.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 
 #create some StreamAPI streams (fake of course)
-layoutPath = '/themes/100/000/866/4/theme_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
-skinPath = '/themes/100/000/866/4/skin_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
+layoutPath = '/themes/100/000/866/4/theme_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml'
+skinPath = '/themes/100/000/866/4/skin_81dd43dd-3e7d-11df-974d-fbde5135d5b5.xml'
 lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
                               :title => 'act 1',
