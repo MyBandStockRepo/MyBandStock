@@ -19,11 +19,11 @@ Cobain::Application.routes.draw do |map|
 
   
   #stream methods
+
+  resources :streamapi_streams
 match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
 match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
 match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
-
-  resources :streamapi_streams
 
   resources :associations
 
