@@ -13,6 +13,15 @@
     = csrf_meta_tag
   %body
     #wrap
+      -if session[:user_id]
+        -if @user.nil?  # If @user was not provided, populate it here.
+          -@user = User.find(session[:user_id])
+        %div{ :style => 'float: right; color: red; margin-right: 10px' }
+          Logged in as
+          = link_to @user.email, '/me/control_panel'
+          /
+          = link_to 'Logout', logout_url
+  
       #header
         #head_top
           -# = link_to( image_tag ('/images/mbs_logo.gif', :alt => 'MyBandStock'), root_path )
@@ -27,15 +36,6 @@
           = link_to "", "http://blog.mybandstock.com/", :class => "nav navblog"
           = link_to '', login_path, :class => "nav navlogin"
 
-      -if session[:user_id]
-        -if @user.nil?  # If @user was not provided, populate it here.
-          -@user = User.find(session[:user_id])
-        %div{ :style => 'float: right; color: red; margin-right: 10px' }
-          Logged in as
-          = link_to @user.email, '/me/control_panel'
-          /
-          = link_to 'Logout', logout_url
-  
       -if flash[:logout]
         #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
           = flash[:logout]

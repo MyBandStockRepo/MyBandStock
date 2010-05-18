@@ -1,13 +1,10 @@
 #admin-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  border: 1px solid #FC6;
+  border: 1px solid #565;
   height: 2em;
+  display: block;
 }
 .add-band {
-  position: relative;
   float: right;
 }
 

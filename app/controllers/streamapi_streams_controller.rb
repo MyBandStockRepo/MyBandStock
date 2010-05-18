@@ -56,7 +56,8 @@ class StreamapiStreamsController < ApplicationController
 	
 	
 	def broadcast
-		if request.xhr?
+		if request.xhr? || !params[:nolayout].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
 			render :layout => false
 		end
   	apiurl = 'http://api.streamapi.com/service/session/create'
