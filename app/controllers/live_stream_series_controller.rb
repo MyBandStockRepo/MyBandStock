@@ -79,7 +79,7 @@ class LiveStreamSeriesController < ApplicationController
     unless ( params[:id] && (@band = Band.includes(:live_stream_series).find(params[:id])) )
       flash[:notice] = 'Bad url parameters.'
     else
-      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
+      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do       
         @band.live_stream_series.includes(:streamapi_streams)
       end
     end

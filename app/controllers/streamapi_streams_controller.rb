@@ -127,15 +127,15 @@ respond_to :html, :js
 			res.error!
 		end
 
-	  unless params[:nolayout].nil?
+#	  unless params[:nolayout].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => false
-    end
+#      render :layout => false
+#    end
 
-		# respond_to do | format |
-		# 	format.js {render :layout => false}
-		# 	format.html {}
-		# end
+		 respond_to do | format |
+		 	format.js {render :layout => false}
+		 	format.html {}
+		 end
 	end
 
 

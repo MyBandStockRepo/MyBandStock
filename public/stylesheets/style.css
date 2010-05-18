@@ -268,17 +268,19 @@ table.admin_new_record_table tr td{padding: 10px;}
 
 
 /* Lightbox styles */
-#fancybox-inner #broadcast-container {
+#broadcast-container {
   margin: auto;
   background-color: black;
-  overflow: scroll;
-  padding: 1em 3em;
+  padding: 1.5em;
 }
-#broadcast-container embed.streamapi-embed {
+#viewer-container {
+  margin: auto;
+  background-color: black;
+  padding: 1.5em;
+}
+#broadcast-container .streamapi-embed {
   margin: 5px auto;
-  height: 580px;
-  width: 500px;
 }
-
-
-
+#viewer-container .streamapi-embed {
+  margin: 5px auto;
+}
