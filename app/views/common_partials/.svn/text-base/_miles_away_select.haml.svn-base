@@ -1,2 +1,0 @@
--options = [2, 5,10, 15, 20, 25, 50, 100]
-=select_tag "miles_away", options_for_select(options, passed)

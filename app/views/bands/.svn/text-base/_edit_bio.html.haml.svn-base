@@ -1,7 +1,0 @@
--remote_form_for(band, :update => 'bio-content', :complete => "Shadowbox.close()", :url => {:controller => 'bands', :action => 'remote_bio_update', :id => band.id}) do |f|
-  %ul#bio.form
-    %li
-      =f.label 'bio'
-      =f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
-    %li.actions
-      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

@@ -1,6 +1,0 @@
-%li    
-  =f.label 'email', 'Email'
-  =text_field_tag 'association[email]', @user_email
-%li    
-  =f.label 'name', 'Role'
-  =select("association", "name", { "Admin" => "admin", "Band Member" => "member"}) 

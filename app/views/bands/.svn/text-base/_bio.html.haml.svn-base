@@ -1,2 +1,0 @@
-%p 
-  =RedCloth.new(band.bio, [:lite_mode] ).to_html

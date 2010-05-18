@@ -1,3 +1,0 @@
-page.replace_html 'quick-association', :partial => 'associations/short_add', :locals => {:fresh_association => @fresh_association}
-page.insert_html :top, 'associations-list', :partial => 'associations/list_row', :locals => {:association => @association}
-page.visual_effect :highlight, "association-#{@association.id}", :duration => 2

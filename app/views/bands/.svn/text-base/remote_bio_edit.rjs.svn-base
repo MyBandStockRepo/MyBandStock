@@ -1,9 +1,0 @@
-page << "
-  Shadowbox.open({
-  	player: 'html',
-  	title: 'Edit Bio',
-  	content:' #{custom_clean(@partial_string)}',
-  	height: 250,
-  	width: 300,
-  	options:{enableKeys:false}
-  });"
