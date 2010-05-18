@@ -56,11 +56,6 @@ respond_to :html, :js
 	end
 	
 	
-	
-	
-	
-	
-	
 	def broadcast
     unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
@@ -72,16 +67,28 @@ respond_to :html, :js
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
   	apiridnum = (Time.now.to_f * 100000).to_i
   	apirid = apiridnum.to_s
-  	
-  	apisig = Digest::MD5.hexdigest(apikey+apisecretkey+apirid)
-  
+  	band_name = Band.find(@stream.band_id).name
+    
+    private_value = (!@stream.public).to_s
+    
+    apisig = Digest::MD5.hexdigest(private_value+apikey+apisecretkey+apirid)
+
 		url = URI.parse(apiurl)
 		req = Net::HTTP::Post.new(url.path)
-		req.set_form_data({:key=>apikey, :rid=>apirid, :sig=>apisig})
+		
+		
+
+		req.set_form_data({:is_video_private=>private_value, :key=>apikey, :rid=>apirid, :sig=>apisig})		
+
 		res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
+
+	## DEBUGGING
+		logger.info res.body.to_s
 		case res
 		when Net::HTTPSuccess, Net::HTTPRedirection
 			doc = Document.new(res.body)
+	
+			
 	
 			code = XPath.first(doc, "//code") { |e| puts e.text }
 			for c in code
@@ -105,7 +112,6 @@ respond_to :html, :js
 				
 				@stream.private_hostid = private_hostid
 				@stream.public_hostid = public_hostid
-				
  				if @stream.save
 					flash[:notice] = "Now broadcasting stream."
 				else
@@ -159,7 +165,9 @@ respond_to :html, :js
   # GET /streamapi_streams/new.xml
   def new
     @streamapi_stream = StreamapiStream.new
-
+		@band_id = params[:band_id]
+		@lss_id = params[:live_stream_series_id]
+		
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @streamapi_stream }

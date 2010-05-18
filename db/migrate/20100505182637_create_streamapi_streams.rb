@@ -1,8 +1,8 @@
 class CreateStreamapiStreams < ActiveRecord::Migration
   def self.up
     create_table :streamapi_streams do |t|
-      t.string :private_hostid, :null => false
-      t.string :public_hostid, :null => false
+      t.string :private_hostid
+      t.string :public_hostid
       t.string :title, :null => false
       t.datetime :starts_at, :null => false
       t.datetime :ends_at, :null => false

@@ -1,11 +1,11 @@
 = form_for(@streamapi_stream) do |f|
 	= f.error_messages
-  .field
+	.field
 		= f.label :title
 		%br
 		= f.text_field :title
 	
-  .field
+	.field
 		= f.label :starts_at
 		%br
 		= f.datetime_select :starts_at
@@ -29,6 +29,16 @@
 		= f.label :public
 		%br
 		= f.check_box :public
+
+	.field{:style=>"display:none;"}
+		= f.label :band_id
+		%br
+		= f.text_field :band_id, :value => @band_id
+
+	.field{:style=>"display:none;"}
+		= f.label :live_stream_series_id
+		%br
+		= f.text_field :live_stream_series_id, :value => @lss_id
 
 	.actions
 		= f.submit
