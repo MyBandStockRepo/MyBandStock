@@ -267,4 +267,16 @@ table.admin_new_record_table tr td{padding: 10px;}
 }
 
 
+/* Lightbox styles */
+#fancybox-inner #broadcast-container {
+  margin: auto;
+  width: 668px;
+  background-color: black;
+  padding: 1em;
+}
+#broadcast-container .streamapi-embed {
+  margin: 5px auto;
+}
+
+
 

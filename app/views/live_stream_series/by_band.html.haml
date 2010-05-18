@@ -1,14 +1,2 @@
 =render :partial => 'by_band', :locals => { :band => @band }
--# __commented_
-  %h1="#{band.name} - Access Schedule"
-  -for series in band.live_stream_series
-    %h2= series.title
-    -for stream in series.streamapi_streams
-      %ul.access-schedule-list
-        %li.stream-name
-          ="Stream - #{stream.title}"
-        %li
-          ="Begins - #{stream.starts_at}"
-        %li
-          ="Ends - #{stream.ends_at}"
-          
+

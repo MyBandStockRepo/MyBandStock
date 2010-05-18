@@ -1,3 +1,19 @@
+-# Include access_schedule.js to attach lightbox listener to all .lightbox links
+-# = javascript_include_tag 'access_schedule'
+:javascript
+  $(function() {
+    $('a.lightbox').fancybox ({
+      'transitionIn': 'fade',
+      'transitionOut': 'fade',
+      //'type': 'iframe',
+      'autoScale': true,
+      'autoDimensions': true,
+      'centerOnScroll': true,
+      'hideOnOverlayClick': false
+    });
+  });
+
+
 %h1="#{band.name} - Access Schedule"
 -for series in band.live_stream_series
   %h2= series.title

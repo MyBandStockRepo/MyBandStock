@@ -62,13 +62,10 @@ respond_to :html, :js
 	
 	
 	def broadcast
-	  unless (@stream = StreamapiStream.find(params[:id]))
-        redirect_to session[:last_clean_url]      
-        return false
-      end
-	#!params[:nolayout].nil?
-    #  # If our request tells us not to display layout (in a lightbox, for instance)
-	
+    unless (@stream = StreamapiStream.find(params[:id]))
+      redirect_to session[:last_clean_url]      
+      return false
+    end	
 
   	apiurl = 'http://api.streamapi.com/service/session/create'
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
@@ -110,7 +107,7 @@ respond_to :html, :js
 				@stream.public_hostid = public_hostid
 				
  				if @stream.save
-					flash[:notice] = "Streaming Video!"
+					flash[:notice] = "Now broadcasting stream."
 				else
 					flash[:notice] = "Error with getting host id."				
 				end
@@ -123,11 +120,16 @@ respond_to :html, :js
 		else
 			res.error!
 		end
-		respond_to do | format |
-		
-			format.js {render :layout => false}
-			format.html {}
-		end
+
+	  unless params[:nolayout].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => false
+    end
+
+		# respond_to do | format |
+		# 	format.js {render :layout => false}
+		# 	format.html {}
+		# end
 	end
 
 

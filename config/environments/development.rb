@@ -20,11 +20,12 @@ Cobain::Application.configure do
   
 	
 	# ENVIRONMENT CONSTANTS
-	#google checkout sandbox stuff
-	GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
 	
 	SITE_URL = 'http://127.0.0.1:3000'
 	SECURE_SITE_URL = 'http://127.0.0.1:3000'
+
+  #STREAMAPI_LAYOUT_PATH = '/themes/100/000/866/4/theme_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
+  #STREAMAPI_SKIN_PATH = '/themes/100/000/866/4/skin_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
 	
 	STREAMS_URL = 'rtmp://localhost/vod'
   

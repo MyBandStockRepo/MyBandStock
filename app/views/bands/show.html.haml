@@ -3,9 +3,13 @@
     $('a.lightbox').fancybox ({
       'transitionIn': 'fade',
       'transitionOut': 'fade',
-      'type': 'iframe'
+      //'type': 'iframe',
+      'autoScale': true,        // These two only work with
+      'autoDimensions': true,   //  'ajax' (non-'iframe') types,
+      'centerOnScroll': true,
+      'hideOnOverlayClick': false
     });
-  })
+  });
 
 #content-utility.control-panel
   #utility-overview

@@ -5,6 +5,8 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+# To completely start anew:
+#  rake db:migrate VERSION=0; rake db:migrate; rake db:seed --trace
 
 #the creation tree goes as follows
 #user ->
@@ -71,13 +73,15 @@ lss_amp2 = b_amp.live_stream_series.create(:title => 'Summer tour',:starts_at =>
 lss_dos = b_dos.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 
 #create some StreamAPI streams (fake of course)
+layoutPath = '/themes/100/000/866/4/theme_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
+skinPath = '/themes/100/000/866/4/skin_d2e6e27a-5f6b-11df-897e-45bad36ccbb1.xml'
 lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
                               :title => 'act 1',
                               :starts_at => 1.weeks.from_now,
                               :ends_at => (1.weeks.from_now + 2.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_dos.id )
                               
@@ -86,8 +90,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :title => 'act 2',
                               :starts_at => 2.weeks.from_now,
                               :ends_at => (2.weeks.from_now + 3.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_dos.id )
 
@@ -96,8 +100,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :title => 'act 3, the COOOLEST ACT',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'noobs',
-                              :skin_path => 'l337',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_dos.id )
 
@@ -108,8 +112,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Home Depot Center - Carson, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -118,8 +122,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Shoreline Amphitheatre - Mountain View, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -128,8 +132,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Cricket Pavilion - Phoenix, AZ',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -138,8 +142,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'AT&T Center - San Antonio, TX',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 
@@ -149,8 +153,8 @@ lss_amp2.streamapi_streams.create(
                               :title => 'Comerica Park - Detroit, MI',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp2.streamapi_streams.create(
@@ -159,8 +163,8 @@ lss_amp2.streamapi_streams.create(
                               :title => 'Danny\'s Bar Mitzvah - Brighton, MI',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :layout_path => 'layoutPath123',
-                              :skin_path => 'skinPath123',
+                              :layout_path => layoutPath,
+                              :skin_path => skinPath,
                               :public => false,
                               :band_id => b_amp.id )
 
