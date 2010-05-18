@@ -5,8 +5,9 @@
 			'transitionIn'	:	'fade',
 			'transitionOut'	:	'fade',
 			'overlayOpacity' : 0.6,
-			'overlayColor' : 'black'
-		
+			'overlayColor' : 'black',
+			'centerOnScroll' : 'true',
+		  'hideOnOverlayClick': 'false'
 		});
 	});
 
@@ -23,6 +24,8 @@
 		%th Layout Path
 		%th Skin Path    
 		%th Public
+		%th Band ID
+		%th LSS ID
 		%th
 		%th
 		%th
@@ -47,6 +50,10 @@
 				= streamapi_stream.skin_path
 			%td
 				= streamapi_stream.public
+			%td
+				= streamapi_stream.band_id
+			%td
+				= streamapi_stream.live_stream_series_id				
 			%td
 				= link_to 'Show', streamapi_stream
 			%td
