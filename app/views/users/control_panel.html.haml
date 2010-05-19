@@ -3,7 +3,7 @@
 #cp-user-info
   = render :partial => 'users/user_info', :locals => { :user => @user }
   .notice
-    - if @bands
+    - if @bands.count >= 1
       - text = "You are a manager for the following band"
       - text << 's' if (@bands.count > 1)
       = text << '.'
