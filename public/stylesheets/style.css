@@ -76,6 +76,7 @@ h3 {
 .notice {
   font-style: italic;
   margin: .5em;
+  color: #f4ac3e;
 }
 
 .profile-category {
@@ -87,6 +88,7 @@ h3 {
 /* CONTENT */
 
 #content {
+	padding:7px;
   position: relative;
   background:#191919;margin-top:10px;
 }
