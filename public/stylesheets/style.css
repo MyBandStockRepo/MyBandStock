@@ -266,21 +266,3 @@ table.admin_new_record_table tr td{padding: 10px;}
   font-size: 1.5em;
 }
 
-
-/* Lightbox styles */
-#broadcast-container {
-  margin: auto;
-  background-color: black;
-  padding: 1.5em;
-}
-#viewer-container {
-  margin: auto;
-  background-color: black;
-  padding: 1.5em;
-}
-#broadcast-container .streamapi-embed {
-  margin: 5px auto;
-}
-#viewer-container .streamapi-embed {
-  margin: 5px auto;
-}

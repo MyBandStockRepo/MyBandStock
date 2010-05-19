@@ -14,6 +14,32 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
+
+
+/* Lightbox styles */
+#broadcast-container, #viewer-container {
+  font-family:"Trebuchet MS","Lucida Sans",Verdana,Sans-Serif;
+  color: #777;
+  margin: auto;
+  background-color: black;
+  padding: 2px 1.5em;
+} 
+#broadcast-container .streamapi-embed,
+#viewer-container .streamapi-embed {
+  margin: 5px auto;
+}
+#broadcast-container p, #viewer-container p {
+  margin: 4px 0;
+  font-size: 10pt;
+}
+#broadcast-container h2, #viewer-container h2 {
+  font-size: 12pt;
+  margin: .2em 0;
+}
+
+
+
+
 #fancybox-loading {
 	position: fixed;
 	top: 50%;

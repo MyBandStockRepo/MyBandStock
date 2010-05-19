@@ -2,16 +2,17 @@
 -# = javascript_include_tag 'access_schedule'
 :javascript
   $(function() {
-
-    $('.lightbox a').fancybox({
-      'transitionIn'	:	'fade',
-      'transitionOut'	:	'fade',
-      'overlayOpacity' : 0.6,
-      'overlayColor' : 'black',
-      'centerOnScroll' : 'true',
-      'hideOnOverlayClick': 'false'
+    $('a.lightbox').fancybox ({
+      'transitionIn': 'fade',
+      'transitionOut': 'fade',
+      'type': 'iframe',
+      'width': 750,
+      'height': 740,
+      'autoScale': true,        // These two only work with
+      'autoDimensions': true,   //  'ajax' (non-'iframe') types,
+      'centerOnScroll': true,
+      'hideOnOverlayClick': false
     });
-		
   });
 
 
@@ -28,6 +29,6 @@
       %li
         ="Ends - #{stream.ends_at}"
       %li
-        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :nolayout => true }, :class => 'lightbox'
+        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
       %li
-        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id }, :class => 'lightbox'
+        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox'

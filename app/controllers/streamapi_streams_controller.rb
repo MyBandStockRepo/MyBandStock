@@ -42,15 +42,14 @@ respond_to :html, :js
 	
 	
 	def view
-
 		unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
       return false
     end
     
-	  unless params[:nolayout].nil?
+	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => false
+      render :layout => 'lightbox'
     end    
 =begin    
 		respond_to do | format |
@@ -68,9 +67,9 @@ respond_to :html, :js
       return false
     end	
 
-	  unless params[:nolayout].nil?
+	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => false
+      render :layout => 'lightbox'
     end
 
   	apiurl = 'http://api.streamapi.com/service/session/create'
@@ -137,6 +136,7 @@ respond_to :html, :js
 		else
 			res.error!
 		end
+
 =begin
 		 respond_to do | format |
 		 	format.js {render :layout => false}
