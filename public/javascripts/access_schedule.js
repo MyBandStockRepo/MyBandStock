@@ -6,8 +6,10 @@ $(function() {
     'transitionIn': 'fade',
     'transitionOut': 'fade',
     'type': 'iframe',
-    'autoScale': true,
-    'autoDimensions': true,
+    'width': 750,
+    'height': 740,
+    'autoScale': true,        // These two only work with
+    'autoDimensions': true,   //  'ajax' (non-'iframe') types,
     'centerOnScroll': true,
     'hideOnOverlayClick': false
   });
