@@ -47,10 +47,6 @@ respond_to :html, :js
       return false
     end
     
-	  unless params[:lightbox].nil?
-      # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => 'lightbox'
-    end    
 =begin    
 		respond_to do | format |
 		
@@ -58,6 +54,11 @@ respond_to :html, :js
 			format.html
 		end
 =end
+	  unless params[:lightbox].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => 'lightbox'
+    end
+
 	end
 	
 	
@@ -66,11 +67,6 @@ respond_to :html, :js
       redirect_to session[:last_clean_url]      
       return false
     end	
-
-	  unless params[:lightbox].nil?
-      # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => 'lightbox'
-    end
 
   	apiurl = 'http://api.streamapi.com/service/session/create'
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
@@ -122,6 +118,7 @@ respond_to :html, :js
 				
 				@stream.private_hostid = private_hostid
 				@stream.public_hostid = public_hostid
+
  				if @stream.save
 					flash[:notice] = "Now broadcasting stream."
 				else
@@ -136,6 +133,11 @@ respond_to :html, :js
 		else
 			res.error!
 		end
+
+	  unless params[:lightbox].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => 'lightbox'
+    end
 
 =begin
 		 respond_to do | format |
