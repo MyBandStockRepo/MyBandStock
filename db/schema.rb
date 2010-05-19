@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100514193600) do
+ActiveRecord::Schema.define(:version => 20100515213546) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false

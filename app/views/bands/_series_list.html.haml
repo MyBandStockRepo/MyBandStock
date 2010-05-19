@@ -1,7 +1,6 @@
 .band-schedules
   %h2
-    Schedules for
-    =band.name
+    =link_to "Schedules for #{ band.name }", { :controller => 'live_stream_series', :action => 'by_band', :id => band.id } , :class => 'lightbox'
   %table.schedules-table
     %tr
       %th Title

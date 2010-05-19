@@ -3,6 +3,12 @@
   border: 1px solid #565;
   height: 2em;
   display: block;
+  padding-top: 3px;
+  margin-bottom: 1em;
+}
+#admin-bar em:first-child {
+  color: #777;
+  font-style: italic;
 }
 .add-band {
   float: right;

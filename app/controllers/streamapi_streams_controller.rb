@@ -68,6 +68,11 @@ respond_to :html, :js
       return false
     end	
 
+	  unless params[:nolayout].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => false
+    end
+
   	apiurl = 'http://api.streamapi.com/service/session/create'
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
@@ -132,11 +137,6 @@ respond_to :html, :js
 		else
 			res.error!
 		end
-
-	  unless params[:nolayout].nil?
-      # If our request tells us not to display layout (in a lightbox, for instance)
-      render :layout => false
-    end
 =begin
 		 respond_to do | format |
 		 	format.js {render :layout => false}
