@@ -48,11 +48,17 @@ respond_to :html, :js
       return false
     end
     
+	  unless params[:nolayout].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => false
+    end    
+=begin    
 		respond_to do | format |
 		
 			format.js {render :layout => false}
 			format.html
 		end
+=end
 	end
 	
 	
@@ -65,7 +71,7 @@ respond_to :html, :js
   	apiurl = 'http://api.streamapi.com/service/session/create'
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
-  	apiridnum = (Time.now.to_f * 100000).to_i
+  	apiridnum = (Time.now.to_f * 100000*10).to_i
   	apirid = apiridnum.to_s
   	band_name = Band.find(@stream.band_id).name
     
@@ -127,15 +133,16 @@ respond_to :html, :js
 			res.error!
 		end
 
-#	  unless params[:nolayout].nil?
+	  unless params[:nolayout].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
-#      render :layout => false
-#    end
-
+      render :layout => false
+    end
+=begin
 		 respond_to do | format |
 		 	format.js {render :layout => false}
 		 	format.html {}
 		 end
+=end
 	end
 
 
