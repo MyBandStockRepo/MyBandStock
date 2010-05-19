@@ -12,9 +12,10 @@ respond_to :html, :js
 
  protect_from_forgery :only => [:create, :update]
  before_filter :only => :post, :only => [:create, :update] 
- before_filter :authenticated?, :except => [:show]
+ before_filter :authenticated?, :except => [:show, :callback]
 
   def callback
+    render :nothing => true
   # doesn't work correctly
 =begin
 #    @xml = Builder::XmlMarkup.new

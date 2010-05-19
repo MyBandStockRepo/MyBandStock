@@ -1,6 +1,6 @@
 #viewer-container
-	%h2 Stream Viewer
-	%p
-		= @stream.public_hostid + ' - ' + @stream.title + ':' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
-	%embed{:height=>"580", :width=>"668", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"authField2Label=Password:&siteID=1000008664&layoutPath=#{ @stream.layout_path }&skinPath=#{ @stream.skin_path }&authField1Label=Username:&autoRecord=true&publicHostID=#{ @stream.public_hostid }&authType=nameAndPass&userType=204", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
+  %h2 Stream Viewer
+  %p
+    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
+  %embed{:height=>"494", :width=>"496", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"authField2Label=Password:&siteID=1000008664&layoutPath=#{ @stream.layout_path }&skinPath=#{ @stream.skin_path }&authField1Label=Username:&autoRecord=true&publicHostID=#{ @stream.public_hostid }&authType=nameAndPass&userType=204", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
 

@@ -90,7 +90,6 @@ class LiveStreamSeriesController < ApplicationController
       return false
     end
     
-    
   end
 
 end #end controller
