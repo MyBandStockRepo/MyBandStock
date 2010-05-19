@@ -1,3 +1,16 @@
+:javascript
+  $(function() {
+
+    $('#gallery a').fancybox({
+      'transitionIn'	:	'fade',
+      'transitionOut'	:	'fade',
+      'overlayOpacity' : 0.6,
+      'overlayColor' : 'black',
+      'centerOnScroll' : 'true'
+    });
+		
+  });
+
 -# #home-primary
 #home-main
   #home-uvp
@@ -8,9 +21,9 @@
       the Artists and their Fans. Join The Music Revolution.
   %ul#home-navigation
     %li#fans-enter
-      =link_to 'Fan Home', "/fan_home"
-    %li#tour
-      %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour];", :class => "first"} Tour
+      =#link_to 'Fan Home', "/fan_home"
+    %li#gallery
+      %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour]", :class => "hide"} Tour
       %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
       %a{:href => "/images/homepage/tour/3.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is an MBS Share
       %a{:href => "/images/homepage/tour/4.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is a Project
@@ -19,7 +32,7 @@
       %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
       %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
     %li#bands-enter
-      =link_to 'Band Home', "band_home"
+      =#link_to 'Band Home', "band_home"
   
       
  

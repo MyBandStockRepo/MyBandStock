@@ -13,6 +13,7 @@
       'centerOnScroll': true,
       'hideOnOverlayClick': false
     });
+		
   });
 
 
@@ -24,11 +25,9 @@
     %ul.access-schedule-list
       %li.stream-name
         ="#{stream.title}"
+        \- 
+        ="Starts on #{stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')}"
       %li
-        ="Begins - #{stream.starts_at}"
+        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :nolayout => true }, :class => 'lightbox'
       %li
-        ="Ends - #{stream.ends_at}"
-      %li
-        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
-      %li
-        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :nolayout => true }, :class => 'lightbox'
