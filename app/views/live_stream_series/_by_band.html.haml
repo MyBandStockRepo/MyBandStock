@@ -28,6 +28,6 @@
         \- 
         ="Starts on #{stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')}"
       %li
-        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :nolayout => true }, :class => 'lightbox'
+        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
       %li
-        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :nolayout => true }, :class => 'lightbox'
+        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox'
