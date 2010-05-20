@@ -5,11 +5,11 @@ $(function() {
   $('a.lightbox').fancybox ({
     'transitionIn': 'fade',
     'transitionOut': 'fade',
+    'overlayOpacity' : 0.6,
+    'overlayColor' : 'black',      
     'type': 'iframe',
-		'overlayOpacity' : 0.6,
-		'overlayColor' : 'black',    
-    'width': 550,
-    'height': 550,
+    'width': 560,
+    'height': 560,
     'autoScale': true,        // These two only work with
     'autoDimensions': true,   //  'ajax' (non-'iframe') types,
     'centerOnScroll': true,
