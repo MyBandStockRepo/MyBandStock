@@ -77,7 +77,7 @@ respond_to :html, :js
 
 
 # FOR TESTING ON LOCAL MACHINE SO NOT TO MESS UP RID
-#apiridnum = (Time.now.to_f).to_i
+#apiridnum = 1
 
 
 

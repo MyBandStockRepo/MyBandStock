@@ -9,7 +9,7 @@ $(function() {
 		'overlayOpacity' : 0.6,
 		'overlayColor' : 'black',    
     'width': 550,
-    'height': 760,
+    'height': 550,
     'autoScale': true,        // These two only work with
     'autoDimensions': true,   //  'ajax' (non-'iframe') types,
     'centerOnScroll': true,
