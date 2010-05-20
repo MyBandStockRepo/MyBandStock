@@ -73,6 +73,14 @@ respond_to :html, :js
   	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
   	apiridnum = (Time.now.to_f * 100000*10).to_i
+
+
+
+# FOR TESTING ON LOCAL MACHINE SO NOT TO MESS UP RID
+#apiridnum = (Time.now.to_f).to_i
+
+
+
   	apirid = apiridnum.to_s
   	band_name = Band.find(@stream.band_id).name
     
@@ -121,14 +129,14 @@ respond_to :html, :js
 				@stream.public_hostid = public_hostid
 
  				if @stream.save
-					flash[:notice] = "Now broadcasting stream."
+				#	flash[:notice] = "Now broadcasting stream."
 				else
-					flash[:notice] = "Error with getting host id."				
+#					flash[:notice] = "Error with getting host id."				
 				end
 				#flash[:notice] = "API Call Success: "+apirid+" "+apisig+" "+code + " "+@public_hostid+" "+@private_hostid
 			else
 				#flash[:notice] = "API Call Success, but bad response (error code" + code+"): "+res.body 		
-				flash[:error] = "Error with xml response."
+#				flash[:error] = "Error with xml response."
 	
 			end
 		else
