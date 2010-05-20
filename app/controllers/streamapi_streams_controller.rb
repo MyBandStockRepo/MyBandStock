@@ -12,7 +12,8 @@ respond_to :html, :js
 
  protect_from_forgery :only => [:create, :update]
  before_filter :only => :post, :only => [:create, :update] 
- before_filter :authenticated?, :except => [:show, :callback]
+ before_filter :authenticated?, :except => [:show, :callback, :view, :broadcast]
+  # broadcast and viewing auth exceptions added for demoing purposes
 
   def callback
     render :nothing => true
