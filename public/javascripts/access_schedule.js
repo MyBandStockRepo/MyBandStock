@@ -6,6 +6,8 @@ $(function() {
     'transitionIn': 'fade',
     'transitionOut': 'fade',
     'type': 'iframe',
+		'overlayOpacity' : 0.6,
+		'overlayColor' : 'black',    
     'width': 550,
     'height': 760,
     'autoScale': true,        // These two only work with
