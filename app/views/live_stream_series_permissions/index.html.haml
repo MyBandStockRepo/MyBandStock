@@ -1,0 +1,38 @@
+%h1 Listing live_stream_series_permissions
+
+%table
+  %tr
+    %th Can view
+    %th Can listen
+    %th Can chat
+    %th Stream quality level
+    %th Stream Title
+    %th User's Name
+    %th 
+    %th 
+    %th 
+
+
+  - @live_stream_series_permissions.each do |live_stream_series_permission|
+    %tr
+      %td
+        = live_stream_series_permission.can_view
+      %td
+        = live_stream_series_permission.can_listen
+      %td
+        = live_stream_series_permission.can_chat
+      %td
+        = live_stream_series_permission.stream_quality_level
+      %td
+        = LiveStreamSeries.find(live_stream_series_permission.live_stream_series_id).title
+      %td
+        = User.find(live_stream_series_permission.user_id).full_name
+      %td
+        = link_to 'Show', live_stream_series_permission
+      %td
+        = link_to 'Edit', edit_live_stream_series_permission_path(live_stream_series_permission)
+      %td
+        = link_to 'Destroy', live_stream_series_permission, :confirm => 'Are you sure?', :method => :delete
+%br
+
+= link_to 'New Live stream series permission', new_live_stream_series_permission_path

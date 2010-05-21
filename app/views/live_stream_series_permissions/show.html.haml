@@ -1,0 +1,27 @@
+%p
+  %b Can view:
+  = @live_stream_series_permission.can_view
+
+%p
+  %b Can listen:
+  = @live_stream_series_permission.can_listen 
+
+%p
+  %b Can chat:
+  = @live_stream_series_permission.can_chat
+
+%p
+  %b Stream quality level:
+  = @live_stream_series_permission.stream_quality_level
+
+%p
+  %b Stream Name
+  = LiveStreamSeries.find(@live_stream_series_permission.live_stream_series_id).title
+
+%p
+  %b User Name
+  = User.find(@live_stream_series_permission.user_id).full_name
+
+= link_to 'Edit', edit_live_stream_series_permission_path(@live_stream_series_permission) 
+|
+= link_to 'Back', live_stream_series_permissions_path
