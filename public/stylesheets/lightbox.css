@@ -23,6 +23,7 @@
   margin: auto;
   background-color: black;
   padding: 2px 1.5em;
+  height: 555px;
 } 
 #broadcast-container .streamapi-embed,
 #viewer-container .streamapi-embed {
@@ -36,6 +37,7 @@
   font-size: 12pt;
   margin: .2em 0;
 }
+
 
 
 
@@ -122,6 +124,7 @@
 }
 
 #fancybox-hide-sel-frame {
+
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -387,4 +390,5 @@
 .fancybox-ie #fancy-bg-sw	{ filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/fancybox/fancy_shadow_sw.png', sizingMethod='scale'); }
 .fancybox-ie #fancy-bg-w	{ filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/fancybox/fancy_shadow_w.png', sizingMethod='scale'); }
 .fancybox-ie #fancy-bg-nw	{ filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/fancybox/fancy_shadow_nw.png', sizingMethod='scale'); }
+
 

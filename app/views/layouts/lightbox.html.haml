@@ -14,9 +14,10 @@
     
     = csrf_meta_tag
   %body
-    %p.notice
-      = notice
-    %p.alert
-      = alert
+    -# __commented__
+      %p.notice
+        = notice
+      %p.alert
+        = alert
     = yield
     -# =image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; position: absolute; margin-top: -60px; margin-left: 450px", :size => '25x25'
