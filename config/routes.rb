@@ -7,14 +7,16 @@ Cobain::Application.routes.draw do |map|
   match 'streamapi_streams/callback', :to => 'streamapi_streams#callback'
   match 'api', :to => 'api#index'
 
+
+
+  resources :api_users
+
+	resources :live_stream_series
+
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
   
 
   
-
-  resources :api_users
-
-  resources :live_stream_series
 
   resources :live_stream_series_permissions
 

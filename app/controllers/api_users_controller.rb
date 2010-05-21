@@ -1,6 +1,11 @@
 require 'active_support/secure_random'  # For generating random values for API key, etc
 
 class ApiUsersController < ApplicationController
+
+	before_filter :authenticated?
+	before_filter :user_has_site_admin
+	protect_from_forgery :only => [:create, :update]
+
   # GET /api_users
   # GET /api_users.xml
   def index

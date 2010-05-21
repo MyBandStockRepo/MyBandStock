@@ -1,0 +1,20 @@
+%p
+	%b Title:
+	= @live_stream_series.title
+
+%p
+	%b Start time:
+	= @live_stream_series.starts_at
+
+%p
+	%b End time:
+	= @live_stream_series.ends_at
+
+%p
+	%b Band:
+	= Band.find(@live_stream_series.band_id).name
+
+
+= link_to 'Edit', edit_live_stream_series_path(@live_stream_series)
+|
+= link_to 'Back', :action => 'index'
