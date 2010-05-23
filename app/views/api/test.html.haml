@@ -8,8 +8,9 @@
       %option{ :value => 'change_stream_permission' } change_stream_permission
 
   %div.form_element
-    %label{ :for => 'format' } Response format:
-    %select{ :name => 'format' }
+    %label{ :for => 'output_format' } Response format:
+    %select{ :name => 'output_format' }
+      %option{ :value => 'nil' } Unspecified (defaults to JSON)
       %option{ :value => 'xml' } XML
       %option{ :value => 'yaml' } YAML
       %option{ :value => 'json' } JSON
@@ -21,7 +22,7 @@
   %div.form_element
     %label{ :for => 'hash' } Hash:
     %input{ :type => 'text', :name => 'hash' }
-    %label{ :for => 'auto_generate_hash' } Auto-generate hash [not currently working-->]:
+    %label{ :for => 'auto_generate_hash' } Auto-generate hash:
     %input#auto_generate_hash{ :type => 'checkbox', :name => 'auto_generate_hash' }
 
   %div.form_element

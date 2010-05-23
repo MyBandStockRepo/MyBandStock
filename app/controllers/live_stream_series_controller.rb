@@ -66,6 +66,7 @@ class LiveStreamSeriesController < ApplicationController
   # DELETE /live_stream_series/1
   # DELETE /live_stream_series/1.xml
   def destroy
+in_delete
     @live_stream_series = LiveStreamSeries.find(params[:id])
     @live_stream_series.destroy
 

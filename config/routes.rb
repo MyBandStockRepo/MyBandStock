@@ -15,6 +15,7 @@ Cobain::Application.routes.draw do |map|
   resources :api_users
 
   resources :live_stream_series
+  resources :live_stream_serie
 
   resources :live_stream_series_permissions
 
