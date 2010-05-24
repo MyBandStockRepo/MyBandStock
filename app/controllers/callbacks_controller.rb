@@ -35,7 +35,7 @@ private
 
   def streamapi_authenticate_user(params)
     options_hash = Hash.new
-    if  ( (@user = StreamapiStreamViewerStatus.where(:viewer_key => params[:key]).user &&          #User.where(:email => params[:username]).first) &&
+    if  ( (@user = StreamapiStreamViewerStatus.where(:viewer_key => params[:key]).first.user &&          #User.where(:email => params[:username]).first) &&
           (@streamapi_stream = StreamapiStream.includes(:live_stream_series).where(:public_hostid => params[:public_hostid]).first)
         )
       if (viewer_key_check(@user, @streamapi_stream, params[:viewer_key], params[:userip]))
