@@ -16,3 +16,6 @@
   "&key=#{ @viewer_key }", |
   :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
 
+  :javascript
+    startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
+

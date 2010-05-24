@@ -27,7 +27,7 @@ Cobain::Application.routes.draw do |map|
   match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
   match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
   match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'      
-  match '/streamapi_streams/:id/ping', :to => 'streamapi_streams#ping'   
+  match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'   
 
   resources :associations
 
