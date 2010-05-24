@@ -3,10 +3,11 @@
 
 %h3 sapi_login
 =form_tag '/callbacks/streamapi', :method => 'post' do 
-  %input{:type => 'hidden', :name => 'action', :value => 'login'}
-  %input{:type => 'hidden', :name => 'public_hostid', :value => '1234'}
-  %input{:type => 'hidden', :name => 'username', :value => 'jm@mybandstock.com'}
-  %input{:type => 'hidden', :name => 'password', :value => 'test123'}
+  %input{:type => 'text', :name => 'action', :value => 'login'}
+  %input{:type => 'text', :name => 'public_hostid', :value => '1234'}
+  %input{:type => 'text', :name => 'viewer_key', :value => 'kMx5JBfqgVIGa6Sa'}
+  %input{:type => 'text', :name => 'username', :value => 'jm@mybandstock.com'}
+  %input{:type => 'text', :name => 'password', :value => 'test123'}
   =submit_tag
 
 %h3 sapi_end_live

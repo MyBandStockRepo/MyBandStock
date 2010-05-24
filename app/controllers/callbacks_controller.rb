@@ -1,4 +1,5 @@
 class CallbacksController < ApplicationController
+# http://cobain.mybandstock.com/callbacks/streamapi
   respond_to :html, :xml
   skip_before_filter :verify_authenticity_token # Disable CSRF protection for incoming POST requests here
 
@@ -52,7 +53,7 @@ private
         else
           #they are valid mbs users but haven't purchased the stream
           options_hash['code'] = -3
-          options_hash['message'] = "You haven't purchased access to this stream.  To do so go #{@streamapi_stream.live_stream_series.purchase_url}"
+          options_hash['message'] = "You haven't purchased access to this stream.  To do, visit #{@streamapi_stream.live_stream_series.purchase_url}."
         end
       else
         # Already logged in with that viewer_key
@@ -112,12 +113,12 @@ private
   
   def viewer_key_check(user, stream, viewer_key)
     viewer_entry = StreamapiStreamViewerStatus.where(
-                      :user_id => user_id,
-                      :streamapi_stream_id => stream_id,
+                      :user_id => user.id,
+                      :streamapi_stream_id => stream.id,
                       :viewer_key => viewer_key
                    ).first
 
-    if (viewer_entry.nil? || viewer_entry.count == 0)
+    if (viewer_entry.nil?)
       # If there currently is no association between the given user and stream,
       #  then the user is not allowed to view the stream. He hasn't first authenticated with us, or the provided key is fake.
       return false
