@@ -94,13 +94,6 @@ respond_to :html, :js
   	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
   	apiridnum = (Time.now.to_f * 100000*10).to_i
 
-
-
-# FOR TESTING ON LOCAL MACHINE SO NOT TO MESS UP RID
-apiridnum = 1
-
-
-
   	apirid = apiridnum.to_s
   	band_name = Band.find(@stream.band_id).name
     
