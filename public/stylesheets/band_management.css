@@ -77,7 +77,7 @@
   .divider-bar.first .stream-schedule-label {
     position: absolute;
     left: 39px;
-    top: 8px;
+    top: 9px;
     width: 144px;
     height: 10px;
     background: url(/images/band_management/stream_schedule_text.gif) no-repeat;
@@ -85,7 +85,7 @@
   .divider-bar.first .duration-label {
     position: absolute;
     right: 124px;
-    top: 8px;
+    top: 9px;
     width: 77px;
     height: 11px;
     background: url(/images/band_management/duration_text.gif) no-repeat;

@@ -39,7 +39,10 @@ respond_to :html, :js
 =end
   end
 	
-	
+	def ping
+  # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
+    render :nothing => true
+  end
 	
 	
 	
@@ -48,19 +51,22 @@ respond_to :html, :js
       redirect_to session[:last_clean_url]      
       return false
     end
+
+    @viewer_key = generate_key(16)
+
+    viewer_status_entry = StreamapiStreamViewerStatus.new
+    viewer_status_entry.streamapi_stream = @stream
+    viewer_status_entry.user = User.find(session[:user_id])
+    viewer_status_entry.viewer_key = @viewer_key
+    unless viewer_status_entry.save
+      # Did not pass validation, but we'll let it slide.
+      # We will reject the user when his StreamAPI auth callback arrives.
+    end
     
-=begin    
-		respond_to do | format |
-		
-			format.js {render :layout => false}
-			format.html
-		end
-=end
 	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
       render :layout => 'lightbox'
     end
-
 	end
 	
 	
@@ -91,7 +97,6 @@ respond_to :html, :js
 
 		url = URI.parse(apiurl)
 		req = Net::HTTP::Post.new(url.path)
-		
 		
 
 		req.set_form_data({:is_video_private=>private_value, :key=>apikey, :rid=>apirid, :sig=>apisig})		

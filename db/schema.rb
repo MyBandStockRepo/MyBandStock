@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100514193600) do
+ActiveRecord::Schema.define(:version => 20100524145220) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -118,6 +118,17 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "streamapi_stream_viewer_statuses", :force => true do |t|
+    t.string   "ip_address"
+    t.string   "viewer_key",          :null => false
+    t.integer  "streamapi_stream_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "streamapi_stream_viewer_statuses", ["viewer_key"], :name => "index_streamapi_stream_viewer_statuses_on_viewer_key", :unique => true
 
   create_table "streamapi_streams", :force => true do |t|
     t.string   "private_hostid"

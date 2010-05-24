@@ -18,13 +18,7 @@ class User < ActiveRecord::Base
 #  has_many :user_photos
  
   has_many :live_stream_series_permissions
- 
-=begin  #genres hack
-  belongs_to :genre_1, :class_name => 'Genre', :foreign_key => 'genre_1_id', :readonly => true
-  belongs_to :genre_2, :class_name => 'Genre', :foreign_key => 'genre_2_id', :readonly => true
-  belongs_to :genre_3, :class_name => 'Genre', :foreign_key => 'genre_3_id', :readonly => true
-=end   
-
+  has_many :streamapi_stream_viewer_statuses
 
   #validations -- goes down to the first def
   
