@@ -31,27 +31,32 @@ private
   def streamapi_authenticate_user(params)
     options_hash = Hash.new
     if  ( (@user = User.where(:email => params[:username]).first) &&
-          (@user.password == Digest::SHA2.hexdigest(params[:password])) &&
           (@streamapi_stream = StreamapiStream.includes(:live_stream_series).where(:public_hostid => params[:public_hostid]).first)
         )
-      @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
-      if @lssp
-        if @lssp.can_chat && @lssp.can_view
-          #let them do both
-          options_hash['user'] = @user.full_name
-          options_hash['role'] =  'chatter'
-          options_hash['code'] =  0
-        elsif @lssp.can_view
-          #they only get a viewer role
-          options_hash['user'] = @user.full_name
-          options_hash['role'] = 'viewer'
-          options_hash['code'] = 0
+      if (viewer_key_check(@user, @streamapi_stream, params[:viewer_key]))
+        @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
+        if @lssp
+          if @lssp.can_chat && @lssp.can_view
+            #let them do both
+            options_hash['user'] = @user.full_name
+            options_hash['role'] = 'chatter'
+            options_hash['code'] = 0
+          elsif @lssp.can_view
+            #they only get a viewer role
+            options_hash['user'] = @user.full_name
+            options_hash['role'] = 'viewer'
+            options_hash['code'] = 0
+          end
+        else
+          #they are valid mbs users but haven't purchased the stream
+          options_hash['code'] = -3
+          options_hash['message'] = "You haven't purchased access to this stream.  To do so go #{@streamapi_stream.live_stream_series.purchase_url}"
         end
       else
-        #they are valid mbs users but haven't purchased the stream
-        options_hash['code'] = -3
-        options_hash['message'] = "You haven't purchased access to this stream.  To do so go #{@streamapi_stream.live_stream_series.purchase_url}"
-      end
+        # Already logged in with that viewer_key
+        options_hash['code'] = -1
+        options_hash['message'] = 'You are already viewing this stream. Try closing all stream sessions and trying again after a few minutes.'
+      end #/viewer_key_check
     else
       #they didn't pass valid mbs user credentials
       options_hash['code'] = -1
@@ -102,4 +107,32 @@ private
     return options_hash
   end
 
+<<<<<<< HEAD
+=======
+  
+  def viewer_key_check(user, stream, viewer_key)
+    viewer_entry = StreamapiStreamViewerStatus.where(
+                      :user_id => user_id,
+                      :streamapi_stream_id => stream_id,
+                      :viewer_key => viewer_key
+                   ).first
+
+    if (viewer_entry.nil? || viewer_entry.count == 0)
+      # If there currently is no association between the given user and stream,
+      #  then the user is not allowed to view the stream. He hasn't first authenticated with us, or the provided key is fake.
+      return false
+    end
+    logger.info (Time.now - viewer_entry.updated_at) + ' has elapsed.'
+
+    if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
+      # If x seconds has elapsed since we last heard from the user, we allow him in.
+      # x is defined in environment.rb
+      return true
+    else
+      return false
+    end
+    
+  end
+
+>>>>>>> Pinger
 end

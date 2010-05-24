@@ -1,21 +1,21 @@
-$(document).ready(function() {
+$(document).ready( function() { } );
 
-}
-function startPinger() {
-  var waitTime = 1*1000;   // 5 minutes
-  var intervalTime = 10*1000; // 30 seconds
+function startPinger(streamID, viewerKey) {
+  var waitTime = 10*1000;   // 5 minutes
+  var intervalTime = 1*1000; // 30 seconds
   setTimeout(
     function() {
       setInterval(
         function() {
-          sendPing();
+          sendPing(streamID, viewerKey);
         }, intervalTime
       );
     }, waitTime
   );
   return;
 }
-function sendPing() {
-  alert('send ping');
+function sendPing(streamID, viewerKey) {
+  var url = '/streamapi_streams/'+ streamID +'/ping/'+ viewerKey
+  $.get(url, function(data) { });
   return;
 }

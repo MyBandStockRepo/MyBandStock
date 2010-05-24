@@ -40,6 +40,14 @@ respond_to :html, :js
 	
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
+    stream_id = params[:stream_id]
+    viewer_key = params[:viewer_key]
+
+    ssvs = StreamapiStreamViewerStatus.where(:viewer_key => viewer_key).first
+    if ssvs
+      ssvs.touch   # Update timestamp
+    end
+
     render :nothing => true
   end
 	
@@ -51,15 +59,21 @@ respond_to :html, :js
       return false
     end
 
-    @viewer_key = generate_key(16)
+    viewer_status_entry = StreamapiStreamViewerStatus.where(:user_id => session[:user_id], :streamapi_stream_id => @stream.id).first
 
-    viewer_status_entry = StreamapiStreamViewerStatus.new
-    viewer_status_entry.streamapi_stream = @stream
-    viewer_status_entry.user = User.find(session[:user_id])
-    viewer_status_entry.viewer_key = @viewer_key
-    unless viewer_status_entry.save
-      # Did not pass validation, but we'll let it slide.
-      # We will reject the user when his StreamAPI auth callback arrives.
+    if (viewer_status_entry.nil?)
+      # If this viewer_key doesn't already exist, then make it
+      @viewer_key = generate_key(16)
+      viewer_status_entry = StreamapiStreamViewerStatus.new
+      viewer_status_entry.streamapi_stream = @stream
+      viewer_status_entry.user = User.find(session[:user_id])
+      viewer_status_entry.viewer_key = @viewer_key
+      unless viewer_status_entry.save
+        # Did not pass validation, but we'll let it slide.
+        # We will reject the user when his StreamAPI auth callback arrives.
+      end
+    else  # viewer_key already exists, so this user is probably refreshing the page
+      @viewer_key = viewer_status_entry.viewer_key
     end
     
 	  unless params[:lightbox].nil?
