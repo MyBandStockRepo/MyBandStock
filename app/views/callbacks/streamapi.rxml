@@ -1,0 +1,6 @@
+xml.instruct!
+xml.response do
+  for key in @response_hash.keys
+    eval "xml.#{key} \"#{@response_hash[key]}\""
+  end
+end
