@@ -96,6 +96,12 @@ lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :skin_path => skinPath,
                               :public => false,
                               :band_id => b_dos.id )
+#give jm permissions to chat and view this guy
+lssp = jm.live_stream_series_permissions.create(:can_view => true,
+                                                :can_chat => true,
+                                                :live_stream_series_id => lss_dos.id
+                                                )
+  
 
 lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :public_hostid => 12345,

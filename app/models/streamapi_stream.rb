@@ -1,4 +1,4 @@
 class StreamapiStream < ActiveRecord::Base
 	belongs_to :band
-	belongs_to :stream, :polymorphic => true
+	belongs_to :live_stream_series
 end
