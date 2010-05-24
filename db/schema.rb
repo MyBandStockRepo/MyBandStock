@@ -66,20 +66,20 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
   end
 
   create_table "live_stream_series", :force => true do |t|
-    t.string   "title",      :null => false
-    t.datetime "starts_at",  :null => false
-    t.datetime "ends_at",    :null => false
+    t.string   "title",        :null => false
+    t.datetime "starts_at",    :null => false
+    t.datetime "ends_at",      :null => false
+    t.string   "purchase_url"
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "live_stream_series_permissions", :force => true do |t|
-    t.boolean  "can_view",                                :null => false
-    t.boolean  "can_listen",                              :null => false
-    t.boolean  "can_chat",                                :null => false
-    t.string   "stream_quality_level",                    :null => false
-    t.boolean  "currently_viewing",     :default => true, :null => false
+    t.boolean  "can_view",                                 :null => false
+    t.boolean  "can_listen",            :default => false, :null => false
+    t.boolean  "can_chat",              :default => false, :null => false
+    t.string   "stream_quality_level"
     t.integer  "user_id"
     t.integer  "live_stream_series_id"
     t.datetime "created_at"
@@ -120,14 +120,21 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
   end
 
   create_table "streamapi_streams", :force => true do |t|
-    t.string   "private_hostid"
-    t.string   "public_hostid"
-    t.string   "title",                 :null => false
-    t.datetime "starts_at",             :null => false
-    t.datetime "ends_at",               :null => false
-    t.string   "layout_path",           :null => false
-    t.string   "skin_path",             :null => false
-    t.boolean  "public",                :null => false
+    t.string   "private_hostid",         :null => false
+    t.string   "public_hostid",          :null => false
+    t.string   "channel_id"
+    t.string   "title",                  :null => false
+    t.datetime "starts_at",              :null => false
+    t.datetime "ends_at",                :null => false
+    t.string   "layout_path",            :null => false
+    t.string   "skin_path",              :null => false
+    t.boolean  "public",                 :null => false
+    t.integer  "duration"
+    t.integer  "total_viewers"
+    t.integer  "max_concurrent_viewers"
+    t.string   "recording_filename"
+    t.string   "recording_url"
+    t.string   "live_url"
     t.integer  "band_id"
     t.integer  "live_stream_series_id"
     t.datetime "created_at"

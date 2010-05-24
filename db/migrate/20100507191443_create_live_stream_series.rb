@@ -4,6 +4,7 @@ class CreateLiveStreamSeries < ActiveRecord::Migration
       t.string :title, :null => false
       t.datetime :starts_at, :null => false
       t.datetime :ends_at, :null => false
+      t.string :purchase_url, :null => true
 
 			t.belongs_to :band
 

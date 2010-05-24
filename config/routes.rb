@@ -8,9 +8,6 @@ Cobain::Application.routes.draw do |map|
   match 'api', :to => 'api#index'
 
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
-  
-
-  
 
   resources :api_users
 
@@ -22,9 +19,9 @@ Cobain::Application.routes.draw do |map|
   #stream methods
 
   resources :streamapi_streams
-match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
-match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
-match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
+  match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
+  match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
+  match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
   resources :associations
 
@@ -214,8 +211,8 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   match ':band_short_name/manage_users', :to => 'bands#manage_users'
   
   # Install the default routes as the lowest priority.
-  match ':controller/:action'
-  match ':controller/:id/:action'
+  match ':controller(/:action)'
+  match '/:controller(/:id(/:action))'
   
   match '/:one_term', :to => 'search#one_term_url'
   
