@@ -7,7 +7,7 @@
   %fieldset.user-info
     %legend 
       %strong Edit User Info
-    -form_for(@user, :html => { :multipart => true }) do |f|
+    =form_for(@user, :html => { :multipart => true }) do |f|
       =error_messages_for :user
 
       %ul.form-fields

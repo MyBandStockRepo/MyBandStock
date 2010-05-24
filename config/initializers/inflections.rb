@@ -10,4 +10,6 @@
 # end
 
 ActiveSupport::Inflector.inflections do |inflect|
+#	inflect.uncountable %w( LiveStreamSeries series live_stream_series )
+
 end

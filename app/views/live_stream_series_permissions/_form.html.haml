@@ -1,0 +1,36 @@
+= form_for(@live_stream_series_permission) do |f|
+  = f.error_messages
+
+  .field
+    = f.label :can_view
+    %br
+    = f.check_box :can_view
+
+  .field
+    = f.label :can_listen
+    %br
+    = f.check_box :can_listen
+
+  .field
+    = f.label :can_chat 
+    %br
+    = f.check_box :can_chat
+
+  .field
+    = f.label :stream_quality_level 
+    %br
+    = f.text_field :stream_quality_level
+
+  .field
+    = f.label :stream_name
+    %br
+    = collection_select :live_stream_series_permission, :live_stream_series_id, LiveStreamSeries.all, :id, :title
+
+  .field
+    = f.label :user_name
+    %br
+    = collection_select :live_stream_series_permission, :user_id, User.all, :id, :full_name
+
+
+  .actions
+    = f.submit

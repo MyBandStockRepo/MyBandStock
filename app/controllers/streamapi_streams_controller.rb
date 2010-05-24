@@ -84,7 +84,7 @@ respond_to :html, :js
 
 
 # FOR TESTING ON LOCAL MACHINE SO NOT TO MESS UP RID
-#apiridnum = 1
+apiridnum = 1
 
 
 

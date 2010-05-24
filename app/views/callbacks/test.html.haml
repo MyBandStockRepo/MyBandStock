@@ -1,0 +1,35 @@
+%h3 My Post Form
+=request.methods.collect{|m| "#{m} - "}
+
+%h3 sapi_login
+=form_tag '/callbacks/streamapi', :method => 'post' do 
+  %input{:type => 'hidden', :name => 'action', :value => 'login'}
+  %input{:type => 'hidden', :name => 'public_hostid', :value => '1234'}
+  %input{:type => 'hidden', :name => 'username', :value => 'jm@mybandstock.com'}
+  %input{:type => 'hidden', :name => 'password', :value => 'test123'}
+  =submit_tag
+
+%h3 sapi_end_live
+=form_tag '/callbacks/streamapi', :method => 'post' do 
+  %input{:type => 'hidden', :name => 'action', :value => 'end_live'}
+  %input{:type => 'hidden', :name => 'public_hostid', :value => '12349'}
+  %input{:type => 'hidden', :name => 'channel_id', :value => '54321'}
+  %input{:type => 'hidden', :name => 'duration', :value => '43'}
+  %input{:type => 'hidden', :name => 'viewers', :value => '1000'}
+  %input{:type => 'hidden', :name => 'max_viewers', :value => '63'}
+  =submit_tag
+
+  
+%h3 sapi_end_record
+=form_tag '/callbacks/streamapi', :method => 'post' do 
+  %input{:type => 'hidden', :name => 'action', :value => 'end_record'}
+  %input{:type => 'hidden', :name => 'public_hostid', :value => '1234'}
+  %input{:type => 'hidden', :name => 'channel_id', :value => '543211'}
+  %input{:type => 'hidden', :name => 'duration', :value => '3600'}
+  %input{:type => 'hidden', :name => 'filename', :value => 'blarg.flv'}
+  %input{:type => 'hidden', :name => 'url', :value => 'http://static.streamapi.com/video/100/000/074/0/6a4415c67335759d2a5af656ec25f9aac822f63a_1242074406318.flv'}
+  =submit_tag
+  
+  
+  
+  

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @top_invested_artists = @user.top_invested_artists
     
 =end    
-    @random_band = get_random_band()
+#    @random_band = get_random_band()
 
 
     respond_to do |format|
@@ -49,6 +49,8 @@ class UsersController < ApplicationController
     @user.password = ''
     @user.password_confirmation = ''
     
+    
+    
     unless @user.country_id.nil?
       @states = State.find_all_by_country_id(@user.country_id)
     else
@@ -65,7 +67,13 @@ class UsersController < ApplicationController
     end
     @user = User.find(id)
     
-    @random_band = get_random_band()
+#    @random_band = get_random_band()
+    
+		# Hash the password before putting it into DB
+		params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
+		# We must also hash the confirmation entry so the model can check them together
+		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
+    
     
     #for the regular "post"ers make sure the country matches the state in case they changed it
     unless ( params[:user][:country_id].nil? || (params[:user][:country_id].to_i == @user.country_id) || (params[:user][:state_id] == '1') )
@@ -73,10 +81,7 @@ class UsersController < ApplicationController
       #if the state isn't in the country then reset the state_id update and redirect
       params[:user][:state_id] = 1
 
-      # Hash the password before putting it into DB
-      params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
-      # We must also hash the confirmation entry so the model can check them together
-      params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
+
 
       @user.update_attributes(params[:user])
       @user.save

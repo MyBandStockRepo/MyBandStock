@@ -1,4 +1,9 @@
 class LiveStreamSeriesController < ApplicationController
+
+	before_filter :authenticated?
+	before_filter :user_has_site_admin
+	protect_from_forgery :only => [:create, :update]
+
   respond_to :html, :js, :xml
   
   # GET /live_stream_series
@@ -71,7 +76,7 @@ in_delete
     @live_stream_series.destroy
 
     respond_to do |format|
-      format.html { redirect_to(live_stream_series_url) }
+      format.html { redirect_to(:action => 'index') }
       format.xml  { head :ok }
     end
   end

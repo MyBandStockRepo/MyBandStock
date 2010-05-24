@@ -1,4 +1,6 @@
-= form_for(@live_stream_series) do |f|
+%h1 New live_stream_series
+
+= form_for(:live_stream_series, @live_stream_series, :url => { :action => "create" }) do |f|
   = f.error_messages
 
   .field
@@ -19,4 +21,5 @@
     =collection_select :live_stream_series, :band_id, Band.all, :id, :name
   .actions
     = f.submit
-
+    
+= link_to 'Back', :controller => 'live_stream_series', :action => 'index'
