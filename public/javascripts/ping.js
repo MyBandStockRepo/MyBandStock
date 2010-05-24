@@ -2,7 +2,7 @@ $(document).ready( function() { } );
 
 function startPinger(streamID, viewerKey) {
   var waitTime = 10*1000;   // 5 minutes
-  var intervalTime = 1*1000; // 30 seconds
+  var intervalTime = 2*1000; // 30 seconds
   setTimeout(
     function() {
       setInterval(

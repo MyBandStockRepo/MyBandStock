@@ -1,5 +1,7 @@
 class CallbacksController < ApplicationController
   respond_to :html, :xml
+  skip_before_filter :verify_authenticity_token # Disable CSRF protection for incoming POST requests here
+
   def test  
   end
   
