@@ -1,0 +1,124 @@
+#content {
+  padding: 0 !important;
+}
+
+/* Band management */
+.band-manage-container {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 100%;
+}
+.band-schedules {
+  width: 80%;
+  margin: 1em auto;
+}
+.schedules-table {
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
+}
+.schedules-table th {
+  font-weight: bold;
+}
+.schedules-table tr {
+  border: 1px solid #333;
+}
+.schedules-table td {
+  border: 1px solid #333;
+}
+
+.band-manage-link {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: .5em;
+  font-size: 1.5em;
+}
+
+.divider-bar {
+  width: 100%;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
+  .divider-bar-left {
+    float: left;
+    width: 341px;
+    height: 100%;
+    background: url(/images/band_management/orange_bar_left.gif) #F60 no-repeat;
+  }
+  .divider-bar-right {
+    float: right;
+    position: relative;
+    width: 639px;
+    height: 100%;
+    background: url(/images/band_management/orange_bar_right.gif) #F60 no-repeat;
+  }
+
+  .divider-bar.first .add-band-link {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 120px;
+    height: 30px;
+  }
+  .divider-bar.first .add-band-button {
+    position: absolute;
+    left: 20px;
+    top: 8px;
+    width: 85px;
+    height: 14px;
+    background: url(/images/band_management/add_band_text.gif) no-repeat;
+  }
+  .divider-bar.first .stream-schedule-label {
+    position: absolute;
+    left: 39px;
+    top: 8px;
+    width: 144px;
+    height: 10px;
+    background: url(/images/band_management/stream_schedule_text.gif) no-repeat;
+  }
+  .divider-bar.first .duration-label {
+    position: absolute;
+    right: 124px;
+    top: 8px;
+    width: 77px;
+    height: 11px;
+    background: url(/images/band_management/duration_text.gif) no-repeat;
+  }
+
+.band-info-box {
+  float: left;
+  width: 341px;
+  background-color: #191919;
+  border-right: 1px solid #303030;
+}
+  .band-name {
+    display: block;
+    width: 232px;
+    height: 29px;
+    padding: 12px 0 0 109px;
+    font-size: 14pt;
+    color: white;
+    text-decoration: none;
+    background-color: #141414;
+  }
+  .band-name:hover {
+    text-decoration: underline;
+  }
+  .band-name:visited {
+    color: white;
+  }
+
+.stream-schedule-box {
+  float: right;
+  width: 639px;
+  background-color: #191919;
+  border-left: 1px solid #000;
+}
+
+

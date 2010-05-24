@@ -232,39 +232,3 @@ div#admin_new_record_div{padding: 20px;}
 table.admin_new_record_table{margin: 20px;}
 table.admin_new_record_table tr td{padding: 10px;}
 
-/* Band management */
-.band-manage-box {
-  border: 1px solid #222;
-  margin: 1em;
-  padding: .5em;
-  position: relative;
-  width: 90%;
-}
-.band-schedules {
-  width: 80%;
-  margin: 1em auto;
-}
-.schedules-table {
-  width: 80%;
-  margin: 5px;
-  padding: 5px;
-  border: 1px solid black;
-}
-.schedules-table th {
-  font-weight: bold;
-}
-.schedules-table tr {
-  border: 1px solid #333;
-}
-.schedules-table td {
-  border: 1px solid #333;
-}
-
-.band-manage-link {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin: .5em;
-  font-size: 1.5em;
-}
-

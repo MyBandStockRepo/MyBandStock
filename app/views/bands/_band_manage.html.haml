@@ -1,7 +1,20 @@
 -band = band_manage
-.band-manage-box
-  %h3
-    =link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }
+.band-manage-container
+  %div.divider-bar{ :class => band_manage_counter == 0 ? 'first' : '' }
+    .divider-bar-left
+      &nbsp;
+      - if band_manage_counter == 0 # If this is the first band in the list
+        %a.add-band-link{ :href => new_band_path }
+          .add-band-button &nbsp;
+    .divider-bar-right
+      &nbsp;
+      - if band_manage_counter == 0
+        .stream-schedule-label &nbsp;
+        .duration-label &nbsp;
+  .band-info-box
+    =link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'band-name'
+  .stream-schedule-box
+    =render :partial => 'bands/series_list', :locals => { :band => band }
   .stats
     %dl
       %dt Date of Formation:
@@ -20,8 +33,6 @@
           %dt Profile Published!
           %dd<
             =link_to 'Hide!', url_hash
-
-  =render :partial => 'bands/series_list', :locals => { :band => band }
                 
   .profile-column
     #bio.widget-box

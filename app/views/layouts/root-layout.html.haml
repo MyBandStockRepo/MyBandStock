@@ -2,8 +2,13 @@
 %html
   %head
     %title Cobain
-    -# = stylesheet_link_tag :all
-    = stylesheet_link_tag :all
+    -# Stylesheets are declared explicitly here so we can establish an ordering (e.g., reset should be before style)
+    = stylesheet_link_tag 'scaffold'
+    = stylesheet_link_tag 'reset'
+    = stylesheet_link_tag 'style'
+    = stylesheet_link_tag 'admin'
+    = stylesheet_link_tag 'band_management'
+    = stylesheet_link_tag 'lightbox'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"
     = javascript_include_tag 'rails'

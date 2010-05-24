@@ -1,16 +1,12 @@
--if @user.site_admin
-  =render :partial => 'admin/admin_bar', :locals => {}
-#cp-user-info
-  = render :partial => 'users/user_info', :locals => { :user => @user }
-  .notice
-    - if @bands.count > 0
-      - text = "You are a manager for the following band"
-      - text << 's' if (@bands.count > 1)
-      = text << '.'
+-# __commented__
+  -if @user.site_admin
+    =render :partial => 'admin/admin_bar', :locals => {}
+  #cp-user-info
+    = render :partial => 'users/user_info', :locals => { :user => @user }
 
-  = render :partial => 'bands/band_manage', :collection => @bands
+= render :partial => 'bands/band_manage', :collection => @bands
 
--# __commented
+-# __commented__
   #primary-content
     #header
       %h1 
