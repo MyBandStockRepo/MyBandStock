@@ -107,8 +107,6 @@ private
     return options_hash
   end
 
-<<<<<<< HEAD
-=======
   
   def viewer_key_check(user, stream, viewer_key)
     viewer_entry = StreamapiStreamViewerStatus.where(
@@ -134,5 +132,4 @@ private
     
   end
 
->>>>>>> Pinger
 end
