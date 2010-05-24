@@ -23,6 +23,8 @@ class CallbacksController < ApplicationController
         streamapi_live_stream_finished(params)
       when 'action=end_record'
         streamapi_recording_transcode_finished(params)
+      else
+        Hash.new
     end
 
     render :layout => false
@@ -36,7 +38,7 @@ private
     if  ( (@user = User.where(:email => params[:username]).first) &&
           (@streamapi_stream = StreamapiStream.includes(:live_stream_series).where(:public_hostid => params[:public_hostid]).first)
         )
-      if (viewer_key_check(@user, @streamapi_stream, params[:viewer_key]))
+      if (viewer_key_check(@user, @streamapi_stream, params[:viewer_key], params[:userip]))
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp
           if @lssp.can_chat && @lssp.can_view
@@ -111,7 +113,7 @@ private
   end
 
   
-  def viewer_key_check(user, stream, viewer_key)
+  def viewer_key_check(user, stream, viewer_key, user_ip)
     viewer_entry = StreamapiStreamViewerStatus.where(
                       :user_id => user.id,
                       :streamapi_stream_id => stream.id,
@@ -128,6 +130,8 @@ private
     if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
       # If x seconds has elapsed since we last heard from the user, we allow him in.
       # x is defined in environment.rb
+      viewer_entry.ip_address = user_ip # Stash the user's IP
+      viewer_entry.save
       return true
     else
       return false
