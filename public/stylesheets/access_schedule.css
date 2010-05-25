@@ -1,0 +1,15 @@
+.access-schedule-list {
+  margin: .5em 1em 1em;
+}
+  .access-schedule-list td {
+    padding: 1px 5px;
+  }
+  .access-schedule-list .stream-name {
+    font-style: italic;
+  }
+  .access-schedule-list .stream-title {
+    font-style: normal;
+    font-weight: bold;
+  }
+
+

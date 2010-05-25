@@ -21,15 +21,16 @@
 
 %h1="#{band.name} - Access Schedule"
 -for series in band.live_stream_series
-  %h2= series.title  
-  =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
-  -for stream in series.streamapi_streams
-    %ul.access-schedule-list
-      %li.stream-name
-        ="#{stream.title}"
-        \- 
-        ="Starts on #{stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')}"
-      %li
-        =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
-      %li
-        =link_to 'Watch', { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+  %h2= series.title
+  - if can_broadcast
+    =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
+  %table.access-schedule-list
+    -for stream in series.streamapi_streams
+      %tr
+        %td.stream-name
+          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title'
+          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+        - if can_broadcast
+          %td.begin-broadcast
+            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+

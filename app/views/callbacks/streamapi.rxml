@@ -1,6 +1,5 @@
 xml.instruct!
 puts @response_hash.to_xml(:root => 'response')
-print 'asdf'
 
 =begin
 xml.response do

@@ -280,7 +280,7 @@ class User < ActiveRecord::Base
       return true
     else
     #modified for rails 3
-      return self.associations.where(['name = ? AND band_id', 'admin', passed_band_id.to_i])
+      return self.associations.where(['name = ? AND band_id = ?', 'admin', passed_band_id.to_i]).first
     end
   end
 
@@ -291,8 +291,13 @@ class User < ActiveRecord::Base
       return true
     else
     #modified for rails 3    
-      return self.associations.where(['name = ? AND band_id', 'member', passed_band_id.to_i])
+      return self.associations.where(['name = ? AND band_id = ?', 'member', passed_band_id.to_i]).first
     end
+  end
+
+  def can_broadcast_for(band_id)
+  # Takes an integer band ID and returns true if the user is a member or admin of the band.
+    return ( self.has_band_admin(band_id) || self.is_member_of_band(band_id) )
   end
 
 

@@ -40,7 +40,7 @@
           =@band.bio
   .access-schedule
     =# render :controller => 'live_stream_series', :action => "by_band" #, :layout => false
-    = render :partial => 'live_stream_series/by_band', :locals => { :band => @band }
+    = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
 #remote-page-test
   %br

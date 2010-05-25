@@ -61,6 +61,7 @@ h1 {
 }
 
 h2 {
+  margin: 3px 0 5px;
 	color: #fff;
 	font-size: 1.5em;
 	font-weight: normal;
@@ -183,14 +184,6 @@ a.social facebook fb_login_not_logged_in FB_login_button FB_ElementReady{float: 
 		
 a.bandlink {padding-left:10px;}
 span.number_count {width:100px;position:absolute; right: 40px; text-align:right;}
-
-
-.access-schedule-list li {
-  text-indent: 1em;
-}
-.access-schedule-list .stream-name {
-  text-indent: .5em
-}
 
 /* ABOUT US */
 

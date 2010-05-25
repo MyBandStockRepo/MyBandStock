@@ -13,6 +13,8 @@ class BandsController < ApplicationController
   def show
     id = get_band_id_from_request()
     @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
+
+    @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     
     #make sure the band isn't hidden
     if @band.status != "active"
@@ -24,32 +26,6 @@ class BandsController < ApplicationController
         @band.live_stream_series.includes(:streamapi_streams)
       end
     end
-    
-    #create the list vars
-=begin
-    @news_entries = @band.news_entries.paginate(:page => params[:news_entries_page], :order => ['updated_at DESC'], :per_page => 3)
-    @concerts = @band.concerts.paginate(:page => params[:concerts_page], :order => ['date DESC'], :per_page => 5)
-    @stage_comments = @band.stage_comments.paginate(:page => params[:stage_comments_page], :order => ['created_at desc'], :per_page => 4)
-    if @band.active_project
-      @ledger_entries = @band.active_project.ledger_entries.paginate(:page => params["project_#{@band.active_project.id}_ledger_entries_page"], :per_page => 10)
-    else
-      @ledger_entries = []
-    end
-    @perks = @band.perks.paginate(:joins => :contribution_levels, :conditions => {:perks => {:contribution_levels =>{:disabled => false, :locked => true}}}, :page => params[:perks_page], :order => ['created_at desc'], :per_page => 10)
-    
-
-    @band_fans = @band.contributors.size
-    @band_total_shares = @band.contributions.collect{|c| c.contribution_level.number_of_shares}.sum
-    
-    @user_can_buy_stock = Band.find_by_id(id, :joins => [:contribution_levels, :projects], :conditions => {:band => {:contribution_levels => {:disabled => false}, :projects => {:active => true} } } )
-    
-    @top_fans = @band.top_fans
-    
-    @new_fans_yesterday = Rails.cache.fetch("band_#{@band.id}_new_fans_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.associations.find(:all, :conditions => ['name = ? AND created_at > ? AND created_at < ?', 'fan',  1.day.ago.midnight,Time.now.midnight]).size.to_i }
-    @new_shares_yesterday = Rails.cache.fetch("band_#{@band.id}_new_shares_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.contributions.find(:all, :joins => [:contribution_level], :conditions => ['contributions.created_at > ? AND contributions.created_at < ?', 1.day.ago.midnight, Time.now.midnight]).collect{|c| c.contribution_level.number_of_shares}.sum }
-    
-    @fresh_stage_comment = StageComment.new(:band_id => @band.id)
-=end
   end
   
   

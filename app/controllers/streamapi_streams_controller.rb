@@ -100,7 +100,7 @@ respond_to :html, :js
     unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
       return false
-    end	
+    end
 
   	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
   	apikey = STREAMAPI_KEY
