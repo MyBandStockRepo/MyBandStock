@@ -39,7 +39,7 @@ private
     if  ( (viewer_status_entry) && (@user = viewer_status_entry.user) &&
           (@streamapi_stream = StreamapiStream.includes(:live_stream_series).where(:public_hostid => params[:public_hostid]).first)
         )
-      if (viewer_key_check(@user, @streamapi_stream, params[:viewer_key], params[:userip]))
+      if (viewer_key_check(@user, @streamapi_stream, params[:key], params[:userip]))
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp
           if @lssp.can_chat && @lssp.can_view
