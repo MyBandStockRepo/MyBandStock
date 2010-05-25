@@ -57,16 +57,19 @@ private
           #they are valid mbs users but haven't purchased the stream
           options_hash['code'] = -3
           options_hash['message'] = "You haven't purchased access to this stream.  To do, visit #{@streamapi_stream.live_stream_series.purchase_url}."
+          logger.info 'Reporting code -3, user has not purchased access.'
         end
       else
         # Already logged in with that viewer_key
         options_hash['code'] = -1
         options_hash['message'] = 'You are already viewing this stream. Try closing all stream sessions and trying again after a few minutes.'
+        logger.info 'Reporting code -1, already logged in.'
       end #/viewer_key_check
     else
       #they didn't pass valid mbs user credentials
       options_hash['code'] = -1
-      options_hash['message'] = 'Invalid email and password.'
+      options_hash['message'] = 'Invalid email and password, or stream does not exist.'
+      logger.info 'Reporting code -1, stream does not exist.'
     end
   
     return options_hash
@@ -124,17 +127,20 @@ private
     if (viewer_entry.nil?)
       # If there currently is no association between the given user and stream,
       #  then the user is not allowed to view the stream. He hasn't first authenticated with us, or the provided key is fake.
+      logger.info "Viewer key check: key does not exist. [#{ viewer_key }]"
       return false
     end
-    logger.info (Time.now - viewer_entry.updated_at) + ' has elapsed.'
+    logger.info 'Viewer key check: ' + (Time.now - viewer_entry.updated_at) + ' seconds have elapsed since last update.'
 
     if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
       # If x seconds has elapsed since we last heard from the user, we allow him in.
       # x is defined in environment.rb
       viewer_entry.ip_address = user_ip # Stash the user's IP
       viewer_entry.save
+      logger.info 'Time limit exceeded, so we allow user to view.'
       return true
     else
+      logger.info 'We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user.'
       return false
     end
     

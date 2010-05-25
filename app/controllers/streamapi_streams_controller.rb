@@ -89,34 +89,26 @@ respond_to :html, :js
       return false
     end	
 
-  	apiurl = 'http://api.streamapi.com/service/session/create'
-  	apikey = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
-  	apisecretkey = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
-  	apiridnum = (Time.now.to_f * 100000*10).to_i
-
-  	apirid = apiridnum.to_s
-  	band_name = Band.find(@stream.band_id).name
+  	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
+  	apikey = STREAMAPI_KEY
+  	apisecretkey = STREAMAPI_SECRET_KEY
+  	apirid = (Time.now.to_f * 100000*10).to_i.to_s
     
     private_value = (!@stream.public).to_s
     
-    apisig = Digest::MD5.hexdigest(private_value+apikey+apisecretkey+apirid)
+    apisig = Digest::MD5.hexdigest(private_value + apikey + apisecretkey + apirid)
 
-		url = URI.parse(apiurl)
-		req = Net::HTTP::Post.new(url.path)
-		
+		req = Net::HTTP::Post.new(apiurl.path)
+		req.set_form_data({:is_video_private=>private_value, :key=>apikey, :rid=>apirid, :sig=>apisig})
 
-		req.set_form_data({:is_video_private=>private_value, :key=>apikey, :rid=>apirid, :sig=>apisig})		
+    logger.info "Making API POST request."
+		res = Net::HTTP.new(apiurl.host, apiurl.port).start {|http| http.request(req) }
+    logger.info "Response:\n#{ res.body.to_s }"
 
-		res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
-
-	## DEBUGGING
-		logger.info res.body.to_s
 		case res
 		when Net::HTTPSuccess, Net::HTTPRedirection
 			doc = Document.new(res.body)
-	
-			
-	
+
 			code = XPath.first(doc, "//code") { |e| puts e.text }
 			for c in code
 				c = c.to_s
@@ -129,13 +121,13 @@ respond_to :html, :js
 				for p in private_hostid
 					p = p.to_s
 				end
-				private_hostid = p.to_s
-				
+				private_hostid = p
+
 				public_hostid = XPath.first( doc, "//public_hostid" ) { |e| puts e.text }
 				for p in public_hostid
 					p = p.to_s
-				end
-				public_hostid = p.to_s
+			  end
+				public_hostid = p
 				
 				@stream.private_hostid = private_hostid
 				@stream.public_hostid = public_hostid
