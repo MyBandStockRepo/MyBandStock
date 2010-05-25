@@ -130,7 +130,7 @@ private
       logger.info "Viewer key check: key does not exist. [#{ viewer_key }]"
       return false
     end
-    logger.info 'Viewer key check: ' + (Time.now - viewer_entry.updated_at) + ' seconds have elapsed since last update.'
+    logger.info 'Viewer key check: ' + (Time.now - viewer_entry.updated_at).to_s + ' seconds have elapsed since last update.'
 
     if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
       # If x seconds has elapsed since we last heard from the user, we allow him in.
