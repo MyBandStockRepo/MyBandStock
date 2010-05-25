@@ -3,7 +3,7 @@ class CallbacksController < ApplicationController
   respond_to :html, :xml
   skip_before_filter :verify_authenticity_token # Disable CSRF protection for incoming POST requests here
 
-  def test  
+  def test
   end
   
   def streamapi
@@ -27,7 +27,7 @@ class CallbacksController < ApplicationController
         Hash.new
     end
 
-    render :layout => false
+    render :xml => @response_hash.to_xml(:root => 'response', :skip_types => true)
   end
 
 
@@ -44,14 +44,15 @@ private
         if @lssp
           if @lssp.can_chat && @lssp.can_view
             #let them do both
-            options_hash['user'] = @user.full_name
-            options_hash['role'] = 'moderator'
+            options_hash['user'] = { :name => @user.full_name,
+                                     :role => 'chatter' }
             options_hash['code'] = 0
             logger.info "User allowed as a chatter."
           elsif @lssp.can_view
             #they only get a viewer role
-            options_hash['user'] = @user.full_name
-            options_hash['role'] = 'moderator'
+            options_hash['user'] = { :name => @user.full_name,
+                                     :role => 'viewer' }
+            options_hash['code'] = 0
             options_hash['code'] = 0
             logger.info "User allowed as a viewer."
           else
@@ -146,7 +147,7 @@ private
       logger.info 'Time limit exceeded, so we allow user to view.'
       return true
     else
-      logger.info 'We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user.'
+      logger.info "We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user."
       return false
     end
     

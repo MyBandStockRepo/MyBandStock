@@ -1,6 +1,11 @@
 xml.instruct!
+puts @response_hash.to_xml(:root => 'response')
+print 'asdf'
+
+=begin
 xml.response do
   for key in @response_hash.keys
     eval "xml.#{key} \"#{@response_hash[key]}\""
   end
 end
+=end
