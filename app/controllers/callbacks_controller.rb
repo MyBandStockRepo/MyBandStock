@@ -42,6 +42,7 @@ private
       if (viewer_key_check(@user, @streamapi_stream, params[:key], params[:userip]))
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp
+          logger.info "User allowed."
           if @lssp.can_chat && @lssp.can_view
             #let them do both
             options_hash['user'] = @user.full_name
@@ -56,7 +57,7 @@ private
         else
           #they are valid mbs users but haven't purchased the stream
           options_hash['code'] = -3
-          options_hash['message'] = "You haven't purchased access to this stream.  To do, visit #{@streamapi_stream.live_stream_series.purchase_url}."
+          options_hash['message'] = "You haven't purchased access to this stream. To do so, visit #{@streamapi_stream.live_stream_series.purchase_url}."
           logger.info 'Reporting code -3, user has not purchased access.'
         end
       else

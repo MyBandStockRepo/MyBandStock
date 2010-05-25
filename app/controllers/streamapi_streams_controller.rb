@@ -59,6 +59,19 @@ respond_to :html, :js
       return false
     end
 
+    user = User.find(session[:user_id])
+
+    lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
+    if lssp.nil?
+      #they are valid mbs users but haven't purchased the stream
+      logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
+      # Just display a message for now.
+      layout_on = params[:lightbox].nil?
+      render :text => "You have not purchased access to this stream. To do so, visit #{ @stream.live_stream_series.purchase_url }.",
+             :layout => layout_on
+      return false
+    end
+
     viewer_status_entry = StreamapiStreamViewerStatus.where(:user_id => session[:user_id], :streamapi_stream_id => @stream.id).first
 
     if (viewer_status_entry.nil?)
