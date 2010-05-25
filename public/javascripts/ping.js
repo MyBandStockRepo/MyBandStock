@@ -1,8 +1,8 @@
 $(document).ready( function() { } );
 
 function startPinger(streamID, viewerKey) {
-  var waitTime = 12*1000;   // 5 minutes
-  var intervalTime = 4*1000; // 30 seconds
+  var waitTime = 3*60*1000;   // 3 minutes
+  var intervalTime = 30*1000; // 30 seconds
   setTimeout(
     function() {
       setInterval(
