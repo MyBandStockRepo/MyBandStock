@@ -2,8 +2,8 @@
 %html
   %head
     %title Access Schedule
-    = stylesheet_link_tag 'scaffold'
-    = stylesheet_link_tag 'access_schedule'
+    = stylesheet_link_tag 'scaffold'    
+    = stylesheet_link_tag @external_css || 'access_schedule'
     = javascript_include_tag :defaults
     = csrf_meta_tag
   %body

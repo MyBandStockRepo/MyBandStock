@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100524145220) do
+ActiveRecord::Schema.define(:version => 20100525175712) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -34,15 +34,16 @@ ActiveRecord::Schema.define(:version => 20100524145220) do
   end
 
   create_table "bands", :force => true do |t|
-    t.string   "name",                                   :null => false
-    t.string   "short_name",                             :null => false
+    t.string   "name",                                    :null => false
+    t.string   "short_name",                              :null => false
     t.text     "bio"
-    t.boolean  "terms_of_service", :default => false,    :null => false
-    t.string   "city",                                   :null => false
-    t.integer  "zipcode",                                :null => false
+    t.boolean  "terms_of_service",  :default => false,    :null => false
+    t.string   "city",                                    :null => false
+    t.integer  "zipcode",                                 :null => false
     t.string   "band_photo"
-    t.string   "status",           :default => "active", :null => false
+    t.string   "status",            :default => "active", :null => false
     t.string   "twitter_user"
+    t.string   "external_css_link"
     t.integer  "country_id"
     t.integer  "state_id"
     t.datetime "created_at"
@@ -119,6 +120,17 @@ ActiveRecord::Schema.define(:version => 20100524145220) do
     t.datetime "updated_at"
   end
 
+  create_table "streamapi_stream_themes", :force => true do |t|
+    t.string   "name",        :null => false
+    t.string   "layout_path", :null => false
+    t.string   "skin_path",   :null => false
+    t.integer  "width",       :null => false
+    t.integer  "height",      :null => false
+    t.string   "quality"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "streamapi_stream_viewer_statuses", :force => true do |t|
     t.string   "ip_address"
     t.string   "viewer_key",          :null => false
@@ -137,8 +149,6 @@ ActiveRecord::Schema.define(:version => 20100524145220) do
     t.string   "title",                  :null => false
     t.datetime "starts_at",              :null => false
     t.datetime "ends_at",                :null => false
-    t.string   "layout_path",            :null => false
-    t.string   "skin_path",              :null => false
     t.boolean  "public",                 :null => false
     t.integer  "duration"
     t.integer  "total_viewers"
@@ -148,6 +158,8 @@ ActiveRecord::Schema.define(:version => 20100524145220) do
     t.string   "live_url"
     t.integer  "band_id"
     t.integer  "live_stream_series_id"
+    t.integer  "broadcast_theme_id"
+    t.integer  "viewer_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

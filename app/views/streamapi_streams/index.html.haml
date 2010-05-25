@@ -10,6 +10,8 @@
 		%th Public
 		%th Band ID
 		%th LSS ID
+		%th Braodcast Theme ID
+		%th Viewer Theme ID
 		%th
 		%th
 		%th
@@ -31,7 +33,11 @@
 			%td
 				= streamapi_stream.band_id
 			%td
-				= streamapi_stream.live_stream_series_id				
+				= streamapi_stream.live_stream_series_id			
+			%td
+				= streamapi_stream.broadcast_theme_id
+			%td
+				= streamapi_stream.viewer_theme_id				
 			%td
 				= link_to 'Show', streamapi_stream
 			%td
