@@ -16,14 +16,24 @@
 		= f.datetime_select :ends_at
 
 	.field
-		= f.label :layout_path
+		= f.label :broadcast_layout_path
 		%br
-		= f.text_field :layout_path
+		= f.text_field :broadcast_layout_path
 
 	.field
-		= f.label :skin_path
+		= f.label :broadcast_skin_path
 		%br
-		= f.text_field :skin_path
+		= f.text_field :broadcast_skin_path
+
+	.field
+		= f.label :viewer_layout_path
+		%br
+		= f.text_field :viewer_layout_path
+
+	.field
+		= f.label :broadcast_skin_path
+		%br
+		= f.text_field :broadcast_skin_path
 
 	.field
 		= f.label :public

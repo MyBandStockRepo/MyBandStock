@@ -1,0 +1,82 @@
+%h1 List Live Streams
+
+%p 
+	API Code (0 means successful):
+	= @code
+
+- if @code == '0'
+	-for i in (0..@sessions.count-1)
+	
+	
+	
+	
+	
+		%h2
+			- for k in @public_hostids[i]
+				- k = k.to_s
+			- @public_hostids[i] = k.to_s
+		
+			= StreamapiStream.find(:first, :conditions => ["public_hostid = ?", @public_hostids[i].strip]).title
+		%p
+			Private Host ID:
+			- for k in @private_hostids[i]
+				- k = k.to_s
+			= @private_hostids[i] = k.to_s
+		%p
+			Public Host ID:
+			= @public_hostids[i]
+		%p
+			Username:
+			- for k in @usernames[i]
+				- k = k.to_s
+			= @usernames[i] = k.to_s
+		%p 
+			Start Time: 
+			- for k in @start_times[i]
+				- k = k.to_s
+			- @start_times[i] = k.to_s			
+			= Time.at(((@start_times[i]).to_f/1000).to_i).strftime("%A %B %d, %Y at %I:%M:%Sp %Z")
+		%p
+			Duration:
+			- for k in @durations[i]
+				- k = k.to_s
+			= @durations[i] = k.to_s			
+		%p
+			Channel ID: 
+			- for k in @channel_ids[i]
+				- k = k.to_s
+			= @channel_ids[i] = k.to_s					
+		%p
+			Total Viewers:
+			- for k in @total_viewers[i]
+				- k = k.to_s
+			= @total_viewers[i] = k.to_s				
+		%p
+			Total Chatters:
+			- for k in @total_chatters[i]
+				- k = k.to_s
+			= @total_chatters[i] = k.to_s					
+		%p
+			Current Viewers:
+			- for k in @current_viewers[i]
+				- k = k.to_s
+			= @current_viewers[i] = k.to_s				
+		%p
+			Current Chatters:
+			- for k in @current_chatters[i]
+				- k = k.to_s
+			= @current_chatters[i] = k.to_s	
+		%p
+			Max Viewers:
+			- for k in @max_viewers[i]
+				- k = k.to_s
+			= @max_viewers[i] = k.to_s				
+		%p
+			Max Chatters:
+			- for k in @max_chatters[i]
+				- k = k.to_s
+			= @max_chatters[i] = k.to_s								
+- else
+	%p 
+		Error Message:
+		= @msg

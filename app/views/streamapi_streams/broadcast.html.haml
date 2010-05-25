@@ -2,5 +2,5 @@
   %h2 Stream Broadcast
   %p
     = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
-  %embed{:id => 'broadcast-embed', :height=>"494", :width=>"496", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @stream.layout_path }&skinPath=#{ @stream.skin_path }&autoRecord=true&publicHostID=#{ @stream.public_hostid }&privateHostID=#{ @stream.private_hostid }&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
+  %embed{:id => 'broadcast-embed', :height=>"494", :width=>"496", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @stream.broadcast_layout_path }&skinPath=#{ @stream.broadcast_skin_path }&autoRecord=false&publicHostID=#{ @stream.public_hostid }&privateHostID=#{ @stream.private_hostid }&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
 

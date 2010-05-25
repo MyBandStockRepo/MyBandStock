@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  layout_path: MyString
+  skin_path: MyString
+  width: 1
+  height: 1
+  quality: MyString
+
+two:
+  name: MyString
+  layout_path: MyString
+  skin_path: MyString
+  width: 1
+  height: 1
+  quality: MyString

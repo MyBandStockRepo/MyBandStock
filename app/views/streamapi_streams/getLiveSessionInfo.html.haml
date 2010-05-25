@@ -1,0 +1,38 @@
+%h1 Get Live Session Info API Request
+%h2 
+	Stream
+	=@stream.title
+
+%p 
+	API Code (0 means successful):
+	= @code
+
+- if @code == '0'
+	-if @is_live == 'true'
+		%p Stream is Live	
+		%p
+			Public Host ID:
+			= @public_hostid		
+		%p 
+			Private Host ID: 
+			= @private_hostid
+		%p 
+			Username: 
+			= @username
+		%p 
+			Start Time: 
+			=# @start_time
+			= Time.at((@start_time.to_f/1000).to_i).strftime("%A %B %d, %Y at %I:%M:%Sp %Z")
+		%p
+			Duration:
+			= @duration
+		%p
+			Channel ID: 
+			= @channel_id
+	-else
+		%p Stream is Not Live	
+
+- else
+	%p 
+		Error Message:
+		= @msg

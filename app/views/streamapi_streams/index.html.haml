@@ -1,17 +1,3 @@
-:javascript
-	$(function() {
-  
-		$('.lightbox a').fancybox({
-			'transitionIn'	:	'fade',
-			'transitionOut'	:	'fade',
-			'overlayOpacity' : 0.6,
-			'overlayColor' : 'black',
-			'centerOnScroll' : 'true',
-		  'hideOnOverlayClick': 'false'
-		});
-	});
-
-
 %h1 Listing streamapi_streams
 
 %table
@@ -20,14 +6,10 @@
 		%th Public hostid
 		%th Title
 		%th Starts At
-		%th Ends At
-		%th Layout Path
-		%th Skin Path    
+		%th Ends At 
 		%th Public
 		%th Band ID
 		%th LSS ID
-		%th
-		%th
 		%th
 		%th
 		%th
@@ -45,10 +27,6 @@
 			%td
 				= streamapi_stream.ends_at
 			%td
-				= streamapi_stream.layout_path
-			%td
-				= streamapi_stream.skin_path
-			%td
 				= streamapi_stream.public
 			%td
 				= streamapi_stream.band_id
@@ -60,12 +38,6 @@
 				= link_to 'Edit', edit_streamapi_stream_path(streamapi_stream)
 			%td
 				= link_to 'Destroy', streamapi_stream, :confirm => 'Are you sure?', :method => :delete
-			%td
-				.lightbox
-					= link_to 'Broadcast', :action => 'broadcast', :id => streamapi_stream.id
-			%td
-				.lightbox
-					= link_to 'View', :action => 'view', :id => streamapi_stream.id
 			
 %br
 

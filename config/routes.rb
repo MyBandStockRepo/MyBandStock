@@ -1,4 +1,5 @@
 Cobain::Application.routes.draw do |map|
+  resources :streamapi_stream_themes
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
@@ -8,22 +9,34 @@ Cobain::Application.routes.draw do |map|
   match 'streamapi_streams/callback', :to => 'streamapi_streams#callback'
   match 'api', :to => 'api#index'
 
-  match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
 
   resources :api_users
 
   resources :live_stream_series
 
+  match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
+  
+
+  
+
   resources :live_stream_series_permissions
 
   
   #stream methods
+match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
+match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
+match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'      
 
   resources :streamapi_streams
-  match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
-  match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
-  match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'      
-  match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'   
+match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
+match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
+match '/streamapi_streams/:id/getlivesessioninfo', :to => 'streamapi_streams#getLiveSessionInfo'      
+match '/streamapi_streams/:id/getpublichostid', :to => 'streamapi_streams#getPublicHostId'      
+match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'      
+match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping' 
+
+
+match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
   resources :associations
 
