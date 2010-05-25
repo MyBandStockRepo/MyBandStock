@@ -1,0 +1,28 @@
+%p
+  %b Name:
+  = @streamapi_stream_theme.name
+
+%p
+  %b Layout path:
+  = @streamapi_stream_theme.layout_path
+
+%p
+  %b Skin path:
+  = @streamapi_stream_theme.skin_path
+
+%p
+  %b Width:
+  = @streamapi_stream_theme.width
+
+%p
+  %b Height:
+  = @streamapi_stream_theme.height
+
+%p
+  %b Quality:
+  = @streamapi_stream_theme.quality
+
+
+= link_to 'Edit', edit_streamapi_stream_theme_path(@streamapi_stream_theme)
+|
+= link_to 'Back', streamapi_stream_themes_path

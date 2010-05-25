@@ -1,0 +1,39 @@
+%h1 Get Layout Themes
+
+%p 
+	API Code (0 means successful):
+	= @code
+
+- if @code == '0'
+	-for i in (0..@themes.count-1)
+		%br
+		%br
+		%h2
+			- for k in @names[i]
+				- k = k.to_s
+			- @names[i] = k.to_s
+			- @theme_ids[i] = @theme_ids[i].to_s	
+			= @names[i]+' (ID: '+@theme_ids[i]+')'
+		%p
+			- for k in @widths[i]
+				- k = k.to_s
+			- @widths[i] = k.to_s
+			- for k in @heights[i]
+				- k = k.to_s
+			- @heights[i] = k.to_s
+			Dimensions (WxH):
+			= @widths[i]+' x '+@heights[i]
+		%p
+			Layout Path:
+			- for k in @layout_paths[i]
+				- k = k.to_s
+			= @layout_paths[i] = k.to_s				
+		%p
+			Skin Path: 
+			- for k in @skin_paths[i]
+				- k = k.to_s
+			= @skin_paths[i] = k.to_s	
+- else
+	%p 
+		Error Message:
+		= @msg

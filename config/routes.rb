@@ -1,4 +1,6 @@
 Cobain::Application.routes.draw do |map|
+  resources :streamapi_stream_themes
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -22,10 +24,18 @@ Cobain::Application.routes.draw do |map|
 
   
   #stream methods
+match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
+match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
+match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'      
 
   resources :streamapi_streams
 match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
 match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
+match '/streamapi_streams/:id/getlivesessioninfo', :to => 'streamapi_streams#getLiveSessionInfo'      
+match '/streamapi_streams/:id/getpublichostid', :to => 'streamapi_streams#getPublicHostId'      
+match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'      
+
+
 match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
   resources :associations

@@ -125,8 +125,10 @@ ActiveRecord::Schema.define(:version => 20100514193600) do
     t.string   "title",                 :null => false
     t.datetime "starts_at",             :null => false
     t.datetime "ends_at",               :null => false
-    t.string   "layout_path",           :null => false
-    t.string   "skin_path",             :null => false
+    t.string   "broadcast_layout_path", :null => false
+    t.string   "broadcast_skin_path",   :null => false
+    t.string   "viewer_layout_path",    :null => false
+    t.string   "viewer_skin_path",      :null => false
     t.boolean  "public",                :null => false
     t.integer  "band_id"
     t.integer  "live_stream_series_id"
