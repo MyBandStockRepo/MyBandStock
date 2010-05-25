@@ -45,13 +45,13 @@ private
           if @lssp.can_chat && @lssp.can_view
             #let them do both
             options_hash['user'] = @user.full_name
-            options_hash['role'] = 'chatter'
+            options_hash['role'] = 'moderator'
             options_hash['code'] = 0
             logger.info "User allowed as a chatter."
           elsif @lssp.can_view
             #they only get a viewer role
             options_hash['user'] = @user.full_name
-            options_hash['role'] = 'viewer'
+            options_hash['role'] = 'moderator'
             options_hash['code'] = 0
             logger.info "User allowed as a viewer."
           else
