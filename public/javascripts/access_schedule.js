@@ -23,10 +23,18 @@ $(document).ready(function() {
   frame.style.top = '0';
 
 
-  frame.src = 'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
+  frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
   accessScheduleContainer.appendChild(frame);
   //applyFbListeners();
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
+$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
+  $.each(data.items, function(i,item){
+    $("<img/>").attr("src", item.media.m).appendTo("#content-utility")
+      .wrap("<a href='" + item.link + "'></a>");
+    if ( i == 3 ) return false;
+  });
+});
+
 });
 
 
@@ -40,10 +48,10 @@ function applyFbListeners() {
     'transitionOut': 'fade',
     'overlayOpacity' : 0.6,
     'overlayColor' : 'black',
-    'type': 'iframe',
+    'type': 'ajax',
     'width': 560,
     'height': 560,
-    'autoScale': true,        // These two only work with
+    'autoScale': false,        // These two only work with
     'autoDimensions': true,   //  'ajax' (non-'iframe') types,
     'centerOnScroll': true,
     'hideOnOverlayClick': false

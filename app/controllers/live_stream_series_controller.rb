@@ -9,7 +9,7 @@ class LiveStreamSeriesController < ApplicationController
 
   def choose_layout
     if params[:lightbox]
-      false
+      'lightbox'
     else
       'live_stream_series'
     end
@@ -103,12 +103,6 @@ class LiveStreamSeriesController < ApplicationController
       respond_with(@live_stream_series)
     else
       return false
-    end
-  end
-
-  def ajaxTest
-    respond_to do |format|
-      format.js  { head :ok }
     end
   end
 
