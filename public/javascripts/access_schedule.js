@@ -23,7 +23,7 @@ $(document).ready(function() {
   frame.style.top = '0';
 
 
-  frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
+  frame.src = 'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
   accessScheduleContainer.appendChild(frame);
   //applyFbListeners();
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
