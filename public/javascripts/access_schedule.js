@@ -1,12 +1,40 @@
 $(document).ready(function() {
+  var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
+  if (!accessScheduleContainer) return;
+  var bandID = accessScheduleContainer.className;
+  var frame = document.createElement('div');
 
+/*
+  accessScheduleContainer.style.margin = '1em';
+  accessScheduleContainer.style.width = '500px';
+  accessScheduleContainer.style.height = '300px';
+  accessScheduleContainer.style.padding = '0px 0px';
+  accessScheduleContainer.style.position = 'relative';
+  accessScheduleContainer.style.borderTop = '4px solid #CCC';
+  accessScheduleContainer.style.borderLeft = '4px solid #CCC';
+  accessScheduleContainer.style.borderRight = '4px solid #444';
+  accessScheduleContainer.style.borderBottom = '4px solid #444';
+  frame.style.position = 'absolute';
+  frame.style.height = '100%';
+  frame.style.width = '100%';
+  frame.style.margin = '0';
+  frame.style.left = '0';
+  frame.style.top = '0';
+*/
+
+  //frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band';
+  $.get('/me/control_panel', function(data) { alert(data); } );
+  //accessScheduleContainer.appendChild(frame);
+  //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
 });
+
+
 $(function() {
   $('a.lightbox').fancybox ({
     'transitionIn': 'fade',
     'transitionOut': 'fade',
     'overlayOpacity' : 0.6,
-    'overlayColor' : 'black',      
+    'overlayColor' : 'black',
     'type': 'iframe',
     'width': 560,
     'height': 560,
