@@ -2,13 +2,13 @@
   %h2 Stream Viewer
   %p
     = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
-  %embed{ :height=>"494", :width=>"496", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
+  %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
   :flashvars=>"authField2Label=Password:" + |
   "&siteID=1000008664" + |
-  "&layoutPath=#{ @stream.layout_path }" + |
-  "&skinPath=#{ @stream.skin_path }" + |
+  "&layoutPath=#{ @theme.layout_path }" + |
+  "&skinPath=#{ @theme.skin_path }" + |
   "&authField1Label=Username:" + |
-  "&autoRecord=true" + |
+  "&autoRecord=false" + |
   "&publicHostID=#{ @stream.public_hostid }" + |
   "&authType=key" + |
   "&userType=204" + |

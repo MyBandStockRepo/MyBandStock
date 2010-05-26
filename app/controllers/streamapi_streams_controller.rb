@@ -31,11 +31,18 @@ respond_to :html, :js
       return false
     end
 
+		@external_css = Band.find(@stream.band_id).external_css_link
+		if @external_css == ''
+			@external_css = nil
+		end
     user = User.find(session[:user_id])
+		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
+   
+		#lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
 
-    #lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
+#    if lssp.nil?
 
-    unless user.can_view_series(@stream.live_stream_series.id)
+    unless user.can_view_series(@stream.live_stream_series.id)       
       #they are valid mbs users but haven't purchased the stream
       logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
       # Just display a message for now.
@@ -75,6 +82,13 @@ respond_to :html, :js
       return false
     end
 
+		@external_css = Band.find(@stream.band_id).external_css_link
+		if @external_css == ''
+			@external_css = nil
+		end
+		
+		@theme = StreamapiStreamTheme.find(@stream.broadcast_theme_id)
+		
   	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
   	apikey = STREAMAPI_KEY
   	apisecretkey = STREAMAPI_SECRET_KEY
@@ -611,7 +625,8 @@ respond_to :html, :js
   # GET /streamapi_streams/1.xml
   def show
     @streamapi_stream = StreamapiStream.find(params[:id])
-
+		@broadcast_theme = StreamapiStreamTheme.find(@streamapi_stream.broadcast_theme_id)
+		@viewer_theme = StreamapiStreamTheme.find(@streamapi_stream.viewer_theme_id)		
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @streamapi_stream }

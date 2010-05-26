@@ -118,23 +118,14 @@ vidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Only Video - Medium Q
                   :height => 332,
                   :quality => '384 kbps (Medium)' )
 
-fullChat_low_layout = '/themes/100/000/866/4/theme_67b3dede-6814-11df-897e-45bad36ccbb1.xml'
-fullChat_low_skin = '/themes/100/000/866/4/skin_67b3dede-6814-11df-897e-45bad36ccbb1.xml'
-vidOnly_low_layout = '/themes/100/000/866/4/theme_edd12c3b-6813-11df-897e-45bad36ccbb1.xml'
-vidOnly_low_skin = '/themes/100/000/866/4/skin_edd12c3b-6813-11df-897e-45bad36ccbb1.xml'
-readOnlyChat_low_layout = '/themes/100/000/866/4/theme_b8d93a34-6815-11df-897e-45bad36ccbb1.xml'
-readOnlyChat_low_skin = '/themes/100/000/866/4/skin_b8d93a34-6815-11df-897e-45bad36ccbb1.xml'
-
 #create some StreamAPI streams (fake of course)
 lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
                               :title => 'act 1',
                               :starts_at => 1.weeks.from_now,
                               :ends_at => (1.weeks.from_now + 2.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => vidOnly_low_layout,
-                              :viewer_skin_path => vidOnly_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_dos.id )
                               
@@ -143,10 +134,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :title => 'act 2',
                               :starts_at => 2.weeks.from_now,
                               :ends_at => (2.weeks.from_now + 3.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => readOnlyChat_low_layout,
-                              :viewer_skin_path => readOnlyChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_dos.id )
 #give jm permissions to chat and view this guy
@@ -161,10 +150,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :title => 'act 3, the COOOLEST ACT',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_dos.id )
 
@@ -175,10 +162,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Home Depot Center - Carson, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -187,10 +172,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Shoreline Amphitheatre - Mountain View, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -199,10 +182,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'Cricket Pavilion - Phoenix, AZ',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp.streamapi_streams.create(
@@ -211,10 +192,8 @@ lss_amp.streamapi_streams.create(
                               :title => 'AT&T Center - San Antonio, TX',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 
@@ -224,10 +203,8 @@ lss_amp2.streamapi_streams.create(
                               :title => 'Comerica Park - Detroit, MI',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 lss_amp2.streamapi_streams.create(
@@ -236,10 +213,8 @@ lss_amp2.streamapi_streams.create(
                               :title => 'Danny\'s Bar Mitzvah - Brighton, MI',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcast_layout_path => fullChat_low_layout,
-                              :broadcast_skin_path => fullChat_low_skin,
-                              :viewer_layout_path => fullChat_low_layout,
-                              :viewer_skin_path => fullChat_low_skin,
+                              :broadcast_theme_id => fullChat_low.id,
+                              :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
 

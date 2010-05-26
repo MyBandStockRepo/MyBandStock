@@ -1,29 +1,44 @@
 %li 
 	=f.label 'name'
+	%br
 	=f.text_field :name, :class => 'text'
 
 %li 
 	=f.label 'short_name'
+	%br	
 	=f.text_field :short_name, :class => 'text'
   
 %li  
 	=f.label 'bio'
+	%br	
+	%label.desc A description of your band.	
+	%br	
 	=f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
-	%label.desc A description of your band.
+	
 
 %li  
 	=f.label 'city'
+	%br	
 	=f.text_field 'city', :class => 'required'
 
 %li
 	=f.label 'zipcode'
+	%br	
 	=f.text_field 'zipcode'
 
 %li
 	=f.label :country_id, '* Country'
+	%br	
 	=collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
 
 %li
 	-# =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
 	#state_select
 		-# =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
+
+%li
+	=f.label 'external_css_link'
+	%br	
+	%label.desc External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
+	%br	
+	=f.text_field 'external_css_link'

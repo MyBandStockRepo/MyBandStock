@@ -27,14 +27,13 @@ $(document).ready(function() {
   accessScheduleContainer.appendChild(frame);
   //applyFbListeners();
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
-$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
-  $.each(data.items, function(i,item){
-    $("<img/>").attr("src", item.media.m).appendTo("#content-utility")
-      .wrap("<a href='" + item.link + "'></a>");
-    if ( i == 3 ) return false;
-  });
-});
-
+	$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
+		$.each(data.items, function(i,item){
+			$("<img/>").attr("src", item.media.m).appendTo("#content-utility")
+				.wrap("<a href='" + item.link + "'></a>");
+			if ( i == 3 ) return false;
+		});
+	});
 });
 
 
@@ -43,19 +42,21 @@ $(function() {
 });
 
 function applyFbListeners() {
-  $('a.lightbox').fancybox ({
-    'transitionIn': 'fade',
-    'transitionOut': 'fade',
-    'overlayOpacity' : 0.6,
-    'overlayColor' : 'black',
-    'type': 'ajax',
-    'width': 560,
-    'height': 560,
-    'autoScale': false,        // These two only work with
-    'autoDimensions': true,   //  'ajax' (non-'iframe') types,
-    'centerOnScroll': true,
-    'hideOnOverlayClick': false
-  });
+	$('a.lightbox').each(function(index){
+		$(this).fancybox ({
+			'transitionIn': 'fade',
+			'transitionOut': 'fade',
+			'overlayOpacity' : 0.6,
+			'overlayColor' : 'black',      
+			'type': 'iframe',
+			'width': ( ($(this).attr('fbwidth') == null) ? 560 : parseInt($(this).attr('fbwidth')) ),
+			'height': ( ($(this).attr('fbheight') == null) ? 560 : parseInt($(this).attr('fbheight')) ),
+			'autoScale': true,        // These two only work with
+			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
+			'centerOnScroll': true,
+			'hideOnOverlayClick': false
+		});
+	});
 }
 
 /*

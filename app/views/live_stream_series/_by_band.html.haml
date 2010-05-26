@@ -1,16 +1,18 @@
 -# Include access_schedule.js to attach lightbox listener to all .lightbox links
 %h1="#{band.name} - Access Schedule"
--for series in band.live_stream_series
-  %h2= series.title
-  - if can_broadcast
-    =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
-  %table.access-schedule-list
-    -for stream in series.streamapi_streams
-      %tr
-        %td.stream-name
-          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title'
-          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-        - if can_broadcast
-          %td.begin-broadcast
-            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
 
+-for series in band.live_stream_series
+	%h2= series.title
+	- if can_broadcast
+		=link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
+	%table.access-schedule-list
+		-for stream in series.streamapi_streams				    		
+			%tr
+				%td.stream-name
+					- viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)    								
+					= link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+46), :fbwidth => (viewerTheme.width+50)
+					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+				- if can_broadcast
+					%td.begin-broadcast
+						- broadcastTheme = StreamapiStreamTheme.find(stream.broadcast_theme_id)
+						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcastTheme.height+57), :fbwidth => (broadcastTheme.width+50)
