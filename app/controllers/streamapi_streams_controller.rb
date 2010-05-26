@@ -8,35 +8,9 @@ class StreamapiStreamsController < ApplicationController
 respond_to :html, :js
 
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
-
-
  protect_from_forgery :only => [:create, :update]
  before_filter :only => :post, :only => [:create, :update] 
  before_filter :authenticated?, :except => [:show, :callback]
-
-  def callback
-    render :nothing => true
-  # doesn't work correctly
-=begin
-#    @xml = Builder::XmlMarkup.new
-    @cuser = "bobby@mybandstock.com"
-    @cpass = "life347"
-    @action = params[:action]
-    @user = params[:username]
-    @pass = params[:password]
-    @public_hostid = params[:public_hostid]
-    @userip = params[:userip]
-    @code = "8"
-    
-		if (@action == "login" && @user == @cuser && @pass == @cpass)
-			@code = "0"
-		end
-    
-#    respond_to do |format|
-#    	format.xml  { render :xml => @xml}
-#    end
-=end
-  end
 	
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
@@ -51,8 +25,6 @@ respond_to :html, :js
     render :nothing => true
   end
 	
-	
-	
 	def view
 		unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
@@ -61,8 +33,9 @@ respond_to :html, :js
 
     user = User.find(session[:user_id])
 
-    lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
-    if lssp.nil?
+    #lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
+
+    unless user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream
       logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
       # Just display a message for now.

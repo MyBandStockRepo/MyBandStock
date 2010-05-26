@@ -1,8 +1,18 @@
-.access-schedule-list {
-  margin: .5em 1em 1em;
+/** Copy and modify this file to change the properties of the Access Schedule content **/
+
+/* When a user hovers over a link */
+a:hover {
+  color: black;
 }
+
+/* The actual table of schedules */
+.access-schedule-list {
+  margin: .5em 1em 1em 1em; /* The spacing around the table - top right bottom left. An 'em' is the width of M. */
+}
+  
+  /* Each cell in the table */
   .access-schedule-list td {
-    padding: 1px 5px;
+    padding: 1px 5px 1px 5px; /* Inner spacing in each cell - top right bottom left. */
   }
   .access-schedule-list .stream-name {
     font-style: italic;

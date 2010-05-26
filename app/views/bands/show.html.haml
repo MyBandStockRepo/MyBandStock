@@ -1,5 +1,3 @@
-=javascript_include_tag 'access_schedule'
-
 #content-utility.control-panel
   #utility-overview
     #overview-primary
@@ -28,6 +26,9 @@
 
 #remote-page-test
   %br
+  %br
+  #mbs-access-schedule-container.1
+    &nbsp;
   %br
   %strong
     =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'

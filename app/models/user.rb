@@ -297,7 +297,23 @@ class User < ActiveRecord::Base
 
   def can_broadcast_for(band_id)
   # Takes an integer band ID and returns true if the user is a member or admin of the band.
-    return ( self.has_band_admin(band_id) || self.is_member_of_band(band_id) )
+    return ( self.has_band_admin(band_id) || self.is_member_of_band(band_id) || self.site_admin )
+  end
+
+  def can_view_series(live_stream_series_id)
+    # Takes an ID of a LiveStreamSeries and returns true if the user can view it, false otherwise
+    # The user can view if any of the following is met:
+    #   User has view permission in LiveStreamSeriesPermission, or
+    #   he is a site admin, or
+    #   he can broadcast for the band
+  
+    lssp = self.live_stream_series_permissions.find_by_live_stream_series_id(live_stream_series_id)
+    can_view = (
+                  (lssp && lssp.can_view) ||
+                  (lssp && self.can_broadcast_for(lssp.live_stream_series.band.id)) ||
+                  self.site_admin
+                )
+    return can_view
   end
 
 

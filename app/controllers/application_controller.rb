@@ -190,7 +190,7 @@ class ApplicationController < ActionController::Base
   
   
   def user_has_site_admin
-    unless ( User.find(session[:user_id]).site_admin == true )
+    unless ( session[:user_id] && User.find(session[:user_id]).site_admin == true )
       redirect_to '/me/control_panel'
       return false
     else

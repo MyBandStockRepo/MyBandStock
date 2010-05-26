@@ -1,10 +1,19 @@
 class LiveStreamSeriesController < ApplicationController
 
-	before_filter :authenticated?
-	before_filter :user_has_site_admin
+	before_filter :authenticated?, :except => [:by_band]
+	before_filter :user_has_site_admin, :except => [:by_band]
 	protect_from_forgery :only => [:create, :update]
 
   respond_to :html, :js, :xml
+  layout :choose_layout
+
+  def choose_layout
+    if params[:lightbox]
+      'lightbox'
+    else
+      'live_stream_series'
+    end
+  end
   
   # GET /live_stream_series
   # GET /live_stream_series.xml
@@ -71,7 +80,6 @@ class LiveStreamSeriesController < ApplicationController
   # DELETE /live_stream_series/1
   # DELETE /live_stream_series/1.xml
   def destroy
-in_delete
     @live_stream_series = LiveStreamSeries.find(params[:id])
     @live_stream_series.destroy
 
@@ -91,11 +99,11 @@ in_delete
     end
     
     if @live_stream_series
+      #render :layout => false
       respond_with(@live_stream_series)
     else
       return false
     end
-    
   end
 
 end #end controller
