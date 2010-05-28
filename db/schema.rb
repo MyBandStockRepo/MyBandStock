@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
     t.string   "live_url"
     t.integer  "band_id"
     t.integer  "live_stream_series_id"
-    t.integer  "broadcast_theme_id"
+    t.integer  "broadcaster_theme_id"
     t.integer  "viewer_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"

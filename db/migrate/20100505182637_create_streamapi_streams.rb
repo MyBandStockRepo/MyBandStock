@@ -16,7 +16,7 @@ class CreateStreamapiStreams < ActiveRecord::Migration
       t.string :live_url, :null => true
 
 			t.belongs_to :band, :live_stream_series
-			t.integer :broadcast_theme_id, :viewer_theme_id
+			t.integer :broadcaster_theme_id, :viewer_theme_id
       t.timestamps
     end
   end

@@ -14,5 +14,5 @@
 					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
 				- if can_broadcast
 					%td.begin-broadcast
-						- broadcastTheme = StreamapiStreamTheme.find(stream.broadcast_theme_id)
-						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcastTheme.height+57), :fbwidth => (broadcastTheme.width+50)
+						- broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
+						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+57), :fbwidth => (broadcasterTheme.width+50)

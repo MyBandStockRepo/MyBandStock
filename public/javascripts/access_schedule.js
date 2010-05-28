@@ -29,7 +29,7 @@ $(document).ready(function() {
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
   //$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
 
-  $.getJSON('http://127.0.0.1:3000/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
+  $.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
   /*
   $.ajax({
@@ -70,25 +70,31 @@ function accessScheduleJsonCallback(data) {
   var html = document.createElement('h1');
   html.innerHTML = data.band_name + ' - Access Schedule';
 
-  // for each series {
+  $('#mbs-access-schedule-container').append(html);
+
+  $.each(data.serieses, function(seriesIndex, series) { // for each series
     var seriesTitle = document.createElement('h2');
-    seriesTitle.innerHTML = data.title;
+    seriesTitle.innerHTML = series.series_title;
 
     var table = $(document.createElement('table'));
     table.addClass('access-schedule-list');
-    // for each stream {
+    $.each(series.streams, function(streamIndex, stream) {  // for each stream
       table.append(
         $(document.createElement('tr')).append(
           $(document.createElement('td')).addClass('stream-name').append(
-            $('<a href="#">adsf</a>')
+            $('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
+              .addClass('lightbox stream-title')
+              .attr('fbwidth', stream.view_link.width)
+              .attr('fbheight', stream.view_link.height)
           )
         )
       );
-    // }
-  // }
+    });
+    $('#mbs-access-schedule-container').append(seriesTitle).append(table);
+  });
 
-  $('#mbs-access-schedule-container').append(html).append(seriesTitle).append(table);
-  
+  //$('#mbs-access-schedule-container').append(html).append(seriesTitle).append(table);
+  applyFbListeners();
 }
 
 /*
@@ -101,10 +107,11 @@ function accessScheduleJsonCallback(data) {
     -for stream in series.streamapi_streams
       %tr
         %td.stream-name
-          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title'
-          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-        - if can_broadcast
-          %td.begin-broadcast
-            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+					= link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+46), :fbwidth => (viewerTheme.width+50)
+					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+				- if can_broadcast
+					%td.begin-broadcast
+						- broadcastTheme = StreamapiStreamTheme.find(stream.broadcast_theme_id)
+						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcastTheme.height+57), :fbwidth => (broadcastTheme.width+50)
 */
 

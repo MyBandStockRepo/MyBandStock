@@ -113,6 +113,7 @@ class LiveStreamSeriesController < ApplicationController
 # We might have to make a by_band.json.erb view for the AJAX response for the widget
 
   def jsonp
+    # Sooooo slow and inefficient
     unless ( params[:band_id] && (@band = Band.includes(:live_stream_series).find(params[:band_id])) )
       return render :nothing => true
     else
@@ -121,12 +122,34 @@ class LiveStreamSeriesController < ApplicationController
       end
     end
 
-    @live_stream_series.first['band_name'] = @band.name
-    @live_stream_series.first['band_id'] = @band.id
+    output = Hash.new
 
-    logger.info @live_stream_series.first.to_json.to_s
+    output[:serieses] = @live_stream_series.collect{ |series|
+      {
+        :series_title => series.title,
+        :streams => series.streamapi_streams.collect{ |stream|
+          {
+            :id => stream.id,
+            :title => stream.title,
+            :start => stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p'),
+            :view_link => {
+              :url => url_for ( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
+              :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
+              :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+46 : 560
+            }
+          }
+        }
+      }
+    }
 
-    return render :json => @live_stream_series.first.to_json, :callback => 'accessScheduleJsonCallback'
+    output[:band_name] = @band.name
+    output['band_id'] = @band.id
+=begin
+=end
+
+    logger.info output.to_json.to_s
+
+    return render :json => output.to_json, :callback => 'accessScheduleJsonCallback'
     #respond_to do |format|
     #  format.json  { render :layout => false, :callback => 'accessScheduleJsonCallback' }
     #end
