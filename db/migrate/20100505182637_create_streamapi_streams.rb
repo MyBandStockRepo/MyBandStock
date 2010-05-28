@@ -6,11 +6,8 @@ class CreateStreamapiStreams < ActiveRecord::Migration
       t.string :channel_id, :null => true
       t.string :title, :null => false
       t.datetime :starts_at, :null => false
-      t.datetime :ends_at, :null => false
-      t.string :layout_path, :null => false
-      t.string :skin_path, :null => false      
-      t.boolean :public, :null => false
-      
+      t.datetime :ends_at, :null => false 
+      t.boolean :public, :null => false      
       t.integer :duration, :null => true
       t.integer :total_viewers, :null => true
       t.integer :max_concurrent_viewers, :null => true
@@ -19,6 +16,7 @@ class CreateStreamapiStreams < ActiveRecord::Migration
       t.string :live_url, :null => true
 
 			t.belongs_to :band, :live_stream_series
+			t.integer :broadcast_theme_id, :viewer_theme_id
       t.timestamps
     end
   end

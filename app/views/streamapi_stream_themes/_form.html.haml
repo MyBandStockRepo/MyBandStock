@@ -1,0 +1,35 @@
+- form_for(@streamapi_stream_theme) do |f|
+	= f.error_messages
+
+	.field
+		= f.label :name 
+		%br
+		= f.text_field :name
+
+	.field
+		= f.label :layout_path 
+		%br
+		= f.text_field :layout_path
+
+	.field
+		= f.label :skin_path 
+		%br
+		= f.text_field :skin_path
+
+	.field
+		= f.label :width 
+		%br
+		= f.text_field :width
+
+	.field
+		= f.label :height 
+		%br
+		= f.text_field :height 
+
+	.field
+		= f.label :quality 
+		%br
+		= f.text_field :quality
+
+	.actions
+		= f.submit

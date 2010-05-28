@@ -16,14 +16,14 @@
 		= f.datetime_select :ends_at
 
 	.field
-		= f.label :layout_path
+		= f.label :broadcast_theme
 		%br
-		= f.text_field :layout_path
+		= collection_select 'streamapi_stream', 'broadcast_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
 
 	.field
-		= f.label :skin_path
+		= f.label :viewer_theme
 		%br
-		= f.text_field :skin_path
+		= collection_select 'streamapi_stream', 'viewer_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
 
 	.field
 		= f.label :public

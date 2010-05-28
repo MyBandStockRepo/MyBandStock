@@ -52,19 +52,21 @@ $(function() {
 });
 
 function applyFbListeners() {
-  $('a.lightbox').fancybox ({
-    'transitionIn': 'fade',
-    'transitionOut': 'fade',
-    'overlayOpacity' : 0.6,
-    'overlayColor' : 'black',
-    'type': 'iframe',
-    'width': 560,
-    'height': 560,
-    'autoScale': false,        // These two only work with
-    'autoDimensions': true,   //  'ajax' (non-'iframe') types,
-    'centerOnScroll': true,
-    'hideOnOverlayClick': false
-  });
+	$('a.lightbox').each(function(index){
+		$(this).fancybox ({
+			'transitionIn': 'fade',
+			'transitionOut': 'fade',
+			'overlayOpacity' : 0.6,
+			'overlayColor' : 'black',      
+			'type': 'iframe',
+			'width': ( ($(this).attr('fbwidth') == null) ? 560 : parseInt($(this).attr('fbwidth')) ),
+			'height': ( ($(this).attr('fbheight') == null) ? 560 : parseInt($(this).attr('fbheight')) ),
+			'autoScale': false,        // These two only work with
+			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
+			'centerOnScroll': true,
+			'hideOnOverlayClick': false
+		});
+	});
 }
 
 function accessScheduleJsonCallback(data) {

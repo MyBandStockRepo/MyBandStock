@@ -1,0 +1,20 @@
+%h1 Get Public Host ID
+%h2 
+	Stream
+	=@stream.title
+
+%p 
+	API Code (0 means successful):
+	= @code
+
+- if @code == '0'
+	%p
+		Public Host ID:
+		= @public_hostid		
+	%p 
+		Private Host ID: 
+		= @private_hostid
+- else
+	%p 
+		Error Message:
+		= @msg

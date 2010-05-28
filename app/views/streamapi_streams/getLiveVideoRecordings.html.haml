@@ -1,0 +1,68 @@
+%h1 Get Live Video Recordings
+
+%p 
+	API Code (0 means successful):
+	= @code
+
+- if @code == '0'
+	-for i in (0..@videos.count-1)
+		%br
+		%br
+		%h2
+			- for k in @public_hostids[i]
+				- k = k.to_s
+			- @public_hostids[i] = k.to_s
+			- stream = nil # StreamapiStream.find(:first, :conditions => ["public_hostid = ?", @public_hostids[i].strip])
+
+			-if stream.nil?
+				= 'Video ID: '+@video_ids[i].to_s
+			-else
+				= stream.title+', ('+@video_ids[i]+')' 
+				
+			
+			
+		%p
+			Public Host ID:
+			= @public_hostids[i]
+		%p
+			Duration:
+			- for k in @durations[i]
+				- k = k.to_s
+			= @durations[i] = k.to_s				
+		%p
+			Channel ID: 
+			- for k in @channel_ids[i]
+				- k = k.to_s
+			= @channel_ids[i] = k.to_s	
+		%p 
+			Creation Date: 
+			- for k in @creation_dates[i]
+				- k = k.to_s
+			- @creation_dates[i] = k.to_s			
+			= Time.at(((@creation_dates[i]).to_f/1000).to_i).strftime("%A %B %d, %Y at %I:%M:%Sp %Z")			
+		%p
+			Filename:
+			- for k in @filenames[i]
+				- k = k.to_s
+			= @filenames[i] = k.to_s				
+		%p
+			Size:
+			- for k in @sizes[i]
+				- k = k.to_s
+			= @sizes[i] = k.to_s					
+		%p
+			URL:
+			- for k in @urls[i]
+				- k = k.to_s			
+			= @urls[i] = k.to_s				
+		%p
+			Embed Code:
+			- for k in @embed_codes[i]
+				- k = k.to_s
+			%br	
+			%textarea{:cols => 120, :rows => 5}
+				= @embed_codes[i] = k.to_s			
+- else
+	%p 
+		Error Message:
+		= @msg

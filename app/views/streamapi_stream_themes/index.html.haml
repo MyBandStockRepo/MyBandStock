@@ -1,0 +1,37 @@
+%h1 Listing streamapi_stream_themes
+
+%table
+  %tr
+    %th Name
+    %th Layout path
+    %th Skin path
+    %th Width
+    %th Height
+    %th Quality
+    %th
+    %th
+    %th
+
+  - @streamapi_stream_themes.each do |streamapi_stream_theme|
+    %tr
+      %td
+        = streamapi_stream_theme.name
+      %td
+        = streamapi_stream_theme.layout_path
+      %td
+        = streamapi_stream_theme.skin_path
+      %td
+        = streamapi_stream_theme.width
+      %td
+        = streamapi_stream_theme.height
+      %td
+        = streamapi_stream_theme.quality
+      %td
+        = link_to 'Show', streamapi_stream_theme
+      %td
+        = link_to 'Edit', edit_streamapi_stream_theme_path(streamapi_stream_theme)
+      %td
+        = link_to 'Destroy', streamapi_stream_theme, :confirm => 'Are you sure?', :method => :delete
+%br
+
+= link_to 'New Streamapi stream theme', new_streamapi_stream_theme_path
