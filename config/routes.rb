@@ -8,8 +8,8 @@ Cobain::Application.routes.draw do |map|
   match 'streamapi_streams/callback', :to => 'streamapi_streams#callback'
   match 'api', :to => 'api#index'
 
+  match 'live_stream_series/jsonp/:band_id/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
-  match 'live_stream_series/jsonp/', :to => 'live_stream_series#jsonp'
 
   resources :api_users
 

@@ -37,7 +37,7 @@ $(document).ready(function() {
   });
   */
   $.ajax({
-    url: 'http://localhost:3000/live_stream_series/jsonp?jsoncallback=?',
+    url: 'http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?',
     dataType: 'jsonp',
     success: function(data) {
       $('#content-utility').append(data.toString());
@@ -57,7 +57,7 @@ function applyFbListeners() {
     'transitionOut': 'fade',
     'overlayOpacity' : 0.6,
     'overlayColor' : 'black',
-    'type': 'ajax',
+    'type': 'iframe',
     'width': 560,
     'height': 560,
     'autoScale': false,        // These two only work with
@@ -68,12 +68,44 @@ function applyFbListeners() {
 }
 
 function accessScheduleJsonCallback(data) {
-  alert(data);
+  var html = document.createElement('h1');
+  html.innerHTML = data.band_name + ' - Access Schedule';
+
+  // for each series {
+    var seriesTitle = document.createElement('h2');
+    seriesTitle.innerHTML = data.title;
+
+    var table = $(document.createElement('table'));
+    table.addClass('access-schedule-list');
+    // for each stream {
+      table.append(
+        $(document.createElement('tr')).append(
+          $(document.createElement('td')).addClass('stream-name').append(
+            $('<a href="#">adsf</a>')
+          )
+        )
+      );
+    // }
+  // }
+
+  $('#mbs-access-schedule-container').append(html).append(seriesTitle).append(table);
+  
 }
 
 /*
-autoScale	true	If true, FancyBox is scaled to fit in viewport
-autoDimensions	true	For inline and ajax views, resizes the view to the element recieves. Make sure it has dimensions otherwise this will give unexpected results
-centerOnScroll	false	When true, FancyBox is centered while scrolling page
+%h1="#{band.name} - Access Schedule"
+-for series in band.live_stream_series
+  %h2= series.title
+  - if can_broadcast
+    =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
+  %table.access-schedule-list
+    -for stream in series.streamapi_streams
+      %tr
+        %td.stream-name
+          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title'
+          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+        - if can_broadcast
+          %td.begin-broadcast
+            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
 */
 

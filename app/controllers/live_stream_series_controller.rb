@@ -109,8 +109,26 @@ class LiveStreamSeriesController < ApplicationController
 # We might have to make a by_band.json.erb view for the AJAX response for the widget
 
   def jsonp
-    output = { :one => '1', :two => 'asdf' }
-    render :text => 'test'
+    unless ( params[:band_id] && (@band = Band.includes(:live_stream_series).find(params[:band_id])) )
+      return render :nothing => true
+    else
+      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do
+        @band.live_stream_series.includes(:streamapi_streams)
+      end
+    end
+
+    @live_stream_series.first['band_name'] = @band.name
+    @live_stream_series.first['band_id'] = @band.id
+
+    logger.info @live_stream_series.first.to_json.to_s
+
+    return render :json => @live_stream_series.first.to_json, :callback => 'accessScheduleJsonCallback'
+    #respond_to do |format|
+    #  format.json  { render :layout => false, :callback => 'accessScheduleJsonCallback' }
+    #end
+
+    #output = { :one => '1', :two => 'asdf' }
+    #render :text => output.to_json
     #render :json => output, :callback => 'accessScheduleJsonCallback'
     #render_json output.to_json
   end
