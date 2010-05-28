@@ -1,6 +1,6 @@
 class LiveStreamSeriesController < ApplicationController
 
-	before_filter :authenticated?, :except => [:by_band]
+	before_filter :authenticated?, :except => [:by_band, :jsonp]
 	before_filter :user_has_site_admin, :except => [:by_band]
 	protect_from_forgery :only => [:create, :update]
 
