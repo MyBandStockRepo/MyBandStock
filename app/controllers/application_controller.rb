@@ -250,6 +250,22 @@ class ApplicationController < ActionController::Base
     Array.new(length, '').collect{chars[rand(chars.size)]}.join
   end
 
+  def render_json(json, options={})  
+    callback, variable = params[:jsoncallback], params[:variable]  
+    response = begin  
+      if callback && variable  
+        "var #{variable} = #{json};\n#{callback}(#{variable});"  
+      elsif variable  
+        "var #{variable} = #{json};"  
+      elsif callback  
+        "#{callback}(#{json});"  
+      else  
+        json  
+      end  
+    end  
+    render({:content_type => :js, :text => response}.merge(options))  
+  end  
+
 
   ##########
   private

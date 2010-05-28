@@ -106,4 +106,13 @@ class LiveStreamSeriesController < ApplicationController
     end
   end
 
+# We might have to make a by_band.json.erb view for the AJAX response for the widget
+
+  def jsonp
+    output = { :one => '1', :two => 'asdf' }
+    render :text => 'test'
+    #render :json => output, :callback => 'accessScheduleJsonCallback'
+    #render_json output.to_json
+  end
+
 end #end controller

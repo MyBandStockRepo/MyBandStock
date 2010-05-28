@@ -60,3 +60,12 @@
         #copyright
           &copy; 2010 MyBandStock Corporation - All Rights Reserved
         .clear
+    
+    / KISSinsights code for cobain.mybandstock.com
+    :javascript
+      var _kiq = [];
+      (function(s){
+      document.write(unescape('%3Cscript id="ki_loader" defer="defer" src="'+document.location.protocol+'//s3.amazonaws.com/j.kissinsights.com/2.0/sites/'+s+'.js?'+(5*Math.floor(new Date().getMinutes()/5))+'"%3E%3C/script%3E'));
+      })('cobain.mybandstock.com');
+      _kiq.push(['identify', '#{ session[:user_id] || '[not logged in]' }']);
+

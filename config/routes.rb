@@ -9,6 +9,7 @@ Cobain::Application.routes.draw do |map|
   match 'api', :to => 'api#index'
 
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
+  match 'live_stream_series/jsonp/', :to => 'live_stream_series#jsonp'
 
   resources :api_users
 

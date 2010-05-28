@@ -23,17 +23,26 @@ $(document).ready(function() {
   frame.style.top = '0';
 
 
-  frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
-  accessScheduleContainer.appendChild(frame);
+  //frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
+  //accessScheduleContainer.appendChild(frame);
   //applyFbListeners();
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
-$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
-  $.each(data.items, function(i,item){
-    $("<img/>").attr("src", item.media.m).appendTo("#content-utility")
-      .wrap("<a href='" + item.link + "'></a>");
-    if ( i == 3 ) return false;
+  //$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
+
+  /*
+  $.getJSON('http://localhost:3000/live_stream_series/'+ bandID +'/by_band?jsoncallback=?', function(data){
+    console.log(data);
+    $('#content-utility').append(data);
+    //alert(data);
   });
-});
+  */
+  $.ajax({
+    url: 'http://localhost:3000/live_stream_series/jsonp?jsoncallback=?',
+    dataType: 'jsonp',
+    success: function(data) {
+      $('#content-utility').append(data.toString());
+    }
+  });
 
 });
 
@@ -56,6 +65,10 @@ function applyFbListeners() {
     'centerOnScroll': true,
     'hideOnOverlayClick': false
   });
+}
+
+function accessScheduleJsonCallback(data) {
+  alert(data);
 }
 
 /*
