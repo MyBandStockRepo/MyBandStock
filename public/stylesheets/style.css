@@ -19,6 +19,51 @@ a {color:#999;text-decoration:underline;}
 
 #wrap {width:980px;margin:0 auto;padding-top:10px;}
 
+
+/* Text */
+
+h1 {
+  width: 936px;
+  height: 58px;
+  padding: 1px;
+	line-height: 58px;
+	color: #fff;
+	font-size: 1.8em;
+	font-weight: normal;
+	text-align: center;
+  position: relative;
+}
+
+h2 {
+  margin: 3px 0 5px;
+	color: #fff;
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+h3 {
+	color: #fff;
+	font-size: 1.6em;
+	font-weight: bold;
+  margin: 2px 0 4px;
+}
+
+.notice {
+
+  font-style: italic;
+  margin: .5em;
+  color: #f4ac3e;
+}
+
+
+.profile-category {
+  font-weight: bold;
+  font-size: 1.2em;
+  display: inline;
+
+}
+
+
 /* HEADER */
 
 #header {height:80px;}
