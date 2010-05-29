@@ -1,46 +1,32 @@
 -band = band_manage
-.band-manage-container
-  %div.divider-bar{ :class => band_manage_counter == 0 ? 'first' : '' }
-    .divider-bar-left
-      &nbsp;
-      - if band_manage_counter == 0 # If this is the first band in the list
-        %a.add-band-link{ :href => new_band_path }
-          .add-band-button &nbsp;
-    .divider-bar-right
-      &nbsp;
-      - if band_manage_counter == 0
-        .stream-schedule-label &nbsp;
-        .duration-label &nbsp;
-  .band-info-box
-    =link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'band-name'
-  .stream-schedule-box
-    =render :partial => 'bands/series_list', :locals => { :band => band }
-  .stats
-    %dl
-      %dt Date of Formation:
-      %dd<
-        =band.created_at.strftime("%m/%d/%Y")
-      %dt Public profile link:
-      %dd<
-        =link_to "Public profile", :controller => 'bands', :band_short_name => band.short_name, :action => 'show'
-      -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => band.id}
-      -# __commented__
-        -if band.hidden
-          %dt Public Profile Hidden!
-          %dd<
-            =link_to 'Publish!', url_hash
-        -else
-          %dt Profile Published!
-          %dd<
-            =link_to 'Hide!', url_hash
-                
-  .profile-column
-    #bio.widget-box
-      .profile-category Bio
-      -# =link_to_remote "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => band.id}}, {:href => edit_band_url(band), :class => 'utility-edit'}
-      =link_to "edit", { :url => {:controller => 'bands', :action => 'remote_bio_edit', :id => band.id}}, {:href => edit_band_url(band), :class => 'utility-edit'}
-      #bio-content
-        =render :partial => 'bands/bio', :locals => {:band => band}
-  .band-manage-link
-    More...
-    -# =link_to_unless_current 'More...', edit_band_path :id => band.id
+#jqAccordion
+  .orange_bar
+    - if band_manage_counter == 0   # If this is the first band in the list
+      %div{ :class => "white_bar add_band" }
+        = link_to new_band_path do
+          %strong +
+          ADD BAND
+      .white_orange_divider
+    - else
+      .left_third
+      .orange_divider
+    .placement_streamschedule STREAM SCHEDULE
+    .placement_starts STARTS
+    .placement_ends ENDS
+
+  .content_onethird_bg
+    .left_third
+      .dark_bar
+        = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+      .dark_bar_large
+        .link_darkbar_padding
+        .link_darkbar
+          = link_to 'new stream', new_streamapi_stream_path, :class => 'l_newstream'
+        .link_darkbar
+          = link_to 'stream history', nil, :class => 'l_streamhistory'
+        .link_darkbar
+          = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+    .right_twothirds
+      = render :partial => 'bands/series_list', :locals => { :band => band }
+    .clear
+

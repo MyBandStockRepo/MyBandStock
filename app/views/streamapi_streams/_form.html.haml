@@ -18,7 +18,7 @@
 	.field
 		= f.label :broadcast_theme
 		%br
-		= collection_select 'streamapi_stream', 'broadcast_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
+		= collection_select 'streamapi_stream', 'broadcaster_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
 
 	.field
 		= f.label :viewer_theme

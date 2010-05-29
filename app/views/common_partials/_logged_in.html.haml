@@ -1,0 +1,14 @@
+#head_top
+  = link_to root_path do
+    = image_tag('/images/header/mbs_logo.gif', :alt => 'MyBandStock')
+  .loggedin
+    .loggedin_leftborder
+    #logged_info
+      = link_to user.email, me_control_panel_path
+      = link_to '', me_account_path, :id => user.id, :class => 'account'
+    = link_to '', logout_path, :class => 'logout'
+
+#head_bottom
+  #logo_float
+    = link_to '', root_path, :class => 'navlogo'
+

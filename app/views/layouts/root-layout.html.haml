@@ -12,38 +12,23 @@
     = stylesheet_link_tag 'lightbox'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js'
     = javascript_include_tag 'rails'
     = javascript_include_tag 'jquery.fancybox-1.3.1.pack'
     = javascript_include_tag 'jquery.easing-1.3.pack'
     = javascript_include_tag 'access_schedule'
     = javascript_include_tag 'ping'
-    -# = javascript_include_tag 'access_schedule'
+
+    = render :partial => 'common_partials/meta'
     
     = csrf_meta_tag
   %body
-    #wrap
-      -if session[:user_id]
-        -if @user.nil?  # If @user was not provided, populate it here.
-          -@user = User.find(session[:user_id])
-        %div{ :style => 'float: right; color: #f4ac3e; margin-right: 10px' }
-          Logged in as
-          = link_to @user.email, '/me/control_panel'
-          |
-          = link_to 'Logout', logout_url
-  
+    #wrap  
       #header
-        #head_top
-          -# = link_to( image_tag('/images/mbs_logo.gif', :alt => 'MyBandStock'), root_path )
-          = image_tag('/images/mbs_logo.gif', :alt => 'MyBandStock')
-        #head_bottom
-          #logo_float
-            = link_to '', root_path, :class => 'navlogo'
-
-          = link_to '', bands_path(:page => 1), :class => 'nav navbands'
-          = link_to '', root_path, :class => 'nav navfaq'
-          = link_to '', root_path, :class => 'nav navabout'
-          = link_to "", "http://blog.mybandstock.com/", :class => "nav navblog"
-          = link_to '', login_path, :class => "nav navlogin" unless session[:user_id]
+        -if session[:user_id]
+          = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
+        -else
+          = render :partial => 'common_partials/logged_out'
 
       -if flash[:logout]
         #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
@@ -51,15 +36,8 @@
 
       #content
         = yield
-      -# =image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; position: absolute; margin-top: -60px; margin-left: 450px", :size => '25x25'
 
-      #footer
-        #securities
-          I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law 
-          -# = link_to "Privacy Policy", "http://alpha.mybandstock.com/legal/privacy_policy"
-        #copyright
-          &copy; 2010 MyBandStock Corporation - All Rights Reserved
-        .clear
+      = render :partial => 'common_partials/footer'
     
     / KISSinsights code for cobain.mybandstock.com
     :javascript

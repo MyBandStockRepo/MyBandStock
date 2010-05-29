@@ -110,8 +110,6 @@ class LiveStreamSeriesController < ApplicationController
     end
   end
 
-# We might have to make a by_band.json.erb view for the AJAX response for the widget
-
   def jsonp
     # Sooooo slow and inefficient
     unless ( params[:band_id] && (@band = Band.includes(:live_stream_series).find(params[:band_id])) )
@@ -144,8 +142,6 @@ class LiveStreamSeriesController < ApplicationController
 
     output[:band_name] = @band.name
     output['band_id'] = @band.id
-=begin
-=end
 
     logger.info output.to_json.to_s
 

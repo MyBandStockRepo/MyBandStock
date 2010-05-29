@@ -1,15 +1,18 @@
-.band-schedules
-  %h2
-    =link_to "Schedules for #{ band.name }", { :controller => 'live_stream_series', :action => 'by_band', :id => band.id } , :class => 'lightbox'
-  %table.schedules-table
-    %tr
-      %th Title
-      %th Duration
-    -band.live_stream_series.each do |series|
-      %tr.band-schedule
-        %td.band-schedule-title
-          =series.title
-        %td
-          =series.starts_at.strftime("%m/%d/%Y") +' to '+ series.ends_at.strftime("%m/%d/%Y")
-  = link_to( image_tag('http://icons2.iconarchive.com/icons/pixelmixer/basic/16/plus-icon.png', { :alt => 'New schedule' }), new_live_stream_series_path )
+-band.live_stream_series.each do |series|
+  .dark_bar
+    .twothirds_info
+      .placement_streamname
+        = link_to series.title, nil, :class => 'link_streamname'
+      .placement_starttime
+        = series.starts_at.strftime("%m.%d.%Y")
+        %span.dark_accent
+          = '|'
+        = series.starts_at.strftime("%I:%M%p")
+        %span.dark_accent ET
+      .placement_endtime
+        = series.ends_at.strftime("%m.%d.%Y")
+        %span.dark_accent
+          = '|'
+        = series.ends_at.strftime("%I:%M%p")
+        %span.dark_accent ET
 
