@@ -138,6 +138,7 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   #users routes - this is stuff like '/users/edit' but it looks better this way
   match '/me/account', :to => 'users#edit'
   match '/me/control_panel', :to => 'users#control_panel'
+  match '/me/forgot_password', :to => 'login#forgot_password'
 #  match '/me/manage_artists', :to => 'users#manage_artists'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'

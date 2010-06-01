@@ -15,6 +15,12 @@ class LoginController < ApplicationController
         redirect_to session[:last_clean_url]
       end
     end
+    
+	  unless params[:lightbox].nil?
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => 'lightbox'
+    end
+
   end
   
       

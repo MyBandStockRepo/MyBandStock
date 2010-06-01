@@ -135,10 +135,10 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated?
-      unless session[:auth_success] == true
-          update_last_location # we need to run this after-filter manually here
-          redirect_to :controller => :login, :action => :user
-      end
+    unless session[:auth_success] == true
+      update_last_location # we need to run this after-filter manually here
+      redirect_to :controller => :login, :action => :user, :lightbox => params[:lightbox]
+    end
   end
   
   def has_role?(role)

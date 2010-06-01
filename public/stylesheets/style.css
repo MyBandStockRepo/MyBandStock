@@ -93,7 +93,11 @@ h3 {
 
 /* CONTENT */
 
-#content {background:#191919;margin-top:10px;}
+#content {
+  background:#191919;
+  margin-top:10px;
+  overflow: auto;
+}
 
 
 /* LOGGED IN INFO BAR */

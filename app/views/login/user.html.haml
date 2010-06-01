@@ -4,22 +4,63 @@
     If you haven't created an account yet please
     =link_to "click here", :controller => 'users', :action => 'new'
     to get registered.  It's free and allows you to interact with all the bands on the site.
-=form_for(:user, :url => {:action => :process_user_login}) do |f|
+=form_for(:user, :url => {:action => :process_user_login}, :html => { :class => 'login_form' } ) do |f|
   #form-entry
     %fieldset.basic-info
       %legend
-        %strong Login
+        %h2 Login
       %ul.form-fields
-        %li
+        %li#email_box
           =f.label 'email', 'Email'
           =f.text_field :email, :size => '0', :class => 'full text'
-        %li
+        %li#password_box
           =f.label 'password', 'Password'
           =f.password_field :password, :size => '0', :class => 'full password text'
         %li.checkbox
           =check_box_tag 'remember','1', false, {:class => 'checkbox'}
           =label_tag 'Remember Me'
-      = image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+        %li.forgot_password
+          =link_to 'Forgot password?', 'me/forgot_password', :class => 'forgot_password'
+      = image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit', :id => 'login_submit'
 
 
+-# __commented__
+  <div id="full_height">
+    <div class="emailform">
+      <div style="padding: 20px">
+        <span style = "color: red"><%= flash[:error] %></span>
+        <% form_tag session_path do -%>
+          <fieldset> 
+            <div id="namebox"> 
+              <p style="font-size: 20px"><%= label_tag 'login' %><p/>
+              <%= text_field_tag 'login', @login, :style => "margin-top: -10px" %>
+            </div><!-- /namebox -->
+            <div id="emailbox"> 
+              <p style="font-size: 20px"><%= label_tag 'password' %><br/>
+              <%= password_field_tag 'password', nil %></p>
+            </div><!-- /emailbox -->
+          </fieldset>
+      </div>
+      <div style="margin-left: 20px"><%= submit_tag 'Log in', :id => 'login_submit' %>
+      <%=image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; margin-left: 20px; width:15px; height: 15px", :size => '25x25' %></div>
+    </div><!-- /emailform -->
+    <% end -%>
+  </div><!-- /full_height -->
+  
+    <div id="search">
+      <% form_tag(store_band_name_path, :method => "get") do %>
+        <fieldset> 
+          <div id="searchbox">
+            <%= text_field  :band, :search_text, :value => "Find Your Favorite Artist..."%>
+            </div><!-- /searchbox --> 
+            <div id="searchbutton"> 
+              <%= submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled' %>
+          </div><!-- /searchbutton -->
+        </fieldset> 
+      <% end %> 
+    </div><!-- /search -->
+  
+    <div id="artistlink">
+      Artists, Managers, Labels - <a href="">Need More Info?</a>
+    </div><!-- /artistlink -->
 

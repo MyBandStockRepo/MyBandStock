@@ -17,25 +17,42 @@
 
 
 /* Lightbox styles */
-#broadcast-container, #viewer-container {
-  font-family:"Trebuchet MS","Lucida Sans",Verdana,Sans-Serif;
+body#lightbox {
+  background-color: #000;
   color: #777;
+  font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
+  padding: .5em 1em;
+}
+#broadcast-container, #viewer-container {
   margin: auto;
-  background-color: black;
-  padding: 2px 1.5em;
 } 
 #broadcast-container .streamapi-embed,
 #viewer-container .streamapi-embed {
   margin: 5px auto;
 }
+#broadcast-container h2, #viewer-container h2 {
+  font-size: 16pt;
+  margin: .2em 0;
+}
 #broadcast-container p, #viewer-container p {
   margin: 4px 0;
   font-size: 10pt;
 }
-#broadcast-container h2, #viewer-container h2 {
-  font-size: 12pt;
-  margin: .2em 0;
+/* Login form */
+
+.login_form {
+  width:390px;
+  float:left;
+  margin: .5em 0;
 }
+fieldset {border:0px;padding:0px;margin:0px;}
+    input {outline:0px;}
+#email_box, #password_box {float:left; font-size: 14pt;}
+  #email_box input, #password_box input {width:380px;height:31px;background:url(/images/forms/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;
+    margin: 10px 0;
+  }
+#password_box { }
+#login_submit {height:30px;float:right;margin-top:10px;}
 
 
 
