@@ -87,7 +87,7 @@ respond_to :html, :js
 			@external_css = nil
 		end
 		
-		@theme = StreamapiStreamTheme.find(@stream.broadcast_theme_id)
+		@theme = StreamapiStreamTheme.find(@stream.broadcaster_theme_id)
 		
   	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
   	apikey = STREAMAPI_KEY
@@ -625,7 +625,7 @@ respond_to :html, :js
   # GET /streamapi_streams/1.xml
   def show
     @streamapi_stream = StreamapiStream.find(params[:id])
-		@broadcast_theme = StreamapiStreamTheme.find(@streamapi_stream.broadcast_theme_id)
+		@broadcaster_theme = StreamapiStreamTheme.find(@streamapi_stream.broadcaster_theme_id)
 		@viewer_theme = StreamapiStreamTheme.find(@streamapi_stream.viewer_theme_id)		
     respond_to do |format|
       format.html # show.html.erb
