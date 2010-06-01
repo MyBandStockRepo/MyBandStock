@@ -73,12 +73,20 @@ class LoginController < ApplicationController
   end
   
   
-  def password_reminder
+  def forgot_password
     @reminder_sent = false
-    if ( params[:email] && (search_email = params[:email].strip) && (search_email != '') )
+    @bad_user_save = false
+    if ( params[:email] && (search_email = params[:email].strip.downcase) && (search_email != '') )
       if @user = User.find_by_email(search_email)
-        UserNotifier.deliver_password_reminder(@user.id)
-        @reminder_sent = true
+      	password = generate_key(8)
+      	@user.password = Digest::SHA2.hexdigest(password)
+      	
+      	if @user.save 
+					UserMailer.reset_password(@user, password).deliver
+					@reminder_sent = true
+				else
+					@bad_user_save = true
+				end
       else
         @bad_email = true
       end

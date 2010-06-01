@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
-  validates_numericality_of :country_id
+#  validates_numericality_of :country_id
   
   #length
   #the length of these is maxed by the field width in the database.  And that width was chosen rather arbitrarily - while being long enough to be safe.

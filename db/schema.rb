@@ -34,16 +34,17 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
   end
 
   create_table "bands", :force => true do |t|
-    t.string   "name",                                    :null => false
-    t.string   "short_name",                              :null => false
+    t.string   "name",                                      :null => false
+    t.string   "short_name",                                :null => false
     t.text     "bio"
-    t.boolean  "terms_of_service",  :default => false,    :null => false
-    t.string   "city",                                    :null => false
-    t.integer  "zipcode",                                 :null => false
+    t.boolean  "terms_of_service",    :default => false,    :null => false
+    t.string   "city",                                      :null => false
+    t.integer  "zipcode",                                   :null => false
     t.string   "band_photo"
-    t.string   "status",            :default => "active", :null => false
+    t.string   "status",              :default => "active", :null => false
     t.string   "twitter_user"
     t.string   "external_css_link"
+    t.string   "access_schedule_url"
     t.integer  "country_id"
     t.integer  "state_id"
     t.datetime "created_at"

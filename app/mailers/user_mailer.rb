@@ -21,18 +21,42 @@ class UserMailer < ActionMailer::Base
 
   default :from => "noreply@mybandstock.com"  
 
-  def new_user_stream_schedule_notification(user, new_password)
+  def new_user_stream_schedule_notification(user, new_password, band, lss)
     if user.nil?
       return false
     end
     
+    recipient = make_address(user)
+    
+    @user = user
+    @password = new_password
+    @band = band
+    @lss = lss
+		@host = SITE_HOST
+    subject = @band.name+' Live Streaming Video'
+		mail(:to => recipient, :subject => subject)
   end
 
-  def existing_user_stream_schedule_notification(user)
+
+
+
+
+  def existing_user_stream_schedule_notification(user, band, lss)
     if user.nil?
       return false
     end
+
+		recipient = make_address(user)
+
+    @user = user    
+    @band = band
+    @lss = lss    
+    subject = @band.name+' Live Streaming Video'
+		mail(:to => recipient, :subject => subject)    
   end
+
+
+
 
   def registration_notification(user)
     if user.nil?
@@ -42,15 +66,32 @@ class UserMailer < ActionMailer::Base
     recipient = make_address(user)
 
     @user = user  # Send user object to the email view
+    @mbslink = SITE_URL
     mail(:to => recipient, :subject => "MyBandStock Registration")
 
     return true
   end  
+
+
+
   
   def confirm_email(email_address, onetime_key)
-    mail(:to => email_address, :subject => "MyBandStock email confirmation")
     @onetime_key = onetime_key
+    mail(:to => email_address, :subject => "MyBandStock Email Confirmation")    
   end
+
+
+	def reset_password(user, password)
+  	if user.nil?
+      return false
+    end
+
+		recipient = make_address(user)
+		@user = user
+		@password = password
+    mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
+	end
+
 
 
 private
@@ -63,7 +104,7 @@ private
 
     recipient = '<' + user.email + '>'
     if user.first_name
-      recipient = user.first_name + ' ' + user.last_name + ' ' + recipient
+      recipient = user.full_name + ' ' + recipient
     end
     recipient
   end

@@ -50,11 +50,33 @@ class ApiController < ApplicationController
     end
     logger.info "\nPassed API auth.\n"
 
+		newUser = false
+
     user = User.find_by_email(email.downcase)
     if (user.nil?)
       # User does not exist
-      response.headers["Content-Type"] = 'text/html'
-      return render :text => '-1'
+#      response.headers["Content-Type"] = 'text/html'
+#      return render :text => '-1'
+
+			# create a new user
+			newUser = true
+			
+			genpass = generate_key(8)
+			user = User.create(:first_name => '',
+                  :last_name => '',
+                  :password => Digest::SHA2.hexdigest(genpass),
+                  :password_confirmation => Digest::SHA2.hexdigest(genpass),
+                  :email => email.downcase,
+                  :status => 'pending',
+                  :agreed_to_tos => false,
+                  :agreed_to_pp => false)
+=begin			
+			unless user.save			
+				logger.info "\nFailed To Create User.\n"
+				response.headers["Content-Type"] = 'text/html'
+				return render :text => '-1'
+			end
+=end			
     end
 
     privileges_hash = {
@@ -68,17 +90,34 @@ class ApiController < ApplicationController
 
     ssp = LiveStreamSeriesPermission.where(:user_id => user.id, :live_stream_series_id => stream_series_id)
 
+		lss = LiveStreamSeries.find(stream_series_id)
+		streamingBand = Band.find(lss.band_id)
+
     if (ssp.count == 0)
       # User currently has no permissions on the stream
       ssp = LiveStreamSeriesPermission.new(privileges_hash)
       ssp.user_id = user.id
       ssp.live_stream_series_id = stream_series_id
+      
+      unless ssp.save
+				logger.info "\nFailed To Create Live Stream Series Permission.\n"
+				response.headers["Content-Type"] = 'text/html'
+				return render :text => '-1'      	
+      end
+      
     else
       # User permissions exist and will be changed
       ssp.update(privileges_hash)
     end
 
-    UserMailer.registration_notification(user).deliver
+		if can_view
+			if newUser
+				UserMailer.new_user_stream_schedule_notification(user, genpass, streamingBand, lss).deliver
+			else
+				UserMailer.existing_user_stream_schedule_notification(user, streamingBand, lss).deliver
+			end
+		end
+#    UserMailer.registration_notification(user).deliver
 
     @output = { :api_key => api_key,
                 :hash => hash,
