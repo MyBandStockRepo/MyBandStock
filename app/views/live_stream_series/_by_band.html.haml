@@ -14,5 +14,10 @@
 					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
 				- if can_broadcast
 					%td.begin-broadcast
+<<<<<<< HEAD
 						- broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
 						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+57), :fbwidth => (broadcasterTheme.width+50)
+=======
+						- broadcastTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
+						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcastTheme.height+57), :fbwidth => (broadcastTheme.width+50)
+>>>>>>> 4df5c83... email stuff working

@@ -145,12 +145,13 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
 #  match '/me/inbox', :to => 'users#inbox'
 #  match '/me/purchases', :to => 'users#purchases'
   match '/access_schedule/:id', :to => 'asdf#test'
-  
+  match 'me/forgot_password', :to => 'login#forgot_password'  
   #band public profile
   match ':name/profile', :to => 'bands#show'
   
   #users stuff
   match 'users/edit', :to => 'users#edit'
+  
   match 'users/state_select', :to => 'users#state_select'
 #  match 'users/upload_headline_photo', :to => 'users#upload_headline_photo'
 #  match 'users/blank_headline_photo', :to => 'users#blank_headline_photo'

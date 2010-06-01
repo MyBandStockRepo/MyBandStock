@@ -1,0 +1,29 @@
+%h1 
+	Purchased Video Streaming Service With
+	= @band.name
+		
+%p 
+	Welcome to our live video streaming service!  You have been given permission to view video streams in the following category:
+	%br
+	= @lss.title
+	%br
+	From 
+	= @lss.starts_at.strftime("%A %B %d, %Y") 
+	to 
+	= @lss.ends_at.strftime("%A %B %d, %Y") 
+
+%p 
+	To view the scheduled streams, visit 
+	- if @band.access_schedule_url.nil? || @band.access_schedule_url == ''
+		= link_to 'Stream Viewer', :controller => 'bands', :action => 'show', :id => @band.id, :host => @host
+	-else
+		= link_to 'Stream Viewer', @band.access_schedule_url
+	%br
+	and login with the following email address:
+	%br
+	Email:
+	= @user.email
+	%br
+	%br
+	If you forgot your password you can 
+	= link_to 'reset your password', :controller => 'users', :action => 'reset_password', :id => @user.id, :host => @host

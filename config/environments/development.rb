@@ -23,10 +23,12 @@ Cobain::Application.configure do
 	
 	SITE_URL = 'http://127.0.0.1:3000'
 	SECURE_SITE_URL = 'http://127.0.0.1:3000'
-
+	SITE_HOST = '127.0.0.1:3000'
   
 	
 	STREAMS_URL = 'rtmp://localhost/vod'
+  
+  EMAIL_INTERCEPTOR_ADDRESS = 'brian@mybandstock.com'
   
   
 end

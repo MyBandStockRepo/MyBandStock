@@ -12,6 +12,7 @@ class CreateBands < ActiveRecord::Migration
       t.string :status, {:null => false, :default => "active"}
       t.string :twitter_user
       t.string :external_css_link, {:null => true}
+      t.string :access_schedule_url, {:null => true}
       
       #references
       t.belongs_to :country, :state    

@@ -61,6 +61,12 @@
       %option{ :value => 'nil' } (Unspecified)
       %option{ :value => 'high' } High
 
+  %div.form_element
+    %label{ :for => 'stream_series_id' } Stream Series ID:
+    = collection_select '', 'stream_series', LiveStreamSeries.all, 'id', 'title', :class => 'select'
+
+	
+
   = token_tag
   
   %input{ :type => 'submit', :value => 'Submit request' }
