@@ -115,14 +115,16 @@ class LiveStreamSeriesController < ApplicationController
     unless ( params[:band_id] && (@band = Band.includes(:live_stream_series).find(params[:band_id])) )
       return render :nothing => true
     else
-      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do
-        @band.live_stream_series.includes(:streamapi_streams)
-      end
+      live_stream_series = @band.live_stream_series.includes(:streamapi_streams)
+      # Cache not used because on the server, we would get "can't modify frozen object".
+      #@live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do
+      #  @band.live_stream_series.includes(:streamapi_streams)
+      #end
     end
 
+    # Generate hash structure for JSON conversion
     output = Hash.new
-
-    output[:serieses] = @live_stream_series.collect{ |series|
+    output[:serieses] = live_stream_series.collect{ |series|
       {
         :series_title => series.title,
         :streams => series.streamapi_streams.collect{ |stream|
@@ -131,7 +133,7 @@ class LiveStreamSeriesController < ApplicationController
             :title => stream.title,
             :start => stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p'),
             :view_link => {
-              :url => url_for ( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
+              :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
               :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
               :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+46 : 560
             }
@@ -143,9 +145,10 @@ class LiveStreamSeriesController < ApplicationController
     output[:band_name] = @band.name
     output['band_id'] = @band.id
 
-    logger.info output.to_json.to_s
+    output_json = output.to_json
+    logger.info output_json
 
-    return render :json => output.to_json, :callback => 'accessScheduleJsonCallback'
+    return render :json => output_json, :callback => 'accessScheduleJsonCallback'
     #respond_to do |format|
     #  format.json  { render :layout => false, :callback => 'accessScheduleJsonCallback' }
     #end

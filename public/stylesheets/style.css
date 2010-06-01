@@ -98,7 +98,7 @@ h3 {
 
 /* LOGGED IN INFO BAR */
 
-.loggedin {height:29px;line-height:29px;background:#FF0000;margin-top:5px;float:right;background-image:url(/images/header/loggedin_bg.png);background-repeat:repeat-x;font-weight:bold;}
+.loggedin {height:29px;line-height:29px;background:#F90;margin-top:5px;float:right;background-image:url(/images/header/loggedin_bg.png);background-repeat:repeat-x;font-weight:bold;}
 	.loggedin_leftborder{width:1px;height:29px;background-image:url(/images/header/loggedin_leftborder.png);float:left;}
 	#logged_info{color:#333333;margin-left:19px;margin-right:20px;float:left;}
 		#logged_info a{color:#333333;float:left;}
