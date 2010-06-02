@@ -144,13 +144,13 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
   add_index "streamapi_stream_viewer_statuses", ["viewer_key"], :name => "index_streamapi_stream_viewer_statuses_on_viewer_key", :unique => true
 
   create_table "streamapi_streams", :force => true do |t|
-    t.string   "private_hostid",         :null => false
-    t.string   "public_hostid",          :null => false
+    t.string   "private_hostid"
+    t.string   "public_hostid"
     t.string   "channel_id"
-    t.string   "title",                  :null => false
-    t.datetime "starts_at",              :null => false
-    t.datetime "ends_at",                :null => false
-    t.boolean  "public",                 :null => false
+    t.string   "title",                                    :null => false
+    t.datetime "starts_at",                                :null => false
+    t.datetime "ends_at",                                  :null => false
+    t.boolean  "public",                 :default => true, :null => false
     t.integer  "duration"
     t.integer  "total_viewers"
     t.integer  "max_concurrent_viewers"

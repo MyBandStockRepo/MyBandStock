@@ -1,32 +1,31 @@
 -band = band_manage
-#jqAccordion
-  .orange_bar
-    - if band_manage_counter == 0   # If this is the first band in the list
-      %div{ :class => "white_bar add_band" }
-        = link_to new_band_path do
-          %strong +
-          ADD BAND
-      .white_orange_divider
-    - else
-      .left_third
-      .orange_divider
-    .placement_streamschedule STREAM SCHEDULE
-    .placement_starts STARTS
-    .placement_ends ENDS
-
-  .content_onethird_bg
+.orange_bar
+  - if band_manage_counter == 0   # If this is the first band in the list
+    .white_bar.add_band
+      = link_to new_band_path do
+        %strong +
+        ADD BAND
+    .white_orange_divider
+  - else
     .left_third
-      .dark_bar
-        = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
-      .dark_bar_large
-        .link_darkbar_padding
-        .link_darkbar
-          = link_to 'new stream', new_streamapi_stream_path, :class => 'l_newstream'
-        .link_darkbar
-          = link_to 'stream history', nil, :class => 'l_streamhistory'
-        .link_darkbar
-          = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
-    .right_twothirds
-      = render :partial => 'bands/series_list', :locals => { :band => band }
-    .clear
+    .orange_divider
+  .placement_streamschedule STREAM SCHEDULE
+  .placement_starts STARTS
+  .placement_ends ENDS
+
+.content_onethird_bg
+  .left_third
+    .dark_bar
+      = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+    .dark_bar_large
+      .link_darkbar_padding
+      .link_darkbar
+        = link_to 'new stream', { :controller => 'streamapi_streams', :action => 'new', :band_id => band.id }, :class => 'l_newstream'
+      .link_darkbar
+        = link_to 'stream history', '#', :class => 'l_streamhistory'
+      .link_darkbar
+        = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+  .right_twothirds
+    = render :partial => 'bands/series_list', :locals => { :band => band }
+  .clear
 

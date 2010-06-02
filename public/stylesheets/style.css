@@ -49,10 +49,12 @@ h3 {
 }
 
 .notice {
-
   font-style: italic;
   margin: .5em;
   color: #f4ac3e;
+}
+.error {
+  color: red;
 }
 
 
@@ -99,14 +101,40 @@ h3 {
   overflow: auto;
 }
 
+.stream_list {
+  display: block;
+  margin: 0;
+}
+
+.expand_series {
+  display: inline;
+  visibility: visible;
+  float: left;
+  width: 10px;
+  margin-left: 15px;
+  color: #CCC;
+  cursor: pointer;
+}
+  .ui-state-active .expand_series { /* Accordion-expanded */
+    visibility: hidden;
+  }
+  .expand_series:hover {
+    color: #FFF;
+  }
+
+/* rotator css */
+#slides {height:400px;}
+div#slides ul li {float:  left; position: absolute;list-style: none;margin-left: 0;}
+div#slides ul li.show {z-index:500}
+
 
 /* LOGGED IN INFO BAR */
 
 .loggedin {height:29px;line-height:29px;background:#F90;margin-top:5px;float:right;background-image:url(/images/header/loggedin_bg.png);background-repeat:repeat-x;font-weight:bold;}
 	.loggedin_leftborder{width:1px;height:29px;background-image:url(/images/header/loggedin_leftborder.png);float:left;}
 	#logged_info{color:#333333;margin-left:19px;margin-right:20px;float:left;}
-		#logged_info a{color:#333333;float:left;}
-		#logged_info a:hover{color:#FFFFFF;}
+		#logged_info #user_email{color:#333333;float:left;}
+		/* #logged_info a:hover{color:#FFFFFF;} */
 
 .logout {display:block;width:82px;height:29px;background-image:url(/images/header/logout.png);float:left;}
 	.logout:hover {background-position:0px -29px;}
@@ -124,9 +152,29 @@ h3 {
 
 /* DESIGN ELEMENTS (Bars, Lines, Boxes n' Such) */
 
-.orange_bar {height:30px;background-image:url(/images/orange_bar.gif);font-family:TitilliumText14LRegular;font-size:14px;color:#FFFFFF;line-height:30px;clear:both;}
+.orange_bar {
+  height:30px;
+  width: 100%;
+  background-image:url(/images/orange_bar.gif);
+  font-family:TitilliumText14LRegular;
+  font-size:14px;
+  font-weight: bold;
+  color:#FFFFFF;
+  line-height:30px;
+  clear:both;
+  cursor: default;
+}
 	
-.white_bar {height:30px;background-image:url(/images/white_bar.png);font-family:TitilliumText14L999wt;font-size:16px;color:#333333;line-height:30px;float:left;}
+.white_bar {
+  height:30px;
+  background-image:url(/images/white_bar.png);
+  font-family:TitilliumText14L999wt;
+  font-size:16px;
+  font-weight: normal;
+  color:#333333;
+  line-height:30px;
+  float:left;
+}
 	.white_bar a {color:#333333;text-decoration:none;}
 		.white_bar a:hover {color:#FF9900;text-decoration:none;}
 		
@@ -158,7 +206,7 @@ h3 {
 .schedule_band_name {margin-left:40px;font-family:TitilliumText14L600wt;font-size:20px;color:#FF9900;text-decoration:none;}
 	.schedule_band_name:hover{color:FFFFFF;text-decoration:underline;}
 	
-.placement_streamname {width:282px;margin-left:38px;float:left;}
+.placement_streamname {width:282px;margin-left:13px;float:left;}
 	.link_streamname {display:block;height:27px;background-image:url(/images/icons/edit_stream.png);background-repeat:no-repeat;padding-left:26px;}
 		.link_streamname:hover {background-position:0px -27px;}
 .placement_starttime {width:160px;float:left;}
@@ -206,6 +254,7 @@ h3 {
 	font-weight: normal;
 	font-style: normal;
 }
+
 
 @font-face {
 	font-family: 'TitilliumText14L800wt';

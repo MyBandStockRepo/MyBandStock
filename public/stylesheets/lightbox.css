@@ -28,7 +28,12 @@ body#lightbox {
 } 
 #broadcast-container .streamapi-embed,
 #viewer-container .streamapi-embed {
+  display: block;
   margin: 5px auto;
+}
+#broadcast-container h1, #viewer-container h1 {
+  font-size: 20pt;
+  margin: .2em 0;
 }
 #broadcast-container h2, #viewer-container h2 {
   font-size: 16pt;

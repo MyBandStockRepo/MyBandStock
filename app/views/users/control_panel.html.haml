@@ -1,2 +1,12 @@
 = render :partial => 'bands/band_manage', :collection => @bands
 
+:javascript
+  $(document).ready(function() {
+    if (#{ 1 })
+      $('#jqAccordion').accordion({
+        header: '.dark_bar',
+        change: function(event, element) {
+        }
+      });
+  });
+

@@ -27,12 +27,13 @@ match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#get
 match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'      
 
   resources :streamapi_streams
+  match '/streamapi_streams/new/:band_id', :to => 'streamapi_streams#new'
 match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
 match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
 match '/streamapi_streams/:id/getlivesessioninfo', :to => 'streamapi_streams#getLiveSessionInfo'      
 match '/streamapi_streams/:id/getpublichostid', :to => 'streamapi_streams#getPublicHostId'      
 match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'      
-match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping' 
+match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'
 
 
 match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
@@ -144,8 +145,6 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   match '/me/profile', :to => 'users#show'
 #  match '/me/inbox', :to => 'users#inbox'
 #  match '/me/purchases', :to => 'users#purchases'
-  match '/access_schedule/:id', :to => 'asdf#test'
-  match 'me/forgot_password', :to => 'login#forgot_password'  
   #band public profile
   match ':name/profile', :to => 'bands#show'
   

@@ -1,6 +1,12 @@
 Cobain::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
+
+  # Email address to which support inquiries are sent.
+  # Currently displayed when a user does not have access to a stream, but tries to view it.
+  MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
+
+
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true

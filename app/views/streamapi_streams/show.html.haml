@@ -1,34 +1,37 @@
+.orange_bar
+  = @streamapi_stream.title
 %p
-	%b Private hostid:
-	= @streamapi_stream.private_hostid
+  %b Title:
+  = @streamapi_stream.title
 
 %p
-	%b Public hostid:
-	= @streamapi_stream.public_hostid
+  %b Starts At:
+  = @streamapi_stream.starts_at
 
 %p
-	%b Title:
-	= @streamapi_stream.title
+  %b Ends At:
+  = @streamapi_stream.ends_at
 
 %p
-	%b Starts At:
-	= @streamapi_stream.starts_at
+  %b Broadcast Theme:
+  = @broadcaster_theme.name
 
 %p
-	%b Ends At:
-	= @streamapi_stream.ends_at
+  %b Viewer Theme:
+  = @viewer_theme.name
+  
+%p
+  %b Public:
+  = @streamapi_stream.public
+-# __commented__ Private hostid should not be shown to users
+  %p
+    %b Private hostid:
+    = @streamapi_stream.private_hostid
 
 %p
-	%b Broadcast Theme:
-	= @broadcast_theme.name
+  %b Public hostid:
+  = @streamapi_stream.public_hostid
 
-%p
-	%b Viewer Theme:
-	= @viewer_theme.name
-	
-%p
-	%b Public:
-	= @streamapi_stream.public
 
 
 = link_to 'Edit', edit_streamapi_stream_path(@streamapi_stream)

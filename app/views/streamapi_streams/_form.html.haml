@@ -1,45 +1,51 @@
 = form_for(@streamapi_stream) do |f|
-	= f.error_messages
-	.field
-		= f.label :title
-		%br
-		= f.text_field :title
-	
-	.field
-		= f.label :starts_at
-		%br
-		= f.datetime_select :starts_at
+  = f.error_messages
+  .field
+    = f.label :title
+    %br
+    = f.text_field :title
 
-	.field
-		= f.label :ends_at
-		%br
-		= f.datetime_select :ends_at
+  .field
+    = f.label :live_stream_series_id
+    = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
 
-	.field
-		= f.label :broadcast_theme
-		%br
-		= collection_select 'streamapi_stream', 'broadcaster_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
+  .field
+    = f.label :starts_at
+    %br
+    = f.datetime_select :starts_at
 
-	.field
-		= f.label :viewer_theme
-		%br
-		= collection_select 'streamapi_stream', 'viewer_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
+  .field
+    = f.label :ends_at
+    %br
+    = f.datetime_select :ends_at
 
-	.field
-		= f.label :public
-		%br
-		= f.check_box :public
+  .field
+    = f.label :broadcaster_theme
+    %br
+    = collection_select 'streamapi_stream', 'broadcaster_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
 
-	.field{:style=>"display:none;"}
-		= f.label :band_id
-		%br
-		= f.text_field :band_id, :value => @band_id
+  .field
+    = f.label :viewer_theme
+    %br
+    = collection_select 'streamapi_stream', 'viewer_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
 
-	.field{:style=>"display:none;"}
-		= f.label :live_stream_series_id
-		%br
-		= f.text_field :live_stream_series_id, :value => @lss_id
+  .field
+    = f.label :public
+    = f.check_box :public
+    .description
+      Do you want this stream to show up in the public schedule?
 
-	.actions
-		= f.submit
+  .field{:style=>"display:none;"}
+    = f.label :band_id
+    %br
+    = f.text_field :band_id, :value => @band_id
+
+  -# __commented__
+    .field{:style=>"display:none;"}
+      = f.label :live_stream_series_id
+      %br
+      = f.text_field :live_stream_series_id, :value => @live_stream_series_id
+
+  .actions
+    = f.submit
 

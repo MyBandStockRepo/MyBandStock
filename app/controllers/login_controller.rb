@@ -25,6 +25,7 @@ class LoginController < ApplicationController
   
       
   def process_user_login
+    # TODO: Detect if we should withhold the default layout for a lightbox
     if params[:user].nil? || params[:user][:email].nil? || params[:user][:password].nil?
       if params[:email].nil? || params[:password].nil?
         flash[:notice] = "Email and password not sent appropriately."

@@ -10,7 +10,7 @@ respond_to :html, :js
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
  before_filter :only => :post, :only => [:create, :update] 
- before_filter :authenticated?, :except => [:show, :callback]
+ before_filter :authenticated?, :except => [:show, :callback, :ping]
 	
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
@@ -46,9 +46,12 @@ respond_to :html, :js
       #they are valid mbs users but haven't purchased the stream
       logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
       # Just display a message for now.
-      layout_on = params[:lightbox].nil?
-      render :text => "You have not purchased access to this stream. To do so, visit #{ @stream.live_stream_series.purchase_url }.",
-             :layout => layout_on
+      @purchase_url = @stream.live_stream_series.purchase_url
+      if params[:lightbox].nil?
+        render 'not_permitted'
+      else
+        render 'not_permitted', :layout => 'lightbox'
+      end
       return false
     end
 
@@ -637,8 +640,12 @@ respond_to :html, :js
   # GET /streamapi_streams/new.xml
   def new
     @streamapi_stream = StreamapiStream.new
-		@band_id = params[:band_id]
-		@lss_id = params[:live_stream_series_id]
+		@live_stream_series_id = params[:live_stream_series_id]
+		@band_id = params[:band_id] || LiveStreamSeries.find(@live_stream_series_id).band.id
+    
+    if @band_id
+      @series_list = LiveStreamSeries.where(:band_id => @band_id)
+    end
 		
     respond_to do |format|
       format.html # new.html.erb

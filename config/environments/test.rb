@@ -1,6 +1,12 @@
 Cobain::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
+
+  # Email address to which support inquiries are sent.
+  # Currently displayed when a user does not have access to a stream, but tries to view it.
+  MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
+
+
   # The test environment is used exclusively to run your application's
   # test suite.  You never need to work with it otherwise.  Remember that
   # your test database is "scratch space" for the test suite and is wiped

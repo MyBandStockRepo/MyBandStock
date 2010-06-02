@@ -1,13 +1,13 @@
 class CreateStreamapiStreams < ActiveRecord::Migration
   def self.up
     create_table :streamapi_streams do |t|
-      t.string :private_hostid, :null => false
-      t.string :public_hostid, :null => false
+      t.string :private_hostid, :null => true
+      t.string :public_hostid, :null => true
       t.string :channel_id, :null => true
       t.string :title, :null => false
       t.datetime :starts_at, :null => false
       t.datetime :ends_at, :null => false 
-      t.boolean :public, :null => false      
+      t.boolean :public, :null => false, :default => true
       t.integer :duration, :null => true
       t.integer :total_viewers, :null => true
       t.integer :max_concurrent_viewers, :null => true

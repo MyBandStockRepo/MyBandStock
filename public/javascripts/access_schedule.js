@@ -1,10 +1,10 @@
 $(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
-  if (!accessScheduleContainer) return;
+  if (!accessScheduleContainer) {
+    // This script was loaded from a viewer lightbox
+    return;
+  }
   var bandID = accessScheduleContainer.className;
-  var frame = document.createElement('iframe');
-  frame.onload = 'alert("loaded");';
-
 
   accessScheduleContainer.style.margin = '1em';
   accessScheduleContainer.style.width = '500px';
@@ -15,20 +15,6 @@ $(document).ready(function() {
   accessScheduleContainer.style.borderLeft = '4px solid #CCC';
   accessScheduleContainer.style.borderRight = '4px solid #444';
   accessScheduleContainer.style.borderBottom = '4px solid #444';
-  frame.style.position = 'absolute';
-  frame.style.height = '100%';
-  frame.style.width = '100%';
-  frame.style.margin = '0';
-  frame.style.left = '0';
-  frame.style.top = '0';
-
-
-  //frame.src = 'http://localhost:3000/live_stream_series/'+ bandID +'/by_band'; //'http://cobain.mybandstock.com/live_stream_series/'+ bandID +'/by_band'; 
-  //accessScheduleContainer.appendChild(frame);
-  //applyFbListeners();
-  //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
-<<<<<<< HEAD
-  //$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
 
   $.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
@@ -41,16 +27,6 @@ $(document).ready(function() {
     }
   });
   */
-
-=======
-	$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=after%20midnight%20project&tagmode=any&format=json&jsoncallback=?", function(data){
-		$.each(data.items, function(i,item){
-			$("<img/>").attr("src", item.media.m).appendTo("#content-utility")
-				.wrap("<a href='" + item.link + "'></a>");
-			if ( i == 3 ) return false;
-		});
-	});
->>>>>>> 4df5c83... email stuff working
 });
 
 
@@ -73,10 +49,12 @@ function applyFbListeners() {
 			'centerOnScroll': true,
 			'hideOnOverlayClick': false
 		});
+    $(this).click(function(e) { e.preventDefault(); });
 	});
 }
 
 function accessScheduleJsonCallback(data) {
+  // Construct Access Schedule HTML from incoming JSON
   var html = document.createElement('h1');
   html.innerHTML = data.band_name + ' - Access Schedule';
 
@@ -102,26 +80,6 @@ function accessScheduleJsonCallback(data) {
     });
     $('#mbs-access-schedule-container').append(seriesTitle).append(table);
   });
-
-  //$('#mbs-access-schedule-container').append(html).append(seriesTitle).append(table);
   applyFbListeners();
 }
-
-/*
-%h1="#{band.name} - Access Schedule"
--for series in band.live_stream_series
-  %h2= series.title
-  - if can_broadcast
-    =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
-  %table.access-schedule-list
-    -for stream in series.streamapi_streams
-      %tr
-        %td.stream-name
-					= link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+46), :fbwidth => (viewerTheme.width+50)
-					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-				- if can_broadcast
-					%td.begin-broadcast
-						- broadcastTheme = StreamapiStreamTheme.find(stream.broadcast_theme_id)
-						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcastTheme.height+57), :fbwidth => (broadcastTheme.width+50)
-*/
 

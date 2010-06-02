@@ -4,6 +4,8 @@
     If you haven't created an account yet please
     =link_to "click here", :controller => 'users', :action => 'new'
     to get registered.  It's free and allows you to interact with all the bands on the site.
+%span.error
+  = flash[:error]
 =form_for(:user, :url => {:action => :process_user_login}, :html => { :class => 'login_form' } ) do |f|
   #form-entry
     %fieldset.basic-info
