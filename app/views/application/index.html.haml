@@ -1,0 +1,46 @@
+#slides
+  %ul
+    %li.show
+      = image_tag 'homepage/slides/slide_exclusiveaccess.jpg', :alt => 'Exclusive Access'
+    %li
+      = image_tag 'homepage/slides/slide_shareholderofferings.jpg', :alt => 'Shareholder Offerings'
+    %li
+      = image_tag 'homepage/slides/slide_submityourmedia.jpg', :alt => 'Submit Your Media'
+    %li
+      = image_tag 'homepage/slides/slide_faceinthecrowd.jpg', :alt => 'A Face in the Crowd'
+
+-# #home-primary
+  :javascript
+    $(function() {
+
+      $('#gallery a').fancybox({
+        'transitionIn'	:	'fade',
+        'transitionOut'	:	'fade',
+        'overlayOpacity' : 0.6,
+        'overlayColor' : 'black',
+        'centerOnScroll' : 'true'
+      });
+		
+    });
+  #home-main
+    #home-uvp
+      %p
+        %strong MyBandstock.com 
+        is a social web community that allows Fans the opportunity to "buy stock*"
+        in a Band. We are committed to giving music back to the people who live it: 
+        the Artists and their Fans. Join The Music Revolution.
+    %ul#home-navigation
+      %li#fans-enter
+        =#link_to 'Fan Home', "/fan_home"
+      %li#gallery
+        %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour]", :class => "hide"} Tour
+        %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
+        %a{:href => "/images/homepage/tour/3.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is an MBS Share
+        %a{:href => "/images/homepage/tour/4.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is a Project
+        %a{:href => "/images/homepage/tour/5.jpg", :rel => "shadowbox[tour]", :class => "hide"} Relationship Grows
+        %a{:href => "/images/homepage/tour/6.jpg", :rel => "shadowbox[tour]", :class => "hide"} The Value of MyBandStock
+        %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
+        %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
+      %li#bands-enter
+        =#link_to 'Band Home', "band_home"
+
