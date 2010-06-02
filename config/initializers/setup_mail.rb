@@ -8,5 +8,5 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true
 }
 
-ActionMailer::Base.default_url_options[:host] = SITE_HOST
+ActionMailer::Base.default_url_options[:host] = 'mybandstock.com' #SITE_HOST?
 Mail.register_interceptor(DevelopmentMailInterceptor) if Rails.env.development?
