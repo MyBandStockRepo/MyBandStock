@@ -338,9 +338,9 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
 
     # @bands is an array of band objects, or an empty array (never nil)
-    @bands = @user.bands
+    @bands = @user.bands.includes(:live_stream_series => :streamapi_streams)
 
-  end  
+  end
   
 =begin  
   def manage_artists

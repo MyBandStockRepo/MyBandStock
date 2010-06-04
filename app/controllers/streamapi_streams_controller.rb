@@ -672,6 +672,7 @@ respond_to :html, :js
         format.xml  { render :xml => @streamapi_stream.errors, :status => :unprocessable_entity }
       end
     end
+    # Redirect to manage CP
   end
 
   # PUT /streamapi_streams/1

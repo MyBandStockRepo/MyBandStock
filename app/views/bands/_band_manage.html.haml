@@ -1,14 +1,15 @@
 -band = band_manage
 .orange_bar
-  - if band_manage_counter == 0   # If this is the first band in the list
-    .white_bar.add_band
-      = link_to new_band_path do
-        %strong +
-        ADD BAND
-    .white_orange_divider
-  - else
-    .left_third
-    .orange_divider
+  -# __commented - white bar__
+    - if band_manage_counter == 0   # If this is the first band in the list
+      .white_bar.add_band
+        = link_to new_band_path do
+          %strong +
+          ADD BAND
+      .white_orange_divider
+    - else
+  .left_third
+  .orange_divider
   .placement_streamschedule STREAM SCHEDULE
   .placement_starts STARTS
   .placement_ends ENDS

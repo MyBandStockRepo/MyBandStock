@@ -5,20 +5,19 @@
     -# = stylesheet_link_tag :all
     = stylesheet_link_tag 'reset'
     = stylesheet_link_tag 'lightbox'
+    = stylesheet_link_tag 'access_schedule'    
+    = stylesheet_link_tag @external_css || 'lightbox-theme-default'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"
     = javascript_include_tag 'rails'
     = javascript_include_tag 'jquery.fancybox-1.3.1.pack'
     = javascript_include_tag 'jquery.easing-1.3.pack'
-    = javascript_include_tag @external_css || 'access_schedule'    
+    = javascript_include_tag 'access_schedule'    
     = javascript_include_tag 'ping'
     
     = csrf_meta_tag
   %body#lightbox
-    -# __commented__
-      %p.notice
-        = notice
-      %p.alert
-        = alert
     = yield
     -# =image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; position: absolute; margin-top: -60px; margin-left: 450px", :size => '25x25'
+  = render :partial => 'common_partials/google_tracker'
+

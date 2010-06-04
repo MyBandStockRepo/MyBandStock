@@ -2,11 +2,12 @@
 
 :javascript
   $(document).ready(function() {
-    if (#{ 1 })
-      $('#jqAccordion').accordion({
-        header: '.dark_bar',
+    $('.jqAccordion').each(function(i) {
+      $(this).accordion({
+        header: '.accordion_header',
         change: function(event, element) {
         }
       });
+    });
   });
 

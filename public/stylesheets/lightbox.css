@@ -14,13 +14,8 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
-
-
 /* Lightbox styles */
 body#lightbox {
-  background-color: #000;
-  color: #777;
-  font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
   padding: .5em 1em;
 }
 #broadcast-container, #viewer-container {
@@ -36,7 +31,7 @@ body#lightbox {
   margin: .2em 0;
 }
 #broadcast-container h2, #viewer-container h2 {
-  font-size: 16pt;
+  font-size: 12pt;
   margin: .2em 0;
 }
 #broadcast-container p, #viewer-container p {

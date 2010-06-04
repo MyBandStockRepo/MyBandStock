@@ -1,5 +1,15 @@
-/** Copy and modify this file to change the properties of the Access Schedule content **/
+/** Copy and modify this file to change the properties of the Live Streams widget content **/
 
+#mbs-access-schedule-container {
+  width: 500px; /* Remove the width and height lines to make the widget size automatically. */
+  height: 300px;
+  color: black; /* Non-link text color */
+}
+
+/* Link colors */
+a:link {
+  color: #555;
+}
 /* When a user hovers over a link */
 a:hover {
   color: black;
@@ -21,5 +31,4 @@ a:hover {
     font-style: normal;
     font-weight: bold;
   }
-
 

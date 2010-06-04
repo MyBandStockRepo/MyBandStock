@@ -39,7 +39,7 @@ class Band < ActiveRecord::Base
 =end  
   
 #  validates_presence_of :name, :short_name, :bio, :country_id, :zipcode, :city
-  validates_presence_of :name, :country_id, :zipcode, :city
+  validates_presence_of :name, :country_id, :zipcode, :city, :short_name
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_uniqueness_of :short_name
   validates_numericality_of :zipcode, :country_id
