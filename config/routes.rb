@@ -48,7 +48,7 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
 
   resources :bands
 
-  match 'developers', :to => 'developers#index'
+  match 'developers', :to => 'developer#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
