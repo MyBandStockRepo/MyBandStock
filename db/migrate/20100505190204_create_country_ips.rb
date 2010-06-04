@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'fastercsv'
+#require 'fastercsv'
 
 
 class CreateCountryIps < ActiveRecord::Migration
