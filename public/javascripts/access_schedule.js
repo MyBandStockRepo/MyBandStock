@@ -53,7 +53,7 @@ function applyFbListeners() {
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
   var html = jQuery(document.createElement('h1')).addClass('live-streams-title');
-  html.html(data.band_name + ' - Live Streams');
+  html.html('Exclusive Live Streams');
 
   jQuery('#mbs-access-schedule-container').append(html);
 
