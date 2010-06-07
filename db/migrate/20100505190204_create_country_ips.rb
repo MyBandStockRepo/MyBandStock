@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'fastercsv'
+require 'csv'
 
 
 class CreateCountryIps < ActiveRecord::Migration
@@ -12,7 +11,7 @@ class CreateCountryIps < ActiveRecord::Migration
     
 =begin
     #populate with data, note that this list is semi-colon delimited
-    reader = FasterCSV.foreach("#{RAILS_ROOT}/lib/data/GeoIPCountryWhois.csv") do |row|
+    reader = CSV.foreach("#{RAILS_ROOT}/lib/data/GeoIPCountryWhois.csv") do |row|
       CountryIP.create( :begin_ip => row[0], 
                       :end_ip => row[1], 
                       :begin_num => row[2], 
