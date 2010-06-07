@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
   //accessScheduleContainer.style.borderRight = '4px solid #444';
   //accessScheduleContainer.style.borderBottom = '4px solid #444';
 
-  jQuery.getJSON('http://localhost:3000/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
+  jQuery.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
 });
 
