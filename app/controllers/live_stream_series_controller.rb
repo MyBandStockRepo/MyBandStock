@@ -128,16 +128,21 @@ class LiveStreamSeriesController < ApplicationController
       {
         :series_title => series.title,
         :streams => series.streamapi_streams.collect{ |stream|
-          {
-            :id => stream.id,
-            :title => stream.title,
-            :start => stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p'),
-            :view_link => {
-              :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
-              :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
-              :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+46 : 560
+#          if stream.public
+            {
+              :id => stream.id,
+              :title => stream.title,
+              :location => stream.location || '',
+              :start_day => stream.starts_at.strftime('%a'),
+              :start_date => stream.starts_at.strftime('%b %d, %Y'),
+              :start_time => stream.starts_at.strftime('%I:%M %p'),
+              :view_link => {
+                :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
+                :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
+                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+46 : 560
+              }
             }
-          }
+#          end
         }
       }
     }

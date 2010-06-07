@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100606214945) do
+ActiveRecord::Schema.define(:version => 20100607184659) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(:version => 20100606214945) do
     t.integer  "viewer_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "location"
   end
 
   create_table "urls", :force => true do |t|

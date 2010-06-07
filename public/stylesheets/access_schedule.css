@@ -33,4 +33,10 @@ a:hover {
     font-style: normal;
     font-weight: bold;
   }
+  .access-schedule-list .stream-start span {
+    margin: 0 2px;
+  }
+  .access-schedule-list .stream-start-day {
+    display: none;
+  }
 

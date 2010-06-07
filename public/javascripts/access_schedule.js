@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
   //accessScheduleContainer.style.borderRight = '4px solid #444';
   //accessScheduleContainer.style.borderBottom = '4px solid #444';
 
-  jQuery.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
+  jQuery.getJSON('http://localhost:3000/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
 });
 
@@ -66,12 +66,22 @@ function accessScheduleJsonCallback(data) {
     jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
       table.append(
         jQuery(document.createElement('tr')).append(
+          jQuery('<td class="stream-start"></td>').html(
+            jQuery('<span class="stream-start-day">'+ stream.start_day +'</span>')
+          ).append(
+            jQuery('<span class="stream-start-date">'+ stream.start_date +'</span>')
+          ).append(
+            jQuery('<span class="stream-start-time">'+ stream.start_time +'</span>')
+          )
+        ).append(
           jQuery(document.createElement('td')).addClass('stream-name').append(
             jQuery('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
               .addClass('lightbox stream-title')
               .attr('fbwidth', stream.view_link.width)
               .attr('fbheight', stream.view_link.height)
           )
+        ).append(
+          jQuery('<td class="stream-location">'+ stream.location +'</td>')
         )
       );
     });

@@ -6,6 +6,11 @@
     = f.text_field :title
 
   .field
+    = f.label :location
+    %br
+    = f.text_field :location
+
+  .field
     = f.label :live_stream_series_id
     = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
 
