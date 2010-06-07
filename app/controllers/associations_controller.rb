@@ -33,18 +33,22 @@ end
 def create
   @association = Association.new(:band_id => params[:association][:band_id], :name => params[:association][:name])
   unless ( !@association.nil? ) && ( User.find(session[:user_id]).has_band_admin(@association.band_id) )
-    redirect_to session[:last_clean_url]
-    return false
+    unless User.find(session[:user_id]).has_site_admin
+      redirect_to session[:last_clean_url]
+      return false
+    end
   end
   
-  if ( @user = User.find_by_email(params[:association][:email]) )
+  new_user_email = params[:association][:user_id] # Email sent through user_id field
+  
+  if ( @user = User.find_by_email(new_user_email) )
     @association.user_id =  @user.id
     @user_email = @user.email
     @association.save 
     success = true
   else
     success = false
-    @user_email = params[:association][:email]
+    @user_email = new_user_email
   end
   
   
@@ -105,7 +109,9 @@ def update
     return false
   end
   
-  if ( @user = User.find_by_email(params[:association][:email]) )
+  user_email = params[:association][:email]
+  
+  if ( @user = User.find_by_email(user_email) )
     @association.user_id =  @user.id
     @user_email = @user.email
     success = true
