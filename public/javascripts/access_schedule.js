@@ -82,7 +82,7 @@ function accessScheduleJsonCallback(data) {
           )
         ).append(
           jQuery('<td class="stream-location">'+ stream.location +'</td>')
-        )
+        ).addClass((streamIndex % 2) ? 'even' : 'odd')
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table);

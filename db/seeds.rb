@@ -71,7 +71,6 @@ adminUser.associations.create(:band_id => b_dos.id, :name => 'admin')
 
 #create some LSSs
 lss_amp = b_amp.live_stream_series.create(:title => 'Warped Tour Twenty Ten',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
-lss_amp2 = b_amp.live_stream_series.create(:title => 'Summer tour',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 lss_dos = b_dos.live_stream_series.create(:title => 'ballet show',:starts_at => 1.hour.from_now, :ends_at => 1.year.from_now)
 
 
@@ -159,7 +158,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
 lss_amp.streamapi_streams.create(
                               :private_hostid => 123456,
                               :public_hostid => 123456,
-                              :title => 'Home Depot Center - Carson, CA',
+                              :title => 'Home Depot Center'
+                              :location => 'Carson, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
                               :broadcaster_theme_id => fullChat_low.id,
@@ -169,7 +169,8 @@ lss_amp.streamapi_streams.create(
 lss_amp.streamapi_streams.create(
                               :private_hostid => 1234567,
                               :public_hostid => 1234567,
-                              :title => 'Shoreline Amphitheatre - Mountain View, CA',
+                              :title => 'Shoreline Amphitheatre'
+                              :location => 'Mountain View, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
                               :broadcaster_theme_id => fullChat_low.id,
@@ -179,7 +180,8 @@ lss_amp.streamapi_streams.create(
 lss_amp.streamapi_streams.create(
                               :private_hostid => 12345678,
                               :public_hostid => 12345678,
-                              :title => 'Cricket Pavilion - Phoenix, AZ',
+                              :title => 'Cricket Pavilion',
+                              :location => 'Phoenix, AZ',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
                               :broadcaster_theme_id => fullChat_low.id,
@@ -190,27 +192,6 @@ lss_amp.streamapi_streams.create(
                               :private_hostid => 123456789,
                               :public_hostid => 123456789,
                               :title => 'AT&T Center - San Antonio, TX',
-                              :starts_at => 3.weeks.from_now,
-                              :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcaster_theme_id => fullChat_low.id,
-                              :viewer_theme_id => fullChat_low.id,
-                              :public => false,
-                              :band_id => b_amp.id )
-
-lss_amp2.streamapi_streams.create(
-                              :private_hostid => 01,
-                              :public_hostid => 01,
-                              :title => 'Comerica Park - Detroit, MI',
-                              :starts_at => 3.weeks.from_now,
-                              :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcaster_theme_id => fullChat_low.id,
-                              :viewer_theme_id => fullChat_low.id,
-                              :public => false,
-                              :band_id => b_amp.id )
-lss_amp2.streamapi_streams.create(
-                              :private_hostid => 012,
-                              :public_hostid => 012,
-                              :title => 'Danny\'s Bar Mitzvah - Brighton, MI',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
                               :broadcaster_theme_id => fullChat_low.id,
