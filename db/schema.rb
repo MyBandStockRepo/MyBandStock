@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100525175712) do
+ActiveRecord::Schema.define(:version => 20100608211500) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -42,11 +42,11 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
     t.integer  "zipcode",                                   :null => false
     t.string   "band_photo"
     t.string   "status",              :default => "active", :null => false
-    t.string   "twitter_user"
     t.string   "external_css_link"
     t.string   "access_schedule_url"
     t.integer  "country_id"
     t.integer  "state_id"
+    t.integer  "twitter_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -165,6 +165,16 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
     t.datetime "updated_at"
   end
 
+  create_table "twitter_users", :force => true do |t|
+    t.string   "name"
+    t.string   "user_name"
+    t.integer  "twitter_id",          :null => false
+    t.string   "oauth_access_token"
+    t.string   "oauth_access_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -182,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
     t.string   "status",            :default => "pending", :null => false
     t.integer  "country_id"
     t.integer  "state_id"
+    t.integer  "twitter_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

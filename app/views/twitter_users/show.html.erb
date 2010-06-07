@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%= @twitter_user.name %>
+</p>
+
+<p>
+  <b>User name:</b>
+  <%= @twitter_user.user_name %>
+</p>
+
+<p>
+  <b>Twitter:</b>
+  <%= @twitter_user.twitter_id %>
+</p>
+
+<p>
+  <b>Oauth access token:</b>
+  <%= @twitter_user.oauth_access_token %>
+</p>
+
+<p>
+  <b>Oauth access secret:</b>
+  <%= @twitter_user.oauth_access_secret %>
+</p>
+
+
+<%= link_to 'Edit', edit_twitter_user_path(@twitter_user) %> |
+<%= link_to 'Back', twitter_users_path %>

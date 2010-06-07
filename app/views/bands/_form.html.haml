@@ -14,7 +14,6 @@
 	%label.desc A description of your band.	
 	%br	
 	=f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
-	
 
 %li  
 	=f.label 'city'
@@ -46,5 +45,19 @@
 %li
 	=f.label 'access_schedule_url'
 	%br	
+	%label.desc Provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
+	%br	
 	=f.text_field 'access_schedule_url'	
 	
+%li
+	=f.label 'Tether the Band\'s Twitter Account to MyBandStock.'
+	%br	
+	%label.desc This allows MBS visitors to view the band's tweets and they can help promote the band by re-tweeting band statuses.
+	%br
+	-unless @band.twitter_user
+		= link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+	-else
+		%p 
+			You are already tethered to a Twitter account.  You can change this to tether to a different account if you would like to. 
+			= link_to 'Authorize a different Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+			

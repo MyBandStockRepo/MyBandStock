@@ -12,9 +12,10 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :agreed_to_tos, :agreed_to_pp, {:null => false, :default => false}  
       t.integer :headline_photo_id, {:null => true}
       t.string :status, {:default => "pending", :null => false}
-      
+
+
       #references
-      t.belongs_to :country, :state        
+      t.belongs_to :country, :state, :twitter_user
     
       t.timestamps
     end

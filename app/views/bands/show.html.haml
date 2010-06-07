@@ -1,3 +1,5 @@
+= javascript_include_tag 'http://widgets.twimg.com/j/2/widget.js'
+
 #content-utility.control-panel
   #utility-overview
     #overview-primary
@@ -23,6 +25,25 @@
   .access-schedule
     =# render :controller => 'live_stream_series', :action => "by_band" #, :layout => false
     = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
+
+
+.recent_twetz
+  %h1 RECENT TWEETz
+  - if @band_twitter_not_authorized
+    %p This band has not tied their Twitter account to MyBandStock yet.
+  - else
+    - if @user_twitter_not_authorized
+      = link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'
+		
+    - else
+      %p 
+        Currently authenticated with the Twitter account 
+        = @twit_user.screen_name
+        = link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'	      
+    - for tweet in @band_tweets
+      = render :partial => "twitter_api/status", :object => tweet  
+      - unless @user_twitter_not_authorized
+        = link_to 'RETWEET THIS MOFO FO SOME POINTz', :controller => 'twitter_api', :action => 'retweet', :tweet_id => tweet.id, :band_id => @band.id
 
 #remote-page-test
   %br

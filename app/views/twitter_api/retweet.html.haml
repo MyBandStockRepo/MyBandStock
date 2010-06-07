@@ -1,0 +1,14 @@
+.retweet-box
+	%h2 
+		Message to retweet from 
+		= @retweeter.user_name
+	.retweet-msg
+		%h3
+			= @msg
+			
+	= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'post_retweet' }) do |f|
+		= f.error_messages
+		= f.hidden_field(:user_id, :value => session[:user_id])
+		= f.hidden_field(:message, :value => @msg)	
+		.actions
+			= f.submit 'Retweet umm hmm.'			

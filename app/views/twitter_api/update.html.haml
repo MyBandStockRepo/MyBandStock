@@ -1,0 +1,10 @@
+= form_for(:twitter_api, :url => { :action => "create" }) do |f|
+	= f.error_messages
+
+	.field
+		= f.label :tweet_tweet
+		%br
+		= f.text_field :text
+
+	.actions
+		= f.submit

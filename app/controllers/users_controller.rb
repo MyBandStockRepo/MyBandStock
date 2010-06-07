@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
     # Clear password field for editing
     @user.password = ''
-    @user.password_confirmation = ''
+#    @user.password_confirmation = ''
     
     
     
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 		# Hash the password before putting it into DB
 		params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
 		# We must also hash the confirmation entry so the model can check them together
-		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
+#		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
     
     
     #for the regular "post"ers make sure the country matches the state in case they changed it
@@ -217,7 +217,7 @@ class UsersController < ApplicationController
     # Hash the password before putting it into DB
     user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
     # We must also hash the confirmation entry so the model can check them together
-    user_registration_info[:password_confirmation] = Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
+#    user_registration_info[:password_confirmation] = Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
    
     #we can assume at this point that we've got something ready to authenticate in user_registration_info
     @user = User.new(user_registration_info)
@@ -240,7 +240,7 @@ class UsersController < ApplicationController
     else
       state_select(@user.country_id)
       @user.password = ''
-      @user.password_confirmation = ''
+#      @user.password_confirmation = ''
       render :action => :new
       return
     end

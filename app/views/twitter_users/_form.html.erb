@@ -1,0 +1,27 @@
+<%= form_for(@twitter_user) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :user_name %><br />
+    <%= f.text_field :user_name %>
+  </div>
+  <div class="field">
+    <%= f.label :twitter_id %><br />
+    <%= f.text_field :twitter_id %>
+  </div>
+  <div class="field">
+    <%= f.label :oauth_access_token %><br />
+    <%= f.text_field :oauth_access_token %>
+  </div>
+  <div class="field">
+    <%= f.label :oauth_access_secret %><br />
+    <%= f.text_field :oauth_access_secret %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

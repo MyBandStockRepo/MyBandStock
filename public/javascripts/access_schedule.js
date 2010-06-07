@@ -27,7 +27,6 @@ $(document).ready(function() {
   //accessScheduleContainer.appendChild(frame);
   //applyFbListeners();
   //$(frame).load('http://localhost:3000/live_stream_series/'+ bandID +'/by_band');
-<<<<<<< HEAD
   //$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", function(data){
 
   $.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
@@ -42,15 +41,7 @@ $(document).ready(function() {
   });
   */
 
-=======
-	$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=after%20midnight%20project&tagmode=any&format=json&jsoncallback=?", function(data){
-		$.each(data.items, function(i,item){
-			$("<img/>").attr("src", item.media.m).appendTo("#content-utility")
-				.wrap("<a href='" + item.link + "'></a>");
-			if ( i == 3 ) return false;
-		});
-	});
->>>>>>> 4df5c83... email stuff working
+
 });
 
 

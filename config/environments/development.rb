@@ -30,5 +30,4 @@ Cobain::Application.configure do
   
   EMAIL_INTERCEPTOR_ADDRESS = 'brian@mybandstock.com'
   
-  
 end

@@ -29,6 +29,7 @@ class Band < ActiveRecord::Base
   
   belongs_to :country
   belongs_to :state
+  belongs_to :twitter_user
   has_many :live_stream_series, :dependent => :destroy
 
 =begin  

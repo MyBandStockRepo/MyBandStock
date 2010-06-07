@@ -4,6 +4,8 @@ gem 'rails', '3.0.0.beta2'
 gem 'haml'
 gem 'fastercsv'
 gem 'builder'
+gem 'twitter'
+gem 'twitter-text'
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
