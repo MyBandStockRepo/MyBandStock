@@ -1,3 +1,5 @@
+include REXML
+
 class BandsController < ApplicationController
   
  protect_from_forgery :only => [:create, :update]
@@ -743,6 +745,18 @@ class BandsController < ApplicationController
     @number_of_members = @band.associations.find(:all, :conditions => ['name = ?', 'member']).size
     
     
+  end
+
+  def twitterTest
+    url = URI.parse('http://twitter.com/statuses/user_timeline/16340749.rss')
+    data, headers = Net::HTTP.get(url)
+    xml = Document.new(data)
+
+    @output = Array.new
+
+    xml.root.elements['channel'].elements.each('item') { |item|
+      @output.push item.elements['title'].text
+    }
   end
   
   

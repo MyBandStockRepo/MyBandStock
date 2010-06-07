@@ -1,9 +1,13 @@
-#jqAccordion
+.jqAccordion
   -band.live_stream_series.each do |series|
-    .dark_bar
+    %div{ :class => (series.streamapi_streams.count > 0) ? 'dark_bar accordion_header' : 'dark_bar' }
+      -#.dark_bar.accordion_header
       .twothirds_info
         .expand_series{ :title => "Expand series (#{ series.streamapi_streams.count } more)" }
-          +
+          -if series.streamapi_streams.count > 0
+            +
+          -else
+            &nbsp;
         .placement_streamname
           = link_to series.title, nil, :class => 'link_streamname'
         .placement_starttime

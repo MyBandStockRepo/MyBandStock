@@ -64,7 +64,7 @@ respond_to :html, :js
       viewer_status_entry.streamapi_stream = @stream
       viewer_status_entry.user = User.find(session[:user_id])
       viewer_status_entry.viewer_key = @viewer_key
-      unless viewer_status_entry.save
+      unless viewer_status_entry.save # Sometimes this line gives us "BusyException: database is locked"
         # Did not pass validation, but we'll let it slide.
         # We will reject the user when his StreamAPI auth callback arrives.
       end
@@ -672,6 +672,7 @@ respond_to :html, :js
         format.xml  { render :xml => @streamapi_stream.errors, :status => :unprocessable_entity }
       end
     end
+    # Redirect to manage CP
   end
 
   # PUT /streamapi_streams/1

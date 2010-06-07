@@ -9,7 +9,7 @@ Cobain::Application.routes.draw do |map|
   match 'streamapi_streams/callback', :to => 'streamapi_streams#callback'
   match 'api', :to => 'api#index'
 
-  match 'live_stream_series/jsonp/:band_id/', :to => 'live_stream_series#jsonp'
+  match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
 
   resources :api_users
@@ -47,6 +47,8 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   resources :users
 
   resources :bands
+
+  match 'developers', :to => 'developer#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -218,6 +220,7 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   #band control panel stuff
 #  map.connect ':band_short_name/mailbox/inbox', :controller => 'bands', :action => 'inbox' #mail route
   match ':band_short_name/control_panel', :to => 'bands#control_panel'
+  match '/band_control_panel', :to => 'users#control_panel'
 #  map.connect ':band_short_name/manage_fans', :controller => 'bands', :action => 'manage_fans'
 #  map.connect ':band_short_name/manage_project', :controller => 'bands', :action => 'manage_project'
 #  map.connect ':band_short_name/manage_perks', :controller => 'bands', :action => 'manage_perks'

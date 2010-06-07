@@ -5,7 +5,7 @@ body {
   background-color:#37332c;
   margin:0px;
   font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
-  font-size:11px;
+  font-size:12px;
   line-height:17px;
   color:#666666;
 }
@@ -56,6 +56,26 @@ h3 {
 .error {
   color: red;
 }
+
+.code, .inline-code {
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  border: 1px solid #111;
+  background-color: #333;
+}
+.code {
+  width: 50em;
+  margin: 1em auto;
+  padding: 7px;
+}
+.inline-code {
+  display: inline;
+  padding: 1px 0 1px 5px;
+  font-size: 12px;
+  color: #AAA;
+}
+
 
 
 .profile-category {
@@ -113,13 +133,16 @@ h3 {
   width: 10px;
   margin-left: 15px;
   color: #CCC;
-  cursor: pointer;
+  cursor: default;
 }
   .ui-state-active .expand_series { /* Accordion-expanded */
     visibility: hidden;
   }
   .expand_series:hover {
     color: #FFF;
+  }
+  .accordion_header .expand_series {
+    cursor: pointer;
   }
 
 /* rotator css */
@@ -145,8 +168,34 @@ div#slides ul li.show {z-index:500}
 /* FOOTER */
 
 #footer {background:#2f2b25;padding:20px;}
-	#securities {width:420px;float:left;}
-	#copyright {padding-top:15px;float:right;}
+  #footer-links {
+    float: left;
+    margin: 0 auto 15px;
+    padding: 0;
+    width: 460px;
+    overflow: auto;
+  }
+  .footer-links-section {
+    width: 135px;
+    margin: 0 .5em;
+    text-align: right;
+    overflow: hidden;
+    float: left;
+  }
+    .footer-links-section li {
+      width: 100%;
+      display: block;
+      float: left;
+      text-align: right;
+    }
+    .footer-links-section li.footer-section-title {
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+
+	#securities {width:450px;float:right;}
+	#copyright {padding-top:20px;float:right;}
 	.clear {clear:both;}
 
 

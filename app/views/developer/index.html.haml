@@ -1,0 +1,47 @@
+.orange_bar
+  %h3 Developer tools
+
+%h3 Display the Live Streams widget
+%p Embedding the Live Steams list on your page is as easy as 1, 2!
+%h2 1
+%p
+  To use the Live Streams widget on your band's website, first copy the following code into the
+  appropriate position inside the &lt;body&gt; tag. <em>BAND_SHORT_NAME</em> must
+  be replaced with the short name of your band, as given in your
+  = link_to('band management page', 'me/control_panel') + '.'
+.code
+  = %{ <div class='band=BAND_SHORT_NAME' id='mbs-access-schedule-container'> </div> }
+
+%h2 2
+%p
+  Paste the following code in the head, just before
+  %span.inline-code
+    = '</head>'
+  in your document. If you have jQuery 1.4.2 already included on your site, you can omit the jQuery include below.
+.code
+  = '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>'
+  %br
+  = '<script src="' + root_url + 'javascripts/access_schedule.js" type="text/javascript"></script> '
+  %br
+  = '<link href="' + root_url + 'stylesheets/access_schedule.css" media="screen" rel="stylesheet" type="text/css" />'
+
+%h2 3 (optional)
+%p
+  Replace the <span class="inline-code">access_schedule.css</span> stylesheet with one of your own,
+  to provide custom styling for the Live Streams widget. You can also just keep the above stylesheet include
+  and add custom styling after it. Here's an example of a custom widget style:
+%pre.code
+  :escaped
+    <style>
+      #mbs-access-schedule-container {
+        border: 5px dashed purple;
+        background: url(http://imgur.com/XFG8l.jpg)
+                    no-repeat
+                    rgb(20%, 80%, 40%);
+        font-size: 12pt;
+        width: auto;
+        height: auto;
+      }
+    </style>
+
+

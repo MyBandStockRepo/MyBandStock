@@ -5,28 +5,23 @@ $(document).ready(function() {
     return;
   }
   var bandID = accessScheduleContainer.className;
+  var start = bandID.indexOf('band=')+5, end = bandID.indexOf(' ', start);
+  if (end == -1)
+    end = bandID.length;
+  bandID = bandID.substring(start, end);
 
   accessScheduleContainer.style.margin = '1em';
-  accessScheduleContainer.style.width = '500px';
-  accessScheduleContainer.style.height = '300px';
+  //accessScheduleContainer.style.width = '500px';
+  //accessScheduleContainer.style.height = '300px';
   accessScheduleContainer.style.padding = '0px 0px';
   accessScheduleContainer.style.position = 'relative';
-  accessScheduleContainer.style.borderTop = '4px solid #CCC';
-  accessScheduleContainer.style.borderLeft = '4px solid #CCC';
-  accessScheduleContainer.style.borderRight = '4px solid #444';
-  accessScheduleContainer.style.borderBottom = '4px solid #444';
+  //accessScheduleContainer.style.borderTop = '4px solid #CCC';
+  //accessScheduleContainer.style.borderLeft = '4px solid #CCC';
+  //accessScheduleContainer.style.borderRight = '4px solid #444';
+  //accessScheduleContainer.style.borderBottom = '4px solid #444';
 
   $.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
-  /*
-  $.ajax({
-    url: 'http://localhost:3000/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?',
-    dataType: 'jsonp',
-    success: function(data) {
-      $('#content-utility').append(data.toString());
-    }
-  });
-  */
 });
 
 
@@ -55,14 +50,14 @@ function applyFbListeners() {
 
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
-  var html = document.createElement('h1');
-  html.innerHTML = data.band_name + ' - Access Schedule';
+  var html = $(document.createElement('h1')).addClass('live-streams-title');
+  html.html(data.band_name + ' - Live Streams');
 
   $('#mbs-access-schedule-container').append(html);
 
   $.each(data.serieses, function(seriesIndex, series) { // for each series
-    var seriesTitle = document.createElement('h2');
-    seriesTitle.innerHTML = series.series_title;
+    var seriesTitle = $(document.createElement('h2')).addClass('series-name');
+    seriesTitle.html(series.series_title);
 
     var table = $(document.createElement('table'));
     table.addClass('access-schedule-list');
