@@ -24,12 +24,12 @@
     = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
 -# __commented__
-  #remote-page-test
-    %br
-    %br
-    #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
-      &nbsp;
-    %br
-    %strong
-      =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
+#remote-page-test
+  %br
+  %br
+  #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
+    &nbsp;
+  %br
+  %strong
+    =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
 

@@ -1,4 +1,6 @@
-$(document).ready(function() {
+jQuery.noConflict();
+
+jQuery(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
   if (!accessScheduleContainer) {
     // This script was loaded from a viewer lightbox
@@ -20,52 +22,52 @@ $(document).ready(function() {
   //accessScheduleContainer.style.borderRight = '4px solid #444';
   //accessScheduleContainer.style.borderBottom = '4px solid #444';
 
-  $.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
+  jQuery.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
 });
 
 
-$(function() {
+jQuery(function() {
   applyFbListeners();
 });
 
 function applyFbListeners() {
-	$('a.lightbox').each(function(index){
-		$(this).fancybox ({
+	jQuery('a.lightbox').each(function(index){
+		jQuery(this).fancybox ({
 			'transitionIn': 'fade',
 			'transitionOut': 'fade',
 			'overlayOpacity' : 0.6,
 			'overlayColor' : 'black',      
 			'type': 'iframe',
-			'width': ( ($(this).attr('fbwidth') == null) ? 560 : parseInt($(this).attr('fbwidth')) ),
-			'height': ( ($(this).attr('fbheight') == null) ? 560 : parseInt($(this).attr('fbheight')) ),
+			'width': ( (jQuery(this).attr('fbwidth') == null) ? 560 : parseInt(jQuery(this).attr('fbwidth')) ),
+			'height': ( (jQuery(this).attr('fbheight') == null) ? 560 : parseInt(jQuery(this).attr('fbheight')) ),
 			'autoScale': false,        // These two only work with
 			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
 			'centerOnScroll': true,
 			'hideOnOverlayClick': false
 		});
-    $(this).click(function(e) { e.preventDefault(); });
+    jQuery(this).click(function(e) { e.preventDefault(); });
 	});
 }
 
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
-  var html = $(document.createElement('h1')).addClass('live-streams-title');
+  var html = jQuery(document.createElement('h1')).addClass('live-streams-title');
   html.html(data.band_name + ' - Live Streams');
 
-  $('#mbs-access-schedule-container').append(html);
+  jQuery('#mbs-access-schedule-container').append(html);
 
-  $.each(data.serieses, function(seriesIndex, series) { // for each series
-    var seriesTitle = $(document.createElement('h2')).addClass('series-name');
+  jQuery.each(data.serieses, function(seriesIndex, series) { // for each series
+    var seriesTitle = jQuery(document.createElement('h2')).addClass('series-name');
     seriesTitle.html(series.series_title);
 
-    var table = $(document.createElement('table'));
+    var table = jQuery(document.createElement('table'));
     table.addClass('access-schedule-list');
-    $.each(series.streams, function(streamIndex, stream) {  // for each stream
+    jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
       table.append(
-        $(document.createElement('tr')).append(
-          $(document.createElement('td')).addClass('stream-name').append(
-            $('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
+        jQuery(document.createElement('tr')).append(
+          jQuery(document.createElement('td')).addClass('stream-name').append(
+            jQuery('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
               .addClass('lightbox stream-title')
               .attr('fbwidth', stream.view_link.width)
               .attr('fbheight', stream.view_link.height)
@@ -73,7 +75,7 @@ function accessScheduleJsonCallback(data) {
         )
       );
     });
-    $('#mbs-access-schedule-container').append(seriesTitle).append(table);
+    jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table);
   });
   applyFbListeners();
 }
