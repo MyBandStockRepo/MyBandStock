@@ -1,29 +1,61 @@
-.info
-  %h2 Register
-  %p
-    If you haven't created an account yet please
-    =link_to "click here", :controller => 'users', :action => 'new'
-    to get registered.  It's free and allows you to interact with all the bands on the site.
-%span.error
-  = flash[:error]
-=form_for(:user, :url => {:action => :process_user_login}, :html => { :class => 'login_form' } ) do |f|
-  #form-entry
-    %fieldset.basic-info
-      %legend
-        %h2 Login
-      %ul.form-fields
-        %li#email_box
-          =f.label 'email', 'Email'
-          =f.text_field :email, :size => '0', :class => 'full text'
-        %li#password_box
-          =f.label 'password', 'Password'
-          =f.password_field :password, :size => '0', :class => 'full password text'
-        %li.checkbox
-          =check_box_tag 'remember','1', false, {:class => 'checkbox'}
-          =label_tag 'Remember Me'
-        %li.forgot_password
-          =link_to 'Forgot password?', 'me/forgot_password', :class => 'forgot_password'
-      = image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit', :id => 'login_submit'
+#content_login_bg
+  #login_wrap
+    #login_wrap_left
+      .formcontainer
+        =form_for(:user, :url => {:action => :process_user_login} ) do |f|
+          %fieldset
+            .fieldname
+              .fieldnametop
+                = f.label 'email', 'email'
+              .fieldnamebottom
+            .fieldbox
+              = f.text_field :email
+            .fieldname
+              .fieldnametop
+                = f.label 'password', 'password'
+              .fieldnamebottom
+            .fieldbox
+              = f.password_field :password
+          #checkbox_login
+            =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+            =label_tag 'checkbox_remember', 'Remember Me'
+          .formbutton{ :style => 'margin-right: 5px;' } 
+            = submit_tag 'login'
+    #login_wrap_right
+      #login_wrap_rightpad
+        %h2 NOT SIGNED UP YET?
+        %h4 If you haven't created an account yet, sign up now! It's free and allows you to interact with all the bands on MyBandStock.
+      .formbutton#signupbutton
+        = submit_tag 'sign up!', :onclick => "document.location.href='#{ new_user_path }';  return false;"
+    .clear
+
+-# __commented__
+  .info
+    %h2 Register
+    %p
+      If you haven't created an account yet please
+      =link_to "click here", :controller => 'users', :action => 'new'
+      to get registered.  It's free and allows you to interact with all the bands on the site.
+  %span.error
+    = flash[:error]
+  =form_for(:user, :url => {:action => :process_user_login}, :html => { :class => 'login_form' } ) do |f|
+    #form-entry
+      %fieldset.basic-info
+        %legend
+          %h2 Login
+        %ul.form-fields
+          %li#email_box
+            =f.label 'email', 'Email'
+            =f.text_field :email, :size => '0', :class => 'full text'
+          %li#password_box
+            =f.label 'password', 'Password'
+            =f.password_field :password, :size => '0', :class => 'full password text'
+          %li.checkbox
+            =check_box_tag 'remember','1', false, {:class => 'checkbox'}
+            =label_tag 'Remember Me'
+          %li.forgot_password
+            =link_to 'Forgot password?', 'me/forgot_password', :class => 'forgot_password'
+        = image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit', :id => 'login_submit'
 
 
 -# __commented__

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100525175712) do
+ActiveRecord::Schema.define(:version => 20100606214945) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -113,6 +113,15 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "short_urls", :force => true do |t|
+    t.string   "destination",                     :null => false
+    t.string   "key",                             :null => false
+    t.integer  "maker_id"
+    t.string   "maker_type",  :default => "User"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "states", :force => true do |t|
     t.string   "name",         :null => false
     t.string   "abbreviation", :null => false
@@ -161,6 +170,15 @@ ActiveRecord::Schema.define(:version => 20100525175712) do
     t.integer  "live_stream_series_id"
     t.integer  "broadcaster_theme_id"
     t.integer  "viewer_theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "urls", :force => true do |t|
+    t.string   "destination",                     :null => false
+    t.string   "key",                             :null => false
+    t.integer  "maker_id"
+    t.string   "maker_type",  :default => "User"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

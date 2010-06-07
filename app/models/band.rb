@@ -6,6 +6,9 @@ class Band < ActiveRecord::Base
 
   has_many :members, :through => :associations, :source => :user, :conditions => "associations.name = 'member'"
   has_many :admins, :through => :associations, :source => :user, :conditions => "associations.name = 'admin'"
+
+  # A shortened URL might have a "maker", which could refer to a band or a user.
+  has_many :short_urls, :as => :maker
   
 #  has_many :contribution_levels, :dependent => :destroy
 #  has_many :perks, :dependent => :destroy
@@ -30,15 +33,7 @@ class Band < ActiveRecord::Base
   belongs_to :country
   belongs_to :state
   has_many :live_stream_series, :dependent => :destroy
-
-=begin  
-  #genres hack
-  belongs_to :genre_1, :class_name => 'Genre', :foreign_key => 'genre_1_id', :readonly => true
-  belongs_to :genre_2, :class_name => 'Genre', :foreign_key => 'genre_2_id', :readonly => true
-  belongs_to :genre_3, :class_name => 'Genre', :foreign_key => 'genre_3_id', :readonly => true
-=end  
   
-#  validates_presence_of :name, :short_name, :bio, :country_id, :zipcode, :city
   validates_presence_of :name, :country_id, :zipcode, :city, :short_name
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_uniqueness_of :short_name

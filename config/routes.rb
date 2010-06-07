@@ -1,5 +1,4 @@
 Cobain::Application.routes.draw do |map|
-  resources :streamapi_stream_themes
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
@@ -24,7 +23,7 @@ Cobain::Application.routes.draw do |map|
   #stream methods
 match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
 match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
-match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'      
+match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'
 
   resources :streamapi_streams
   match '/streamapi_streams/new/:band_id', :to => 'streamapi_streams#new'
@@ -38,17 +37,19 @@ match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_stream
 
 match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
+  resources :streamapi_stream_themes
   resources :associations
-
+  resources :short_urls
   resources :user_roles
-
   resources :roles
-
   resources :users
-
   resources :bands
 
   match 'developers', :to => 'developer#index'
+  
+  # ---- URL Shortener ---- #
+    match 'short(/:key)', :to => 'short_urls#redirect'
+  # /--- URL Shortener ---- #
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

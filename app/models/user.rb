@@ -8,17 +8,12 @@ class User < ActiveRecord::Base
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
 #  has_many :emails, :through => 'emails', :dependent => :destroy
   belongs_to :country
-#  has_many :contributions, :dependent => :destroy
-#  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
-  
-#  has_many :user_friends, :foreign_key => 'source_user_id'
-#  has_many :friends, :through => :user_friends, :source => 'destination'
-  
-#  has_many :google_checkout_orders
-#  has_many :user_photos
- 
+   
   has_many :live_stream_series_permissions
   has_many :streamapi_stream_viewer_statuses
+
+  # A shortened URL might have a "maker", which could refer to a band or a user.
+  has_many :short_urls, :as => :maker
 
   #validations -- goes down to the first def
   

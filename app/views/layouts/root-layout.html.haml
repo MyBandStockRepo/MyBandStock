@@ -36,8 +36,10 @@
       -if flash[:logout]
         #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
           = flash[:logout]
-
+      
       #content
+        %span.error
+          = flash[:error]
         = yield
 
       = render :partial => 'common_partials/footer'

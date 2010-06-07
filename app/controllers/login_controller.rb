@@ -57,7 +57,7 @@ class LoginController < ApplicationController
         return false
       end
     else
-      flash[:notice] = "Email and password do not match."
+      flash[:error] = "Email and password do not match."
       @user = User.new(:email => passed_email)
       render :controller => 'login', :action => :user
       return false
