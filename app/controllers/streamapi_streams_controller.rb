@@ -656,6 +656,13 @@ respond_to :html, :js
   # GET /streamapi_streams/1/edit
   def edit
     @streamapi_stream = StreamapiStream.find(params[:id])
+    
+    @band_id = params[:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
+    
+    if @band_id
+      @series_list = LiveStreamSeries.where(:band_id => @band_id)
+    end
+    
   end
 
   # POST /streamapi_streams
@@ -665,7 +672,9 @@ respond_to :html, :js
 
     respond_to do |format|
       if @streamapi_stream.save
-        format.html { redirect_to(@streamapi_stream, :notice => 'Streamapi stream was successfully created.') }
+        format.html {
+          redirect_to('/me/control_panel', :notice => 'Streamapi stream was successfully created.')
+        }
         format.xml  { render :xml => @streamapi_stream, :status => :created, :location => @streamapi_stream }
       else
         format.html { render :action => "new" }
