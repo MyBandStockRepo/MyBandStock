@@ -25,12 +25,12 @@ Cobain::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
 
-  # Use a different cache store in production
+  # Use a different cache store in staging
   config.cache_store = :mem_cache_store
 
   # Disable Rails's static asset server

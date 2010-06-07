@@ -29,6 +29,10 @@ class CallbacksController < ApplicationController
 
     render :xml => @response_hash.to_xml(:root => 'response', :skip_types => true)
   end
+  
+  def peekok
+    #peekok code will go here
+  end
 
 
 private

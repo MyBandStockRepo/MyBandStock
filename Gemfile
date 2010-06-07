@@ -5,6 +5,8 @@ gem 'haml'
 gem 'builder'
 gem 'twitter'
 
+gem 'newrelic_rpm', :require => false
+
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
 # Bundle edge Rails instead:
