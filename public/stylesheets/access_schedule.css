@@ -33,6 +33,9 @@ a:hover {
     font-style: normal;
     font-weight: bold;
   }
+  .stream-start, .stream-location {
+    color: #FFF; /* The color of the date and location cells */
+  }
   .access-schedule-list .stream-start span {
     margin: 0 2px;
   }
