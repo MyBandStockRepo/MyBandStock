@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'fastercsv'
+require 'csv'
 
 class CreateZipcodes < ActiveRecord::Migration
   def self.up
@@ -12,7 +11,7 @@ class CreateZipcodes < ActiveRecord::Migration
     
 =begin
     hash_holder = []
-    reader = FasterCSV.foreach("#{RAILS_ROOT}/lib/data/zipcodes.csv") do |row|
+    reader = CSV.foreach("#{RAILS_ROOT}/lib/data/zipcodes.csv") do |row|
       Zipcode.create( :zipcode => (row[0] || ''), 
                        :latitude => (row[1] || ''), 
                        :longitude => (row[2] || ''), 

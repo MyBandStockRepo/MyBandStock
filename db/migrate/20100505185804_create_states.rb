@@ -16,7 +16,7 @@ class CreateStates < ActiveRecord::Migration
     #populate with USA data
     #first find the USA country
     usa_id = Country.find_by_abbreviation("US").id
-    reader = CSV.open("#{RAILS_ROOT}/lib/data/usa_states.csv", 'r') do |row|
+    reader = CSV.foreach("#{RAILS_ROOT}/lib/data/usa_states.csv") do |row|
       State.create(:name => row[0], :abbreviation => row[1], :country_id => usa_id)
     end
 =end
