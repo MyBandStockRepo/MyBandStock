@@ -112,7 +112,7 @@ class LiveStreamSeriesController < ApplicationController
 
   def jsonp
     # Sooooo slow and inefficient
-    unless ( params[:band_short_name] && (@band = Band.includes(:live_stream_series).where(:short_name => params[:band_short_name]).first) )
+    unless ( params[:band_short_name] && (@band = Band.includes(:live_stream_series).where(:short_name => params[:band_short_name].downcase).first) )
       return render :nothing => true
     else
       live_stream_series = @band.live_stream_series.includes(:streamapi_streams)
