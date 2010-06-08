@@ -154,7 +154,7 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :public => false,
                               :band_id => b_dos.id )
 
-
+=begin
 lss_amp.streamapi_streams.create(
                               :private_hostid => 123456,
                               :public_hostid => 123456,
@@ -198,7 +198,7 @@ lss_amp.streamapi_streams.create(
                               :viewer_theme_id => fullChat_low.id,
                               :public => false,
                               :band_id => b_amp.id )
-
+=end
 
 #create Brians stuff
 brian = User.create( :first_name => 'Brian',

@@ -10,22 +10,39 @@
             &nbsp;
         .placement_streamname
           = link_to series.title, nil, :class => 'link_streamname'
-        .placement_starttime
-          = series.starts_at.strftime("%m.%d.%Y")
-          %span.dark_accent
-            = '|'
-          = series.starts_at.strftime("%I:%M%p")
-          %span.dark_accent ET
-        .placement_endtime
-          = series.ends_at.strftime("%m.%d.%Y")
-          %span.dark_accent
-            = '|'
-          = series.ends_at.strftime("%I:%M%p")
-          %span.dark_accent ET
+        -# __commented__
+          .placement_starttime
+            = series.starts_at.strftime("%m.%d.%Y")
+            %span.dark_accent
+              = '|'
+            = series.starts_at.strftime("%I:%M%p")
+            %span.dark_accent ET
+          .placement_endtime
+            = series.ends_at.strftime("%m.%d.%Y")
+            %span.dark_accent
+              = '|'
+            = series.ends_at.strftime("%I:%M%p")
+            %span.dark_accent ET
     .stream_list
       -series.streamapi_streams.each do |stream|
         .stream_entry
+          %span.stream_manage_buttons
+            %span.stream_edit
+              -if can_broadcast
+                = link_to 'edit', { :controller => 'streamapi_streams', :action => 'edit', :id => stream.id }
+              -else
+                &nbsp;
           %span.stream_name
             = stream.title
-          = link_to 'broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+          %span.stream_broadcast_link
+            -if can_broadcast
+              = link_to 'broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+            -else
+              &nbsp;
+          .placement_starttime
+            = stream.starts_at.strftime('%m.%d.%Y')
+            %span.dark_accent
+              = '|'
+            = stream.starts_at.strftime('%I:%M%p')
+            %span.dark_accent ET
 

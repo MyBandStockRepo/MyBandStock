@@ -10,7 +10,7 @@ class CallbacksController < ApplicationController
     #get the action from the raw post
     post_arr = request.raw_post.split('&')
     action_str = ""
-    Rails.logger.warn "\nRAW - #{post_arr}\n"
+    Rails.logger.warn "\nRAW - #{post_arr.join(', ') }\n"
     post_arr.each do |one_str|
       if one_str.include?('action=')
         action_str = one_str
@@ -19,6 +19,8 @@ class CallbacksController < ApplicationController
     @response_hash = case action_str
       when 'action=login'
         streamapi_authenticate_user(params)
+      when 'action=start_live'
+        streamapi_live_stream_started(params)
       when 'action=end_live'
         streamapi_live_stream_finished(params)
       when 'action=end_record'
@@ -82,6 +84,24 @@ private
     return options_hash
   end
   
+  def streamapi_live_stream_started(params)
+    # StreamAPI is telling us there is a new applet broadcasting. If that's the case, there should
+    # already be a record in the streamapi_streams table. If not, there's a problem, so we return failure.
+
+    options_hash = Hash.new
+    if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
+      #if @streamapi_stream.save
+      #  #fixup the options hash
+        options_hash['code'] = 0
+      #else
+      #  options_hash['code'] = -101
+      #end
+    else
+      #we couldn't find the record so return failure to stremaapi
+      options_hash['code'] = -100
+    end
+    return options_hash
+  end
   
   def streamapi_live_stream_finished(params)
     options_hash = Hash.new

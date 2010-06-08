@@ -126,11 +126,6 @@ h3 {
   overflow: auto;
 }
 
-.stream_list {
-  display: block;
-  margin: 0;
-}
-
 .expand_series {
   display: inline;
   visibility: visible;
@@ -253,6 +248,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 .fieldbox {float:left;margin-top:20px;}
     .fieldbox input {width:380px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+    .fieldbox input[type=password] {
+      font-family: inherit;
+    }
 .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
 	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
 	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
@@ -291,7 +289,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .placement_streamname {width:282px;margin-left:13px;float:left;}
 	.link_streamname {display:block;height:27px;background-image:url(/images/icons/edit_stream.png);background-repeat:no-repeat;padding-left:26px;}
 		.link_streamname:hover {background-position:0px -27px;}
-.placement_starttime {width:160px;float:left;}
+.placement_starttime {width:160px;float:left; color: #CCC; }
 .placement_endtime {float:left;}
 
 .link_darkbar_padding {height:2px;}
@@ -301,7 +299,27 @@ fieldset {border:0px;padding:0px;margin:0px;}
 			.l_newstream {background-image:url(/images/icons/new_stream.png);}
 			.l_streamhistory {background-image:url(/images/icons/stream_history.png);}
 			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);}
-	
+			
+
+.stream_list {
+  display: block;
+  margin: 0;
+  padding-left: 35px;
+}
+  .stream_entry {
+    overflow: auto;
+  }
+    .stream_name {
+      float: left;
+      width: 355px;
+      color: #CCC;
+    }
+    .stream_manage_buttons {
+      float: left;
+      width: 20px;
+      margin-right: 10px;
+    }
+
 	
 /* TITILLIUM FONT */
 

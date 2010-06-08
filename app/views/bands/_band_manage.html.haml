@@ -27,6 +27,6 @@
       .link_darkbar
         = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
   .right_twothirds
-    = render :partial => 'bands/series_list', :locals => { :band => band }
+    = render :partial => 'bands/series_list', :locals => { :band => band, :can_broadcast => @user.can_broadcast_for(band.id) }
   .clear
 

@@ -21,6 +21,7 @@ Cobain::Application.routes.draw do |map|
 
   
   #stream methods
+  match '/streams/manage', :to => 'users#control_panel'
 match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
 match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
 match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'

@@ -46,7 +46,10 @@ function applyFbListeners() {
 			'centerOnScroll': true,
 			'hideOnOverlayClick': false
 		});
-    jQuery(this).click(function(e) { e.preventDefault(); });
+
+    jQuery(this).click(function(e) {
+      e.preventDefault(); return false;
+    });
 	});
 }
 

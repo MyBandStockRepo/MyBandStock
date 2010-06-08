@@ -9,7 +9,7 @@ respond_to :html, :js
 
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
- before_filter :only => :post, :only => [:create, :update] 
+ #before_filter :only => :post, :only => [:create, :update] 
  before_filter :authenticated?, :except => [:show, :callback, :ping]
 	
 	def ping
@@ -80,10 +80,12 @@ respond_to :html, :js
 	
 	
 	def broadcast
+	# http://osdir.com/ml/fancybox/2010-04/msg00471.html
     unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
       return false
     end
+    
 
 		@external_css = Band.find(@stream.band_id).external_css_link
 		if @external_css == ''
@@ -92,6 +94,17 @@ respond_to :html, :js
 		
 		@theme = StreamapiStreamTheme.find(@stream.broadcaster_theme_id)
 		
+    # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not 
+    lastUpdated = Time.now.to_i - @stream.updated_at.to_i
+    if (lastUpdated <= 1)
+      logger.info "Double GET request suspected, aborting"
+  	  unless params[:lightbox].nil?
+        # If our request tells us not to display layout (in a lightbox, for instance)
+        render :layout => 'lightbox'
+      end
+      return false
+    end
+
   	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
   	apikey = STREAMAPI_KEY
   	apisecretkey = STREAMAPI_SECRET_KEY
@@ -616,6 +629,10 @@ respond_to :html, :js
   # GET /streamapi_streams
   # GET /streamapi_streams.xml
   def index
+    unless (User.find(session[:user_id]).has_site_admin?)
+      redirect_to '/streams/manage'
+      return false
+    end
     @streamapi_streams = StreamapiStream.all
 
     respond_to do |format|
@@ -662,7 +679,6 @@ respond_to :html, :js
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
     end
-    
   end
 
   # POST /streamapi_streams
@@ -707,7 +723,7 @@ respond_to :html, :js
     @streamapi_stream.destroy
 
     respond_to do |format|
-      format.html { redirect_to(streamapi_streams_url) }
+      format.html { redirect_to('/streams/manage', :live_stream_series_id => @streamapi_stream.live_stream_series.id) }
       format.xml  { head :ok }
     end
   end

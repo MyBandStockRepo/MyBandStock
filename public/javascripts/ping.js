@@ -1,4 +1,6 @@
-$(document).ready( function() { } );
+jQuery.noConflict();
+
+jQuery(document).ready( function() { } );
 
 function startPinger(streamID, viewerKey) {
   var waitTime = 3*60*1000;   // 3 minutes
@@ -16,6 +18,6 @@ function startPinger(streamID, viewerKey) {
 }
 function sendPing(streamID, viewerKey) {
   var url = '/streamapi_streams/'+ streamID +'/ping/'+ viewerKey
-  $.get(url, function(data) { });
+  jQuery.get(url, function(data) { });
   return;
 }

@@ -44,12 +44,11 @@
     = f.label :band_id
     %br
     = f.text_field :band_id, :value => @band_id
-
-  -# __commented__
-    .field{:style=>"display:none;"}
-      = f.label :live_stream_series_id
-      %br
-      = f.text_field :live_stream_series_id, :value => @live_stream_series_id
+    
+  .field
+    = f.label :delete_stream
+    %br
+    = link_to 'Delete this stream', @streamapi_stream, :confirm => 'Are you sure you want to permanently delete this stream?', :method => :delete
 
   .actions
     = f.submit

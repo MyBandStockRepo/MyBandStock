@@ -173,11 +173,13 @@ private
     # TODO: check ApiUser-LiveStreamSeries association
 
     if (api_key.nil? || input_hash.nil? || api_version.nil?)
+      logger.info 'Key, hash, or version not specified'
       return false
     end
 
     # If the api_key does not exist in DB
     if (! (api_user = ApiUser.find_by_api_key(api_key)) )
+      logger.info 'Invalid API User'
       return false
     end
 
@@ -186,6 +188,7 @@ private
     # If given is not what it is supposed to be; this could either be because
     #  they simply calculated the hash wrong, or did not use the right secret key
     if (input_hash != test_hash.to_s)
+      logger.info 'Incorrect hash'
       return false
     end
 
