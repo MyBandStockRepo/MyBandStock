@@ -279,14 +279,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 .add_band {width:300px;padding-left:40px;}
 
-.placement_streamschedule {width:282px;margin-left:38px;float:left;}
+.placement_streamschedule {width:380px;margin-left:38px;float:left;}
 .placement_starts {width:160px;float:left;}
 .placement_ends {float:left;}
 
 .schedule_band_name {margin-left:40px;font-family:TitilliumText14L600wt;font-size:20px;color:#FF9900;text-decoration:none;}
 	.schedule_band_name:hover{color:FFFFFF;text-decoration:underline;}
 	
-.placement_streamname {width:282px;margin-left:13px;float:left;}
+.placement_streamname {width:380px;margin-left:13px;float:left;}
 	.link_streamname {display:block;height:27px;background-image:url(/images/icons/edit_stream.png);background-repeat:no-repeat;padding-left:26px;}
 		.link_streamname:hover {background-position:0px -27px;}
 .placement_starttime {width:160px;float:left; color: #CCC; }
