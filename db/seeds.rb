@@ -158,7 +158,7 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
 lss_amp.streamapi_streams.create(
                               :private_hostid => 123456,
                               :public_hostid => 123456,
-                              :title => 'Home Depot Center'
+                              :title => 'Home Depot Center',
                               :location => 'Carson, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
@@ -169,7 +169,7 @@ lss_amp.streamapi_streams.create(
 lss_amp.streamapi_streams.create(
                               :private_hostid => 1234567,
                               :public_hostid => 1234567,
-                              :title => 'Shoreline Amphitheatre'
+                              :title => 'Shoreline Amphitheatre',
                               :location => 'Mountain View, CA',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),

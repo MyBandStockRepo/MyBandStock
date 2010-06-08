@@ -4,6 +4,9 @@ gem 'rails', '3.0.0.beta2'
 gem 'haml'
 gem 'builder'
 gem 'twitter'
+gem 'SystemTimer', :require => false
+
+gem 'newrelic_rpm', :require => false
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
