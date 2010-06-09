@@ -1,0 +1,16 @@
+= form_for(@share_code) do |f|
+  = f.error_messages
+
+  .field
+    = f.label :key, 'code'
+    %br
+    = f.text_field :key
+
+  .field
+    = f.label 'email'
+    %br
+    = text_field nil, 'email'
+    
+    .actions
+      = f.submit
+

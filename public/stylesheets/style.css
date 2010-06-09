@@ -289,7 +289,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .placement_streamname {width:380px;margin-left:13px;float:left;}
 	.link_streamname {display:block;height:27px;background-image:url(/images/icons/edit_stream.png);background-repeat:no-repeat;padding-left:26px;}
 		.link_streamname:hover {background-position:0px -27px;}
-.placement_starttime {width:160px;float:left; color: #CCC; }
+.placement_starttime {width:165px;float:left; color: #CCC; }
 .placement_endtime {float:left;}
 
 .link_darkbar_padding {height:2px;}
@@ -311,7 +311,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
   }
     .stream_name {
       float: left;
-      width: 355px;
+      width: 340px;
       color: #CCC;
     }
     .stream_manage_buttons {
@@ -320,7 +320,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
       margin-right: 10px;
     }
 
-	
+
 /* TITILLIUM FONT */
 
 @font-face {

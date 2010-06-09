@@ -1,5 +1,4 @@
 Cobain::Application.routes.draw do |map|
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -11,15 +10,10 @@ Cobain::Application.routes.draw do |map|
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
 
-  resources :api_users
-
   resources :live_stream_series
-
-  
-
   resources :live_stream_series_permissions
 
-  
+
   #stream methods
   match '/streams/manage', :to => 'users#control_panel'
 match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
@@ -38,15 +32,24 @@ match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_stream
 
 match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
+
   resources :streamapi_stream_themes
+  resources :share_code_groups
   resources :associations
+  resources :share_codes
   resources :short_urls
   resources :user_roles
+  resources :api_users
   resources :roles
   resources :users
   resources :bands
 
   match 'developers', :to => 'developer#index'
+  
+  # ---- Share Codes ---- #
+    match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
+    match 'share_codes/redeem', :to => 'share_codes#redeem'
+  # /--- Share Codes ---- #
   
   # ---- URL Shortener ---- #
     match 'short(/:key)', :to => 'short_urls#redirect'
@@ -125,7 +128,7 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   # Band and Fan home and event splash
   match '/cp', :to => 'application#cp'
   match '/fan_home', :to => 'application#fan_home'
-  match '/band_home', :to =>'application#band_home'
+  match '/band_home(/:band_id)', :to =>'application#band_home'
 #  match '/event_splash', :to => 'application#event_splash'
   
   #login and logout routes

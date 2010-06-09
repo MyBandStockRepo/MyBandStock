@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  start_share_code_id: 1
+  num_share_codes: 1
+  valid: false
+  share_amount: 1
+  expiration_date: 2010-06-08 15:52:20
+
+two:
+  start_share_code_id: 1
+  num_share_codes: 1
+  valid: false
+  share_amount: 1
+  expiration_date: 2010-06-08 15:52:20

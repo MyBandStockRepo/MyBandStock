@@ -1,0 +1,13 @@
+<p>
+  <b>Key:</b>
+  <%= @share_code.key %>
+</p>
+
+<p>
+  <b>Share code group:</b>
+  <%= @share_code.share_code_group_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_share_code_path(@share_code) %> |
+<%= link_to 'Back', share_codes_path %>

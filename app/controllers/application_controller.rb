@@ -98,41 +98,9 @@ class ApplicationController < ActionController::Base
   end
   
   def band_home
-    @bodytag_id = "homepages"
-    @spotlight_bands = Band.where(['status = ?', 'active'], :order => 'RAND()', :limit => 10)
     if @user = User.find_by_id(session[:user_id])
-      @bands = @user.associations.find_all(:joins => :band, :conditions => {:associations => {:name => ['admin', 'member']}}, :group => 'band_id').collect{|a| a.band}
+      @bands = @user.bands #associations.find_all(:joins => :band, :conditions => {:associations => {:name => ['admin', 'member']}}, :group => 'band_id').collect{|a| a.band}
     end
-=begin    
-    @user_has_applied_for_band = BandApplication.find_by_user_id(session[:user_id], :conditions => ['approved != ?', false])
-
-    @news_templates = Rails.cache.fetch("band_home_news", :expires_in => (15.minutes.from_now) ) do
-      #assemble the news (if we need to)
-      @news_templates = []
-      
-      source = BLOG_URL + '/?feed=rss2' # url or local file
-      content = "" # raw content of rss feed will be loaded here
-      open(source) do |s| content = s.read end
-      rss = RSS::Parser.parse(content, false)
-      rss.items.each do |item|
-        if (@news_templates.size == 3)
-          break
-        end
-        if item.categories.select{|c| c.content == "Announcements"}.empty?
-          next
-        else
-          nt = NewsTemplate.new
-          nt.title = item.title
-          nt.author = 'blah'
-          nt.posted_at = item.date
-          nt.body = item.description
-          nt.link = item.link
-          @news_templates << nt
-        end
-      end
-      @news_templates
-    end
-=end
   end
 
   def authenticated?

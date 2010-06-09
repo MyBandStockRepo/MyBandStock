@@ -1,5 +1,7 @@
 jQuery.noConflict();
 
+var mbsDomain = 'http://cobain.mybandstock.com';
+
 jQuery(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
   if (!accessScheduleContainer) {
@@ -22,17 +24,21 @@ jQuery(document).ready(function() {
   //accessScheduleContainer.style.borderRight = '4px solid #444';
   //accessScheduleContainer.style.borderBottom = '4px solid #444';
 
-  jQuery.getJSON('http://cobain.mybandstock.com/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
+  jQuery.getJSON(mbsDomain +'/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
-});
-
-
-jQuery(function() {
   applyFbListeners();
+  applyShareCodeListener();
 });
+
+function applyShareCodeListener() {
+  jQuery('#mbs-redeem-submit').click(function(e) {
+    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ document.getElementById('mbs-share-code').value;
+    jQuery('#mbs-redeem-link').click();
+  });
+};
 
 function applyFbListeners() {
-	jQuery('a.lightbox').each(function(index){
+	jQuery('.lightbox').each(function(index){
 		jQuery(this).fancybox ({
 			'transitionIn': 'fade',
 			'transitionOut': 'fade',
@@ -88,8 +94,16 @@ function accessScheduleJsonCallback(data) {
         ).addClass((streamIndex % 2) ? 'even' : 'odd')
       );
     });
-    jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table);
+    jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
+      jQuery('<div id="mbs-share-code-container"></div>').append(
+        '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
+      ).append(
+        '<input id="mbs-share-code" type="text">' +
+        '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
+      )
+    );
   });
   applyFbListeners();
+  applyShareCodeListener();
 }
 

@@ -3,8 +3,10 @@
 @import url(http://cobain.mybandstock.com/stylesheets/lightbox.css);
 
 #mbs-access-schedule-container {
-  width: 500px; /* Remove the width and height lines to make the widget size automatically. */
+  /* Comment out the width and height lines to make the widget size automatically.
+  width: 500px; 
   height: 300px;
+  */
   color: black; /* Non-link text color */
 }
 

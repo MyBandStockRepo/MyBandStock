@@ -128,7 +128,7 @@ class LiveStreamSeriesController < ApplicationController
       {
         :series_title => series.title,
         :streams => series.streamapi_streams.collect{ |stream|
-#          if stream.public
+          if stream.public
             {
               :id => stream.id,
               :title => stream.title,
@@ -142,7 +142,7 @@ class LiveStreamSeriesController < ApplicationController
                 :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+46 : 560
               }
             }
-#          end
+          end
         }
       }
     }

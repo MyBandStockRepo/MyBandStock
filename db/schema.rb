@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100607184659) do
+ActiveRecord::Schema.define(:version => 20100608195220) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -113,6 +113,29 @@ ActiveRecord::Schema.define(:version => 20100607184659) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "share_code_groups", :force => true do |t|
+    t.string   "label"
+    t.integer  "start_share_code_id",                     :null => false
+    t.integer  "num_share_codes",                         :null => false
+    t.boolean  "active",                :default => true, :null => false
+    t.integer  "share_amount"
+    t.datetime "expiration_date"
+    t.integer  "live_stream_series_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "share_codes", :force => true do |t|
+    t.string   "key",                                    :null => false
+    t.boolean  "redeemed",            :default => false, :null => false
+    t.integer  "share_code_group_id"
+    t.integer  "user_id",             :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "share_codes", ["key"], :name => "index_share_codes_on_key", :unique => true
+
   create_table "short_urls", :force => true do |t|
     t.string   "destination",                     :null => false
     t.string   "key",                             :null => false
@@ -121,6 +144,8 @@ ActiveRecord::Schema.define(:version => 20100607184659) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "short_urls", ["key"], :name => "index_short_urls_on_key", :unique => true
 
   create_table "states", :force => true do |t|
     t.string   "name",         :null => false

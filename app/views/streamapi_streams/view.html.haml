@@ -1,6 +1,6 @@
 #viewer-container
   %h2
-    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
+    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
   %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
   :flashvars=>"authField2Label=Password:" + |
   "&siteID=1000008664" + |

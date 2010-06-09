@@ -1,3 +1,8 @@
+-# We limit the available theme options for simplicity
+- available_themes = StreamapiStreamTheme.find(2, 5)
+- available_themes[0].name = "16:9, Full Chat, Normal Quality"
+- available_themes[1].name = "16:9, Full Chat, HD"
+
 = form_for(@streamapi_stream) do |f|
   = f.error_messages
   .field
@@ -25,14 +30,14 @@
     = f.datetime_select :ends_at
 
   .field
-    = f.label :broadcaster_theme
-    %br
-    = collection_select 'streamapi_stream', 'broadcaster_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
-
-  .field
     = f.label :viewer_theme
     %br
-    = collection_select 'streamapi_stream', 'viewer_theme_id', StreamapiStreamTheme.all, 'id', 'name', :class => 'select'
+    = collection_select 'streamapi_stream', 'viewer_theme_id', available_themes, 'id', 'name', :class => 'select'
+
+  .field
+    = f.label :broadcaster_theme
+    %br
+    = collection_select 'streamapi_stream', 'broadcaster_theme_id', available_themes, 'id', 'name', :class => 'select'
 
   .field
     = f.label :public

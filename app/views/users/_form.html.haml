@@ -10,11 +10,12 @@
           .captcha_error
             =@captcha_error
         =render :partial => 'required_form', :locals => {:f => f, :states => @states }
-        %li.checkbox
-          %label{:for => 'user_terms_of_service'}
-            -# = f.check_box :agreed_to_tos, :class => 'checkbox'
-            %strong
-              I agree to MyBandStock's stuff
+        -# __commented__
+          %li.checkbox
+            %label{:for => 'user_terms_of_service'}
+              -# = f.check_box :agreed_to_tos, :class => 'checkbox'
+              %strong
+                I agree to MyBandStock's stuff
         %li.checkbox
           %label{:for => 'user_privacy_policy', :class => 'checkbox'}
             -# =f.check_box :agreed_to_pp, :class => 'checkbox'

@@ -1,0 +1,40 @@
+.orange_bar Share Codes
+
+= render 'form'
+
+%table
+  %tr
+    %th Label
+    %th Start share code
+    %th Num share codes
+    %th Valid
+    %th Share amount
+    %th Expiration date
+    %th
+    %th
+    %th
+
+-@share_code_groups.each do |share_code_group|
+  %tr
+    %td
+      = share_code_group.label
+    %td
+      = share_code_group.start_share_code_id
+    %td
+      = share_code_group.num_share_codes
+    %td
+      = share_code_group.active
+    %td
+      = share_code_group.share_amount
+    %td
+      = share_code_group.expiration_date
+    %td
+      = link_to 'Show', share_code_group
+    %td
+      = link_to 'Edit', edit_share_code_group_path(share_code_group)
+    %td
+      = link_to 'Destroy', share_code_group, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Share code group', new_share_code_group_path

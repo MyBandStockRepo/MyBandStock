@@ -1,19 +1,42 @@
 -# Include access_schedule.js to attach lightbox listener to all .lightbox links
-%h1="#{band.name} - Access Schedule"
+%h1="Exclusive Live Streams"
 
 -for series in band.live_stream_series
-	%h2= series.title
-	- if can_broadcast
-		=link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
-	%table.access-schedule-list
-		-for stream in series.streamapi_streams				    		
-			%tr
-				%td.stream-name
-					- viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
-					= link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+70), :fbwidth => (viewerTheme.width+50)
-					= stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-				- if can_broadcast
-					%td.begin-broadcast
-						- broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
-						=link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+80), :fbwidth => (broadcasterTheme.width+50)
+  %h2= series.title
+  - if can_broadcast
+    =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
+  %table.access-schedule-list
+    -for stream in series.streamapi_streams                
+      %tr
+        %td.stream-name
+          - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
+          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+70), :fbwidth => (viewerTheme.width+50)
+          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+        - if can_broadcast
+          %td.begin-broadcast
+            - broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
+            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+80), :fbwidth => (broadcasterTheme.width+50)
 
+#mbs-share-code-container
+  = link_to '', redeem_code_url, { :class => 'lightbox', :id => 'mbs-redeem-link' }, :style => 'display: none; visibility: hidden;'
+  = text_field_tag nil, nil, :id => 'mbs-share-code'
+  = submit_tag 'Redeem', :id => 'mbs-redeem-submit' #, :onclick => 'jQuery("#mbs-redeem-link").click()'
+
+
+
+-#
+  #mbs-share-code-container
+    = form_tag(ShareCode.new, :url => 'http://www.google.com', :html => { :id => 'mbs-share-code-form', :class => 'lightbox' }) do |f|
+      %input#mbs-share-code{ :name => 'mbs_share_code' }
+      -# = link_to 'Redeem',  , :class => 'lightbox'
+      = submit_tag 'a' # javascript:document.getElementById("mbs-share-code-form").submit(); return false;
+
+-#
+  = form_for(nil, :url => user_follower_path(followee, follower)) do |f|
+
+  and use below code in block.
+
+  <code>&lt;%= link_to_function "submit",
+  "javascript:document.getElementById(\"my_form\").submit(); return
+  false" %&gt;</code>
+  

@@ -58,7 +58,7 @@ def create
                    if success
                     flash[:notice] = 'Association was successfully created.'
 
-                    redirect_to session[:last_clean_ur]
+                    redirect_to session[:last_clean_ur] || root_path
                   else
                     @users = User.all
                     @bands = Band.find_all_by_id(User.find(session[:user_id]).associations.reject{|a| a.name == "fan"}.collect{|a| a.band_id}.uniq, :order => "bands.id desc") 

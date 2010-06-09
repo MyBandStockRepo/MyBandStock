@@ -1,0 +1,48 @@
+- num_codes_array = [ 10, 25, 100, 200, 300, 400, 500 ]
+- num_shares_array = [ 1, 5, 10, 25, 50, 100 ]
+
+= form_for(@share_code_group) do |f|
+  = f.error_messages
+
+  .field
+    %big
+      %big
+        %big
+          Get a datepicker
+    = f.label :expiration_date
+    %br
+    = f.text_field :expiration_date
+
+  .field
+    = f.label :num_share_codes, "Number of share codes to generate:"
+    = select( 'share_code_group', 'num_share_codes', num_codes_array, :class => 'select')
+
+  .field
+    = f.label :num_shares_per_code, "Number of shares to be awarded per redeemed code:"
+    = select( nil, 'num_shares_per_code', num_shares_array, :class => 'select')
+
+  .field
+    = f.label :live_stream_series_id, "Stream series: [is this field necessary?]"
+    = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
+
+  .field
+    = f.label :label
+    %br
+    = f.text_field :label
+
+  .field
+    = f.label :active
+    = f.check_box :active
+    .description
+      Whether this set of codes is currently allowed. This can be changed later.
+
+  .actions
+    = f.submit
+
+:javascript
+  jQuery('#share_code_group_expiration_date').datepicker({
+    minDate: 0,
+    autoSize: true
+  });
+
+

@@ -1,28 +1,30 @@
-#primary-content
-  #banner-area
-    =render :partial => 'common_partials/promo_bands_banner'
-  #news
-    %h2 MBS News
-    =render :partial => 'common_partials/mbs_news', :collection => @news_templates, :as => :news_template
-#sidebar
-  -if !@user_has_applied_for_band
-    =link_to image_tag('buttons/global/btn-apply-now-band.jpg'), {:controller => 'band_applications', :action => 'new'}, :class => "join"
-  -elsif (@user && !@bands.empty?)
-    =render :partial => 'application/band_welcome_updates', :collection => @bands, :as => :band
+-@bands.each do |band|
+  .orange_bar
+    = band.name
+  = link_to 'Share Codes', share_code_groups_path(:band_id => band.id)
 
-  =render :partial => 'common_partials/spotlight_bands', :locals => {:spotlight_bands => @spotlight_bands}
-  %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour];", :class => "first", :onclick => "shadowbox.next()"}
-    =image_tag("homepage/tour/img-mbs-tour.gif", :alt => "MBS Tour") 
-  %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
-  %a{:href => "/images/homepage/tour/3.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is an MBS Share
-  %a{:href => "/images/homepage/tour/4.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is a Project
-  %a{:href => "/images/homepage/tour/5.jpg", :rel => "shadowbox[tour]", :class => "hide"} Relationship Grows
-  %a{:href => "/images/homepage/tour/6.jpg", :rel => "shadowbox[tour]", :class => "hide"} The Value of MyBandStock
-  %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
-  %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
-  
-      
- 
-            
 
-  
+-# __commented__
+  #primary-content
+    #banner-area
+      =render :partial => 'common_partials/promo_bands_banner'
+    #news
+      %h2 MBS News
+      =render :partial => 'common_partials/mbs_news', :collection => @news_templates, :as => :news_template
+  #sidebar
+    -if !@user_has_applied_for_band
+      =link_to image_tag('buttons/global/btn-apply-now-band.jpg'), {:controller => 'band_applications', :action => 'new'}, :class => "join"
+    -elsif (@user && !@bands.empty?)
+      =render :partial => 'application/band_welcome_updates', :collection => @bands, :as => :band
+
+    =render :partial => 'common_partials/spotlight_bands', :locals => {:spotlight_bands => @spotlight_bands}
+    %a{:href => "/images/homepage/tour/1.jpg", :rel => "shadowbox[tour];", :class => "first", :onclick => "shadowbox.next()"}
+      =image_tag("homepage/tour/img-mbs-tour.gif", :alt => "MBS Tour") 
+    %a{:href => "/images/homepage/tour/2.jpg", :rel => "shadowbox[tour]", :class => "hide"} Our Foundation
+    %a{:href => "/images/homepage/tour/3.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is an MBS Share
+    %a{:href => "/images/homepage/tour/4.jpg", :rel => "shadowbox[tour]", :class => "hide"} What is a Project
+    %a{:href => "/images/homepage/tour/5.jpg", :rel => "shadowbox[tour]", :class => "hide"} Relationship Grows
+    %a{:href => "/images/homepage/tour/6.jpg", :rel => "shadowbox[tour]", :class => "hide"} The Value of MyBandStock
+    %a{:href => "/images/homepage/tour/7.jpg", :rel => "shadowbox[tour]", :class => "hide"} Fans
+    %a{:href => "/images/homepage/tour/8.jpg", :rel => "shadowbox[tour]", :class => "hide"} Bands
+
