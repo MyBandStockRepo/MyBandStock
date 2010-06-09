@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(:version => 20100608195220) do
     t.datetime "updated_at"
   end
 
+  create_table "twitter_users", :force => true do |t|
+    t.string   "name"
+    t.string   "user_name"
+    t.integer  "twitter_id",          :null => false
+    t.string   "oauth_access_token"
+    t.string   "oauth_access_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "streamapi_stream_themes", :force => true do |t|
     t.string   "name",        :null => false
     t.string   "layout_path", :null => false

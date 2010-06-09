@@ -1,0 +1,5 @@
+#statuses
+	- for tweet in @tweets
+		= render :partial => 'status', :object => tweet
+
+= render :partial => "pagination"

@@ -8,7 +8,17 @@ class User < ActiveRecord::Base
 #  has_many :perks, :through => 'earned_perks', :dependent => :destroy
 #  has_many :emails, :through => 'emails', :dependent => :destroy
   belongs_to :country
-   
+  belongs_to :twitter_user
+
+#  has_many :contributions, :dependent => :destroy
+#  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
+  
+#  has_many :user_friends, :foreign_key => 'source_user_id'
+#  has_many :friends, :through => :user_friends, :source => 'destination'
+  
+#  has_many :google_checkout_orders
+#  has_many :user_photos
+ 
   has_many :live_stream_series_permissions
   has_many :streamapi_stream_viewer_statuses
 
@@ -20,8 +30,8 @@ class User < ActiveRecord::Base
   #empty?
   validates_presence_of :email
   validates_presence_of :password
-  validates_presence_of :password_confirmation, :on => :create
-  validates_confirmation_of :password, :on => :create
+#  validates_presence_of :password_confirmation, :on => :create
+#  validates_confirmation_of :password, :on => :create
   #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
   #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
 

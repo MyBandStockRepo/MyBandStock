@@ -4,6 +4,7 @@ gem 'rails', '3.0.0.beta2'
 gem 'haml'
 gem 'builder'
 gem 'twitter'
+gem 'twitter-text'
 gem 'SystemTimer', :require => false
 
 gem 'newrelic_rpm', :require => false

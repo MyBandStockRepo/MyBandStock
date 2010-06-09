@@ -6,9 +6,10 @@
 %li
   =f.label :first_name, '* First name'
   =f.text_field :first_name, :class => 'text'
-%li
-  =f.label :last_name, '* Last name'
-  =f.text_field :last_name, :class => 'text'
+-#
+  %li
+    =f.label :last_name, '* Last name'
+    =f.text_field :last_name, :class => 'text'
 %li
   =f.label :email, '* Email'
   =f.text_field :email, :class => 'text'
@@ -17,13 +18,18 @@
   =f.label :password, '* Password'
   =f.password_field :password, :class => 'text'
   %label.desc At least 6 characters long
+-#
+  %li
+    =f.label :password_confirmation, '* Confirm Password'
+    =f.password_field :password_confirmation, :class => 'text'
 %li
-  =f.label :password_confirmation, '* Confirm Password'
-  =f.password_field :password_confirmation, :class => 'text'
-%li
-  =f.label :country_id, '* Country'
-  =collection_select "user", "country_id", Country.cached_all, 'id', 'name', :class => 'select'
-  %label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
+  =f.label :zipcode, '* Zipcode'
+  =f.text_field :zipcode, :class => 'text'  
+-#
+  %li
+    =f.label :country_id, '* Country'
+    =collection_select "user", "country_id", Country.cached_all, 'id', 'name', :class => 'select'
+    %label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
   -# =observe_field 'user_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'user'), :with => 'country_id'
 -#
   %li#state_select

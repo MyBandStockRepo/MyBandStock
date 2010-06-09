@@ -1,0 +1,26 @@
+.profile  
+	= image_tag(@twit_user.profile_image_url)
+	%h2
+		= @twit_user.name
+	%h3
+		= @twit_user.screen_name
+  
+	.counts
+		%p
+			= pluralize @twit_user.friends_count, 'friend', 'friends'
+			\//
+			= pluralize @twit_user.followers_count, 'follower', 'followers'
+			\//
+			= pluralize @twit_user.statuses_count, 'tweet', 'tweets'
+			\//
+			= pluralize @twit_user.favourites_count, 'fav', 'favs'
+
+	.details
+		- unless @twit_user.location.blank?
+			%p 
+				location:
+				= @twit_user.location
+	
+			%p 
+				signup date:
+				= pretty_datetime Time.parse(@twit_user.created_at)
