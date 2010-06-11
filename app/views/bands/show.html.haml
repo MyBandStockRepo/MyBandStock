@@ -23,7 +23,25 @@
   .access-schedule
     = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
--# __commented__
+
+.recent_twetz
+  %h1 Recent Band Tweets
+  - if @band_twitter_not_authorized
+    %p This band has not tied their Twitter account to MyBandStock yet.
+  - else
+    - if @user_twitter_not_authorized
+      = link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'
+		
+    - else
+      %p 
+        Currently authenticated with the Twitter account 
+        = @twit_user.screen_name
+        = link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'	      
+    - for tweet in @band_tweets
+      = render :partial => "twitter_api/status", :object => tweet  
+      - unless @user_twitter_not_authorized
+        = link_to 'Retweet this for some MBS shares!', :controller => 'twitter_api', :action => 'retweet', :tweet_id => tweet.id, :band_id => @band.id
+
 #remote-page-test
   %br
   %br

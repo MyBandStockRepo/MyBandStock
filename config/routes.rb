@@ -1,4 +1,6 @@
 Cobain::Application.routes.draw do |map|
+
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -10,27 +12,36 @@ Cobain::Application.routes.draw do |map|
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
 
-  resources :live_stream_series
-  resources :live_stream_series_permissions
 
-
+#twitter api
+	match '/twitter/create_session', :to => 'twitter_api#create_session'      
+	match '/twitter/finalize', :to => 'twitter_api#finalize'      
+	match '/twitter/mentions', :to => 'twitter_api#mentions'
+	match '/twitter/index', :to => 'twitter_api#index'	
+	match '/twitter/show/:id/', :to => 'twitter_api#show'	
+	match '/twitter/favorites', :to => 'twitter_api#favorites'		
+	match '/twitter/create', :to => 'twitter_api#create'			
+	match '/twitter/fav', :to => 'twitter_api#fav'			
+	match '/twitter/unfav', :to => 'twitter_api#unfav'			
+	match '/twitter/update', :to => 'twitter_api#update'			
+  
   #stream methods
   match '/streams/manage', :to => 'users#control_panel'
-match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
-match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
-match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'
+	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
+	match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
+	match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'
 
   resources :streamapi_streams
   match '/streamapi_streams/new/:band_id', :to => 'streamapi_streams#new'
-match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
-match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
-match '/streamapi_streams/:id/getlivesessioninfo', :to => 'streamapi_streams#getLiveSessionInfo'      
-match '/streamapi_streams/:id/getpublichostid', :to => 'streamapi_streams#getPublicHostId'      
-match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'      
-match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'
+	match '/streamapi_streams/:id/view', :to => 'streamapi_streams#view'  
+	match '/streamapi_streams/:id/broadcast', :to => 'streamapi_streams#broadcast'      
+	match '/streamapi_streams/:id/getlivesessioninfo', :to => 'streamapi_streams#getLiveSessionInfo'      
+	match '/streamapi_streams/:id/getpublichostid', :to => 'streamapi_streams#getPublicHostId'      
+	match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'      
+	match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping' 
+	match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
 
-match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
 
   resources :streamapi_stream_themes
@@ -43,6 +54,13 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
   resources :roles
   resources :users
   resources :bands
+  resources :twitter_users
+  resources :live_stream_series
+  resources :live_stream_series_permissions
+
+
+
+
 
   match 'developers', :to => 'developer#index'
   
@@ -232,6 +250,10 @@ match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
 #  map.connect ':band_short_name/manage_music', :controller => 'bands', :action => 'manage_music'
 #  map.connect ':band_short_name/manage_photos', :controller => 'bands', :action => 'manage_photos'
   match ':band_short_name/manage_users', :to => 'bands#manage_users'
+  
+	match '/:band_short_name/social_networks/index', :to => 'social_networks#index'  
+  
+  
   
   # Install the default routes as the lowest priority.
   match ':controller(/:action)'

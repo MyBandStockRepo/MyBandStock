@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   #helper_method :render_to_string
 
+#	include Twitter::AuthenticationHelpers
+#	rescue_from Twitter::Unauthorized, :with => :login	
+	
 	include SslRequirement
   
   # See ActionController::RequestForgeryProtection for details
@@ -251,9 +254,53 @@ class ApplicationController < ActionController::Base
     #  redirect_to SITE_URL+request.fullpath
     #end
   end
+
+#twitter stuff
+
   
-  
+    def band_oauth
+#      @oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY, :sign_in => true)
+      @band_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
+    end
 
+    def user_oauth
 
+      @user_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
+    end
+    
+    
+    def client(use_band_oauth = false, needs_band_member_status = false, band_id = nil)
+			user = User.find(session['user_id'])
+# want to use bands oauth to show posts but want non-band users to be able to view them
+			if use_band_oauth
+				if needs_band_member_status
+					if band_id
+						if user.has_band_admin(band_id) || user.is_member_of_band(band_id)
+							thing = Band.find(band_id)
+						else
+							flash[:error] = 'You do not have permissions to use this Twitter function for this band.'
+						end
+					else
+						flash[:error] = 'Could not get a band ID.'
+					end
+				else
+					thing = Band.find(band_id)
+				end
+			else
+				thing = user
+			end
 
+			if thing.twitter_user
+				if band_id.nil?
+					user_oauth.authorize_from_access(thing.twitter_user.oauth_access_token, thing.twitter_user.oauth_access_secret)						
+					Twitter::Base.new(user_oauth)
+				else
+					band_oauth.authorize_from_access(thing.twitter_user.oauth_access_token, thing.twitter_user.oauth_access_secret)						
+					Twitter::Base.new(band_oauth)			
+				end
+			else
+				flash[:error] = 'Could not find an authorized Twitter account.'
+			end
+    end
+		helper_method :client
 end

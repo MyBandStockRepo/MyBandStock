@@ -9,13 +9,12 @@ class CreateBands < ActiveRecord::Migration
       t.string :city, {:null => false, :length => 50}
       t.integer :zipcode, {:null => false, :length => 10} 
       t.string :band_photo
-      t.string :status, {:null => false, :default => "active"}
-      t.string :twitter_user
+      t.string :status, {:null => false, :default => "active"} 
       t.string :external_css_link, {:null => true}
       t.string :access_schedule_url, {:null => true}
       
       #references
-      t.belongs_to :country, :state    
+      t.belongs_to :country, :state, :twitter_user
 
       t.timestamps
     end

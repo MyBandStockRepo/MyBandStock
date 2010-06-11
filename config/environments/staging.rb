@@ -1,7 +1,10 @@
 Cobain::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
-
+	
+	SITE_URL = 'http://cobain.mybandstock.com'
+	SECURE_SITE_URL = 'http://cobain.mybandstock.com'
+	SITE_HOST = 'cobain.mybandstock.com'
   # Email address to which support inquiries are sent.
   # Currently displayed when a user does not have access to a stream, but tries to view it.
   MBS_SUPPORT_EMAIL = 'support@mybandstock.com'

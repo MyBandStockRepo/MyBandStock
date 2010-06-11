@@ -1,6 +1,13 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+	include Twitter::Autolink
 
+  def pretty_datetime(datetime)
+    date = datetime.strftime('%b %e, %Y').downcase
+    time = datetime.strftime('%l:%M%p').downcase
+    content_tag(:span, date, :class => 'date') + " " + content_tag(:span, time, :class => 'time')
+  end
+	
   def bodytag_id
     a = controller.class.to_s.underscore.gsub(/_controller$/, '')
     b = controller.action_name.underscore

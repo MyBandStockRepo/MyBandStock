@@ -14,7 +14,7 @@ class CreateStreamapiStreams < ActiveRecord::Migration
       t.string :recording_filename, :null => true
       t.string :recording_url, :null => true
       t.string :live_url, :null => true
-
+			t.string :location, :null => true
 			t.belongs_to :band, :live_stream_series
 			t.integer :broadcaster_theme_id, :viewer_theme_id
       t.timestamps

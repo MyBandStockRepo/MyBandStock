@@ -1,0 +1,31 @@
+<h1>Listing twitter_users</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>User name</th>
+    <th>Twitter</th>
+    <th>Oauth access token</th>
+    <th>Oauth access secret</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @twitter_users.each do |twitter_user| %>
+  <tr>
+    <td><%= twitter_user.name %></td>
+    <td><%= twitter_user.user_name %></td>
+    <td><%= twitter_user.twitter_id %></td>
+    <td><%= twitter_user.oauth_access_token %></td>
+    <td><%= twitter_user.oauth_access_secret %></td>
+    <td><%= link_to 'Show', twitter_user %></td>
+    <td><%= link_to 'Edit', edit_twitter_user_path(twitter_user) %></td>
+    <td><%= link_to 'Destroy', twitter_user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Twitter user', new_twitter_user_path %>
