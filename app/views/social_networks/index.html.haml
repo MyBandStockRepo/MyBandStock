@@ -23,5 +23,4 @@
 		= link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
 		#statuses
 			%h2 Recent Tweets
-			- for tweet in @tweets
-				= render :partial => "twitter_api/status", :object => tweet
+			= render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @tweets}
