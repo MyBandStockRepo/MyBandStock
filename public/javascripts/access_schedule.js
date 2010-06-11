@@ -98,6 +98,7 @@ function accessScheduleJsonCallback(data) {
       jQuery('<div id="mbs-share-code-container"></div>').append(
         '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
       ).append(
+        '<label for="mbs-share-code">Enter access code:</label>' +
         '<input id="mbs-share-code" type="text">' +
         '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
       )

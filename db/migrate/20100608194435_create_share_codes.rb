@@ -5,7 +5,7 @@ class CreateShareCodes < ActiveRecord::Migration
       t.boolean :redeemed, { :null => false, :default => false }
 
       t.belongs_to :share_code_group
-      t.belongs_to :user, { :null => true, :default => :nil }
+      t.belongs_to :user #, { :null => true, :default => :nil }
 
       t.timestamps
     end

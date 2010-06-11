@@ -115,12 +115,11 @@ ActiveRecord::Schema.define(:version => 20100608195220) do
 
   create_table "share_code_groups", :force => true do |t|
     t.string   "label"
-    t.integer  "start_share_code_id",                     :null => false
-    t.integer  "num_share_codes",                         :null => false
-    t.boolean  "active",                :default => true, :null => false
+    t.integer  "start_share_code_id",                   :null => false
+    t.integer  "num_share_codes",                       :null => false
+    t.boolean  "active",              :default => true, :null => false
     t.integer  "share_amount"
     t.datetime "expiration_date"
-    t.integer  "live_stream_series_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -129,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20100608195220) do
     t.string   "key",                                    :null => false
     t.boolean  "redeemed",            :default => false, :null => false
     t.integer  "share_code_group_id"
-    t.integer  "user_id",             :default => 0
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -127,7 +127,7 @@ class ShareCodeGroupsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
   
   def generate_share_codes(numCodes)
