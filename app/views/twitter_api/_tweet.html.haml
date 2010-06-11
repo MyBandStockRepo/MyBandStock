@@ -1,0 +1,30 @@
+- user = tweet.user.blank? ? tweet.sender : tweet.user
+.tweet#tweet_
+	.info
+		= link_to image_tag(user.profile_image_url), user_url(user.screen_name), :class => 'profile_image'
+
+		%p.who_when
+			= link_to h(user.screen_name), user_url(user.screen_name)
+			%br
+			= pretty_datetime Time.parse(tweet.created_at)
+
+
+		%p.actions
+			%span.followers_count{ :title => "# of followers" }
+				= user.followers_count
+			= link_to image_tag('twitter/chat.gif'), tweet_url(:id => tweet.in_reply_to_tweet_id), :class => 'icon' unless tweet.in_reply_to_tweet_id.blank?
+
+			- if tweet.favorited
+				=# link_to image_tag('twitter/star_on.gif'), unfav_tweet_url(:id => tweet.id, :return_to => request.request_uri), :class => 'icon', :method => :post
+			- else
+				=# link_to image_tag('twitter/star.gif'), fav_tweet_url(:id => tweet.id, :return_to => request.request_uri), :class => 'icon', :method => :post
+
+			= link_to image_tag('twitter/mail.gif'), '#', :class => 'dm icon', :rel => h(user.screen_name), :title => "Direct Message #{h user.screen_name}"
+			= link_to image_tag('twitter/comment.gif'), '#', :class => 'reply icon', :rel => h("#{user.screen_name}:#{tweet.id}"), :title => "Reply to #{h user.screen_name}"
+
+.text
+	%h2
+		= raw(auto_link(tweet.text, :target => '_blank'))
+
+%br
+%br

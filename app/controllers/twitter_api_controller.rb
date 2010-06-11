@@ -92,8 +92,23 @@ class TwitterApiController < ApplicationController
 			else			
 				flash[:error] = 'Could not find Twitter request token or secret.'
 			end
-			if params[:redirect]			
-				redirect_to params[:redirect]
+			if params[:redirect]
+
+
+				path = params[:redirect]
+				params.delete(:redirect)
+				params.delete(:oauth_verifier)
+				params.delete(:oauth_token)
+				params.delete(:action)
+				params.delete(:controller)
+				paramsarr = params.to_a
+				if params.count > 0
+					path = path.to_s + '&' + paramsarr.collect{ |a| a.join('=')}.join('&')
+				else
+					path = path.to_s
+				end
+				# send all params that came  with the redirect address
+				redirect_to path
 			else
 				redirect_to root_path
 			end
@@ -150,8 +165,7 @@ end
 					redirect_to session[:last_clean_url]
 				end
 			else
-					flash[:error] = 'You need to have an authorized Twitter account to retweet a status.'
-					redirect_to session[:last_clean_url]	
+					redirect_to :action => 'create_session'
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
@@ -304,6 +318,7 @@ end
 			return false			
 		end								
   end
+
   
   private
   

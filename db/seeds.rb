@@ -96,6 +96,13 @@ vidOnly_low = StreamapiStreamTheme.create( :name => '16:9, Only Video - Low Qual
                   :height => 332,
                   :quality => '256 kbps (Low)' )
 
+styledVidOnly_low = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Low Quality (256 kbps)',
+                  :layout_path => '/themes/100/000/866/4/theme_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
+                  :skin_path => '/themes/100/000/866/4/skin_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
+                  :width => 500,
+                  :height => 278,
+                  :quality => '256 kbps (Low)' )
+
 readOnlyChat_med = StreamapiStreamTheme.create( :name => '16:9, Video & Read Only Chat - Medium Quality (384 kbps)',
                   :layout_path => '/themes/100/000/866/4/theme_d8271a22-6814-11df-897e-45bad36ccbb1.xml',
                   :skin_path => '/themes/100/000/866/4/skin_d8271a22-6814-11df-897e-45bad36ccbb1.xml',
@@ -117,6 +124,13 @@ vidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Only Video - Medium Q
                   :height => 332,
                   :quality => '384 kbps (Medium)' )
 
+styledVidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Medium Quality (384 kbps)',
+                  :layout_path => '/themes/100/000/866/4/theme_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
+                  :skin_path => '/themes/100/000/866/4/skin_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
+                  :width => 500,
+                  :height => 278,
+                  :quality => '384 kbps (Medium)' )
+                  
 #create some StreamAPI streams (fake of course)
 lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
