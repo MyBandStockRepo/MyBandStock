@@ -25,7 +25,7 @@
 
 
 .recent_twetz
-  %h1 RECENT TWEETz
+  %h1 Recent Band Tweets
   - if @band_twitter_not_authorized
     %p This band has not tied their Twitter account to MyBandStock yet.
   - else
@@ -40,7 +40,7 @@
     - for tweet in @band_tweets
       = render :partial => "twitter_api/status", :object => tweet  
       - unless @user_twitter_not_authorized
-        = link_to 'RETWEET THIS MOFO FO SOME POINTz', :controller => 'twitter_api', :action => 'retweet', :tweet_id => tweet.id, :band_id => @band.id
+        = link_to 'Retweet this for some MBS shares!', :controller => 'twitter_api', :action => 'retweet', :tweet_id => tweet.id, :band_id => @band.id
 
 #remote-page-test
   %br

@@ -32,23 +32,31 @@ class BandsController < ApplicationController
       end
     end
     
-		unless @band.twitter_user
-			@band_twitter_not_authorized = true
-		else
-			band_client = client(true, false, @band.id)
-			@twit_band = band_client.verify_credentials
-			@band_twitter_not_authorized = false										
-			@band_tweets = band_client.user_timeline(:id => @twit_band.id)
-		end		
-
-		if session[:user_id] && @user = User.find(session[:user_id])
-			unless @user.twitter_user
-				@user_twitter_not_authorized = true
+    
+    begin
+			unless @band.twitter_user
+				@band_twitter_not_authorized = true
 			else
-				@twit_user = client(false, false, nil).verify_credentials
-				@user_twitter_not_authorized = false			
-			end		    
-		end    
+				band_client = client(true, false, @band.id)
+				@twit_band = band_client.verify_credentials
+				@band_twitter_not_authorized = false										
+				@band_tweets = band_client.user_timeline(:id => @twit_band.id)
+			end		
+		rescue
+				@band_twitter_not_authorized = true
+		end					
+		begin
+			if session[:user_id] && @user = User.find(session[:user_id])
+				unless @user.twitter_user
+					@user_twitter_not_authorized = true
+				else
+					@twit_user = client(false, false, nil).verify_credentials
+					@user_twitter_not_authorized = false			
+				end		    
+			end    
+		rescue
+			@user_twitter_not_authorized = true
+		end
     
   end
   
