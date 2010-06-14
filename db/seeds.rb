@@ -165,15 +165,55 @@ lssp = jm.live_stream_series_permissions.create(:can_view => true,
                                                 )
   
 
-lss_dos.streamapi_streams.create( :private_hostid => 12345,
-                              :public_hostid => 12345,
-                              :title => 'act 3, the COOOLEST ACT',
-                              :starts_at => 3.weeks.from_now,
-                              :ends_at => (3.weeks.from_now + 4.hours),
+lss_amp.streamapi_streams.create(
+                              :title => 'Exclusive Video Update #1 - Off Day',
+                              :location => 'Tour Bus',
+                              :starts_at => '06/28/2010 12:00',
+                              :ends_at => '06/28/2010 13:00',
                               :broadcaster_theme_id => styledVidOnly_low.id,
                               :viewer_theme_id => styledVidOnly_low.id,
-                              :public => false,
-                              :band_id => b_dos.id )
+                              :public => true,
+                              :band_id => b_amp.id )
+
+lss_amp.streamapi_streams.create(
+                              :title => 'Exclusive Video Update #2',
+                              :location => 'Mansfield',
+                              :starts_at => '07/13/2010 12:00',
+                              :ends_at => '07/13/2010 13:00',
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
+                              :public => true,
+                              :band_id => b_amp.id )
+
+lss_amp.streamapi_streams.create(
+                              :title => 'Exclusive Video Update #3 - Off Day',
+                              :location => 'Tour Bus',
+                              :starts_at => '07/19/2010 12:00',
+                              :ends_at => '07/19/2010 13:00',
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
+                              :public => true,
+                              :band_id => b_amp.id )
+
+lss_amp.streamapi_streams.create(
+                              :title => 'Exclusive Video Update #4 - Backstage Sneak Peak',
+                              :location => 'Virginia Beach',
+                              :starts_at => '07/21/2010 12:00',
+                              :ends_at => '07/21/2010 13:00',
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
+                              :public => true,
+                              :band_id => b_amp.id )
+
+lss_amp.streamapi_streams.create(
+                              :title => 'Exclusive Video Update #5 - Off Day',
+                              :location => 'Tour Bus',
+                              :starts_at => '08/03/2010 12:00',
+                              :ends_at => '08/03/2010 13:00',
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
+                              :public => true,
+                              :band_id => b_amp.id )
 
 =begin
 lss_amp.streamapi_streams.create(

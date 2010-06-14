@@ -25,7 +25,7 @@
   .video_right
     -if @tweets
       %h2
-        retweet
+        repost
         %span.grey99 the band for 20 shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets }
   .clear
