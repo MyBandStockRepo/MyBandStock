@@ -124,18 +124,18 @@ vidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Only Video - Medium Q
                   :height => 332,
                   :quality => '384 kbps (Medium)' )
 
-styledVidOnly_low = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Medium Quality (384 kbps)',
+styledVidOnly_low = StreamapiStreamTheme.create( :name => '16:9, Styled - Video + Chat - Medium Quality (384 kbps)',
                   :layout_path => '/themes/100/000/866/4/theme_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
                   :skin_path => '/themes/100/000/866/4/skin_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
                   :width => 500,
-                  :height => 278,
+                  :height => 375,
                   :quality => '256 kbps (low)' )
 
-styledVidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Medium Quality (384 kbps)',
+styledVidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Styled - Video + Chat - Medium Quality (384 kbps)',
                   :layout_path => '/themes/100/000/866/4/theme_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
                   :skin_path => '/themes/100/000/866/4/skin_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
                   :width => 500,
-                  :height => 278,
+                  :height => 375,
                   :quality => '384 kbps (Medium)' )
                   
 #create some StreamAPI streams (fake of course)

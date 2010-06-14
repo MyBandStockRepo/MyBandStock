@@ -15,7 +15,7 @@
  */
 
 /* Lightbox styles */
-@import url(/stylesheets/fonts.css?123);
+@import url(/stylesheets/fonts.css);
 
 body#lightbox {
   width:100%;
@@ -52,6 +52,7 @@ body#lightbox {
 }
 .embed-container {
   background-image: url('/images/video.png') no-repeat;
+  margin-top: 5px;
 }
 h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
 .clear {clear:both;}
@@ -79,17 +80,23 @@ fieldset {border:0px;padding:0px;margin:0px;}
   This is #fancybox-outer now.
   .modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
 */
-.modal_in {width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;}
+.modal_in {
+  width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;
+  background-position: 0 -90px;
+}
 
 /* VIDEO STREAM MODAL */
 
 .video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}
 	.video_modal h2{margin-bottom:10px;}
 
-.video_left {width:491px;margin-left:20px;margin-top:20px;float:left;}
-.video_right {width:329px;margin-right:20px;margin-top:20px;float:right;}
+.video_left {width:491px;margin-left:20px;margin-top:10px;float:left;}
+.video_right {width:329px;margin-right:20px;margin-top:10px;float:right;}
 
-.tweetbox_top {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);}
+.tweetbox_top {
+  width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);
+  margin-top: 5px;
+}
 .tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
 	.tweet {width:265px;margin-left:14px;float:left;}
 		.tweet a {color:#FF9900;text-decoration:none;}

@@ -165,6 +165,7 @@ Cobain::Application.routes.draw do |map|
   match '/me/account', :to => 'users#edit'
   match '/me/control_panel', :to => 'users#control_panel'
   match '/me/forgot_password', :to => 'login#forgot_password'
+  match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_artists', :to => 'users#manage_artists'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'

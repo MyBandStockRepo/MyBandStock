@@ -3,13 +3,17 @@
 	%span.tweet_info
 		= link_to h(user.screen_name), "http://www.twitter.com/"+user.screen_name.to_s, :target => '_blank'
 		|
-		= pretty_datetime Time.parse(status.created_at)
+		= time_ago_in_words status.created_at
+		ago
 	%br
 	.tweet_avatar
 		= link_to image_tag(user.profile_image_url), "http://www.twitter.com/"+user.screen_name.to_s, :target => '_blank'
 	
 	= raw(auto_link(status.text, :target => '_blank'))
 .retweet
-	= link_to 'retweet', :controller => 'twitter_api', :action => 'retweet', :tweet_id => status.id, :band_id => band_id
+	= link_to ' ', :controller => 'twitter_api', :action => 'retweet', :tweet_id => status.id, :band_id => band_id
 .clear
-.tweet_break
+-unless status_counter == (num_tweets-1)
+	-# Only display tweet_break after middle tweets
+	.tweet_break
+	

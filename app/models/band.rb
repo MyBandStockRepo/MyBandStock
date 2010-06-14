@@ -46,17 +46,20 @@ class Band < ActiveRecord::Base
       perks photo_albums photos projects search songs stage_comments users],
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
 
-  def tweets
+  def tweets(twitter_client, num_tweets = 3)
+  # Takes a Twitter Oauth API client, like client(true, false, bandID)
+    #
     logger.info "In band.tweets"
-		unless self.twitter_user
+    tweet_list = nil
+		if self.twitter_user.nil? || twitter_client == nil
 			return nil
 		else
-		  #begin
-			  tweet_list = client(true, false, self.id).user_timeline(:id => self.twitter_user.twitter_id)
-			#rescue
-			#  logger.info "Band.tweets error"
-			#  return nil
-			#end
+		  begin
+			  tweet_list = twitter_client.user_timeline(:id => self.twitter_user.twitter_id, :count => num_tweets)
+			rescue
+			  logger.info "Band.tweets error"
+			  return nil
+			end
 		end
 		return tweet_list
   end

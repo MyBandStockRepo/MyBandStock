@@ -1,10 +1,9 @@
 #content_login_bg
-  = error_messages_for :band
   #login_wrap
     #login_wrap_left
+      = error_messages_for :band
       .field
         = form_for(@band) do |f|
-          = f.error_messages
           %fieldset
             .fieldname.required
               .fieldnametop

@@ -267,11 +267,10 @@ class ApplicationController < ActionController::Base
 
       @user_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
     end
-    
-    
+        
     def client(use_band_oauth = false, needs_band_member_status = false, band_id = nil)
 			user = User.find(session['user_id'])
-# want to use bands oauth to show posts but want non-band users to be able to view them
+      # want to use bands oauth to show posts but want non-band users to be able to view them
 			if use_band_oauth
 				if needs_band_member_status
 					if band_id

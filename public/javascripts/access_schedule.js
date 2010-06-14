@@ -53,7 +53,10 @@ function applyFbListeners() {
 			'autoScale': false,        // These two only work with
 			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
 			'centerOnScroll': true,
-			'hideOnOverlayClick': false
+			'hideOnOverlayClick': false,
+			'onStart': function() {
+			    jQuery('#fancybox-inner').html('aaaaaaaaaaaaaaa');
+			  }
 		});
     jQuery(this).click(function(e) {
       e.preventDefault(); return false;

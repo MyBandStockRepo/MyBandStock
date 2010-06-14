@@ -277,6 +277,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
     .formbutton input, .formbutton a {height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
 		.formbutton input:hover, .formbutton a:hover {height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+.fieldWithErrors {
+  background-color: transparent;
+  color: #900;
+  display: inline;
+  padding: 0;
+}
 
 
 /* LOGIN PAGE */

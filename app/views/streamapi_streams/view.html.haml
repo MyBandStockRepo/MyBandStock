@@ -1,5 +1,5 @@
 -# #viewer-container
-.modal_in.video_modal
+.modal_in.video_modals
   .video_left{ :style => 'background-image: url(/images/video.png) no-repeat);' }
     %h2
       live
@@ -23,10 +23,10 @@
       %span.grey99
         = @stream.location
   .video_right
-    %h2
-      retweet
-      %span.grey99 the band for more shares!
     -if @tweets
+      %h2
+        retweet
+        %span.grey99 the band for 20 shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets }
   .clear
 

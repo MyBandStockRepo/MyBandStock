@@ -51,9 +51,13 @@ respond_to :html, :js
       return false
     end
     
-    @tweets = @stream.band.tweets
-    logger.info "Tweet count: "
-    logger.info @tweets || 'false'
+    begin
+      twitter_client = client(true, false, @stream.band.id)
+    rescue
+      @tweets = nil
+    else
+      @tweets = @stream.band.tweets(twitter_client, 5)
+    end
 
     viewer_status_entry = StreamapiStreamViewerStatus.where(:user_id => session[:user_id], :streamapi_stream_id => @stream.id).first
 
