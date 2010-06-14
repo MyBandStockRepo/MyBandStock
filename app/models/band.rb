@@ -40,9 +40,26 @@ class Band < ActiveRecord::Base
   validates_uniqueness_of :short_name
   validates_numericality_of :zipcode, :country_id
   
-#  validates_exclusion_of :short_name, :in => %w[admin application bands charts concerts contests contribution_levels earned_perks ledger_entries legal login merchant music_albums news_entries perks photo_albums photos projects search songs stage_comments users], :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
+  validates_exclusion_of :short_name, :in => %w[
+      admin application bands charts concerts contests contribution_levels
+      earned_perks ledger_entries legal login merchant music_albums news_entries
+      perks photo_albums photos projects search songs stage_comments users],
+    :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
 
-  
+  def tweets
+    logger.info "In band.tweets"
+		unless self.twitter_user
+			return nil
+		else
+		  #begin
+			  tweet_list = client(true, false, self.id).user_timeline(:id => self.twitter_user.twitter_id)
+			#rescue
+			#  logger.info "Band.tweets error"
+			#  return nil
+			#end
+		end
+		return tweet_list
+  end
   
   #####
   #stats and quick data retrieval methods

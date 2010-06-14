@@ -1,6 +1,6 @@
 /** Copy and modify this file to change the properties of the Live Streams widget content **/
 
-@import url(http://cobain.mybandstock.com/stylesheets/lightbox.css);
+@import url(/stylesheets/lightbox.css);
 
 #mbs-access-schedule-container {
   /* Comment out the width and height lines to make the widget size automatically.

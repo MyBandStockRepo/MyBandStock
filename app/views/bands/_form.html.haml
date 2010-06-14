@@ -1,63 +1,157 @@
-%li 
-	=f.label 'name'
-	%br
-	=f.text_field :name, :class => 'text'
+#content_login_bg
+  = error_messages_for :band
+  #login_wrap
+    #login_wrap_left
+      .field
+        = form_for(@band) do |f|
+          = f.error_messages
+          %fieldset
+            .fieldname.required
+              .fieldnametop
+                = f.label :name, 'band name*'
+              .fieldnamebottom
+            .fieldbox.required
+              = f.text_field :name
+            .fieldname.required
+              .fieldnametop
+                = f.label :short_name, 'short name*'
+              .fieldnamebottom
+            .fieldbox.required
+              = f.text_field :short_name
+            .LARGEfield
+              .fieldname
+                .fieldnametop
+                  = f.label :bio
+                .fieldnamebottom
+              .fieldbox
+                = f.text_area 'bio', { :class => 'textarea' }
+            .fieldname
+              .fieldnametop
+                = f.label :city
+              .fieldnamebottom
+            .fieldbox
+              = f.text_field :city
+            .fieldname.required
+              .fieldnametop
+                = f.label :zipcode, 'zip code*'
+              .fieldnamebottom
+            .fieldbox.required
+              = f.text_field :zipcode
+            .fieldname
+              .fieldnametop
+                = f.label :country_id, 'country'
+              .fieldnamebottom
+            .fieldbox
+              = collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
+            .fieldname
+              .fieldnametop
+                = f.label :external_css_link
+              .fieldnamebottom
+            .fieldbox
+              = f.text_field :external_css_link
+            .desc
+              External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
+            .fieldname
+              .fieldnametop
+                = f.label :access_schedule_url, 'live streams url'
+              .fieldnamebottom
+            .fieldbox
+              = f.text_field :access_schedule_url
+            .desc
+              You can provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
+            .fieldname
+              .fieldnametop
+                = f.label 'twitter'
+              .fieldnamebottom
+            .fieldbox
+              .form_input_text
+                -unless @band.twitter_user
+                  = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+                -else
+                  Your band is already linked with a Twitter account.
+                  %br
+                  = link_to 'Authorize a different Twitter account', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+          .formbutton
+            = f.submit 'SUBMIT'
+    .login_wrap_right
+    .clear
 
-%li 
-	=f.label 'short_name'
-	%br	
-	=f.text_field :short_name, :class => 'text'
+
+
+
+-# __commented__
+
+  = form_for(@band) do |f|
+    #form-entry
+      %fieldset.basic-info
+        %legend 
+          %strong basic info
+        = error_messages_for :band
+        %ul.form-fields
+          = render :partial => "form", :locals => { :f=>f }
+        =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+
+
+  %li 
+    =f.label 'name'
+    %br
+    =f.text_field :name, :class => 'text'
+
+  %li 
+    =f.label 'short_name'
+    %br  
+    =f.text_field :short_name, :class => 'text'
+    
+  %li  
+    =f.label 'bio'
+    %br  
+    %label.desc A description of your band.  
+    %br  
+    =f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
+
+  %li  
+    =f.label 'city'
+    %br  
+    =f.text_field 'city', :class => 'required'
+
+  %li
+    =f.label 'zipcode'
+    %br  
+    =f.text_field 'zipcode'
+
+  %li
+    =f.label :country_id, '* Country'
+    %br  
+    =collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
+
+  %li
+    -# =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
+    #state_select
+      -# =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
+
+  %li
+    =f.label 'external_css_link'
+    %br  
+    %label.desc External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
+    %br  
+    =f.text_field 'external_css_link'
+
+  %li
+    =f.label 'access_schedule_url'
+    %br  
+    %label.desc Provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
+    %br  
+    =f.text_field 'access_schedule_url'  
   
-%li  
-	=f.label 'bio'
-	%br	
-	%label.desc A description of your band.	
-	%br	
-	=f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
-
-%li  
-	=f.label 'city'
-	%br	
-	=f.text_field 'city', :class => 'required'
-
-%li
-	=f.label 'zipcode'
-	%br	
-	=f.text_field 'zipcode'
-
-%li
-	=f.label :country_id, '* Country'
-	%br	
-	=collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
-
-%li
-	-# =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
-	#state_select
-		-# =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
-
-%li
-	=f.label 'external_css_link'
-	%br	
-	%label.desc External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
-	%br	
-	=f.text_field 'external_css_link'
-
-%li
-	=f.label 'access_schedule_url'
-	%br	
-	%label.desc Provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
-	%br	
-	=f.text_field 'access_schedule_url'	
-	
-%li
-	=f.label 'Tether the Band\'s Twitter Account to MyBandStock.'
-	%br	
-	%label.desc This allows MBS visitors to view the band's tweets and they can help promote the band by re-tweeting band statuses.
-	%br
-	-unless @band.twitter_user
-		= link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
-	-else
-		%p 
-			You are already tethered to a Twitter account.  You can change this to tether to a different account if you would like to. 
-			= link_to 'Authorize a different Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
-			
+  %li
+    =f.label 'Tether the Band\'s Twitter Account to MyBandStock.'
+    %br  
+    %label.desc This allows MBS visitors to view the band's tweets and they can help promote the band by re-tweeting band statuses.
+    %br
+    -unless @band.twitter_user
+      = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+    -else
+      %p 
+        You are already tethered to a Twitter account.  You can change this to tether to a different account if you would like to. 
+        = link_to 'Authorize a different Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+      

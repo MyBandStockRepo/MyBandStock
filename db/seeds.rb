@@ -124,6 +124,13 @@ vidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Only Video - Medium Q
                   :height => 332,
                   :quality => '384 kbps (Medium)' )
 
+styledVidOnly_low = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Medium Quality (384 kbps)',
+                  :layout_path => '/themes/100/000/866/4/theme_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
+                  :skin_path => '/themes/100/000/866/4/skin_5c53ade4-7577-11df-867b-37ea15bf14d6.xml',
+                  :width => 500,
+                  :height => 278,
+                  :quality => '256 kbps (low)' )
+
 styledVidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Styled - Only Video - Medium Quality (384 kbps)',
                   :layout_path => '/themes/100/000/866/4/theme_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
                   :skin_path => '/themes/100/000/866/4/skin_6b6a3818-7579-11df-867b-37ea15bf14d6.xml',
@@ -137,8 +144,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :title => 'act 1',
                               :starts_at => 1.weeks.from_now,
                               :ends_at => (1.weeks.from_now + 2.hours),
-                              :broadcaster_theme_id => fullChat_low.id,
-                              :viewer_theme_id => fullChat_low.id,
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
                               :public => false,
                               :band_id => b_dos.id )
                               
@@ -147,8 +154,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :title => 'act 2',
                               :starts_at => 2.weeks.from_now,
                               :ends_at => (2.weeks.from_now + 3.hours),
-                              :broadcaster_theme_id => fullChat_low.id,
-                              :viewer_theme_id => fullChat_low.id,
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
                               :public => false,
                               :band_id => b_dos.id )
 #give jm permissions to chat and view this guy
@@ -163,8 +170,8 @@ lss_dos.streamapi_streams.create( :private_hostid => 12345,
                               :title => 'act 3, the COOOLEST ACT',
                               :starts_at => 3.weeks.from_now,
                               :ends_at => (3.weeks.from_now + 4.hours),
-                              :broadcaster_theme_id => fullChat_low.id,
-                              :viewer_theme_id => fullChat_low.id,
+                              :broadcaster_theme_id => styledVidOnly_low.id,
+                              :viewer_theme_id => styledVidOnly_low.id,
                               :public => false,
                               :band_id => b_dos.id )
 

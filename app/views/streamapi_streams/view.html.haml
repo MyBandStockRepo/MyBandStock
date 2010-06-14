@@ -1,20 +1,40 @@
-#viewer-container
+-# #viewer-container
+.modal_in.video_modal
+  .video_left{ :style => 'background-image: url(/images/video.png) no-repeat);' }
+    %h2
+      live
+      %span.grey99 stream
+    .embed-container
+      %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
+      :flashvars=>"authField2Label=Password:" + |
+      "&siteID=1000008664" + |
+      "&layoutPath=#{ @theme.layout_path }" + |
+      "&skinPath=#{ @theme.skin_path }" + |
+      "&authField1Label=Username:" + |
+      "&autoRecord=false" + |
+      "&publicHostID=#{ @stream.public_hostid }" + |
+      "&authType=key" + |
+      "&userType=204" + |
+      "&isAutoLogin=true" + |
+      "&key=#{ @viewer_key }", |
+      :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
+    %h2
+      = @stream.title
+      %span.grey99
+        = @stream.location
+  .video_right
+    %h2
+      retweet
+      %span.grey99 the band for more shares!
+    -if @tweets
+      = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets }
+  .clear
+
+:javascript
+  startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
+
+-# __commented__
   %h2
     = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
-  %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
-  :flashvars=>"authField2Label=Password:" + |
-  "&siteID=1000008664" + |
-  "&layoutPath=#{ @theme.layout_path }" + |
-  "&skinPath=#{ @theme.skin_path }" + |
-  "&authField1Label=Username:" + |
-  "&autoRecord=false" + |
-  "&publicHostID=#{ @stream.public_hostid }" + |
-  "&authType=key" + |
-  "&userType=204" + |
-  "&isAutoLogin=true" + |
-  "&key=#{ @viewer_key }", |
-  :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
 
-  :javascript
-    startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
 

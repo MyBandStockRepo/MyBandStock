@@ -128,24 +128,23 @@ class BandsController < ApplicationController
     end
     @band = Band.find(id)
 
-
-    unless ( @band.save() )
+    unless ( @band.update_attributes(params[:band]) )
+      flash[:error] = "Invalid submission"
       render :action => 'edit'
       return false
     else
-    
       respond_to do |format|
-        format.html { 
+        format.html {
                       flash[:notice] = "Update successful."
-                      redirect_to :action => :edit
+                      redirect_to :action => :show
                     }
         format.js {
                     render :text => 'Update successful.'
                   }
         format.xml  { head :ok }
-     end
-   end
-    
+      end
+    end
+ 
   end
 
 
@@ -154,12 +153,6 @@ class BandsController < ApplicationController
     #bring in the user first and last name
     @user = User.find(session[:user_id])
     
-=begin
-    unless ( @application = @user.band_applications.find_by_approved_and_created(true, false) )
-      redirect_to session[:last_clean_url]
-      return false
-    end
-=end    
     @band = Band.new(params[:band])
 =begin
     @band.short_name.downcase!
@@ -168,11 +161,6 @@ class BandsController < ApplicationController
     @band.status = "active"
     if (@band.save)
       
-      #kill their app
-=begin
-      @application.created = true
-      @application.save
-=end    
       #make the admin associations
       @band.associations.create(:user_id => session[:user_id], :name => 'admin')
       #make the member association
@@ -189,7 +177,7 @@ class BandsController < ApplicationController
       #now that all that business is done, update the xml file
       @band.update_playlist_xml
 =end      
-      flash[:notice] = 'Band created successfully.  Please now submit your first project application.'
+      flash[:notice] = 'Band created successfully.'
       
       respond_to do |format|
         # If we're in HTML mode, redirect back to the master list.

@@ -15,9 +15,21 @@
  */
 
 /* Lightbox styles */
+@import url(/stylesheets/fonts.css?123);
+
 body#lightbox {
-  padding: .5em 1em;
+  width:100%;
+  background-image:url(/images/backgrounds/bg.gif);
+  background-repeat:repeat-x;
+  background-color:#37332c;
+  margin:0px;
+  padding: 0;
+  font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
+  font-size:12px;
+  line-height:17px;
+  color:#666666;
 }
+
 #broadcast-container, #viewer-container {
   margin: auto;
 } 
@@ -38,6 +50,12 @@ body#lightbox {
   margin: 4px 0;
   font-size: 10pt;
 }
+.embed-container {
+  background-image: url('/images/video.png') no-repeat;
+}
+h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
+.clear {clear:both;}
+
 /* Login form */
 
 .login_form {
@@ -54,6 +72,38 @@ fieldset {border:0px;padding:0px;margin:0px;}
 #password_box { }
 #login_submit {height:30px;float:right;margin-top:10px;}
 
+
+.grey99 {color:#999999;}
+
+/*
+  This is #fancybox-outer now.
+  .modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
+*/
+.modal_in {width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;}
+
+/* VIDEO STREAM MODAL */
+
+.video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}
+	.video_modal h2{margin-bottom:10px;}
+
+.video_left {width:491px;margin-left:20px;margin-top:20px;float:left;}
+.video_right {width:329px;margin-right:20px;margin-top:20px;float:right;}
+
+.tweetbox_top {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);}
+.tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
+	.tweet {width:265px;margin-left:14px;float:left;}
+		.tweet a {color:#FF9900;text-decoration:none;}
+			.tweet a:hover {text-decoration:underline;}
+	.tweet_avatar {float:left;margin-right:10px;}
+.tweetbox_bottom {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_bottom.png);}
+
+.tweet_info {font-size:10px;color:#cccccc;}
+.tweet_info a{color:#666666;text-decoration:none;}
+	.tweet_info a:hover{text-decoration:underline;}
+.retweet {float:right;width:40px;}
+	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
+	.retweet a:hover{background-position:0px -25px;}
+.tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
 
 
 
@@ -125,6 +175,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	width: 100%;
 	height: 100%;
 	background: #FFF;
+
+	background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;
 }
 
 #fancybox-inner {

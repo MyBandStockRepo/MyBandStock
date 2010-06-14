@@ -26,6 +26,9 @@ jQuery(document).ready(function() {
 
   jQuery.getJSON(mbsDomain +'/live_stream_series/jsonp/'+ bandID +'/?jsoncallback=?', function(data){ });
 
+});
+
+jQuery(function() {
   applyFbListeners();
   applyShareCodeListener();
 });
@@ -45,14 +48,13 @@ function applyFbListeners() {
 			'overlayOpacity' : 0.6,
 			'overlayColor' : 'black',      
 			'type': 'iframe',
-			'width': ( (jQuery(this).attr('fbwidth') == null) ? 560 : parseInt(jQuery(this).attr('fbwidth')) ),
+			'width': 880, //( (jQuery(this).attr('fbwidth') == null) ? 560 : parseInt(jQuery(this).attr('fbwidth')) ),
 			'height': ( (jQuery(this).attr('fbheight') == null) ? 560 : parseInt(jQuery(this).attr('fbheight')) ),
 			'autoScale': false,        // These two only work with
 			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
 			'centerOnScroll': true,
 			'hideOnOverlayClick': false
 		});
-
     jQuery(this).click(function(e) {
       e.preventDefault(); return false;
     });

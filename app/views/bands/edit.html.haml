@@ -1,33 +1,27 @@
-#content-utility.control-panel
-  #utility-overview
-    #overview-primary
-      %h3
-        =@band.name 
-        %br
-      .stats
-        %dl
-          %dt Date of Formation:
-          %dd<
-            =@band.created_at.strftime("%m/%d/%Y")
-          %dt Public Profile
-          %dd<
-            =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
-          -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
-          -if @band.status != 'active'
-            %dt Public Profile Hidden!
-            %dd<
-              =link_to 'Publish!', url_hash
-          -else
-            %dt Profile Published!
-            %dd<
-              =link_to 'Hide!', url_hash
+.orange_bar
+  =@band.name
+  \- edit
+-# __commented__
+  =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
+  -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}
+  -if @band.status != 'active'
+    %dt Public Profile Hidden!
+    %dd<
+      =link_to 'Publish!', url_hash
+  -else
+    %dt Profile Published!
+    %dd<
+      =link_to 'Hide!', url_hash
 
-= form_for(@band) do |f|
-  #form-entry
-    %fieldset.basic-info
-      %legend 
-        %strong basic info
-      = error_messages_for :band
-      %ul.form-fields
-        = render :partial => "form", :locals => { :f=>f }
-      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+-# __commented__
+  = form_for(@band) do |f|
+    #form-entry
+      %fieldset.basic-info
+        %legend 
+          %strong basic info
+        = error_messages_for :band
+        %ul.form-fields
+
+= render :partial => "form"
+-#
+  =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'

@@ -1,9 +1,12 @@
+@import url(/stylesheets/fonts.css);
+
 body {
   width:100%;
   background-image:url(/images/backgrounds/bg.gif);
   background-repeat:repeat-x;
   background-color:#37332c;
   margin:0px;
+  padding: 0;
   font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
   font-size:12px;
   line-height:17px;
@@ -81,14 +84,14 @@ h3 {
   color: #AAA;
 }
 
-
-
 .profile-category {
   font-weight: bold;
   font-size: 1.2em;
   display: inline;
 
 }
+
+.grey99 {color:#999999;}
 
 
 /* HEADER */
@@ -247,13 +250,30 @@ div#slides ul li.show {z-index:500}
 fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 .fieldbox {float:left;margin-top:20px;}
-    .fieldbox input {width:380px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+    .fieldbox input, .fieldbox .form_input_text {width:380px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+    .fieldbox select {
+      width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;
+    }
     .fieldbox input[type=password] {
       font-family: inherit;
+    }
+    .fieldbox .form_input_text {
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 6px;
+    }
+    .fieldbox .form_input_text a:hover {
+      color: #000;
     }
 .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
 	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
 	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
+.LARGEfield .fieldbox {height:208px;width:400px;background:url(/images/forms/LARGEfield_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;}
+.LARGEfield .textarea {
+  width:370px;height:195px;background-color:#FFFFFF;border:none;margin:0px;overflow:auto;margin:5px;
+  font-family:TitilliumText14L600wt;font-size:16px;
+}
+.LARGEfield .fieldnametop {height:193px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
     .formbutton input, .formbutton a {height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
 		.formbutton input:hover, .formbutton a:hover {height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
@@ -321,62 +341,28 @@ fieldset {border:0px;padding:0px;margin:0px;}
     }
 
 
-/* TITILLIUM FONT */
+/* VIDEO STREAM MODAL */
 
-@font-face {
-	font-family: 'TitilliumText14LRegular';
-	src: url('/fonts/TitilliumText1-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText1-webfont.woff') format('woff'), url('/fonts/TitilliumText1-webfont.ttf') format('truetype'), url('/fonts/TitilliumText1-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+.video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}
+	.video_modal h2{margin-bottom:10px;}
 
-@font-face {
-	font-family: 'TitilliumText14L250wt';
-	src: url('/fonts/TitilliumText250wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText250wt-webfont.woff') format('woff'), url('/fonts/TitilliumText250wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText250wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+.video_left {width:491px;margin-left:20px;margin-top:20px;float:left;}
+.video_right {width:329px;margin-right:20px;margin-top:20px;float:right;}
 
-@font-face {
-	font-family: 'TitilliumText14L400wt';
-	src: url('/fonts/TitilliumText400wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText400wt-webfont.woff') format('woff'), url('/fonts/TitilliumText400wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText400wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+.tweetbox_top {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);}
+.tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
+	.tweet {width:265px;margin-left:14px;float:left;}
+		.tweet a {color:#FF9900;text-decoration:none;}
+			.tweet a:hover {text-decoration:underline;}
+	.tweet_avatar {float:left;margin-right:10px;}
+.tweetbox_bottom {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_bottom.png);}
 
-@font-face {
-	font-family: 'TitilliumText14L600wt';
-	src: url('/fonts/TitilliumText600wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText600wt-webfont.woff') format('woff'), url('/fonts/TitilliumText600wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText600wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-
-@font-face {
-	font-family: 'TitilliumText14L800wt';
-	src: url('/fonts/TitilliumText800wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText800wt-webfont.woff') format('woff'), url('/fonts/TitilliumText800wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText800wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'TitilliumText14L999wt';
-	src: url('/fonts/TitilliumText999wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText999wt-webfont.woff') format('woff'), url('/fonts/TitilliumText999wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText999wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'TitilliumTitle01Thin';
-	src: url('/fonts/Titillium_title03-webfont.eot');
-	src: local('?'), url('/fonts/Titillium_title03-webfont.woff') format('woff'), url('/fonts/Titillium_title03-webfont.ttf') format('truetype'), url('/fonts/Titillium_title03-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+.tweet_info {font-size:10px;color:#cccccc;}
+.tweet_info a{color:#666666;text-decoration:none;}
+	.tweet_info a:hover{text-decoration:underline;}
+.retweet {float:right;width:40px;}
+	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
+	.retweet a:hover{background-position:0px -25px;}
+.tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
+	
 

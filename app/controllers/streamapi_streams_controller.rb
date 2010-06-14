@@ -38,11 +38,7 @@ respond_to :html, :js
     user = User.find(session[:user_id])
 		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
    
-		#lssp = user.live_stream_series_permissions.find_by_live_stream_series_id(@stream.live_stream_series.id)
-
-#    if lssp.nil?
-
-    unless user.can_view_series(@stream.live_stream_series.id)       
+    unless user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream
       logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
       # Just display a message for now.
@@ -54,6 +50,10 @@ respond_to :html, :js
       end
       return false
     end
+    
+    @tweets = @stream.band.tweets
+    logger.info "Tweet count: "
+    logger.info @tweets || 'false'
 
     viewer_status_entry = StreamapiStreamViewerStatus.where(:user_id => session[:user_id], :streamapi_stream_id => @stream.id).first
 

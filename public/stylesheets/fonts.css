@@ -1,0 +1,59 @@
+/* TITILLIUM FONT */
+
+@font-face {
+	font-family: 'TitilliumText14LRegular';
+	src: url('/fonts/TitilliumText1-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText1-webfont.woff') format('woff'), url('/fonts/TitilliumText1-webfont.ttf') format('truetype'), url('/fonts/TitilliumText1-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TitilliumText14L250wt';
+	src: url('/fonts/TitilliumText250wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText250wt-webfont.woff') format('woff'), url('/fonts/TitilliumText250wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText250wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TitilliumText14L400wt';
+	src: url('/fonts/TitilliumText400wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText400wt-webfont.woff') format('woff'), url('/fonts/TitilliumText400wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText400wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TitilliumText14L600wt';
+	src: url('/fonts/TitilliumText600wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText600wt-webfont.woff') format('woff'), url('/fonts/TitilliumText600wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText600wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+@font-face {
+	font-family: 'TitilliumText14L800wt';
+	src: url('/fonts/TitilliumText800wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText800wt-webfont.woff') format('woff'), url('/fonts/TitilliumText800wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText800wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TitilliumText14L999wt';
+	src: url('/fonts/TitilliumText999wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText999wt-webfont.woff') format('woff'), url('/fonts/TitilliumText999wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText999wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TitilliumTitle01Thin';
+	src: url('/fonts/Titillium_title03-webfont.eot');
+	src: local('?'), url('/fonts/Titillium_title03-webfont.woff') format('woff'), url('/fonts/Titillium_title03-webfont.ttf') format('truetype'), url('/fonts/Titillium_title03-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
