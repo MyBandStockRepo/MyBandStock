@@ -32,22 +32,17 @@ respond_to :html, :js
     end
     
     if @stream.public_hostid.nil?
-      if params[:lightbox].nil?
-        render 'not_yet'
-      else
-        render 'not_yet', :layout => 'lightbox'
-      end
-      return false
+      @not_live = true
     end
 
 		@external_css = Band.find(@stream.band_id).external_css_link
 		if @external_css == ''
 			@external_css = nil
 		end
-    user = User.find(session[:user_id])
+    @user = User.find(session[:user_id])
 		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
    
-    unless user.can_view_series(@stream.live_stream_series.id)
+    unless @user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream
       logger.info 'User does not have LiveStreamSeriesPermission for the requested stream.'
       # Just display a message for now.
@@ -62,10 +57,10 @@ respond_to :html, :js
     
     begin
       twitter_client = client(true, false, @stream.band.id)
+      @tweets = @stream.band.tweets(twitter_client, 3)
     rescue
+      logger.info "Twitter failure"
       @tweets = nil
-    else
-      @tweets = @stream.band.tweets(twitter_client, 5)
     end
 
     viewer_status_entry = StreamapiStreamViewerStatus.where(:user_id => session[:user_id], :streamapi_stream_id => @stream.id).first
@@ -75,8 +70,9 @@ respond_to :html, :js
       @viewer_key = generate_key(16)
       viewer_status_entry = StreamapiStreamViewerStatus.new
       viewer_status_entry.streamapi_stream = @stream
-      viewer_status_entry.user = User.find(session[:user_id])
+      viewer_status_entry.user = @user
       viewer_status_entry.viewer_key = @viewer_key
+      # Do not save the user's IP address. So now we know later that if IP is not present, we haven't heard a ping from the user.
       unless viewer_status_entry.save # Sometimes this line gives us "BusyException: database is locked"
         # Did not pass validation, but we'll let it slide.
         # We will reject the user when his StreamAPI auth callback arrives.

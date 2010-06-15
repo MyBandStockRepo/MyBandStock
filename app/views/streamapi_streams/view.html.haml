@@ -5,19 +5,22 @@
       live
       %span.grey99 stream
     .embed-container
-      %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
-      :flashvars=>"authField2Label=Password:" + |
-      "&siteID=1000008664" + |
-      "&layoutPath=#{ @theme.layout_path }" + |
-      "&skinPath=#{ @theme.skin_path }" + |
-      "&authField1Label=Username:" + |
-      "&autoRecord=false" + |
-      "&publicHostID=#{ @stream.public_hostid }" + |
-      "&authType=key" + |
-      "&userType=204" + |
-      "&isAutoLogin=true" + |
-      "&key=#{ @viewer_key }", |
-      :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
+      -unless @not_live
+        %embed{ :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", |
+        :flashvars=>"authField2Label=Password:" + |
+        "&siteID=1000008664" + |
+        "&layoutPath=#{ @theme.layout_path }" + |
+        "&skinPath=#{ @theme.skin_path }" + |
+        "&authField1Label=Username:" + |
+        "&autoRecord=false" + |
+        "&publicHostID=#{ @stream.public_hostid }" + |
+        "&authType=key" + |
+        "&userType=204" + |
+        "&isAutoLogin=true" + |
+        "&key=#{ @viewer_key }", |
+        :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
+      -else
+        = "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }</strong>, however the stream ultimately begins whenever the broadcaster chooses."
     %h2
       = @stream.title
       %span.grey99
@@ -29,6 +32,12 @@
         %span.grey99 the band for 20 shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets }
   .clear
+  .lightbox_welcome
+    = "Welcome, #{ @user.first_name }. You currently have "
+    %span.share_amount 120
+    shares in
+    %span.welcome_band_name
+      = @stream.band.name
 
 :javascript
   startPinger( '#{ @stream.id }', '#{ @viewer_key }' );

@@ -139,7 +139,7 @@ class LiveStreamSeriesController < ApplicationController
               :view_link => {
                 :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
                 :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
-                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+96 : 560
+                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+94 : 560
               }
             }
           end

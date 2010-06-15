@@ -1,5 +1,5 @@
 -# Include access_schedule.js to attach lightbox listener to all .lightbox links
-%h1="Exclusive Live Streams"
+%h1 "Exclusive Live Streams"
 
 -for series in band.live_stream_series
   %h2= series.title
@@ -10,7 +10,7 @@
       %tr
         %td.stream-name
           - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
-          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+96), :fbwidth => (viewerTheme.width+50)
+          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+94), :fbwidth => (viewerTheme.width+50)
           = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
         - if can_broadcast
           %td.begin-broadcast

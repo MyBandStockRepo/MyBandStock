@@ -163,7 +163,7 @@ private
     end
     logger.info 'Viewer key check: ' + (Time.now - viewer_entry.updated_at).to_s + ' seconds have elapsed since last update.'
 
-    if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
+    if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT)
       # If x seconds has elapsed since we last heard from the user, we allow him in.
       # x is defined in environment.rb
       viewer_entry.ip_address = user_ip # Stash the user's IP
@@ -171,8 +171,11 @@ private
       logger.info 'Time limit exceeded, so we allow user to view.'
       return true
     else
-      logger.info "We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user."
-      return false
+      if (viewer_entry.ip_address != nil)
+        # If < time limit AND this user has not pinged us yet (his key was generated, but we do not have an IP for him).
+        logger.info "We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user."
+        return false
+      end
     end
     
   end
