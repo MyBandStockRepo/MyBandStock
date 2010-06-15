@@ -1,0 +1,33 @@
+<%= form_for(@short_url) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :destination %><br />
+    <%= f.text_field :destination %>
+  </div>
+  <div class="field">
+    <%= f.label :key %><br />
+    <%= f.text_field :key %>
+  </div>
+  <div class="field">
+    <%= f.label :maker_id %><br />
+    <%
+      allUsers = User.all.each{ |u|
+        def u.name
+          self.email
+        end
+      }
+    %>
+    <%=
+      collection_select 'short_url', 'maker_id', ( allUsers + Band.all ), 'id', 'name', :class => 'select'
+    %>
+  </div>
+  <div class="field">
+    <%= f.label :maker_type %><br />
+    <%= select( "short_url", "maker_type", { 'User' => 'User', "Band" => "Band" }) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
