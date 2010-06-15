@@ -1,23 +1,38 @@
 #content_login_bg
-  = error_messages_for :band
   #login_wrap
-    #login_wrap_left
-      .field
-        = form_for(@band) do |f|
-          = f.error_messages
-          %fieldset
-            .fieldname.required
-              .fieldnametop
-                = f.label :name, 'band name*'
-              .fieldnamebottom
-            .fieldbox.required
-              = f.text_field :name
+    = form_for(@band) do |f|
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :name, 'band name*'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :name
+        .fielderror
+          - if @band.errors[:name]
+            - for e in @band.errors[:name]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname.required
               .fieldnametop
                 = f.label :short_name, 'short name*'
               .fieldnamebottom
             .fieldbox.required
               = f.text_field :short_name
+        .fielderror
+          - if @band.errors[:short_name]
+            - for e in @band.errors[:short_name]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .LARGEfield
               .fieldname
                 .fieldnametop
@@ -25,55 +40,119 @@
                 .fieldnamebottom
               .fieldbox
                 = f.text_area 'bio', { :class => 'textarea' }
+        .fielderror
+          - if @band.errors[:bio]
+            - for e in @band.errors[:bio]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname
               .fieldnametop
                 = f.label :city
               .fieldnamebottom
             .fieldbox
               = f.text_field :city
+        .fielderror
+          - if @band.errors[:city]
+            - for e in @band.errors[:city]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname.required
               .fieldnametop
                 = f.label :zipcode, 'zip code*'
-              .fieldnamebottom
+              .fieldnamebottom      
             .fieldbox.required
               = f.text_field :zipcode
+        .fielderror
+          - if @band.errors[:zipcode]
+            - for e in @band.errors[:zipcode]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname
               .fieldnametop
                 = f.label :country_id, 'country'
               .fieldnamebottom
             .fieldbox
               = collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
+        .fielderror
+          - if @band.errors[:country_id]
+            - for e in @band.errors[:country_id]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname
               .fieldnametop
                 = f.label :external_css_link
               .fieldnamebottom
             .fieldbox
               = f.text_field :external_css_link
-            .desc
-              External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
+          .desc
+            External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
+        .fielderror
+          - if @band.errors[:external_css_link]
+            - for e in @band.errors[:external_css_link]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field
             .fieldname
               .fieldnametop
                 = f.label :access_schedule_url, 'live streams url'
               .fieldnamebottom
             .fieldbox
               = f.text_field :access_schedule_url
-            .desc
-              You can provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
+          .desc
+            You can provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
+        .fielderror
+          - if @band.errors[:access_schedule_url]
+            - for e in @band.errors[:access_schedule_url]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft      
+          .field                        
             .fieldname
               .fieldnametop
                 = f.label 'twitter'
               .fieldnamebottom
             .fieldbox
               .form_input_text
-                -unless @band.twitter_user
-                  = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
-                -else
-                  Your band is already linked with a Twitter account.
+                -if @band_twitter_not_authorized 
+                  Your band is not currently linked to a twitter account.
                   %br
-                  = link_to 'Authorize a different Twitter account', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+                  = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
+                -else
+                  = image_tag(@twit_band.profile_image_url, :class => 'edit_band_twit_img')
+                  .auth_twit_text
+                    Authorized as:
+                    %b
+                      = @twit_band.screen_name+' ('+@twit_band.name+')'
+                    %br
+                    = link_to 'Authorize a different Twitter account', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
+          .desc
+            Authorizing a band's twitter account allows the band to connect with their fans.  Fans will be able to see the band's most recent tweets and will be offered points to retweet band statuses and help promote the band.
+        .fielderror
+          - if @band.errors[:twitter_user_id]
+            - for e in @band.errors[:twitter_user_id]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft                
           .formbutton
             = f.submit 'SUBMIT'
-    .login_wrap_right
+          .formbutton_nextto
+            = button_to 'BACK', :url => session[:last_clean_url]
     .clear
 
 
@@ -149,7 +228,7 @@
     %label.desc This allows MBS visitors to view the band's tweets and they can help promote the band by re-tweeting band statuses.
     %br
     -unless @band.twitter_user
-      = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+      = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, 
     -else
       %p 
         You are already tethered to a Twitter account.  You can change this to tether to a different account if you would like to. 

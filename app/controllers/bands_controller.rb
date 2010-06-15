@@ -18,7 +18,7 @@ class BandsController < ApplicationController
   def show
     id = get_band_id_from_request()
     @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
-
+		@request_uri = url_for()
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     
     #make sure the band isn't hidden
@@ -65,7 +65,7 @@ class BandsController < ApplicationController
     unless id = get_band_id_from_request()
       return false
     end
-    
+		@request_uri = url_for()
     @band = Band.find(id)
     #check and make sure only an authorized user can edit
     unless User.find(session[:user_id]).has_band_admin(@band.id)
@@ -77,6 +77,18 @@ class BandsController < ApplicationController
     else
       @states = nil
     end
+    
+    begin
+			unless @band.twitter_user
+				@band_twitter_not_authorized = true
+			else
+				band_client = client(true, false, @band.id)
+				@twit_band = band_client.verify_credentials
+				@band_twitter_not_authorized = false										
+			end		
+		rescue
+				@band_twitter_not_authorized = true
+		end					
     
     respond_to do |format|
       format.html{}
@@ -103,7 +115,17 @@ class BandsController < ApplicationController
     else
       @band = Band.new
     end
-    
+		begin
+			unless @band.twitter_user
+				@band_twitter_not_authorized = true
+			else
+				band_client = client(true, false, @band.id)
+				@twit_band = band_client.verify_credentials
+				@band_twitter_not_authorized = false										
+			end		
+		rescue
+				@band_twitter_not_authorized = true
+		end					    
     if (@band.country_id.nil? || @band.country_id == '' )
       #calculate their ip number to determine country of origin
       ip_parts = request.remote_ip.split(".")
@@ -127,7 +149,18 @@ class BandsController < ApplicationController
       return false
     end
     @band = Band.find(id)
-
+		@request_uri = url_for()
+ 		begin
+			unless @band.twitter_user
+				@band_twitter_not_authorized = true
+			else
+				band_client = client(true, false, @band.id)
+				@twit_band = band_client.verify_credentials
+				@band_twitter_not_authorized = false										
+			end		
+		rescue
+				@band_twitter_not_authorized = true
+		end					
     unless ( @band.update_attributes(params[:band]) )
       flash[:error] = "Invalid submission"
       render :action => 'edit'
@@ -152,7 +185,17 @@ class BandsController < ApplicationController
   def create
     #bring in the user first and last name
     @user = User.find(session[:user_id])
-    
+		begin
+			unless @band.twitter_user
+				@band_twitter_not_authorized = true
+			else
+				band_client = client(true, false, @band.id)
+				@twit_band = band_client.verify_credentials
+				@band_twitter_not_authorized = false										
+			end		
+		rescue
+				@band_twitter_not_authorized = true
+		end					    
     @band = Band.new(params[:band])
 =begin
     @band.short_name.downcase!

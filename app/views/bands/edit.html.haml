@@ -1,6 +1,7 @@
 .orange_bar
-  =@band.name
-  \- edit
+  .placement_editbandprofilepic
+  .placement_editbandprofile EDIT BAND PROFILE
+  .orange_divider
 -# __commented__
   =link_to "Public Profile", :controller => 'bands', :band_short_name => @band.short_name, :action => 'show'
   -url_hash ={:controller => 'bands', :action => 'toggle_hidden', :id => @band.id}

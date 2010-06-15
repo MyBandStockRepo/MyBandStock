@@ -17,10 +17,10 @@
 .authorize
 	-if @twitter_not_authorized
 		%p You have not authorized a Twitter account with MyBandStock yet.
-		= link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+		= link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
 	-else
 		= render :partial => 'twitter_info'
-		= link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
+		= link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
 		#statuses
 			%h2 Recent Tweets
 			= render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @tweets}

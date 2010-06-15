@@ -12,10 +12,11 @@
 #user ->
 adminUser = User.create( :first_name => 'admin', 
                         :last_name => 'user', 
-
                         :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', 
+#												:password_confirmation => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', 
                         :country_id => 233, 
                         :email => 'mbstech@mybandstock.com', 
+                        :email_confirmation => 'mbstech@mybandstock.com',                         
                         :status => 'active',
                         :agreed_to_tos => true,
                         :agreed_to_pp => true)
@@ -31,10 +32,11 @@ adminUser.roles << site_admin_role
 jm = User.create( :first_name => 'John-Michael',
                   :last_name => 'Fischer',
                   :password => Digest::SHA2.hexdigest('test123'),
-
+#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :zipcode => '48116',
                   :country_id => 233,
                   :email => 'jm@mybandstock.com',
+                  :email_confirmation => 'jm@mybandstock.com',                  
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
@@ -225,9 +227,10 @@ lss_amp.streamapi_streams.create(
 brian = User.create( :first_name => 'Brian',
                   :last_name => 'Jennings',
                   :password => Digest::SHA2.hexdigest('test123'),
-
+#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'brian@mybandstock.com',
+                  :email_confirmation => 'brian@mybandstock.com',                  
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
@@ -236,9 +239,10 @@ brian = User.create( :first_name => 'Brian',
 jake = User.create( :first_name => 'Jake',
                   :last_name => 'Schwartz',
                   :password => Digest::SHA2.hexdigest('test123'),
-
+#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'jake@mybandstock.com',
+                  :email_confirmation => 'jake@mybandstock.com',                  
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)

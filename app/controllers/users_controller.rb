@@ -46,9 +46,8 @@ class UsersController < ApplicationController
     @user = User.find(id)
 
     # Clear password field for editing
-    @user.password = ''
 #    @user.password_confirmation = ''
-    
+		@user.email_confirmation = @user.email    
     
     
     unless @user.country_id.nil?
@@ -66,11 +65,17 @@ class UsersController < ApplicationController
       id = session[:user_id]
     end
     @user = User.find(id)
+    @user.email_confirmation = params[:user][:email_confirmation]
     
 #    @random_band = get_random_band()
     
 		# Hash the password before putting it into DB
-		params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
+		
+		if params[:user] && params[:user][:password] && params[:user][:password] != '' && params[:user][:password] != nil		
+			params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
+		else
+			params[:user][:password] = @user.password
+		end
 		# We must also hash the confirmation entry so the model can check them together
 #		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
     
@@ -124,11 +129,12 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { 
                     unless success #&& photo_success
+
                       render :action => 'edit'
                       return false
                     else
                       flash[:notice] = "Profile updated."
-                      redirect_to session[:last_clean_url]
+                      redirect_to root_path
                     end
                   }
       format.js

@@ -23,6 +23,14 @@ a {color:#999;text-decoration:underline;}
 #wrap {width:980px;margin:0 auto;padding-top:10px;}
 
 
+/* error messages */
+.fieldWithErrors {
+  background-color: transparent;
+  color: #900;
+  display: inline;
+  padding: 0;
+}
+
 /* Text */
 
 h1 {
@@ -233,6 +241,9 @@ div#slides ul li.show {z-index:500}
 .white_orange_divider {width:2px;height:30px;background-image:url(/images/white_orange_divider.png);float:left;}
 .orange_divider {width:2px;height:30px;background-image:url(/images/orange_divider.png);float:left;}
 
+.left_twothirds{width:610px;float:left;padding-bottom:20px;}
+.right_third{float:left;padding-bottom:20px;padding-left:2px;}
+
 .left_third {width:340px;float:left;padding-bottom:20px;}
 .right_twothirds {float:left;padding-bottom:20px;padding-left:2px;}
 	.twothirds_info {width:638px;}
@@ -268,6 +279,10 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
 	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
 	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
+.fieldrow{width:100%;margin:0 auto;float:left}
+.fieldleft{width:540px;margin-left:20px;float:left;}
+.fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+.desc {margin: 5px 0px 10px 15px;float:left;}
 .LARGEfield .fieldbox {height:208px;width:400px;background:url(/images/forms/LARGEfield_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;}
 .LARGEfield .textarea {
   width:370px;height:195px;background-color:#FFFFFF;border:none;margin:0px;overflow:auto;margin:5px;
@@ -275,8 +290,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
 }
 .LARGEfield .fieldnametop {height:193px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
-    .formbutton input, .formbutton a {height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
-		.formbutton input:hover, .formbutton a:hover {height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+    .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+
+.formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
+
 
 
 /* LOGIN PAGE */
@@ -318,7 +336,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		.link_darkbar:hover {text-decoration:underline;}
 			.l_newstream {background-image:url(/images/icons/new_stream.png);}
 			.l_streamhistory {background-image:url(/images/icons/stream_history.png);}
-			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);}
+			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
+
 			
 
 .stream_list {
@@ -339,6 +358,18 @@ fieldset {border:0px;padding:0px;margin:0px;}
       width: 20px;
       margin-right: 10px;
     }
+/* EDIT BAND PROFILE PAGE */
+.placement_editbandprofile{width:564px;margin-left:10px;float:left;}
+.placement_editbandprofilepic {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;width:16px;height:16px;margin:6px 0px 0px 20px;float:left;}
+.edit_band_twit_img{height:30px;width:30px;float:left;}
+.auth_twit_text{float:left;font-size:12px;margin-left:10px;}
+
+
+/* EDIT USER PROFILE PAGE */
+.placement_edituserprofile{width:564px;margin-left:10px;float:left;}
+.placement_edituserprofilepic {background-image:url(/images/header/account.png);background-repeat:no-repeat;width:16px;height:16px;margin:6px 0px 0px 20px;float:left;background-position:0px -16px;}
+.edit_user_twit_img{height:30px;width:30px;float:left;}
+.auth_user_text{float:left;font-size:12px;margin-left:10px;}
 
 
 /* VIDEO STREAM MODAL */
