@@ -2,8 +2,6 @@
   #form-entry
     %fieldset
       %legend 
-        %strong Band Information
-      =error_messages_for :band
       %ul.form-fields
         =render :partial => 'bands/form', :locals => { :f => f }
         %li.checkbox

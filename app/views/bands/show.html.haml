@@ -27,13 +27,13 @@
   .recent_twetz
     %h1 Recent Band Tweets
     - if @user_twitter_not_authorized
-      = link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'
+      = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_url => @request_uri}
 			
     - else
       %p 
         Currently authenticated with the Twitter account 
         = @twit_user.screen_name
-        = link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session'	      
+        = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_url => @request_uri}
     = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
 
 #remote-page-test

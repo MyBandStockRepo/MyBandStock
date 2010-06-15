@@ -28,10 +28,13 @@ class User < ActiveRecord::Base
   #validations -- goes down to the first def
   
   #empty?
+#  validates_presence_of :first_name, :after => :create
+#  validates_presence_of :zipcode, :after => :create  
   validates_presence_of :email
   validates_presence_of :password
 #  validates_presence_of :password_confirmation, :on => :create
 #  validates_confirmation_of :password, :on => :create
+  validates_confirmation_of :email
   #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
   #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
 

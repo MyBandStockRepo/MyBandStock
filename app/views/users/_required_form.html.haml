@@ -1,40 +1,88 @@
--#
-  %li
-    =f.label :user_email, '* Email'
-    =f.text_field :user_email, :class => 'text'
-    %label.desc We will never sell or disclose your email to any third parties
-%li
-  =f.label :first_name, '* First name'
-  =f.text_field :first_name, :class => 'text'
--#
-  %li
-    =f.label :last_name, '* Last name'
-    =f.text_field :last_name, :class => 'text'
-%li
-  =f.label :email, '* Email'
-  =f.text_field :email, :class => 'text'
-  %label.desc We will never sell or disclose your email to any third parties
-%li
-  =f.label :password, '* Password'
-  =f.password_field :password, :class => 'text'
-  %label.desc At least 6 characters long
--#
-  %li
-    =f.label :password_confirmation, '* Confirm Password'
-    =f.password_field :password_confirmation, :class => 'text'
-%li
-  =f.label :zipcode, '* Zipcode'
-  =f.text_field :zipcode, :class => 'text'  
--#
-  %li
-    =f.label :country_id, '* Country'
-    =collection_select "user", "country_id", Country.cached_all, 'id', 'name', :class => 'select'
-    %label.desc Please be honest!  What you choose has legal implications regarding how you can listen and contribute to bands!  
-  -# =observe_field 'user_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'user'), :with => 'country_id'
--#
-  %li#state_select
-    =render :partial=>'common_partials/state_select', :locals => {:states => states, :model => 'user'}
-  %li.checkbox
-    =f.label :receive_updates, 'Receive Updates'
-    =f.check_box :receive_updates, :checked => true, :class => 'checkbox'
-    %strong Keep me updated on MyBandStock with at most bi-weely emails (if we have anything to say).
+#content_login_bg
+  #login_wrap
+    %p * Denotes a required field.
+    = form_for(@user) do |f|
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :email, 'email*'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :email
+        .fielderror
+          - if @user.errors[:email]
+            - for e in @user.errors[:email]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :email_confirmation, 'confirm email*'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :email_confirmation
+        .fielderror
+          - if @user.errors[:email_confirmation]
+            - for e in @user.errors[:email_confirmation]
+              %p
+                = '- '+e.to_s  
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :password, 'password*'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.password_field :password, :value => ''
+          .desc
+            Leave this blank if you wish to keep your current password.
+        .fielderror
+          - if @user.errors[:password]
+            - for e in @user.errors[:password]
+              %p
+                = '- '+e.to_s                
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :first_name, 'first name'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :first_name
+        .fielderror
+          - if @user.errors[:first_name]
+            - for e in @user.errors[:first_name]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = f.label :zipcode, 'zip code'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :zipcode
+        .fielderror
+          - if @user.errors[:zipcode]
+            - for e in @user.errors[:zipcode]
+              %p
+                = '- '+e.to_s
+      .fieldrow
+        .fieldleft                
+          .formbutton
+            = f.submit 'SUBMIT'
+          .formbutton_nextto
+            = button_to 'BACK', :url => session[:last_clean_url]
+    .clear
