@@ -104,7 +104,7 @@ function accessScheduleJsonCallback(data) {
       ).append(
         '<label for="mbs-share-code">Enter access code:</label>' +
         '<input id="mbs-share-code" type="text">' +
-        '<input id="mbs-redeem-submit" type="image" src="'+ mbsDomain + '/images/buttons/global/black_button.png" value="Redeem">'
+        '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
       )
     ).append(
       jQuery('<div class="mbs-powered-by">Powered by MyBandStock.com</div>')
