@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
     end = bandID.length;
   bandID = bandID.substring(start, end);
 
-  accessScheduleContainer.style.margin = '1em';
+  accessScheduleContainer.style.margin = '5px';
   //accessScheduleContainer.style.width = '500px';
   //accessScheduleContainer.style.height = '300px';
   accessScheduleContainer.style.padding = '0px 0px';

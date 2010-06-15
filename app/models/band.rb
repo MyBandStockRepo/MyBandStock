@@ -39,7 +39,7 @@ class Band < ActiveRecord::Base
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_numericality_of :zipcode, :country_id
   validates_uniqueness_of :short_name
-  validates_length_of     :short_name, :in => 3..12
+  validates_length_of     :short_name, :in => 3..14
   validates_exclusion_of  :short_name, :in => %w[
       admin application bands charts concerts contests contribution_levels
       earned_perks ledger_entries legal login merchant music_albums news_entries

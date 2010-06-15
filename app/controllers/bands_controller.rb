@@ -32,6 +32,8 @@ class BandsController < ApplicationController
       end
     end
     
+    @url_test = ShortUrl.generate_short_url('http://www.mybandstock.com')
+    
     begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true

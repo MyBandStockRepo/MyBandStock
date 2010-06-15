@@ -315,7 +315,7 @@ class User < ActiveRecord::Base
     #   he is a site admin, or
     #   he can broadcast for the band
   
-    lssp = self.live_stream_series_permissions.find_by_live_stream_series_id(live_stream_series_id)
+    lssp = self.live_stream_series_permissions.where(:live_stream_series_id => live_stream_series_id)
     can_view = (
                   (lssp && lssp.can_view) ||
                   (lssp && self.can_broadcast_for(lssp.live_stream_series.band.id)) ||

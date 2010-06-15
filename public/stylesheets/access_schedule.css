@@ -21,7 +21,7 @@ a:hover {
 
 /* The actual table of schedules */
 .access-schedule-list {
-  margin: .5em 1em 1em 1em; /* The spacing around the table - top right bottom left. An 'em' is the width of M. */
+  /* margin: .5em 1em 1em 1em; */ /* The spacing around the table - top right bottom left. An 'em' is the width of M. */
   font-size: 80%;
 }
   

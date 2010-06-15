@@ -75,7 +75,9 @@ private
       else
         # Already logged in with that viewer_key
         options_hash['code'] = -1
-        options_hash['message'] = 'You are already viewing this stream. Try closing all stream sessions and trying again after a few minutes.'
+        time_to_go = (STREAM_VIEWER_TIMEOUT - (Time.now - viewer_status_entry.updated_at)).floor
+        time_to_go = (time_to_go > 0 && time_ago < STREAM_VIEWER_TIMEOUT) ? "in #{ time_to_go } seconds" : 'after a few minutes'
+        options_hash['message'] = "You are already viewing this stream. Try closing all stream sessions and viewing the stream #{ time_to_go }."
         logger.info 'Reporting code -1, already logged in.'
       end #/viewer_key_check
     else
