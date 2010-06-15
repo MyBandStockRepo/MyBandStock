@@ -32,7 +32,6 @@ class BandsController < ApplicationController
       end
     end
     
-    
     begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true

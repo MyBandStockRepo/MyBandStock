@@ -139,7 +139,7 @@ end
 						
 							#all good to retweet
 							@retweet = @tweet.text
-							@endtags = generate_endtag(@tweeter.screen_name, nil)
+							@endtags = generate_endtag(@tweeter.screen_name, 'http://www.mybandstock.com')
 							@msg = ''
 							@ellipsis = '...'
 							
@@ -322,21 +322,23 @@ end
   
   private
   
+  
   def update_twitter_user_name
   
   end
   
-  def generate_endtag(screen_name = nil, url = nil)
+  def generate_endtag(screen_name = nil, long_url = nil)
 		endtag_str = ''
   	if screen_name
 			endtag_str +=' @'+screen_name
 		end
-		if url
-			endtag_str += ' '+url
+		if long_url
+		  short_url = ShortUrl.generate_short_url(long_url)
+			endtag_str += ' '+short_url
 		end
 		
 		endtag_str += ' #MyBandStock'
   end
   
-  
 end
+
