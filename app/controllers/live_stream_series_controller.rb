@@ -149,6 +149,7 @@ class LiveStreamSeriesController < ApplicationController
 
     output[:band_name] = @band.name
     output['band_id'] = @band.id
+    output[:banner_image] = url_for '/images/AMP_banner.jpg'
 
     output_json = output.to_json
     logger.info output_json

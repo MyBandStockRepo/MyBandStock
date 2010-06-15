@@ -53,10 +53,7 @@ function applyFbListeners() {
 			'autoScale': false,        // These two only work with
 			'autoDimensions': true,   //  'ajax' (non-'iframe') types,
 			'centerOnScroll': true,
-			'hideOnOverlayClick': false,
-			'onStart': function() {
-			    jQuery('#fancybox-inner').html('aaaaaaaaaaaaaaa');
-			  }
+			'hideOnOverlayClick': false
 		});
     jQuery(this).click(function(e) {
       e.preventDefault(); return false;
@@ -69,7 +66,9 @@ function accessScheduleJsonCallback(data) {
   var html = jQuery(document.createElement('h1')).addClass('live-streams-title');
   html.html('Exclusive Live Streams');
 
-  jQuery('#mbs-access-schedule-container').append(html);
+  jQuery('#mbs-access-schedule-container').append(
+    jQuery('<a href="#" class="mbs-exclusive-access-banner"><img src="'+ mbsDomain + data.banner_image +'" /></a>')
+  ).append(html);
 
   jQuery.each(data.serieses, function(seriesIndex, series) { // for each series
     var seriesTitle = jQuery(document.createElement('h2')).addClass('series-name');
@@ -105,8 +104,10 @@ function accessScheduleJsonCallback(data) {
       ).append(
         '<label for="mbs-share-code">Enter access code:</label>' +
         '<input id="mbs-share-code" type="text">' +
-        '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
+        '<input id="mbs-redeem-submit" type="image" src="'+ mbsDomain + '/images/buttons/global/black_button.png" value="Redeem">'
       )
+    ).append(
+      jQuery('<div class="mbs-powered-by">Powered by MyBandStock.com</div>')
     );
   });
   applyFbListeners();
