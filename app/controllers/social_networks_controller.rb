@@ -5,7 +5,9 @@ class SocialNetworksController < ApplicationController
 	def index
 		begin
 			@twitter_not_authorized =  true
-	
+			@request_uri = url_for()
+			puts 'URL FOR GOT: '+@request_uri
+			puts 'REQUEST FULLPATH GOT: '+request.fullpath
 			unless params[:band_short_name]
 				flash[:error] = 'Could not find a band name.'
 				redirect_to session[:last_clean_url]

@@ -267,7 +267,22 @@ class ApplicationController < ActionController::Base
 
       @user_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
     end
-        
+    
+
+=begin
+============================ CLIENT ============================
+use_band_oauth -> Use the band's twitter oauth when using the twitter API, if true will look for
+the band's credentials when doing things, ie. pull the band's tweets.  If false, will use the logged
+in user's credentials when doing things, ie. posting a re-tweet
+
+needs_band_member_status -> If true, requires that the logged in user is part of the band before
+they can make the twitter API call ie. if someone wants to post a tweet, if false, the user dosesn't
+have to be a part of the band for the twitter api call ie. user want's to view the band's tweets
+
+band_id -> sets the ID for the band so their oauth token can be retrieved.  Only set if you want to
+use the band's oauth
+================================================================
+=end    
     def client(use_band_oauth = false, needs_band_member_status = false, band_id = nil)
 			user = User.find(session['user_id'])
       # want to use bands oauth to show posts but want non-band users to be able to view them
@@ -278,9 +293,11 @@ class ApplicationController < ActionController::Base
 							thing = Band.find(band_id)
 						else
 							flash[:error] = 'You do not have permissions to use this Twitter function for this band.'
+							return false
 						end
 					else
 						flash[:error] = 'Could not get a band ID.'
+						return false						
 					end
 				else
 					thing = Band.find(band_id)
@@ -299,6 +316,7 @@ class ApplicationController < ActionController::Base
 				end
 			else
 				flash[:error] = 'Could not find an authorized Twitter account.'
+				return false				
 			end
     end
 		helper_method :client

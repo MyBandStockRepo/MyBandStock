@@ -6,8 +6,17 @@ class TwitterApiController < ApplicationController
 		begin
 			@user = User.find(session['user_id'])
 			
+			redirect = root_path
+			
+			if params[:redirect_url]
+				redirect = url_for(params[:redirect_url])
+				puts 'REDIRECT TO: '+redirect
+			end
+			
+			
+			
 			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-			oauth.set_callback_url(SITE_URL+'/twitter/finalize/?redirect='+session[:last_clean_url])
+			oauth.set_callback_url(SITE_URL+'/twitter/finalize/?redirect='+redirect)
 			request_token = oauth.request_token
 			
 			access_token = request_token.token
@@ -165,7 +174,7 @@ end
 					redirect_to session[:last_clean_url]
 				end
 			else
-					redirect_to :action => 'create_session'
+					redirect_to :action => 'create_session', :redirect_url => url_for()
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
