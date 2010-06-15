@@ -1,0 +1,26 @@
+<p>
+  <b>Destination:</b>
+  <%= @short_url.destination %>
+</p>
+
+<p>
+  <b>Key:</b>
+  <%= @short_url.key %>
+</p>
+
+<p>
+  <b>Maker name:</b>
+  <%=
+    if @short_url.maker_type == 'User'
+      User.find(@short_url.maker_id).email
+    elsif @short_url.maker_type == 'Band'
+      Band.find(@short_url.maker_id).name
+    else
+      raw '<em>NULL</em>'
+    end
+  %>
+</p>
+
+
+<%= link_to 'Edit', edit_short_url_path(@short_url) %> |
+<%= link_to 'Back', short_urls_path %>
