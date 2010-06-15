@@ -30,6 +30,15 @@ respond_to :html, :js
       redirect_to session[:last_clean_url]      
       return false
     end
+    
+    if @stream.public_hostid.nil?
+      if params[:lightbox].nil?
+        render 'not_yet'
+      else
+        render 'not_yet', :layout => 'lightbox'
+      end
+      return false
+    end
 
 		@external_css = Band.find(@stream.band_id).external_css_link
 		if @external_css == ''

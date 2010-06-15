@@ -84,6 +84,10 @@ class UsersController < ApplicationController
 
 
       @user.update_attributes(params[:user])
+      if @user.status == 'pending'
+        # If he was pending before, we know he just registered/confirmed/activated
+        @user.status = 'active'
+      end
       @user.save
       redirect_to :action => "state_select"
       return true

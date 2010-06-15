@@ -17,6 +17,7 @@ class LoginController < ApplicationController
         session[:user_id] = user_id.to_i
         flash[:notice] = "Thanks for logging in " + User.find(session[:user_id]).full_name + "!"
         redirect_to session[:last_clean_url]
+        return true
       end
     end
     
