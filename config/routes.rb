@@ -24,6 +24,8 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/fav', :to => 'twitter_api#fav'			
 	match '/twitter/unfav', :to => 'twitter_api#unfav'			
 	match '/twitter/update', :to => 'twitter_api#update'			
+	match '/twitter/error', :to => 'twitter_api#error'			
+
   
   #stream methods
   match '/streams/manage', :to => 'users#control_panel'
