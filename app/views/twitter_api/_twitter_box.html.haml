@@ -1,4 +1,5 @@
-.tweetbox_top
-.tweetbox_tweet
-	= render :partial => "twitter_api/status", :collection => tweets, :locals => { :band_id => band_id, :num_tweets => tweets.count}
-.tweetbox_bottom
+-if tweets
+  .tweetbox_top
+  .tweetbox_tweet
+    = render :partial => "twitter_api/status", :collection => tweets, :locals => { :band_id => band_id, :num_tweets => tweets.count}
+  .tweetbox_bottom
