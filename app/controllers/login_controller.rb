@@ -47,8 +47,7 @@ class LoginController < ApplicationController
     end
 #    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == passed_password ) --- old, not-hashed
     if ( @user = User.find_by_email(passed_email) ) && ( @user.password == Digest::SHA2.hexdigest(passed_password) )
-      session[:auth_success] = true
-      session[:user_id] = @user.id
+			log_user_in(@user.id)
       flash[:notice] = "Thanks for logging in " + @user.full_name + "!"
       #if they wanted to be remembered, do it
       if (params[:remember] == '1')
@@ -120,5 +119,7 @@ class LoginController < ApplicationController
     cookies.delete(:salted_user_id)
     return true
   end
+
+
 
 end

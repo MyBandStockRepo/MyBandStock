@@ -242,7 +242,10 @@ class ApplicationController < ActionController::Base
   ##########
   private
   ##########
-
+	def log_user_in(user_id)
+		session[:auth_success] = true
+		session[:user_id] = user_id
+	end
   
   def is_megatron?(user_agent)
     user_agent =~ /\b(Baidu|Gigabot|Googlebot|libwww-perl|lwp-trivial|msnbot|SiteUptime|Slurp|WordPress|ZIBB|ZyBorg)\b/i

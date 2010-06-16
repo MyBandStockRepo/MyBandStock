@@ -32,7 +32,31 @@ class UsersController < ApplicationController
     end
     
   end
-  
+
+
+	def activate
+		if params[:email] && params[:code]
+			lookup_user = User.where(:email => params[:email], :password => Digest::SHA2.hexdigest(params[:code])).first
+			if lookup_user
+				if lookup_user.status == 'pending'
+					log_user_in(lookup_user.id)
+					redirect_to :action => 'edit'
+				else
+					flash[:error] = 'This account has already been activated.'
+					redirect_to :controller => :login, :action => :user, :lightbox => params[:lightbox]
+					return false							
+				end
+			else
+				flash[:error] = 'Could not find user with the given email and code.'
+				redirect_to root_url
+				return false			
+			end
+		else
+			flash[:error] = 'Could not get correct number of parameters for activation.'
+			redirect_to root_url			
+			return false
+		end
+	end
   
   def edit
     unless (id = params[:id])
@@ -67,33 +91,35 @@ class UsersController < ApplicationController
     @user = User.find(id)
     @user.email_confirmation = params[:user][:email_confirmation]
     
-#    @random_band = get_random_band()
     
 		# Hash the password before putting it into DB
 		
-		if params[:user] && params[:user][:password] && params[:user][:password] != '' && params[:user][:password] != nil		
+		if params[:user] && params[:user][:password] && params[:user][:password] != '' && params[:user][:password] != nil
 			params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
 		else
-			params[:user][:password] = @user.password
+			if @user.status == 'pending'
+				#set password to nil if user is activating so that they are required to put a password
+				params[:user][:password] = nil
+			else
+				params[:user][:password] = @user.password
+			end
 		end
+
+
 		# We must also hash the confirmation entry so the model can check them together
 #		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
-    
-    
+        
     #for the regular "post"ers make sure the country matches the state in case they changed it
     unless ( params[:user][:country_id].nil? || (params[:user][:country_id].to_i == @user.country_id) || (params[:user][:state_id] == '1') )
       unless Country.find(params[:user][:country_id]).states.collect{|s| s.id}.include?(params[:user][:state_id].to_i)
       #if the state isn't in the country then reset the state_id update and redirect
       params[:user][:state_id] = 1
 
-
-
+			
       @user.update_attributes(params[:user])
-      if @user.status == 'pending'
-        # If he was pending before, we know he just registered/confirmed/activated
-        @user.status = 'active'
-      end
-      @user.save
+   
+  
+      
       redirect_to :action => "state_select"
       return true
       end
@@ -106,6 +132,15 @@ class UsersController < ApplicationController
     @user.update_attributes(params[:user])
     
     success = @user.save
+    
+    if success
+			if @user.status == 'pending'
+				@user.status = 'active'
+			end
+			
+			success = @user.save
+		end    
+    
 =begin    
     photo_success = true #init this
     #if there is a new user photo update it

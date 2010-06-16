@@ -43,7 +43,7 @@ Cobain::Application.routes.draw do |map|
 	match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping' 
 	match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'   
 
-
+	match '/users/activate', :to => 'users#activate'
 
 
   resources :streamapi_stream_themes
