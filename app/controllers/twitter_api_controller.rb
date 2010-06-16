@@ -211,7 +211,12 @@ end
 	end
 	
 	def error
-	
+		@showerror	= false
+		unless params[:lightbox].nil?
+			@showerror = true
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => 'lightbox'
+    end
 	end
 	
 	def post_retweet

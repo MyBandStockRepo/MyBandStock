@@ -1,4 +1,6 @@
 #content
-	%h3 Sowwy, we had a boo-boo with twitter.  Hang in there!
-	%span.error
-		= flash[:error]
+	%h3 Sowwy, we had a boo-boo with twitter.  In the meantime, you can look at this kitten.
+	- if @showerror
+		%span.error
+			= flash[:error]
+	= image_tag 'error_kitty.jpg'

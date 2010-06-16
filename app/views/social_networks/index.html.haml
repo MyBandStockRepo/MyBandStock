@@ -2,16 +2,19 @@
 
 %h2 Unload Onto Your Awaiting Fans
 #post
-	= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'band_create' }) do |f|
-		= f.error_messages
-		= f.hidden_field(:band_id, :value => @band.id)
-		.field
-			= f.label :Message
-			%br
-			= f.text_field :text
-	
-		.actions
-			= f.submit 'UNLOAD'
+	-unless @twitter_not_authorized
+		= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'band_create' }) do |f|
+			= f.error_messages
+			= f.hidden_field(:band_id, :value => @band.id)
+			.field
+				= f.label :Message
+				%br
+				= f.text_field :text
+		
+			.actions
+				= f.submit 'UNLOAD'
+	-else
+		%p Please authorize an account so you can message fans from this website.
 
 %h2 Authorized Twitter Account
 .authorize
