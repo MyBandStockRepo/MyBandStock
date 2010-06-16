@@ -288,6 +288,36 @@ jake = User.create( :first_name => 'Jake',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
 
+fan = User.create( :first_name => 'Fanzo',
+                   :last_name => 'Gonzales',
+                   :password => Digest::SHA2.hexdigest('test123'),
+                   :country_id => 233,
+                   :email => 'fan1@mybandstock.com',
+                   :email_confirmation => 'fan1@mybandstock.com',                  
+                   :status => 'active',
+                   :agreed_to_tos => true,
+                   :agreed_to_pp => true)
+
+fan = User.create( :first_name => 'Bobeeto',
+                   :last_name => 'Garcia',
+                   :password => Digest::SHA2.hexdigest('test123'),
+                   :country_id => 233,
+                   :email => 'fan2@mybandstock.com',
+                   :email_confirmation => 'fan2@mybandstock.com',                  
+                   :status => 'active',
+                   :agreed_to_tos => true,
+                   :agreed_to_pp => true)
+
+fan = User.create( :first_name => 'Cucumber',
+                   :last_name => 'Slice',
+                   :password => Digest::SHA2.hexdigest('test123'),
+                   :country_id => 233,
+                   :email => 'fan3@mybandstock.com',
+                   :email_confirmation => 'fan3@mybandstock.com',                  
+                   :status => 'active',
+                   :agreed_to_tos => true,
+                   :agreed_to_pp => true)
+
 
 #adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
 #r = User.find(adminUser.id).roles.create(:name => 'site_admin')

@@ -57,6 +57,18 @@ body#lightbox {
 h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
 .clear {clear:both;}
 
+.lightbox_welcome {
+  font-size: 14px;
+  padding-top: 8px;
+  margin-left: 20px;
+}
+  .lightbox_welcome .share_amount {
+    color: #CCC;
+  }
+  .lightbox_welcome .welcome_band_name {
+    color: #CCC;
+  }
+
 /* Login form */
 
 .login_form {
@@ -81,7 +93,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
   .modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
 */
 .modal_in {
-  width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;
+  width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:15px;
   background-position: 0 -90px;
 }
 

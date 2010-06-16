@@ -139,7 +139,7 @@ class LiveStreamSeriesController < ApplicationController
               :view_link => {
                 :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
                 :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
-                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+96 : 560
+                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+94 : 560
               }
             }
           end
@@ -149,6 +149,7 @@ class LiveStreamSeriesController < ApplicationController
 
     output[:band_name] = @band.name
     output['band_id'] = @band.id
+    output[:banner_image] = url_for '/images/AMP_banner.jpg'
 
     output_json = output.to_json
     logger.info output_json

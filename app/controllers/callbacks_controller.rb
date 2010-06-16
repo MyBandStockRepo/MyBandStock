@@ -75,7 +75,9 @@ private
       else
         # Already logged in with that viewer_key
         options_hash['code'] = -1
-        options_hash['message'] = 'You are already viewing this stream. Try closing all stream sessions and trying again after a few minutes.'
+        time_to_go = (STREAM_VIEWER_TIMEOUT - (Time.now - viewer_status_entry.updated_at)).floor
+        time_to_go = (time_to_go > 0 && time_ago < STREAM_VIEWER_TIMEOUT) ? "in #{ time_to_go } seconds" : 'after a few minutes'
+        options_hash['message'] = "You are already viewing this stream. Try closing all stream sessions and viewing the stream #{ time_to_go }."
         logger.info 'Reporting code -1, already logged in.'
       end #/viewer_key_check
     else
@@ -163,7 +165,7 @@ private
     end
     logger.info 'Viewer key check: ' + (Time.now - viewer_entry.updated_at).to_s + ' seconds have elapsed since last update.'
 
-    if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT )
+    if ( (Time.now - viewer_entry.updated_at) > STREAM_VIEWER_TIMEOUT)
       # If x seconds has elapsed since we last heard from the user, we allow him in.
       # x is defined in environment.rb
       viewer_entry.ip_address = user_ip # Stash the user's IP
@@ -171,10 +173,14 @@ private
       logger.info 'Time limit exceeded, so we allow user to view.'
       return true
     else
-      logger.info "We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user."
-      return false
+      if (viewer_entry.ip_address != nil)
+        # If < time limit AND this user has not pinged us yet (his key was generated, but we do not have an IP for him).
+        logger.info "We are still within the time limit (#{ STREAM_VIEWER_TIMEOUT } seconds), so deny user."
+        return false
+      end
     end
     
+    return true
   end
 
 end
