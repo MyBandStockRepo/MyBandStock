@@ -104,9 +104,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 */
 #login_wrap{margin:0 auto;padding-top:20px;padding-bottom:50px;}
 #login_wrap_left{width:332px;float:left;margin-left:20px;}
-#login_wrap_right{width:385px;float:right;margin-right:20px;}
+#login_wrap_right.external{width:385px;float:right;margin-right:20px;}
 	#login_wrap_rightpad{height:104px;}
-		#login_wrap_right h2{margin-bottom:20px;}
+		#login_wrap_right.external h2{margin-bottom:20px;}
 #signupbutton { float: left; width: auto; }
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
     .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
