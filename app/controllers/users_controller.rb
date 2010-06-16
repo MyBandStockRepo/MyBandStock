@@ -103,7 +103,6 @@ class UsersController < ApplicationController
     if params[:user][:phone]
       params[:user][:phone].gsub!(/[^0-9]/, '')#clean phone
     end
-    params[:user][:status] = 'active'
     @user.update_attributes(params[:user])
     
     success = @user.save
