@@ -42,8 +42,9 @@
                 .fieldnamebottom
               .fieldbox.required
                 = f.password_field :password, :value => ''
-          .desc
-            Leave this blank if you wish to keep your current password.
+          - if @user.status != 'pending'
+            .desc
+              Leave this blank if you wish to keep your current password.
         .fielderror
           - if @user.errors[:password]
             - for e in @user.errors[:password]

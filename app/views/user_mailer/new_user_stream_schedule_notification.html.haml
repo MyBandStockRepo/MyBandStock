@@ -12,19 +12,16 @@
 	to 
 	= @lss.ends_at.strftime("%A %B %d, %Y") 
 
+%p
+	Before you can view the video streams, you need to confirm your email account with our service and provide some user info.
+	%br
+	Please visit this link to confirm your account:
+	%br
+	= link_to @confirmation, @confirmation
+
 %p 
-	To view the scheduled streams, visit 
+	After account confirmation, you can view the scheduled live video streams by visiting the 
 	- if @band.access_schedule_url.nil? || @band.access_schedule_url == ''
 		= link_to 'Stream Viewer', :controller => 'bands', :action => 'show', :id => @band.id, :host => @host
 	-else
 		= link_to 'Stream Viewer', @band.access_schedule_url
-	%br
-	and login with these credentials:
-	%br
-	Email:
-	= @user.email
-	%br
-	Password:
-	= @password
-	
-%p When you go to check out the video, you will be able to change your password to something you can actually remember.

@@ -33,6 +33,7 @@ class UserMailer < ActionMailer::Base
     @band = band
     @lss = lss
 		@host = SITE_HOST
+		@confirmation = SITE_URL+'/users/activate?email='+@user.email+'&code='+@password
     subject = @band.name+' Live Streaming Video'
 		mail(:to => recipient, :subject => subject)
   end

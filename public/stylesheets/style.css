@@ -370,6 +370,15 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .auth_user_text{float:left;font-size:12px;margin-left:10px;}
 
 
+
+/* Retweet Page */
+.twitter_info{float:left;margin-top:10px;font-family:TitilliumText14L600wt;line-height:17px;}
+.twitter_sn{font-size:14px;margin-top:10px;}
+.twitter_name{font-size:11px;}
+.twitter_pic{margin:8px;auto;}
+.twitter_follower_info{font-size:10px;}
+.twitter_message{line-height:25px;margin:10px 10px 0px 10px;}
+
 /* VIDEO STREAM MODAL */
 
 .video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}

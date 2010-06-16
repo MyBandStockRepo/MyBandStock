@@ -61,12 +61,13 @@ class ApiController < ApplicationController
 			# create a new user
 			newUser = true
 			
-			genpass = generate_key(8)
+			genpass = generate_key(16)
 			user = User.create(:first_name => '',
                   :last_name => '',
                   :password => Digest::SHA2.hexdigest(genpass),
-                  :password_confirmation => Digest::SHA2.hexdigest(genpass),
+#                  :password_confirmation => Digest::SHA2.hexdigest(genpass),
                   :email => email.downcase,
+	                :email_confirmation => email.downcase,                  
                   :status => 'pending',
                   :agreed_to_tos => false,
                   :agreed_to_pp => false)
@@ -88,12 +89,12 @@ class ApiController < ApplicationController
                       }
     privileges_hash.delete_if { |key, val| val == 'nil' }
 
-    ssp = LiveStreamSeriesPermission.where(:user_id => user.id, :live_stream_series_id => stream_series_id)
+    ssp = LiveStreamSeriesPermission.where(:user_id => user.id, :live_stream_series_id => stream_series_id).first
 
 		lss = LiveStreamSeries.find(stream_series_id)
 		streamingBand = Band.find(lss.band_id)
 
-    if (ssp.count == 0)
+    unless ssp
       # User currently has no permissions on the stream
       ssp = LiveStreamSeriesPermission.new(privileges_hash)
       ssp.user_id = user.id
@@ -107,7 +108,7 @@ class ApiController < ApplicationController
       
     else
       # User permissions exist and will be changed
-      ssp.update(privileges_hash)
+      ssp.update_attributes(privileges_hash)
     end
 
 		if can_view

@@ -157,12 +157,13 @@ end
 		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if params[:tweet_id] && params[:band_id]
-					@tweet = client.status(params[:tweet_id])
+					tweetclient = client
+					@tweet = tweetclient.status(params[:tweet_id])
 					@tweeter = @tweet.user
 					@band = Band.find(params[:band_id])
 					if @band && @tweeter
 						if @band.twitter_user.twitter_id == @tweeter.id
-						
+							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
 							@retweet = @tweet.text
 							@endtags = generate_endtag(@tweeter.screen_name, 'http://www.mybandstock.com')
@@ -382,7 +383,7 @@ end
 			endtag_str += ' '+short_url
 		end
 		
-		endtag_str += ' #MyBandStock'
+#		endtag_str += ' #MyBandStock'
   end
   
 end
