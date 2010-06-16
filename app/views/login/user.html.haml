@@ -19,14 +19,12 @@
           #checkbox_login
             =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
             =label_tag 'checkbox_remember', 'Remember Me'
-          .formbutton{ :style => 'margin-right: 5px;' } 
+          .formbutton{ :style => 'margin-right: 5px;' }
             = submit_tag 'login'
-    #login_wrap_right
-      #login_wrap_rightpad
-        %h2 NOT SIGNED UP YET?
-        %h4 If you haven't created an account yet, sign up now! It's free and allows you to interact with all the bands on MyBandStock.
-      .formbutton#signupbutton
-        = submit_tag 'sign up!', :onclick => "document.location.href='#{ new_user_path }';  return false;"
+    -if @external
+      = render :partial => 'get_access'
+    -else
+      = render :partial => 'signup'
     .clear
 
 -# __commented__

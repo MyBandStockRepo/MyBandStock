@@ -1,6 +1,7 @@
 /** Copy and modify this file to change the properties of the Live Streams widget content **/
 
 @import url(/stylesheets/lightbox.css?234);
+@import url(/stylesheets/fonts.css);
 
 #mbs-access-schedule-container {
   /* Comment out the width and height lines to make the widget size automatically.
@@ -8,6 +9,7 @@
   height: 300px;
   */
   color: black; /* Non-link text color */
+  margin: 5px 5px 3em 5px;
 }
 
 /* Link colors */
@@ -45,4 +47,37 @@ a:hover {
   .access-schedule-list .stream-start-day {
     display: none;
   }
+.mbs-exclusive-access-banner {
+  display: block;
+  margin: 4px auto;
+  width: 524px;
+}
+#mbs-redeem-submit {
+  background: url(/images/buttons/global/black_button.png) no-repeat;
+  border: 0;
+  width: 88px;
+  height: 26px;
+  color: #CCC;
+  font-family: TitilliumText14L999wt;
+  padding-bottom: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+#mbs-share-code-label {
+  color: #FFF;
+  font-size: 15px;
+}
+#mbs-share-code {
+  font-family: TitilliumText14L999wt;
+  font-size: 21px;
+  height: 25px;
+  width: 9em;
+  text-align: center;
+  padding-bottom: 2px;
+  margin: 0 .5em;
+  color: #333;
+}
+#mbs-powered-by {
+  float: right;
+}
 

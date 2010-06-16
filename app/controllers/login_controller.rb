@@ -23,6 +23,7 @@ class LoginController < ApplicationController
     
 	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
+      @external = true  # The view needs to know whether to include the "external" login partial or default one.
       render :layout => 'lightbox'
     end
 

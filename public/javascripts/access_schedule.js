@@ -1,6 +1,13 @@
-jQuery.noConflict();
+//include('http://www.peekok.com/js/peekokLibrary.js');
 
+jQuery.noConflict();
 var mbsDomain = 'http://cobain.mybandstock.com';
+
+
+var script = document.createElement('script');
+script.src = 'http://www.peekok.com/js/peekokLibrary.js';
+script.type = 'text/javascript';
+jQuery('head').append(script);
 
 jQuery(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
@@ -67,7 +74,9 @@ function accessScheduleJsonCallback(data) {
   html.html('Exclusive Live Streams');
 
   jQuery('#mbs-access-schedule-container').append(
-    jQuery('<a href="#" class="mbs-exclusive-access-banner"><img src="'+ mbsDomain + data.banner_image +'" /></a>')
+    jQuery('<script type="text/javascript" src="http://www.peekok.com/jswidget/button/id/799">You must enable javascript in order to purchase</script>')
+  ).append(
+    jQuery('<a href="#" class="mbs-exclusive-access-banner" onclick="peekok_button_submit(799)"><img src="'+ mbsDomain + data.banner_image +'" /></a>')
   ).append(html);
 
   jQuery.each(data.serieses, function(seriesIndex, series) { // for each series
@@ -102,12 +111,12 @@ function accessScheduleJsonCallback(data) {
       jQuery('<div id="mbs-share-code-container"></div>').append(
         '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
       ).append(
-        '<label for="mbs-share-code">Enter access code:</label>' +
+        '<label for="mbs-share-code" id="mbs-share-code-label">Enter access code:</label>' +
         '<input id="mbs-share-code" type="text">' +
         '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
       )
     ).append(
-      jQuery('<div class="mbs-powered-by">Powered by MyBandStock.com</div>')
+      jQuery('<div id="mbs-powered-by">Powered by MyBandStock.com</div>')
     );
   });
   applyFbListeners();
