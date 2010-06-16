@@ -288,7 +288,7 @@ class User < ActiveRecord::Base
       return true
     else
     #modified for rails 3
-      return self.associations.where(['name = ? AND band_id = ?', 'admin', passed_band_id.to_i]).first
+      return self.associations.where(:name => 'admin').where(:band_id => passed_band_id).first
     end
   end
 

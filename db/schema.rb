@@ -115,11 +115,10 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
 
   create_table "share_code_groups", :force => true do |t|
     t.string   "label"
-    t.integer  "start_share_code_id",                   :null => false
-    t.integer  "num_share_codes",                       :null => false
-    t.boolean  "active",              :default => true, :null => false
+    t.integer  "share_codes_count"
+    t.boolean  "active",            :default => true, :null => false
     t.integer  "share_amount"
-    t.datetime "expiration_date"
+    t.datetime "expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -128,7 +127,7 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.string   "key",                                    :null => false
     t.boolean  "redeemed",            :default => false, :null => false
     t.integer  "share_code_group_id"
-    t.integer  "user_id"
+    t.integer  "user_id",             :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -205,15 +204,6 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.integer  "twitter_id",          :null => false
     t.string   "oauth_access_token"
     t.string   "oauth_access_secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "urls", :force => true do |t|
-    t.string   "destination",                     :null => false
-    t.string   "key",                             :null => false
-    t.integer  "maker_id"
-    t.string   "maker_type",  :default => "User"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

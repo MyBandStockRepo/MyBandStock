@@ -4,8 +4,8 @@ gem 'rails', '3.0.0.beta2'
 gem 'haml'
 gem 'builder'
 gem 'twitter'
-gem 'twitter-text'
-gem 'SystemTimer', :require => false
+#following added by JM so we can run this under ruby 1.9
+gem 'twitter-text', "1.1", :git => 'git://github.com/rubypond/twitter-text-rb.git'
 
 gem 'newrelic_rpm', :require => false
 

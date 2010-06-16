@@ -1,16 +1,6 @@
 <p>
-  <b>Start share code:</b>
-  <%= @share_code_group.start_share_code_id %>
-</p>
-
-<p>
   <b>Num share codes:</b>
-  <%= @share_code_group.num_share_codes %>
-</p>
-
-<p>
-  <b>Valid:</b>
-  <%= @share_code_group.valid %>
+  <%= @share_code_group.share_codes_count %>
 </p>
 
 <p>
@@ -19,9 +9,30 @@
 </p>
 
 <p>
-  <b>Expiration date:</b>
-  <%= @share_code_group.expiration_date %>
+  <b>Active:</b>
+  <%= @share_code_group.active %>
 </p>
+
+<p>
+  <b>Expiration date:</b>
+  <%= @share_code_group.expires_on %>
+</p>
+
+<p>
+  <b>Expired</b>
+  <%= (@share_code_group.expires_on < Time.now) %>
+</p>
+
+<p>
+  <b>Share Codes</b>
+  <ul>
+    <% @share_code_group.share_codes.each do |a_share_code| %>
+    <li><%= a_share_code.key %></li>
+    <%end%>
+  </ul>
+</p>
+
+
 
 
 <%= link_to 'Edit', edit_share_code_group_path(@share_code_group) %> |

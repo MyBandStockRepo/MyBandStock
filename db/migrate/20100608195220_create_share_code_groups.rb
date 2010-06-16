@@ -3,11 +3,10 @@ class CreateShareCodeGroups < ActiveRecord::Migration
     create_table :share_code_groups do |t|
     
       t.string  :label,               { :null => true }   # Aesthetic name
-      t.integer :start_share_code_id, { :null => false }  # Inclusive
-      t.integer :num_share_codes,     { :null => false }
+      t.integer :share_codes_count
       t.boolean :active,              { :null => false, :default => true } # like "valid"
       t.integer :share_amount,        { :null => true }
-      t.datetime :expiration_date,    { :null => true }
+      t.datetime :expires_on,    { :null => true }
 
       t.timestamps
     end

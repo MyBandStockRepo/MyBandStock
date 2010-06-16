@@ -4,11 +4,11 @@ class CreateShareCodes < ActiveRecord::Migration
       t.string :key, { :null => false }
       t.boolean :redeemed, { :null => false, :default => false }
 
-      t.belongs_to :share_code_group
-      t.belongs_to :user #, { :null => true, :default => :nil }
-
+      t.belongs_to :share_code_group, {:null => true}
+      t.belongs_to :user, { :null => true, :default => :nil }
       t.timestamps
     end
+
     add_index :share_codes, :key, { :unique => true }
   end
 

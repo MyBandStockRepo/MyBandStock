@@ -61,43 +61,79 @@ class ShareCodeGroupsController < ApplicationController
     end
   end
 
+
   # GET /share_code_groups/1/edit
   def edit
     @share_code_group = ShareCodeGroup.find(params[:id])
   end
 
+
   # POST /share_code_groups
   # POST /share_code_groups.xml
   def create
-    @share_code_group = ShareCodeGroup.new(params[:share_code_group])
-    
-    codes_array = generate_codes(params[:share_code_group][:num_share_codes])
-    
-    ShareCode.transaction do
-      begin
-        first_code = ShareCode.create({:key => codes_array.pop})
-        @share_code_group.start_share_code_id = first_code.id
-      rescue
-      end
+  # Code format:
+  #   'lss' + 6-char lssID + 12-char(A-Z,1-9)
+  # Like:
+  #   lss000028gv8K4mF1
+    unless ( (@lss = LiveStreamSeries.find(params[:live_stream_series_id])) && (User.find(session[:user_id]).has_band_admin(@lss.band.id)) )
+      flash[:notice] = 'Error.'
+      redirect_to '/me/control_panel'
+      return false
     end
     
-    # 1. Lock share_codes table
-    # 2. @share_code_group.start_share_code_id = ShareCode.highestID
-    # 3. Do stuff
-    # 4. Unlock
+    num_codes = params[:num_codes].to_i
+    unless ((num_codes > 0) && (num_codes < 1000000))
+      flash[:notice] = 'You\'re asking to generate too many codes.  Needs to be less than 1 million and greater than 0.'
+      redirect_to session[:last_clean_url]
+      return false
+    end
+    
+    share_amount = params[:share_code_group][:share_amount].to_i
+    unless ((share_amount > 0) && (share_amount < 1000000))
+      flash[:notice] = 'You\'re asking to generate codes that either have negative share amounts or that are worth more than 1 million shares.  Please stay within these limits.'
+      redirect_to session[:last_clean_url]
+      return false
+    end
+    
+    expires_on = DateTime.strptime(params[:share_code_group][:expires_on], '%m/%d/%Y')
+    unless (expires_on > Time.now)
+      flash[:notice] = 'You shouldn\'t create a block of codes that is already expired!'
+      redirect_to session[:last_clean_url]
+      return false
+    end
+    
+    @share_code_group = ShareCodeGroup.create(:share_amount => share_amount, :expires_on => expires_on)
+    
+    begin
+      ShareCode.transaction do
+        num_codes.to_i.times do |i|
+          begin
+            unique_key = ""
+            12.times do
+              unique_key += generate_char(SecureRandom.random_number(34))
+            end
+            key_code = sprintf("LSS%.6u", @lss.id) + unique_key
+          end while(ShareCode.where(:key => key_code).first)
+          #then create the record
+          ShareCode.create( :key => key_code,
+                            :redeemed => false,
+                            :user_id => nil,
+                            :share_code_group_id => @share_code_group.id )                                  
+        end #end num_times loop
+      end
 
-    respond_to do |format|
-      if @share_code_group.save
+      respond_to do |format|
         format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully created.') }
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
-      else
-        format.html {
-          @series_list = LiveStreamSeries.where(:band_id => params[:band_id])
-          render :action => "new"
-        }
+      end
+    rescue
+      flash[:notice] = 'Key generation failed!!!  Please notify someone.'
+      respond_to do |format|
+        format.html { redirect_to(new_share_code_group_url) }
         format.xml  { render :xml => @share_code_group.errors, :status => :unprocessable_entity }
       end
     end
+    
   end
 
   # PUT /share_code_groups/1
@@ -119,6 +155,12 @@ class ShareCodeGroupsController < ApplicationController
   # DELETE /share_code_groups/1
   # DELETE /share_code_groups/1.xml
   def destroy
+    unless (@user.site_admin)
+      flash[:notice] = 'Error.  Sorry.'
+      redirect_to '/me/control_panel'
+      return false
+    end
+    
     @share_code_group = ShareCodeGroup.find(params[:id])
     @share_code_group.destroy
 
@@ -128,22 +170,18 @@ class ShareCodeGroupsController < ApplicationController
     end
   end
 
-  private
   
-  def generate_share_codes(numCodes)
-  # Code format:
-  #   'lss' + 6-char lssID + [8AZ]
-  # Like:
-  #   lss000028gv8K4mF1
+  
+private
 
-    codes_array = Array.new
-    if numCodes.nil?
-      return codes_array
+  def generate_char(num)
+    num %= 35
+    case num
+    when 0..8
+      return (num+1).to_s
+    when 9..34
+      return (num+56).chr
     end
-    numCodes.to_i.times do
-      codes_array << 'a'
-    end
-    codes_array
   end
 
 end
