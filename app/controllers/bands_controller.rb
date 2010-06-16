@@ -32,14 +32,16 @@ class BandsController < ApplicationController
       end
     end
     
+    @url_test = ShortUrl.generate_short_url('http://google.com', @band)
+    
     begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false										
-				@band_tweets = band_client.user_timeline(:id => @twit_band.id)
+				@band_twitter_not_authorized = false	
+				@band_tweets = @band.tweets(band_client, 5) #.user_timeline(:id => @twit_band.id)
 			end		
 		rescue
 				@band_twitter_not_authorized = true

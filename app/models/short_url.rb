@@ -1,3 +1,5 @@
+require 'digest/bubblebabble' # For making sweet short codes like 'fymakx0r'
+
 class ShortUrl < ActiveRecord::Base
   belongs_to :maker, :polymorphic => { :default => 'User' }
   
@@ -9,7 +11,7 @@ class ShortUrl < ActiveRecord::Base
     return nil unless long_url
     
     # Limit maker to a Band or User object
-    maker = nil if ['Band', 'User'].include? maker.class
+    maker = nil if ['Band', 'User'].include? maker.class.to_s
 
     begin
       key = self.generate_key()
@@ -18,21 +20,23 @@ class ShortUrl < ActiveRecord::Base
     self.create(
                 :destination => long_url,
                 :key => key,
-                :maker_type => (maker) ? maker.class : nil,
+                :maker_type => (maker) ? maker.class.to_s : nil,
                 :maker_id => (maker) ? maker.id : nil
          )
-
     host = URL_SHORTENER_HOST || 'http://mbs1.us'
     return host + '/' + key
   end
   
   private
   
-  
-  def self.generate_key(length = 4)
+  def self.generate_key(length = 4, fricken_sweeeet = false)
   # Takes a string length and returns a random string
-    chars = ("a".."z").to_a + ('A'..'Z').to_a + ("0".."9").to_a;
-    Array.new(length, '').collect{chars[rand(chars.size)]}.join
+    unless fricken_sweeeet
+      chars = ("a".."z").to_a + ('A'..'Z').to_a + ("0".."9").to_a;
+      Array.new(length, '').collect{chars[rand(chars.size)]}.join
+    else
+      (Digest.bubblebabble(Time.now.to_f.to_s[15..15]))
+    end
   end
 
 end
