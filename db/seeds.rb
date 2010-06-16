@@ -29,10 +29,11 @@ adminUser.roles << site_admin_role
 
 
 #create JM's stuff
+#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
+
 jm = User.create( :first_name => 'John-Michael',
                   :last_name => 'Fischer',
                   :password => Digest::SHA2.hexdigest('test123'),
-#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :zipcode => '48116',
                   :country_id => 233,
                   :email => 'jm@mybandstock.com',

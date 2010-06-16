@@ -4,44 +4,54 @@ class TwitterApiController < ApplicationController
 	
 	def create_session
 		begin
-			@user = User.find(session['user_id'])
+			@user = User.find(session['user_id'])			
+#			redirect = session[:last_clean_url]
+=begin
 			
-			redirect = root_path
-			
-			if params[:redirect_url]
-				redirect = url_for(params[:redirect_url])
+			if params[:redirect_from_twitter]
+				redirect = url_for(params[:redirect_from_twitter])
 				puts 'REDIRECT TO: '+redirect
 			end
+=end			
 			
-			
-			
-			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-			oauth.set_callback_url(SITE_URL+'/twitter/finalize/?redirect='+redirect)
-			request_token = oauth.request_token
-			
-			access_token = request_token.token
-			access_secret = request_token.secret
-			auth_url = request_token.authorize_url
-	
-			session['rtoken'] = access_token
-			session['rsecret'] = access_secret
-			
-			if @user.bands.count && params[:band_id]
-				if @user.has_band_admin(params[:band_id]) || @user.is_member_of_band(params[:band_id])
-					session['band_id_for_twitter'] = params[:band_id]
-					redirect_to auth_url
+			if @user.bands.count && params[:auth_band_id]
+				if @user.has_band_admin(params[:auth_band_id]) || @user.is_member_of_band(params[:auth_band_id])
+					if @band = Band.find(params[:auth_band_id])
+						session['band_id_for_twitter'] = params[:auth_band_id]
+						redirect = url_for(:controller => 'social_networks', :action => 'index', :band_short_name => @band.short_name)
+					else
+						flash[:error] = 'Could not find band with given ID.'
+						session['band_id_for_twitter'] = nil
+						redirect_to root_url						
+						return false
+					end
 				else
 						flash[:error] = 'You are not authorized to make changes for this band.  You need to be a band admin or member to authorize their Twitter account with our service.'
 						session['band_id_for_twitter'] = nil					
-						redirect_to session[:last_clean_url]
+						redirect_to root_url
+						return false
 				end
 			else
 				session['band_id_for_twitter'] = nil
-				redirect_to auth_url
+				if params[:redirect_from_twitter]
+					redirect = url_for(params[:redirect_from_twitter])
+				else
+					redirect = root_url
+				end
 			end
+			
+			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
+			oauth.set_callback_url(SITE_URL+'/twitter/finalize/?redirect='+redirect)
+			request_token = oauth.request_token			
+			access_token = request_token.token
+			access_secret = request_token.secret
+			auth_url = request_token.authorize_url
+			session['rtoken'] = access_token
+			session['rsecret'] = access_secret			
+			redirect_to auth_url
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			redirect_to session[:last_clean_url]
+			redirect_to root_url
 			session['rtoken'] = session['rsecret'] = nil
 			return false
 		end		
@@ -49,12 +59,11 @@ class TwitterApiController < ApplicationController
 	
 	
 	def finalize
-	
+		error = false
 		begin
 			unless params[:oauth_verifier]
-				redirect_to :controller => 'social_networks', :action => 'index', :band_short_name => Band.find(session['band_id_for_twitter']).short_name
-				session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil			
-				return false
+				flash[:error] = 'Could not verify twitter oauth.'			
+				error = true
 			end
 			unless session['rtoken'].nil? || session['rsecret'].nil?
 				if session['band_id_for_twitter']
@@ -70,12 +79,14 @@ class TwitterApiController < ApplicationController
 					else
 						unless twitter_user = TwitterUser.create(:name => profile.name, :user_name => profile.screen_name, :twitter_id => profile.id, :oauth_access_token => band_oauth.access_token.token, :oauth_access_secret => band_oauth.access_token.secret)
 							flash[:error] = 'Could not create Twitter user.'
+							error = true							
 						end
 					end				
 				
 					@band.twitter_user_id = twitter_user.id
 					unless @band.save
 						flash[:error] = 'Could not update band database with Twitter keys.'
+						error = true
 					end								
 				else
 					user_oauth.authorize_from_request(session['rtoken'], session['rsecret'], params[:oauth_verifier])
@@ -90,20 +101,26 @@ class TwitterApiController < ApplicationController
 					else
 						unless twitter_user = TwitterUser.create(:name => profile.name, :user_name => profile.screen_name, :twitter_id => profile.id, :oauth_access_token => user_oauth.access_token.token, :oauth_access_secret => user_oauth.access_token.secret)					
 							flash[:error] = 'Could not create Twitter user.'
+							error = true
 						end
 					end				
 									
 					@user.twitter_user_id = twitter_user.id
 					unless @user.save
 						flash[:error] = 'Could not update user database with Twitter keys.'
+						error = true
 					end					
 				end	
 			else			
 				flash[:error] = 'Could not find Twitter request token or secret.'
+				error = true
 			end
+			if error
+				session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil			
+				redirect_to root_url
+				return false
+			end							
 			if params[:redirect]
-
-
 				path = params[:redirect]
 				params.delete(:redirect)
 				params.delete(:oauth_verifier)
@@ -119,14 +136,13 @@ class TwitterApiController < ApplicationController
 				# send all params that came  with the redirect address
 				redirect_to path
 			else
-				redirect_to root_path
+				redirect_to root_url
 			end
-			
-			session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil
+			session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil						
 		rescue
 			session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil
     	flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-    	redirect_to params[:redirect]
+    	redirect_to root_url
 			return false
     end
 	end
@@ -137,6 +153,7 @@ end
 
 
 	def retweet
+		error = false
 		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if params[:tweet_id] && params[:band_id]
@@ -163,24 +180,43 @@ end
 							end				
 						else
 							flash[:error] = 'The band ID and tweeting user didn\'t match up.'			
-							redirect_to session[:last_clean_url]
+							error = true
 						end
 					else
 						flash[:error] = 'Couldn\'t find the tweet posting user.'
-						redirect_to session[:last_clean_url]
+						error = true
 					end		
 				else
 					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
-					redirect_to session[:last_clean_url]
+						error = true
 				end
 			else
-					redirect_to :action => 'create_session', :redirect_url => url_for()
+				if params[:tweet_id] && params[:band_id]
+					redirect_into = url_for()+'?tweet_id='+params[:tweet_id]+'&band_id='+params[:band_id]
+					redirect_to :action => 'create_session', :tweet_id => params[:tweet_id], :band_id => params[:band_id], :redirect_from_twitter => redirect_into
+				else
+					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
+					error = true
+				end
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			redirect_to session[:last_clean_url]
-			return false
-		end					
+			error = true
+		end
+	
+		if error
+			redirect_to :action => 'error'
+			return false		
+		end
+	end
+	
+	def error
+		@showerror	= false
+		unless params[:lightbox].nil?
+			@showerror = true
+      # If our request tells us not to display layout (in a lightbox, for instance)
+      render :layout => 'lightbox'
+    end
 	end
 	
 	def post_retweet

@@ -31,6 +31,8 @@ respond_to :html, :js
       return false
     end
     
+    @request_uri = root_url
+    
     if @stream.public_hostid.nil?
       @not_live = true
     end

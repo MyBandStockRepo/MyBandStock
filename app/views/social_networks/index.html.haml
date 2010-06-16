@@ -2,25 +2,28 @@
 
 %h2 Unload Onto Your Awaiting Fans
 #post
-	= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'band_create' }) do |f|
-		= f.error_messages
-		= f.hidden_field(:band_id, :value => @band.id)
-		.field
-			= f.label :Message
-			%br
-			= f.text_field :text
-	
-		.actions
-			= f.submit 'UNLOAD'
+	-unless @twitter_not_authorized
+		= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'band_create' }) do |f|
+			= f.error_messages
+			= f.hidden_field(:band_id, :value => @band.id)
+			.field
+				= f.label :Message
+				%br
+				= f.text_field :text
+		
+			.actions
+				= f.submit 'UNLOAD'
+	-else
+		%p Please authorize an account so you can message fans from this website.
 
 %h2 Authorized Twitter Account
 .authorize
 	-if @twitter_not_authorized
 		%p You have not authorized a Twitter account with MyBandStock yet.
-		= link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
+		= link_to 'Authorize your Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri
 	-else
 		= render :partial => 'twitter_info'
-		= link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id, :redirect_url => @request_uri
+		= link_to 'Authorize a different Twitter Account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri
 		#statuses
 			%h2 Recent Tweets
 			= render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @tweets}

@@ -30,7 +30,7 @@
       %h2
         repost
         %span.grey99 the band for 20 shares!
-      = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets }
+      = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
   .clear
   .lightbox_welcome
     = "Welcome, #{ @user.first_name }. You currently have "
