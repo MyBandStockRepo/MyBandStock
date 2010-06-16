@@ -282,7 +282,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .fieldrow{width:100%;margin:0 auto;float:left}
 .fieldleft{width:540px;margin-left:20px;float:left;}
 .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
-.desc {margin: 5px 0px 10px 15px;float:left;}
+.desc, .description {margin: 5px 0px 10px 15px;float:left;}
 .LARGEfield .fieldbox {height:208px;width:400px;background:url(/images/forms/LARGEfield_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;}
 .LARGEfield .textarea {
   width:370px;height:195px;background-color:#FFFFFF;border:none;margin:0px;overflow:auto;margin:5px;

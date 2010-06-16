@@ -1,7 +1,10 @@
 #viewer-container
   %h2
     = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
-  = raw "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }</strong>, however the stream ultimately begins whenever the broadcaster chooses."
+  This stream is not currently being broadcast. It is scheduled to start on
+  %strong
+    = @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }
+  , however the stream ultimately begins whenever the broadcaster chooses.
   %p
     If you believe you are receiving this message in error, please email 
     = mail_to(MBS_SUPPORT_EMAIL, MBS_SUPPORT_EMAIL, :encode => "hex") + '.'

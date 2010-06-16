@@ -25,9 +25,9 @@ body#lightbox {
   margin:0px;
   padding: 0;
   font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
-  font-size:12px;
+  font-size:13px;
   line-height:17px;
-  color:#666666;
+  color:#FFF;
 }
 
 #broadcast-container, #viewer-container {
@@ -55,6 +55,14 @@ body#lightbox {
   margin-top: 5px;
 }
 h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
+h4 {
+  color: #FFF;
+  font-family:TitilliumText14L600wt;
+  font-size: 14px;
+}
+.highlight {
+  color: #f90;
+}
 .clear {clear:both;}
 
 .lightbox_welcome {
@@ -78,18 +86,42 @@ h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
 }
 fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
+.fieldname label {
+  color: white;
+  font-family:TitilliumText14L600wt;
+  font-size: 18px;
+}
+.fieldbox {
+  margin-bottom: 1em;
+}
 #email_box, #password_box {float:left; font-size: 14pt;}
   #email_box input, #password_box input {width:380px;height:31px;background:url(/images/forms/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;
     margin: 10px 0;
   }
-#password_box { }
 #login_submit {height:30px;float:right;margin-top:10px;}
+/*
+#content_login_bg {background-image:url(/images/content_login_bg.png);background-repeat:repeat-y;}
+*/
+#login_wrap{margin:0 auto;padding-top:20px;padding-bottom:50px;}
+#login_wrap_left{width:332px;float:left;margin-left:20px;}
+#login_wrap_right{width:385px;float:right;margin-right:20px;}
+	#login_wrap_rightpad{height:104px;}
+		#login_wrap_right h2{margin-bottom:20px;}
+#signupbutton { float: left; width: auto; }
+.formbutton {width:140px;height:42px;float:right;margin-top:20px;}
+    .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+    .long_button a { background: none; }
+    .long_button a:hover { background: none; }
+
+.formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
+#checkbox_login {float:left;font-size:12px;color:#CCCCCC;padding-left:55px;padding-top:30px; }
 
 
 .grey99 {color:#999999;}
 
 /*
-  This is #fancybox-outer now.
+  .modal is #fancybox-outer now.
   .modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
 */
 .modal_in {
