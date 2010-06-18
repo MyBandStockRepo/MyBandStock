@@ -4,9 +4,12 @@
     %h4
       The top 10 fans will receive private video chats with the band!
       Earn more stock by promoting the band on social networks, buying merch and music, and even logging into the site.
-  .formbutton#signupbutton.long_button
-    = link_to 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', new_user_path, :lightbox => true
+  .formbutton.long_button
+    .orange_button_left
+    .orange_button_middle
+      = link_to 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', new_user_path, :lightbox => true
+    .orange_button_right
     -# = submit_tag 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', :onclick => "document.location.href='#{ new_user_path }';  return false;"
-  %p.highlight
+  .highlight{ :style => 'float: left; margin-top: 15px' }
     If you haven't created an account yet, sign up now! It's free and allows you to interact with all the bands on MyBandStock.
 

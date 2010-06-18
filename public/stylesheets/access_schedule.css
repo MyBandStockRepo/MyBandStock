@@ -53,12 +53,13 @@ a:hover {
   width: 524px;
 }
 #mbs-redeem-submit {
-  background: url(/images/buttons/global/black_button.png) no-repeat;
+  background: url(/images/buttons/global/silver_button.png) no-repeat;
   border: 0;
-  width: 88px;
-  height: 26px;
-  color: #CCC;
+  width: 140px;
+  height: 42px;
+  color: #333;
   font-family: TitilliumText14L999wt;
+  font-size: 18px;
   padding-bottom: 2px;
   text-align: center;
   cursor: pointer;
@@ -68,12 +69,13 @@ a:hover {
   font-size: 15px;
 }
 #mbs-share-code {
+  background: url(/images/forms/lone_text_field.png) repeat scroll 0 0 transparent;
   font-family: TitilliumText14L999wt;
   font-size: 21px;
-  height: 25px;
-  width: 9em;
+  height: 42px;
+  width: 374px;
   text-align: center;
-  padding-bottom: 2px;
+  border: 0;
   margin: 0 .5em;
   color: #333;
 }

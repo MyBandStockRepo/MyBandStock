@@ -1,4 +1,6 @@
-= form_for(@share_code) do |f|
+.error.center
+  = flash[:error]
+= form_for(@share_code, :url => {:action => 'redeem_post'} ) do |f|
   = f.error_messages
 
   .field
@@ -9,8 +11,9 @@
   .field
     = f.label 'email'
     %br
-    = text_field nil, 'email'
-    
+    = text_field nil, 'email', :value => @email
+
+    = hidden_field nil, 'lightbox', :value => 'true' if @external
     .actions
       = f.submit
 

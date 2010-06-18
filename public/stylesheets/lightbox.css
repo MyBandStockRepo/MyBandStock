@@ -66,6 +66,9 @@ h4 {
 .error {
   color: red;
 }
+.center {
+  text-align: center;
+}
 
 .clear {clear:both;}
 
@@ -121,6 +124,46 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
 #checkbox_login {float:left;font-size:12px;color:#CCCCCC;padding-left:55px;padding-top:30px; }
 
+/* Buttons */
+.long_button {
+  float: left;
+  height: 42px;
+  width: 381px;
+  padding: 0;
+  margin: 0;
+}
+.orange_button_left {
+  background: url(/images/buttons/global/button_L.png) no-repeat scroll 0 0 transparent;
+  float: left;
+  height: 42px;
+  width: 18px;
+}
+.orange_button_right {
+  background: url(/images/buttons/global/button_R.png) no-repeat scroll 0 0 transparent;
+  float: right;
+  height: 42px;
+  width: 18px;
+}
+.orange_button_middle {
+  background: url(/images/buttons/global/button_span.png) repeat-x scroll 0 0 transparent;
+  float: left;
+  height: 42px;
+  width: 345px;
+  text-align: center;
+}
+.long_button a {
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  text-decoration: none;
+  margin-top: 11px;
+}
+.long_button a:hover {
+  float: left;
+  width: 100%;
+  margin-top: 10px;
+}
+
 
 .grey99 {color:#999999;}
 
@@ -132,6 +175,27 @@ fieldset {border:0px;padding:0px;margin:0px;}
   width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:15px;
   background-position: 0 -90px;
 }
+
+
+.vertical_bar {
+  height: 100%;
+  left: 49%;
+  position: absolute;
+  width: 2px;
+}
+  .vertical_bar .left_half {
+    background-color: #303030;
+    float: left;
+    height: 100%;
+    width: 1px;
+  }
+  .vertical_bar .right_half {
+      background-color: #000;
+      float: left;
+      height: 100%;
+      width: 1px;
+    }
+
 
 /* VIDEO STREAM MODAL */
 

@@ -1,7 +1,5 @@
-//include('http://www.peekok.com/js/peekokLibrary.js');
-
 jQuery.noConflict();
-var mbsDomain = 'http://cobain.mybandstock.com';
+var mbsDomain = 'http://localhost:3000';
 
 
 var script = document.createElement('script');
@@ -42,7 +40,7 @@ jQuery(function() {
 
 function applyShareCodeListener() {
   jQuery('#mbs-redeem-submit').click(function(e) {
-    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ document.getElementById('mbs-share-code').value;
+    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ document.getElementById('mbs-share-code').value + '?lightbox=true';
     jQuery('#mbs-redeem-link').click();
   });
 };
@@ -75,12 +73,12 @@ function accessScheduleJsonCallback(data) {
         jQuery('<div id="mbs-share-code-container"></div>').append(
           '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
         ).append(
-          '<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
-          '<input id="mbs-share-code" type="text">' +
-          '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
+          //'<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
+          '<input id="mbs-share-code" type="text" value="Or Enter Your Access Code Here..." onfocus="this.value=\'\'">' +
+          '<input type="hidden" name="lightbox" value="true">' +
+          '<input id="mbs-redeem-submit" type="submit" value="Redeem!">'
         )
   ;
-
 
   jQuery('#mbs-access-schedule-container').append(
     jQuery('<script type="text/javascript" src="http://www.peekok.com/jswidget/button/id/799">You must enable javascript in order to purchase</script>')
