@@ -1,8 +1,13 @@
 #content_login_bg
   #login_wrap
     #login_wrap_left
+      -if @external
+        .error
+          = flash[:error]
       .formcontainer
         =form_for(:user, :url => {:action => :process_user_login} ) do |f|
+          -if @external
+            = hidden_field_tag 'lightbox', true
           %fieldset
             .fieldname
               .fieldnametop

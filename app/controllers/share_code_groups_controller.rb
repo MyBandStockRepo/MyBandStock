@@ -170,8 +170,7 @@ class ShareCodeGroupsController < ApplicationController
     end
   end
 
-  
-  
+
 private
 
   def generate_char(num)

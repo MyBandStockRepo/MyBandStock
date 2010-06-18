@@ -31,7 +31,6 @@ class LoginController < ApplicationController
   
       
   def process_user_login
-    # TODO: Detect if we should withhold the default layout for a lightbox
     if params[:user].nil? || params[:user][:email].nil? || params[:user][:password].nil?
       if params[:email].nil? || params[:password].nil?
         flash[:notice] = "Email and password not sent appropriately."
@@ -64,7 +63,12 @@ class LoginController < ApplicationController
     else
       flash[:error] = "Email and password do not match."
       @user = User.new(:email => passed_email)
-      render :controller => 'login', :action => :user
+      unless params[:lightbox].nil?
+        @external = true
+        render :controller => 'login', :action => :user, :layout => 'lightbox'
+      else
+        render :controller => 'login', :action => :user
+      end
       return false
     end
   end

@@ -70,14 +70,25 @@ function applyFbListeners() {
 
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
-  var html = jQuery(document.createElement('h1')).addClass('live-streams-title');
-  html.html('Exclusive Live Streams');
+  var title = jQuery(document.createElement('h1')).addClass('live-streams-title').html('Exclusive Live Streams');
+  var redeemCodeSection =
+        jQuery('<div id="mbs-share-code-container"></div>').append(
+          '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
+        ).append(
+          '<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
+          '<input id="mbs-share-code" type="text">' +
+          '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
+        )
+  ;
+
 
   jQuery('#mbs-access-schedule-container').append(
     jQuery('<script type="text/javascript" src="http://www.peekok.com/jswidget/button/id/799">You must enable javascript in order to purchase</script>')
   ).append(
     jQuery('<a href="#" class="mbs-exclusive-access-banner" onclick="peekok_button_submit(799)"><img src="'+ mbsDomain + data.banner_image +'" /></a>')
-  ).append(html);
+  ).append(
+    redeemCodeSection
+  ).append(title);
 
   jQuery.each(data.serieses, function(seriesIndex, series) { // for each series
     var seriesTitle = jQuery(document.createElement('h2')).addClass('series-name');
@@ -108,14 +119,6 @@ function accessScheduleJsonCallback(data) {
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
-      jQuery('<div id="mbs-share-code-container"></div>').append(
-        '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
-      ).append(
-        '<label for="mbs-share-code" id="mbs-share-code-label">Enter access code:</label>' +
-        '<input id="mbs-share-code" type="text">' +
-        '<input id="mbs-redeem-submit" type="submit" value="Redeem">'
-      )
-    ).append(
       jQuery('<div id="mbs-powered-by">Powered by MyBandStock.com</div>')
     );
   });

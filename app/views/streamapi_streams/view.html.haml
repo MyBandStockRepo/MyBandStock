@@ -20,7 +20,8 @@
         "&key=#{ @viewer_key }", |
         :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf" }
       -else
-        = "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }</strong>, however the stream ultimately begins whenever the broadcaster chooses."
+        = raw "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }</strong>, however the stream ultimately begins whenever the broadcaster chooses."
+        -# = render :partial => 'not_yet'
     %h2
       = @stream.title
       %span.grey99

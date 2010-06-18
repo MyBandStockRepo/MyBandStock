@@ -18,7 +18,8 @@
 .content_onethird_bg
   .left_third
     .dark_bar
-      = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+      -# = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+      = link_to band.name, '#', :class => 'schedule_band_name'
     .dark_bar_large
       .link_darkbar_padding
       .link_darkbar

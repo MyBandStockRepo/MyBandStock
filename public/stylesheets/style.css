@@ -167,7 +167,7 @@ div#slides ul li.show {z-index:500}
 .loggedin {height:29px;line-height:29px;background:#F90;margin-top:5px;float:right;background-image:url(/images/header/loggedin_bg.png);background-repeat:repeat-x;font-weight:bold;}
 	.loggedin_leftborder{width:1px;height:29px;background-image:url(/images/header/loggedin_leftborder.png);float:left;}
 	#logged_info{color:#333333;margin-left:19px;margin-right:20px;float:left;}
-		#logged_info #user_email{color:#333333;float:left;}
+		#logged_info #user_email{color:#333333;float:left; cursor: default; }
 		/* #logged_info a:hover{color:#FFFFFF;} */
 
 .logout {display:block;width:82px;height:29px;background-image:url(/images/header/logout.png);float:left;}
@@ -301,7 +301,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 #login_wrap{width:940px;margin:0 auto;padding-top:20px;padding-bottom:50px;}
 #login_wrap_left{width:540px;float:left;margin-left:20px;}
 #login_wrap_right{width:300px;float:right;margin-right:20px;margin-top:20px;}
-	#login_wrap_rightpad{height:104px;}
+	#login_wrap_rightpad{height:128px;}
 		#login_wrap_right h2{margin-bottom:20px;}
 #signupbutton { float: left; }
 /*#signupbutton {width:140px;height:42px;float:left;margin-top:20px;}

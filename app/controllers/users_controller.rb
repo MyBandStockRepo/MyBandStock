@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     else
       @states = nil
     end
-  
+    render :layout => 'lightbox' unless params[:lightbox].nil
   end
   
   
@@ -115,16 +115,12 @@ class UsersController < ApplicationController
       #if the state isn't in the country then reset the state_id update and redirect
       params[:user][:state_id] = 1
 
-			
       @user.update_attributes(params[:user])
-   
-  
       
       redirect_to :action => "state_select"
       return true
       end
     end
-
     
     if params[:user][:phone]
       params[:user][:phone].gsub!(/[^0-9]/, '')#clean phone
