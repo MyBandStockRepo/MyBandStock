@@ -6,7 +6,7 @@ gem 'builder'
 gem 'twitter'
 gem 'twitter-text'
 gem 'SystemTimer', :require => false
-
+gem 'will_paginate', '3.0.pre'
 gem 'newrelic_rpm', :require => false
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'

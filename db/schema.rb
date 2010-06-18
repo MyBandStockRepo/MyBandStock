@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100608211500) do
+ActiveRecord::Schema.define(:version => 20100618014750) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.string  "name"
   end
 
+  create_table "fans", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "live_stream_series", :force => true do |t|
     t.string   "title",        :null => false
     t.datetime "starts_at",    :null => false
@@ -84,6 +92,21 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.string   "stream_quality_level"
     t.integer  "user_id"
     t.integer  "live_stream_series_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pledged_bands", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "pledges_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pledges", :force => true do |t|
+    t.integer  "pledged_band_id"
+    t.integer  "fan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -205,15 +228,6 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.integer  "twitter_id",          :null => false
     t.string   "oauth_access_token"
     t.string   "oauth_access_secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "urls", :force => true do |t|
-    t.string   "destination",                     :null => false
-    t.string   "key",                             :null => false
-    t.integer  "maker_id"
-    t.string   "maker_type",  :default => "User"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

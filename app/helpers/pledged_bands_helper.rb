@@ -1,0 +1,2 @@
+module PledgedBandsHelper
+end

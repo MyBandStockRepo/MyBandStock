@@ -1,0 +1,37 @@
+<div class="orange_bar">
+	<img src="/images/about_us.gif" alt="" />
+</div><!-- orange_bar -->
+
+<div id="full_height">
+
+	<div id="vimeo_about">
+		<object width="440" height="247"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=8988971&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=8988971&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="440" height="247"></embed></object>
+	</div><!-- vimeo_about -->
+	
+	<div id="about_right">
+		MyBandStock is a start-up company created by musicians, technologists and designers in Ann Arbor, MI. We're proud to be contributing innovation, new value and ideas to an industry that is overdue for change.
+		<br /><img src="/images/contact.gif" alt="" />
+		<br /><span class="orange_mail">info</span> @ <span class="orange_mail">mybandstock.com</span>
+		<p class="graysmall">MyBandStock Corporation<br />
+		210 South Division, Suite 420<br />
+		Ann Arbor, MI 48104</p>
+	</div><!-- about_right -->
+
+</div><!-- /full_height -->
+	
+	<div id="search">
+    <%= form_tag(store_band_name_path, :method => "get") do %>
+  		<fieldset> 
+  			<div id="searchbox">
+          <%= text_field  :band, :search_text, :value => "Find Your Favorite Artist..."%>
+  			  </div><!-- /searchbox --> 
+  				<div id="searchbutton"> 
+  					<%= submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled' %>
+  			</div><!-- /searchbutton -->
+  		</fieldset> 
+  	<% end %> 
+  </div><!-- /search -->
+	
+	<div id="artistlink">
+		Artists, Managers, Labels - <%= link_to "Need More Info?", "mailto:info@mybandstock.com" %>
+	</div><!-- /artistlink -->
