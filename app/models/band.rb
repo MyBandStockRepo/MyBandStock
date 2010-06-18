@@ -1,6 +1,5 @@
 class Band < ActiveRecord::Base
   
-  
   has_many :associations, :dependent => :destroy
   has_many :users, :through => :associations
 
@@ -9,6 +8,11 @@ class Band < ActiveRecord::Base
 
   # A shortened URL might have a "maker", which could refer to a band or a user.
   has_many :short_urls, :as => :maker
+  has_many :share_totals
+  belongs_to :country
+  belongs_to :state
+  belongs_to :twitter_user
+  has_many :live_stream_series, :dependent => :destroy
   
 #  has_many :contribution_levels, :dependent => :destroy
 #  has_many :perks, :dependent => :destroy
@@ -16,24 +20,19 @@ class Band < ActiveRecord::Base
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
 #  has_many :band_statistics, :dependent => :destroy
 #  has_many :earned_perks, :dependent => :destroy
-  
+
 #  has_many :news_entries, :dependent => :destroy
 #  has_many :concerts, :dependent => :destroy
 #  has_many :stage_comments, :dependent => :destroy
 #  has_many :photos, :dependent => :destroy
 #  has_many :songs, :dependent => :destroy
 #  has_many :projects, :dependent => :destroy
-  
+
 #  has_many :photo_albums, :dependent => :destroy
 #  has_many :music_albums, :dependent => :destroy
-  
+
 #  has_many :band_mails
   #has_many :received_mail, :through => 'band_mail', :source => 'BandMail', :conditions => 'from_band = 0'
-  
-  belongs_to :country
-  belongs_to :state
-  belongs_to :twitter_user
-  has_many :live_stream_series, :dependent => :destroy
   
   validates_presence_of :name, :country_id, :zipcode, :city, :short_name
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."

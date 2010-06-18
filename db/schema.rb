@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100608211500) do
+ActiveRecord::Schema.define(:version => 20100618001246) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -127,12 +127,30 @@ ActiveRecord::Schema.define(:version => 20100608211500) do
     t.string   "key",                                    :null => false
     t.boolean  "redeemed",            :default => false, :null => false
     t.integer  "share_code_group_id"
-    t.integer  "user_id",             :default => 0
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "share_codes", ["key"], :name => "index_share_codes_on_key", :unique => true
+
+  create_table "share_ledger_entries", :force => true do |t|
+    t.integer  "adjustment",  :null => false
+    t.integer  "user_id",     :null => false
+    t.integer  "band_id",     :null => false
+    t.string   "description", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "share_totals", :force => true do |t|
+    t.integer  "net"
+    t.integer  "gross"
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "short_urls", :force => true do |t|
     t.string   "destination",                     :null => false
