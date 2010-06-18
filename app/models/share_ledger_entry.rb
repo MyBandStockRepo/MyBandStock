@@ -4,7 +4,7 @@ class ShareLedgerEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :band
   
-  after_create :update_share_total
+  after_save :update_share_total
   
   
   
