@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     else
       @states = nil
     end
-    render :layout => 'lightbox' unless params[:lightbox].nil
+    render :layout => 'lightbox' unless params[:lightbox].nil?
   end
   
   
@@ -198,6 +198,10 @@ class UsersController < ApplicationController
       end
       #update the states list
       state_select(@user.country_id)
+    end
+    
+    unless params[:lightbox].nil?
+      render :layout => 'lightbox'
     end
 
   end

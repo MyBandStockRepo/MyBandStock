@@ -318,6 +318,11 @@ fan = User.create( :first_name => 'Cucumber',
                    :agreed_to_tos => true,
                    :agreed_to_pp => true)
 
+# This is the MBS API user that we use internally. These keys must match exactly the ones listed
+# in environment.rb. For example, when we apply share code permissions, we call the MBS API with
+# these credentials, pulled from config.
+our_api_user = ApiUser.create( :api_key => 'a3dcf5600b117fc0',
+                               :secret_key =>  '7f5ba404ac8599fd0cf3623ebf84e97a' )
 
 #adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
 #r = User.find(adminUser.id).roles.create(:name => 'site_admin')

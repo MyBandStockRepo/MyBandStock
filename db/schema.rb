@@ -136,9 +136,9 @@ ActiveRecord::Schema.define(:version => 20100618001246) do
 
   create_table "share_ledger_entries", :force => true do |t|
     t.integer  "adjustment",  :null => false
+    t.string   "description", :null => false
     t.integer  "user_id",     :null => false
     t.integer  "band_id",     :null => false
-    t.string   "description", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -222,6 +222,15 @@ ActiveRecord::Schema.define(:version => 20100618001246) do
     t.integer  "twitter_id",          :null => false
     t.string   "oauth_access_token"
     t.string   "oauth_access_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "urls", :force => true do |t|
+    t.string   "destination",                     :null => false
+    t.string   "key",                             :null => false
+    t.integer  "maker_id"
+    t.string   "maker_type",  :default => "User"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

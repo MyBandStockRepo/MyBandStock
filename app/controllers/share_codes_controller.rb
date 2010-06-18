@@ -1,3 +1,5 @@
+require 'MBS_API'
+
 class ShareCodesController < ApplicationController
 
   before_filter :user_has_site_admin, :except => [:redeem, :redeem_post]
@@ -8,6 +10,9 @@ class ShareCodesController < ApplicationController
     if session[:user_id]
       @email = User.find(session[:user_id]).email
     end
+    
+    @email = params[:email] if params[:email]
+    
     unless params[:lightbox].nil?
       @external = true
       render :layout => 'lightbox'
@@ -25,24 +30,38 @@ class ShareCodesController < ApplicationController
        params[:email].nil? || params[:share_code][:key] == '' || params[:email] == ''
 
       flash[:error] = 'You must provide both the Share Code and your email address.'
-      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      redirect_to :action => :redeem,
+                  :email => params[:email],
+                  :lightbox => params[:lightbox]
+      return false
+    end
+    
+    share_code_entry = ShareCode.where(:key => params[:share_code][:key]).first
+
+    # Does code exist?
+    if share_code_entry.nil?
+      flash[:error] = 'That Share Code is invalid. Please check that you typed it correctly.'
+      redirect_to :action => :redeem,
+                  :mbs_share_code => params[:share_code][:key],
+                  :email => params[:email],
+                  :lightbox => params[:lightbox]
       return false
     end
     
     # Check if the share code has already been redeemed
-    if ShareCode.where(:key => params[:share_code][:key]).first
+    if share_code_entry.redeemed
       flash[:error] = 'That Share Code has already been redeemed!'
       redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
     end
     
-    # If the user exists, we send to complete_redemption
+    # If the user exists, we send him to complete_redemption
     # If the user does not exist, we send him to create an account
-    if User.where(:email => params[:share_code][:email]).first
-      redirect_to :action => :complete_redemption
+    if User.where(:email => params[:email]).first
+      redirect_to :action => :complete_redemption, :key => params[:share_code][:key], :email => params[:email]
       return true
     else
-      setUserFormActionToGoToComplete
-      redirect_to new_user_path
+      redirect_to new_user_path( :lightbox => params[:lightbox] )
       return true
     end
     
@@ -55,7 +74,47 @@ class ShareCodesController < ApplicationController
   # 3. Hit up the MBS API so the user gets necessary privileges and emails
   
     # Do some sanity checks
+    if params[:key].nil? || params[:email].nil?
+      flash[:error] = 'You must provide both the Share Code and your email address.'
+      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
+    end
+    
+    share_code = ShareCode.where(:key => params[:key]).first
 
+    # Does code exist?
+    if share_code.nil?
+      flash[:error] = 'That Share Code is invalid. Please check that you typed it correctly.'
+      redirect_to :action => :redeem,
+                  :mbs_share_code => params[:key],
+                  :email => params[:email],
+                  :lightbox => params[:lightbox]
+      return false
+    end
+    
+    share_code.redeemed = true
+    share_code.user = User.where(:email => params[:email]).first
+    priv_success = apply_privileges( share_code )
+    
+    if priv_success
+      unless share_code.save
+        redirect_to :action => :redeem,
+                    :mbs_share_code => params[:key],
+                    :email => params[:email],
+                    :lightbox => params[:lightbox]
+        return false
+      else
+        flash[:notice] = 'Code redeemed!'
+      end
+    else
+      flash[:error] = 'Oops, try inputting the code again.'
+      redirect_to :action => :redeem,
+                  :mbs_share_code => params[:key],
+                  :email => params[:email],
+                  :lightbox => params[:lightbox]
+      return false
+    end
+    
     render :nothing => true
   end
 
@@ -140,4 +199,31 @@ class ShareCodesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+
+  private
+  
+  def apply_privileges (share_code)
+  # Takes a share_code object, which must have a key and a user associated with it.
+
+    if share_code.nil? || share_code.key.nil? || share_code.user.nil?
+      return false
+    end
+
+    case share_code.key[0..2]
+    when 'LSS'
+      logger.info 'LSS permissions about to be applied'
+      unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY, :hash => OUR_MBS_API_HASH } )
+        return false
+      end
+    else
+      logger.info 'Not LSS code'
+    end
+    
+    
+    
+    return true
+  end
+  
 end
+

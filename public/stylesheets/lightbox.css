@@ -19,9 +19,9 @@
 
 body#lightbox {
   width:100%;
-  background-image:url(/images/backgrounds/bg.gif);
-  background-repeat:repeat-x;
-  background-color:#37332c;
+  /*background-image:url(/images/backgrounds/bg.gif);
+  background-repeat:repeat-x;*/
+  background-color:#191919;
   margin:0px;
   padding: 0;
   font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
@@ -163,6 +163,31 @@ fieldset {border:0px;padding:0px;margin:0px;}
   width: 100%;
   margin-top: 10px;
 }
+
+
+/* Form styles */
+fieldset {border:0px;padding:0px;margin:0px;}
+    input {outline:0px;}
+.fieldbox {float:left;margin-top:20px;}
+    .fieldbox input, .fieldbox .form_input_text {width:380px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+    .fieldbox select {
+      width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;
+    }
+    .fieldbox input[type=password] {
+      font-family: inherit;
+    }
+    .fieldbox .form_input_text {
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 6px;
+    }
+    .fieldbox .form_input_text a:hover {
+      color: #000;
+    }
+.fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
+	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
+	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
+
 
 
 .grey99 {color:#999999;}

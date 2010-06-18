@@ -26,4 +26,10 @@ STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
 
 URL_SHORTENER_HOST = 'http://mbs1.us'
 
+# These keys must match exactly those of the ApiUser created in seeds. We use this user for internal
+# permission granting. For example, when we apply share code permissions, we call the MBS API with
+# these credentials.
+OUR_MBS_API_KEY = 'a3dcf5600b117fc0'
+OUR_MBS_API_SECRET_KEY = '7f5ba404ac8599fd0cf3623ebf84e97a'
+OUR_MBS_API_HASH = 'afc0c639f89e9e81230d457a1d4abe15bb3acaafe3345eef55e84754040823fe'
 

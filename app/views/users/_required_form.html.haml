@@ -44,7 +44,7 @@
                 = f.password_field :password, :value => ''
           - if @user.status != 'pending'
             .desc
-              Leave this blank if you wish to keep your current password.
+              Leave this unchanged if you wish to keep your current password.
         .fielderror
           - if @user.errors[:password]
             - for e in @user.errors[:password]
@@ -84,6 +84,7 @@
         .fieldleft                
           .formbutton
             = f.submit 'SUBMIT'
-          .formbutton_nextto
-            = button_to 'BACK', :url => session[:last_clean_url]
+          -if params[:action] == 'edit'
+            .formbutton_nextto
+              = button_to 'BACK', :url => session[:last_clean_url]
     .clear

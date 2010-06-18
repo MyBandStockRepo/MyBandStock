@@ -45,6 +45,12 @@ Cobain::Application.routes.draw do |map|
 
 	match '/users/activate', :to => 'users#activate'
 
+  
+  # ---- Share Codes ---- #
+    match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
+    match 'share_codes/redeem', :to => 'share_codes#redeem'
+    match '/share_codes/complete_redemption', :to => 'share_codes#complete_redemption'
+  # /--- Share Codes ---- #
 
   resources :streamapi_stream_themes
   resources :share_code_groups
@@ -65,11 +71,6 @@ Cobain::Application.routes.draw do |map|
 
 
   match 'developers', :to => 'developer#index'
-  
-  # ---- Share Codes ---- #
-    match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
-    match 'share_codes/redeem', :to => 'share_codes#redeem'
-  # /--- Share Codes ---- #
   
   # ---- URL Shortener ---- #
     match 'short(/:key)', :to => 'short_urls#redirect'

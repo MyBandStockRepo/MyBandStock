@@ -1,4 +1,4 @@
-class ApiController < ApplicationController
+module MBS_API
   # Required inputs for all API calls:
   #   api_key
   #   hash      - sha256(API key + secret key)
@@ -11,13 +11,7 @@ class ApiController < ApplicationController
   # On failure, '-1' is returned.
   #
 
-  before_filter :authenticated?, :only => 'test'
-
-  def index
-    render :nothing => true
-  end
-
-  def change_stream_permission
+  def MBS_API.change_stream_permission(params = nil)
     # Input: the above input is required; the following are optional:
     #   email, stream_series, can_view, can_chat, quality_level
     # If email is not specified, nothing will happen (but still return success)
@@ -27,6 +21,12 @@ class ApiController < ApplicationController
     # On failure, '-1' is returned.
     #
 
+    if params.nil?
+      Rails.logger.info 'No params'
+      #response.headers["Content-Type"] = 'text/html' unless response.nil?
+      #render :text => '-1'
+      return false
+    end
 
     stream_quality_level = params[:stream_quality_level]
     stream_series_id = params[:stream_series]
@@ -41,14 +41,15 @@ class ApiController < ApplicationController
 
     if params[:auto_generate_hash] && Rails.env == 'development' && (api_user = ApiUser.find_by_api_key(api_key))
       hash = Digest::SHA2.hexdigest(api_key.to_s + api_user.secret_key.to_s)
-      logger.info "\nAuto-generated hash: #{ hash }\n"
+      Rails.logger.info "\nAuto-generated hash: #{ hash }\n"
     end
     if (auth(api_key, stream_series_id, hash, api_version) == false)
-      logger.info "\nFailed API auth.\n"
-      response.headers["Content-Type"] = 'text/html'
-      return render :text => '-1'
+      Rails.logger.info "\nFailed API auth.\n"
+      #response.headers["Content-Type"] = 'text/html'
+      #render :text => '-1'
+      return false
     end
-    logger.info "\nPassed API auth.\n"
+    Rails.logger.info "\nPassed API auth.\n"
 
 		newUser = false
 
@@ -71,13 +72,6 @@ class ApiController < ApplicationController
                   :status => 'pending',
                   :agreed_to_tos => false,
                   :agreed_to_pp => false)
-=begin			
-			unless user.save			
-				logger.info "\nFailed To Create User.\n"
-				response.headers["Content-Type"] = 'text/html'
-				return render :text => '-1'
-			end
-=end			
     end
 
     privileges_hash = {
@@ -101,9 +95,10 @@ class ApiController < ApplicationController
       ssp.live_stream_series_id = stream_series_id
       
       unless ssp.save
-				logger.info "\nFailed To Create Live Stream Series Permission.\n"
-				response.headers["Content-Type"] = 'text/html'
-				return render :text => '-1'      	
+				Rails.logger.info "\nFailed To Create Live Stream Series Permission.\n"
+				#response.headers["Content-Type"] = 'text/html'
+				#render :text => '-1'
+				return false
       end
       
     else
@@ -118,7 +113,6 @@ class ApiController < ApplicationController
 				UserMailer.existing_user_stream_schedule_notification(user, streamingBand, lss).deliver
 			end
 		end
-#    UserMailer.registration_notification(user).deliver
 
     @output = { :api_key => api_key,
                 :hash => hash,
@@ -130,25 +124,11 @@ class ApiController < ApplicationController
                 :stream_quality_level => privileges_hash[:stream_quality_level] || 0
               }
 
-#    respond_to do |output_format|
-#      output_format.xml { render :xml => @output }
-#      output_format.json  { render :json => @output }
-#      # output_format.yaml { render :yaml => @output }
-#    end
-=begin
-    if (output_format == 'json')
-      render :json => @output
-    elsif (output_format == 'xml')
-      render :xml => @output
-    elsif (output_format == 'yaml')
-      # Output YAML from here
-    end
-=end
     output_format = 'json' if output_format == 'nil'
-    logger.info "\nAbout to render callback output.\n"
+    Rails.logger.info "\nAbout to render callback output.\n"
     case output_format
       when 'json'
-        logger.info "\nJSON response\n"
+        Rails.logger.info "\nJSON response\n"
         render :json => @output
       when 'xml'
         render :xml => @output
@@ -157,12 +137,9 @@ class ApiController < ApplicationController
     end
   end
 
-  def test
-  end
-
 private
 
-  def auth(api_key, stream_series_id, input_hash, api_version)
+  def MBS_API.auth(api_key, stream_series_id, input_hash, api_version)
     # Takes API POST input as function parameters, and returns false if the request is unauthorized, true otherwise.
 
     # Retrun false if:
@@ -174,13 +151,13 @@ private
     # TODO: check ApiUser-LiveStreamSeries association
 
     if (api_key.nil? || input_hash.nil? || api_version.nil?)
-      logger.info 'Key, hash, or version not specified'
+      Rails.logger.info 'Key, hash, or version not specified'
       return false
     end
 
     # If the api_key does not exist in DB
     if (! (api_user = ApiUser.find_by_api_key(api_key)) )
-      logger.info 'Invalid API User'
+      Rails.logger.info 'Invalid API User'
       return false
     end
 
@@ -189,13 +166,12 @@ private
     # If given is not what it is supposed to be; this could either be because
     #  they simply calculated the hash wrong, or did not use the right secret key
     if (input_hash != test_hash.to_s)
-      logger.info 'Incorrect hash'
+      Rails.logger.info 'Incorrect hash'
       return false
     end
 
     return true
   end
-
 
 
 end

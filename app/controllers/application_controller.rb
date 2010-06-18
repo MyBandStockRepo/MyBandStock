@@ -323,4 +323,5 @@ use the band's oauth
 			end
     end
 		helper_method :client
+		
 end
