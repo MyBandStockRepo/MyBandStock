@@ -1,0 +1,23 @@
+<script>
+  jQuery(document).ready( function(){
+
+    	//AUTOCOMPLETE
+    	jQuery('#admin_band_name').autocomplete('/pledged_bands.js',{ highlightItem: false});            
+  })
+</script>
+<div id="admin_new_record_div">
+  <% form_tag(admin_new_entry_create_path, :method => "post") do %>
+			  <span>Enter New Band </span><br>
+			  <span style="color: red"><%= flash[:notice] -%></span>
+			  <table class ="admin_new_record_table">
+			    <tr><td>Band Name: <%= text_field  :admin, :band_name %></td></tr>
+			    <tr><td>First Name: <%= text_field  :admin, :first_name %></td></tr>
+			    <tr><td>Last Name: <%= text_field  :admin, :last_name %></td></tr>
+			    <tr><td>Email: <%= text_field  :admin, :email %></td></tr>
+			  </table>  
+				<%= submit_tag 'Submit' %>
+	<% end %> 
+</div><!-- /search -->
+<div>
+  <%= link_to 'Admin Home', dashboard_path %>
+</div>

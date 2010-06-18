@@ -1,0 +1,84 @@
+<script>
+jQuery(document).ready(function() {
+  
+  //CLEAR INPUT ONFOCUS
+  jQuery('.required').each(function() {
+      var default_value = this.value;
+      jQuery(this).focus(function() {
+          if(this.value == default_value) {
+              this.value = '';
+          }
+      });
+      jQuery(this).blur(function() {
+          if(this.value == '') {
+              this.value = default_value;
+          }
+      });
+      
+      jQuery('#commentForm').submit(function(){
+          // On submit disable its submit button
+          jQuery('#new_fan_submit_button').attr('disabled', 'disabled');
+      });
+      
+      //when login button pressed make progress indicator gid visible
+    	jQuery('#new_fan_submit_button').click(function () { 
+        jQuery('#indicator').show();
+      })
+  });
+});
+</script>
+<div class="modal">
+	<div class="modal_in">
+		<div class="modalhalf">
+			<div class="lefthalf">
+			
+				<div class="fanssuggested">
+				  <% if @band_pledges_number == 0 -%>
+            0
+          <% else %>
+            <%= @band_pledges_number %>
+          <% end -%><img src="/images/fanssuggested.gif" alt="" />
+				</div><!-- /fanssuggested -->
+				<div class="artistname">
+					<%= @band_name %>
+				</div><!-- /artistname -->
+				<img src="/images/howwork.gif" alt="" />
+				<div class="needemails">
+					<span class="greytext">We need 1000 e-mails so we can go directly to this artist!</span> Help them get on MyBandStock by entering some details >>
+				</div><!-- /needemails -->
+
+			</div><!-- /lefthalf -->
+			
+		</div><!-- /modalhalf -->
+		
+		<div class="modalhalf">
+		
+			<div class="vimeobox">
+        <object width="440" height="247"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=8988971&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=8988971&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="440" height="247"></embed></object>
+	  </div><!-- /vimeobox --> 
+			<div class="emailform">
+        <%= form_for :fan, @fan, :url => fans_path, :html => { :id =>"commentForm" } do |f| %> 
+          <fieldset> 
+          	<div id="namebox"> 
+          		<%= f.text_field :full_name, :value => get_name_value, :class => 'required' %> 
+          	</div><!-- /namebox -->
+          	<div id="emailbox"> 
+          		<%= f.text_field :email, :value => get_email_value, :class => "required" %> 
+          	</div><!-- /emailbox -->
+          	 <%= f.hidden_field :fan_new_pledged_band, :value => @band_name %>
+          	<div id="emailbutton"> 
+          		<%= submit_tag '', :id => 'new_fan_submit_button' %>
+          	</div><!-- /emailbutton -->             
+          </fieldset>
+          <%= error_message_on "fan", "name" %>
+          <%= error_message_on "fan", "email" %>
+        <% end -%>
+        <p style="color: red; font-size: 14px"><%= flash[:error] %></p>
+			</div><!-- /emailform -->
+		</div><!-- /modalhalf -->
+		
+		<div class="clear">
+		</div><!-- /clear -->
+		
+	</div><!-- /modal_in -->
+</div><!-- /modal -->

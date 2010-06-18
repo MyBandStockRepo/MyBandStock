@@ -6,7 +6,7 @@ gem 'builder'
 gem 'twitter'
 #following added by JM so we can run this under ruby 1.9
 gem 'twitter-text', "1.1", :git => 'git://github.com/rubypond/twitter-text-rb.git'
-
+gem 'will_paginate', '>= 3.0.pre'
 gem 'newrelic_rpm', :require => false
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'

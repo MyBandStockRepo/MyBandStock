@@ -1,0 +1,68 @@
+<script>
+jQuery(document).ready(function() {
+  
+  //SEARCH INPUT ONFOCUS CLEAR BOX, ENABLE SUBMIT BUTOTN  
+  jQuery('#band_search_text').each(function() {
+      var default_value = this.value;
+      jQuery(this).focus(function() {
+          jQuery('#band_search_text_button').removeAttr("disabled");
+          if(this.value == default_value) {
+              this.value = '';
+          }
+      });
+  });
+  
+  //AUTOCOMPLETE
+	jQuery('#band_search_text').autocomplete('/pledged_bands.js',{ highlightItem: false});
+	
+});
+</script>
+<div class="modal">
+	<div class="modal_in">
+		<div class="yousuggested">
+			<img src="/images/yousuggested.gif" alt="" /><%= @pledged_band.name %>
+		</div><!-- /yousuggested -->
+		
+		<div class="thanks">
+			<span class="white">Thanks <%= @fan.first_name %></span><br />
+			You’re now one step closer to exclusive access with <%= @pledged_band.name %> when they join MyBandStock. We’ll be in touch.<br />
+			<!--<span class="white">Get 100 extra shares, and help get your band on MyBandStock by sharing this on your favorite social network.</span>-->
+			<span class="white">Help get your band on MyBandStock by sharing this on your favorite social network.</span>			
+			
+			<div class="socialbox">
+<!--        <div style="float: left; margin-right: 50px; padding-top: 30px; margin-left: 30px "><fb:login-button v="2" size="medium" onlogin="window.location.href = &quot;<%= fan_shared_path(:band_id => @pledged_band.id,:fan_id => @fan.id) %>&quot;" class="social facebook">Post to Facebook</fb:login-button></div>-->
+				<!-- MYSPACE FORM
+				<form id="myspacepostto" method="post" action="http://www.myspace.com/index.cfm?fuseaction=postto"
+        target="_blank">
+            <input type="hidden" name="t" value="MyBandStock.com" />
+            <input type="hidden" name="c" value="<%= @fan.first_name %> is 1 of <%= @pledged_band.pledges_count %> shareholders to have stock in <%= get_band_name_titlelized(@pledged_band.name) %> on Mybandstock.com." />
+            <input type="hidden" name="u" value="http://www.mybandstock.com/bands/<%= get_band_name_for_url(@pledged_band.name) %>" />
+            <input type="hidden" name="r" value="http://www.mybandstock.com/bands/<%= get_band_name_for_url(@pledged_band.name) %>" />
+            <a class="social myspace" href="#" onclick="document.getElementById('myspacepostto').submit();return false;"></a>
+        </form>myspace form -->
+				<!-- Twitter -->
+				<a class="social twitter" title="tweet this" href="http://twitter.com/home?status=<%= @fan.first_name %> now is a shareholder in <%= get_band_name_titlelized(@pledged_band.name) %>! He is 1 of <%= @pledged_band.pledges_count %> to have stock in <%= get_band_name_titlelized(@pledged_band.name) %> on @Mybandstock" onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no'); return false;"></a><!-- Twitter -->
+			</div><!-- /socialbox -->
+			<div class="searchagain">
+				  <%= form_tag(store_band_name_path, :method => "get") do %>
+					<fieldset> 
+						<div id="searchbox"> 
+							<%= text_field  :band, :search_text, :value => "Suggest Another Artist", :class => 'search_box' %>
+						</div><!-- /searchbox --> 
+						 <%= hidden_field :fan_band_id, :id, :value => @fan.id %>
+             
+						<div id="searchbutton">  
+							<%= submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled' %>
+						</div><!-- /searchbutton --> 
+					</fieldset>
+				<% end %>
+			</div><!-- /searchagain -->
+		
+		<div class="clear">
+		</div><!-- /clear -->
+		
+		</div><!-- /thanks -->
+		
+	</div><!-- /modal_in -->
+</div><!-- /modal -->
+<div id="posts"></div>

@@ -1,4 +1,12 @@
 Cobain::Application.routes.draw do |map|
+  resources :pledges
+
+  resources :pledged_bands
+
+  resources :fans
+
+  resources :facebook_publishers
+
 
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
@@ -259,11 +267,66 @@ Cobain::Application.routes.draw do |map|
   
   
   
+  
+  
+  # PROD ROUTES
+  
+  #CONTROLLER: FANS
+  map.store_band_name '/store_band_name', :controller => 'fans', :action => 'store_band_name'
+  
+  map.fan_new_suggestions '/pledge_bands/:band_name', :controller => 'fans', :action => 'new'
+
+  map.fans '/fans/create', :controller=>"fans", :action=>"create", :conditions => { :method => :post } 
+  
+  map.fan_pledged '/pledge_bands/:band_id/:fan_id/pledged', :controller => 'fans', :action => 'fan_pledged'
+  
+  map.fan_shared '/pledge_bands/:band_id/:fan_id/shared', :controller => 'fans', :action => 'fan_shared'
+    
+#  map.get_rid_of_dupes '/fans/clean', :controller => 'fans', :action => 'get_rid_of_dupes'    
+#    map.consolidate_fans '/fans/consolidate', :controller => 'fans', :action => 'consolidate_fans'    
+#    map.delete_fans '/fans/delete', :controller => 'fans', :action => 'delete_fans'    
+
+    
+  #CONTROLLER: PLEDGED_BANDS
+  map.connect '/pledged_bands.js', :controller => 'pledged_bands', :action => 'index'
+  
+
+  #ROOT: CONTROLLER PLEDGES
+  map.root :controller => "pledges", :action => "new"
+  
+   #CONTROLLER: DASHBOARD
+  map.dashboard 'dashboard', :controller => 'dashboard', :action => 'home'
+  
+  map.admin_new_entry 'dashboard/new_entry', :controller => 'dashboard', :action => 'admin_new_entry'
+  
+  map.admin_new_entry_create 'dashboard/admin_new_entry_create', :controller => 'dashboard', :action => 'admin_new_entry_create'
+  
+  map.home_refine_band '/home_refine_band', :controller => 'dashboard', :action => 'home_refine_band'
+  
+  map.export_all_bands '/export_to_xls', :controller => 'dashboard', :action => 'export_all'
+  
+  map.export_by_bands '/export_single_to_xls', :controller => 'dashboard', :action => 'export_by_band'
+  
+   #CONTROLLER: STATICS
+  map.pbands 'pledge_bands', :controller => 'statics', :action => 'pbands'
+  
+  map.faq 'faq', :controller => 'statics', :action => 'faq'
+  
+  map.about 'about', :controller => 'statics', :action => 'about'
+  
   # Install the default routes as the lowest priority.
   match ':controller(/:action)'
   match '/:controller(/:id(/:action))'
   
   match '/:one_term', :to => 'search#one_term_url'
+
+
+
+
+  
+  
+
+
   
    
 end
