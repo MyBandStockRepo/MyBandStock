@@ -1,0 +1,127 @@
+<script>
+  jQuery(document).ready( function(){
+
+    	//AUTOCOMPLETE
+    	jQuery('#filter_band_name').autocomplete('/pledged_bands.js',{ highlightItem: false});            
+  })
+</script>
+<h1>Dashboard</h1>
+
+<div id="">
+  <% form_tag(home_refine_band_path, :method => "get") do %>
+			  <span>Filter by Band </span>
+			  <%= text_field  :filter, :band_name %>
+				<%= submit_tag 'Update' %>
+	<% end %> 
+</div><!-- /search -->
+<div>
+  <%= link_to 'New Pledge', admin_new_entry_path %>
+</div>
+<p>PLedged Bands</p>
+<div>
+  <%= link_to 'All Bands', dashboard_path %>
+</div>
+<table border="1">
+  <tr>
+    <td>Band</td>
+    <td>#Pledges</td>
+    <td>Name</td>
+    <td>Email</td>
+    <td>Day</td>
+    <td>Time</td>
+  </tr>
+  <% unless @bands.nil? %>
+  <%=link_to "Export As Excel", export_all_bands_path %>
+    <%- for band in @bands %>
+      <tr>
+        <td><%= band.name %></td>
+        <td><%= band.pledges.size %></td>
+        <td>
+            <table>
+            <%- for pledge in band.pledges %>
+              <tr>
+                <td><%= pledge.fan.full_name if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in band.pledges %>
+              <tr>
+                <td><%= pledge.fan.email if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in band.pledges %>
+              <tr>
+                  <td><%= pledge.created_at.strftime("%m/%d/%Y") if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in band.pledges %>
+              <tr>
+                <% unless band.pledges.nil? %>
+                  <td><%= pledge.created_at.strftime("%X") if pledge.fan %></td>
+                <%- end %>
+              </tr>
+            <%- end %>
+            </table>
+        </td>   
+      </tr>
+    <%- end %>
+  <% end %>
+  
+  
+  <!-- WHEN ONLY 1 BAND IS SHOWING > -->
+  <% unless @band.nil? %>
+    <%= link_to 'export to .xls', export_by_bands_path(:filter => {:band_name => @band.name})   %>
+      <tr>
+        <td><%= @band.name %></td>
+        <td><%= @band.pledges.size %></td>
+        <td>
+            <table>
+            <%- for pledge in @band.pledges %>
+              <tr>
+                <td><%= pledge.fan.full_name if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in @band.pledges %>
+              <tr>
+                <td><%= pledge.fan.email if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in @band.pledges %>
+              <tr>
+                <td><%= pledge.created_at.strftime("%m/%d/%Y") if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>
+        <td>
+            <table>
+            <%- for pledge in @band.pledges %>
+              <tr>
+                <td><%= pledge.created_at.strftime("%X") if pledge.fan %></td>
+              </tr>
+            <%- end %>
+            </table>
+        </td>  
+      </tr>
+  <% end %>  
+   
+</table>

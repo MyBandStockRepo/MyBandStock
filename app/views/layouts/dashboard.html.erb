@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+        <meta name="copyright" content="Copyright (c) 2009 - MyStock Enterprises, LLC" /> 
+        <meta name="publisher" content="MyStock Enterprises, LLC" /> 
+        <meta name="description" content="MyBandStock. The Music Revolution." /> 
+        <meta name="keywords" content="MyBandstock, Music, Revolution" />
+        <link rel="shortcut icon" href="/images/favicon.ico" />
+        <title>MyBandStock | The Music Revolution</title> 
+        <%= stylesheet_link_tag 'style' -%>
+        <%= stylesheet_link_tag 'jquery.autocomplete' -%>
+        <%= javascript_include_tag 'jquery-1.3.2' -%>
+        <%= javascript_include_tag "jquery.autocomplete.js" -%>
+        <%= javascript_include_tag :defaults -%>
+		<!--[if IE]><link rel="stylesheet" href="IEbugs.css" />
+		<![endif]-->
+    </head>
+    <body>
+      <%= yield %>
+    </body>
+</html>

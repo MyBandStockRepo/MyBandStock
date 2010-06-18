@@ -1,0 +1,20 @@
+<table border="1" id="doc">
+  <tr>
+    <td>Name</td>
+    <td>pledges_count</td>
+    <td>first_name</td>
+    <td>last_name</td>
+    <td>email</td>
+    <td>created_at</td>
+  </tr>
+  <% for band in @bands %>
+  <tr>
+    <td><%= band.name %></td>
+    <td><%= band.pledges_count %></td>
+    <td><%= band.first_name %></td>
+    <td><%= band.last_name %></td>
+    <td><%= band.email %></td>
+    <td><%= band.created_at.strftime('%m/%d/%Y') %></td>
+  </tr>
+  <% end %>
+</table>

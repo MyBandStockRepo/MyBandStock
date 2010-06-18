@@ -1,0 +1,60 @@
+<div class="orange_bar">
+	<img src="/images/top_artists.gif" alt="" />
+</div><!-- orange_bar -->
+
+<div class="bands_list">
+	<div class="light"></div>
+	<% n = @pbands.offset -%>
+	<% for i in 0..14 %>
+	  <% if i == 0 %>
+	    <% unless @pbands[i].nil? %>
+	      <div class="dark bold1st"><%= n  += 1 %>.<%= link_to @pbands[i].name, store_band_name_path(:band =>{:search_text => @pbands[i].name}), :class => 'bandlink' %>
+	        <span class="number_count"><%= @pbands[i].pledges_count %> Fans</span>
+	      </div>
+	    <% end %>  
+	  <% else %>
+	    <% unless @pbands[i].nil? %>
+	      <div class="<%= cycle("light", "dark") -%>"><%= n  += 1  %>.<%= link_to @pbands[i].name, store_band_name_path(:band =>{:search_text => @pbands[i].name}), :class => 'bandlink' %>
+	        <span class="number_count"><%= @pbands[i].pledges_count %> Fans</span>
+	      </div>
+	    <% end %>  
+	  <% end %>
+	  
+	<% end %>
+	
+	<div class="light"></div>
+</div><!-- bands_list -->
+
+<div class="middle_bar">
+</div><!-- middle_bar -->
+
+<div class="bands_list">
+	<div class="light"></div>
+	
+	<% for i in 15..29 %>
+	    <% unless @pbands[i].nil? %>
+	      <div class="<%= cycle("light", "dark") -%>"><%= n  += 1  %>.<%= link_to @pbands[i].name, store_band_name_path(:band =>{:search_text => @pbands[i].name}), :class => 'bandlink' %>
+	        <span class="number_count"><%= @pbands[i].pledges_count %> Fans</span>
+	      </div>
+	    <% end %>  	  
+	<% end %>
+</div><!-- bands_list -->
+
+<%= will_paginate @pbands, :class => 'orange_bar right', :previous_label => '', :next_label => '', :page_links => false%>
+	
+	
+	<div id="search">
+    <%= form_tag(store_band_name_path, :method => "get") do %>
+  		<fieldset> 
+  			<div id="searchbox">
+          <%= text_field  :band, :search_text, :value => "Find Your Favorite Artist"%>
+  			  </div><!-- /searchbox --> 
+  				<div id="searchbutton"> 
+  					<%= submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled' %>
+  			</div><!-- /searchbutton -->
+  		</fieldset> 
+  	<% end %> 
+  </div><!-- /search -->
+	<div id="artistlink">
+		Artists, Managers, Labels - <%= link_to "Need More Info?", "mailto:info@mybandstock.com" %>
+	</div><!-- /artistlink -->

@@ -385,6 +385,10 @@ class UsersController < ApplicationController
     # @bands is an array of band objects, or an empty array (never nil)
     @bands = @user.bands.includes(:live_stream_series => :streamapi_streams)
 
+		
+		if @bands.count == 0
+			redirect_to :controller => 'pledge_bands', :action => 'index'
+		end
   end
   
 =begin  
