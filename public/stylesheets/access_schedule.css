@@ -80,4 +80,7 @@ a:hover {
 #mbs-powered-by {
   float: right;
 }
-
+.view_link {float:right;width:16px;height:16px;display:block;margin-right:20px;background-image:url(/images/icons/view_sprite.png);background-position:0px 0px;background-repeat:no-repeat;}
+.view_link:hover {background-position:0px -16px;}
+.past_shows_link {float:right;width:16px;height:16px;display:block;margin-right:20px;background-image:url(/images/icons/past_shows_sprite.png);background-position:0px 0px;background-repeat:no-repeat;}
+.past_shows_link:hover {background-position:0px -17px;}

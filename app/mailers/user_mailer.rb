@@ -51,7 +51,9 @@ class UserMailer < ActionMailer::Base
 
     @user = user    
     @band = band
-    @lss = lss    
+    @lss = lss  
+		@host = SITE_HOST
+    
     subject = @band.name+' Live Streaming Video'
 		mail(:to => recipient, :subject => subject)    
   end
@@ -68,6 +70,8 @@ class UserMailer < ActionMailer::Base
 
     @user = user  # Send user object to the email view
     @mbslink = SITE_URL
+		@host = SITE_HOST
+    
     mail(:to => recipient, :subject => "MyBandStock Registration")
 
     return true
@@ -90,6 +94,8 @@ class UserMailer < ActionMailer::Base
 		recipient = make_address(user)
 		@user = user
 		@password = password
+		@host = SITE_HOST
+		
     mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
 	end
 

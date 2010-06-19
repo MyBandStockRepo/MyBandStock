@@ -1,0 +1,46 @@
+.tweetbox_top {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);}
+.tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
+	.tweet {width:265px;margin-left:14px;float:left;font-size:11px;}
+		.tweet a {color:#FF9900;text-decoration:none;}
+			.tweet a:hover {text-decoration:underline;}
+	.tweet_avatar {float:left;margin:5px 10px 0px 0px;height:100%}
+.tweetbox_bottom {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_bottom.png);}
+
+.tweet_info {font-size:10px;color:#cccccc;}
+.tweet_info a{color:#666666;text-decoration:none;}
+	.tweet_info a:hover{text-decoration:underline;}
+.retweet {float:right;width:40px;}
+	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
+	.retweet a:hover{background-position:0px -25px;}
+.tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
+.tweet_message{float:left;width:205px;}
+
+
+
+/* resizeable field */
+.tweet_contain {float:left;width:329px; height:300px;display:block;}
+.tweet_contain_top {display:block;height:70px;float:left;width:100%;}
+	.tweet_contain_top_span {width:289px;height:70px;float:left;background-image:url(/images/tweet_preview_box/top_span.png);background-repeat:repeat-x;}
+	.tweet_contain_top_l {height:70px;width:20px;float:left;background-image:url(/images/tweet_preview_box/top_l.png);background-repeat:no-repeat;}
+	.tweet_contain_top_r {height:70px;width:20px;float:right;background-image:url(/images/tweet_preview_box/top_r.png);background-repeat:no-repeat;}
+.tweet_contain_middle {display:block;float:left;width:329px;}	
+	.tweet_contain_l {height:100px;float:left;width:5px;background-image:url(/images/tweet_preview_box/l_span.png);background-repeat:repeat-y;}
+	.tweet_contain_content{width:319px;height:100px;float:left;background-color:white;}
+	.tweet_contain_r {height:100px;float:right;width:5px;background-image:url(/images/tweet_preview_box/r_span.png);background-repeat:repeat-y;}
+.tweet_contain_bottom{display:block;float:left;height:16px;width:100%;}
+	.tweet_contain_bottom_span{width:289px;float:left;height:16px;background-image:url(/images/tweet_preview_box/bottom_span.png);background-repeat:repeat-x;}
+	.tweet_contain_bottom_l{float:left;width:20px;height:16px;background-image:url(/images/tweet_preview_box/bottom_l.png);background-repeat:no-repeat;}
+	.tweet_contain_bottom_r{float:right;width:20px;height:16px;background-image:url(/images/tweet_preview_box/bottom_r.png);background-repeat:no-repeat;}	
+
+
+
+/* Retweet Page */
+.twitter_info{float:left;font-family:TitilliumText14L600wt;color:white;margin:5px 0px 0px 0px;}
+.twitter_info p{font-size:10px;line-height:14px;color:#ffca95;}
+.twitter_info p.twitter_sn{font-size:21px;line-height:20px;color:white;}
+.twitter_info p.twitter_name{font-size:11px;line-height:18px;color:white;}
+.twitter_pic{float:left;margin:9px 10px 0px 0px;width:48px;height:48px;}
+.twitter_pic img{border:1px solid #e17000;}
+.twitter_follower_info{font-size:10px;}
+.twitter_preview{font-family:TitilliumText14L600wt;margin:5px 10px 0px 10px;font-size:15px;line-height:18px;color:#c7c7c7;}
+.twitter_message{margin:10px; font-size:12px;line-height:15px;}

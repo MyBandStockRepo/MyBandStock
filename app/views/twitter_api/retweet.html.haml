@@ -1,42 +1,74 @@
-.retweet-box
-	%h2
-		Retweet Preview
-
-	.fieldrow
-		.fieldleft      
-			.field
-				.LARGEfield
-					.fieldname
-						.fieldnametop
-							.twitter_info
-								twitter account
-								%p.twitter_sn
-									= @retweeter_info.screen_name
-								%p.twitter_name	
-									= @retweeter_info.name
-								.twitter_pic
-									= image_tag(@retweeter_info.profile_image_url)
-								.twitter_follower_info
-									= pluralize(@retweeter_info.friends_count, 'friend', 'friends')
-									%br
-									= pluralize(@retweeter_info.followers_count, 'follower', 'followers')
-									%br
-									= pluralize(@retweeter_info.statuses_count, 'tweet', 'tweets')
-						.fieldnamebottom
-					.fieldbox
-						.twitter_message
-							%p tweet preview
-							%br
-							%br
-							%p
-								= @msg
-			= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'post_retweet' }) do |f|
-				= f.hidden_field(:user_id, :value => session[:user_id])
-				= f.hidden_field(:message, :value => @msg)	              
-				.formbutton
-					= f.submit 'RETWEET'
-
-
+.tweet_contain
+	.tweet_contain_top
+		.tweet_contain_top_l
+		.tweet_contain_top_span
+			.twitter_pic
+				= image_tag(@retweeter_info.profile_image_url)			
+			.twitter_info
+				%p retweeting from
+				%p.twitter_sn
+					= @retweeter_info.screen_name
+				%p.twitter_name	
+					= @retweeter_info.name
+		.tweet_contain_top_r
+	.tweet_contain_middle
+		.tweet_contain_l
+		.tweet_contain_content
+			.twitter_preview
+				status preview
+			.twitter_message
+				= @msg
+		.tweet_contain_r
+	.tweet_contain_bottom
+		.tweet_contain_bottom_l
+		.tweet_contain_bottom_span
+		.tweet_contain_bottom_r
+	= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'post_retweet' }) do |f|
+		= f.hidden_field(:user_id, :value => session[:user_id])
+		= f.hidden_field(:message, :value => @msg)	              
+		.formbutton
+			= f.submit 'RETWEET'
+-#
+	.retweet-box
+		%h2
+			Retweet Preview
+	
+	
+		.fieldrow
+			.fieldleft      
+				.field
+					.LARGEfield
+						.fieldname
+							.fieldnametop
+								.twitter_info
+									twitter account
+									%p.twitter_sn
+										= @retweeter_info.screen_name
+									%p.twitter_name	
+										= @retweeter_info.name
+									.twitter_pic
+										= image_tag(@retweeter_info.profile_image_url)
+									.twitter_follower_info
+										= pluralize(@retweeter_info.friends_count, 'friend', 'friends')
+										%br
+										= pluralize(@retweeter_info.followers_count, 'follower', 'followers')
+										%br
+										= pluralize(@retweeter_info.statuses_count, 'tweet', 'tweets')
+							.fieldnamebottom
+						.fieldbox
+							.twitter_message
+								%p tweet preview
+								%br
+								%br
+								%p
+									= @msg
+				= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'post_retweet' }) do |f|
+					= f.hidden_field(:user_id, :value => session[:user_id])
+					= f.hidden_field(:message, :value => @msg)	              
+					.formbutton
+						= f.submit 'RETWEET'
+	
+	
 -#
 	%h2 
 		Message to retweet from 

@@ -36,7 +36,7 @@
             = stream.title
           %span.stream_broadcast_link
             -if can_broadcast
-              = link_to 'broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox'
+              = link_to ' ', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox broadcast', :title => 'Broadcast'
             -else
               &nbsp;
           .placement_starttime

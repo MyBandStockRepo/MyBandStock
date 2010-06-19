@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :phone, {:null => true, :length => 20} 
       t.boolean :agreed_to_tos, :agreed_to_pp, {:null => false, :default => false}  
       t.integer :headline_photo_id, {:null => true}
-      t.string :status, {:default => "pending", :null => false}
+      t.string :status, {:default => "active", :null => false}
 
 
       #references

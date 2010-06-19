@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100618001246) do
+ActiveRecord::Schema.define(:version => 20100618014750) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -159,9 +159,9 @@ ActiveRecord::Schema.define(:version => 20100618001246) do
 
   create_table "share_ledger_entries", :force => true do |t|
     t.integer  "adjustment",  :null => false
+    t.string   "description", :null => false
     t.integer  "user_id",     :null => false
     t.integer  "band_id",     :null => false
-    t.string   "description", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

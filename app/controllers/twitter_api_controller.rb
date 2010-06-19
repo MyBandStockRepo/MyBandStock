@@ -192,13 +192,8 @@ end
 						error = true
 				end
 			else
-				if params[:tweet_id] && params[:band_id]
-					redirect_into = url_for()+'?tweet_id='+params[:tweet_id]+'&band_id='+params[:band_id]
-					redirect_to :action => 'create_session', :tweet_id => params[:tweet_id], :band_id => params[:band_id], :redirect_from_twitter => redirect_into
-				else
-					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
-					error = true
-				end
+				flash[:error] = 'Your user account isn\'t tied to a twitter account.'
+				error = true		
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
@@ -206,9 +201,14 @@ end
 		end
 	
 		if error
-			redirect_to :action => 'error'
+			redirect_to :action => 'error', :lightbox => params[:lightbox]
 			return false		
 		end
+		
+		if request.xhr?
+			render :layout => false
+		end
+		
 	end
 	
 	def error
@@ -218,6 +218,10 @@ end
       # If our request tells us not to display layout (in a lightbox, for instance)
       render :layout => 'lightbox'
     end
+    
+		if request.xhr?
+			render :layout => false
+		end    
 	end
 	
 	def post_retweet
@@ -229,20 +233,23 @@ end
 				if params[:twitter_api][:user_id] && params[:twitter_api][:message]
 					tweet = client.update(params[:twitter_api][:message])
 					flash[:notice] = "Got it! Tweet ##{tweet.id} created."
-					redirect_to :action => 'show', :id => tweet.id
+					redirect_to :action => 'show', :id => tweet.id, :lightbox => params[:lightbox]
 				else
 					flash[:error] = 'Could not get required parameters to post message.'			
-					redirect_to session['last_clean_url']
+					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
 				end
 			else
 				flash[:error] = 'Could not get required parameters to post message.'
-				redirect_to session['last_clean_url']
+				redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			redirect_to session[:last_clean_url]
+			redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
 			return false			
 		end					
+		if request.xhr?
+			render :layout => false
+		end		
 	end
 	
   def index
