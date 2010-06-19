@@ -217,6 +217,7 @@ end
 			@showerror = true
       # If our request tells us not to display layout (in a lightbox, for instance)
       render :layout => 'lightbox'
+      return
     end
     
 		if request.xhr?
@@ -224,16 +225,36 @@ end
 		end    
 	end
 	
+	def success
+		if params[:band_id]
+			@band = Band.find(params[:band_id])
+			unless @band.nil?
+				@shares = 20
+			else
+				return false
+			end
+		else
+			redirect_to root_url
+			flash[:error] = 'Could not get band ID for success page.'
+			return false
+		end
+		
+		if request.xhr?
+			render :layout => false
+		end 
+	end
+	
+	
 	def post_retweet
 		begin
 			options = {}
 			options.update(:in_reply_to_status_id => params[:in_reply_to_status_id]) if params[:in_reply_to_status_id].present?
 	
 			if params[:twitter_api]
-				if params[:twitter_api][:user_id] && params[:twitter_api][:message]
+				if params[:twitter_api][:user_id] && params[:twitter_api][:message] && params[:twitter_api][:band_id]
 					tweet = client.update(params[:twitter_api][:message])
 					flash[:notice] = "Got it! Tweet ##{tweet.id} created."
-					redirect_to :action => 'show', :id => tweet.id, :lightbox => params[:lightbox]
+					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id]
 				else
 					flash[:error] = 'Could not get required parameters to post message.'			
 					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]

@@ -44,3 +44,8 @@
 .twitter_follower_info{font-size:10px;}
 .twitter_preview{font-family:TitilliumText14L600wt;margin:5px 10px 0px 10px;font-size:15px;line-height:18px;color:#c7c7c7;}
 .twitter_message{margin:10px; font-size:12px;line-height:15px;}
+
+/* Success Page */
+.success_box {width:329px; height:300px;display:block;padding:10px;}
+
+

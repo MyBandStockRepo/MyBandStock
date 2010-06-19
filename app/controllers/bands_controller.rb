@@ -63,6 +63,8 @@ class BandsController < ApplicationController
   
   
   def edit
+		@newform = false
+  
     unless id = get_band_id_from_request()
       return false
     end
@@ -101,6 +103,8 @@ class BandsController < ApplicationController
   
   
   def new
+		@newform = true
+  
     #bring in the user first and last name
     @user = User.find(session[:user_id])
     #see if they have an approved application
@@ -146,6 +150,7 @@ class BandsController < ApplicationController
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
+		@newform = false  
     unless id = get_band_id_from_request()
       return false
     end

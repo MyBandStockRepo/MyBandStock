@@ -33,6 +33,7 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/unfav', :to => 'twitter_api#unfav'			
 	match '/twitter/update', :to => 'twitter_api#update'			
 	match '/twitter/error', :to => 'twitter_api#error'			
+	match '/twitter/success', :to => 'twitter_api#success'			
 
   
   #stream methods

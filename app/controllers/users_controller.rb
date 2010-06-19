@@ -59,6 +59,9 @@ class UsersController < ApplicationController
 	end
   
   def edit
+		@request_uri = url_for()  
+@newform = false		
+		
     unless (id = params[:id])
       id = session[:user_id]
     else
@@ -79,18 +82,44 @@ class UsersController < ApplicationController
     else
       @states = nil
     end
+    
+		begin
+			unless @user.twitter_user
+				@user_twitter_not_authorized = true
+			else
+				user_client = client(false, false, nil)
+				@twit_user = user_client.verify_credentials
+				@user_twitter_not_authorized = false										
+			end		
+		rescue
+				@user_twitter_not_authorized = true
+		end    
+    
+    
     render :layout => 'lightbox' unless params[:lightbox].nil?
   end
   
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
+		@newform = false  
+		@request_uri = url_for()  
     unless ( (id = params[:id]) && ( (id == session[:user_id]) || (User.find(session[:user_id]).site_admin) ) )
       id = session[:user_id]
     end
     @user = User.find(id)
     @user.email_confirmation = params[:user][:email_confirmation]
-    
+		begin
+			unless @user.twitter_user
+				@user_twitter_not_authorized = true
+			else
+				user_client = client(false, false, nil)
+				@twit_user = user_client.verify_credentials
+				@user_twitter_not_authorized = false										
+			end		
+		rescue
+				@user_twitter_not_authorized = true
+		end        
     
 		# Hash the password before putting it into DB
 		
@@ -180,12 +209,24 @@ class UsersController < ApplicationController
 
 
   def new
+		@request_uri = url_for()  
+		@newform = true
     @user = User.new
     #check to see if they've been around before
     if params[:user]
       @user = User.new(params[:user])
     end
-   
+		begin
+			unless @user.twitter_user
+				@user_twitter_not_authorized = true
+			else
+				user_client = client(false, false, nil)
+				@twit_user = user_client.verify_credentials
+				@user_twitter_not_authorized = false										
+			end		
+		rescue
+				@user_twitter_not_authorized = true
+		end       
     if (@user.country_id.nil? || @user.country_id == '' )
       #calculate their ip number to determine country of origin
       ip_parts = request.remote_ip.split(".")

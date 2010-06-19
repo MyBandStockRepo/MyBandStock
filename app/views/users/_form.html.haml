@@ -21,8 +21,9 @@
             %strong
               I agree to MyBandStock's
               = link_to 'Privacy Policy', :action => :privacy_policy, :controller => :legal
-        %li.captcha
-          =raw(make_captcha)
+        -#
+          %li.captcha
+            =raw(make_captcha)
 
-      =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
+      =#image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
 

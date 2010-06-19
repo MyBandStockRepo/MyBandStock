@@ -25,6 +25,7 @@
 		.tweet_contain_bottom_r
 	= form_for(:twitter_api, :url => {:controller => 'twitter_api', :action => 'post_retweet' }) do |f|
 		= f.hidden_field(:user_id, :value => session[:user_id])
+		= f.hidden_field(:band_id, :value => params[:band_id])		
 		= f.hidden_field(:message, :value => @msg)	              
 		.formbutton
 			= f.submit 'RETWEET'
