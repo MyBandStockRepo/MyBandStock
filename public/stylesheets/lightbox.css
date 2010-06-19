@@ -16,6 +16,7 @@
 
 /* Lightbox styles */
 @import url(/stylesheets/fonts.css);
+@import url(/stylesheets/twitter.css);
 
 body#lightbox {
   width:100%;
@@ -230,24 +231,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .video_left {width:491px;margin-left:20px;margin-top:10px;float:left;}
 .video_right {width:329px;margin-right:20px;margin-top:10px;float:right;}
 
-.tweetbox_top {
-  width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);
-  margin-top: 5px;
-}
-.tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
-	.tweet {width:265px;margin-left:14px;float:left;}
-		.tweet a {color:#FF9900;text-decoration:none;}
-			.tweet a:hover {text-decoration:underline;}
-	.tweet_avatar {float:left;margin-right:10px;}
-.tweetbox_bottom {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_bottom.png);}
 
-.tweet_info {font-size:10px;color:#cccccc;}
-.tweet_info a{color:#666666;text-decoration:none;}
-	.tweet_info a:hover{text-decoration:underline;}
-.retweet {float:right;width:40px;}
-	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
-	.retweet a:hover{background-position:0px -25px;}
-.tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
+
+
 
 
 

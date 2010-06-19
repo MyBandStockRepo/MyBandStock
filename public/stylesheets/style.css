@@ -1,3 +1,4 @@
+@import url(/stylesheets/twitter.css);
 /* PROD STYLES */
 /* HEADER */
 
@@ -459,8 +460,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 }
 .LARGEfield .fieldnametop {height:193px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
-    .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
-		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+.formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
+    .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a, .formbutton_left input, .formbutton_left a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover, .formbutton_left input:hover, .formbutton_left a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
 
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
 
@@ -494,8 +496,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .placement_streamname {width:380px;margin-left:13px;float:left;}
 	.link_streamname {display:block;height:27px;background-image:url(/images/icons/edit_stream.png);background-repeat:no-repeat;padding-left:26px;}
 		.link_streamname:hover {background-position:0px -27px;}
-.placement_starttime {width:165px;float:left; color: #CCC; }
+.placement_starttime {width:185px;float:left; color: #CCC; }
 .placement_endtime {float:left;}
+
+.broadcast {float:right;width:16px;height:16px;display:block;margin-right:20px;background-image:url(/images/icons/broadcast_sprite.png);background-position:0px 0px;background-repeat:no-repeat;}
+.broadcast:hover {background-position:0px -16px;}
+
 
 .link_darkbar_padding {height:2px;}
 .link_darkbar {margin-top:12px;height:16px;}
@@ -505,6 +511,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 			.l_streamhistory {background-image:url(/images/icons/stream_history.png);}
 			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
 
+
+
+
 			
 
 .stream_list {
@@ -513,6 +522,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
   padding-left: 35px;
 }
   .stream_entry {
+  	height: 25px;
     overflow: auto;
   }
     .stream_name {
@@ -540,13 +550,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 
 
-/* Retweet Page */
-.twitter_info{float:left;margin-top:10px;font-family:TitilliumText14L600wt;line-height:17px;}
-.twitter_sn{font-size:14px;margin-top:10px;}
-.twitter_name{font-size:11px;}
-.twitter_pic{margin:8px;auto;}
-.twitter_follower_info{font-size:10px;}
-.twitter_message{line-height:25px;margin:10px 10px 0px 10px;}
+
+
 
 /* VIDEO STREAM MODAL */
 
@@ -556,20 +561,4 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .video_left {width:491px;margin-left:20px;margin-top:20px;float:left;}
 .video_right {width:329px;margin-right:20px;margin-top:20px;float:right;}
 
-.tweetbox_top {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_top.png);}
-.tweetbox_tweet {width:329px;background-image:url(/images/twitter/tweetbox_tweet.png);}
-	.tweet {width:265px;margin-left:14px;float:left;}
-		.tweet a {color:#FF9900;text-decoration:none;}
-			.tweet a:hover {text-decoration:underline;}
-	.tweet_avatar {float:left;margin-right:10px;}
-.tweetbox_bottom {width:329px;height:20px;background-image:url(/images/twitter/tweetbox_bottom.png);}
-
-.tweet_info {font-size:10px;color:#cccccc;}
-.tweet_info a{color:#666666;text-decoration:none;}
-	.tweet_info a:hover{text-decoration:underline;}
-.retweet {float:right;width:40px;}
-	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
-	.retweet a:hover{background-position:0px -25px;}
-.tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
-	
 
