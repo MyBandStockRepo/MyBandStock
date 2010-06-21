@@ -36,7 +36,9 @@ a:hover {
     font-style: italic;
   }
   .access-schedule-list .stream-title {
-    font-size: 80%;
+    font-size: 10px;
+    font-family:verdana;
+    text-decoration:none;
     font-style: normal;
     font-weight: normal;
   }
@@ -46,6 +48,8 @@ a:hover {
   }
   .access-schedule-list .stream-start span {
     margin: 0 2px;
+    font-family:verdana;
+    font-size:10px;
   }
   .access-schedule-list .stream-start-day {
     display: none;
