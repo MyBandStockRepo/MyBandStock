@@ -25,14 +25,6 @@ staging:
   pool: 3
   timeout: 5000
 
-#production:
-#  adapter: mysql
-#  database: cobain_prod
-#  username: mbsprod
-#  password: myb4ndst0ck
-#  pool: 5
-#  timeout: 5000
-
 production:
   adapter: mysql
   host: mysql.mybandstock.com

@@ -26,6 +26,7 @@ a:hover {
 .access-schedule-list {
   /* margin: .5em 1em 1em 1em; */ /* The spacing around the table - top right bottom left. An 'em' is the width of M. */
   font-size: 80%;
+  color: #FFF;
 }
   
   /* Each cell in the table */

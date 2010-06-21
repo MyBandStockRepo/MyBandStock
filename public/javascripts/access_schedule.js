@@ -48,7 +48,7 @@ jQuery(function() {
 
 function applyShareCodeListener() {
   jQuery('#mbs-redeem-submit').click(function(e) {
-    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ escape(document.getElementById('mbs-share-code').value) + '?lightbox=true';
+    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ escape(document.getElementById('mbs-share-code').value.replace(/\./g,"")) + '?lightbox=true';
     jQuery('#mbs-redeem-link').click();
   });
 };
@@ -83,7 +83,7 @@ function accessScheduleJsonCallback(data) {
           '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
         ).append(
           //'<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
-          '<input id="mbs-share-code" type="text" value="'+ redeemDefaultText +'" onfocus="if (this.value == redeemDefaultText) this.value=\'\'">' +
+          '<input id="mbs-share-code" type="text" value="'+ redeemDefaultText +'" onfocus="this.value = (this.value == redeemDefaultText) ? this.value=\'\' : this.value">' +
           '<input type="hidden" name="lightbox" value="true">' +
           '<input id="mbs-redeem-submit" type="submit" value="Redeem!">'
         )
@@ -125,7 +125,7 @@ function accessScheduleJsonCallback(data) {
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
-      jQuery('<a id="mbs-powered-by"> </a>')
+      jQuery('<a id="mbs-powered-by" href="'+ mbsDomain +'" title="mybandstock.com"> </a>')
     );
   });
   applyFbListeners();
