@@ -35,11 +35,11 @@
   .clear
   .lightbox_welcome
     = "Welcome, #{ @user.first_name }. You currently have "
-    %span.share_amount 120
+    %span.share_amount
+      = @user.share_totals.where(:band_id => @stream.band.id).net
     shares in
     %span.welcome_band_name
-      = @stream.band.name
-    \.
+      = @stream.band.name + '.'
 
 :javascript
   startPinger( '#{ @stream.id }', '#{ @viewer_key }' );

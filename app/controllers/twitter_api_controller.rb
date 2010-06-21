@@ -230,6 +230,17 @@ end
 			@band = Band.find(params[:band_id])
 			unless @band.nil?
 				@shares = 20
+                                # Here we should check if the user retweeted this band < 1 day ago. If so, we withhold the points,
+                                # and notify them. Something like:
+                                # ShareLedgerEntry.where( :user_id, :band_id, :description => 'retweet_band', :created_at < 1.day.ago )
+                                unless ShareLedgerEntry.create( :user_id => session[:user_id],
+                                                                :band_id => @band.id,
+                                                                :adjustment => @shares,
+                                                                :description => 'retweet_band'
+                                                        )
+                                  @shares = nil
+                                end
+
 			else
 				return false
 			end

@@ -132,7 +132,7 @@
                   -if @band_twitter_not_authorized 
                     Your band is not currently linked to a twitter account.
                     %br
-											= link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                    = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
                   -else
                     = image_tag(@twit_band.profile_image_url, :class => 'edit_band_twit_img')
                     .auth_twit_text

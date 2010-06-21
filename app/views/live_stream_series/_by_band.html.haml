@@ -16,13 +16,7 @@
           %td.begin-broadcast
             - broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
             =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+120), :fbwidth => (broadcasterTheme.width+50)
-
-#mbs-share-code-container
-  = link_to '', redeem_code_url, { :class => 'lightbox', :id => 'mbs-redeem-link' }, :style => 'display: none; visibility: hidden;'
-  = text_field_tag nil, nil, :id => 'mbs-share-code', :value => 'Or Enter Your Access Code Here...', :onfocus => 'this.value=""'
-  = hidden_field 'lightbox', nil, :value => true
-  = submit_tag 'Redeem!', :id => 'mbs-redeem-submit' #, :onclick => 'jQuery("#mbs-redeem-link").click()'
-
+= render :partial => 'share_codes/redeem_widget'
 
 
 -#
@@ -31,13 +25,3 @@
       %input#mbs-share-code{ :name => 'mbs_share_code' }
       -# = link_to 'Redeem',  , :class => 'lightbox'
       = submit_tag 'a' # javascript:document.getElementById("mbs-share-code-form").submit(); return false;
-
--#
-  = form_for(nil, :url => user_follower_path(followee, follower)) do |f|
-
-  and use below code in block.
-
-  <code>&lt;%= link_to_function "submit",
-  "javascript:document.getElementById(\"my_form\").submit(); return
-  false" %&gt;</code>
-  

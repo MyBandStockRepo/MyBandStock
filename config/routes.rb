@@ -1,14 +1,4 @@
 Cobain::Application.routes.draw do |map|
-  resources :pledges
-
-  resources :pledged_bands
-
-  resources :fans
-
-  resources :facebook_publishers
-
-
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -61,20 +51,25 @@ Cobain::Application.routes.draw do |map|
     match '/share_codes/complete_redemption', :to => 'share_codes#complete_redemption'
   # /--- Share Codes ---- #
 
+  # Don't touch the routes in the block below! I'm very happy with how they look.
   resources :streamapi_stream_themes
+  resources :facebook_publishers
   resources :share_code_groups
+  resources :pledged_bands
   resources :associations
   resources :share_codes
   resources :short_urls
   resources :user_roles
   resources :api_users
+  resources :pledges
   resources :roles
   resources :users
+  resources :fans
   resources :bands
   resources :twitter_users
   resources :live_stream_series
   resources :live_stream_series_permissions
-
+  # /codingisanart
 
 
 	match '/legal/privacy_policy', :to => 'legal#privacy_policy'
@@ -320,15 +315,6 @@ Cobain::Application.routes.draw do |map|
   match ':controller(/:action)'
   match '/:controller(/:id(/:action))'
   
-  match '/:one_term', :to => 'search#one_term_url'
+  match '/:band_short_name', :to => 'bands#show'
 
-
-
-
-  
-  
-
-
-  
-   
 end

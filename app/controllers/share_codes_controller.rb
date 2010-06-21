@@ -210,16 +210,34 @@ class ShareCodesController < ApplicationController
       return false
     end
 
+    code_type = share_code.key[0..2]
+
     case share_code.key[0..2]
     when 'LSS'
-      logger.info 'LSS permissions about to be applied'
-      unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY, :hash => OUR_MBS_API_HASH } )
+      unless lss = LiveStreamSeries.find(share_code.key[3..8])
         return false
       end
+      logger.info 'LSS permissions about to be applied to ' + lss.id
+      unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
+                                                 :hash => OUR_MBS_API_HASH,
+                                                 :api_version => '.1',
+                                                 :email => share_code.user.email,
+                                                 :stream_series => lss.id,
+                                                 :can_view => 1,
+                                                 :can_chat => 1,
+                                                 :can_listen => 1 } )
+        return false
+      end
+      if share_code.share_amount != nil && share_code.share_amount != 0
+        ShareLedgerEntry.create( :user_id => share_code.user.id,
+                                 :band_id => lss.band.id,
+                                 :adjustment => share_code.share_amount,
+                                 :description => 'share_code ' + share_code.id
+                         )
+      end
     else
-      logger.info 'Not LSS code'
+      logger.info 'Non-LSS code'
     end
-    
     
     
     return true

@@ -282,6 +282,7 @@ h3 {
 	#head_top {height:34px;padding-top:6px;padding-left:14px;}
 	#head_bottom {width:980px;height:40px;background-image:url(/images/header_bar.jpg);}
 
+#header-logo-link { float: left; height: 31px; width: 40px }
 #logo_float {width:560px;height:34px;float:left;}
 
 .navlogo {display:block;width:137px;height:13px;background-image:url(/images/mybandstock_logotype.gif);background-position:0px 0px;margin-top:14px;margin-left:14px;}
