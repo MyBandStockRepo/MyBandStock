@@ -640,7 +640,7 @@ respond_to :html, :js
   # GET /streamapi_streams
   # GET /streamapi_streams.xml
   def index
-    unless (User.find(session[:user_id]).has_site_admin?)
+    unless user_has_site_admin
       redirect_to '/streams/manage'
       return false
     end

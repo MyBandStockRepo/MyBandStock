@@ -7,7 +7,9 @@
   .formbutton.long_button
     .orange_button_left
     .orange_button_middle
-      = link_to 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', new_user_path, :lightbox => true
+      -# peekokButton799{:style => 'float:left;'}
+      =# link_to 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', '#', {:onclick => 'peekok_button_submit(799)'}
+      = link_to 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', 'http://mybandstock.peekok.com/', {:target => '_blank'}
     .orange_button_right
     -# = submit_tag 'GET EXCLUSIVE LIVE VIDEO ACCESS FOR $5', :onclick => "document.location.href='#{ new_user_path }';  return false;"
   .highlight{ :style => 'float: left; margin-top: 15px' }

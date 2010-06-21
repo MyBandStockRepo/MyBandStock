@@ -1,19 +1,56 @@
-.error.center
-  = flash[:error]
-= form_for(@share_code, :url => {:action => 'redeem_post'} ) do |f|
-  = f.error_messages
+.maincont
+  %h2 Redeem Code for Live Streaming Video Access
 
-  .field
-    = f.label :key, 'code'
-    %br
-    = f.text_field :key
+        
+  = form_for(@share_code, :url => {:action => 'redeem_post'} ) do |f|					
+    -unless flash[:error].nil? && (f.error_messages.nil? || f.error_messages == '')
+      .errbox
+        = flash[:error]
+        = f.error_messages
+    .fieldrow
+      .fieldleft
+        .field
+          %fieldset
+            .fieldname
+              .fieldnametop
+                =label_tag 'key', 'code'
+              .fieldnamebottom
+            .fieldbox.required
+              = f.text_field :key
+    .fieldrow
+      .fieldleft
+        .field
+          %fieldset
+            .fieldname
+              .fieldnametop
+                =label_tag 'email', 'email'
+              .fieldnamebottom
+            .fieldbox.required
+              = text_field nil, 'email', :value => @email
+              = hidden_field nil, 'lightbox', :value => 'true' if @external
+        
+        .formbutton_left
+          = submit_tag 'REDEEM'
 
-  .field
-    = f.label 'email'
-    %br
-    = text_field nil, 'email', :value => @email
 
-    = hidden_field nil, 'lightbox', :value => 'true' if @external
-    .actions
-      = f.submit
+
+-#
+  .error.center
+    = flash[:error]
+  = form_for(@share_code, :url => {:action => 'redeem_post'} ) do |f|
+    = f.error_messages
+  
+    .field
+      = f.label :key, 'code'
+      %br
+      = f.text_field :key
+  
+    .field
+      = f.label 'email'
+      %br
+      = text_field nil, 'email', :value => @email
+  
+      = hidden_field nil, 'lightbox', :value => 'true' if @external
+      .actions
+        = f.submit
 

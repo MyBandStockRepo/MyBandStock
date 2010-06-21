@@ -20,7 +20,9 @@ a:link {
 a:hover {
   color: black;
 }
-
+.white_link a:hover{
+	color: white;
+}
 /* The actual table of schedules */
 .access-schedule-list {
   /* margin: .5em 1em 1em 1em; */ /* The spacing around the table - top right bottom left. An 'em' is the width of M. */

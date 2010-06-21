@@ -138,8 +138,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 /*
 #content_login_bg {background-image:url(/images/content_login_bg.png);background-repeat:repeat-y;}
 */
-#login_wrap{margin:0 auto;padding-top:20px;padding-bottom:50px;}
-#login_wrap_left{width:332px;float:left;margin-left:20px;}
+#login_wrap_ext{margin:0 auto;padding-top:70px;padding-bottom:50px;}
+#login_wrap_left_ext{width:390px;float:left;margin-left:20px;}
 #login_wrap_right.external{width:385px;float:right;margin-right:20px;}
 	#login_wrap_rightpad{height:104px;}
 		#login_wrap_right.external h2{margin-bottom:20px;}
@@ -151,7 +151,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
     .long_button a:hover { background: none; }
 .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
-#checkbox_login {float:left;font-size:12px;color:#CCCCCC;margin-left:270px;margin-top:15px;line-height:25px;}
+#checkbox_login_ext {float:left;font-size:10px;color:#CCCCCC;margin-left:110px;margin-top:15px;line-height:25px;}
+.white_link a:hover{color:white;text-decoration:none;}
 
 /* Buttons */
 .long_button {
@@ -231,6 +232,21 @@ fieldset {border:0px;padding:0px;margin:0px;}
 }
 
 
+
+
+
+/* VIDEO STREAM MODAL */
+
+.video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}
+	.video_modal h2{margin-bottom:10px;}
+
+.video_left {width:491px;margin-left:20px;margin-top:10px;float:left;}
+.video_right {width:329px;margin-right:20px;margin-top:10px;float:right;}
+
+
+/* external login */
+
+/*#content_login_bg {background-color:#191919;}*/
 .vertical_bar {
   height: 100%;
   left: 49%;
@@ -249,21 +265,25 @@ fieldset {border:0px;padding:0px;margin:0px;}
       height: 100%;
       width: 1px;
     }
-
-
-/* VIDEO STREAM MODAL */
-
-.video_modal {background-image:url(/images/modal_bg2.png);background-repeat:repeat-x;background-color:#000000;}
-	.video_modal h2{margin-bottom:10px;}
-
-.video_left {width:491px;margin-left:20px;margin-top:10px;float:left;}
-.video_right {width:329px;margin-right:20px;margin-top:10px;float:right;}
-
-
-
-
-
-
+.fieldbox_small {float:left;margin-top:30px;}    
+.fieldbox_small input, .fieldbox_small .form_input_text_small {width:260px;height:27px;background:url(/images/forms/field_entry_small.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:26px;color:#333333;float:left;padding:0px;padding-left:10px;margin:0px;}
+    .fieldbox_small select {
+      width:250px;height:27px;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:26px;color:#333333;float:left;padding:0px;padding-left:10px;margin:0px;
+    }
+    .fieldbox_small input[type=password] {
+      font-family: inherit;
+    }
+    .fieldbox_small .form_input_text_small {
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 6px;
+    }
+    .fieldbox_small .form_input_text_small a:hover {
+      color: #000;
+    }
+.fieldname_small {background:url(/images/forms/field_name_small.png);width:81px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:14px;line-height:27px;color:#FFFFFF;margin-top:30px;padding-left:10px;margin-left:20px;}
+	.fieldnametop_small {height:27px;background:url(/images/forms/field_name_top_small.png);padding-left:20px;}
+	.fieldnamebottom_small {height:15px;background:url(/images/forms/field_name_bottom_small.png);}
 
 
 #fancybox-loading {
