@@ -1,7 +1,7 @@
 class ShortUrlsController < ApplicationController
 
-  before_filter :authenticated?, :execept => :redirect
-  before_filter :user_has_site_admin, :execept => :redirect
+  before_filter :authenticated?, :except => :redirect
+  before_filter :user_has_site_admin, :except => :redirect
   
   def redirect
     unless dest = ShortUrl.where(:key => params[:key]).first

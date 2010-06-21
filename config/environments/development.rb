@@ -24,11 +24,7 @@ Cobain::Application.configure do
 	SITE_URL = 'http://127.0.0.1:3000'
 	SECURE_SITE_URL = 'http://127.0.0.1:3000'
 	SITE_HOST = '127.0.0.1:3000'
-
-  # Email address to which support inquiries are sent.
-  # Currently displayed when a user does not have access to a stream, but tries to view it.
-  MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
-  
+ 
 	
 	STREAMS_URL = 'rtmp://localhost/vod'
   

@@ -8,6 +8,13 @@ Cobain::Application.initialize!
 
 # ** Environment variables ** #
 
+
+
+# Email address to which support inquiries are sent.
+# Currently displayed when a user does not have access to a stream, but tries to view it.
+  MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
+
+
 #for user remember me
 SHA_SALT_STRING = 'saefhkw4qrtAFHW#fjhasejfa3sfa3sHSFAWa3412!@#$^@'
 

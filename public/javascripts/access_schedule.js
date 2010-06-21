@@ -1,5 +1,5 @@
 jQuery.noConflict();
-var mbsDomain = 'http://localhost:3000';
+var mbsDomain = 'http://cobain.mybandstock.com';
 
 
 var script = document.createElement('script');
@@ -117,7 +117,7 @@ function accessScheduleJsonCallback(data) {
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
-      jQuery('<div id="mbs-powered-by">Powered by MyBandStock.com</div>')
+      jQuery('<div id="mbs-powered-by"> </div>')
     );
   });
   applyFbListeners();
