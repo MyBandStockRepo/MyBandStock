@@ -1,7 +1,7 @@
 class LoginController < ApplicationController
 
   skip_filter :update_last_location
-  protect_from_forgery :only => [:process_user_login]
+  protect_from_forgery :only => [:process_user_login, :forgot_password]
   
   ssl_required :user, :process_user_login, :admin
   
@@ -54,10 +54,10 @@ class LoginController < ApplicationController
         cookies[:salted_user_id] = {:value => Digest::SHA256.digest(@user.id.to_s+SHA_SALT_STRING), :expires => 14.days.from_now}
       end
       if session[:last_clean_url]
-        redirect_to session[:last_clean_url]
+        redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
         return true
       else
-        redirect_to :controller => 'login', :action => 'user'
+        redirect_to :controller => 'login', :action => 'user', :lightbox => params[:lightbox]
         return false
       end
     else
@@ -106,13 +106,16 @@ class LoginController < ApplicationController
       else
         @bad_email = true
       end
+		else
+			if params[:email]
+        @bad_email = true			
+			end
     end
     
-    respond_to do |format|
-      format.html
-      format.js
-      format.xml
-    end
+		unless params[:lightbox].nil?
+			# If our request tells us not to display layout (in a lightbox, for instance)
+			render :layout => 'lightbox'
+		end
   
   end
       

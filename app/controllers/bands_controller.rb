@@ -63,7 +63,6 @@ class BandsController < ApplicationController
   
   
   def edit
-		@newform = false
   
     unless id = get_band_id_from_request()
       return false
@@ -103,7 +102,6 @@ class BandsController < ApplicationController
   
   
   def new
-		@newform = true
   
     #bring in the user first and last name
     @user = User.find(session[:user_id])
@@ -150,12 +148,11 @@ class BandsController < ApplicationController
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
-		@newform = false  
     unless id = get_band_id_from_request()
       return false
     end
     @band = Band.find(id)
-		@request_uri = url_for()
+		@request_uri = edit_band_url(id)
  		begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true

@@ -60,8 +60,8 @@ class UsersController < ApplicationController
   
   def edit
 		@request_uri = url_for()  
-@newform = false		
-		
+#@newform = false		
+#@page = 'edit'		
     unless (id = params[:id])
       id = session[:user_id]
     else
@@ -102,12 +102,18 @@ class UsersController < ApplicationController
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
-		@newform = false  
-		@request_uri = url_for()  
+#		@newform = false  
+
+=begin		if params[:user] && params[:user][:newform] && params[:user][:newform] == true
+			@newform = true
+		end
+=end
+
     unless ( (id = params[:id]) && ( (id == session[:user_id]) || (User.find(session[:user_id]).site_admin) ) )
       id = session[:user_id]
     end
     @user = User.find(id)
+		@request_uri = edit_user_url(id)
     @user.email_confirmation = params[:user][:email_confirmation]
 		begin
 			unless @user.twitter_user
@@ -210,12 +216,14 @@ class UsersController < ApplicationController
 
   def new
 		@request_uri = url_for()  
-		@newform = true
+#		@newform = true
     @user = User.new
     #check to see if they've been around before
     if params[:user]
       @user = User.new(params[:user])
     end
+
+    
 		begin
 			unless @user.twitter_user
 				@user_twitter_not_authorized = true
@@ -269,6 +277,8 @@ class UsersController < ApplicationController
   
   
   def create
+#  		@newform = true
+
 =begin
     #validate the captcha
     if ((session[:passed_captcha] && params[:captcha_response]) || (session[:passed_captcha] != true) )
@@ -301,7 +311,9 @@ class UsersController < ApplicationController
     end
 
     # Hash the password before putting it into DB
-    user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
+    if user_registration_info[:password] && !user_registration_info[:password].nil? && user_registration_info[:password] != ''
+			user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
+		end
     # We must also hash the confirmation entry so the model can check them together
 #    user_registration_info[:password_confirmation] = Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
    

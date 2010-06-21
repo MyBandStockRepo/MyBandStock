@@ -3,7 +3,7 @@
     %fieldset.user-info
       %legend
         %strong New User Registration
-      =error_messages_for :user
+      =#error_messages_for :user
       %ul.form-fields
         -if @captcha_error
           .captcha_error

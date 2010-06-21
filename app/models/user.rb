@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :email
   #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
   #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
-
+	validates :email, :email => true
   #field specific
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 #  validates_length_of :nickname, :maximum => 50, :unless => Proc.new {|user| user.nickname.nil?}
   
   #validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?} --- commented because all hashes now are going to be 40/64 characters long
-  validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
+#  validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
   
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
   validates_length_of :first_name, :maximum => 50, :unless => Proc.new {|user| user.first_name.nil?}

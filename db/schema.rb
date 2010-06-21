@@ -249,30 +249,21 @@ ActiveRecord::Schema.define(:version => 20100618014750) do
     t.datetime "updated_at"
   end
 
-  create_table "urls", :force => true do |t|
-    t.string   "destination",                     :null => false
-    t.string   "key",                             :null => false
-    t.integer  "maker_id"
-    t.string   "maker_type",  :default => "User"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "password",                                 :null => false
+    t.string   "password",                                :null => false
     t.text     "bio"
     t.string   "address1"
     t.string   "address2"
     t.string   "city"
-    t.string   "email",                                    :null => false
+    t.string   "email",                                   :null => false
     t.string   "zipcode"
     t.string   "phone"
-    t.boolean  "agreed_to_tos",     :default => false,     :null => false
-    t.boolean  "agreed_to_pp",      :default => false,     :null => false
+    t.boolean  "agreed_to_tos",     :default => false,    :null => false
+    t.boolean  "agreed_to_pp",      :default => false,    :null => false
     t.integer  "headline_photo_id"
-    t.string   "status",            :default => "pending", :null => false
+    t.string   "status",            :default => "active", :null => false
     t.integer  "country_id"
     t.integer  "state_id"
     t.integer  "twitter_user_id"

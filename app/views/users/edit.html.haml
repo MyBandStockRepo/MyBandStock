@@ -1,8 +1,16 @@
 .orange_bar
-  .placement_edituserprofilepic
-  .placement_edituserprofile EDIT USER PROFILE
-  .orange_divider
-
-=render :partial => 'required_form'
-
-=#render :partial => 'required_form', :locals => {:f => f, :states => @states}
+	.placement_edituserprofilepic
+	.placement_edituserprofile EDIT USER PROFILE
+	.orange_divider
+#content_login_bg
+	#login_wrap
+		= form_for(@user) do |f|
+			=render :partial => 'required_form', :locals => {:f => f}
+			.fieldrow
+				.fieldleft                
+					.formbutton
+						= f.submit 'SUBMIT'
+					-if params[:action] && params[:action] == 'edit'
+						.formbutton_nextto
+							= button_to 'BACK', :url => session[:last_clean_url]
+		.clear

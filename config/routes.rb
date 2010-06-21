@@ -77,7 +77,8 @@ Cobain::Application.routes.draw do |map|
 
 
 
-
+	match '/legal/privacy_policy', :to => 'legal#privacy_policy'
+	match '/legal/tos', :to => 'legal#tos'
 
   match 'developers', :to => 'developer#index'
   

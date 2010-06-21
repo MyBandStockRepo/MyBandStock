@@ -6,8 +6,9 @@
   #login_wrap
     #login_wrap_left
       -if @external
-        .error
-          = flash[:error]
+        -if flash[:error]
+          .errbox
+            = flash[:error]
       .formcontainer
         =form_for(:user, :url => {:action => :process_user_login} ) do |f|
           -if @external
@@ -25,9 +26,12 @@
               .fieldnamebottom
             .fieldbox
               = f.password_field :password
+
           #checkbox_login
             =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-            =label_tag 'checkbox_remember', 'Remember Me'
+            =label_tag 'checkbox_remember', 'Remember Me'            
+            %br
+            =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]          
           .formbutton{ :style => 'margin-right: 5px;' }
             = submit_tag 'login'
     -if @external

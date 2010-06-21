@@ -1,3 +1,20 @@
-%h2#sign-up Sign Up
-=render 'form'
+#content_login_bg
+	#login_wrap
+		%h2#sign-up Sign Up
+		%p New User Registration	
+		%br
+		= form_for(@user) do |f|
+			=render :partial => 'required_form', :locals => {:f => f}
+			.fieldrow
+				.fieldleft
+					%p 
+						By clicking on "Submit" below, you are agreeing to the MyBandStock
+						= link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+						and
+						= link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
+			.fieldrow
+				.fieldleft                
+					.formbutton
+						= f.submit 'SUBMIT'
 
+		.clear

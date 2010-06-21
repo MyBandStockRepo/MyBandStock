@@ -119,7 +119,7 @@
             - for e in @band.errors[:access_schedule_url]
               %p
                 = '- '+e.to_s
-      - unless @newform                
+      -if params[:action] == 'edit' || params[:action] == 'update'
         .fieldrow
           .fieldleft      
             .field                        
@@ -152,8 +152,9 @@
         .fieldleft                
           .formbutton
             = f.submit 'SUBMIT'
-          .formbutton_nextto
-            = button_to 'BACK', :url => session[:last_clean_url]
+          -if params[:action] == 'edit'
+            .formbutton_nextto
+              = button_to 'BACK', :url => session[:last_clean_url]
     .clear
 
 

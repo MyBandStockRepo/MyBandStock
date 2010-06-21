@@ -95,7 +95,7 @@ class UserMailer < ActionMailer::Base
 		@user = user
 		@password = password
 		@host = SITE_HOST
-		
+		    @mbslink = SITE_URL
     mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
 	end
 

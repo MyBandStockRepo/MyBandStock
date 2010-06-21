@@ -43,8 +43,9 @@
           = flash[:logout]
       
       #content
-        %span.error
-          = flash[:error]
+        -if flash[:error]
+          .errbox_nonfloat
+            = flash[:error]
         = yield
 
       = render :partial => 'common_partials/footer'

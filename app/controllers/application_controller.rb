@@ -261,6 +261,13 @@ class ApplicationController < ActionController::Base
 	def log_user_in(user_id)
 		session[:auth_success] = true
 		session[:user_id] = user_id
+		user = User.find(user_id)
+		if user
+			session[:email] = user.email
+			unless user.full_name.nil? || user.full_name == ''
+				session[:full_name] = user.full_name
+			end
+		end
 	end
   
   def is_megatron?(user_agent)
