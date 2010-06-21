@@ -1,5 +1,6 @@
 jQuery.noConflict();
 var mbsDomain = 'http://cobain.mybandstock.com';
+var redeemDefaultText = 'Or Enter Your Access Code Here';
 
 
 var script = document.createElement('script');
@@ -77,7 +78,6 @@ function applyFbListeners() {
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
   var title = jQuery(document.createElement('h1')).addClass('live-streams-title').html('Exclusive Live Streams');
-  var redeemDefaultText = 'Or Enter Your Access Code Here';
   var redeemCodeSection =
         jQuery('<div id="mbs-share-code-container"></div>').append(
           '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
