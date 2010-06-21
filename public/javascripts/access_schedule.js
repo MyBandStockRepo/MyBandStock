@@ -7,9 +7,11 @@ script.src = 'http://www.peekok.com/js/peekokLibrary.js';
 script.type = 'text/javascript';
 jQuery('head').append(script);
 
-/*jQuery('head').append(
+jQuery('head').append(
+	jQuery('<link href="'+mbsDomain+'/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />')
+	jQuery('<link href="'+mbsDomain+'/stylesheets/access_schedule.css" media="screen" rel="stylesheet" type="text/css" />')
 	jQuery('<link href="'+mbsDomain+'/stylesheets/lightbox.css" media="screen" rel="stylesheet" type="text/css" />')
-);*/
+);
 
 jQuery(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
@@ -67,7 +69,7 @@ function applyFbListeners() {
     jQuery(this).click(function(e) {
       e.preventDefault(); return false;
     });
-	});
+  });
 }
 
 function accessScheduleJsonCallback(data) {
@@ -117,7 +119,7 @@ function accessScheduleJsonCallback(data) {
           )
         ).append(
           jQuery('<td class="stream-location">'+ stream.location +'</td>')
-        ).addClass((streamIndex % 2) ? 'even' : 'odd')
+        ).addClass((streamIndex % 2) ? 'odd' : 'even')
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
