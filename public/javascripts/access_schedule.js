@@ -48,7 +48,7 @@ jQuery(function() {
 
 function applyShareCodeListener() {
   jQuery('#mbs-redeem-submit').click(function(e) {
-    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ document.getElementById('mbs-share-code').value + '?lightbox=true';
+    document.getElementById('mbs-redeem-link').href = mbsDomain +'/redeem_code/'+ escape(document.getElementById('mbs-share-code').value) + '?lightbox=true';
     jQuery('#mbs-redeem-link').click();
   });
 };
@@ -77,12 +77,13 @@ function applyFbListeners() {
 function accessScheduleJsonCallback(data) {
   // Construct Access Schedule HTML from incoming JSON
   var title = jQuery(document.createElement('h1')).addClass('live-streams-title').html('Exclusive Live Streams');
+  var redeemDefaultText = 'Or Enter Your Access Code Here';
   var redeemCodeSection =
         jQuery('<div id="mbs-share-code-container"></div>').append(
           '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
         ).append(
           //'<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
-          '<input id="mbs-share-code" type="text" value="Or Enter Your Access Code Here..." onfocus="this.value=\'\'">' +
+          '<input id="mbs-share-code" type="text" value="'+ redeemDefaultText +'" onfocus="if (this.value == redeemDefaultText) this.value=\'\'">' +
           '<input type="hidden" name="lightbox" value="true">' +
           '<input id="mbs-redeem-submit" type="submit" value="Redeem!">'
         )
@@ -105,13 +106,12 @@ function accessScheduleJsonCallback(data) {
     jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
       table.append(
         jQuery(document.createElement('tr')).append(
-          jQuery('<td class="stream-start"></td>').html(
-            jQuery('<span class="stream-start-day">'+ stream.start_day +'</span>')
-          ).append(
-            jQuery('<span class="stream-start-date">'+ stream.start_date +'</span>')
-          ).append(
-            jQuery('<span class="stream-start-time">'+ stream.start_time +'</span>')
-          )
+          //jQuery('<td class="stream-start"></td>').html(
+          jQuery('<td class="stream-start-day">'+ stream.start_day +'</td>')
+        ).append(
+          jQuery('<td class="stream-start-date">'+ stream.start_date +'</span>')
+        ).append(
+          jQuery('<td class="stream-start-time">'+ stream.start_time +'</span>')
         ).append(
           jQuery(document.createElement('td')).addClass('stream-name').append(
             jQuery('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
@@ -125,7 +125,7 @@ function accessScheduleJsonCallback(data) {
       );
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
-      jQuery('<div id="mbs-powered-by"> </div>')
+      jQuery('<a id="mbs-powered-by"> </a>')
     );
   });
   applyFbListeners();

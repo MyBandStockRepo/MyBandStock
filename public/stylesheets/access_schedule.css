@@ -36,13 +36,11 @@ a:hover {
     font-style: italic;
   }
   .access-schedule-list .stream-title {
-    font-size: 80%;
     font-style: normal;
-    font-weight: normal;
+    font-weight: bold;
   }
   .stream-start, .stream-location {
     color: #FFF; /* The color of the date and location cells */
-    font-size: 10.4px;
   }
   .access-schedule-list .stream-start span {
     margin: 0 2px;
