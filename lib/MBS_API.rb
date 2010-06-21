@@ -125,6 +125,7 @@ module MBS_API
               }
 
     output_format = 'json' if output_format == 'nil'
+=begin
     Rails.logger.info "\nAbout to render callback output.\n"
     case output_format
       when 'json'
@@ -135,6 +136,8 @@ module MBS_API
       when 'yaml'
         #output YAML from here
     end
+=end
+    return true
   end
 
 private
