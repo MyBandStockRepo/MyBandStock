@@ -81,7 +81,7 @@ a:hover {
   color: #333;
 }
 #mbs-powered-by {
-  background-image: url(/images/powered_by) no-repeat;
+  background-image: url(/images/powered_by.png) no-repeat;
   float: right;
   height: 9px;
   width: 131px;

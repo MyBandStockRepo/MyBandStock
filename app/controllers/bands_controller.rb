@@ -31,9 +31,7 @@ class BandsController < ApplicationController
         @band.live_stream_series.includes(:streamapi_streams)
       end
     end
-    
-    @url_test = ShortUrl.generate_short_url('http://google.com', @band)
-    
+        
     begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true

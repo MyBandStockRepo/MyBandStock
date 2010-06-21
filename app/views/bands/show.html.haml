@@ -14,7 +14,7 @@
     -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
       #manage-band
         %p You are a manager for this band.
-        =link_to_unless_current 'Manage', edit_band_path, :id => @band.id
+        =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
     #bio.widget-box
       .profile-category Bio
       #bio-content
