@@ -53,6 +53,10 @@ a:hover {
   margin: 4px auto;
   width: 524px;
 }
+#mbs-share-code-container {
+  height: 42px;
+  margin-bottom: 15px;
+}
 #mbs-redeem-submit {
   background: url(/images/buttons/global/silver_button.png) no-repeat;
   border: 0;
@@ -64,6 +68,7 @@ a:hover {
   padding-bottom: 2px;
   text-align: center;
   cursor: pointer;
+  float: right;
 }
 #mbs-share-code-label {
   color: #FFF;
@@ -77,16 +82,18 @@ a:hover {
   height: 33px;
   width: 374px;
   text-align: center;
-	padding-top:8px;
+  padding-top:8px;
   border: 0;
-  margin: 0 .5em;
+  margin: 0 0;
   color: #333;
+  float: left;
 }
 #mbs-powered-by {
   background: url(/images/powered_by.png) no-repeat;
   float: right;
   height: 9px;
   width: 131px;
+  margin: 8px 0 10px;
 }
 .view_link {float:right;width:16px;height:16px;display:block;margin-right:20px;background-image:url(/images/icons/view_sprite.png);background-position:0px 0px;background-repeat:no-repeat;}
 .view_link:hover {background-position:0px -16px;}
