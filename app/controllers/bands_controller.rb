@@ -28,7 +28,7 @@ class BandsController < ApplicationController
 
     if (@band && @band.live_stream_series )
       @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
-        @band.live_stream_series.includes(:streamapi_streams)
+        @band.live_stream_series.includes(:streamapi_streams).all
       end
     end
         
