@@ -7,6 +7,10 @@ class AdminController < ApplicationController
   def index
     #something
   end
+
+  def authorize_users
+    
+  end
   
 #end controller
 end
