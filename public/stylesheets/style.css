@@ -1,4 +1,5 @@
-@import url(/stylesheets/twitter.css);
+/*@import url(/stylesheets/twitter.css);
+@import url(/stylesheets/fonts.css);*/
 #errorExplanation {
 /*	float:left;*/
 	margin: 10px 0px 10px 0px;
@@ -34,12 +35,12 @@
 
 #content {background:#191919;margin-top:10px;}
 	#slides {height:400px;}
-	#search {width:620px;margin-left:180px;padding-top:20px;}
+	#search {width:690px;margin-left:180px;padding-top:20px;}
 
 fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 #searchbox {float:left;}
-    #searchbox input {width:455px;height:68px;line-height:68px;background:url(/images/search_area.gif);background-repeat:no-repeat;border:none;font-size:30px;line-height:68px;color:#333333;float:left;padding:0px;padding-left:25px;margin:0px;}
+    #searchbox input {width:455px;height:53px;line-height:68px;background:url(/images/search_area.gif);background-repeat:no-repeat;border:none;font-size:30px;line-height:68px;color:#333333;float:left;padding-top:15px;padding-left:24px;margin:0px;}
 #searchbutton {height:68px;float:left;}
     #searchbutton input {height:68px;width:140px;float:left;padding:0px;margin:0px;background:url(/images/search_button.gif);outline:0px;border:0px;}
 		#searchbutton input:hover {height:68px;float:left;padding:0px;margin:0px;background:url(/images/search_button_over.gif);}
@@ -172,7 +173,7 @@ table.admin_new_record_table tr td{padding: 10px;}
 
 
 /* END PROD STYLES */
-@import url(/stylesheets/fonts.css);
+
 
 body {
   width:100%;
@@ -462,7 +463,9 @@ div#slides ul li.show {z-index:500}
 fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 .fieldbox {float:left;margin-top:20px;}
-    .fieldbox input, .fieldbox .form_input_text {width:380px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+    .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
+    .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
+
     .fieldbox select {
       width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;
     }

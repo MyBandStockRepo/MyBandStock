@@ -7,6 +7,10 @@ script.src = 'http://www.peekok.com/js/peekokLibrary.js';
 script.type = 'text/javascript';
 jQuery('head').append(script);
 
+/*jQuery('head').append(
+	jQuery('<link href="'+mbsDomain+'/stylesheets/lightbox.css" media="screen" rel="stylesheet" type="text/css" />')
+);*/
+
 jQuery(document).ready(function() {
   var accessScheduleContainer = document.getElementById('mbs-access-schedule-container');
   if (!accessScheduleContainer) {

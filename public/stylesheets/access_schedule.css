@@ -12,14 +12,15 @@
   margin: 5px 5px 3em 5px;
 }
 
-/* Link colors */
+/* Link colors
 a:link {
   color: #555;
 }
-/* When a user hovers over a link */
+
 a:hover {
   color: black;
 }
+ */
 
 /* The actual table of schedules */
 .access-schedule-list {
@@ -73,9 +74,10 @@ a:hover {
   background-repeat:no-repeat;
   font-family: TitilliumText14L999wt;
   font-size: 21px;
-  height: 42px;
+  height: 33px;
   width: 374px;
   text-align: center;
+	padding-top:8px;
   border: 0;
   margin: 0 .5em;
   color: #333;

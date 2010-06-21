@@ -6,9 +6,9 @@
       %li
         = link_to 'Blog', 'http://blog.mybandstock.com'
       %li
-        = link_to 'Shares'
+        = link_to 'Shares', faq_path
       %li
-        = link_to 'Contact'
+        = link_to 'Contact', about_path
     %ul.footer-links-section
       %li.footer-section-title
         Developers
@@ -18,9 +18,9 @@
       %li.footer-section-title
         Bands
       %li
-        = link_to 'Engage your fans'
+        = link_to 'Engage your fans', faq_path
       %li
-        = link_to 'Manage your band'
+        = link_to 'Manage your band', :controller => 'users', :action => 'control_panel'
 
   #securities
     I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law
@@ -31,4 +31,4 @@
     Questions? Bugs? Need help? 
     =raw js_antispam_email_link("support@MyBandStock.com")
   .clear
-
+  
