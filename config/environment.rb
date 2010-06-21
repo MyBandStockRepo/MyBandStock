@@ -1,14 +1,10 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
-#require "will_paginate"
 
 # Initialize the rails application
 Cobain::Application.initialize!
 
-
 # ** Environment variables ** #
-
-
 
 # Email address to which support inquiries are sent.
 # Currently displayed when a user does not have access to a stream, but tries to view it.
