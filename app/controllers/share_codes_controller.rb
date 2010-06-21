@@ -217,7 +217,7 @@ class ShareCodesController < ApplicationController
       unless lss = LiveStreamSeries.find(share_code.key[3..8])
         return false
       end
-      logger.info 'LSS permissions about to be applied to ' + lss.id
+      logger.info 'LSS permissions about to be applied to ' + lss.id.to_s
       unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
                                                  :hash => OUR_MBS_API_HASH,
                                                  :api_version => '.1',
@@ -232,7 +232,7 @@ class ShareCodesController < ApplicationController
         ShareLedgerEntry.create( :user_id => share_code.user.id,
                                  :band_id => lss.band.id,
                                  :adjustment => share_code.share_amount,
-                                 :description => 'share_code ' + share_code.id
+                                 :description => 'share_code ' + share_code.id.to_s
                          )
       end
     else
