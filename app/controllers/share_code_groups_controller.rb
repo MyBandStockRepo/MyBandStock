@@ -160,7 +160,7 @@ class ShareCodeGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to(@share_code_group, :band_id => @lss.id, :notice => 'Share code group was successfully created.') }
+        format.html { redirect_to(:action => :show, :id => @share_code_group.id, :band_id => @lss.id, :notice => 'Share code group was successfully created.') }
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
       end
     rescue
@@ -180,7 +180,7 @@ class ShareCodeGroupsController < ApplicationController
 
     respond_to do |format|
       if @share_code_group.update_attributes(params[:share_code_group])
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully updated.', :band_id => params[:band_id]) }
+        format.html { redirect_to(:action => :show, :id => @share_code_group_id, :band_id => params[:band_id], :notice => 'Share code group was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

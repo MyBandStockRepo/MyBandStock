@@ -49,6 +49,8 @@ Cobain::Application.routes.draw do |map|
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
     match 'share_codes/redeem', :to => 'share_codes#redeem'
     match '/share_codes/complete_redemption', :to => 'share_codes#complete_redemption'
+    
+    match '/share_code_groups(/:id/:band_id)', :to => 'share_code_groups#show'
   # /--- Share Codes ---- #
 
   # Don't touch the routes in the block below! I'm very happy with how they look.
@@ -59,13 +61,13 @@ Cobain::Application.routes.draw do |map|
   resources :associations
   resources :share_codes
   resources :short_urls
-  resources :user_roles
   resources :api_users
   resources :pledges
   resources :roles
   resources :users
   resources :fans
   resources :bands
+  resources :user_roles
   resources :twitter_users
   resources :live_stream_series
   resources :live_stream_series_permissions
