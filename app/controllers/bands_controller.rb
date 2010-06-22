@@ -10,6 +10,8 @@ class BandsController < ApplicationController
  before_filter :authenticated?, :except => [:show]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
  skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users]
+ before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new]
+  
   
   def index
     redirect_to session[:last_clean_url]

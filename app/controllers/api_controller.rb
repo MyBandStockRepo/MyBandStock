@@ -11,7 +11,7 @@ class ApiController < ApplicationController
   # On failure, '-1' is returned.
   #
 
-  before_filter :authenticated?, :only => 'test'
+  before_filter :user_has_site_admin, :only => [:test]
 
   def index
     render :nothing => true

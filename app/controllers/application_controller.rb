@@ -183,7 +183,7 @@ class ApplicationController < ActionController::Base
   end
   
   def user_is_part_of_a_band?
-    if User.find(session[:user_id]).is_part_of_a_band?
+    if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).site_admin == true)
       return
     else
       redirect_to session[:last_clean_url]
@@ -192,7 +192,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_is_admin_of_a_band?
-    if User.find(session[:user_id]).is_admin_of_a_band?
+    if session[:user_id] && (User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
       return
     else 
       redirect_to session[:last_clean_url]
@@ -200,6 +200,13 @@ class ApplicationController < ActionController::Base
 
   end
   
+  def user_part_of_or_admin_of_a_band?
+  	if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
+  		return
+  	else
+			redirect_to session[:last_clean_url]  		
+  	end
+  end
   
   def get_band_id_from_request()
     id = nil #init ret val

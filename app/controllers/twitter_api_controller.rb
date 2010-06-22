@@ -1,6 +1,7 @@
 class TwitterApiController < ApplicationController
-	protect_from_forgery :only => [:create, :update, :create_band, :post_retweet]
-	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites]
+	protect_from_forgery :only => [:create, :update, :band_create, :post_retweet]
+	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error]
+	before_filter :user_part_of_or_admin_of_a_band?, :only => [:update, :band_create]
 	
 	def create_session
 		begin
@@ -146,6 +147,53 @@ class TwitterApiController < ApplicationController
 			return false
     end
 	end
+
+
+	def deauth
+		if @user = User.find(session['user_id'])						
+			if @user.bands.count && params[:deauth_band_id]
+				if @user.has_band_admin(params[:deauth_band_id]) || @user.is_member_of_band(params[:deauth_band_id]) || @user.is_site_admin
+					if @band = Band.find(params[:deauth_band_id])
+						#found band and have access
+						@band.twitter_user_id = nil
+						if @band.save
+							redirect_to :controller => 'bands', :action => 'edit', :id => @band.id
+						else
+							flash[:error] = 'Could not save changes. Please try again.'
+							redirect_to :controller => 'bands', :action => 'edit', :id => @band.id
+							return false						
+						end
+					else
+						flash[:error] = 'Could not find band with given ID.'
+						redirect_to root_url						
+						return false
+					end
+				else
+						flash[:error] = 'You are not authorized to make changes for this band.  You need to be a band admin or member to deauthorize their Twitter account with our service.'
+						redirect_to root_url
+						return false
+				end
+			else
+				#deauth user
+				@user.twitter_user_id = nil
+				if @user.save
+					redirect_to :controller => 'users', :action => 'edit', :id => @user.id
+				else
+					flash[:error] = 'Could not save changes. Please try again.'
+					redirect_to :controller => 'users', :action => 'edit', :id => @user.id
+					return false										
+				end
+			end
+		else
+			flash[:error] = 'Could not find user.'
+			redirect_to root_url
+			return false		
+		end
+		
+	end
+
+
+
 
 def update
 
@@ -406,11 +454,6 @@ end
 
   
   private
-  
-  
-  def update_twitter_user_name
-  
-  end
   
   def generate_endtag(screen_name = nil, long_url = nil)
 		endtag_str = ''

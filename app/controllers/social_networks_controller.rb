@@ -1,7 +1,7 @@
 class SocialNetworksController < ApplicationController
- protect_from_forgery :only => [:update]
  before_filter :authenticated?
-
+ before_filter :user_part_of_or_admin_of_a_band?
+ 
 	def index
 		begin
 			@twitter_not_authorized =  true

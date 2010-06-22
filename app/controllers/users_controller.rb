@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:new, :create, :state_select]
+ before_filter :authenticated?, :except => [:new, :create, :state_select, :activate]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
 
