@@ -40,7 +40,7 @@ class ShareCodeGroupsController < ApplicationController
 
     @share_code_groups = ShareCodeGroup.all
     @share_code_group = ShareCodeGroup.new
-    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])    
+    @series_list = LiveStreamSeries.where(:band_id => params[:band_id]) 
 
     respond_to do |format|
       format.html # index.html.erb
@@ -159,7 +159,7 @@ class ShareCodeGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully created.', :band_id => @lss.id) }
+        format.html { redirect_to(@share_code_group, :band_id => @lss.id, :notice => 'Share code group was successfully created.') }
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
       end
     rescue

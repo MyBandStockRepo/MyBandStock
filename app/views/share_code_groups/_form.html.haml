@@ -5,10 +5,6 @@
   = f.error_messages
 
   .field
-    %big
-      %big
-        %big
-          Get a datepicker
     = f.label :expires_on
     %br
     = f.text_field :expires_on
@@ -35,6 +31,8 @@
     = f.check_box :active
     .description
       Whether this set of codes is currently allowed. This can be changed later.
+  
+  -# = hidden_field_tag :band_id, @series_list.band.id
 
   .actions
     = f.submit
