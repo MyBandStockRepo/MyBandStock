@@ -4,6 +4,26 @@ class ShareCodeGroupsController < ApplicationController
   protect_from_forgery :only => [:create, :update]
   before_filter :user_is_admin_of_a_band?
   layout 'root-layout'
+  
+  def download
+    @user = User.find(session[:user_id])
+    @share_code_group = params[:share_code_group_id]
+    
+    unless @user && @share_code_group
+      flash[:error] = 'Please try again - no share code group specified.'
+      return redirect_to '/band_home'
+    end
+    unless @user.has_band_admin(params[:band_id])
+      flash[:error] = 'Only band admins can download share codes.'
+      return redirect_to '/band_home'
+    end
+    
+    respond_to do |format|
+      format.html { render :html => @share_code_group }
+      format.xml { render :xml => @share_code_group }
+      format.xls { send_data @share_code_group.to_xls }
+    end
+  end
 
   # GET /share_code_groups
   # GET /share_code_groups.xml
@@ -21,7 +41,8 @@ class ShareCodeGroupsController < ApplicationController
 
     @share_code_groups = ShareCodeGroup.all
     @share_code_group = ShareCodeGroup.new
-    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])    
+    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])
+    @band_id = params[:band_id]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -32,7 +53,22 @@ class ShareCodeGroupsController < ApplicationController
   # GET /share_code_groups/1
   # GET /share_code_groups/1.xml
   def show
+  # Note that the show view must get @band
     @share_code_group = ShareCodeGroup.find(params[:id])
+    @band_id = params[:band_id]
+    
+    unless @band_id
+      flash[:error] = 'Band ID not specified'
+      return redirect_to '/band_home'
+    end
+    
+    @user = User.find(session[:user_id])
+    logger.info "User: " + @user.id.to_s
+    logger.info "Band: " + @band_id.to_s
+    unless @user && @user.has_band_admin(@band_id)
+      flash[:error] = 'Only band admins can manage share codes.'
+      return redirect_to '/band_home'
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -43,6 +79,8 @@ class ShareCodeGroupsController < ApplicationController
   # GET /share_code_groups/new
   # GET /share_code_groups/new.xml
   def new
+    @user = User.find(session[:user_id])
+
     unless @user && params[:band_id] && @user.has_band_admin(params[:band_id])
       if params[:band_id].nil?
         flash[:error] = "Cannot manage share codes - invalid band ID given."
@@ -124,11 +162,11 @@ class ShareCodeGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully created.') }
+        format.html { redirect_to(:action => :show, :id => @share_code_group.id, :band_id => @lss.id, :notice => 'Share code group was successfully created.') }
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
       end
     rescue
-      flash[:notice] = 'Key generation failed!!!  Please notify someone.'
+      flash[:notice] = 'Key generation failed.  Please notify someone.'
       respond_to do |format|
         format.html { redirect_to(new_share_code_group_url) }
         format.xml  { render :xml => @share_code_group.errors, :status => :unprocessable_entity }
@@ -144,7 +182,7 @@ class ShareCodeGroupsController < ApplicationController
 
     respond_to do |format|
       if @share_code_group.update_attributes(params[:share_code_group])
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully updated.') }
+        format.html { redirect_to(:action => :show, :id => @share_code_group_id, :band_id => params[:band_id], :notice => 'Share code group was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

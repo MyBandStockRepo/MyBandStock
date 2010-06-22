@@ -12,22 +12,23 @@
     %th
     %th
 
--@share_code_groups.each do |share_code_group|
-  %tr
-    %td
-      = share_code_group.label
-    %td
-      = share_code_group.active
-    %td
-      = share_code_group.share_amount
-    %td
-      = share_code_group.expires_at
-    %td
-      = link_to 'Show', share_code_group
-    %td
-      = link_to 'Edit', edit_share_code_group_path(share_code_group)
-    %td
-      = link_to 'Destroy', share_code_group, :confirm => 'Are you sure?', :method => :delete
+  -@share_code_groups.each do |share_code_group|
+    %tr
+      %td
+        = share_code_group.label
+      %td
+        = share_code_group.active
+      %td
+        = share_code_group.share_amount
+      %td
+        = share_code_group.expires_on
+      %td
+        = link_to 'Show', share_code_group, :band_id => @band_id
+      -# __commented__ - code groups should not be edited once they are created
+        %td
+          = link_to 'Edit', edit_share_code_group_path(share_code_group), :band_id => @band_id
+      %td
+        = link_to 'Destroy', share_code_group, :confirm => 'Are you sure?', :method => :delete
 
 %br
 

@@ -1,3 +1,12 @@
+<%= "BandID: #{@band_id}" %>
+<% unless @band_id.nil? %>
+    <div class="formbutton">
+      <%=
+        link_to 'Download', { :controller => 'share_code_groups', :action => 'download', :share_code_group_id => @share_code_group.id, :band_id => @band_id }, :class => 'formbutton'
+      %>  
+    </div>
+<% end %>
+
 <p>
   <b>Num share codes:</b>
   <%= @share_code_group.share_codes_count %>
@@ -31,7 +40,6 @@
     <%end%>
   </ul>
 </p>
-
 
 
 

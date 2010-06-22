@@ -2,6 +2,6 @@
   #login_wrap_rightpad
     %h2 NOT SIGNED UP YET?
     %h4 If you haven't created an account yet, sign up now! It's free and allows you to interact with all the bands on MyBandStock.
-  .formbutton#signupbutton{ :style => 'margin-top: 44px;' }
+  .formbutton#signupbutton
     = submit_tag 'sign up!', :onclick => "document.location.href='#{ new_user_path }';  return false;"
 

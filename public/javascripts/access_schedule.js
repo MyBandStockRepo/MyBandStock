@@ -1,6 +1,6 @@
 jQuery.noConflict();
 var mbsDomain = 'http://cobain.mybandstock.com';
-var redeemDefaultText = 'Or Enter Your Access Code Here';
+var redeemDefaultText = 'Or Enter Your Share Code Here';
 
 
 var script = document.createElement('script');
@@ -9,8 +9,6 @@ script.type = 'text/javascript';
 jQuery('head').append(script);
 
 jQuery('head').append(
-//	jQuery('<link href="'+mbsDomain+'/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />')
-//).append(
 	jQuery('<link href="'+mbsDomain+'/stylesheets/access_schedule.css" media="screen" rel="stylesheet" type="text/css" />')
 ).append(
 	jQuery('<link href="'+mbsDomain+'/stylesheets/lightbox.css" media="screen" rel="stylesheet" type="text/css" />')
@@ -82,7 +80,6 @@ function accessScheduleJsonCallback(data) {
         jQuery('<div id="mbs-share-code-container"></div>').append(
           '<a href="'+ mbsDomain +'/redeem_code" class="lightbox" id="mbs-redeem-link"> </a>'
         ).append(
-          //'<label for="mbs-share-code" id="mbs-share-code-label">Or enter your access code:</label>' +
           '<input id="mbs-share-code" type="text" value="'+ redeemDefaultText +'" onfocus="this.value = (this.value == redeemDefaultText) ? this.value=\'\' : this.value">' +
           '<input type="hidden" name="lightbox" value="true">' +
           '<input id="mbs-redeem-submit" type="submit" value="Redeem!">'

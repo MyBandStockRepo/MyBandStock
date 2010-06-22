@@ -147,8 +147,6 @@ body#lightbox #login_submit {height:30px;float:right;margin-top:10px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
     .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a, .formbutton_left input, .formbutton_left a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
 		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover, .formbutton_left input:hover, .formbutton_left a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
-    .long_button a { background: none; }
-    .long_button a:hover { background: none; }
 .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
 #checkbox_login_ext {float:left;font-size:10px;color:#CCCCCC;margin-left:110px;margin-top:15px;line-height:25px;}
@@ -187,11 +185,13 @@ body#lightbox .long_button a {
   font-size: 18px;
   text-decoration: none;
   margin-top: 11px;
+  color: #333;
 }
 body#lightbox .long_button a:hover {
   float: left;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 11px;
+  color: #FFF;
 }
 
 

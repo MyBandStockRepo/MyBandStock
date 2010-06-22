@@ -1,8 +1,5 @@
 /** Copy and modify this file to change the properties of the Live Streams widget content **/
 
-/*@import url(/stylesheets/lightbox.css);
-@import url(/stylesheets/fonts.css);*/
-
 #mbs-access-schedule-container {
   /* Comment out the width and height lines to make the widget size automatically.
   width: 500px; 
@@ -70,7 +67,7 @@ a:hover {
   width: 140px;
   height: 42px;
   color: #333;
-  font-family: TitilliumText14L999wt;
+  font-family: Tahoma, sans-serif; /*TitilliumText14L999wt;*/
   font-size: 18px;
   padding-bottom: 2px;
   text-align: center;
@@ -84,9 +81,9 @@ a:hover {
 #mbs-share-code {
   background: url(/images/forms/lone_text_field.png) repeat scroll 0 0 transparent;
   background-repeat:no-repeat;
-  font-family: TitilliumText14L999wt;
-  font-size: 21px;
-  height: 33px;
+  font-family: Tahoma, sans-serif; /*TitilliumText14L999wt;*/
+  font-size: 24px;
+  height: 34px;
   width: 374px;
   text-align: center;
   padding-top:8px;

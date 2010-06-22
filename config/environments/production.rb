@@ -3,7 +3,7 @@ Cobain::Application.configure do
 
 	
   SITE_URL = 'http://mybandstock.com'
-  SECURE_SITE_URL = 'http://mybandstock.com'
+  SECURE_SITE_URL = 'https://mybandstock.com'
   SITE_HOST = 'mybandstock.com'
 
 
