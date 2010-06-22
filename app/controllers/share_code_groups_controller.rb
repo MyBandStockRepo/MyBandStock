@@ -10,11 +10,11 @@ class ShareCodeGroupsController < ApplicationController
     
     unless @user && @share_code_group
       flash[:error] = 'Please try again - no share code group specified.'
-      redirect_to '/band_home'
+      return redirect_to '/band_home'
     end
     unless @user.has_band_admin(params[:band_id])
       flash[:error] = 'Only band admins can download share codes.'
-      redirect_to '/band_home'
+      return redirect_to '/band_home'
     end
     
     respond_to do |format|
@@ -57,14 +57,14 @@ class ShareCodeGroupsController < ApplicationController
     
     unless @band
       flash[:error] = 'Band ID not specified'
-      redirect_to '/band_home'
+      return redirect_to '/band_home'
     end
     
     @user = User.find(session[:user_id])
     logger.info "User: " + @user.id.to_s
     unless @user && @user.has_band_admin(@band.id)
       flash[:error] = 'Only band admins can manage share codes.'
-      redirect_to '/band_home'
+      return redirect_to '/band_home'
     end
 
     respond_to do |format|
