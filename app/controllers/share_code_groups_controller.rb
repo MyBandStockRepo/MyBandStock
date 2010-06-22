@@ -18,8 +18,11 @@ class ShareCodeGroupsController < ApplicationController
       return redirect_to '/band_home'
     end
     
-    render_csv #(@share_code_group)
-    return
+    render_csv(
+                "ShareCodes-#{ @share_code_group.id }",
+                generate_csv(@share_code_group, params[:band_id])
+              )
+    return true
   end
 
   # GET /share_code_groups
@@ -209,7 +212,7 @@ class ShareCodeGroupsController < ApplicationController
 
 private
 
-  def render_csv(filename = nil)
+  def render_csv(filename = nil, csv_string)
     filename ||= params[:action]
     filename += '.csv'
 
@@ -224,7 +227,7 @@ private
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
 
-    render :layout => false, :text => generate_csv(ShareCodeGroup.first, 1)
+    render :layout => false, :text => csv_string
   end
 
 
@@ -235,6 +238,7 @@ private
     end
     website = Band.find(band_id).access_schedule_url || 'www.mybandstock.com'
     expires = (group.expires_on) ? group.expires_on.strftime("%m/%d/%Y") : nil
+    out << "code,website,expiration\n"
     group.share_codes.each { |code|
       out << code.key + ',' + website + ',' + expires + "\n"
     }
