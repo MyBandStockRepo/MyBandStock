@@ -21,8 +21,14 @@ class ShareCodeGroupsController < ApplicationController
     respond_to do |format|
       format.html { render :html => @share_code_group }
       format.xml { render :xml => @share_code_group }
-      format.xls { send_data @share_code_group.to_xls }
+      format.csv {
+        response.headers['Content-Type'] = 'text/csv' # I've also seen this for CSV files: 'text/csv; charset=iso-8859-1; header=present'
+        response.headers['Content-Disposition'] = 'attachment; filename=thefile.csv'
+        response.headers['Cache-Control'] = ''
+        render export_csv(@share_code_group)
+      }
     end
+    return
   end
 
   # GET /share_code_groups
@@ -211,6 +217,19 @@ class ShareCodeGroupsController < ApplicationController
 
 
 private
+
+  def export_csv(group, band_id)
+    out = ''
+    unless group && band_id
+      return out
+    end
+    website = Band.find(band_id).access_schedule_url || 'www.mybandstock.com'
+    expires = (group.expires_on) ? group.expires_on.strftime("%m/%d/%Y") || nil
+    group.share_codes.each { |code|
+      out << code.key + ',' + website + ',' + expires + '\n'
+    }
+    return out
+  end
 
   def generate_char(num)
     num %= 35
