@@ -1,3 +1,4 @@
+-# JM - hey, you should cache the country thing, then test it on mbs.com. Dunno what's going on.
 #content_login_bg
   #login_wrap
     = form_for(@band) do |f|
@@ -81,7 +82,7 @@
                 = f.label :country_id, 'country'
               .fieldnamebottom
             .fieldbox
-              = collection_select 'band', 'country_id', Rails.cache.fetch('Country.all') { all }, 'id', 'name', :class => 'select'
+              = collection_select 'band', 'country_id', Country.all, 'id', 'name', :class => 'select'
         .fielderror
           - if @band.errors[:country_id]
             - for e in @band.errors[:country_id]
