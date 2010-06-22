@@ -63,6 +63,7 @@ class ShareCodeGroupsController < ApplicationController
     
     @user = User.find(session[:user_id])
     logger.info "User: " + @user.id.to_s
+    logger.info "Band: " + @band.id.to_s
     unless @user && @user.has_band_admin(@band.id)
       flash[:error] = 'Only band admins can manage share codes.'
       return redirect_to '/band_home'
