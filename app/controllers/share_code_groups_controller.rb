@@ -22,10 +22,7 @@ class ShareCodeGroupsController < ApplicationController
       format.html { render :html => @share_code_group }
       format.xml { render :xml => @share_code_group }
       format.csv {
-        response.headers['Content-Type'] = 'text/csv' # I've also seen this for CSV files: 'text/csv; charset=iso-8859-1; header=present'
-        response.headers['Content-Disposition'] = 'attachment; filename=thefile.csv'
-        response.headers['Cache-Control'] = ''
-        render export_csv(@share_code_group)
+        render_csv #(@share_code_group)
       }
     end
     return
@@ -218,7 +215,26 @@ class ShareCodeGroupsController < ApplicationController
 
 private
 
-  def export_csv(group, band_id)
+  def render_csv(filename = nil)
+    filename ||= params[:action]
+    filename += '.csv'
+
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain" 
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\"" 
+      headers['Expires'] = "0" 
+    else
+      headers["Content-Type"] ||= 'text/csv'
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
+    end
+
+    render :layout => false, :text => generate_csv(1, 1)
+  end
+
+
+  def generate_csv(group, band_id)
     out = ''
     unless group && band_id
       return out
