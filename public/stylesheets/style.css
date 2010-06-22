@@ -256,7 +256,8 @@ h3 {
   background-color: #333;
 }
 .code {
-  width: 50em;
+  font-size: 12px;
+  width: 850px;
   margin: 1em auto;
   padding: 7px;
 }

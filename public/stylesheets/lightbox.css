@@ -187,6 +187,7 @@ body#lightbox .long_button a {
   font-size: 18px;
   text-decoration: none;
   margin-top: 11px;
+  color: #333;
 }
 body#lightbox .long_button a:hover {
   float: left;

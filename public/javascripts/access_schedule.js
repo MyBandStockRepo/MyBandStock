@@ -9,8 +9,6 @@ script.type = 'text/javascript';
 jQuery('head').append(script);
 
 jQuery('head').append(
-	jQuery('<link href="'+mbsDomain+'/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />')
-).append(
 	jQuery('<link href="'+mbsDomain+'/stylesheets/access_schedule.css" media="screen" rel="stylesheet" type="text/css" />')
 ).append(
 	jQuery('<link href="'+mbsDomain+'/stylesheets/lightbox.css" media="screen" rel="stylesheet" type="text/css" />')
