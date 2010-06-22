@@ -3,6 +3,26 @@ class ShareCodeGroupsController < ApplicationController
   before_filter :authenticated?
 
   layout 'root-layout'
+  
+  def download
+    @user = User.find(session[:user_id])
+    @share_code_group = params[:share_code_group_id]
+    
+    unless @user && @share_code_group
+      flash[:error] = 'Please try again - no share code group specified.'
+      redirect_to '/band_home'
+    end
+    unless @user.has_band_admin(params[:band_id])
+      flash[:error] = 'Only band admins can download share codes.'
+      redirect_to '/band_home'
+    end
+    
+    respond_to do |format|
+      format.html { render :html => @share_code_group }
+      format.xml { render :xml => @share_code_group }
+      format.xls { send_data @share_code_group.to_xls }
+    end
+  end
 
   # GET /share_code_groups
   # GET /share_code_groups.xml
@@ -31,7 +51,19 @@ class ShareCodeGroupsController < ApplicationController
   # GET /share_code_groups/1
   # GET /share_code_groups/1.xml
   def show
+  # Note that the show view must get @band
     @share_code_group = ShareCodeGroup.find(params[:id])
+    @band = params[:band_id]
+    
+    unless @band
+      flash[:error] = 'Band ID not specified'
+      redirect_to '/band_home'
+    end
+    
+    unless @user = User.find(session[:user_id]) && @user.has_band_admin(@band.id)
+      flash[:error] = 'Only band admins can manage share codes.'
+      redirect_to '/band_home'
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,6 +74,8 @@ class ShareCodeGroupsController < ApplicationController
   # GET /share_code_groups/new
   # GET /share_code_groups/new.xml
   def new
+    @user = User.find(session[:user_id])
+
     unless @user && params[:band_id] && @user.has_band_admin(params[:band_id])
       if params[:band_id].nil?
         flash[:error] = "Cannot manage share codes - invalid band ID given."
@@ -123,11 +157,11 @@ class ShareCodeGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully created.') }
+        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully created.', :band_id => @lss.id) }
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
       end
     rescue
-      flash[:notice] = 'Key generation failed!!!  Please notify someone.'
+      flash[:notice] = 'Key generation failed.  Please notify someone.'
       respond_to do |format|
         format.html { redirect_to(new_share_code_group_url) }
         format.xml  { render :xml => @share_code_group.errors, :status => :unprocessable_entity }
@@ -143,7 +177,7 @@ class ShareCodeGroupsController < ApplicationController
 
     respond_to do |format|
       if @share_code_group.update_attributes(params[:share_code_group])
-        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully updated.') }
+        format.html { redirect_to(@share_code_group, :notice => 'Share code group was successfully updated.', :band_id => params[:band_id]) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

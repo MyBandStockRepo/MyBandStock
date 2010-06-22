@@ -81,7 +81,7 @@
                 = f.label :country_id, 'country'
               .fieldnamebottom
             .fieldbox
-              = collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
+              = collection_select 'band', 'country_id', Rails.cache.fetch('Country.all') { all }, 'id', 'name', :class => 'select'
         .fielderror
           - if @band.errors[:country_id]
             - for e in @band.errors[:country_id]

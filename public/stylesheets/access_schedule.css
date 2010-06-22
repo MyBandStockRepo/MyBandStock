@@ -67,7 +67,7 @@ a:hover {
   width: 140px;
   height: 42px;
   color: #333;
-  font-family: TitilliumText14L999wt;
+  font-family: Tahoma, sans-serif; /*TitilliumText14L999wt;*/
   font-size: 18px;
   padding-bottom: 2px;
   text-align: center;

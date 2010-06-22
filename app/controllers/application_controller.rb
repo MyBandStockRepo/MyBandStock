@@ -112,6 +112,10 @@ class ApplicationController < ActionController::Base
     if @user = User.find_by_id(session[:user_id])
       @bands = @user.bands #associations.find_all(:joins => :band, :conditions => {:associations => {:name => ['admin', 'member']}}, :group => 'band_id').collect{|a| a.band}
     end
+    unless @bands
+      flash[:error] = 'You do not manage any bands.'
+      redirect_to '/me/home'
+    end
   end
 
   def authenticated?
