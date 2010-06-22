@@ -6,7 +6,7 @@ class ShareCodeGroupsController < ApplicationController
   
   def download
     @user = User.find(session[:user_id])
-    @share_code_group = params[:share_code_group_id]
+    @share_code_group = params[:id]
     
     unless @user && @share_code_group
       flash[:error] = 'Please try again - no share code group specified.'
