@@ -224,9 +224,9 @@ private
       return out
     end
     website = Band.find(band_id).access_schedule_url || 'www.mybandstock.com'
-    expires = (group.expires_on) ? group.expires_on.strftime("%m/%d/%Y") || nil
+    expires = (group.expires_on) ? group.expires_on.strftime("%m/%d/%Y") : nil
     group.share_codes.each { |code|
-      out << code.key + ',' + website + ',' + expires + '\n'
+      out << code.key + ',' + website + ',' + expires + "\n"
     }
     return out
   end
