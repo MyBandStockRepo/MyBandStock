@@ -18,13 +18,7 @@ class ShareCodeGroupsController < ApplicationController
       return redirect_to '/band_home'
     end
     
-    respond_to do |format|
-      format.html { render :html => @share_code_group }
-      format.xml { render :xml => @share_code_group }
-      format.csv {
-        render_csv #(@share_code_group)
-      }
-    end
+    render_csv #(@share_code_group)
     return
   end
 
