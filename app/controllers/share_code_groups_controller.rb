@@ -40,7 +40,8 @@ class ShareCodeGroupsController < ApplicationController
 
     @share_code_groups = ShareCodeGroup.all
     @share_code_group = ShareCodeGroup.new
-    @series_list = LiveStreamSeries.where(:band_id => params[:band_id]) 
+    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])
+    @band_id = params[:band_id]
 
     respond_to do |format|
       format.html # index.html.erb
