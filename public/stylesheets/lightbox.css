@@ -73,28 +73,28 @@ body#lightbox {
   background-image: url('/images/video.png') no-repeat;
   margin-top: 5px;
 }
-h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
-h4 {
+body#lightbox h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
+body#lightbox h4 {
   color: #FFF;
   font-family:TitilliumText14L600wt;
   font-size: 14px;
 }
-.highlight {
+body#lightbox .highlight {
   color: #f90;
 }
-.error {
+body#lightbox .error {
   color: red;
 }
-.center {
+body#lightbox .center {
   text-align: center;
 }
-img {
+body#lightbox img {
   border:0px;
 }
 
-a {color:#999;text-decoration:underline;}
-	a:hover {color:#FFF;text-decoration:none;}
-.clear {clear:both;}
+body#lightbox a {color:#999;text-decoration:underline;}
+body#lightbox a:hover {color:#FFF;text-decoration:none;}
+body#lightbox .clear {clear:both;}
 
 .lightbox_welcome {
   font-size: 14px;
@@ -110,31 +110,31 @@ a {color:#999;text-decoration:underline;}
 
 /* Login form */
 
-.login_form {
+body#lightbox .login_form {
   width:390px;
   float:left;
   margin: .5em 0;
 }
-fieldset {border:0px;padding:0px;margin:0px;}
-    input {outline:0px;}
-.fieldname label {
+body#lightbox fieldset {border:0px;padding:0px;margin:0px;}
+    body#lightbox input {outline:0px;}
+body#lightbox .fieldname label {
   color: white;
   font-family:TitilliumText14L600wt;
   font-size: 18px;
 }
-.fieldbox {
+body#lightbox .fieldbox {
   margin-bottom: 1em;
 }
-.fieldrow{width:100%;margin:0 auto;float:left}
-.fieldleft{width:540px;margin-left:20px;float:left;}
-.fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
-.desc, .description {margin: 5px 0px 10px 15px;float:left;}
+body#lightbox .fieldrow{width:100%;margin:0 auto;float:left}
+body#lightbox .fieldleft{width:540px;margin-left:20px;float:left;}
+body#lightbox .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+body#lightbox .desc, body#lightbox .description {margin: 5px 0px 10px 15px;float:left;}
 
-#email_box, #password_box {float:left; font-size: 14pt;}
-  #email_box input, #password_box input {width:380px;height:31px;background:url(/images/forms/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;
+body#lightbox #email_box, body#lightbox #password_box {float:left; font-size: 14pt;}
+  body#lightbox #email_box input, body#lightbox #password_box input {width:380px;height:31px;background:url(/images/forms/emailform_bg.gif);background-repeat:no-repeat;border:none;font-size:18px;line-height:31px;color:#333333;float:left;padding:0px;padding-left:10px;
     margin: 10px 0;
   }
-#login_submit {height:30px;float:right;margin-top:10px;}
+body#lightbox #login_submit {height:30px;float:right;margin-top:10px;}
 /*
 #content_login_bg {background-image:url(/images/content_login_bg.png);background-repeat:repeat-y;}
 */
@@ -155,7 +155,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .white_link a:hover{color:white;text-decoration:none;}
 
 /* Buttons */
-.long_button {
+body#lightbox .long_button {
   float: left;
   height: 42px;
   width: 381px;
@@ -181,14 +181,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
   width: 345px;
   text-align: center;
 }
-.long_button a {
+body#lightbox .long_button a {
   float: left;
   width: 100%;
   font-size: 18px;
   text-decoration: none;
   margin-top: 11px;
 }
-.long_button a:hover {
+body#lightbox .long_button a:hover {
   float: left;
   width: 100%;
   margin-top: 10px;
@@ -196,27 +196,25 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 
 /* Form styles */
-fieldset {border:0px;padding:0px;margin:0px;}
-    input {outline:0px;}
-.fieldbox {float:left;margin-top:20px;}
-    .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
-    .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
+body#lightbox .fieldbox {float:left;margin-top:20px;}
+    body#lightbox .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
+    body#lightbox .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
 
-    .fieldbox select {
+    body#lightbox .fieldbox select {
       width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;
     }
-    .fieldbox input[type=password] {
+    body#lightbox .fieldbox input[type=password] {
       font-family: inherit;
     }
-    .fieldbox .form_input_text {
+    body#lightbox .fieldbox .form_input_text {
       font-size: 14px;
       line-height: 14px;
       padding-top: 6px;
     }
-    .fieldbox .form_input_text a:hover {
+    body#lightbox .fieldbox .form_input_text a:hover {
       color: #000;
     }
-.fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
+body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
 	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
 	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
 
