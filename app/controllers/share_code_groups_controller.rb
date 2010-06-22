@@ -224,7 +224,7 @@ private
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
 
-    render :layout => false, :text => generate_csv(1, 1)
+    render :layout => false, :text => generate_csv(ShareCodeGroup.first, 1)
   end
 
 
