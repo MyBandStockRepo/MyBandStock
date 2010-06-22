@@ -1,8 +1,9 @@
 require 'MBS_API'
 
 class ShareCodesController < ApplicationController
-
-  before_filter :user_has_site_admin, :except => [:redeem, :redeem_post]
+  before_filter :authenticated?, :except => [:redeem, :redeem_post, :complete_redemption]
+  before_filter :user_has_site_admin, :except => [:redeem, :redeem_post, :complete_redemption]
+  protect_from_forgery :only => [:redeem_post, :create, :update]
 
   def redeem
     @share_code = ShareCode.new

@@ -140,7 +140,8 @@
                       %b
                         = @twit_band.screen_name+' ('+@twit_band.name+')'
                       %br
-                      = link_to 'Authorize a different Twitter account', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                      = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                      = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth', :deauth_band_id => @band.id}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}                      
             .desc
               Authorizing a band's twitter account allows the band to connect with their fans.  Fans will be able to see the band's most recent tweets and will be offered points to retweet band statuses and help promote the band.
           .fielderror

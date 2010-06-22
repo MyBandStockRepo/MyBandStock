@@ -1,4 +1,6 @@
 class PledgesController < ApplicationController
+  before_filter :user_has_site_admin, :only => [:destroy, :edit]
+  protect_from_forgery :only => [:create, :update]
 
   ###################################
   #TO BE REFACTOR in a RESTFUL way

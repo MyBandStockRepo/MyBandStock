@@ -10,8 +10,10 @@ respond_to :html, :js
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
  #before_filter :only => :post, :only => [:create, :update] 
- before_filter :authenticated?, :except => [:show, :callback, :ping]
-	
+ before_filter :authenticated?, :except => [:callback, :ping]
+ before_filter :user_has_site_admin, :except => [:ping, :callback, :view, :broadcast, :new, :edit, :create, :update, :show]
+ before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast]
+ 
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
     stream_id = params[:stream_id]

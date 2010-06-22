@@ -105,7 +105,8 @@
 								%b
 									= @twit_user.screen_name+' ('+@twit_user.name+')'
 								%br
-								= link_to 'Authorize a different Twitter account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+								= link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+								= link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}								
 			.desc
 				Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
 		.fielderror

@@ -1,4 +1,8 @@
 class StreamapiStreamThemesController < ApplicationController
+  before_filter :authenticated?
+  before_filter :user_has_site_admin
+  protect_from_forgery :only => [:create, :update]
+
   # GET /streamapi_stream_themes
   # GET /streamapi_stream_themes.xml
   def index

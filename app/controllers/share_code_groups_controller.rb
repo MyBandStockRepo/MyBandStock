@@ -1,7 +1,8 @@
 class ShareCodeGroupsController < ApplicationController
 
   before_filter :authenticated?
-
+  protect_from_forgery :only => [:create, :update]
+  before_filter :user_is_admin_of_a_band?
   layout 'root-layout'
 
   # GET /share_code_groups
