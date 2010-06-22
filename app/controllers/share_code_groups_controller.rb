@@ -54,17 +54,17 @@ class ShareCodeGroupsController < ApplicationController
   def show
   # Note that the show view must get @band
     @share_code_group = ShareCodeGroup.find(params[:id])
-    @band = params[:band_id]
+    @band_id = params[:band_id]
     
-    unless @band
+    unless @band_id
       flash[:error] = 'Band ID not specified'
       return redirect_to '/band_home'
     end
     
     @user = User.find(session[:user_id])
     logger.info "User: " + @user.id.to_s
-    logger.info "Band: " + @band.id.to_s
-    unless @user && @user.has_band_admin(@band.id)
+    logger.info "Band: " + @band_id.to_s
+    unless @user && @user.has_band_admin(@band_id)
       flash[:error] = 'Only band admins can manage share codes.'
       return redirect_to '/band_home'
     end
