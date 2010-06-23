@@ -212,7 +212,7 @@ class ShareCodeGroupsController < ApplicationController
 
 private
 
-  def render_csv(filename = nil, csv_string)
+  def render_csv(filename, csv_string)
     filename ||= params[:action]
     filename += '.csv'
 
