@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists]
 
-  
   def index
     #What do we do with this action?
     redirect_to session[:last_clean_url]
@@ -82,6 +81,8 @@ class UsersController < ApplicationController
     else
       @states = nil
     end
+    
+    @user_is_pending = true if @user.status == 'pending'
     
 		begin
 			unless @user.twitter_user

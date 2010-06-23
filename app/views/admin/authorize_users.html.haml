@@ -1,0 +1,31 @@
+.orange_bar Authorize User
+
+-if @response_text
+  .notice
+    = @response_text
+
+= form_tag({ :controller => 'admin', :action => 'authorize_users_post' }) do |f|
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :email, 'email'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :email
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = label_tag :lss_id, 'LSS'
+          .fieldnamebottom
+        .fieldbox
+          = select_tag( :lss_id, options_from_collection_for_select(LiveStreamSeries.all, :id, :title), :class => 'select')
+
+  .fieldrow
+    .fieldleft                
+      .formbutton
+        = submit_tag 'Authorize'
