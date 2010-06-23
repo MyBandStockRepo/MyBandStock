@@ -13,9 +13,9 @@
 	= @lss.ends_at.strftime("%A %B %d, %Y") 
 
 %p 
-	To view the scheduled streams, visit 
+	To view the scheduled streams, visit the
 	- if @band.access_schedule_url.nil? || @band.access_schedule_url == ''
-		= link_to 'Stream Viewer', :controller => 'bands', :action => 'show', :id => @band.id, :host => @host
+		band's website.
 	-else
 		= link_to 'Stream Viewer', @band.access_schedule_url
 	%br

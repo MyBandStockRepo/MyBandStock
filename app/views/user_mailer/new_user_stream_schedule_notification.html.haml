@@ -22,6 +22,6 @@
 %p 
 	After account confirmation, you can view the scheduled live video streams by visiting the 
 	- if @band.access_schedule_url.nil? || @band.access_schedule_url == ''
-		= link_to 'Stream Viewer', :controller => 'bands', :action => 'show', :id => @band.id, :host => @host
+		band's website.
 	-else
 		= link_to 'Stream Viewer', @band.access_schedule_url
