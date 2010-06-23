@@ -35,7 +35,7 @@ class BandsController < ApplicationController
       #end
       @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).all
     end
-        
+
     begin
 			unless @band.twitter_user
 				@band_twitter_not_authorized = true

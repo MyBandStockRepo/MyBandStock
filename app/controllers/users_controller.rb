@@ -82,6 +82,8 @@ class UsersController < ApplicationController
       @states = nil
     end
     
+    @user_is_pending = true if @user.status == 'pending'
+    
 		begin
 			unless @user.twitter_user
 				@user_twitter_not_authorized = true
