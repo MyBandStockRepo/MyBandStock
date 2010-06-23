@@ -63,12 +63,16 @@ class ShareCodesController < ApplicationController
       redirect_to :action => :complete_redemption, :key => params[:share_code][:key], :email => params[:email]
       return true
     else
-      redirect_to new_user_path( :lightbox => params[:lightbox],
-                                 :after_create_redirect => url_for({ :controller => 'share_codes', :action => 'complete_redemption' })
-                               )
+      redirect_to new_user_path(), :lightbox => params[:lightbox],
+                                   :after_create_redirect => url_for({
+                                                                    :controller => 'share_codes',
+                                                                    :action => 'complete_redemption'
+                                                                  }),
+                                   :user => { :email => params[:email] }
+                               
       return true
     end
-    
+
   end
 
   def complete_redemption
@@ -232,7 +236,8 @@ class ShareCodesController < ApplicationController
                                                  :can_listen => 1 } )
         return false
       end
-      if share_code.share_amount != nil && share_code.share_amount != 0
+      share_amount = share_code.share_code_group.share_amount
+      if share_amount && share_amount != 0
         ShareLedgerEntry.create( :user_id => share_code.user.id,
                                  :band_id => lss.band.id,
                                  :adjustment => share_code.share_amount,
