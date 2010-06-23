@@ -29,9 +29,11 @@ class BandsController < ApplicationController
     end
 
     if (@band && @band.live_stream_series )
-      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
-        @band.live_stream_series.includes(:streamapi_streams).all
-      end
+      # Prod can't handle caching
+      #@live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
+      #  @band.live_stream_series.includes(:streamapi_streams).all
+      #end
+      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).all
     end
         
     begin
