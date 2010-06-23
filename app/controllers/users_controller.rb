@@ -58,7 +58,7 @@ class UsersController < ApplicationController
 	end
   
   def edit
-		@request_uri = url_for()  
+		@request_uri = url_for()
 #@newform = false		
 #@page = 'edit'		
     unless (id = params[:id])
