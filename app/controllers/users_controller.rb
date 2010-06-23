@@ -332,7 +332,7 @@ class UsersController < ApplicationController
       #else
       
       #LINK TO REDEMPTION THING
-      unless params[:after_create_redirect].nil?
+      if params[:after_create_redirect]
       	redirect_to params[:after_create_redirect], :lightbox => params[:lightbox]
       elsif
       	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
