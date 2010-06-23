@@ -16,7 +16,7 @@ gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 # gem 'rails', :git => 'git://github.com/rails/auto_complete.git'
 
-
+# 1.2.3 is the only thing that builds on Drew's mac
 gem 'sqlite3-ruby', '1.2.3', :require => 'sqlite3'
 
 # Use unicorn as the web server
