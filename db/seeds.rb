@@ -47,6 +47,7 @@ jm.roles << site_admin_role
 
 b_amp = Band.create(  :name => 'After Midnight Project',
                   :short_name => 'amp',
+                  :access_schedule_url => 'www.amparmy.com',
                   :country_id => 232,
                   :zipcode => '90001',
                   :city => 'LA',

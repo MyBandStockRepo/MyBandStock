@@ -7,9 +7,9 @@ class ShareCodeGroupsController < ApplicationController
   
   def download
     @user = User.find(session[:user_id])
-    @share_code_group = params[:id]
+    @share_code_group_id = params[:id]
     
-    unless @user && @share_code_group
+    unless @user && @share_code_group_id
       flash[:error] = 'Please try again - no share code group specified.'
       return redirect_to '/band_home'
     end
@@ -19,8 +19,8 @@ class ShareCodeGroupsController < ApplicationController
     end
     
     render_csv(
-                "ShareCodes-#{ @share_code_group.id }",
-                generate_csv(@share_code_group, params[:band_id])
+                "ShareCodes-#{ @share_code_group_id }",
+                generate_csv( @share_code_group_id, params[:band_id] )
               )
     return true
   end
@@ -231,7 +231,8 @@ private
   end
 
 
-  def generate_csv(group, band_id)
+  def generate_csv(group_id, band_id)
+    group = ShareCodeGroup.find(group_id)
     out = ''
     unless group && band_id
       return out

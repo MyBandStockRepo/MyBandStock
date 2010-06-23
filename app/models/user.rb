@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :email
   #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
   #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
-	validates :email, :email => true
+#	validates :email, :email => true
   #field specific
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
