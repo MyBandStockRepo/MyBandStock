@@ -1,13 +1,27 @@
-.orange_bar Admin controls
-%ul
-  %li
-    =link_to 'Roles and Users', roles_path #:controller => 'roles', :action => 'index'
-  %li
-    =link_to 'Authorize users', :controller => 'admin', :action => 'authorize_users'
-  %li
-    =link_to 'Create new Live Stream Series', new_live_stream_series_path
-  %li
-    =link_to 'Band Assocations', new_association_path
-  %li
-    =link_to 'API Tool', { :controller => 'api', :action => 'test' }
+.orange_bar Authorize User
 
+= form_tag({ :controller => 'admin', :action => 'authorize_users_post' }) do |f|
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :email, 'email'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :email
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = label_tag :lss_id, 'LSS'
+          .fieldnamebottom
+        .fieldbox
+          = select_tag( :lss_id, options_from_collection_for_select(LiveStreamSeries.all, :id, :title), :class => 'select')
+
+  .fieldrow
+    .fieldleft                
+      .formbutton
+        = submit_tag 'Authorize'
