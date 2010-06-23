@@ -107,7 +107,7 @@ body#lightbox .fieldbox {
 }
 body#lightbox .fieldrow{width:100%;margin:0 auto;float:left}
 body#lightbox .fieldleft{width:540px;margin-left:20px;float:left;}
-body#lightbox .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+body#lightbox .fielderror{width:285px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
 body#lightbox .desc, body#lightbox .description {margin: 5px 0px 10px 15px;float:left;}
 
 body#lightbox #email_box, body#lightbox #password_box {float:left; font-size: 14pt;}
@@ -177,7 +177,7 @@ body#lightbox .long_button a:hover {
 
 
 /* Form styles */
-body#lightbox .fieldbox {float:left;margin-top:20px;}
+body#lightbox .fieldbox {float:left;margin-top:15px;}
     body#lightbox .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
     body#lightbox .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
 
@@ -195,7 +195,7 @@ body#lightbox .fieldbox {float:left;margin-top:20px;}
     body#lightbox .fieldbox .form_input_text a:hover {
       color: #000;
     }
-body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:20px;}
+body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin-top:15px;}
 	.fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding-left:20px;}
 	.fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
 

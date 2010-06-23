@@ -63,13 +63,17 @@ class ShareCodesController < ApplicationController
       redirect_to :action => :complete_redemption, :key => params[:share_code][:key], :email => params[:email]
       return true
     else
-      redirect_to new_user_path(), :lightbox => params[:lightbox],
-                                   :after_create_redirect => url_for({
-                                                                    :controller => 'share_codes',
-                                                                    :action => 'complete_redemption'
-                                                                  }),
-                                   :user => { :email => params[:email] }
-                               
+      redirect_to :controller => 'users',
+                  :action => 'new',
+                  :lightbox => params[:lightbox],
+                  :after_create_redirect => url_for({
+                                                   :controller => 'share_codes',
+                                                   :action => 'complete_redemption',
+                                                   :key => params[:key]
+                                                   # email is sent by users/create, just in case the user wants to change it
+                                                 }),
+                  :user => { :email => params[:email], :email_confirmation => params[:email] } # params for users/create
+                             
       return true
     end
 
