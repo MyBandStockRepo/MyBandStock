@@ -306,7 +306,7 @@ class UsersController < ApplicationController
     else
       #they don't have session data and they haven't posted to us so get em out of here
       flash[:notice] = "Something went wrong, please try registering again."
-      redirect_to :action => "new"
+      redirect_to :action => "new", :lightbox => params[:lightbox]
     end
 
     # Hash the password before putting it into DB
@@ -332,7 +332,14 @@ class UsersController < ApplicationController
       #else
       
       #LINK TO REDEMPTION THING
-			redirect_to (params[:after_create_redirect] || session[:last_clean_url] || ('/me/control_panel')), :lightbox => params[:lightbox]
+      unless params[:after_create_redirect].nil?
+      	redirect_to params[:after_create_redirect], :lightbox => params[:lightbox]
+      elsif
+      	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
+      else
+				redirect_to '/me/control_panel', :lightbox => params[:lightbox]      
+      end
+
 
 			return
       #end
