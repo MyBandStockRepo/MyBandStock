@@ -1,5 +1,9 @@
 .orange_bar Authorize User
 
+-if @response_text
+  .notice
+    = @response_text
+
 = form_tag({ :controller => 'admin', :action => 'authorize_users_post' }) do |f|
   .fieldrow
     .fieldleft      

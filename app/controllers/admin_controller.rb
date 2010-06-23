@@ -12,7 +12,7 @@ class AdminController < ApplicationController
   end
 
   def authorize_users
-    
+    @response_text = params[:response_text]
   end
   
   def authorize_users_post
@@ -32,6 +32,7 @@ class AdminController < ApplicationController
     else
       @response_text = "#{ params[:email] } authorized."
     end
+    redirect_to :action => :authorize_users, :output => @response_text
   end
   
 #end controller
