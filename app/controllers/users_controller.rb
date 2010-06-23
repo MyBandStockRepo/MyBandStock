@@ -196,16 +196,14 @@ class UsersController < ApplicationController
       end
     end
 =end    
-    
     respond_to do |format|
       format.html { 
                     unless success #&& photo_success
-
                       render :action => 'edit'
                       return false
                     else
                       flash[:notice] = "Profile updated."
-                      redirect_to root_path
+                      redirect_to edit_user_path(@user.id)
                     end
                   }
       format.js
@@ -332,15 +330,22 @@ class UsersController < ApplicationController
       #  redirect_to :action => :state_select
       #  return
       #else
-        redirect_to (session[:last_clean_url] || ('/me/control_panel'))
-        return
+      
+      #LINK TO REDEMPTION THING
+			redirect_to (params[:after_create_redirect] || session[:last_clean_url] || ('/me/control_panel')), :lightbox => params[:lightbox]
+
+			return
       #end
       
     else
       state_select(@user.country_id)
       @user.password = ''
 #      @user.password_confirmation = ''
-      render :action => :new
+			if params[:lightbox].nil?
+				render :action => :new
+			else
+				render :action => :new, :layout => 'lightbox'
+			end
       return
     end
     

@@ -1,8 +1,8 @@
--#
-	#content_login_bg
-		#login_wrap
-			%p * Denotes a required field.
-			= form_for(@user) do |f|
+-unless params[:lightbox].nil?
+	=hidden_field_tag 'lightbox', 'true'
+-if params[:after_create_redirect] 			
+	=hidden_field_tag 'after_create_redirect', params[:after_create_redirect]
+
 .fieldrow
 	.fieldleft
 		%p * Denotes a required field.			
@@ -114,13 +114,4 @@
 				- for e in @user.errors[:twitter_user_id]
 					%p
 						= '- '+e.to_s
--#  
-	-#
-		.fieldrow
-			.fieldleft                
-				.formbutton
-					= f.submit 'SUBMIT'
-				-if params[:action] == 'edit' || params[:action] == 'update'
-					.formbutton_nextto
-						= button_to 'BACK', :url => session[:last_clean_url]
-	.clear
+						
