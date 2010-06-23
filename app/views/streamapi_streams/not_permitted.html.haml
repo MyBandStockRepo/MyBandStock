@@ -1,16 +1,17 @@
-#viewer-container
-  %h2
-    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
-  %p
-    You have not purchased access to this stream. 
-    -if @stream.live_stream_series.purchase_url.nil?
-      To do so, visit
-      = @stream.live_stream_series.band.name
-      and make an authorized purchase.
-    -else
-      To do so, visit 
-      = @stream.live_stream_series.purchase_url + '.'
-  %p
-    If you believe you are receiving this message in error, please email 
-    = mail_to(MBS_SUPPORT_EMAIL, MBS_SUPPORT_EMAIL, :encode => "hex") + '.'
-
+.maincont
+  #viewer-container
+    %h2
+      = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
+    %p
+      You have not purchased access to this stream. 
+      -if @stream.live_stream_series.purchase_url.nil?
+        To do so, visit
+        = @stream.live_stream_series.band.name
+        and make an authorized purchase.
+      -else
+        To do so, visit 
+        = @stream.live_stream_series.purchase_url + '.'
+    %p
+      If you believe you are receiving this message in error, please email 
+      = mail_to(MBS_SUPPORT_EMAIL, MBS_SUPPORT_EMAIL, :encode => "hex") + '.'
+  

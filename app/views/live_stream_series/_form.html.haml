@@ -14,6 +14,10 @@
     %br
     = f.datetime_select :ends_at
   .field
+    = f.label :purchase_url
+    %br
+    = f.text_field :purchase_url
+  .field
     = f.label :band
     %br
     =collection_select :live_stream_series, :band_id, Band.all, :id, :name

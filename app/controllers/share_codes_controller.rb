@@ -4,6 +4,7 @@ class ShareCodesController < ApplicationController
   before_filter :authenticated?, :except => [:redeem, :redeem_post, :complete_redemption]
   before_filter :user_has_site_admin, :except => [:redeem, :redeem_post, :complete_redemption]
   protect_from_forgery :only => [:redeem_post, :create, :update]
+  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :redeem, :complete_redemption]
 
   def redeem
     @share_code = ShareCode.new

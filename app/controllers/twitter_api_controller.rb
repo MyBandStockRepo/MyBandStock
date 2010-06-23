@@ -2,7 +2,8 @@ class TwitterApiController < ApplicationController
 	protect_from_forgery :only => [:create, :update, :band_create, :post_retweet]
 	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error]
 	before_filter :user_part_of_or_admin_of_a_band?, :only => [:update, :band_create]
-	
+  skip_filter :update_last_location, :only => [:create_session, :finalize, :deauth, :retweet, :post_retweet, :create, :band_create, :error]
+
 	def create_session
 		begin
 			@user = User.find(session['user_id'])			

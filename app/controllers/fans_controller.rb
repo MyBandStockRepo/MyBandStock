@@ -1,6 +1,7 @@
 class FansController < ApplicationController
   before_filter :authenticated?, :only => [:get_rid_of_dupes, :consolidate_fans, :delete_fans]
   before_filter :user_has_site_admin, :only => [:get_rid_of_dupes, :consolidate_fans, :delete_fans]
+	skip_filter :update_last_location, :only => [:get_rid_of_dupes, :consolidate_fans, :delete_fans, :create]
   
   ###################################
           #NON REST ACTIONS#

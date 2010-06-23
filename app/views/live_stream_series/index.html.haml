@@ -6,6 +6,7 @@
 		%th Start time
 		%th End time
 		%th Band   
+		%th
 		%th 
 		%th 
 		%th 
@@ -20,6 +21,8 @@
 				= live_stream_series.ends_at
 			%td
 				= Band.find(live_stream_series.band_id).name
+			%td
+				= live_stream_series.purchase_url
 			%td
 				= link_to 'Show', live_stream_series
 			%td

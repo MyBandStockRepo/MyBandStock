@@ -5,7 +5,7 @@ class ApiUsersController < ApplicationController
 	before_filter :authenticated?
 	before_filter :user_has_site_admin
 	protect_from_forgery :only => [:create, :update]
-
+  skip_filter :update_last_location, :except => [:new, :index, :show, :edit]
   # GET /api_users
   # GET /api_users.xml
   def index

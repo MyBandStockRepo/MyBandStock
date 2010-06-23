@@ -2,7 +2,8 @@ class CallbacksController < ApplicationController
 # http://cobain.mybandstock.com/callbacks/streamapi
   respond_to :html, :xml
   skip_before_filter :verify_authenticity_token # Disable CSRF protection for incoming POST requests here
-
+  skip_filter :update_last_location
+  
   def test
   end
   

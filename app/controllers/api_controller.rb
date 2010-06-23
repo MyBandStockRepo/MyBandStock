@@ -1,4 +1,6 @@
 class ApiController < ApplicationController
+ skip_filter :update_last_location, :except => [:test]
+
   # Required inputs for all API calls:
   #   api_key
   #   hash      - sha256(API key + secret key)

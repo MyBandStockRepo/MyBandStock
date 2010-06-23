@@ -1,4 +1,5 @@
 class LegalController < ApplicationController
+ skip_filter :update_last_location
 
   def tos
   

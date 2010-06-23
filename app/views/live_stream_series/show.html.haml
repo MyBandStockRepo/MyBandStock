@@ -9,7 +9,10 @@
 %p
 	%b End time:
 	= @live_stream_series.ends_at
-
+%p
+	%b Purchase URL:
+	= @live_stream_series.purchase_url
+	
 %p
 	%b Band:
 	= Band.find(@live_stream_series.band_id).name

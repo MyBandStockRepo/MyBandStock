@@ -4,7 +4,7 @@ class AssociationsController < ApplicationController
   before_filter :user_is_admin_of_a_band?
   
   protect_from_forgery :only => [:create, :update]
-  skip_filter :update_last_location, :only => [:new, :create, :update, :index, :show]
+  skip_filter :update_last_location, :except => [:new, :index, :show, :edit]
   
   
 def index

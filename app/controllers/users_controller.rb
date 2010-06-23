@@ -3,7 +3,7 @@ class UsersController < ApplicationController
  protect_from_forgery :only => [:create, :update]
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
+ skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists]
 
   
   def index
@@ -35,8 +35,8 @@ class UsersController < ApplicationController
 
 
 	def activate
-		if params[:email] && params[:code]
-			lookup_user = User.where(:email => params[:email], :password => Digest::SHA2.hexdigest(params[:code])).first
+		if params[:user_id] && params[:code]
+			lookup_user = User.where(:id => params[:user_id], :password => Digest::SHA2.hexdigest(params[:code])).first
 			if lookup_user
 				if lookup_user.status == 'pending'
 					log_user_in(lookup_user.id)

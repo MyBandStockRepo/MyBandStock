@@ -2,7 +2,8 @@ class LiveStreamSeriesPermissionsController < ApplicationController
   before_filter :authenticated?
   before_filter :user_has_site_admin
   protect_from_forgery :only => [:create, :update]
-
+  skip_filter :update_last_location, :except => [:index, :show, :edit, :new]
+  
   # GET /live_stream_series_permissions
   # GET /live_stream_series_permissions.xml
   def index

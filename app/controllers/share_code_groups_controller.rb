@@ -4,6 +4,9 @@ class ShareCodeGroupsController < ApplicationController
   protect_from_forgery :only => [:create, :update]
   before_filter :user_is_admin_of_a_band?
   layout 'root-layout'
+  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :download]
+
+  
   
   def download
     @user = User.find(session[:user_id])

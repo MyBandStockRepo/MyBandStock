@@ -4,7 +4,7 @@ class RolesController < ApplicationController
   before_filter :user_has_site_admin
   skip_filter :update_last_location, :except => [:index]
   protect_from_forgery :only => [:create, :update]
-  
+  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :toggle_user_role]  
   
   def toggle_user_role
     unless ( (@user = User.find_by_email(params[:role][:user_email].to_s.strip)) && (@role = Role.find(params[:role][:id])))
