@@ -57,18 +57,16 @@ class ShareCodeGroupsController < ApplicationController
     @share_code_group = ShareCodeGroup.find(params[:id])
     @band_id = params[:band_id]
     
-    unless @band_id
-      flash[:error] = 'Band ID not specified'
-      return redirect_to '/band_home'
-    end
+    #unless @band_id
+    #  flash[:error] = 'Band ID not specified'
+    #  return redirect_to '/band_home'
+    #end
     
     @user = User.find(session[:user_id])
-    logger.info "User: " + @user.id.to_s
-    logger.info "Band: " + @band_id.to_s
-    unless @user && @user.has_band_admin(@band_id)
-      flash[:error] = 'Only band admins can manage share codes.'
-      return redirect_to '/band_home'
-    end
+    #unless @user && @user.has_band_admin(@band_id)
+    #  flash[:error] = 'Only band admins can manage share codes.'
+    #  return redirect_to '/band_home'
+    #end
 
     respond_to do |format|
       format.html # show.html.erb
