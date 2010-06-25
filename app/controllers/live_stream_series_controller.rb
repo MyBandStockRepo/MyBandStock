@@ -97,9 +97,10 @@ class LiveStreamSeriesController < ApplicationController
 			if @external_css == ''
 				@external_css = nil
 			end
-      @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do       
-        @band.live_stream_series.includes(:streamapi_streams)
-      end
+      # @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do       
+      #   @band.live_stream_series.includes(:streamapi_streams)
+      # end
+      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams)
     end
     
     if @live_stream_series
