@@ -326,23 +326,18 @@ class UsersController < ApplicationController
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
       UserMailer.registration_notification(@user).deliver
-      #if @user.state_id == -1 
-      #  redirect_to :action => :state_select
-      #  return
-      #else
       
-      #LINK TO REDEMPTION THING
-      if params[:after_create_redirect]
-      	redirect_to params[:after_create_redirect], :lightbox => params[:lightbox], :email => @user.email
+      if params[:redemption_redirect]
+        redirect_url = params[:redemption_redirect] + '&user_id=' + @user.id.to_s
+        logger.info "Redirecting to " + redirect_url
+      	redirect_to redirect_url
       elsif
       	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
       else
-				redirect_to '/me/control_panel', :lightbox => params[:lightbox]      
+				redirect_to '/me/control_panel', :lightbox => params[:lightbox]
       end
-
-
+      
 			return
-      #end
       
     else
       state_select(@user.country_id)

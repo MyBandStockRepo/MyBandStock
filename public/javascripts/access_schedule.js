@@ -1,5 +1,5 @@
 jQuery.noConflict();
-var mbsDomain = 'http://mybandstock.com';
+var mbsDomain = 'http://localhost:3000';
 var redeemDefaultText = 'Or Enter Your Share Code Here';
 
 

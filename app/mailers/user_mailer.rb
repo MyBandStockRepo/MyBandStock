@@ -32,8 +32,9 @@ class UserMailer < ActionMailer::Base
     @password = new_password
     @band = band
     @lss = lss
-		@host = SITE_HOST
-		@confirmation = SITE_URL+'/users/activate?user_id='+@user.id.to_s+'&code='+@password
+		@host = SITE_HOST || 'mybandstock.com'
+		site_url = SITE_URL || 'http://mybandstock.com'
+		@confirmation = site_url+'/users/activate?user_id='+@user.id.to_s+'&code='+@password
     subject = @band.name+' Live Streaming Video'
 		mail(:to => recipient, :subject => subject)
   end
@@ -52,7 +53,7 @@ class UserMailer < ActionMailer::Base
     @user = user    
     @band = band
     @lss = lss  
-		@host = SITE_HOST
+		@host = (defined? SITE_HOST ) ? SITE_HOST : 'mybandstock.com'
     
     subject = @band.name+' Live Streaming Video'
 		mail(:to => recipient, :subject => subject)    
@@ -69,8 +70,8 @@ class UserMailer < ActionMailer::Base
     recipient = make_address(user)
 
     @user = user  # Send user object to the email view
-    @mbslink = SITE_URL
-		@host = SITE_HOST
+    @mbslink = (defined? SITE_URL ) ? SITE_URL : 'http://mybandstock.com'
+		@host = (defined? SITE_HOST ) ? SITE_HOST : 'mybandstock.com'
     
     mail(:to => recipient, :subject => "MyBandStock Registration")
 
@@ -94,8 +95,8 @@ class UserMailer < ActionMailer::Base
 		recipient = make_address(user)
 		@user = user
 		@password = password
-		@host = SITE_HOST
-		    @mbslink = SITE_URL
+		@host = SITE_HOST || 'mybandstock.com'
+		    @mbslink = SITE_URL || 'http://mybandstock.com'
     mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
 	end
 

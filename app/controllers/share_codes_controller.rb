@@ -6,6 +6,11 @@ class ShareCodesController < ApplicationController
   protect_from_forgery :only => [:redeem_post, :create, :update]
   skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :redeem, :complete_redemption]
 
+  def test
+    redirect_to :controller => 'users', :action => 'new', :lightbox => 'true', :key => 'asdf'
+    return true
+  end
+
   def redeem
     @share_code = ShareCode.new
     @share_code.key = params[:mbs_share_code]
@@ -57,23 +62,38 @@ class ShareCodesController < ApplicationController
       return false
     end
     
+    # Check if the share code has expired
+    if share_code_entry.expired?
+      flash[:error] = 'That Share Code has expired.'
+      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
+    end
+    
+    user = User.where(:email => params[:email]).first
+    
     # If the user exists, we send him to complete_redemption
     # If the user does not exist, we send him to create an account
-    if User.where(:email => params[:email]).first
-      redirect_to :action => :complete_redemption, :key => params[:share_code][:key], :email => params[:email]
+    if user
+      redirect_to :action => :complete_redemption,
+                  :key => params[:share_code][:key],
+                  :user_id => user.id,
+                  :lightbox => params[:lightbox]
       return true
     else
+      come_back_to = url_for({
+                       :controller => 'share_codes',
+                       :action => 'complete_redemption'
+                     }).to_s
+      come_back_to << '?'
+      come_back_to << 'key=' + params[:share_code][:key] if params[:share_code][:key]
+      come_back_to << '&lightbox=' + params[:lightbox] if params[:lightbox]
+                    # user id is added by users/create, just in case the user wants to change it
+      logger.info "Telling user/create to redirect back to " + come_back_to + "."
       redirect_to :controller => 'users',
                   :action => 'new',
                   :lightbox => params[:lightbox],
-                  :after_create_redirect => url_for({
-                                                   :controller => 'share_codes',
-                                                   :action => 'complete_redemption',
-                                                   :key => params[:key]
-                                                   # email is sent by users/create, just in case the user wants to change it
-                                                 }),
+                  :redemption_redirect => come_back_to,
                   :user => { :email => params[:email], :email_confirmation => params[:email] } # params for users/create
-                             
       return true
     end
 
@@ -86,8 +106,16 @@ class ShareCodesController < ApplicationController
   # 3. Hit up the MBS API so the user gets necessary privileges and emails
   
     # Do some sanity checks
-    if params[:key].nil? || params[:email].nil?
+    if params[:key].nil? || params[:user_id].nil?
       flash[:error] = 'You must provide both the Share Code and your email address.'
+      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
+    end
+    
+    user = User.find(params[:user_id])
+    
+    unless user
+      flash[:error] = 'Please login - user not found.'
       redirect_to :action => :redeem, :lightbox => params[:lightbox]
       return false
     end
@@ -99,35 +127,55 @@ class ShareCodesController < ApplicationController
       flash[:error] = 'That Share Code is invalid. Please check that you typed it correctly.'
       redirect_to :action => :redeem,
                   :mbs_share_code => params[:key],
-                  :email => params[:email],
+                  :email => user.email,
                   :lightbox => params[:lightbox]
       return false
     end
     
+    if share_code.redeemed
+      flash[:error] = 'That Share Code has already been redeemed!'
+      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
+    end    
+    
+    # Check if the share code has expired
+    if share_code.expired?
+      flash[:error] = 'That Share Code has expired.'
+      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      return false
+    end
+        
     share_code.redeemed = true
-    share_code.user = User.where(:email => params[:email]).first
-    priv_success = apply_privileges( share_code )
+    share_code.user = user
+    priv_success = apply_privileges( share_code ) # Currently returns LSS ID or false
     
     if priv_success
       unless share_code.save
         redirect_to :action => :redeem,
                     :mbs_share_code => params[:key],
-                    :email => params[:email],
+                    :email => user.email,
                     :lightbox => params[:lightbox]
         return false
       else
-        flash[:notice] = 'Code redeemed!'
+        flash[:notice] = 'Code redeemed! Check your email for instructions on accessing your new privileges.'
       end
     else
       flash[:error] = 'Oops, try inputting the code again.'
       redirect_to :action => :redeem,
                   :mbs_share_code => params[:key],
-                  :email => params[:email],
+                  :email => user.email,
                   :lightbox => params[:lightbox]
       return false
     end
     
-    render :nothing => true
+    # Successo
+    # NOTE: I am assuming here that the share code is LSS and therefore has a band ID.
+    # Once different share code types exist, we must change this redirection behavior.
+    redirect_to :controller => 'live_stream_series',
+                :action => 'by_band',
+                :id => LiveStreamSeries.find(priv_success).band.id,
+                :lightbox => params[:lightbox]
+    return true
   end
 
   # GET /share_codes
@@ -217,6 +265,7 @@ class ShareCodesController < ApplicationController
   
   def apply_privileges (share_code)
   # Takes a share_code object, which must have a key and a user associated with it.
+  # Returns false on failure, or LSS ID / true on success.
 
     if share_code.nil? || share_code.key.nil? || share_code.user.nil?
       return false
@@ -251,9 +300,8 @@ class ShareCodesController < ApplicationController
     else
       logger.info 'Non-LSS code'
     end
-    
-    
-    return true
+
+    return (lss) ? lss.id : true
   end
   
 end
