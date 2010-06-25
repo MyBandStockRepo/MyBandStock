@@ -1,7 +1,6 @@
 #content_login_bg
 	#login_wrap.lightboxpad
 		%h2#sign-up Sign Up
-		%p New User Registration	
 		%br
 		= form_for(@user) do |f|
 			=render :partial => 'required_form', :locals => {:f => f}
@@ -14,7 +13,7 @@
 						= link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
 			.fieldrow
 				.fieldleft                
-					.formbutton
+					.formbutton.condense3
 						= f.submit 'SUBMIT'
 
 		.clear

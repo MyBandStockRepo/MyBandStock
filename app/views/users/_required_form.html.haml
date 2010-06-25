@@ -10,13 +10,13 @@
 	.fieldleft
 		.field
 			%fieldset
-				.fieldname.required
+				.fieldname.required.condense2
 					.fieldnametop
 						= f.label :email, 'email*'
 					.fieldnamebottom
-				.fieldbox.required
+				.fieldbox.required.condense2
 					= f.text_field :email
-	.fielderror
+	.fielderror.condense
 		- if @user.errors[:email]
 			- for e in @user.errors[:email]
 				%p
@@ -25,13 +25,13 @@
 	.fieldleft
 		.field
 			%fieldset
-				.fieldname.required
+				.fieldname.required.condense2
 					.fieldnametop
 						= f.label :email_confirmation, 'confirm email*'
 					.fieldnamebottom
-				.fieldbox.required
+				.fieldbox.required.condense2
 					= f.text_field :email_confirmation
-	.fielderror
+	.fielderror.condense
 		- if @user.errors[:email_confirmation]
 			- for e in @user.errors[:email_confirmation]
 				%p
@@ -40,16 +40,16 @@
 	.fieldleft
 		.field
 			%fieldset
-				.fieldname.required
+				.fieldname.required.condense2
 					.fieldnametop
 						= f.label :password, 'password*'
 					.fieldnamebottom
-				.fieldbox.required
+				.fieldbox.required.condense2
 					= f.password_field :password, :value => ''
 		- if @user.status != 'pending' && (params[:action] == 'edit' || params[:action] == 'update')
 			.desc
 				Leave this unchanged if you wish to keep your current password.
-	.fielderror
+	.fielderror.condense
 		- if @user.errors[:password]
 			- for e in @user.errors[:password]
 				%p
@@ -58,13 +58,13 @@
 	.fieldleft
 		.field
 			%fieldset
-				.fieldname.required
+				.fieldname.required.condense2
 					.fieldnametop
 						= f.label :first_name, 'first name'
 					.fieldnamebottom
-				.fieldbox.required
+				.fieldbox.required.condense2
 					= f.text_field :first_name
-	.fielderror
+	.fielderror.condense
 		- if @user.errors[:first_name]
 			- for e in @user.errors[:first_name]
 				%p
@@ -73,13 +73,13 @@
 	.fieldleft
 		.field
 			%fieldset
-				.fieldname.required
+				.fieldname.required.condense2
 					.fieldnametop
 						= f.label :zipcode, 'zip code'
 					.fieldnamebottom
-				.fieldbox.required
+				.fieldbox.required.condense2
 					= f.text_field :zipcode
-	.fielderror
+	.fielderror.condense
 		- if @user.errors[:zipcode]
 			- for e in @user.errors[:zipcode]
 				%p
@@ -109,7 +109,7 @@
 								= link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}								
 			.desc
 				Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
-		.fielderror
+		.fielderror.condense
 			- if @user.errors[:twitter_user_id]
 				- for e in @user.errors[:twitter_user_id]
 					%p

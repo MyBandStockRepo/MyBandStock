@@ -112,7 +112,7 @@ body#lightbox .fieldbox {
 }
 body#lightbox .fieldrow{width:100%;margin:0 auto;float:left}
 body#lightbox .fieldleft{width:540px;margin-left:20px;float:left;}
-body#lightbox .fielderror{width:280px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+body#lightbox .fielderror{width:220px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
 body#lightbox .desc, body#lightbox .description {margin: 5px 0px 10px 15px;float:left;}
 
 .lightboxpad{padding:20px;}
@@ -138,6 +138,8 @@ body#lightbox #login_submit {height:30px;float:right;margin-top:10px;}
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
 #checkbox_login_ext {float:left;font-size:10px;color:#CCCCCC;margin-left:110px;margin-top:15px;line-height:25px;}
 .white_link a:hover{color:white;text-decoration:none;}
+
+
 
 /* Buttons */
 body#lightbox .long_button {
@@ -274,3 +276,6 @@ body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-f
 	.fieldnametop_small {height:27px;background:url(/images/forms/field_name_top_small.png);padding-left:20px;}
 	.fieldnamebottom_small {height:15px;background:url(/images/forms/field_name_bottom_small.png);}
 
+body#lightbox .condense{margin-top:15px;}
+body#lightbox .condense2{margin-top:5px;}
+body#lightbox .condense3{margin-top:0px;}
