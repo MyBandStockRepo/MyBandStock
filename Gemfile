@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.beta2'
-gem 'haml'
+gem 'haml', '3.0.3'
 gem 'builder'
 gem 'twitter'
 #gem 'fastercsv' # For exporting a CSV of share codes

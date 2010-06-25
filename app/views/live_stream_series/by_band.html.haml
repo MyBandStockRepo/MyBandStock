@@ -1,3 +1,6 @@
 -# This is the "widget view" for the access schedule. We do not show "broadcast" buttons for the streams in this view.
-=render :partial => 'by_band', :locals => { :band => @band, :can_broadcast => false }
+.notice
+  = flash[:notice]
+.maincont
+  =render :partial => 'by_band', :locals => { :band => @band, :can_broadcast => false }
 

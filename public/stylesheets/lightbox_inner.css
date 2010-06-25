@@ -65,6 +65,11 @@ body#lightbox .highlight {
 body#lightbox .error {
   color: red;
 }
+body#lightbox .notice {
+  font-style: italic;
+  margin: .5em;
+  color: #f4ac3e;
+}
 body#lightbox .center {
   text-align: center;
 }
