@@ -36,13 +36,16 @@
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
   .clear
   .lightbox_welcome
-    = "Welcome, #{ @user.first_name }. You currently have "
+  	-if @user.first_name.nil? || @user.first_name == ''
+			= "Welcome, #{ @user.email }. You currently have "  	
+  	-else  	
+			= "Welcome, #{ @user.first_name }. You currently have "
     %span.share_amount
       -if user_shares = @user.share_totals.where(:band_id => @stream.band.id).first
-        = user_shares.net
+        = pluralize(user_shares.net, 'share') 
       -else
-        0
-    shares in
+        0 shares 
+			in
     %span.welcome_band_name
       = @stream.band.name + '.'
 
