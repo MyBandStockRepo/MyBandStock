@@ -5,6 +5,7 @@
   %strong
     = @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
   , however the stream ultimately begins whenever the broadcaster chooses.
+  %br
   %p
     If you believe you are receiving this message in error, please email 
     = mail_to(MBS_SUPPORT_EMAIL, MBS_SUPPORT_EMAIL, :encode => "hex") + '.'

@@ -112,7 +112,7 @@ body#lightbox .fieldbox {
 }
 body#lightbox .fieldrow{width:100%;margin:0 auto;float:left}
 body#lightbox .fieldleft{width:540px;margin-left:20px;float:left;}
-body#lightbox .fielderror{width:285px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+body#lightbox .fielderror{width:280px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
 body#lightbox .desc, body#lightbox .description {margin: 5px 0px 10px 15px;float:left;}
 
 .lightboxpad{padding:20px;}
@@ -217,6 +217,7 @@ body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-f
 .modal_in {
   width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:15px;
   background-position: 0 -90px;
+  height:454px;
 }
 
 
