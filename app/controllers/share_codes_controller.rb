@@ -63,12 +63,20 @@ class ShareCodesController < ApplicationController
       redirect_to :action => :complete_redemption, :key => params[:share_code][:key], :email => params[:email]
       return true
     else
-      redirect_to new_user_path( :lightbox => params[:lightbox],
-                                 :after_create_redirect => url_for({ :controller => 'share_codes', :action => 'complete_redemption' })
-                               )
+      redirect_to :controller => 'users',
+                  :action => 'new',
+                  :lightbox => params[:lightbox],
+                  :after_create_redirect => url_for({
+                                                   :controller => 'share_codes',
+                                                   :action => 'complete_redemption',
+                                                   :key => params[:key]
+                                                   # email is sent by users/create, just in case the user wants to change it
+                                                 }),
+                  :user => { :email => params[:email], :email_confirmation => params[:email] } # params for users/create
+                             
       return true
     end
-    
+
   end
 
   def complete_redemption
@@ -221,7 +229,7 @@ class ShareCodesController < ApplicationController
       unless lss = LiveStreamSeries.find(share_code.key[3..8])
         return false
       end
-      logger.info 'LSS permissions about to be applied to ' + lss.id.to_s
+      logger.info 'LSS permissions about to be applied for LSS ' + lss.id.to_s
       unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
                                                  :hash => OUR_MBS_API_HASH,
                                                  :api_version => '.1',
@@ -232,10 +240,11 @@ class ShareCodesController < ApplicationController
                                                  :can_listen => 1 } )
         return false
       end
-      if share_code.share_amount != nil && share_code.share_amount != 0
+      share_amount = share_code.share_code_group.share_amount
+      if share_amount && share_amount != 0
         ShareLedgerEntry.create( :user_id => share_code.user.id,
                                  :band_id => lss.band.id,
-                                 :adjustment => share_code.share_amount,
+                                 :adjustment => share_amount,
                                  :description => 'share_code ' + share_code.id.to_s
                          )
       end

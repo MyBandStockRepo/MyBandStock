@@ -20,6 +20,7 @@
       #bio-content
         %p
           =@band.bio
+  = render :partial => 'share_codes/redeem_widget'
   .access-schedule
     = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 

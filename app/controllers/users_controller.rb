@@ -333,7 +333,7 @@ class UsersController < ApplicationController
       
       #LINK TO REDEMPTION THING
       if params[:after_create_redirect]
-      	redirect_to params[:after_create_redirect], :lightbox => params[:lightbox]
+      	redirect_to params[:after_create_redirect], :lightbox => params[:lightbox], :email => @user.email
       elsif
       	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
       else
