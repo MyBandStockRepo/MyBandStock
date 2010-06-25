@@ -32,8 +32,8 @@
 <p>
   <b>Share Codes</b>
   <ul>
-    <% @share_code_group.share_codes.each do |a_share_code| %>
-    <li><%= a_share_code.key %></li>
+    <% @share_code_group.share_codes.each do |a_share_code| %>  
+    <li style="color: <%= (a_share_code.redeemed?) ? 'red' : 'green' %>"><%= a_share_code.key %></li>
     <%end%>
   </ul>
 </p>

@@ -58,14 +58,14 @@ class ShareCodesController < ApplicationController
     # Check if the share code has already been redeemed
     if share_code_entry.redeemed
       flash[:error] = 'That Share Code has already been redeemed!'
-      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      redirect_to :action => :redeem, :lightbox => params[:lightbox], :email => params[:email]
       return false
     end
     
     # Check if the share code has expired
     if share_code_entry.expired?
       flash[:error] = 'That Share Code has expired.'
-      redirect_to :action => :redeem, :lightbox => params[:lightbox]
+      redirect_to :action => :redeem, :lightbox => params[:lightbox], :email => params[:email]
       return false
     end
     
