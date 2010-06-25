@@ -507,7 +507,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 #login_wrap{width:940px;margin:0 auto;padding-top:20px;padding-bottom:50px;}
 #login_wrap_left{width:540px;float:left;margin-left:20px;}
 #login_wrap_right{width:300px;float:right;margin-right:20px;margin-top:20px;}
-	#login_wrap_rightpad{height:128px;}
+	#login_wrap_rightpad{height:104px;}
 		#login_wrap_right h2{margin-bottom:20px;}
 #signupbutton { float: left; }
 /*#signupbutton {width:140px;height:42px;float:left;margin-top:20px;}
