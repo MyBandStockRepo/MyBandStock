@@ -352,7 +352,7 @@ use the band's oauth
 					Twitter::Base.new(band_oauth)			
 				end
 			else
-				flash[:error] = 'Could not find an authorized Twitter account.'
+			#	flash[:error] = 'Could not find an authorized Twitter account.'
 				return false				
 			end
     end

@@ -212,6 +212,7 @@ body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-f
 .modal_in {
   width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:15px;
   background-position: 0 -90px;
+  height:454px;
 }
 
 

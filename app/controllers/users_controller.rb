@@ -203,7 +203,7 @@ class UsersController < ApplicationController
                       return false
                     else
                       flash[:notice] = "Profile updated."
-                      redirect_to edit_user_path(@user.id)
+                      redirect_to root_url
                     end
                   }
       format.js
