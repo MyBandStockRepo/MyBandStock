@@ -49,8 +49,9 @@ class TwitterApiController < ApplicationController
 			access_secret = request_token.secret
 			auth_url = request_token.authorize_url
 			session['rtoken'] = access_token
-			session['rsecret'] = access_secret			
-			redirect_to auth_url
+			session['rsecret'] = access_secret		
+#			puts 'TEST AUTH URL'+auth_url.to_s
+			redirect_to 'http://'+auth_url
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to root_url
