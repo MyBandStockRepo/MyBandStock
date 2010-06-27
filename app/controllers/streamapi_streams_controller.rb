@@ -13,7 +13,7 @@ respond_to :html, :js
  before_filter :authenticated?, :except => [:callback, :ping]
  before_filter :user_has_site_admin, :except => [:ping, :callback, :view, :broadcast, :new, :edit, :create, :update, :show]
  before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast]
- skip_filter :update_last_location, :only => [:ping, :update, :create, :destory]
+ skip_filter :update_last_location, :only => [:ping, :update, :create, :destroy, :view, :broadcast]
 
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.

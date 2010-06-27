@@ -49,15 +49,16 @@ private
       if (viewer_key_check(@user, @streamapi_stream, params[:key], params[:userip]))
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp
+          user_name = (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
           if @lssp.can_chat && @lssp.can_view
             #let them do both
-            options_hash['user'] = { :name => @user.full_name,
+            options_hash['user'] = { :name => user_name,
                                      :role => 'chatter' }
             options_hash['code'] = 0
             logger.info "User allowed as a chatter."
           elsif @lssp.can_view
             #they only get a viewer role
-            options_hash['user'] = { :name => @user.full_name,
+            options_hash['user'] = { :name => user_name,
                                      :role => 'viewer' }
             options_hash['code'] = 0
             options_hash['code'] = 0

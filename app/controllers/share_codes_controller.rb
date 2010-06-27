@@ -6,12 +6,11 @@ class ShareCodesController < ApplicationController
   protect_from_forgery :only => [:redeem_post, :create, :update]
   skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :redeem, :complete_redemption]
 
-  def test
-    redirect_to :controller => 'users', :action => 'new', :lightbox => 'true', :key => 'asdf'
-    return true
-  end
-
   def redeem
+    if flash[:error]
+      flash[:error] << " If you are having trouble or encountering problems, please email us at #{MBS_SUPPORT_EMAIL}."
+    end
+
     @share_code = ShareCode.new
     @share_code.key = params[:mbs_share_code]
     if session[:user_id]

@@ -8,7 +8,8 @@ Cobain::Application.initialize!
 
 # Email address to which support inquiries are sent.
 # Currently displayed when a user does not have access to a stream, but tries to view it.
-  MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
+# Also shown when an error message is displayed when redeeming a code.
+  MBS_SUPPORT_EMAIL = 'help@mybandstock.com'  #'support@mybandstock.com' - bounces
 
 
 #for user remember me

@@ -3,7 +3,7 @@ class LiveStreamSeriesController < ApplicationController
 	before_filter :authenticated?, :except => [:by_band, :jsonp]
 	before_filter :user_has_site_admin, :except => [:by_band, :jsonp]
 	protect_from_forgery :only => [:create, :update]
-  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :by_band]
+  skip_filter :update_last_location, :except => [:index, :show, :edit, :new]
   respond_to :html, :js, :xml
   layout :choose_layout
 
