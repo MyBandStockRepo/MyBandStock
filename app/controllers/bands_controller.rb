@@ -19,6 +19,11 @@ class BandsController < ApplicationController
   
   def show
     id = get_band_id_from_request()
+    if id.nil? && params[:id]
+      # User went to something like /bands/the+killers, so redirect him to the band search page
+      redirect_to :controller => 'fans', :action => 'store_band_name', :band => { :search_text => params[:id] }
+      return false
+    end
     @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
 		@request_uri = url_for()
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )

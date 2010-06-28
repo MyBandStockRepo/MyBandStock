@@ -264,8 +264,11 @@ Cobain::Application.routes.draw do |map|
 #  map.connect ':band_short_name/manage_photos', :controller => 'bands', :action => 'manage_photos'
   match ':band_short_name/manage_users', :to => 'bands#manage_users'
   
-	match '/:band_short_name/social_networks/index', :to => 'social_networks#index'  
-  
+	match '/:band_short_name/social_networks/index', :to => 'social_networks#index'
+	
+	# Uncomment the following when we have band public profiles
+	#match '/bands/:band_short_name', :to =>  'bands#show'
+  match '/bands/:band_short_name', :to => 'fans#store_band_name'
   
   
   
