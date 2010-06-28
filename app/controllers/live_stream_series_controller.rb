@@ -153,7 +153,6 @@ class LiveStreamSeriesController < ApplicationController
     output[:banner_image] = url_for '/images/AMP_banner.jpg'
 
     output_json = output.to_json
-    logger.info output_json
 
     return render :json => output_json, :callback => 'accessScheduleJsonCallback'
   end
