@@ -2,5 +2,13 @@
   %h2 Stream Broadcast
   %p
     = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
-  %embed{:id => 'broadcast-embed', :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @theme.layout_path }&skinPath=#{ @theme.skin_path }&autoRecord=true&publicHostID=#{ @stream.public_hostid }&privateHostID=#{ @stream.private_hostid }&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
-
+  -unless flash[:error]
+    %embed{:id => 'broadcast-embed', :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @theme.layout_path }&skinPath=#{ @theme.skin_path }&autoRecord=true&publicHostID=#{ @stream.public_hostid }&privateHostID=#{ @stream.private_hostid }&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
+    .public_private_switch
+      = button_to 'Toggle recording visibility',
+                  { :controller => 'recorded_videos', :action => :set_recording_visibility, :streamapi_stream_id => @stream.id, :public_hostid => @stream.public_hostid, :public => 'true' },
+                  :remote => { :update => 'updateTest' }
+  -else
+    = flash[:error]
+  #updateTest
+    

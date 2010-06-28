@@ -116,14 +116,14 @@ respond_to :html, :js
     #   
     #   # If we're not within one hour before the scheduled start of the stream
     #   unless (@stream.starts_at - 1.hour).past?
-    #     flash[:error] = "You can only begin broadcasting within 1 hour before the scheduled start time (#{@stream.starts_at.'%b %d, %Y %I:%M %p'}). Please wait until 1 hour before this time, or reschedule the stream from the Stream Manager."
-    #     return false
+    #     flash[:error] = "You can only begin broadcasting within 1 hour before the scheduled start time (#{@stream.starts_at.strftime('%b %d, %Y %I:%M %p')}). Please wait until 1 hour before this time, or reschedule the stream from the Stream Manager."
+    #     return render :layout => 'lightbox' unless params[:lightbox].nil?
     #   end
     #   
     #   # If we're not within 24 hours after the scheduled start of the stream
     #   unless (@stream.starts_at + 24.hours).future?
-    #     flash[:error] = "You can only begin broadcasting within 24 hours after the scheduled start time (#{@stream.starts_at.'%b %d, %Y %I:%M %p'}). If you still wish to broadcast, please reschedule the stream in the Stream Manager."
-    #     return false
+    #     flash[:error] = "You can only begin broadcasting within 24 hours after the scheduled start time (#{@stream.starts_at.strftime('%b %d, %Y %I:%M %p')}). If you still wish to broadcast, please reschedule the stream in the Stream Manager."
+    #     return render :layout => 'lightbox' unless params[:lightbox].nil?
     #   end
     # end
 

@@ -1,5 +1,4 @@
 Cobain::Application.routes.draw do |map|
-  resources :recorded_videos
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
@@ -33,6 +32,7 @@ Cobain::Application.routes.draw do |map|
 	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'      
 	match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'      
 	match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'
+	match '/recorded_videos/set_recording_visibility/:public', :to => 'recorded_videos#set_recording_visibility', :as => 'set_recording_visibility'
 
   resources :streamapi_streams
   match '/streamapi_streams/new/:band_id', :to => 'streamapi_streams#new'
@@ -57,10 +57,11 @@ Cobain::Application.routes.draw do |map|
     match '/share_code_groups/:id/:band_id', :to => 'share_code_groups#show'
   # /--- Share Codes ---- #
 
-  # Don't touch the routes in the block below! I'm very happy with how they look.
+
   resources :streamapi_stream_themes
   resources :facebook_publishers
   resources :share_code_groups
+  resources :recorded_videos
   resources :pledged_bands
   resources :associations
   resources :share_codes
