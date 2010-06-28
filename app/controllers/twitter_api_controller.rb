@@ -49,8 +49,9 @@ class TwitterApiController < ApplicationController
 			access_secret = request_token.secret
 			auth_url = request_token.authorize_url
 			session['rtoken'] = access_token
-			session['rsecret'] = access_secret			
-			redirect_to auth_url
+			session['rsecret'] = access_secret		
+#			puts 'TEST AUTH URL'+auth_url.to_s
+			redirect_to 'http://'+auth_url
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to root_url
@@ -203,6 +204,7 @@ end
 
 	def retweet
 		error = false
+		needtoauth = false
 		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if params[:tweet_id] && params[:band_id]
@@ -241,8 +243,8 @@ end
 						error = true
 				end
 			else
-				flash[:error] = 'Your user account isn\'t tied to a twitter account.'
-				error = true		
+				error = true
+				needtoauth = true
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
@@ -250,8 +252,14 @@ end
 		end
 	
 		if error
-			redirect_to :action => 'error', :lightbox => params[:lightbox]
-			return false		
+			if needtoauth
+				redirecturl = url_for()+'?band_id='+params[:band_id].to_s+'&tweet_id='+params[:tweet_id].to_s
+				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl
+				return
+			else
+				redirect_to :action => 'error', :lightbox => params[:lightbox]
+				return false		
+			end
 		end
 		
 		if request.xhr?
