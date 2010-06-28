@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  public_hostid: 1
+  url: MyString
+  public: false
+
+two:
+  public_hostid: 1
+  url: MyString
+  public: false

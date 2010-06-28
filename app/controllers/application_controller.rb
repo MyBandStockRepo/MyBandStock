@@ -184,27 +184,30 @@ class ApplicationController < ActionController::Base
   
   def user_is_part_of_a_band?
     if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).site_admin == true)
-      return
+      return true
     else
       redirect_to session[:last_clean_url]
+      return false
     end
     
   end
 
   def user_is_admin_of_a_band?
     if session[:user_id] && (User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
-      return
+      return true
     else 
       redirect_to session[:last_clean_url]
+      return false      
     end
 
   end
   
   def user_part_of_or_admin_of_a_band?
   	if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
-  		return
+  		return true
   	else
 			redirect_to session[:last_clean_url]  		
+      return false			
   	end
   end
   

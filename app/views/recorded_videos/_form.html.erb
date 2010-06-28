@@ -1,0 +1,23 @@
+<%= form_for(@recorded_video) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :public_hostid %><br />
+    <%= f.text_field :public_hostid %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+  <div class="field">
+    <%= f.label :streamapi_stream_id %><br />
+    <%= collection_select 'recorded_video', 'streamapi_stream_id', @streamapi_streams, 'id', 'title', :class => 'select' %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
