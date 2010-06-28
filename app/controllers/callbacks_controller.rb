@@ -135,8 +135,26 @@ private
   
   def streamapi_recording_transcode_finished(params)
 
-
     options_hash = Hash.new
+    
+    if (@recorded_video = RecordedVideo.where(:public_hostid => params[:public_hostid]).first)
+      if params[:duration] && params[:duration] > 0
+        @recorded_video.url = params[:url]
+              
+        if @recorded_video.save
+          options_hash['code'] = 0
+        else
+          options_hash['code'] = -201
+        end
+      else
+        options_hash['code'] = -100      
+      end
+    else
+      options_hash['code'] = -100
+    end      
+      
+    
+=begin    
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
       @streamapi_stream.duration = params[:duration] #without a multiplier since this one is straight seconds
       @streamapi_stream.recording_filename = params[:filename]
@@ -150,6 +168,7 @@ private
     else
       options_hash['code'] = -100
     end
+=end
     return options_hash
 
   end
