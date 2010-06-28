@@ -38,3 +38,7 @@ OUR_MBS_API_KEY = 'a3dcf5600b117fc0'
 OUR_MBS_API_SECRET_KEY = '7f5ba404ac8599fd0cf3623ebf84e97a'
 OUR_MBS_API_HASH = 'afc0c639f89e9e81230d457a1d4abe15bb3acaafe3345eef55e84754040823fe'
 
+
+#this is the default value for the make public recording button
+#if true it will default so that a recording is made publicly available for the stream
+STREAMAPI_DEFAULT_PUBLIC_RECORDING = false

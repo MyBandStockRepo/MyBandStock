@@ -6,7 +6,7 @@ Cobain::Application.routes.draw do |map|
   match 'api/test', :to => 'api#test'
   match 'api/change_stream_permission', :to => 'api#change_stream_permission'
   match 'streamapi_streams/callback', :to => 'streamapi_streams#callback'
-  match 'api', :to => 'api#index'
+  match 'api', :to => 'api#index'  
 
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'

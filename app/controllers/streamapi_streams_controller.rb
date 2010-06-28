@@ -94,6 +94,11 @@ respond_to :html, :js
 	
 	
 	def broadcast
+		#this is the default value for the make public recording button
+		#if true it will default so that a recording is made publicly available for the stream
+		@public_recording = STREAMAPI_DEFAULT_PUBLIC_RECORDING
+	
+	
 	# http://osdir.com/ml/fancybox/2010-04/msg00471.html
     unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]      
@@ -189,6 +194,11 @@ respond_to :html, :js
 				@stream.public_hostid = public_hostid
 
  				if @stream.save
+
+ 					@recorded_video = RecordedVideo.create(:public_hostid => @stream.public_hostid, :public => @public_recording, :streamapi_stream_id => @stream.id, :url => nil)
+ 					
+ 				
+ 				
 				#	flash[:notice] = "Now broadcasting stream."
 				else
 #					flash[:notice] = "Error with getting host id."				

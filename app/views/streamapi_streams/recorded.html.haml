@@ -1,0 +1,50 @@
+.modal_in.video_modals
+  .video_left{ :style => 'background-image: url(/images/video.png) no-repeat);' }
+    %h2
+      Recorded
+      %span.grey99 stream
+    .embed-container
+      -# PUT EMBED HERE
+      %embed{:height => 240, :width => 320, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :src => 'https://streamapi.com/swf/flvplayer.swf', :type => 'application/x-shockwave-flash', |
+      :flashvars="&file=#{}" + |
+      "&image=#{}" + |
+      "&bufferlength=5" + |
+      "&volume=10" + |
+      "&autostart=false" + |
+      "&icons=false" + |
+      "&controlbar=bottom" + |
+      "&fullscreen=true" + |
+      "&dock=false"}
+    %h2
+      = @stream.title
+      %span.grey99
+        = @stream.location
+  .video_right
+    -if @tweets
+      %h2
+        repost
+        %span.grey99 the band for 20 shares!
+      = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
+  .clear
+  .lightbox_welcome
+    -if @user.first_name.nil? || @user.first_name == ''
+      = "Welcome, #{ @user.email }. You currently have "    
+    -else    
+      = "Welcome, #{ @user.first_name }. You currently have "
+    %span.share_amount
+      -if user_shares = @user.share_totals.where(:band_id => @stream.band.id).first
+        = pluralize(user_shares.net, 'share') 
+      -else
+        0 shares 
+      in
+    %span.welcome_band_name
+      = @stream.band.name + '.'
+
+:javascript
+  startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
+
+-# __commented__
+  %h2
+    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
+
+
