@@ -331,8 +331,8 @@ class UsersController < ApplicationController
         redirect_url = params[:redemption_redirect] + '&user_id=' + @user.id.to_s
         logger.info "Redirecting to " + redirect_url
       	redirect_to redirect_url
-      elsif
-      	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
+#      elsif session[:last_clean_url]
+#      	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
       else
 				redirect_to '/me/control_panel', :lightbox => params[:lightbox]
       end
