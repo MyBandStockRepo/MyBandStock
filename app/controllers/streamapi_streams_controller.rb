@@ -100,6 +100,32 @@ respond_to :html, :js
       return false
     end
     
+    user = User.find(session[:user_id])
+    unless user
+      flash[:error] = 'You must be logged in to broadcast.'
+      return redirect_to '/login'
+    end
+    
+    # unless user.site_admin
+    #   # Admins can broadcast whenever, otherwise the broadcast must begin between [ 1 hour before <= (scheduled start time) >= 24 hours after ]
+    #   unless user.can_broadcast_for(@stream.band_id)
+    #     # Note that this check is redundant, as the before filter already performs it
+    #     flash[:error] = 'You must be a member of the band to broadcast.'
+    #     return redirect_to session[:last_clean_url]
+    #   end
+    #   
+    #   # If we're not within one hour before the scheduled start of the stream
+    #   unless (@stream.starts_at - 1.hour).past?
+    #     flash[:error] = "You can only begin broadcasting within 1 hour before the scheduled start time (#{@stream.starts_at.'%b %d, %Y %I:%M %p'}). Please wait until 1 hour before this time, or reschedule the stream from the Stream Manager."
+    #     return false
+    #   end
+    #   
+    #   # If we're not within 24 hours after the scheduled start of the stream
+    #   unless (@stream.starts_at + 24.hours).future?
+    #     flash[:error] = "You can only begin broadcasting within 24 hours after the scheduled start time (#{@stream.starts_at.'%b %d, %Y %I:%M %p'}). If you still wish to broadcast, please reschedule the stream in the Stream Manager."
+    #     return false
+    #   end
+    # end
 
 		@external_css = Band.find(@stream.band_id).external_css_link
 		if @external_css == ''
@@ -108,7 +134,7 @@ respond_to :html, :js
 		
 		@theme = StreamapiStreamTheme.find(@stream.broadcaster_theme_id)
 		
-    # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not 
+    # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not proceed
     lastUpdated = Time.now.to_i - @stream.updated_at.to_i
     if (lastUpdated <= 1)
       logger.info "Double GET request suspected, aborting"

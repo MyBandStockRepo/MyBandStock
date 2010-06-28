@@ -50,7 +50,7 @@ private
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp
           user_name = (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
-          if @lssp.can_chat && @lssp.can_view
+          if (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
             #let them do both
             options_hash['user'] = { :name => user_name,
                                      :role => 'chatter' }
@@ -78,7 +78,7 @@ private
         # Already logged in with that viewer_key
         options_hash['code'] = -1
         time_to_go = (STREAM_VIEWER_TIMEOUT - (Time.now - viewer_status_entry.updated_at)).floor
-        time_to_go = (time_to_go > 0 && time_ago < STREAM_VIEWER_TIMEOUT) ? "in #{ time_to_go } seconds" : 'after a few minutes'
+        time_to_go = (time_to_go > 0 && time_to_go < STREAM_VIEWER_TIMEOUT) ? "in #{ time_to_go } seconds" : 'after a few minutes'
         options_hash['message'] = "You are already viewing this stream. Try closing all stream sessions and viewing the stream #{ time_to_go }."
         logger.info 'Reporting code -1, already logged in.'
       end #/viewer_key_check
