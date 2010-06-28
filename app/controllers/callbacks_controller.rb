@@ -134,6 +134,8 @@ private
   
   
   def streamapi_recording_transcode_finished(params)
+
+
     options_hash = Hash.new
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
       @streamapi_stream.duration = params[:duration] #without a multiplier since this one is straight seconds
@@ -149,6 +151,7 @@ private
       options_hash['code'] = -100
     end
     return options_hash
+
   end
 
   
