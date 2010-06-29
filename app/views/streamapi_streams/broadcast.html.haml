@@ -7,7 +7,9 @@
     .public_private_switch
       = button_to 'Toggle recording visibility',
                   { :controller => 'recorded_videos', :action => :set_recording_visibility, :streamapi_stream_id => @stream.id, :public_hostid => @stream.public_hostid, :public => 'true' },
-                  :remote => { :update => 'updateTest' }
+                  :remote => 'true',
+                  :id => 'toggle_recording_visibility',
+                  :class => "#{ (@public_recording) ? 'on' : '' }"
   -else
     = flash[:error]
   #updateTest

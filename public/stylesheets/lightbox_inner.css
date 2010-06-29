@@ -183,7 +183,12 @@ body#lightbox .long_button a:hover {
   margin-top: 11px;
   color: #FFF;
 }
-
+#toggle_recording_visibility {
+  background-color: yellow;
+}
+  #toggle_recording_visibility.on {
+    background-color: green;
+  }
 
 /* Form styles */
 body#lightbox .fieldbox {float:left;margin-top:15px;}

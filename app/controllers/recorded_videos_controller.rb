@@ -1,16 +1,24 @@
 class RecordedVideosController < ApplicationController
-skip_filter :update_last_location, :only => [ :set_recording_visibility ]
+  skip_filter :update_last_location, :only => [ :set_recording_visibility ]
+  before_filter :user_has_site_admin, :except => [ :set_recording_visibility ]
+  respond_to :js, :html, :only => :set_recording_visibility
 
   def set_recording_visibility
   # Action called AJAXly by a broadcaster to indicate that the present recording should be listed under the given broadcasting stream
   # Basically this action just toggles the public value of a recording based on input.
   # Required parameters:
   #   streamapi_stream_id, public_hostid, public = ['true' || 'false']
+    @result = -1
+    unless session[:user_id] && params[:streamapi_stream_id]
+      respond_with(@result)
+      return false
+    end
     user = User.find(session[:user_id])
     stream = StreamapiStream.find(params[:streamapi_stream_id])
     
     unless user && stream && user.can_broadcast_for(stream.band.id)
-      return render :text => '-1'
+      respond_with(@result)
+      return false
     end
     
     recorded_video = RecordedVideo.where(:public_hostid => params[:public_hostid]).first
@@ -28,16 +36,19 @@ skip_filter :update_last_location, :only => [ :set_recording_visibility ]
     
     if recorded_video.nil?
       # There is no recording row for some reason, so we return false-ish
-      return render :text => '-1'
+      respond_with(@result)
+      return false
     else
       recorded_video.public = publicity
       recorded_video.save
     end
   
-    respond_to do |schph0rmat|
-      schph0rmat.js { render :text => '1' }
-      scph0rmat.html { render :text => '1' }
-    end
+    @result = 1
+    respond_with(@result)
+    # respond_to do |schph0rmat|
+    #       schph0rmat.js { render :text => '1' }
+    #       schph0rmat.html { render :text => '1' }
+    # end
   end
 
   # GET /recorded_videos
