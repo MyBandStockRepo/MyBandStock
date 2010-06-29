@@ -5,16 +5,22 @@
       %span.grey99 stream
     .embed-container
       -# PUT EMBED HERE
-      %embed{:height => 240, :width => 320, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :src => 'https://streamapi.com/swf/flvplayer.swf', :type => 'application/x-shockwave-flash', |
-      :flashvars="&file=#{}" + |
-      "&image=#{}" + |
-      "&bufferlength=5" + |
-      "&volume=10" + |
-      "&autostart=false" + |
-      "&icons=false" + |
-      "&controlbar=bottom" + |
-      "&fullscreen=true" + |
-      "&dock=false"}
+      - if @recordings && @recordings.count > 0
+        %embed{ :height => 240, :width => 320, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
+        :flashvars => "&file=#{@recording.url}" + |
+        "&image=#{@vidthumb}" + |
+        "&bufferlength=5" + |
+        "&volume=10" + |
+        "&autostart=false" + |
+        "&icons=false" + |
+        "&controlbar=bottom" + |
+        "&fullscreen=true" + |
+        "&dock=false", |
+        :src => 'https://streamapi.com/swf/flvplayer.swf' }
+      -else
+        %br
+        %p Sorry, no recordings were found for this video stream entry.
+        %br
     %h2
       = @stream.title
       %span.grey99
@@ -28,20 +34,19 @@
   .clear
   .lightbox_welcome
     -if @user.first_name.nil? || @user.first_name == ''
-      = "Welcome, #{ @user.email }. You currently have "    
-    -else    
+      = "Welcome, #{ @user.email }. You currently have "
+    -else
       = "Welcome, #{ @user.first_name }. You currently have "
     %span.share_amount
       -if user_shares = @user.share_totals.where(:band_id => @stream.band.id).first
-        = pluralize(user_shares.net, 'share') 
+        = pluralize(user_shares.net, 'share')
       -else
-        0 shares 
+        0 shares
       in
     %span.welcome_band_name
       = @stream.band.name + '.'
 
-:javascript
-  startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
+
 
 -# __commented__
   %h2
