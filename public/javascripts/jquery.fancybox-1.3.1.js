@@ -5,6 +5,7 @@
  * Examples and documentation at: http://fancybox.net
  * 
  * Copyright (c) 2008 - 2010 Janis Skarnelis
+ * Modified by Jake Schwartz to fix a double GET request bug.
  *
  * Version: 1.3.1 (05/03/2010)
  * Requires: jQuery v1.3+
