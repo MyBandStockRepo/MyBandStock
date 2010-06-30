@@ -7,7 +7,7 @@
  * Copyright (c) 2008 - 2010 Janis Skarnelis
  * Modified by Jake Schwartz to fix a double GET request bug.
  *
- * Version: 1.3.1 (05/03/2010)
+ * Version: 1.3.1j (06/29/2010)
  * Requires: jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:

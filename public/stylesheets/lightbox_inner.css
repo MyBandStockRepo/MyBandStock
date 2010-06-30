@@ -184,11 +184,30 @@ body#lightbox .long_button a:hover {
   color: #FFF;
 }
 #toggle_recording_visibility {
-  background-color: yellow;
+  width: 285px;
+  height: 25px;
 }
-  #toggle_recording_visibility.on {
-    background-color: green;
-  }
+.public_private_switch {
+  width: 360px;
+  height: 45px;
+  margin: 0 auto;
+  text-align: center;
+}
+#recording_public_indicator {
+  background-color: yellow;
+  height: 12px;
+  width: 12px;
+  float: left;
+}
+  #recording_public_indicator.on { background-color: green; }
+
+.loading-indicator {
+  visibility: hidden;
+  float: right;
+  height: 32px;
+  width: 32px;
+  background: url(/images/backgrounds/global/bg-ajax-loader.gif) no-repeat scroll 0 0 transparent;
+}
 
 /* Form styles */
 body#lightbox .fieldbox {float:left;margin-top:15px;}

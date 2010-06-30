@@ -46,6 +46,24 @@
             - for e in @band.errors[:bio]
               %p
                 = '- '+e.to_s
+
+      .fieldrow
+        .fieldleft      
+          .field
+            .fieldname
+              .fieldnametop
+                = f.label :band_photo, 'Band photo URL'
+              .fieldnamebottom
+            .fieldbox
+              = f.text_field :band_photo
+          .desc
+            The URL of a photo that you own. This must be within 320px * 320px.
+        .fielderror
+          - if @band.errors[:band_photo]
+            - for e in @band.errors[:band_photo]
+              %p
+                = '- '+e.to_s
+
       .fieldrow
         .fieldleft      
           .field
@@ -60,6 +78,7 @@
             - for e in @band.errors[:city]
               %p
                 = '- '+e.to_s
+
       .fieldrow
         .fieldleft      
           .field

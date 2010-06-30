@@ -27,6 +27,7 @@ class BandsController < ApplicationController
     @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
 		@request_uri = url_for()
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
+    @top_ten = @band.top_ten_shareholders
     
     #make sure the band isn't hidden
     if @band.status != "active"
@@ -54,7 +55,7 @@ class BandsController < ApplicationController
 				@band_twitter_not_authorized = true
 		end					
 		begin
-			if session[:user_id] && @user = User.find(session[:user_id])
+			if session[:user_id] && @user = user
 				unless @user.twitter_user
 					@user_twitter_not_authorized = true
 				else

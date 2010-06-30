@@ -1,0 +1,18 @@
+table.top_ten_shareholders {
+  background-color: #DDD;
+  border: 29px BurlyWood dotted;
+  font-family: TitilliumText14L400wt;
+}
+  table.top_ten_shareholders tr {
+    font-size: 15px;
+    height: 1.5em;
+  }
+    table.top_ten_shareholders tr td {
+      padding: 4px 4px 4px 20px;
+    }
+  table.top_ten_shareholders tr.even {
+    background-color: #DDD;
+  }
+  table.top_ten_shareholders tr.even {
+    background-color: #CCC;
+  }

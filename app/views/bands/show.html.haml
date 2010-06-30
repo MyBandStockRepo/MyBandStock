@@ -1,49 +1,49 @@
-#content-utility.control-panel
-  #utility-overview
-    #overview-primary
-      %h2 
-        =@band.name
-        %br
-      .stats
-        %dl
-          %dd<
-            =@band.created_at.strftime("%m/%d/%Y")
+%h1.orange_bar
+  = @band.name
+  
+#profile-left-column
+  -if @band.band_photo && @band.band_photo != ''
+    = image_tag @band.band_photo, :id => 'profile-band-photo', :alt => @band.name
+  .profile-top-ten-container
+    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten }
 
-#content-primary
-  .profile-column
-    -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
-      #manage-band
-        %p You are a manager for this band.
-        =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
-    #bio.widget-box
-      .profile-category Bio
-      #bio-content
-        %p
-          =@band.bio
-  = render :partial => 'share_codes/redeem_widget'
+  -# Member since =@band.created_at.strftime("%m/%d/%Y")
+
+  -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
+    #manage-band
+      %p You are a manager for this band.
+      =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+  #bio.widget-box
+    .profile-category Bio
+    %p
+      =@band.bio
+
+#profile-right-column
+  - unless @band_twitter_not_authorized
+    .recent_TWETZ
+      %h1 Recent Band Tweets
+      - if @user_twitter_not_authorized
+        = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+			
+      - else
+        %p 
+          Currently authenticated with the Twitter account 
+          = @twit_user.screen_name
+          = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+      = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
+
   .access-schedule
     = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
-- unless @band_twitter_not_authorized
-  .recent_twetz
-    %h1 Recent Band Tweets
-    - if @user_twitter_not_authorized
-      = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-			
-    - else
-      %p 
-        Currently authenticated with the Twitter account 
-        = @twit_user.screen_name
-        = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-    = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
+= render :partial => 'share_codes/redeem_widget'
 
-#remote-page-test
-  -# = @url_test
-  %br
-  %br
-  #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
-    &nbsp;
-  %br
-  %strong
-    =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
+-# __commented__
+  #remote-page-test
+    %br
+    %br
+    #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
+      &nbsp;
+    %br
+    %strong
+      =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
 

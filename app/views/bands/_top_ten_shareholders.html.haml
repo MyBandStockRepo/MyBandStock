@@ -1,0 +1,7 @@
+%table.top_ten_shareholders
+  %th.orange_bar
+    TOP TEN SHAREHOLDERS
+  -top_ten.each_with_index do |man, i|
+    %tr{ :class => "#{ (i % 2 == 1) ? 'odd' : 'even' }" }
+      %td
+        = man.email

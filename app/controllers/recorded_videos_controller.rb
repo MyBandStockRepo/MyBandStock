@@ -32,7 +32,10 @@ class RecordedVideosController < ApplicationController
                   nil #(defined?(STREAMAPI_DEFAULT_PUBLIC_RECORDING) ? STREAMAPI_DEFAULT_PUBLIC_RECORDING : false)
                 end
 
-    return render :text => '-1' if publicity.nil?
+    if publicity.nil?
+      respond_with(@result)
+      return false
+    end
     
     if recorded_video.nil?
       # There is no recording row for some reason, so we return false-ish
@@ -44,7 +47,8 @@ class RecordedVideosController < ApplicationController
     end
   
     @result = 1
-    respond_with(@result)
+    @public = publicity
+    respond_with(@result, @public)
     # respond_to do |schph0rmat|
     #       schph0rmat.js { render :text => '1' }
     #       schph0rmat.html { render :text => '1' }

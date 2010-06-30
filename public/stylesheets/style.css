@@ -33,7 +33,6 @@
 		
 /* CONTENT */
 
-#content {background:#191919;margin-top:10px;}
 	#slides {height:400px;}
 	#search {width:690px;margin-left:180px;padding-top:20px;}
 
@@ -46,15 +45,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		#searchbutton input:hover {height:68px;float:left;padding:0px;margin:0px;background:url(/images/search_button_over.gif);}
 	
 #artistlink {font-size:14px;text-align:center;padding-top:20px;padding-bottom:30px;}
-
-/* FOOTER */
-
-#footer {background:#2f2b25;padding:20px;}
-	#securities {width:420px;float:left;}
-	#copyright {padding-top:15px;float:right;}
-	.clear {clear:both;}
 	
-/* MODALS!!! */
+/* MODALS */
 
 .modal {width:900px;background-image:url(/images/modal_bg_out.jpg);background-repeat:repeat-x;background-color:#1a1a1a;margin:0 auto;padding-top:10px;padding-bottom:10px;}
 	.modal_in {width:880px;background-image:url(/images/modal_bg_in.jpg);background-repeat:repeat-x;background-color:#000000;margin:0 auto;padding-bottom:40px;}
@@ -268,13 +260,6 @@ h3 {
   color: #AAA;
 }
 
-.profile-category {
-  font-weight: bold;
-  font-size: 1.2em;
-  display: inline;
-
-}
-
 .grey99 {color:#999999;}
 
 
@@ -312,6 +297,7 @@ h3 {
 	float:left;
 	margin:30px;
 }
+#content {background:#191919;margin-top:10px; overflow: hidden; padding: 0 !important;}
 #content {
   background:#191919;
   margin-top:10px;
@@ -395,9 +381,38 @@ div#slides ul li.show {z-index:500}
     }
 
 
-	#securities {width:450px;float:right;}
+	#securities {width:465px;float:left; font-size: 11px; }
 	#copyright {padding-top:20px;float:right;}
 	.clear {clear:both;}
+
+
+/* Profile (general) */
+
+.profile-category {
+  font-weight: bold;
+  font-size: 1.2em;
+  display: inline;
+
+}
+#profile-left-column {
+  width: 320px;
+  float: left;
+}
+#profile-right-column {
+  width: 650px;
+  float: right;
+}
+
+.profile-top-ten-container .top_ten_shareholders {
+  width: 100%;
+}
+
+/* Band profile */
+#profile-band-photo {
+  width: 320px;
+}
+
+
 
 
 /* FORGOT PASSWORD PAGE */

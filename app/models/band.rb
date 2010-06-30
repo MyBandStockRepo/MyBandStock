@@ -63,6 +63,12 @@ class Band < ActiveRecord::Base
 		return tweet_list
   end
   
+  def top_ten_shareholders()
+    # JOIN with user?
+    ShareTotal.where(:band_id => self.id).limit(10).order('net DESC').all.collect{ |a| a.user }
+  end
+
+
   #####
   #stats and quick data retrieval methods
   #####
