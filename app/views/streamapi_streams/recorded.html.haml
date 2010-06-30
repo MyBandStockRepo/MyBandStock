@@ -1,37 +1,57 @@
 .modal_in.video_modals
   .video_left{ :style => 'background-image: url(/images/video.png) no-repeat);' }
     %h2
-      Recorded
-      %span.grey99 stream
-    .embed-container
-      -# PUT EMBED HERE
-      - if @recordings && @recordings.count > 0
-        %embed{ :height => 240, :width => 320, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
-        :flashvars => "&file=#{@recording.url}" + |
-        "&image=#{@vidthumb}" + |
-        "&bufferlength=5" + |
-        "&volume=10" + |
-        "&autostart=false" + |
-        "&icons=false" + |
-        "&controlbar=bottom" + |
-        "&fullscreen=true" + |
-        "&dock=false", |
-        :src => 'https://streamapi.com/swf/flvplayer.swf' }
-      -else
-        %br
-        %p Sorry, no recordings were found for this video stream entry.
-        %br
-    %h2
       = @stream.title
       %span.grey99
         = @stream.location
+    .embed-container
+      - if @recordings && @recordings.count > 0
+        %embed{ :height => 285, :width => 470, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
+          :flashvars => "&file=#{@recording.url}" + |
+          "&image=#{@vidthumb}" + |
+          "&bufferlength=5" + |
+          "&volume=10" + |
+          "&autostart=false" + |
+          "&icons=false" + |
+          "&controlbar=bottom" + |
+          "&fullscreen=true" + |
+          "&dock=false", |
+          :src => 'https://streamapi.com/swf/flvplayer.swf' }
+      -else
+        %br
+        %p Sorry, this live stream has finished and it was not recorded, so there are no recorded videos to view.
+        %br
+
   .video_right
     -if @tweets
       %h2
         repost
         %span.grey99 the band for 20 shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
+  - if @recordings && @recordings.count > 0
+    .videothumbs
+      .scroll-pane.ui-widget.ui-widget-header.ui-corner-all
+        #scroll-content{:style=>"width:#{@content_width}px;"}
+          -count = 1
+          - for recording in @recordings
+            -if @recording.id == recording.id
+              .scroll-content-item.ui-widget-header.selectedvid
+                =link_to image_tag(recording.thumb_img, :class => 'videothumb'), :action => 'recorded', :recording_id => recording.id, :lightbox => params[:lightbox]
+                =link_to "Part #{count}", :action => 'recorded', :recording_id => recording.id, :lightbox => params[:lightbox]
+                .duration
+                  =recording.output_duration
+            -else
+              .scroll-content-item.ui-widget-header
+                =link_to image_tag(recording.thumb_img, :class => 'videothumb'), :action => 'recorded', :recording_id => recording.id, :lightbox => params[:lightbox]
+                =link_to "Part #{count}", :action => 'recorded', :recording_id => recording.id, :lightbox => params[:lightbox]
+                .duration
+                  =recording.output_duration
+            -count += 1
+        -#.scroll-bar-wrap.ui-widget-content.ui-corner-bottom
+          .scroll-bar
   .clear
+
+
   .lightbox_welcome
     -if @user.first_name.nil? || @user.first_name == ''
       = "Welcome, #{ @user.email }. You currently have "

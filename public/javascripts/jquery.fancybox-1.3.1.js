@@ -32,6 +32,14 @@
 		 * Private methods 
 		 */
 
+    fancybox_jake_generate_contents = function(isIframe) {
+      if (isIframe) {
+        isIframe = false;
+        return '<iframe id="fancybox-frame" name="fancybox-frame' + new Date().getTime() + '" frameborder="0" hspace="0" scrolling="' + selectedOpts.scrolling + '" src="' + selectedOpts.href + '"></iframe>'
+      } else
+        return tmp.contents();
+    },
+
 		fancybox_abort = function() {
 			loading.hide();
 
@@ -353,7 +361,7 @@
 			return from;
 		},
 
-		fancybox_show = function() {
+		fancybox_show = function(isIframe) {
 			loading.hide();
 
 			if (wrap.is(":visible") && $.isFunction(currentOpts.onCleanup)) {
@@ -408,7 +416,7 @@
 
 				inner.fadeOut(currentOpts.changeFade, function() {
 					var finish_resizing = function() {
-						inner.html( tmp.contents() ).fadeIn(currentOpts.changeFade, _finish);
+						inner.html( fancybox_jake_generate_contents(isIframe) ).fadeIn(currentOpts.changeFade, _finish);
 					};
 					
 					$.event.trigger('fancybox-change');
@@ -458,7 +466,7 @@
 						width		: Math.max(start_pos.width	- (currentOpts.padding * 2), 1),
 						height		: Math.max(start_pos.height	- (currentOpts.padding * 2), 1)
 					})
-					.html( tmp.contents() );
+					.html( fancybox_jake_generate_contents(isIframe) );
 
 				wrap.css(start_pos).show();
 
@@ -482,7 +490,7 @@
 						width		: Math.max(final_pos.width	- (currentOpts.padding * 2), 1),
 						height		: Math.max(final_pos.height	- (currentOpts.padding * 2) - titleh, 1)
 					})
-					.html( tmp.contents() );
+					.html( fancybox_jake_generate_contents(isIframe) );
 
 				wrap.css( final_pos ).fadeIn( currentOpts.transitionIn == 'none' ? 0 : currentOpts.speedIn, _finish );
 			}
@@ -694,8 +702,8 @@
 				break;
 
 				case 'iframe' :
-					$('<iframe id="fancybox-frame" name="fancybox-frame' + new Date().getTime() + '" frameborder="0" hspace="0" scrolling="' + selectedOpts.scrolling + '" src="' + selectedOpts.href + '"></iframe>').appendTo(tmp);
-					fancybox_show();
+					//$('<iframe id="fancybox-frame" name="fancybox-frame' + new Date().getTime() + '" frameborder="0" hspace="0" scrolling="' + selectedOpts.scrolling + '" src="' + selectedOpts.href + '"></iframe>').appendTo(tmp);
+					fancybox_show(true);
 				break;
 			}
 		},

@@ -6,23 +6,23 @@
     = stylesheet_link_tag 'reset'
     = stylesheet_link_tag 'lightbox'
     = stylesheet_link_tag 'twitter'
-    = stylesheet_link_tag 'fonts'        
-    = stylesheet_link_tag 'access_schedule'    
+    = stylesheet_link_tag 'fonts'
+    = stylesheet_link_tag 'access_schedule'
     = stylesheet_link_tag @external_css || 'lightbox-theme-default'
     = stylesheet_link_tag 'http://www.peekok.com/jswidget/buttonCSS?id=799&bgcolor=ffffff&fgcolor=000000'
-    = stylesheet_link_tag 'lightbox_inner'    
-    
+    = stylesheet_link_tag 'lightbox_inner'
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
-    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"    
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js'
     = javascript_include_tag 'rails'
-    
-    = javascript_include_tag 'jquery.fancybox-1.3.1.pack'
+    = javascript_include_tag 'jquery.fancybox-1.3.1'
     = javascript_include_tag 'jquery.easing-1.3.pack'
-    -# = javascript_include_tag 'access_schedule'    
+
+    -# = javascript_include_tag 'access_schedule'
     = javascript_include_tag 'ping'
     = javascript_include_tag 'http://www.peekok.com/js/peekokLibrary.js'
-    = javascript_include_tag 'http://www.peekok.com/jswidget/button/id/799'    
-    
+    = javascript_include_tag 'http://www.peekok.com/jswidget/button/id/799'
+
     = csrf_meta_tag
   %body#lightbox
     = yield

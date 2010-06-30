@@ -13,7 +13,9 @@ respond_to :html, :js
  before_filter :authenticated?, :except => [:callback, :ping]
  before_filter :user_has_site_admin, :except => [:ping, :callback, :view, :broadcast, :new, :edit, :create, :update, :show]
  before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast]
- skip_filter :update_last_location, :only => [:ping, :update, :create, :destroy, :view, :broadcast, :recorded]
+ skip_filter :update_last_location, :only => [:ping, :update, :create, :destroy, :view, :broadcast, :recorded, :where_to_go?]
+ before_filter :where_to_go?, :only => [:view, :recorded]
+
 
 	def ping
   # This method catches the regular JS pings from viewers, and updates the StreamapiStreamViewerStatus table accordingly.
@@ -94,16 +96,42 @@ respond_to :html, :js
 
 
 	def broadcast
+	# http://osdir.com/ml/fancybox/2010-04/msg00471.html
 		#this is the default value for the make public recording button
 		#if true it will default so that a recording is made publicly available for the stream
 		@public_recording = STREAMAPI_DEFAULT_PUBLIC_RECORDING
 
-
-	# http://osdir.com/ml/fancybox/2010-04/msg00471.html
     unless (@stream = StreamapiStream.find(params[:id]))
       redirect_to session[:last_clean_url]
       return false
     end
+
+    user = User.find(session[:user_id])
+    unless user
+      flash[:error] = 'You must be logged in to broadcast.'
+      return redirect_to '/login'
+    end
+
+    # unless user.site_admin
+    #   # Admins can broadcast whenever, otherwise the broadcast must begin between [ 1 hour before <= (scheduled start time) >= 24 hours after ]
+    #   unless user.can_broadcast_for(@stream.band_id)
+    #     # Note that this check is redundant, as the before filter already performs it
+    #     flash[:error] = 'You must be a member of the band to broadcast.'
+    #     return redirect_to session[:last_clean_url]
+    #   end
+    #
+    #   # If we're not within one hour before the scheduled start of the stream
+    #   unless (@stream.starts_at - 1.hour).past?
+    #     flash[:error] = "You can only begin broadcasting within 1 hour before the scheduled start time (#{@stream.starts_at.strftime('%b %d, %Y %I:%M %p')}). Please wait until 1 hour before this time, or reschedule the stream from the Stream Manager."
+    #     return render :layout => 'lightbox' unless params[:lightbox].nil?
+    #   end
+    #
+    #   # If we're not within 24 hours after the scheduled start of the stream
+    #   unless (@stream.starts_at + 24.hours).future?
+    #     flash[:error] = "You can only begin broadcasting within 24 hours after the scheduled start time (#{@stream.starts_at.strftime('%b %d, %Y %I:%M %p')}). If you still wish to broadcast, please reschedule the stream in the Stream Manager."
+    #     return render :layout => 'lightbox' unless params[:lightbox].nil?
+    #   end
+    # end
 
 
 		@external_css = Band.find(@stream.band_id).external_css_link
@@ -113,7 +141,7 @@ respond_to :html, :js
 
 		@theme = StreamapiStreamTheme.find(@stream.broadcaster_theme_id)
 
-    # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not
+    # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not proceed
     lastUpdated = Time.now.to_i - @stream.updated_at.to_i
     if (lastUpdated <= 1)
       logger.info "Double GET request suspected, aborting"
@@ -209,20 +237,7 @@ respond_to :html, :js
       redirect_to session[:last_clean_url]
       return false
     end
-
-		@recordings = RecordedVideo.where('streamapi_stream_id = ? AND public = ? AND url != ?', @stream.id, true, nil)
-#		@recordings = RecordedVideos.where(:streamapi_id => @stream.id, :public => true)
-		if @recordings && @recordings.count > 0
-			@recording = @recordings.first
-			@vidthumb = @recording.url+'.jpg'
-		end
-
-		@external_css = Band.find(@stream.band_id).external_css_link
-		if @external_css == ''
-			@external_css = nil
-		end
     @user = User.find(session[:user_id])
-		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
 
     unless @user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream
@@ -236,6 +251,30 @@ respond_to :html, :js
       end
       return false
     end
+
+		@recordings = RecordedVideo.where('public = ? AND streamapi_stream_id = ?', true, @stream.id).where('URL IS NOT NULL')
+		@content_width = 0
+
+		if @recordings && @recordings.count > 0
+			@content_width = 120 * @recordings.count
+			if params[:recording_id]
+				recording_param = RecordedVideo.find(params[:recording_id])
+
+				if recording_param && @recordings.include?(recording_param)
+					@recording = recording_param
+				else
+					@recording = @recordings.first
+				end
+			else
+				@recording = @recordings.first
+			end
+			@vidthumb = @recording.url+'.jpg'
+		end
+
+		@external_css = Band.find(@stream.band_id).external_css_link
+		if @external_css == ''
+			@external_css = nil
+		end
 
     begin
       twitter_client = client(true, false, @stream.band.id)
@@ -796,4 +835,26 @@ respond_to :html, :js
       format.xml  { head :ok }
     end
   end
+
+
+  private
+
+  def where_to_go?
+		stream = StreamapiStream.find(params[:id])
+		if stream.nil?
+      redirect_to session[:last_clean_url]
+      return false
+		else
+			start_time_limit = stream.starts_at + 1.day
+			curr_time = Time.now
+			if curr_time < start_time_limit
+				redirect_to :action => 'view', :lightbox => params[:lightbox], :id => params[:id] unless params[:action] == 'view'
+				return true
+			else
+				redirect_to :action => 'recorded', :lightbox => params[:lightbox], :id => params[:id], :recording_id => params[:recording_id] unless params[:action] == 'recorded'
+				return true
+			end
+		end
+  end
 end
+
