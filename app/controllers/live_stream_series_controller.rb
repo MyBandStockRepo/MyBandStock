@@ -137,6 +137,7 @@ class LiveStreamSeriesController < ApplicationController
               :start_day => stream.starts_at.strftime('%a'),
               :start_date => stream.starts_at.strftime('%b %d, %Y'),
               :start_time => stream.starts_at.strftime('%I:%M %p'),
+              :past => (stream.starts_at + 24.hours).past?,   # We indicate whether the stream was scheduled to start 24 hours ago. If so, we display the view recording icon.
               :view_link => {
                 :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true ),
                 :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,

@@ -40,6 +40,13 @@ a:hover {
     font-style: normal;
     font-weight: normal;
   }
+  .access-schedule-list .stream-title.mbs-past {
+    padding-left: 18px;
+    background: url(/images/icons/past_shows_sprite.png) 0 0 no-repeat;
+  }
+  .access-schedule-list .stream-title.mbs-past:hover {
+    background: url(/images/icons/past_shows_sprite.png) 0 -17px no-repeat;
+  }
   .stream-start, .stream-location {
     color: #FFF; /* The color of the date and location cells */
     font-size: 10.4px;

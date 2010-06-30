@@ -1,5 +1,5 @@
 jQuery.noConflict();
-var mbsDomain = 'http://mybandstock.com';
+var mbsDomain = 'http://localhost:3000';
 var redeemDefaultText = 'Or Enter Your Share Code Here';
 
 
@@ -103,7 +103,6 @@ function accessScheduleJsonCallback(data) {
     jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
       table.append(
         jQuery(document.createElement('tr')).append(
-          //jQuery('<td class="stream-start"></td>').html(
           jQuery('<td class="stream-start-day">'+ stream.start_day +'</td>')
         ).append(
           jQuery('<td class="stream-start-date">'+ stream.start_date +'</span>')
@@ -111,7 +110,11 @@ function accessScheduleJsonCallback(data) {
           jQuery('<td class="stream-start-time">'+ stream.start_time +'</span>')
         ).append(
           jQuery(document.createElement('td')).addClass('stream-name').append(
-            jQuery('<a href="'+ stream.view_link.url +'">'+ stream.title +'</a>')
+            jQuery('<a \
+                      href="'+ stream.view_link.url +'" \
+                      class="'+ ((stream.past) ? 'mbs-past' : '') +'" \
+                      title="'+ ((stream.past) ? 'Stream has ended. Click the title to see recorded show.' : stream.title ) +'">'+ stream.title +
+                  '</a>')
               .addClass('lightbox stream-title')
               .attr('fbwidth', stream.view_link.width)
               .attr('fbheight', stream.view_link.height)

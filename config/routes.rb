@@ -85,6 +85,7 @@ Cobain::Application.routes.draw do |map|
   match 'developers', :to => 'developer#index'
   
   # ---- URL Shortener ---- #
+    #match '/short/favicon.ico', :to => '/favicon.ico' - can I serve a static asset here? I think .htaccess might have to be used for this.
     match 'short(/:key)', :to => 'short_urls#redirect'
   # /--- URL Shortener ---- #
 
