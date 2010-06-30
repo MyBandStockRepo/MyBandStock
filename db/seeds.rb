@@ -10,17 +10,17 @@
 
 #the creation tree goes as follows
 #user ->
-adminUser = User.create( :first_name => 'admin', 
-                        :last_name => 'user', 
-                        :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', 
-#												:password_confirmation => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', 
-                        :country_id => 233, 
-                        :email => 'mbstech@mybandstock.com', 
-                        :email_confirmation => 'mbstech@mybandstock.com',                         
+adminUser = User.create( :first_name => 'admin',
+                        :last_name => 'user',
+                        :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
+#												:password_confirmation => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
+                        :country_id => 233,
+                        :email => 'mbstech@mybandstock.com',
+                        :email_confirmation => 'mbstech@mybandstock.com',
                         :status => 'active',
                         :agreed_to_tos => true,
                         :agreed_to_pp => true)
-                        
+
 site_admin_role = Role.create(:name => 'site_admin')
 Role.create(:name => 'staff')
 
@@ -37,7 +37,7 @@ jm = User.create( :first_name => 'John-Michael',
                   :zipcode => '48116',
                   :country_id => 233,
                   :email => 'jm@mybandstock.com',
-                  :email_confirmation => 'jm@mybandstock.com',                  
+                  :email_confirmation => 'jm@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
@@ -141,7 +141,14 @@ styledVidOnly_med = StreamapiStreamTheme.create( :name => '16:9, Styled - Video 
                   :width => 500,
                   :height => 375,
                   :quality => '384 kbps (Medium)' )
-                  
+
+styledVidOnly_HD = StreamapiStreamTheme.create( :name => '16:9, Styled - Video + Chat - HD Quality (1024 kbps)',
+                  :layout_path => '/themes/100/000/866/4/theme_fc34fcf1-845d-11df-8528-85e0786ff4d7.xml',
+                  :skin_path => '/themes/100/000/866/4/skin_fc34fcf1-845d-11df-8528-85e0786ff4d7.xml',
+                  :width => 500,
+                  :height => 375,
+                  :quality => '1024 kbps (HD)' )
+
 #create some StreamAPI streams (fake of course)
 lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :public_hostid => 123,
@@ -152,7 +159,7 @@ lss_dos.streamapi_streams.create( :private_hostid => 123,
                               :viewer_theme_id => styledVidOnly_low.id,
                               :public => false,
                               :band_id => b_dos.id )
-                              
+
 lss_dos.streamapi_streams.create( :private_hostid => 1234,
                               :public_hostid => 1234,
                               :title => 'act 2',
@@ -167,7 +174,7 @@ lssp = jm.live_stream_series_permissions.create(:can_view => true,
                                                 :can_chat => true,
                                                 :live_stream_series_id => lss_dos.id
                                                 )
-  
+
 
 lss_amp.streamapi_streams.create(
                               :title => 'Exclusive Video Update #1 - Off Day',
@@ -218,7 +225,7 @@ lss_amp.streamapi_streams.create(
                               :viewer_theme_id => styledVidOnly_low.id,
                               :public => true,
                               :band_id => b_amp.id )
-                              
+
 =begin
 lss_amp.streamapi_streams.create(
                               :private_hostid => 123456,
@@ -272,7 +279,7 @@ brian = User.create( :first_name => 'Brian',
 #                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'brian@mybandstock.com',
-                  :email_confirmation => 'brian@mybandstock.com',                  
+                  :email_confirmation => 'brian@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
@@ -284,7 +291,7 @@ jake = User.create( :first_name => 'Jake',
 #                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
                   :country_id => 233,
                   :email => 'jake@mybandstock.com',
-                  :email_confirmation => 'jake@mybandstock.com',                  
+                  :email_confirmation => 'jake@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
                   :agreed_to_pp => true)
@@ -294,7 +301,7 @@ fan = User.create( :first_name => 'Fanzo',
                    :password => Digest::SHA2.hexdigest('test123'),
                    :country_id => 233,
                    :email => 'fan1@mybandstock.com',
-                   :email_confirmation => 'fan1@mybandstock.com',                  
+                   :email_confirmation => 'fan1@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
                    :agreed_to_pp => true)
@@ -304,7 +311,7 @@ fan = User.create( :first_name => 'Bobeeto',
                    :password => Digest::SHA2.hexdigest('test123'),
                    :country_id => 233,
                    :email => 'fan2@mybandstock.com',
-                   :email_confirmation => 'fan2@mybandstock.com',                  
+                   :email_confirmation => 'fan2@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
                    :agreed_to_pp => true)
@@ -314,7 +321,7 @@ fan = User.create( :first_name => 'Cucumber',
                    :password => Digest::SHA2.hexdigest('test123'),
                    :country_id => 233,
                    :email => 'fan3@mybandstock.com',
-                   :email_confirmation => 'fan3@mybandstock.com',                  
+                   :email_confirmation => 'fan3@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
                    :agreed_to_pp => true)

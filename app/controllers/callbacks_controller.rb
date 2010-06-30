@@ -3,10 +3,10 @@ class CallbacksController < ApplicationController
   respond_to :html, :xml
   skip_before_filter :verify_authenticity_token # Disable CSRF protection for incoming POST requests here
   skip_filter :update_last_location
-  
+
   def test
   end
-  
+
   def streamapi
     #get the action from the raw post
     post_arr = request.raw_post.split('&')
@@ -32,7 +32,7 @@ class CallbacksController < ApplicationController
 
     render :xml => @response_hash.to_xml(:root => 'response', :skip_types => true)
   end
-  
+
   def peekok
     #peekok code will go here
   end
@@ -88,10 +88,10 @@ private
       options_hash['message'] = 'Invalid email and password, or stream does not exist.'
       logger.info 'Reporting code -1, stream does not exist.'
     end
-  
+
     return options_hash
   end
-  
+
   def streamapi_live_stream_started(params)
     # StreamAPI is telling us there is a new applet broadcasting. If that's the case, there should
     # already be a record in the streamapi_streams table. If not, there's a problem, so we return failure.
@@ -110,7 +110,7 @@ private
     end
     return options_hash
   end
-  
+
   def streamapi_live_stream_finished(params)
     options_hash = Hash.new
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
@@ -118,7 +118,7 @@ private
       @streamapi_stream.duration = params[:duration].to_i*60 #this one comes in minutes from sapi but we store it in seconds because we get more precision from them later
       @streamapi_stream.total_viewers = params[:viewers].to_i
       @streamapi_stream.max_concurrent_viewers = params[:max_viewers].to_i
-      
+
       if @streamapi_stream.save
         #fixup the options hash
         options_hash['code'] = 0
@@ -131,35 +131,35 @@ private
     end
     return options_hash
   end
-  
-  
+
+
   def streamapi_recording_transcode_finished(params)
 
     options_hash = Hash.new
-    
+
     if (@recorded_video = RecordedVideo.where(:public_hostid => params[:public_hostid]).first)
       if params[:duration] && params[:duration] > 0
         @recorded_video.url = params[:url]
-              
+        @recorded_video.duration = params[:duration]
         if @recorded_video.save
           options_hash['code'] = 0
         else
           options_hash['code'] = -201
         end
       else
-        options_hash['code'] = -100      
+        options_hash['code'] = -100
       end
     else
       options_hash['code'] = -100
-    end      
-      
-    
-=begin    
+    end
+
+
+=begin
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
       @streamapi_stream.duration = params[:duration] #without a multiplier since this one is straight seconds
       @streamapi_stream.recording_filename = params[:filename]
       @streamapi_stream.recording_url = params[:url]
-      
+
       if @streamapi_stream.save
         options_hash['code'] = 0
       else
@@ -173,7 +173,7 @@ private
 
   end
 
-  
+
   def viewer_key_check(user, stream, viewer_key, user_ip)
     viewer_entry = StreamapiStreamViewerStatus.where(
                       :user_id => user.id,
@@ -203,7 +203,7 @@ private
         return false
       end
     end
-    
+
     return true
   end
 
