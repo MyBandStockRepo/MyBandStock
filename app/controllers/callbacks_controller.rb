@@ -35,6 +35,11 @@ class CallbacksController < ApplicationController
 
   def peekok
     #peekok code will go here
+    render :nothing => true
+  end
+
+  def myspace
+    render :nothing => true
   end
 
 

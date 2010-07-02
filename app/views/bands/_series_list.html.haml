@@ -33,7 +33,9 @@
               -else
                 &nbsp;
           %span.stream_name
-            = stream.title
+            - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
+            = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+94), :fbwidth => (viewerTheme.width+50)
+            -# = stream.title
           %span.stream_broadcast_link
             -if can_broadcast
               = link_to ' ', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox broadcast', :title => 'Broadcast'

@@ -1,40 +1,58 @@
-/** Copy and modify this file to change the properties of the Live Streams widget content **/
+@import ("fonts.css");
+/* Fonts: 
+    TitilliumText14LRegular,
+    TitilliumText14L250wt, TitilliumText14L400wt, TitilliumText14L600wt,
+    TitilliumText14L800wt, TitilliumText14L999wt, TitilliumTitle01Thin
+*/
+
+body {
+  margin: 0;
+  height: 0;
+  font-family: TitilliumText14LRegular, Arial, sans-serif;
+}
 
 #mbs-access-schedule-container {
-  /* Comment out the width and height lines to make the widget size automatically.
-  width: 500px; 
-  height: 300px;
-  */
-  color: black; /* Non-link text color */
-  margin: 5px 5px 3em 5px;
+  color: black;
+  background-color: #333;
+  width: 430px;
 }
 
-/* Link colors
 a:link {
-  color: #555;
+  color: #FFF;
 }
-
 a:hover {
   color: black;
 }
- */
+a:visited {
+  color: #EEE;
+}
+
+.live-streams-title {
+  margin: 10px 4px 5px;
+  text-align: center;
+}
 
 /* The actual table of schedules */
 .access-schedule-list {
   /* margin: .5em 1em 1em 1em; */ /* The spacing around the table - top right bottom left. An 'em' is the width of M. */
   font-size: 80%;
   color: #FFF;
-}
-  
-  /* Each cell in the table */
+}  
+  .access-schedule-list tr.even {
+    background-color: #444;
+  }
+  .access-schedule-list tr.odd {
+    background-color: #555;
+  }
   .access-schedule-list td {
+    margin: 0;
     padding: 1px 5px 1px 5px; /* Inner spacing in each cell - top right bottom left. */
   }
   .access-schedule-list .stream-name {
     font-style: italic;
   }
   .access-schedule-list .stream-title {
-    font-size: 10px;
+    font-size: 11px;
     font-family:verdana;
     text-decoration:none;
     font-style: normal;
@@ -65,12 +83,15 @@ a:hover {
   width: 524px;
 }
 #mbs-share-code-container {
-  height: 42px;
-  margin-bottom: 15px;
+  overflow: auto;
+  height: 105px;
+  width: 380px;
+  margin: 0 auto 15px;
 }
 #mbs-redeem-submit {
   background: url(/images/buttons/global/silver_button.png) no-repeat;
   border: 0;
+  margin: 4px;
   width: 140px;
   height: 42px;
   color: #333;
@@ -90,12 +111,12 @@ a:hover {
   background-repeat:no-repeat;
   font-family: Tahoma, sans-serif; /*TitilliumText14L999wt;*/
   font-size: 24px;
-  height: 38px;
+  height: 42px;
   width: 374px;
   text-align: center;
-  padding-top:4px;
+/*  padding-top:4px;*/
   border: 0;
-  margin: 0 0;
+  margin: 4px;
   color: #333;
   float: left;
 }
@@ -104,7 +125,7 @@ a:hover {
   float: right;
   height: 9px;
   width: 131px;
-  margin: 8px 0 10px;
+  margin: 8px 4px 10px;
 }
 .view_link {float:right;width:16px;height:16px;display:block;margin-right:20px;background-image:url(/images/icons/view_sprite.png);background-position:0px 0px;background-repeat:no-repeat;}
 .view_link:hover {background-position:0px -16px;}

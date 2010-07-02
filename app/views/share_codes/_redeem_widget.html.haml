@@ -1,5 +1,5 @@
 #mbs-share-code-container
   = link_to '', redeem_code_url, { :class => 'lightbox', :id => 'mbs-redeem-link' }, :style => 'display: none; visibility: hidden;'
-  = text_field_tag nil, nil, :id => 'mbs-share-code', :value => 'Or Enter Your Access Code Here...', :onfocus => 'this.value=""'
+  = text_field_tag nil, nil, :id => 'mbs-share-code', :value => 'Enter Your Access Code Here', :onfocus => 'this.value=""'
   = hidden_field 'lightbox', nil, :value => true
   = submit_tag 'Redeem!', :id => 'mbs-redeem-submit' #, :onclick => 'jQuery("#mbs-redeem-link").click()'

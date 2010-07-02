@@ -1,0 +1,15 @@
+-if user.first_name.nil? || user.first_name == ''
+  = "Welcome, #{ user.email }. You currently have "
+-else
+  = "Welcome, #{ user.first_name }. You currently have "
+%span.share_amount
+  -if user_shares = user.share_totals.where(:band_id => band.id).first
+    = user_shares.net
+  -else
+    0
+-# Pluralize 'share'
+= ((user_shares.net == 1 || user_shares.net =~ /^1(\.0+)?$/) ? 'share' : 'shares')
+in 
+%span.welcome_band_name<
+  = band.name
+%span> .

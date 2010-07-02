@@ -13,10 +13,6 @@
     #manage-band
       %p You are a manager for this band.
       =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
-  #bio.widget-box
-    .profile-category Bio
-    %p
-      =@band.bio
 
 #profile-right-column
   - unless @band_twitter_not_authorized
@@ -33,9 +29,13 @@
       = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
 
   .access-schedule
-    = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
+    = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
+    -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
 = render :partial => 'share_codes/redeem_widget'
+
+-# Attach accordion listeners to the series list
+= javascript_include_tag 'series_list_accordion'
 
 -# __commented__
   #remote-page-test
