@@ -28,6 +28,7 @@ class BandsController < ApplicationController
 		@request_uri = url_for()
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
+    @user_rank = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).count + 1)
     
     #make sure the band isn't hidden
     if @band.status != "active"

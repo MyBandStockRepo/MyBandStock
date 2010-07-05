@@ -272,32 +272,34 @@ class ShareCodesController < ApplicationController
 
     code_type = share_code.key[0..2]
 
-    case share_code.key[0..2]
-    when 'LSS'
-      unless lss = LiveStreamSeries.find(share_code.key[3..8])
-        return false
-      end
-      logger.info 'LSS permissions about to be applied for LSS ' + lss.id.to_s
-      unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
-                                                 :hash => OUR_MBS_API_HASH,
-                                                 :api_version => '.1',
-                                                 :email => share_code.user.email,
-                                                 :stream_series => lss.id,
-                                                 :can_view => 1,
-                                                 :can_chat => 1,
-                                                 :can_listen => 1 } )
-        return false
-      end
-      share_amount = share_code.share_code_group.share_amount
-      if share_amount && share_amount != 0
-        ShareLedgerEntry.create( :user_id => share_code.user.id,
-                                 :band_id => lss.band.id,
-                                 :adjustment => share_amount,
-                                 :description => 'share_code ' + share_code.id.to_s
-                         )
-      end
-    else
-      logger.info 'Non-LSS code'
+    case code_type
+      when 'LSS'
+        unless lss = LiveStreamSeries.find(share_code.key[3..8])
+          return false
+        end
+        logger.info 'LSS permissions about to be applied for LSS ' + lss.id.to_s
+        unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
+                                                   :hash => OUR_MBS_API_HASH,
+                                                   :api_version => '.1',
+                                                   :email => share_code.user.email,
+                                                   :stream_series => lss.id,
+                                                   :can_view => 1,
+                                                   :can_chat => 1,
+                                                   :can_listen => 1 } )
+          return false
+        end
+      else
+        logger.info 'Non-LSS code'
+    end
+
+    # Apply shares
+    share_amount = share_code.share_code_group.share_amount
+    if share_amount && share_amount != 0
+      ShareLedgerEntry.create( :user_id => share_code.user.id,
+                               :band_id => lss.band.id,
+                               :adjustment => share_amount,
+                               :description => 'share_code ' + share_code.id.to_s
+                       )
     end
 
     return (lss) ? lss.id : true

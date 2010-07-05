@@ -1,18 +1,40 @@
 table.top_ten_shareholders {
-  background-color: #DDD;
-  border: 29px BurlyWood dotted;
+  border-bottom: 1px solid #141414;
+/*  border: 29px BurlyWood dotted;*/
   font-family: TitilliumText14L400wt;
+  color: #CCC;
 }
+  table.top_ten_shareholders th.top_ten_title {
+    padding-left: 10px;
+  }
   table.top_ten_shareholders tr {
     font-size: 15px;
     height: 1.5em;
   }
-    table.top_ten_shareholders tr td {
-      padding: 4px 4px 4px 20px;
+    table.top_ten_shareholders tr td.shareholder_name {
+      padding: 4px;
     }
   table.top_ten_shareholders tr.even {
-    background-color: #DDD;
+    background-color: #141414;
   }
-  table.top_ten_shareholders tr.even {
-    background-color: #CCC;
+  table.top_ten_shareholders tr.odd {
+    background-color: transparent;
   }
+  table.top_ten_shareholders tr.highlight {
+    font-weight: bold;
+    font-family: TitilliumText14L600wt;
+    color: #F90;
+  }
+  table .top_ten_icon {
+    background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;width:16px;height:16px;
+    margin: 6px 6px 0 0;
+    float:left;
+  }
+.list_number {
+  color: #999;
+  padding: 0 5px 0 0;
+  text-align: right;
+}
+table.top_ten_shareholders tr.highlight .list_number {
+  color: #FFF;
+}
