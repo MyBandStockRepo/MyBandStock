@@ -1,0 +1,19 @@
+= form_for(@recorded_video) do |f|
+  = f.error_messages
+
+ 
+  .field
+    = f.label :public
+
+    %br
+    = f.check_box :public
+    %p If a recording is made public people will be able to view the recording 24 hours after the start time of the LIVE video stream.
+    %br
+  .field
+    = f.label :streamapi_stream_id
+    %br
+    = collection_select 'recorded_video', 'streamapi_stream_id', @streamapi_streams, 'id', 'title', :class => 'select'
+    
+    = hidden_field(nil, :band_id, :value => params[:band_id])
+  .actions
+    = f.submit

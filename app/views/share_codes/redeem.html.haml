@@ -3,34 +3,35 @@
 
         
   = form_for(@share_code, :url => {:action => 'redeem_post'} ) do |f|					
-    -unless flash[:error].nil? && (f.error_messages.nil? || f.error_messages == '')
-      .errbox
-        = flash[:error]
-        = f.error_messages
-    .fieldrow
-      .fieldleft
-        .field
-          %fieldset
-            .fieldname
-              .fieldnametop
-                =label_tag 'key', 'code'
-              .fieldnamebottom
-            .fieldbox.required
-              = f.text_field :key
-    .fieldrow
-      .fieldleft
-        .field
-          %fieldset
-            .fieldname
-              .fieldnametop
-                =label_tag 'email', 'email'
-              .fieldnamebottom
-            .fieldbox.required
-              = text_field nil, 'email', :value => @email
-              = hidden_field nil, 'lightbox', :value => 'true' if @external
+    .newform
+      -unless flash[:error].nil? && (f.error_messages.nil? || f.error_messages == '')
+        .errbox
+          = flash[:error]
+          = f.error_messages
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname
+                .fieldnametop
+                  =label_tag 'key', 'code'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :key
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname
+                .fieldnametop
+                  =label_tag 'email', 'email'
+                .fieldnamebottom
+              .fieldbox.required
+                = text_field nil, 'email', :value => @email
+                = hidden_field nil, 'lightbox', :value => 'true' if @external
         
-        .formbutton_left
-          = submit_tag 'REDEEM'
+          .formbutton_left
+            = submit_tag 'REDEEM'
 
 
 

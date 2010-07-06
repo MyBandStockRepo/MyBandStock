@@ -25,7 +25,7 @@
       .link_darkbar
         = link_to 'new stream', { :controller => 'streamapi_streams', :action => 'new', :band_id => band.id }, :class => 'l_newstream'
       .link_darkbar
-        = link_to 'stream history', '#', :class => 'l_streamhistory'
+        = link_to 'stream history', { :controller => 'recorded_videos', :action => 'index', :band_id => band.id}, :class => 'l_streamhistory'
       .link_darkbar
         = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
   .right_twothirds
