@@ -122,6 +122,7 @@ class ApplicationController < ActionController::Base
     unless session[:auth_success] == true
       update_last_location # we need to run this after-filter manually here
       redirect_to :controller => :login, :action => :user, :lightbox => params[:lightbox]
+      return false
     end
   end
   
@@ -131,6 +132,7 @@ class ApplicationController < ActionController::Base
       return true
     else
       redirect_to :controller => 'application', :action => 'index'
+      return false
     end
   end
  
@@ -178,7 +180,7 @@ class ApplicationController < ActionController::Base
       redirect_to '/me/control_panel'
       return false
     else
-      true
+      return true
     end
   end
   
@@ -265,6 +267,7 @@ class ApplicationController < ActionController::Base
 #prod stuff
 	def routingerror_exception
 		redirect_to root_url
+		return false
 	end
 
 

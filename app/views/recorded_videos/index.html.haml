@@ -1,0 +1,54 @@
+.maincont
+  %h2 Listing Recorded Videos
+  %br
+  %p If a video is marked as public for a given stream, 24 hours after the LIVE stream is finished, the recorded video(s) will be available to the public to watch.
+  %br
+  .fancytable
+    %table
+      %tr
+        %th Recording Preview
+        %th Stream API Stream
+        %th Public
+        %th Duration
+        %th
+        %th
+      - count = 1
+      - @recorded_videos.each do |recorded_video|
+  
+        %tr{:class => (count %2 == 0 ? 'even' : 'odd')}
+          %td
+            %embed{ :height => 116, :width => 170, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
+              :flashvars => "&file=#{recorded_video.url}" + |
+              "&image=#{recorded_video.url+'.jpg'}" + |
+              "&bufferlength=5" + |
+              "&volume=10" + |
+              "&autostart=false" + |
+              "&icons=false" + |
+              "&controlbar=bottom" + |
+              "&fullscreen=true" + |
+              "&dock=false", |
+              :src => 'https://streamapi.com/swf/flvplayer.swf' }          
+          
+          %td
+            %p
+              = recorded_video.streamapi_stream.title
+
+          
+          %td
+            %p
+              = recorded_video.public
+          %td
+            %p
+              = recorded_video.output_duration
+          %td
+            %p
+              = link_to 'Show', :action => 'show', :id => recorded_video.id, :band_id => params[:band_id]
+          %td
+            %p
+              = link_to 'Edit', :action => 'edit', :id => recorded_video.id, :band_id => params[:band_id]
+
+          - count += 1
+
+  %br
+  -if @user.site_admin
+    =link_to 'Create a new Recorded Video Entry', :action => 'new'

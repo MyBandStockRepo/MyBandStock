@@ -1,0 +1,23 @@
+.maincont
+  %h2 Editing Recorded Video
+  %br
+  %br
+  %p Video Preview:
+  %br
+  %embed{ :height => 285, :width => 470, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
+     :flashvars => "&file=#{@recorded_video.url}" + |
+     "&image=#{@recorded_video.url+'.jpg'}" + |
+     "&bufferlength=5" + |
+     "&volume=10" + |
+     "&autostart=false" + |
+     "&icons=false" + |
+     "&controlbar=bottom" + |
+     "&fullscreen=true" + |
+     "&dock=false", |
+     :src => 'https://streamapi.com/swf/flvplayer.swf' }
+  
+  = render 'editform'
+
+  = link_to 'Show', :action => 'show', :id => @recorded_video.id, :band_id => params[:band_id] 
+  |
+  = link_to 'Back', :action => 'index', :band_id => params[:band_id]

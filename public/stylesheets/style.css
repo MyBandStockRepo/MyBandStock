@@ -197,6 +197,14 @@ a {color:#999;text-decoration:underline;}
 
 #wrap {width:980px;margin:0 auto;padding-top:10px;}
 
+/* Fancy Table */
+.fancytable table{width:100%;color:#a2a2a2;font-size:12px;background-color:#141414;}
+.fancytable th{color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:16px;padding:5px 12px 3px 12px;background-image: url(http://127.0.0.1:3000/images/orange_bar.gif);}
+.fancytable tr{height:30px;}
+.fancytable td{padding:10px 12px 0px 12px;height:30px;vertical-align:middle;}
+.fancytable .odd{background-color:#191919;}
+.fancytable .even{background-color:#141414;}
+
 
 /* error messages */
 .fieldWithErrors {

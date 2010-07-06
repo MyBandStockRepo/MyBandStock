@@ -13,6 +13,8 @@ class Band < ActiveRecord::Base
   belongs_to :state
   belongs_to :twitter_user
   has_many :live_stream_series, :dependent => :destroy
+  has_many :streamapi_streams, :through => :live_stream_series
+  has_many :recorded_videos, :through => :streamapi_streams
   
 #  has_many :contribution_levels, :dependent => :destroy
 #  has_many :perks, :dependent => :destroy

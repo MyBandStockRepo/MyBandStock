@@ -1,6 +1,6 @@
 class RecordedVideo < ActiveRecord::Base
   belongs_to :streamapi_stream
-
+  
   def output_duration
     time = Time.at(self.duration).gmtime
     hour = time.hour

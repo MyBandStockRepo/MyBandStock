@@ -1,6 +1,10 @@
 class RecordedVideosController < ApplicationController
   skip_filter :update_last_location, :only => [ :set_recording_visibility ]
-  before_filter :user_has_site_admin, :except => [ :set_recording_visibility ]
+#  before_filter :user_has_site_admin, :except => [ :set_recording_visibility ]
+  before_filter :authenticated?
+  before_filter :user_is_admin_of_a_band?
+  before_filter :user_has_site_admin, :only => [:new, :destroy, :create]
+  protect_from_forgery :only => [:create, :update]
   respond_to :js, :html, :only => :set_recording_visibility
 
   def set_recording_visibility
@@ -54,23 +58,53 @@ class RecordedVideosController < ApplicationController
   # GET /recorded_videos
   # GET /recorded_videos.xml
   def index
-    @recorded_videos = RecordedVideo.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @recorded_videos }
-    end
+    if session[:user_id] && @user = User.find(session[:user_id])
+      if @user.site_admin
+        @recorded_videos = RecordedVideo.all        
+      else
+        if params[:band_id] && @band = Band.find(params[:band_id])
+          if @band.admins.include?(@user)
+            @recorded_videos = @band.recorded_videos
+          else
+            redirect_to session[:last_clean_url]
+            return false            
+          end
+        else
+          redirect_to session[:last_clean_url]
+          return false          
+        end
+      end
+    else     
+      redirect_to session[:last_clean_url]
+      return false
+    end    
   end
 
   # GET /recorded_videos/1
   # GET /recorded_videos/1.xml
   def show
-    @recorded_video = RecordedVideo.find(params[:id])
+     if session[:user_id] && @user = User.find(session[:user_id])
+        if @user.site_admin
+          @recorded_video = RecordedVideo.find(params[:id])        
+        else
+          if params[:band_id] && @band = Band.find(params[:band_id])
+            if @band.admins.include?(@user)
+              @recorded_video = RecordedVideo.find(params[:id])
+            else
+              redirect_to session[:last_clean_url]
+              return false            
+            end
+          else
+            redirect_to session[:last_clean_url]
+            return false          
+          end
+        end
+      else     
+        redirect_to session[:last_clean_url]
+        return false
+      end
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @recorded_video }
-    end
+
   end
 
   # GET /recorded_videos/new
@@ -86,8 +120,28 @@ class RecordedVideosController < ApplicationController
 
   # GET /recorded_videos/1/edit
   def edit
-    @recorded_video = RecordedVideo.find(params[:id])
-    @streamapi_streams = StreamapiStream.find(:all)    
+    if session[:user_id] && @user = User.find(session[:user_id])
+       if @user.site_admin
+         @recorded_video = RecordedVideo.find(params[:id])   
+         @streamapi_streams = StreamapiStream.find(:all)                  
+       else
+         if params[:band_id] && @band = Band.find(params[:band_id])
+           if @band.admins.include?(@user)
+             @recorded_video = RecordedVideo.find(params[:id])
+             @streamapi_streams = @band.streamapi_streams
+           else
+             redirect_to session[:last_clean_url]
+             return false            
+           end
+         else
+           redirect_to session[:last_clean_url]
+           return false          
+         end
+       end
+     else     
+       redirect_to session[:last_clean_url]
+       return false
+     end    
   end
 
   # POST /recorded_videos
@@ -113,10 +167,10 @@ class RecordedVideosController < ApplicationController
 
     respond_to do |format|
       if @recorded_video.update_attributes(params[:recorded_video])
-        format.html { redirect_to(@recorded_video, :notice => 'Recorded video was successfully updated.') }
+        format.html { redirect_to(:action => 'show', :id => @recorded_video.id, :band_id => params[:band_id], :notice => 'Recorded video was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => 'edit', :id => @recorded_video.id, :band_id => params[:band_id] }
         format.xml  { render :xml => @recorded_video.errors, :status => :unprocessable_entity }
       end
     end

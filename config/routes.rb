@@ -272,8 +272,8 @@ Cobain::Application.routes.draw do |map|
 
 	# Uncomment the following when we have band public profiles
 	#match '/bands/:band_short_name', :to =>  'bands#show'
-  
-  
+
+
   # PROD ROUTES
 
   #CONTROLLER: FANS
