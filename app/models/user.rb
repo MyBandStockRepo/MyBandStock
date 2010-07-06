@@ -63,19 +63,29 @@ class User < ActiveRecord::Base
 
   def shareholder_rank_for_band(band_id)
   # Takes a band ID, and return's the user object's rank.
-  # Current tie resolution scheme: 
+  # Current tie resolution scheme: date of user registration
     return false if band_id.nil?
     
     share_total = self.share_totals.where(:band_id => band_id).first
     num_shares = (share_total) ? share_total.net : 0
     
+    # The more senior user wins in a tie
     ShareTotal.find_by_sql("
-        SELECT * FROM share_totals
-          INNER JOIN users ON users.id = share_totals.user_id
-          WHERE band_id = #{ band_id }
-          AND net > #{ num_shares }
-          OR  (net = #{ num_shares } AND users.email < '#{ self.email }')
-    ").count + 1
+                SELECT * FROM share_totals
+                  INNER JOIN users ON users.id = share_totals.user_id
+                  WHERE band_id = #{ band_id }
+                  AND net > #{ num_shares }
+                  OR (net = #{ num_shares } AND users.created_at < '#{ self.created_at }')
+              ").count + 1
+    
+    # Lexicographic email tie resolution:
+    # ShareTotal.find_by_sql("
+    #         SELECT * FROM share_totals
+    #           INNER JOIN users ON users.id = share_totals.user_id
+    #           WHERE band_id = #{ band_id }
+    #           AND net > #{ num_shares }
+    #           OR  (net = #{ num_shares } AND users.email < '#{ self.email }')
+    #     ").count + 1
   end
 
   #**********************

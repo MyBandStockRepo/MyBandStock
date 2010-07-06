@@ -5,46 +5,17 @@
   -if @band.band_photo && @band.band_photo != ''
     = image_tag @band.band_photo, :id => 'profile-band-photo', :alt => @band.name
   .profile-top-ten-container
-    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank }
-
-  -# Member since =@band.created_at.strftime("%m/%d/%Y")
+    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
 
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
     #manage-band
       %p You are a manager for this band.
       =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+  
 
 #profile-right-column
-  %script{ :src => "http://widgets.twimg.com/j/2/widget.js" }
-  :javascript
-    new TWTR.Widget({
-      version: 2,
-      type: 'profile',
-      rpp: 4,
-      interval: 4000,
-      width: 500,
-      height: 250,
-      theme: {
-        shell: {
-          background: 'transparent',
-          color: '#ffffff'
-        },
-        tweets: {
-          background: 'transparent',
-          color: '#999999',
-          links: '#cccccc'
-        }
-      },
-      features: {
-        scrollbar: true,
-        loop: false,
-        live: true,
-        hashtags: true,
-        timestamp: true,
-        avatars: false,
-        behavior: 'default'
-      }
-    }).render().setUser('ampla').start();
+  .placeholder_box{ :style => 'height: 125px; width: 550px; border: 29px BurlyWood dotted;' }
+    Grooveshark, etc.
 
   - unless @band_twitter_not_authorized
     .recent_TWETZ
@@ -63,7 +34,8 @@
     = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
-= render :partial => 'share_codes/redeem_widget'
+  = render :partial => 'twitter_statuses_widget', :locals => { :user => 'ampla', :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+  = render :partial => 'share_codes/redeem_widget'
 
 -# Attach accordion listeners to the series list
 = javascript_include_tag 'series_list_accordion'
