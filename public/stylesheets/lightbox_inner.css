@@ -184,16 +184,35 @@ body#lightbox .long_button a:hover {
   color: #FFF;
 }
 #toggle_recording_visibility {
-  background-color: yellow;
+  width: 285px;
+  height: 25px;
 }
-  #toggle_recording_visibility.on {
-    background-color: green;
-  }
+.public_private_switch {
+  width: 360px;
+  height: 45px;
+  margin: 0 auto;
+  text-align: center;
+}
+#recording_public_indicator {
+  background-color: yellow;
+  height: 12px;
+  width: 12px;
+  float: left;
+}
+  #recording_public_indicator.on { background-color: green; }
+
+.loading-indicator {
+  visibility: hidden;
+  float: right;
+  height: 32px;
+  width: 32px;
+  background: url(/images/backgrounds/global/bg-ajax-loader.gif) no-repeat scroll 0 0 transparent;
+}
 
 /* Form styles */
 body#lightbox .fieldbox {float:left;margin-top:15px;}
-    body#lightbox .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
-    body#lightbox .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
+    body#lightbox .fieldbox input {width:381px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
+    body#lightbox .fieldbox .form_input_text{width:381px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
 
     body#lightbox .fieldbox select {
       width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;

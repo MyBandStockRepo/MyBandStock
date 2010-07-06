@@ -1,49 +1,80 @@
-#content-utility.control-panel
-  #utility-overview
-    #overview-primary
-      %h2 
-        =@band.name
-        %br
-      .stats
-        %dl
-          %dd<
-            =@band.created_at.strftime("%m/%d/%Y")
+%h1.orange_bar
+  = @band.name
+  
+#profile-left-column
+  -if @band.band_photo && @band.band_photo != ''
+    = image_tag @band.band_photo, :id => 'profile-band-photo', :alt => @band.name
+  .profile-top-ten-container
+    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank }
 
-#content-primary
-  .profile-column
-    -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
-      #manage-band
-        %p You are a manager for this band.
-        =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
-    #bio.widget-box
-      .profile-category Bio
-      #bio-content
-        %p
-          =@band.bio
-  = render :partial => 'share_codes/redeem_widget'
-  .access-schedule
-    = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
+  -# Member since =@band.created_at.strftime("%m/%d/%Y")
 
-- unless @band_twitter_not_authorized
-  .recent_twetz
-    %h1 Recent Band Tweets
-    - if @user_twitter_not_authorized
-      = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+  -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
+    #manage-band
+      %p You are a manager for this band.
+      =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+
+#profile-right-column
+  %script{ :src => "http://widgets.twimg.com/j/2/widget.js" }
+  :javascript
+    new TWTR.Widget({
+      version: 2,
+      type: 'profile',
+      rpp: 4,
+      interval: 4000,
+      width: 500,
+      height: 250,
+      theme: {
+        shell: {
+          background: 'transparent',
+          color: '#ffffff'
+        },
+        tweets: {
+          background: 'transparent',
+          color: '#999999',
+          links: '#cccccc'
+        }
+      },
+      features: {
+        scrollbar: true,
+        loop: false,
+        live: true,
+        hashtags: true,
+        timestamp: true,
+        avatars: false,
+        behavior: 'default'
+      }
+    }).render().setUser('ampla').start();
+
+  - unless @band_twitter_not_authorized
+    .recent_TWETZ
+      %h1 Recent Band Tweets
+      - if @user_twitter_not_authorized
+        = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
 			
-    - else
-      %p 
-        Currently authenticated with the Twitter account 
-        = @twit_user.screen_name
-        = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-    = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
+      - else
+        %p 
+          Currently authenticated with the Twitter account 
+          = @twit_user.screen_name
+          = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+      = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
 
-#remote-page-test
-  -# = @url_test
-  %br
-  %br
-  #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
-    &nbsp;
-  %br
-  %strong
-    =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
+  .access-schedule
+    = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
+    -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
+
+= render :partial => 'share_codes/redeem_widget'
+
+-# Attach accordion listeners to the series list
+= javascript_include_tag 'series_list_accordion'
+
+-# __commented__
+  #remote-page-test
+    %br
+    %br
+    #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
+      &nbsp;
+    %br
+    %strong
+      =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
 

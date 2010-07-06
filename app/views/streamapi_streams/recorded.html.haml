@@ -51,22 +51,8 @@
           .scroll-bar
   .clear
 
-
   .lightbox_welcome
-    -if @user.first_name.nil? || @user.first_name == ''
-      = "Welcome, #{ @user.email }. You currently have "
-    -else
-      = "Welcome, #{ @user.first_name }. You currently have "
-    %span.share_amount
-      -if user_shares = @user.share_totals.where(:band_id => @stream.band.id).first
-        = pluralize(user_shares.net, 'share')
-      -else
-        0 shares
-      in
-    %span.welcome_band_name
-      = @stream.band.name + '.'
-
-
+    = render :partial => 'welcome_message', :locals => { :user => @user, :band => @stream.band }
 
 -# __commented__
   %h2

@@ -30,9 +30,6 @@ class Band < ActiveRecord::Base
 #  has_many :songs, :dependent => :destroy
 #  has_many :projects, :dependent => :destroy
 
-#  has_many :photo_albums, :dependent => :destroy
-#  has_many :music_albums, :dependent => :destroy
-
 #  has_many :band_mails
   #has_many :received_mail, :through => 'band_mail', :source => 'BandMail', :conditions => 'from_band = 0'
   
@@ -65,6 +62,12 @@ class Band < ActiveRecord::Base
 		return tweet_list
   end
   
+  def top_ten_shareholders()
+    # JOIN with user?
+    ShareTotal.where(:band_id => self.id).limit(10).order('net DESC').all.collect{ |a| a.user }.sort!{ |a,b| a.email.downcase <=> b.email.downcase }
+  end
+
+
   #####
   #stats and quick data retrieval methods
   #####
