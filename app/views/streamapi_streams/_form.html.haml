@@ -4,59 +4,187 @@
 - available_themes[1].name = "16:9, HD" # no chat
 
 = form_for(@streamapi_stream) do |f|
-  = f.error_messages
-  .field
-    = f.label :title
-    %br
-    = f.text_field :title
+  .fieldrow
+    .fieldleft
+      %p * Denotes a required field.			
+  .fieldrow
+    .fieldleft
+      .field
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :title
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :title
+    .fielderror.condense
+      - if @streamapi_stream.errors[:title]
+        - for e in @streamapi_stream.errors[:title]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :location
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :location
+    .fielderror.condense
+      - if @streamapi_stream.errors[:location]
+        - for e in @streamapi_stream.errors[:location]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = f.label :live_stream_series_id
+          .fieldnamebottom
+        .fieldbox
+          = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
+    .fielderror
+      - if @streamapi_stream.errors[:live_stream_series_id]
+        - for e in @streamapi_stream.errors[:live_stream_series_id]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft            
+      .field
+        = f.label :starts_at
+        %br
+        = f.datetime_select :starts_at
+        .description
+          All times are in EST.
+  .fieldrow
+    .fieldleft            
+      .field
+        = f.label :ends_at
+        %br
+        = f.datetime_select :ends_at
 
-  .field
-    = f.label :location
-    %br
-    = f.text_field :location
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = f.label :viewer_theme
+          .fieldnamebottom
+        .fieldbox
+          = collection_select 'streamapi_stream', 'viewer_theme_id', available_themes, 'id', 'name', :class => 'select'
+    .fielderror
+      - if @streamapi_stream.errors[:viewer_theme]
+        - for e in @streamapi_stream.errors[:viewer_theme]
+          %p
+            = '- '+e.to_s        
+        
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = f.label :broadcaster_theme
+          .fieldnamebottom
+        .fieldbox
+          = collection_select 'streamapi_stream', 'broadcaster_theme_id', available_themes, 'id', 'name', :class => 'select'
+    .fielderror
+      - if @streamapi_stream.errors[:broadcaster_theme]
+        - for e in @streamapi_stream.errors[:broadcaster_theme]
+          %p
+            = '- '+e.to_s
+            
+  .fieldrow
+    .fieldleft            
+      .field
+        = f.label :public
+        = f.check_box :public
+        .description
+          Do you want this stream to show up in the public schedule?
 
-  .field
-    = f.label :live_stream_series_id
-    = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
+      .field{:style=>"display:none;"}
+        = f.label :band_id
+        %br
+        = f.text_field :band_id, :value => @band_id
 
-  .field
-    = f.label :starts_at
-    %br
-    = f.datetime_select :starts_at
-    .description
-      All times are in EST.
+      .field
+        = f.label :delete_stream
+        %br
+        = link_to 'Delete this stream', @streamapi_stream, :confirm => 'Are you sure you want to permanently delete this stream?', :method => :delete
 
-  .field
-    = f.label :ends_at
-    %br
-    = f.datetime_select :ends_at
+  .fieldrow
+    .fieldleft                
+      .formbutton
+        = f.submit 'SUBMIT'
+      -if params[:action] == 'edit'
+        .formbutton_nextto
+          = button_to 'BACK', :url => session[:last_clean_url]
 
-  .field
-    = f.label :viewer_theme
-    %br
-    = collection_select 'streamapi_stream', 'viewer_theme_id', available_themes, 'id', 'name', :class => 'select'
+            
+            
+            
+        
+-# We limit the available theme options for simplicity
+  - available_themes = StreamapiStreamTheme.find(8, 9)
+  - available_themes[0].name = "16:9, Normal Quality" # no chat
+  - available_themes[1].name = "16:9, HD" # no chat
 
-  .field
-    = f.label :broadcaster_theme
-    %br
-    = collection_select 'streamapi_stream', 'broadcaster_theme_id', available_themes, 'id', 'name', :class => 'select'
+  = form_for(@streamapi_stream) do |f|
+    = f.error_messages
+    .field
+      = f.label :title
+      %br
+      = f.text_field :title
 
-  .field
-    = f.label :public
-    = f.check_box :public
-    .description
-      Do you want this stream to show up in the public schedule?
+    .field
+      = f.label :location
+      %br
+      = f.text_field :location
 
-  .field{:style=>"display:none;"}
-    = f.label :band_id
-    %br
-    = f.text_field :band_id, :value => @band_id
+    .field
+      = f.label :live_stream_series_id
+      = collection_select 'streamapi_stream', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
+
+    .field
+      = f.label :starts_at
+      %br
+      = f.datetime_select :starts_at
+      .description
+        All times are in EST.
+
+    .field
+      = f.label :ends_at
+      %br
+      = f.datetime_select :ends_at
+
+    .field
+      = f.label :viewer_theme
+      %br
+      = collection_select 'streamapi_stream', 'viewer_theme_id', available_themes, 'id', 'name', :class => 'select'
+
+    .field
+      = f.label :broadcaster_theme
+      %br
+      = collection_select 'streamapi_stream', 'broadcaster_theme_id', available_themes, 'id', 'name', :class => 'select'
+
+    .field
+      = f.label :public
+      = f.check_box :public
+      .description
+        Do you want this stream to show up in the public schedule?
+
+    .field{:style=>"display:none;"}
+      = f.label :band_id
+      %br
+      = f.text_field :band_id, :value => @band_id
     
-  .field
-    = f.label :delete_stream
-    %br
-    = link_to 'Delete this stream', @streamapi_stream, :confirm => 'Are you sure you want to permanently delete this stream?', :method => :delete
+    .field
+      = f.label :delete_stream
+      %br
+      = link_to 'Delete this stream', @streamapi_stream, :confirm => 'Are you sure you want to permanently delete this stream?', :method => :delete
 
-  .actions
-    = f.submit
+    .actions
+      = f.submit
 
