@@ -1,131 +1,69 @@
 #content_login_bg
 	-if @external
-		.vertical_bar 
-			.left_half 
+		.vertical_bar
+			.left_half
 			.right_half
 		#login_wrap_ext
 			#login_wrap_left_ext
 				%h2 PLEASE LOGIN TO GAIN ACCESS
 				-if flash[:error]
 					.errbox
-						= flash[:error]			
-				.formcontainer
-					=form_for(:user, :url => {:action => :process_user_login} ) do |f|
-						= hidden_field_tag 'lightbox', true					
-						%fieldset
-							.fieldname_small
-								= f.label 'email', 'email'
-							.fieldbox_small
-								= f.text_field :email
-							.fieldname_small
-								= f.label 'password', 'password'
-							.fieldbox_small
-								= f.password_field :password
-							#checkbox_login_ext
-								=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-								=label_tag 'checkbox_remember', 'Remember Me'            
-								%br
-								=link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
-							.formbutton{ :style => 'margin-right: 20px;' }
-								= submit_tag 'login'
-			= render :partial => 'get_access'								
-			.clear            
-	-else  	
-		#login_wrap
-			#login_wrap_left      
-				.formcontainer
-					=form_for(:user, :url => {:action => :process_user_login} ) do |f|
-						%fieldset
-							.fieldname
-								.fieldnametop
+						= flash[:error]
+				.newform
+					.formcontainer
+						=form_for(:user, :url => {:action => :process_user_login} ) do |f|
+							= hidden_field_tag 'lightbox', true
+							%fieldset
+								.fieldname_small
 									= f.label 'email', 'email'
-								.fieldnamebottom
-							.fieldbox
-								= f.text_field :email
-							.fieldname
-								.fieldnametop
+								.fieldbox_small
+									= f.text_field :email
+							%fieldset
+								.fieldname_small
 									= f.label 'password', 'password'
-								.fieldnamebottom
-							.fieldbox
-								= f.password_field :password
-						#checkbox_login
-							=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-							=label_tag 'checkbox_remember', 'Remember Me'            
-							%br
-							=link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]          
-						.formbutton{ :style => 'margin-right: 5px;' }
-							= submit_tag 'login'
+								.fieldbox_small
+									= f.password_field :password
+								#checkbox_login_ext
+									=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+									=label_tag 'checkbox_remember', 'Remember Me'
+									%br
+									=link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
+								.formbutton{ :style => 'margin-right: 20px;' }
+									= submit_tag 'login'
+			= render :partial => 'get_access'
+			.clear
+	-else
+		#login_wrap
+			#login_wrap_left
+				.newform
+					.formcontainer
+						=form_for(:user, :url => {:action => :process_user_login} ) do |f|
+							%fieldset
+								.field
+									.fieldname
+										.fieldnametop
+											= f.label 'email', 'email'
+										.fieldnamebottom
+									.fieldbox
+										= f.text_field :email
+
+							%fieldset
+								.field
+									.fieldname
+										.fieldnametop
+											= f.label 'password', 'password'
+										.fieldnamebottom
+									.fieldbox
+										= f.password_field :password
+							#checkbox_login
+								=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+								=label_tag 'checkbox_remember', 'Remember Me'
+								%br
+								=link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]
+							.formbutton{ :style => 'margin-right: 5px;' }
+								= submit_tag 'login'
 
 			= render :partial => 'signup'
 
 			.clear
-
--# __commented__
-	.info
-		%h2 Register
-		%p
-			If you haven't created an account yet please
-			=link_to "click here", :controller => 'users', :action => 'new'
-			to get registered.  It's free and allows you to interact with all the bands on the site.
-	%span.error
-		= flash[:error]
-	=form_for(:user, :url => {:action => :process_user_login}, :html => { :class => 'login_form' } ) do |f|
-		#form-entry
-			%fieldset.basic-info
-				%legend
-					%h2 Login
-				%ul.form-fields
-					%li#email_box
-						=f.label 'email', 'Email'
-						=f.text_field :email, :size => '0', :class => 'full text'
-					%li#password_box
-						=f.label 'password', 'Password'
-						=f.password_field :password, :size => '0', :class => 'full password text'
-					%li.checkbox
-						=check_box_tag 'remember','1', false, {:class => 'checkbox'}
-						=label_tag 'Remember Me'
-					%li.forgot_password
-						=link_to 'Forgot password?', 'me/forgot_password', :class => 'forgot_password'
-				= image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit', :id => 'login_submit'
-
-
--# __commented__
-	<div id="full_height">
-		<div class="emailform">
-			<div style="padding: 20px">
-				<span style = "color: red"><%= flash[:error] %></span>
-				<% form_tag session_path do -%>
-					<fieldset> 
-						<div id="namebox"> 
-							<p style="font-size: 20px"><%= label_tag 'login' %><p/>
-							<%= text_field_tag 'login', @login, :style => "margin-top: -10px" %>
-						</div><!-- /namebox -->
-						<div id="emailbox"> 
-							<p style="font-size: 20px"><%= label_tag 'password' %><br/>
-							<%= password_field_tag 'password', nil %></p>
-						</div><!-- /emailbox -->
-					</fieldset>
-			</div>
-			<div style="margin-left: 20px"><%= submit_tag 'Log in', :id => 'login_submit' %>
-			<%=image_tag "progress_indicator.gif", :id => "indicator", :style => "display: none; margin-left: 20px; width:15px; height: 15px", :size => '25x25' %></div>
-		</div><!-- /emailform -->
-		<% end -%>
-	</div><!-- /full_height -->
-	
-		<div id="search">
-			<% form_tag(store_band_name_path, :method => "get") do %>
-				<fieldset> 
-					<div id="searchbox">
-						<%= text_field  :band, :search_text, :value => "Find Your Favorite Artist..."%>
-						</div><!-- /searchbox --> 
-						<div id="searchbutton"> 
-							<%= submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled' %>
-					</div><!-- /searchbutton -->
-				</fieldset> 
-			<% end %> 
-		</div><!-- /search -->
-	
-		<div id="artistlink">
-			Artists, Managers, Labels - <a href="">Need More Info?</a>
-		</div><!-- /artistlink -->
 

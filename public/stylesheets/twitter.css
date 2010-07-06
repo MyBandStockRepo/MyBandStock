@@ -13,7 +13,7 @@
 	.retweet a{display:block;width:14px;height:25px;background-image:url(/images/twitter/RT.png);margin-left:11px;}
 	.retweet a:hover{background-position:0px -25px;}
 .tweet_break {height:2px;background-image:url(/images/twitter/tweet_break.png);margin-top:10px;margin-bottom:10px;}
-.tweet_message{float:left;width:205px;}
+.tweet_message{float:left;width:205px;word-wrap:break-word;}
 
 
 
