@@ -1,6 +1,6 @@
 - twitter_username = @band.twitter_username || ((@band.twitter_user && @band.twitter_user.user_name) ? @band.twitter_user.user_name : nil)
 
-%h1.orange_bar
+%h1.orange_bar{ :onclick => "jQuery('.grooveshark').css('overflow-y', 'auto').css('height', '275px');" }
   = @band.name
   
 #profile-left-column
