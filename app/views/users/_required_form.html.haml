@@ -94,7 +94,7 @@
 						.fieldnamebottom
 					.fieldbox
 						.form_input_text
-							-if @user_twitter_not_authorized
+							-unless @user_twitter_authorized
 								Your account is not currently linked to a twitter account.
 								%br
 								= link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}

@@ -86,14 +86,14 @@ class UsersController < ApplicationController
     
 		begin
 			unless @user.twitter_user
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 			else
 				user_client = client(false, false, nil)
 				@twit_user = user_client.verify_credentials
-				@user_twitter_not_authorized = false										
+				@user_twitter_authorized = true										
 			end		
 		rescue
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 		end    
     
     
@@ -118,14 +118,14 @@ class UsersController < ApplicationController
     @user.email_confirmation = params[:user][:email_confirmation]
 		begin
 			unless @user.twitter_user
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 			else
 				user_client = client(false, false, nil)
 				@twit_user = user_client.verify_credentials
-				@user_twitter_not_authorized = false										
+				@user_twitter_authorized = true										
 			end		
 		rescue
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 		end        
     
 		# Hash the password before putting it into DB
@@ -225,14 +225,14 @@ class UsersController < ApplicationController
     
 		begin
 			unless @user.twitter_user
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 			else
 				user_client = client(false, false, nil)
 				@twit_user = user_client.verify_credentials
-				@user_twitter_not_authorized = false										
+				@user_twitter_authorized = true										
 			end		
 		rescue
-				@user_twitter_not_authorized = true
+				@user_twitter_authorized = false
 		end       
     if (@user.country_id.nil? || @user.country_id == '' )
       #calculate their ip number to determine country of origin

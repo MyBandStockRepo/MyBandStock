@@ -414,6 +414,21 @@ div#slides ul li.show {z-index:500}
   width: 100%;
 }
 
+.media-player.grooveshark {
+  position: relative;
+  margin: 0; padding: 0;
+  height: 245px;
+  overflow: hidden;
+}
+  .media-player.grooveshark .player-overlay {
+    background-color:black;
+    bottom: 4px;
+    height:25px;
+    left:1px;
+    position:absolute;
+    width:645px;
+  }
+
 /* Band profile */
 #profile-band-photo {
   width: 320px;
