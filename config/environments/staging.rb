@@ -2,9 +2,9 @@ Cobain::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
 	
-  SITE_URL = 'http://cobain.mybandstock.com'
-  SECURE_SITE_URL = 'http://cobain.mybandstock.com'
-  SITE_HOST = 'cobain.mybandstock.com'
+  SITE_URL = 'http://gary.mybandstock.com'
+  SECURE_SITE_URL = 'http://gary.mybandstock.com'
+  SITE_HOST = 'gary.mybandstock.com'
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
