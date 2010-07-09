@@ -6,4 +6,6 @@ class StreamapiStream < ActiveRecord::Base
 
   has_many :streamapi_stream_viewer_statuses
   has_many :recorded_videos
+  
+  validates_presence_of :title, :starts_at, :ends_at
 end

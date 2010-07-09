@@ -765,7 +765,6 @@ respond_to :html, :js
   # GET /streamapi_streams/new.xml
   def new
     @streamapi_stream = StreamapiStream.new
-		@live_stream_series_id = params[:live_stream_series_id]
 		@band_id = params[:band_id] || LiveStreamSeries.find(@live_stream_series_id).band.id
 
     if @band_id
@@ -781,6 +780,8 @@ respond_to :html, :js
   # GET /streamapi_streams/1/edit
   def edit
     @streamapi_stream = StreamapiStream.find(params[:id])
+    @streamapi_stream.starts_at = @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
+    @streamapi_stream.ends_at = @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
 
     @band_id = params[:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
 
@@ -793,11 +794,16 @@ respond_to :html, :js
   # POST /streamapi_streams.xml
   def create
     @streamapi_stream = StreamapiStream.new(params[:streamapi_stream])
+		@band_id = params[:streamapi_stream][:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
 
+    if @band_id
+      @series_list = LiveStreamSeries.where(:band_id => @band_id)
+    end
+		
     respond_to do |format|
       if @streamapi_stream.save
         format.html {
-          redirect_to('/me/control_panel', :notice => 'Streamapi stream was successfully created.')
+          redirect_to(@streamapi_stream, :notice => 'Streamapi stream was successfully created.')
         }
         format.xml  { render :xml => @streamapi_stream, :status => :created, :location => @streamapi_stream }
       else
@@ -812,7 +818,11 @@ respond_to :html, :js
   # PUT /streamapi_streams/1.xml
   def update
     @streamapi_stream = StreamapiStream.find(params[:id])
-
+    @band_id = params[:streamapi_stream][:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
+    if @band_id
+      @series_list = LiveStreamSeries.where(:band_id => @band_id)
+    end
+    
     respond_to do |format|
       if @streamapi_stream.update_attributes(params[:streamapi_stream])
         format.html { redirect_to(@streamapi_stream, :notice => 'Streamapi stream was successfully updated.') }

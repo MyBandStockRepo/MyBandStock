@@ -17,13 +17,7 @@
     %li
       = image_tag 'homepage/slides/slide_faceinthecrowd.jpg', :alt => 'A Face in the Crowd'
 
-#search
-  =form_tag(store_band_name_path, :method => "get") do
-    %fieldset
-      #searchbox
-        = text_field  :band, :search_text, :value => "Find Your Favorite Artist"
-      #searchbutton
-        = submit_tag '', :id => 'band_search_text_button', :disabled => 'disabled'
+= render :partial => 'common_partials/artist_search'
 #artistlink
   Artists, Managers, Labels - 
   = link_to "Need More Info?", "mailto:info@mybandstock.com"
