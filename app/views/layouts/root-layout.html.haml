@@ -5,6 +5,7 @@
     -# Stylesheets are declared explicitly here so we can establish an ordering (e.g., reset should be before style)
     = stylesheet_link_tag 'scaffold'
     = stylesheet_link_tag 'reset'
+    = stylesheet_link_tag 'jquery-theme/jquery-ui-1.8.2.custom'            
     = stylesheet_link_tag 'twitter'
     = stylesheet_link_tag 'fonts'
     = stylesheet_link_tag 'top_ten'
@@ -22,6 +23,7 @@
     = javascript_include_tag 'rails'
     = javascript_include_tag 'access_schedule'
     = javascript_include_tag 'ping'
+    = javascript_include_tag 'datepicker'
 
     -if params[:controller] == 'application' && params[:action] == 'index'
       = javascript_include_tag 'intro_slideshow'

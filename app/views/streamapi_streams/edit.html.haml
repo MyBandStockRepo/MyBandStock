@@ -1,7 +1,14 @@
-.orange_bar Edit stream
-
-= render 'form'
-
-= link_to 'Show', @streamapi_stream
-|
-= link_to 'Back', '/me/control_panel'
+.maincont
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h2 Edit Stream
+      %br
+      = form_for(@streamapi_stream) do |f|
+        =render :partial => 'form', :locals => {:f => f}
+        .fieldrow
+          .fieldleft
+            .formbutton
+              = f.submit 'SUBMIT'
+            .formbutton_nextto
+              = button_to 'BACK', '/me/control_panel'
+      .clear

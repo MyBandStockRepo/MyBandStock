@@ -3,12 +3,14 @@
 -else
   = "Welcome, #{ user.first_name }. You currently have "
 %span.share_amount
-  -if user_shares = user.share_totals.where(:band_id => band.id).first
-    = user_shares.net
+  - user_shares = user.share_totals.where(:band_id => band.id).first
+  -if user_shares
+    = user_shares = user_shares.net
   -else
+    - user_shares = 0
     0
 -# Pluralize 'share'
-= ((user_shares.net == 1 || user_shares.net =~ /^1(\.0+)?$/) ? 'share' : 'shares')
+= ((user_shares == 1 || user_shares =~ /^1(\.0+)?$/) ? 'share' : 'shares')
 in 
 %span.welcome_band_name<
   = band.name

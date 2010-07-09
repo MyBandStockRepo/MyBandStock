@@ -354,14 +354,8 @@ body#lightbox .newform .fieldbox_small {float:left;margin-top:30px;width:260px;h
 body#lightbox .newform .fieldbox_small input, body#lightbox .newform .fieldbox_small body#lightbox .newform .form_input_text_small {width:240px;height:auto;background:none;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:normal;color:#333333;float:left;padding:0px;margin:5px 10px 0px 10px;}
 body#lightbox .newform .fieldbox_small select {width:250px;height:27px;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:26px;color:#333333;float:left;padding:0px;padding-left:10px;margin:0px;}
 body#lightbox .newform .fieldbox_small input[type=password] {font-family: inherit;}
-body#lightbox .newform .fieldbox_small .form_input_text_small {
-      font-size: 14px;
-      line-height: 14px;
-      padding-top: 6px;
-    }
-body#lightbox .newform .fieldbox_small .form_input_text_small a:hover {
-      color: #000;
-    }
+body#lightbox .newform .fieldbox_small .form_input_text_small {font-size: 14px;line-height: 14px;padding-top: 6px;}
+body#lightbox .newform .fieldbox_small .form_input_text_small a:hover {color: #000;}
 body#lightbox .newform .fieldname_small {background:url(/images/forms/field_name_small.png);width:81px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:14px;line-height:27px;color:#FFFFFF;margin-top:30px;padding-left:10px;margin-left:20px;}
 body#lightbox .newform .fieldnametop_small {height:27px;background:url(/images/forms/field_name_top_small.png);padding-left:20px;}
 body#lightbox .newform .fieldnamebottom_small {height:15px;background:url(/images/forms/field_name_bottom_small.png);}

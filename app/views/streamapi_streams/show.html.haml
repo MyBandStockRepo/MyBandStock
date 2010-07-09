@@ -1,43 +1,51 @@
-.orange_bar
-  = @streamapi_stream.title
-%p
-  %b Title:
-  = @streamapi_stream.title
-  
-%p
-  %b Location:
-  = @streamapi_stream.location
+-# We limit the available theme options for simplicity
+- available_themes = StreamapiStreamTheme.find(8, 9)
+- available_themes[0].name = "16:9, Normal Quality" # no chat
+- available_themes[1].name = "16:9, High" # no chat
 
-%p
-  %b Starts At:
-  = @streamapi_stream.starts_at
-
-%p
-  %b Ends At:
-  = @streamapi_stream.ends_at
-
-%p
-  %b Broadcast Theme:
-  = @broadcaster_theme.name
-
-%p
-  %b Viewer Theme:
-  = @viewer_theme.name
-  
-%p
-  %b Public:
-  = @streamapi_stream.public
--# __commented__ Private hostid should not be shown to users
+.maincont
+  %h2
+    = @streamapi_stream.title
+    Stream
+    -unless @streamapi_stream.location.nil? || @streamapi_stream.location == ''
+      %span.grey99
+        |
+        = @streamapi_stream.location
+  %span.grey99
+    = @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
+    to 
+    = @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
+    (EST)
+  %br
+  %br
   %p
-    %b Private hostid:
-    = @streamapi_stream.private_hostid
+    %b Band:
+    = @streamapi_stream.band.name
 
-%p
-  %b Public hostid:
-  = @streamapi_stream.public_hostid
+  %p
+    %b Broadcast Theme:
+    -if @streamapi_stream.broadcaster_theme.id == 8
+      = available_themes[0].name
+    -elsif @streamapi_stream.broadcaster_theme.id == 9
+      = available_themes[1].name
+    -else
+      = @streamapi_stream.broadcaster_theme.name
+  %p
+    %b Viewer Theme:
+    -if @streamapi_stream.viewer_theme.id == 8
+      = available_themes[0].name
+    -elsif @streamapi_stream.viewer_theme.id == 9
+      = available_themes[1].name
+    -else
+      = @streamapi_stream.viewer_theme.name
+  
+  %p
+    %b Public (If true, the live stream will be recorded and viewable by the public once it finishes):
+    = @streamapi_stream.public
 
+  %br
 
-
-= link_to 'Edit', edit_streamapi_stream_path(@streamapi_stream)
-|
-= link_to 'Back', '/streams/manage'
+  .formbutton_left
+    = button_to 'EDIT', edit_streamapi_stream_path(@streamapi_stream)
+  .formbutton_left_nextto
+    = button_to 'BACK', '/streams/manage'
