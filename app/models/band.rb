@@ -20,11 +20,7 @@ class Band < ActiveRecord::Base
 #  has_many :perks, :dependent => :destroy
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
-#  has_many :band_statistics, :dependent => :destroy
-#  has_many :earned_perks, :dependent => :destroy
 
-#  has_many :news_entries, :dependent => :destroy
-#  has_many :concerts, :dependent => :destroy
 #  has_many :stage_comments, :dependent => :destroy
 #  has_many :photos, :dependent => :destroy
 #  has_many :songs, :dependent => :destroy
@@ -37,12 +33,13 @@ class Band < ActiveRecord::Base
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_numericality_of :zipcode, :country_id
   validates_uniqueness_of :short_name
-  validates_length_of     :short_name, :in => 3..14
+  validates_length_of     :short_name, :in => 3..15
   validates_exclusion_of  :short_name, :in => %w[
       admin application bands charts concerts contests contribution_levels
       earned_perks ledger_entries legal login merchant music_albums news_entries
       perks photo_albums photos projects search songs stage_comments users],
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
+  validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "must have only letters, numbers, and _."
 
   def tweets(twitter_client, num_tweets = 3)
   # Takes a Twitter Oauth API client, like client(true, false, bandID)

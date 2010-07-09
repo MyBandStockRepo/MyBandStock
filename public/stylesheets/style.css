@@ -11,8 +11,6 @@
 	#head_top {height:34px;padding-top:6px;padding-left:14px;}
 	#head_bottom {width:980px;height:40px;background-image:url(/images/header_bar.jpg);}
 
-#logo_float {width:560px;height:34px;float:left;}
-
 .navlogo {display:block;width:137px;height:13px;background-image:url(/images/mybandstock_logotype.gif);background-position:0px 0px;margin-top:14px;margin-left:14px;}
 	.navlogo:hover {background-position:0px 13px;}
 
@@ -207,6 +205,10 @@ a {color:#999;text-decoration:underline;}
 }
 
 /* Text */
+
+em {
+  font-style: italic;
+}
 
 h1 {
   width: 936px;
