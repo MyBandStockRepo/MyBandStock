@@ -27,6 +27,11 @@
                 .fieldnamebottom
               .fieldbox.required
                 = f.text_field :short_name
+            .desc
+              The short name is used in various places throughout the site. For example, fans will visit your band stage by going to 
+              %em
+                = ( defined?(SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) + '/shortname.'
+              It must be between 3 and 15 characters in length, and consist of only numbers, letters, and underscores. (For example, <em>daft_punk</em>.)
           .fielderror
             - if @band.errors[:short_name]
               - for e in @band.errors[:short_name]
@@ -181,7 +186,11 @@
               .fieldbox
                 = f.text_field :twitter_username
             .desc
-              Alternatively, we can use just your Twitter username to display your tweets on the Stage. It is recommended that you provide one of these things. Using Twitter is an excellent way to engage with your fans and to get them to talk back.
+              -if params[:action] == 'edit' || params[:action] == 'update'
+                Alternatively, we can just use your
+              -else
+                Enter your
+              Twitter username to display your tweets on the Stage. It is recommended that you provide one of these things. Using Twitter is an excellent way to engage with your fans and to get them to talk back.
           .fielderror
             - if @band.errors[:twitter_username]
               - for e in @band.errors[:twitter_username]

@@ -26,7 +26,7 @@
     -if @tweets
       %h2
         repost
-        %span.grey99 the band for 20 shares!
+        %span.grey99 the band for 40 shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
   - if @recordings && @recordings.count > 0
     .videothumbs

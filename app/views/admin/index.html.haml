@@ -1,11 +1,13 @@
 .orange_bar Admin controls
 %ul
   %li
-    =link_to 'Roles and Users', roles_path #:controller => 'roles', :action => 'index'
+    =link_to 'Roles and Users', roles_path
   %li
     =link_to 'Authorize users', :controller => 'admin', :action => 'authorize_users'
   %li
     =link_to 'Create new Live Stream Series', new_live_stream_series_path
+  %li
+    =link_to 'Create a band', new_band_path
   %li
     =link_to 'Band Assocations', new_association_path
   %li
