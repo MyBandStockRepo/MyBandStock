@@ -14,6 +14,9 @@ table.top_ten_shareholders {
     table.top_ten_shareholders tr td.shareholder_name {
       padding: 4px;
     }
+    table.top_ten_shareholders tr td.share_amount {
+      text-align: right;
+    }
   table.top_ten_shareholders tr.even {
     background-color: #141414;
   }
@@ -37,4 +40,8 @@ table.top_ten_shareholders {
 }
 table.top_ten_shareholders tr.highlight .list_number {
   color: #FFF;
+}
+.top_ten_notice {
+  font-style: italic;
+  padding: 4px 32px;
 }

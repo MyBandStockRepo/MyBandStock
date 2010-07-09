@@ -414,6 +414,21 @@ div#slides ul li.show {z-index:500}
   width: 100%;
 }
 
+.media-player.grooveshark {
+  position: relative;
+  margin: 0; padding: 0;
+  height: 245px;
+  overflow: hidden;
+}
+  .media-player.grooveshark .player-overlay {
+    background-color:black;
+    bottom: 4px;
+    height:25px;
+    left:1px;
+    position:absolute;
+    width:645px;
+  }
+
 /* Band profile */
 #profile-band-photo {
   width: 320px;
@@ -486,8 +501,8 @@ div#slides ul li.show {z-index:500}
 fieldset {border:0px;padding:0px;margin:0px;}
     input {outline:0px;}
 .fieldbox {float:left;margin-top:20px;}
-    .fieldbox input {width:381px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
-    .fieldbox .form_input_text{width:381px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
+    .fieldbox input {width:380px;height:31px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:10px;padding-left:19px;margin:0px;}
+    .fieldbox .form_input_text{width:380px;height:41px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding-top:0px;padding-left:19px;margin:0px;}
 
     .fieldbox select {
       width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;
@@ -619,7 +634,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .video_right {width:329px;margin-right:20px;margin-top:20px;float:right;}
 
 
+/* Twitter widget */
 .twtr-ft { display: none !important; }
+.twtr-hd { padding: 10px 10px 0 10px !important; }
 
 
 

@@ -43,7 +43,7 @@ class TwitterApiController < ApplicationController
 			end
 			
 			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-			oauth.set_callback_url(SITE_URL+'/twitter/finalize/?redirect='+redirect)
+			oauth.set_callback_url(((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) + '/twitter/finalize/?redirect='+redirect)
 			request_token = oauth.request_token			
 			access_token = request_token.token
 			access_secret = request_token.secret
@@ -52,12 +52,12 @@ class TwitterApiController < ApplicationController
 			session['rsecret'] = access_secret		
 #			puts 'TEST AUTH URL'+auth_url.to_s
 			redirect_to 'http://'+auth_url
-		rescue
-			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			redirect_to root_url
-			session['rtoken'] = session['rsecret'] = nil
-			return false
-		end		
+    rescue
+      flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+      redirect_to root_url
+      session['rtoken'] = session['rsecret'] = nil
+      return false
+    end   
 	end
 	
 	

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100628180527) do
+ActiveRecord::Schema.define(:version => 20100707151307) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20100628180527) do
     t.integer  "twitter_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "twitter_username"
   end
 
   create_table "countries", :force => true do |t|
@@ -115,7 +116,6 @@ ActiveRecord::Schema.define(:version => 20100628180527) do
     t.integer  "public_hostid"
     t.string   "url"
     t.boolean  "public",              :default => false, :null => false
-    t.integer  "duration"
     t.integer  "streamapi_stream_id"
     t.datetime "created_at"
     t.datetime "updated_at"

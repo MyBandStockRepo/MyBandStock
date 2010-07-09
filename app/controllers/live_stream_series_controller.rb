@@ -130,6 +130,7 @@ class LiveStreamSeriesController < ApplicationController
         :series_title => series.title,
         :streams => series.streamapi_streams.collect{ |stream|
           if stream.public
+            theme = StreamapiStreamTheme.find(stream.viewer_theme_id)
             {
               :id => stream.id,
               :title => stream.title,
@@ -140,8 +141,8 @@ class LiveStreamSeriesController < ApplicationController
               :past => (stream.starts_at + 24.hours).past?,   # We indicate whether the stream was scheduled to start 24 hours ago. If so, we display the view recording icon.
               :view_link => {
                 :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => params[:lightbox] ),
-                :width => (StreamapiStreamTheme.find(stream.viewer_theme_id).width) ? StreamapiStreamTheme.find(stream.viewer_theme_id).width+50 : 560,
-                :height => (StreamapiStreamTheme.find(stream.viewer_theme_id).height) ? StreamapiStreamTheme.find(stream.viewer_theme_id).height+94 : 560
+                :width => (theme) ? theme.width+50 : 560,
+                :height => (theme) ? theme.height+94 : 560
               }
             }
           end
@@ -150,7 +151,7 @@ class LiveStreamSeriesController < ApplicationController
     }
 
     output[:band_name] = @band.name
-    output['band_id'] = @band.id
+    output[:band_id] = @band.id
     output[:banner_image] = url_for '/images/AMP_banner.jpg'
 
     output_json = output.to_json

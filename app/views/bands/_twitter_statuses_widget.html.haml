@@ -1,0 +1,31 @@
+-if user
+  %script{ :src => "http://widgets.twimg.com/j/2/widget.js" }
+  :javascript
+    new TWTR.Widget({
+      version: 2,
+      type: 'profile',
+      rpp: #{ max_tweets || 4 },
+      interval: #{ interval || 4500 },
+      width: #{ width || 500 },
+      height: #{ height || 200 },
+      theme: {
+        shell: {
+          background: 'transparent',
+          color: '#ffffff'
+        },
+        tweets: {
+          background: 'transparent',
+          color: '#999999',
+          links: '#cccccc'
+        }
+      },
+      features: {
+        scrollbar: true,
+        loop: #{ loop || false },
+        live: true,
+        hashtags: true,
+        timestamp: true,
+        avatars: false,
+        behavior: 'default'
+      }
+    }).render().setUser('#{ user }').start();

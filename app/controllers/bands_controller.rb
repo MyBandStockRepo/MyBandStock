@@ -45,27 +45,27 @@ class BandsController < ApplicationController
 
     begin
 			unless @band.twitter_user
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false	
+				@band_twitter_authorized = true	
 				@band_tweets = @band.tweets(band_client, 5) #.user_timeline(:id => @twit_band.id)
 			end		
 		rescue
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 		end					
 		begin
 			if session[:user_id] && @user = user
 				unless @user.twitter_user
-					@user_twitter_not_authorized = true
+					@user_twitter_authorized = false
 				else
 					@twit_user = client(false, false, nil).verify_credentials
-					@user_twitter_not_authorized = false			
+					@user_twitter_authorized = true			
 				end		    
 			end    
 		rescue
-			@user_twitter_not_authorized = true
+			@user_twitter_authorized = false
 		end
     
   end
@@ -91,14 +91,14 @@ class BandsController < ApplicationController
     
     begin
 			unless @band.twitter_user
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false										
+				@band_twitter_authorized = true										
 			end		
 		rescue
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 		end					
     
     respond_to do |format|
@@ -129,14 +129,14 @@ class BandsController < ApplicationController
     end
 		begin
 			unless @band.twitter_user
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false										
+				@band_twitter_authorized = true										
 			end		
 		rescue
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 		end					    
     if (@band.country_id.nil? || @band.country_id == '' )
       #calculate their ip number to determine country of origin
@@ -164,14 +164,14 @@ class BandsController < ApplicationController
 		@request_uri = edit_band_url(id)
  		begin
 			unless @band.twitter_user
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false										
+				@band_twitter_authorized = true										
 			end		
 		rescue
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 		end					
     unless ( @band.update_attributes(params[:band]) )
       flash[:error] = "Invalid submission"
@@ -199,14 +199,14 @@ class BandsController < ApplicationController
     @user = User.find(session[:user_id])
 		begin
 			unless @band.twitter_user
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 			else
 				band_client = client(true, false, @band.id)
 				@twit_band = band_client.verify_credentials
-				@band_twitter_not_authorized = false										
+				@band_twitter_authorized = true										
 			end		
 		rescue
-				@band_twitter_not_authorized = true
+				@band_twitter_authorized = false
 		end					    
     @band = Band.new(params[:band])
 =begin

@@ -1,69 +1,50 @@
-%h1.orange_bar
+- twitter_username = @band.twitter_username || ((@band.twitter_user && @band.twitter_user.user_name) ? @band.twitter_user.user_name : nil)
+
+%h1.orange_bar{ :onclick => "jQuery('.grooveshark').css('overflow-y', 'auto').css('height', '275px');" }
   = @band.name
   
 #profile-left-column
   -if @band.band_photo && @band.band_photo != ''
     = image_tag @band.band_photo, :id => 'profile-band-photo', :alt => @band.name
   .profile-top-ten-container
-    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank }
-
-  -# Member since =@band.created_at.strftime("%m/%d/%Y")
+    = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
 
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
     #manage-band
       %p You are a manager for this band.
       =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+  
 
 #profile-right-column
-  %script{ :src => "http://widgets.twimg.com/j/2/widget.js" }
-  :javascript
-    new TWTR.Widget({
-      version: 2,
-      type: 'profile',
-      rpp: 4,
-      interval: 4000,
-      width: 500,
-      height: 250,
-      theme: {
-        shell: {
-          background: 'transparent',
-          color: '#ffffff'
-        },
-        tweets: {
-          background: 'transparent',
-          color: '#999999',
-          links: '#cccccc'
-        }
-      },
-      features: {
-        scrollbar: true,
-        loop: false,
-        live: true,
-        hashtags: true,
-        timestamp: true,
-        avatars: false,
-        behavior: 'default'
-      }
-    }).render().setUser('ampla').start();
+  .media-player.grooveshark
+    %object{ :width => "645", :height => "270" }
+      %param{ :name => "movie", :value => "http://listen.grooveshark.com/widget.swf" }
+      %param{ :name => "wmode", :value => "window" }
+      %param{ :name => "allowScriptAccess", :value => "always" }
+      %param{ :name => "flashvars", :value => "hostname=cowbell.grooveshark.com&widgetID=21760643&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0" }
+      %embed{ :src => "http://listen.grooveshark.com/widget.swf", :type => "application/x-shockwave-flash", :width => "645", :height => "270", :flashvars => "hostname=cowbell.grooveshark.com&widgetID=21760643&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0", :allowScriptAccess => "always", :wmode => "window" }
 
-  - unless @band_twitter_not_authorized
-    .recent_TWETZ
-      %h1 Recent Band Tweets
-      - if @user_twitter_not_authorized
-        = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+  -# __commented__
+    - if @band_twitter_authorized
+      .recent_TWETZ
+        %h1 Recent Band Tweets
+        - unless @user_twitter_authorized
+          = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
 			
-      - else
-        %p 
-          Currently authenticated with the Twitter account 
-          = @twit_user.screen_name
-          = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-      = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
+        - else
+          %p 
+            Currently authenticated with the Twitter account 
+            = @twit_user.screen_name
+            = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
+        = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
 
   .access-schedule
     = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
-= render :partial => 'share_codes/redeem_widget'
+  -if twitter_username
+    = render :partial => 'twitter_statuses_widget', :locals => { :user => twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+  = render :partial => 'share_codes/redeem_widget'
 
 -# Attach accordion listeners to the series list
 = javascript_include_tag 'series_list_accordion'

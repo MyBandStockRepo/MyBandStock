@@ -150,7 +150,7 @@
                   .fieldnamebottom
                 .fieldbox
                   .form_input_text
-                    -if @band_twitter_not_authorized 
+                    -unless @band_twitter_authorized 
                       Your band is not currently linked to a twitter account.
                       %br
                       = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
@@ -170,6 +170,24 @@
                 - for e in @band.errors[:twitter_user_id]
                   %p
                     = '- '+e.to_s
+
+        .fieldrow
+          .fieldleft      
+            .field
+              .fieldname
+                .fieldnametop
+                  = f.label :twitter_username, 'twitter username'
+                .fieldnamebottom
+              .fieldbox
+                = f.text_field :twitter_username
+            .desc
+              Alternatively, we can use just your Twitter username to display your tweets on the Stage. It is recommended that you provide one of these things. Using Twitter is an excellent way to engage with your fans and to get them to talk back.
+          .fielderror
+            - if @band.errors[:twitter_username]
+              - for e in @band.errors[:twitter_username]
+                %p
+                  = '- '+e.to_s
+
         .fieldrow
           .fieldleft                
             .formbutton
