@@ -6,8 +6,11 @@
     .top_ten_icon 
     TOP TEN SHAREHOLDERS
   -if top_ten
-    -top_ten.each_with_index do |man, i|
-      -if current_user && man.email == current_user.email
+    -top_ten.each_with_index do |share_total, i|
+      - man = share_total.user
+      - location = man.display_location
+
+      -if current_user && man && man.email == current_user.email
         - user_found = true
         - class_name = 'highlight'
       -else
@@ -17,15 +20,21 @@
         %td.list_number
           = (i+1).to_s + '.'
         %td.shareholder_name
-          = raw html_obfuscate(man.email)
+          = man.display_name
+          -if location
+            .shareholder_aside
+              = "from #{ location }"
         %td.share_amount
-          = man.net
+          = share_total.net
     -if !user_found && current_user
       %tr.highlight.even
         %td.list_number
           = user_rank.to_s + '.'
         %td.shareholder_name
-          = raw html_obfuscate(current_user.email)
+          = current_user.display_name
+          -if location
+            .shareholder_aside
+              = "from #{ location }"
         %td.share_amount
           - share_total_row = current_user.share_totals.where(:band_id => band.id).first
           = (share_total_row) ? share_total_row.net : 0

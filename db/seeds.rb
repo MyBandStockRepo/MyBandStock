@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-# To completely start anew:
+# To completely start anew (don't do this):
 #  rake db:migrate VERSION=0; rake db:migrate; rake db:seed --trace
 
 #the creation tree goes as follows
@@ -335,3 +335,4 @@ our_api_user = ApiUser.create( :api_key => 'a3dcf5600b117fc0',
 #adminUser = User.create(:first_name => 'admin', :last_name => 'user', :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2', :email => 'mbstech@mybandstock.com', :status => 'active')
 #r = User.find(adminUser.id).roles.create(:name => 'site_admin')
 #roles = Role.create(:name => 'staff')
+

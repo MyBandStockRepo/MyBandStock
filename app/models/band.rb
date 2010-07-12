@@ -61,14 +61,14 @@ class Band < ActiveRecord::Base
   
   def top_ten_shareholders()
     # The more senior user wins in a tie
-    result = ShareTotal.find_by_sql("
-                  SELECT * FROM share_totals
-                    INNER JOIN users ON users.id = share_totals.user_id
-                    WHERE band_id = #{ self.id }
-                    ORDER BY net DESC, users.created_at ASC
-                    LIMIT 10
-                 ")
-    # result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
+    # result = ShareTotal.find_by_sql("
+    #               SELECT * FROM share_totals
+    #                 INNER JOIN users ON users.id = share_totals.user_id
+    #                 WHERE band_id = #{ self.id }
+    #                 ORDER BY net DESC, users.created_at ASC
+    #                 LIMIT 10
+    #              ")
+    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
 
     # unless result.length == 0
     #   result.each { |user|
