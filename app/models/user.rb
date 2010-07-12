@@ -439,6 +439,5 @@ class User < ActiveRecord::Base
     end
     return true
   end
-  
-  
+
 end
