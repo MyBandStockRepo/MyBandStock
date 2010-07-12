@@ -436,6 +436,9 @@ div#slides ul li.show {z-index:500}
   width: 320px;
 }
 
+#profile-right-column #mbs-share-code-container {
+  margin: 15px 5px 15px;
+}
 
 
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100712181855) do
+ActiveRecord::Schema.define(:version => 20100712222440) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -34,14 +34,14 @@ ActiveRecord::Schema.define(:version => 20100712181855) do
   end
 
   create_table "bands", :force => true do |t|
-    t.string   "name",                                      :null => false
-    t.string   "short_name",                                :null => false
+    t.string   "name",                                        :null => false
+    t.string   "short_name",                                  :null => false
     t.text     "bio"
-    t.boolean  "terms_of_service",    :default => false,    :null => false
-    t.string   "city",                                      :null => false
-    t.integer  "zipcode",                                   :null => false
+    t.boolean  "terms_of_service",      :default => false,    :null => false
+    t.string   "city",                                        :null => false
+    t.integer  "zipcode",                                     :null => false
     t.string   "band_photo"
-    t.string   "status",              :default => "active", :null => false
+    t.string   "status",                :default => "active", :null => false
     t.string   "external_css_link"
     t.string   "access_schedule_url"
     t.integer  "country_id"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20100712181855) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "twitter_username"
+    t.string   "grooveshark_widget_id"
   end
 
   create_table "countries", :force => true do |t|

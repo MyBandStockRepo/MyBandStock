@@ -32,9 +32,9 @@
           = user_rank.to_s + '.'
         %td.shareholder_name
           = current_user.display_name
-          -if location
+          -if man.display_location
             .shareholder_aside
-              = "from #{ location }"
+              = "from #{ man.display_location }"
         %td.share_amount
           - share_total_row = current_user.share_totals.where(:band_id => band.id).first
           = (share_total_row) ? share_total_row.net : 0
@@ -45,3 +45,5 @@
           This band has no shareholders.
           %br
           = link_to 'You can be the first!', fan_new_suggestions_path(band.name)
+
+-# 21817890 - daft punk
