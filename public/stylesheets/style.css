@@ -652,7 +652,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .newform .fieldnametop label{margin-left:13px;}
 .newform .fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
 .newform .fieldbox {float:left;width:400px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;margin:0px;}
-.newform .fieldbox input{background:none;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:normal;color:#333333;float:left;margin:10px 20px 0px 20px;padding:0px;height:auto;width:360px;}
+.newform .fieldbox input{background:none !important;border:none !important;font-family:TitilliumText14L600wt;font-size:18px;line-height:normal;color:#333333;float:left;margin:10px 20px 0px 20px;padding:0px;height:auto;width:360px;}
 .newform .fieldbox input[type=password] {font-family: inherit;}
 .newform .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
 .newform .desc, .newform .description {margin: 5px 0px 10px 15px;float:left;}
