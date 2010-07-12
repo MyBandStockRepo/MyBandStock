@@ -18,8 +18,8 @@
         %tr{:class => (count %2 == 0 ? 'even' : 'odd')}
           %td
             %embed{ :height => 116, :width => 170, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
-              :flashvars => "&file=#{recorded_video.url}" + |
-              "&image=#{recorded_video.url+'.jpg'}" + |
+              :flashvars => ((recorded_video.url) ? "&file=#{recorded_video.url}" : '' ) + |
+              ((recorded_video.url) ? "&image=#{recorded_video.url + '.jpg'}" : '' ) + |
               "&bufferlength=5" + |
               "&volume=10" + |
               "&autostart=false" + |

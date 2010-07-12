@@ -187,10 +187,10 @@
                 = f.text_field :twitter_username
             .desc
               -if params[:action] == 'edit' || params[:action] == 'update'
-                Alternatively, we can just use your
+                Alternatively, we can just use your Twitter username to display your tweets on the Stage. It is recommended that you provide one of these things.
               -else
-                Enter your
-              Twitter username to display your tweets on the Stage. It is recommended that you provide one of these things. Using Twitter is an excellent way to engage with your fans and to get them to talk back.
+                Enter your Twitter username to display your tweets on the Stage.
+              Using Twitter is an excellent way to engage with your fans and to get them to talk back.
           .fielderror
             - if @band.errors[:twitter_username]
               - for e in @band.errors[:twitter_username]

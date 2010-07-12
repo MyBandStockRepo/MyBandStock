@@ -6,14 +6,15 @@
   -if can_broadcast
     =link_to 'Schedule A New Stream', {:controller => 'streamapi_streams', :action => 'new', :band_id => band.id, :live_stream_series_id => series.id }
   %table.access-schedule-list
-    -for stream in series.streamapi_streams                
-      %tr
-        %td.stream-name
-          - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
-          = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+94), :fbwidth => (viewerTheme.width+50)
-          = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-        - if can_broadcast
-          %td.begin-broadcast
-            - broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
-            =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+120), :fbwidth => (broadcasterTheme.width+50)
+    -for stream in series.streamapi_streams
+      -if stream.public
+        %tr
+          %td.stream-name
+            - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
+            = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => (viewerTheme.height+94), :fbwidth => (viewerTheme.width+50)
+            = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+          - if can_broadcast
+            %td.begin-broadcast
+              - broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)
+              =link_to 'Begin broadcast', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox', :fbheight => (broadcasterTheme.height+120), :fbwidth => (broadcasterTheme.width+50)
 -# = render :partial => 'share_codes/redeem_widget'

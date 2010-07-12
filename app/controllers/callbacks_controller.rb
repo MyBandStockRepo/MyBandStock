@@ -143,7 +143,7 @@ private
     options_hash = Hash.new
 
     if (@recorded_video = RecordedVideo.where(:public_hostid => params[:public_hostid]).first)
-      if params[:duration] && params[:duration] > 0
+      if params[:duration] && params[:duration].to_i > 0
         @recorded_video.url = params[:url]
         @recorded_video.duration = params[:duration]
         if @recorded_video.save
