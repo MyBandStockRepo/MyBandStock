@@ -29,6 +29,13 @@ class BandsController < ApplicationController
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
     @user_rank = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).count + 1)
+    @twitter_username = if @band.twitter_username && @band.twitter_username != ''
+                          @band.twitter_username
+                        elsif @band.twitter_user && @band.twitter_user.user_name
+                          @band.twitter_user.user_name
+                        else
+                          nil
+                        end
     
     #make sure the band isn't hidden
     if @band.status != "active"

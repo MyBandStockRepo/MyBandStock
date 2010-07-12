@@ -1,5 +1,3 @@
-- twitter_username = @band.twitter_username || ((@band.twitter_user && @band.twitter_user.user_name) ? @band.twitter_user.user_name : nil)
-
 %h1.orange_bar{ :onclick => "jQuery('.grooveshark').css('overflow-y', 'auto').css('height', '275px');" }
   = @band.name
   
@@ -42,8 +40,8 @@
     = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
-  -if twitter_username
-    = render :partial => 'twitter_statuses_widget', :locals => { :user => twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+  -if @twitter_username && @twitter_username != ''
+    = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
   = render :partial => 'share_codes/redeem_widget'
 
 -# Attach accordion listeners to the series list

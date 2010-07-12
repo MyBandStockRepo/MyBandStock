@@ -20,10 +20,16 @@ end
 
 def new
   @association = Association.new()
+  user = User.find(session[:user_id])
+  
   respond_to do |format|
       format.html {
                     @users = User.all
-                    @bands = Band.find_all_by_id(User.find(session[:user_id]).associations.reject{|a| a.name == "fan"}.collect{|a| a.band_id}.uniq, :order => "bands.id desc") 
+                    if user.site_admin
+                      @bands = Band.all
+                    else
+                      @bands = Band.find_all_by_id(user.associations.reject{|a| a.name == "fan"}.collect{|a| a.band_id}.uniq, :order => "bands.id desc") 
+                    end
                   }
       format.js
       format.xml
