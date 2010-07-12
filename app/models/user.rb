@@ -216,7 +216,8 @@ class User < ActiveRecord::Base
   # Returns, in order of preference, one of: explicit state abbreviation, state abbreviation obtained by zipcode, or nil
   # Like: 'CA'
   #
-    if state = self.state && state.abbreviation
+    state = self.state
+    if state && state.abbreviation
       location = state.abbreviation
     elsif self.zipcode && zip_row = Zipcode.where(:zipcode => self.zipcode).first
       location = (zip_row.abbr) ? zip_row.abbr : nil
