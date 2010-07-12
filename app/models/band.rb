@@ -68,6 +68,13 @@ class Band < ActiveRecord::Base
                     ORDER BY net DESC, users.created_at ASC
                     LIMIT 10
                  ")
+    # result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
+
+    # unless result.length == 0
+    #   result.each { |user|
+    #     #logger.info user.full_name
+    #   }
+    # end
 
     # JOIN with user?
     #ShareTotal.where(:band_id => self.id).joins(:users).limit(10).order('net DESC, created_at ASC').all.collect{ |a| a.user } #.sort!{ |a,b| a.created_at <=> b.created_at }
