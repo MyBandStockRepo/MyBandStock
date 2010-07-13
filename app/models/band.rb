@@ -41,6 +41,25 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "must have only letters, numbers, and _."
 
+  def self.search_by_name(name)
+    if name.nil? || name == ''
+      return nil
+    end
+    # Let's pretend name = 'Daft Punk'. Search matches one of:
+    # 'Daft Punk'
+    # 'daftpunk'
+    # 'daft_punk'
+    # 'DAFTPUNK'
+    # 'daft punk'
+    
+    query_string =
+      sql_sanitize(
+        "name IN ('#{name}', '#{name.downcase}') OR short_name IN ( '#{name.gsub(' ', '').downcase}', '#{name.gsub(' ', '_').downcase}', '#{name.gsub(' ', '').upcase}' )"
+      )
+    band = Band.where(query_string).first
+    return band
+  end
+
   def tweets(twitter_client, num_tweets = 3)
   # Takes a Twitter Oauth API client, like client(true, false, bandID)
     #
@@ -70,14 +89,6 @@ class Band < ActiveRecord::Base
     #              ")
     result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
 
-    # unless result.length == 0
-    #   result.each { |user|
-    #     #logger.info user.full_name
-    #   }
-    # end
-
-    # JOIN with user?
-    #ShareTotal.where(:band_id => self.id).joins(:users).limit(10).order('net DESC, created_at ASC').all.collect{ |a| a.user } #.sort!{ |a,b| a.created_at <=> b.created_at }
     return (result.length == 0) ? nil : result
   end
 

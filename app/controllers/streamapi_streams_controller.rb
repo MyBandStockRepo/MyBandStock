@@ -10,8 +10,8 @@ respond_to :html, :js
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
  #before_filter :only => :post, :only => [:create, :update]
- before_filter :authenticated?, :except => [:callback, :ping]
- before_filter :user_has_site_admin, :except => [:ping, :callback, :view, :broadcast, :new, :edit, :create, :update, :show]
+ before_filter :authenticated?, :except => [:ping]
+ before_filter :user_has_site_admin, :only => [:getLiveSessionInfo, :listLiveStreams, :getPublicHostId, :getPrivateHostId, :getLiveVideoRecordings, :getLayoutThemes, :index, :destroy]
  before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast]
  skip_filter :update_last_location, :only => [:ping, :update, :create, :destroy, :view, :broadcast, :recorded, :where_to_go?]
  before_filter :where_to_go?, :only => [:view, :recorded]

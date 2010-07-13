@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 #  has_many :friends, :through => :user_friends, :source => 'destination'
 #  has_many :google_checkout_orders
 
-  before_create :expand_zipcode # Populates state and country from zipcode
+  before_save :expand_zipcode # Populates state and country from zipcode
 
   #validations -- goes down to the first def
   
