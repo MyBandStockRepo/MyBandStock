@@ -51,11 +51,14 @@ class Band < ActiveRecord::Base
     # 'daft_punk'
     # 'DAFTPUNK'
     # 'daft punk'
+    # 'The Daft Punk'
     
     query_string =
-      sql_sanitize(
-        "name IN ('#{name}', '#{name.downcase}') OR short_name IN ( '#{name.gsub(' ', '').downcase}', '#{name.gsub(' ', '_').downcase}', '#{name.gsub(' ', '').upcase}' )"
-      )
+        ["name IN (?, ?, ?, ?) OR short_name IN (?, ?, ?, ?)"
+          name, name.downcase, 'The ' + name, name.gsub('The ', '')
+          name.gsub(' ', '').downcase, name.gsub(' ', '_').downcase, name.gsub(' ', '').upcase, name.downcase.gsub('the ', '')
+        ]
+    logger.info Band.where(query_string).to_sql
     band = Band.where(query_string).first
     return band
   end
