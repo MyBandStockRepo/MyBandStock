@@ -766,6 +766,7 @@ respond_to :html, :js
   def new
     @streamapi_stream = StreamapiStream.new
 		@band_id = params[:band_id] || LiveStreamSeries.find(@live_stream_series_id).band.id
+		@user = User.find(session[:user_id])
 
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
@@ -782,6 +783,7 @@ respond_to :html, :js
     @streamapi_stream = StreamapiStream.find(params[:id])
     @streamapi_stream.starts_at = @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
     @streamapi_stream.ends_at = @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
+    @user = User.find(session[:user_id])
 
     @band_id = params[:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
 

@@ -42,9 +42,9 @@ class Band < ActiveRecord::Base
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "must have only letters, numbers, and _."
 
   def self.search_by_name(name)
-    if name.nil? || name == ''
-      return nil
-    end
+  # Returns a band, given some common variation of its name or short name.
+    return nil if name.nil? || name == ''
+
     # Let's pretend name = 'Daft Punk'. Search matches one of:
     # 'Daft Punk'
     # 'daftpunk'
@@ -52,7 +52,6 @@ class Band < ActiveRecord::Base
     # 'DAFTPUNK'
     # 'daft punk'
     # 'The Daft Punk'
-    
     query_string =
         ["name IN (?, ?, ?, ?) OR short_name IN (?, ?, ?, ?)",
           name, name.downcase, 'The ' + name, name.gsub('The ', ''),

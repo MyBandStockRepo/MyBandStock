@@ -1,5 +1,4 @@
 Cobain::Application.routes.draw do |map|
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -324,6 +323,6 @@ Cobain::Application.routes.draw do |map|
   match ':controller(/:action)'
   match '/:controller(/:id(/:action))'
 
-  match '/:band_short_name', :to => 'bands#show'
+  match '/:band_short_name', :to => 'bands#show', :as => 'band_stage'
 
 end
