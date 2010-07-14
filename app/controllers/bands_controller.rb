@@ -811,7 +811,7 @@ class BandsController < ApplicationController
     end
     @band = Band.find(id)
     
-    @associations = @band.associations.paginate(:page => params[:associations_page], :order => ['name ASC'], :per_page => 20, :conditions => ['name != ?', 'watching'])
+    @associations = @band.associations.all.paginate(:page => params[:associations_page], :order => ['name ASC'], :per_page => 20, :conditions => ['name != ?', 'watching'])
 
     @fresh_association = Association.new(:band_id => @band.id)
     

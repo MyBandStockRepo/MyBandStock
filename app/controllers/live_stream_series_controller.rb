@@ -7,6 +7,12 @@ class LiveStreamSeriesController < ApplicationController
   respond_to :html, :js, :xml
   layout :choose_layout
 
+  def email_users
+    live_stream_series = LiveStreamSeries.find(params[:id])
+    live_stream_series.send_stream_reminder_email()
+  end
+
+
   def choose_layout
     if params[:lightbox]
       'lightbox'

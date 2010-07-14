@@ -4,17 +4,18 @@
     = @recorded_video.streamapi_stream.title
   %br
   %br
-  %embed{ :height => 285, :width => 470, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
-    :flashvars => "&file=#{@recorded_video.url}" + |
-    "&image=#{@recorded_video.url+'.jpg'}" + |
-    "&bufferlength=5" + |
-    "&volume=10" + |
-    "&autostart=false" + |
-    "&icons=false" + |
-    "&controlbar=bottom" + |
-    "&fullscreen=true" + |
-    "&dock=false", |
-    :src => 'https://streamapi.com/swf/flvplayer.swf' }
+  -unless @recorded_video.nil? || @recorded_video.url.nil?
+    %embed{ :height => 285, :width => 470, :allowfullscreen => 'true', :allowscriptaccess => 'always', :quality => 'high', :name => 'mpl', :id => 'mpl', :type => 'application/x-shockwave-flash', |
+      :flashvars => "&file=#{@recorded_video.url}" + |
+      "&image=#{@recorded_video.url+'.jpg'}" + |
+      "&bufferlength=5" + |
+      "&volume=10" + |
+      "&autostart=false" + |
+      "&icons=false" + |
+      "&controlbar=bottom" + |
+      "&fullscreen=true" + |
+      "&dock=false", |
+      :src => 'https://streamapi.com/swf/flvplayer.swf' }
   %p
     %b Public:
     = @recorded_video.public

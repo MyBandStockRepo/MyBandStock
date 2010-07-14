@@ -10,6 +10,7 @@ Cobain::Application.routes.draw do |map|
 
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
+  match 'live_stream_series/:id/send_emails/', :to => 'live_stream_series#email_users'
 
 
 #twitter api
