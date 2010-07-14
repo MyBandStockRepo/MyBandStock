@@ -24,7 +24,7 @@
             = series.ends_at.strftime("%I:%M%p")
             %span.dark_accent ET
     .stream_list
-      -series.streamapi_streams.each do |stream|
+      -series.streamapi_streams.order('streamapi_streams.starts_at ASC').each do |stream|
         .stream_entry
           %span.stream_manage_buttons
             %span.stream_edit

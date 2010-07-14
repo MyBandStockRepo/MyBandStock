@@ -821,6 +821,7 @@ respond_to :html, :js
   def update
     @streamapi_stream = StreamapiStream.find(params[:id])
     @band_id = params[:streamapi_stream][:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
+    @user = User.find(session[:user_id])
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
     end

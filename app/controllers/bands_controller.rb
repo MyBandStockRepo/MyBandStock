@@ -46,7 +46,7 @@ class BandsController < ApplicationController
       #@live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
       #  @band.live_stream_series.includes(:streamapi_streams).all
       #end
-      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).all
+      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC').all
     end
 
     begin
