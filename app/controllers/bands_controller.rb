@@ -256,6 +256,17 @@ class BandsController < ApplicationController
     
   end
   
+  def buy_stock
+    @band = Band.find(params[:band_id])
+    unless @band
+      flash[:notice] = "You've attempted to buy stock from an invalid badn. Please try again."
+      redirect_to (session[:last_clean_url] || '/'), :lightbox => params[:lightbox]
+      return false
+    end
+    
+    render :layout => 'lightbox' if params[:lightbox]
+  end
+  
   
   def toggle_hidden
     unless ( (@band = Band.find(params[:id])) && (User.find(session[:user_id]).has_band_admin(@band.id)) )

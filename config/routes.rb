@@ -46,6 +46,9 @@ Cobain::Application.routes.draw do |map|
 
 	match '/users/activate', :to => 'users#activate'
 
+	match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
+	match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
+
 
   # ---- Share Codes ---- #
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
@@ -76,7 +79,7 @@ Cobain::Application.routes.draw do |map|
   resources :twitter_users
   resources :live_stream_series
   resources :live_stream_series_permissions
-  # /codingisanart
+  #codingisanart
 
 
 	match '/legal/privacy_policy', :to => 'legal#privacy_policy'
@@ -99,9 +102,6 @@ Cobain::Application.routes.draw do |map|
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
 
   # Sample resource route with options:
   #   resources :products do
