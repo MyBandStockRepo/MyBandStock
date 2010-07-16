@@ -7,10 +7,6 @@ class LiveStreamSeriesController < ApplicationController
   respond_to :html, :js, :xml
   layout :choose_layout
 
-  def email_users
-    live_stream_series = LiveStreamSeries.find(params[:id])
-    live_stream_series.send_stream_reminder_email()
-  end
 
 
   def choose_layout
@@ -106,7 +102,7 @@ class LiveStreamSeriesController < ApplicationController
       # @live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do       
       #   @band.live_stream_series.includes(:streamapi_streams)
       # end
-      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams)
+      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC')
     end
     
     if @live_stream_series
@@ -122,7 +118,7 @@ class LiveStreamSeriesController < ApplicationController
     unless ( params[:band_short_name] && (@band = Band.includes(:live_stream_series).where(:short_name => params[:band_short_name].downcase).first) )
       return render :nothing => true
     else
-      live_stream_series = @band.live_stream_series.includes(:streamapi_streams)
+      live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC')
       # Cache not used because on the server, we would get "can't modify frozen object".
       #@live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do
       #  @band.live_stream_series.includes(:streamapi_streams)

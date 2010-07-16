@@ -1,0 +1,14 @@
+%p
+  Thanks,
+  %br
+  The MyBandStock Team
+%br
+%br
+%p
+  -#
+    If you do not wish to receive emails in the future, please go to your
+    = link_to 'User Profile', :controller => 'users', :action => 'edit', :host => host, :id => user.id
+    and edit your email notification settings.  
+  If you forgot your MyBandStock password, you can 
+  = link_to 'reset your password', :controller => 'login', :action => 'forgot_password', :host => host
+  \.  For questions, please contact help@mybandstock.com.

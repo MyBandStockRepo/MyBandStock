@@ -41,6 +41,27 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "must have only letters, numbers, and _."
 
+  def self.search_by_name(name)
+  # Returns a band, given some common variation of its name or short name.
+    return nil if name.nil? || name == ''
+
+    # Let's pretend name = 'Daft Punk'. Search matches one of:
+    # 'Daft Punk'
+    # 'daftpunk'
+    # 'daft_punk'
+    # 'DAFTPUNK'
+    # 'daft punk'
+    # 'The Daft Punk'
+    query_string =
+        ["name IN (?, ?, ?, ?) OR short_name IN (?, ?, ?, ?)",
+          name, name.downcase, 'The ' + name, name.gsub('The ', ''),
+          name.gsub(' ', '').downcase, name.gsub(' ', '_').downcase, name.gsub(' ', '').upcase, name.downcase.gsub('the ', '')
+        ]
+    logger.info Band.where(query_string).to_sql
+    band = Band.where(query_string).first
+    return band
+  end
+
   def tweets(twitter_client, num_tweets = 3)
   # Takes a Twitter Oauth API client, like client(true, false, bandID)
     #
@@ -61,16 +82,15 @@ class Band < ActiveRecord::Base
   
   def top_ten_shareholders()
     # The more senior user wins in a tie
-    result = ShareTotal.find_by_sql("
-                  SELECT * FROM share_totals
-                    INNER JOIN users ON users.id = share_totals.user_id
-                    WHERE band_id = #{ self.id }
-                    ORDER BY net DESC, users.created_at ASC
-                    LIMIT 10
-                 ")
+    # result = ShareTotal.find_by_sql("
+    #               SELECT * FROM share_totals
+    #                 INNER JOIN users ON users.id = share_totals.user_id
+    #                 WHERE band_id = #{ self.id }
+    #                 ORDER BY net DESC, users.created_at ASC
+    #                 LIMIT 10
+    #              ")
+    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
 
-    # JOIN with user?
-    #ShareTotal.where(:band_id => self.id).joins(:users).limit(10).order('net DESC, created_at ASC').all.collect{ |a| a.user } #.sort!{ |a,b| a.created_at <=> b.created_at }
     return (result.length == 0) ? nil : result
   end
 

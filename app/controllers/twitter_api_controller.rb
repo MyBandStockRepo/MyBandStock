@@ -216,8 +216,9 @@ end
 						if @band.twitter_user.twitter_id == @tweeter.id
 							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
+							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
 							@retweet = @tweet.text
-							@endtags = generate_endtag(@tweeter.screen_name, 'http://www.mybandstock.com')
+							@endtags = generate_endtag(@tweeter.screen_name, linkback_url)
 							@msg = ''
 							@ellipsis = '...'
 							

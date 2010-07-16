@@ -35,7 +35,5 @@
     = link_to 'Stream Viewer', @band.access_schedule_url
   %br
   and login with your credentials.
-%p
-  If you forgot your password you can 
-  = link_to 'reset your password', :controller => 'login', :action => 'forgot_password', :host => @host
-%p Thank you!
+
+= render :partial => 'email_footer', :locals => {:host => @host, :user => @user}

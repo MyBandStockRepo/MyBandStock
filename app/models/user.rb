@@ -8,19 +8,14 @@ class User < ActiveRecord::Base
   belongs_to :twitter_user
   has_many :live_stream_series_permissions
   has_many :streamapi_stream_viewer_statuses
-  # A shortened URL might have a "maker", which could refer to a band or a user.
-  has_many :short_urls, :as => :maker
+  has_many :short_urls, :as => :maker # A shortened URL might have a "maker", which could refer to a band or a user.
   has_many :share_totals
   has_many :share_ledger_entries
-#  has_many :earned_perks, :dependent => :destroy
-#  has_many :perks, :through => 'earned_perks', :dependent => :destroy
-#  has_many :emails, :through => 'emails', :dependent => :destroy
-#  has_many :contributions, :dependent => :destroy
-#  has_many :invested_artists, :through => :contributions, :source => :band, :uniq => true
 #  has_many :user_friends, :foreign_key => 'source_user_id'
 #  has_many :friends, :through => :user_friends, :source => 'destination'
 #  has_many :google_checkout_orders
-#  has_many :user_photos
+
+  before_save :expand_zipcode # Populates state and country from zipcode
 
   #validations -- goes down to the first def
   
@@ -59,7 +54,7 @@ class User < ActiveRecord::Base
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
-
+  
 
   def shareholder_rank_for_band(band_id)
   # Takes a band ID, and return's the user object's rank.
@@ -203,6 +198,33 @@ class User < ActiveRecord::Base
   
   def full_name
     return (first_name || '') + " " + (last_name || '')
+  end
+  
+  def display_name
+  # Returns a proper, non-email address display name. One of the following is used, in order of preference:
+  #   first_name
+  #   text_before_the@symbol.com, from the user's email address
+  #   [No name]
+  #
+    email_username = email[0, email.index('@') || 0]  # Text before the @
+    email_username = (email_username == '') ? '[No name]' : email_username
+    output = (first_name && !first_name.strip.empty?) ? first_name : email_username
+    return output
+  end
+  
+  def display_location
+  # Returns, in order of preference, one of: explicit state abbreviation, state abbreviation obtained by zipcode, or nil
+  # Like: 'CA'
+  #
+    state = self.state
+    if state && state.abbreviation
+      location = state.abbreviation
+    elsif self.zipcode && zip_row = Zipcode.where(:zipcode => self.zipcode).first
+      location = (zip_row.abbr) ? zip_row.abbr : nil
+    else
+      location = nil
+    end
+    return location
   end
   
   # ***************
@@ -404,6 +426,19 @@ class User < ActiveRecord::Base
     end
   end
 =end  
+
+  private
   
-  
+  def expand_zipcode
+  # Populates a user's state and country fields, if they are not specified and a zipcode is specified.
+    if (self.zipcode)
+      zip_row = Zipcode.where(:zipcode => self.zipcode).first
+      if zip_row
+        self.state = self.state || State.where(:abbreviation => zip_row.abbr).first
+        self.city = self.city || zip_row.city
+      end
+    end
+    return true
+  end
+
 end

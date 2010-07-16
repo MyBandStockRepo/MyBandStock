@@ -13,9 +13,15 @@ class FansController < ApplicationController
       #downcase and titelize raw input band string
       raw_band_name.downcase!
       band_name = raw_band_name.split(' ').collect {|word| word.capitalize}.join(" ")
+      band_found = Band.search_by_name(band_name)
+      logger.info "Band found: #{band_found.nil?}"
       #Assign the band name string for /bands/:band_name URL
-      band_string_url = band_name.gsub(' ', '-').downcase
-      redirect_to :action => 'new', :band_name => band_string_url
+      if band_found
+        redirect_to band_found
+      else
+        band_string_url = band_name.gsub(' ', '-').downcase
+        redirect_to :action => 'new', :band_name => band_string_url
+      end
     else
       redirect_to :back
     end  

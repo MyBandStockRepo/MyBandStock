@@ -11,8 +11,7 @@ class BandsController < ApplicationController
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
  before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users]
-  
-  
+
   def index
     redirect_to session[:last_clean_url]
   end
@@ -29,6 +28,13 @@ class BandsController < ApplicationController
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
     @user_rank = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).count + 1)
+    @twitter_username = if @band.twitter_username && @band.twitter_username != ''
+                          @band.twitter_username
+                        elsif @band.twitter_user && @band.twitter_user.user_name
+                          @band.twitter_user.user_name
+                        else
+                          nil
+                        end
     
     #make sure the band isn't hidden
     if @band.status != "active"
@@ -40,7 +46,7 @@ class BandsController < ApplicationController
       #@live_stream_series = Rails.cache.fetch "band_#{@band.id}_live_stream_series" do 
       #  @band.live_stream_series.includes(:streamapi_streams).all
       #end
-      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).all
+      @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC').all
     end
 
     begin
@@ -248,6 +254,17 @@ class BandsController < ApplicationController
     
     
     
+  end
+  
+  def buy_stock
+    @band = Band.find(params[:band_id])
+    unless @band
+      flash[:notice] = "You've attempted to buy stock from an invalid badn. Please try again."
+      redirect_to (session[:last_clean_url] || '/'), :lightbox => params[:lightbox]
+      return false
+    end
+    
+    render :layout => 'lightbox' if params[:lightbox]
   end
   
   

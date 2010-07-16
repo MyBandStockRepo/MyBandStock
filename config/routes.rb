@@ -1,5 +1,4 @@
 Cobain::Application.routes.draw do |map|
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -10,7 +9,7 @@ Cobain::Application.routes.draw do |map|
 
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
-  match 'live_stream_series/:id/send_emails/', :to => 'live_stream_series#email_users'
+#  match 'live_stream_series/:id/send_emails/', :to => 'live_stream_series#email_users'
 
 
 #twitter api
@@ -45,8 +44,12 @@ Cobain::Application.routes.draw do |map|
 	match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'
 	match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'
 	match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
+	match '/streamapi_streams/:id/email_stream_reminder', :to => 'streamapi_streams#email_stream_reminder'
 
 	match '/users/activate', :to => 'users#activate'
+
+	match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
+	match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
 
 
   # ---- Share Codes ---- #
@@ -78,7 +81,7 @@ Cobain::Application.routes.draw do |map|
   resources :twitter_users
   resources :live_stream_series
   resources :live_stream_series_permissions
-  # /codingisanart
+  #codingisanart
 
 
 	match '/legal/privacy_policy', :to => 'legal#privacy_policy'
@@ -101,9 +104,6 @@ Cobain::Application.routes.draw do |map|
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
 
   # Sample resource route with options:
   #   resources :products do
@@ -325,6 +325,6 @@ Cobain::Application.routes.draw do |map|
   match ':controller(/:action)'
   match '/:controller(/:id(/:action))'
 
-  match '/:band_short_name', :to => 'bands#show'
+  match '/:band_short_name', :to => 'bands#show', :as => 'band_stage'
 
 end

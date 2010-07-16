@@ -1,5 +1,3 @@
-- twitter_username = @band.twitter_username || ((@band.twitter_user && @band.twitter_user.user_name) ? @band.twitter_user.user_name : nil)
-
 %h1.orange_bar{ :onclick => "jQuery('.grooveshark').css('overflow-y', 'auto').css('height', '275px');" }
   = @band.name
   
@@ -11,18 +9,15 @@
 
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
     #manage-band
-      %p You are a manager for this band.
-      =link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+      You are a manager for this band.
+      = link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
+  = link_to 'Buy stock', buy_stock_url(@band.id), :class => 'lightbox'
   
 
 #profile-right-column
-  .media-player.grooveshark
-    %object{ :width => "645", :height => "270" }
-      %param{ :name => "movie", :value => "http://listen.grooveshark.com/widget.swf" }
-      %param{ :name => "wmode", :value => "window" }
-      %param{ :name => "allowScriptAccess", :value => "always" }
-      %param{ :name => "flashvars", :value => "hostname=cowbell.grooveshark.com&widgetID=21760643&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0" }
-      %embed{ :src => "http://listen.grooveshark.com/widget.swf", :type => "application/x-shockwave-flash", :width => "645", :height => "270", :flashvars => "hostname=cowbell.grooveshark.com&widgetID=21760643&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0", :allowScriptAccess => "always", :wmode => "window" }
+  -if @band.grooveshark_widget_id && @band.grooveshark_widget_id != ''
+    .media-player.grooveshark
+      = render :partial => 'grooveshark_widget', :locals => { :grooveshark_widget_id => @band.grooveshark_widget_id }
 
   -# __commented__
     - if @band_twitter_authorized
@@ -42,8 +37,8 @@
     = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
-  -if twitter_username
-    = render :partial => 'twitter_statuses_widget', :locals => { :user => twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+  -if @twitter_username && @twitter_username != ''
+    = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
   = render :partial => 'share_codes/redeem_widget'
 
 -# Attach accordion listeners to the series list

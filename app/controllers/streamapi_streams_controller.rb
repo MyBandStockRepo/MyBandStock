@@ -10,11 +10,42 @@ respond_to :html, :js
 ## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
  #before_filter :only => :post, :only => [:create, :update]
- before_filter :authenticated?, :except => [:callback, :ping]
- before_filter :user_has_site_admin, :except => [:ping, :callback, :view, :broadcast, :new, :edit, :create, :update, :show, :recorded]
- before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast]
+ before_filter :authenticated?, :except => [:ping]
+ before_filter :user_has_site_admin, :only => [:getLiveSessionInfo, :listLiveStreams, :getPublicHostId, :getPrivateHostId, :getLiveVideoRecordings, :getLayoutThemes, :index, :destroy]
+ before_filter :user_part_of_or_admin_of_a_band?, :only => [:broadcast, :edit, :update, :create, :new, :show, :email_stream_reminder]
  skip_filter :update_last_location, :only => [:ping, :update, :create, :destroy, :view, :broadcast, :recorded, :where_to_go?]
  before_filter :where_to_go?, :only => [:view, :recorded]
+
+
+  def email_stream_reminder
+    user = User.find(session[:user_id])
+
+    if params[:id]
+      stream = StreamapiStream.find(params[:id])
+      unless stream.nil? || user.can_broadcast_for(stream.band.id) == false
+        lss = stream.live_stream_series
+        email_return_val = lss.send_stream_reminder_email(stream)
+        if email_return_val == true
+          flash[:notice] = 'Emails sent to users with permissions to view stream.'
+        elsif email_return_val == false
+          flash[:error] = 'There was an error while trying to send the emails.  Please try again.'
+        elsif email_return_val.size() && email_return_val.size() > 0
+          str = 'There was an error while trying to send the emails.  Some users got an email, but these did not:'
+          for email in email_return_val
+            str += "\n"+email.to_s
+          end
+          flash[:error] = str
+        else
+          flash[:error] = 'There was an error while trying to send the emails.  Please try again.'
+        end
+      else
+        flash[:error] = 'There was an error while trying to send the emails.  Please try again.'
+      end
+    else
+      flash[:error] = 'There was an error while trying to send the emails.  Please try again.'
+    end   
+   redirect_to :action => 'show', :id => params[:id]
+  end
 
 
 	def ping
@@ -755,6 +786,7 @@ respond_to :html, :js
     @streamapi_stream = StreamapiStream.find(params[:id])
 		@broadcaster_theme = StreamapiStreamTheme.find(@streamapi_stream.broadcaster_theme_id)
 		@viewer_theme = StreamapiStreamTheme.find(@streamapi_stream.viewer_theme_id)
+		@user = User.find(session[:user_id])
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @streamapi_stream }
@@ -766,6 +798,7 @@ respond_to :html, :js
   def new
     @streamapi_stream = StreamapiStream.new
 		@band_id = params[:band_id] || LiveStreamSeries.find(@live_stream_series_id).band.id
+		@user = User.find(session[:user_id])
 
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
@@ -782,6 +815,7 @@ respond_to :html, :js
     @streamapi_stream = StreamapiStream.find(params[:id])
     @streamapi_stream.starts_at = @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
     @streamapi_stream.ends_at = @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
+    @user = User.find(session[:user_id])
 
     @band_id = params[:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
 
@@ -819,6 +853,7 @@ respond_to :html, :js
   def update
     @streamapi_stream = StreamapiStream.find(params[:id])
     @band_id = params[:streamapi_stream][:band_id] || LiveStreamSeries.find(@streamapi_stream.live_stream_series.id).band.id
+    @user = User.find(session[:user_id])
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
     end

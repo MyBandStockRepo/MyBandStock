@@ -5,6 +5,8 @@ Cobain::Application.configure do
   SITE_URL = 'http://gary.mybandstock.com'
   SECURE_SITE_URL = 'http://gary.mybandstock.com'
   SITE_HOST = 'gary.mybandstock.com'
+  
+  GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests

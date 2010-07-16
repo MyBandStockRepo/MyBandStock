@@ -4,48 +4,53 @@
 - available_themes[1].name = "16:9, High" # no chat
 
 .maincont
-  %h2
-    = @streamapi_stream.title
-    Stream
-    -unless @streamapi_stream.location.nil? || @streamapi_stream.location == ''
-      %span.grey99
-        |
-        = @streamapi_stream.location
-  %span.grey99
-    = @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
-    to 
-    = @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
-    (EST)
-  %br
-  %br
-  %p
-    %b Band:
-    = @streamapi_stream.band.name
+	%h2
+		= @streamapi_stream.title
+		Stream
+		-unless @streamapi_stream.location.nil? || @streamapi_stream.location == ''
+			%span.grey99
+				|
+				= @streamapi_stream.location
+	%span.grey99
+		= @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
+		to
+		= @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
+		(EST)
+	%br
+	%br
+	%p
+		%b Band:
+		= @streamapi_stream.band.name
 
-  %p
-    %b Broadcast Theme:
-    -if @streamapi_stream.broadcaster_theme.id == 8
-      = available_themes[0].name
-    -elsif @streamapi_stream.broadcaster_theme.id == 9
-      = available_themes[1].name
-    -else
-      = @streamapi_stream.broadcaster_theme.name
-  %p
-    %b Viewer Theme:
-    -if @streamapi_stream.viewer_theme.id == 8
-      = available_themes[0].name
-    -elsif @streamapi_stream.viewer_theme.id == 9
-      = available_themes[1].name
-    -else
-      = @streamapi_stream.viewer_theme.name
-  
-  %p
-    %b Public (If true, the live stream will show up in the public access schedule):
-    = @streamapi_stream.public
+	%p
+		%b Broadcast Theme:
+		-if @streamapi_stream.broadcaster_theme.id == 8
+			= available_themes[0].name
+		-elsif @streamapi_stream.broadcaster_theme.id == 9
+			= available_themes[1].name
+		-else
+			= @streamapi_stream.broadcaster_theme.name
+	%p
+		%b Viewer Theme:
+		-if @streamapi_stream.viewer_theme.id == 8
+			= available_themes[0].name
+		-elsif @streamapi_stream.viewer_theme.id == 9
+			= available_themes[1].name
+		-else
+			= @streamapi_stream.viewer_theme.name
 
-  %br
+	%p
+		%b Public (If true, the live stream will show up in the public access schedule):
+		= @streamapi_stream.public
 
-  .formbutton_left
-    = button_to 'EDIT', edit_streamapi_stream_path(@streamapi_stream)
-  .formbutton_left_nextto
-    = button_to 'BACK', '/streams/manage'
+	%br
+
+	.formbutton_left
+		= button_to 'EDIT', edit_streamapi_stream_path(@streamapi_stream)
+	.formbutton_left_nextto
+		= link_to 'BACK', '/streams/manage'
+	.clear
+	%br
+	%br
+	- if @user.can_broadcast_for(@streamapi_stream.band.id)
+		= link_to 'Send notification email to all current permission holders', :action => 'email_stream_reminder', :id => @streamapi_stream.id

@@ -32,8 +32,12 @@
 <p>
   <b>Share Codes</b>
   <ul>
-    <% @share_code_group.share_codes.each do |a_share_code| %>  
-    <li style="color: <%= (a_share_code.redeemed?) ? 'red' : 'green' %>"><%= a_share_code.key %></li>
+    <% @share_code_group.share_codes.order('redeemed DESC, updated_at DESC').each do |a_share_code| %>
+    
+    <li>
+      <span style="color: <%= (a_share_code.redeemed?) ? 'red' : 'green' %>"><%= a_share_code.key %></span>
+      <%= (a_share_code.redeemed?) ? ' - ' + a_share_code.user.email : '' %>
+    </li>
     <%end%>
   </ul>
 </p>
