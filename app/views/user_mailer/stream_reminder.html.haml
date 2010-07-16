@@ -1,0 +1,39 @@
+%h2
+  Reminder: You have access to a LIVE video stream with
+  = @band.name
+
+%p 
+  The next stream, 
+  = @stream.title+", will be starting on"
+  %strong
+    = @stream.starts_at.strftime("%A %B %d, %Y at %I:%M:%p EST.")
+  Note the time given is in the Eastern Standard Timezone.
+%p
+  Please login with the email address 
+  %strong
+    = @user.email
+  to watch the stream during the scheduled time.
+%p
+  If you are unable to view the stream live, you can view a recording of the stream 24 hours after the scheduled start time.
+  
+%br
+%p
+  You have permissions to view all streams within the following series:
+  %br
+  = @lss.title
+  %br
+  From 
+  = @lss.starts_at.strftime("%A %B %d, %Y") 
+  to 
+  = @lss.ends_at.strftime("%A %B %d, %Y") 
+
+%p 
+  To view times for other streams in this series, please visit the 
+  - if @band.access_schedule_url.nil? || @band.access_schedule_url == ''
+    band's website.
+  -else
+    = link_to 'Stream Viewer', @band.access_schedule_url
+  %br
+  and login with your credentials.
+
+= render :partial => 'email_footer', :locals => {:host => @host, :user => @user}

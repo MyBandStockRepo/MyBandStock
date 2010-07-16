@@ -147,9 +147,6 @@ div#slides ul li.show {z-index:500}
 /* LOGIN FORMS */
 form.ajax_login_form {position: absolute; z-index: 3;}
 
-/* SUBMIT FAN-NAME/EMAIL FORM VALIDATIONS */
-.error {font: normal 10px arial; padding: 3px; margin: 10px; background-color: #ffc; border: 1px solid #c00;
-}
 
 /*dashboard/admin_new_entry */
 div#admin_new_record_div{padding: 20px;}
@@ -205,7 +202,26 @@ a {color:#999;text-decoration:underline;}
 }
 
 /* Text */
-
+.error
+{
+	font: normal 10px arial; 
+	padding: 5px; 
+	margin: 10px; 
+	background-color: black; 
+	border: 1px solid red;
+	color: red;
+	width:400px;
+}
+.notice
+{
+	font: normal 10px arial; 
+	padding: 5px; 
+	margin: 10px; 
+	background-color: black; 
+	border: 1px solid #ff9900;
+	color: #ff9900;
+	width:400px;
+}
 em {
   font-style: italic;
 }
@@ -238,15 +254,6 @@ h3 {
 	font-size: 1.6em;
 	font-weight: bold;
   margin: 2px 0 4px;
-}
-
-.notice {
-  font-style: italic;
-  margin: .5em;
-  color: #f4ac3e;
-}
-.error {
-  color: red;
 }
 
 .code, .inline-code {
@@ -331,16 +338,9 @@ h3 {
   .accordion_header .expand_series {
     cursor: pointer;
   }
-.errbox_nonfloat
-{
-	font: normal 10px arial; 
-	padding: 5px; 
-	margin: 10px; 
-	background-color: black; 
-	border: 1px solid red;
-	color: red;
-	width:400px;
-}
+
+
+
 /* rotator css */
 #slides {height:400px;}
 div#slides ul li {float:  left; position: absolute;list-style: none;margin-left: 0;}
@@ -538,8 +538,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .LARGEfield .fieldnametop {height:193px;}
 .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
 .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
-    .formbutton input, .formbutton a, .formbutton_nextto input, .formbutton_nextto a, .formbutton_left input, .formbutton_left a, .formbutton_left_nextto input, .formbutton_left_nextto a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
-		.formbutton input:hover, .formbutton a:hover, .formbutton_nextto input:hover, .formbutton_nextto a:hover, .formbutton_left input:hover, .formbutton_left a:hover, .formbutton_left_nextto input:hover, .formbutton_left_nextto a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+.formbutton input, .formbutton_nextto input, .formbutton_left input, .formbutton_left_nextto input{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+.formbutton input:hover, .formbutton_nextto input:hover, .formbutton_left input:hover, .formbutton_left_nextto input:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;}
+
+.formbutton_nextto a, .formbutton a, .formbutton_left a, .formbutton_left_nextto a{width:140px;padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;text-decoration:none;display:block;text-align: center;height:30px;}
+.formbutton_nextto a:hover, .formbutton a:hover, .formbutton_left a:hover, .formbutton_left_nextto a:hover{padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;text-decoration:none;display:block;text-align: center;height:30px;}
+
 
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 10px;}
 .formbutton_left_nextto {width:140px;height:42px;float:left;margin:20px 10px 0px 10px;}
@@ -661,8 +665,21 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .newform .desc, .newform .description {margin: 5px 0px 10px 15px;float:left;}
 .newform .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
 .newform .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
-.newform .formbutton input, .newform .formbutton a, .newform .formbutton_nextto input, .newform .formbutton_nextto a, .newform .formbutton_left input, .newform .formbutton_left a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
-.newform .formbutton input:hover, .newform .formbutton a:hover, .newform .formbutton_nextto input:hover, .newform .formbutton_nextto a:hover, .newform .formbutton_left input:hover, .newform .formbutton_left a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer; }
+/*
+.newform .formbutton input, .newform .formbutton a, .newform .formbutton_nextto input, .newform .formbutton_nextto a, .newform .formbutton_left input, .newform .formbutton_left a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;text-decoration:none;display:block;}
+.newform .formbutton input:hover, .newform .formbutton a:hover, .newform .formbutton_nextto input:hover, .newform .formbutton_nextto a:hover, .newform .formbutton_left input:hover, .newform .formbutton_left a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;text-decoration:none;display:block;}
+*/
+
+.newform .formbutton input, .newform .formbutton_nextto input, .newform .formbutton_left input, .newform .formbutton_left_nextto input{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+.newform .formbutton input:hover, .newform .formbutton_nextto input:hover, .newform .formbutton_left input:hover, .newform .formbutton_left_nextto input:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;}
+
+.newform .formbutton_nextto a, .newform .formbutton a, .newform .formbutton_left a, .newform .formbutton_left_nextto a{width:140px;padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;text-decoration:none;display:block;text-align: center;height:30px;}
+.newform .formbutton_nextto a:hover, .newform .formbutton a:hover, .newform .formbutton_left a:hover, .newform .formbutton_left_nextto a:hover{padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;text-decoration:none;display:block;text-align: center;height:30px;}
+
+
+
+
+
 .newform .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
 .newform .fieldbox select {width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:normal;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
 .newform .LARGEfield .fieldbox {height:208px;width:400px;background:url(/images/forms/LARGEfield_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;}

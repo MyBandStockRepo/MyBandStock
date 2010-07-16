@@ -115,9 +115,13 @@ class ApiController < ApplicationController
 
 		if can_view
 			if newUser
-				UserMailer.new_user_stream_schedule_notification(user, genpass, streamingBand, lss).deliver
+#				UserMailer.new_user_stream_schedule_notification(user, genpass, streamingBand, lss).deliver
+        Delayed::Job.enqueue(NewUserStreamScheduleNotificationJob.new(user, genpass, streamingBand, lss), 3)
+        
 			else
-				UserMailer.existing_user_stream_schedule_notification(user, streamingBand, lss).deliver
+#				UserMailer.existing_user_stream_schedule_notification(user, streamingBand, lss).deliver
+        Delayed::Job.enqueue(ExistingUserStreamScheduleNotificationJob.new(user, streamingBand, lss), 2)
+				
 			end
 		end
 #    UserMailer.registration_notification(user).deliver

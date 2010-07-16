@@ -5,14 +5,19 @@ gem 'haml', '3.0.3'
 gem 'builder'
 gem 'twitter'
 gem 'google4r-checkout'
-#gem 'fastercsv' # For exporting a CSV of share codes
+gem 'fastercsv' # For exporting a CSV of share codes
 
 #following added by JM so we can run this under ruby 1.9
 gem 'twitter-text', "1.1", :git => 'git://github.com/rubypond/twitter-text-rb.git'
-gem 'will_paginate', '>= 3.0.pre'
+gem 'will_paginate', :branch => "rails3"
+#gem 'will_paginate'
 gem 'newrelic_rpm', :require => false
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
+
+gem 'delayed_job', '>= 2.1.0.pre'
+
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

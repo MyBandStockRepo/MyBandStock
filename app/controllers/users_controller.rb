@@ -325,7 +325,10 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
-      UserMailer.registration_notification(@user).deliver
+#      UserMailer.registration_notification(@user).deliver
+
+      # send email to new users welcoming to website, priority -1, default is 0
+      Delayed::Job.enqueue(RegistrationNotificationJob.new(@user), -1)
       
       if params[:redemption_redirect]
         redirect_url = params[:redemption_redirect] + '&user_id=' + @user.id.to_s

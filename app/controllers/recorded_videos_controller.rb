@@ -64,11 +64,11 @@ class RecordedVideosController < ApplicationController
   def index
     if session[:user_id] && @user = User.find(session[:user_id])
       if @user.site_admin
-        @recorded_videos = RecordedVideo.all        
+        @recorded_videos = RecordedVideo.all.reverse       
       else
         if params[:band_id] && @band = Band.find(params[:band_id])
           if @band.admins.include?(@user)
-            @recorded_videos = @band.recorded_videos
+            @recorded_videos = @band.recorded_videos.reverse
           else
             redirect_to session[:last_clean_url]
             return false            

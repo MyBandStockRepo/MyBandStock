@@ -9,6 +9,7 @@ Cobain::Application.routes.draw do |map|
 
   match 'live_stream_series/jsonp/:band_short_name/', :to => 'live_stream_series#jsonp'
   match 'live_stream_series/:id/by_band/', :to => 'live_stream_series#by_band'
+#  match 'live_stream_series/:id/send_emails/', :to => 'live_stream_series#email_users'
 
 
 #twitter api
@@ -43,6 +44,7 @@ Cobain::Application.routes.draw do |map|
 	match '/streamapi_streams/:id/getprivatehostid', :to => 'streamapi_streams#getPrivateHostId'
 	match '/streamapi_streams/:stream_id/ping/:viewer_key', :to => 'streamapi_streams#ping'
 	match '/streamapi_streams/:id/callback', :to => 'streamapi_streams#callback'
+	match '/streamapi_streams/:id/email_stream_reminder', :to => 'streamapi_streams#email_stream_reminder'
 
 	match '/users/activate', :to => 'users#activate'
 

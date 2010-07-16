@@ -14,5 +14,6 @@
 						= f.submit 'SUBMIT'
 					-if params[:action] && params[:action] == 'edit'
 						.formbutton_nextto
-							= button_to 'BACK', :url => session[:last_clean_url]
+							= link_to 'BACK', session[:last_clean_url]
+
 		.clear

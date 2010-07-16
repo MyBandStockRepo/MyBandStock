@@ -4,7 +4,10 @@ jQuery(function() {
 		ampm: true,
     	changeMonth: true,
     	numberOfMonths: 1,
-       	onSelect: function(selectedDate) {
+		changeMonth: true,
+		changeYear: true,
+		minDate: 0,
+      	onSelect: function(selectedDate) {
   			var option = this.id == "from" ? "minDate" : "maxDate";
   			var instance = $(this).data("datepicker");
   			var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);

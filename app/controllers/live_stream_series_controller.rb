@@ -7,6 +7,8 @@ class LiveStreamSeriesController < ApplicationController
   respond_to :html, :js, :xml
   layout :choose_layout
 
+
+
   def choose_layout
     if params[:lightbox]
       'lightbox'

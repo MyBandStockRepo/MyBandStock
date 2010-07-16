@@ -100,6 +100,22 @@ class UserMailer < ActionMailer::Base
     mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
 	end
 
+	def stream_reminder(user, stream)
+  	if user.nil? || stream.nil?
+      return false
+    end
+
+		recipient = make_address(user)
+		@user = user
+    @band = stream.band
+    @lss = stream.live_stream_series
+    @stream = stream
+		@host = SITE_HOST || 'mybandstock.com'
+    @mbslink = SITE_URL || 'http://mybandstock.com'
+    
+    subject = "Reminder - live stream for "+@band.name+" coming up"
+    mail(:to => recipient, :subject => subject)    		
+	end
 
 
 private

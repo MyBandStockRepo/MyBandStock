@@ -1,14 +1,14 @@
 .maincont
-  #content_login_bg
-    #login_wrap.lightboxpad
-      %h2 Edit Stream
-      %br
-      = form_for(@streamapi_stream) do |f|
-        =render :partial => 'form', :locals => {:f => f, :user => @user}
-        .fieldrow
-          .fieldleft
-            .formbutton
-              = f.submit 'SUBMIT'
-            .formbutton_nextto
-              = button_to 'BACK', '/streams/manage'
-      .clear
+	#content_login_bg
+		#login_wrap.lightboxpad
+			%h2 Edit Stream
+			%br
+			= form_for(@streamapi_stream) do |f|
+				=render :partial => 'form', :locals => {:f => f, :user => @user}
+				.fieldrow
+					.fieldleft
+						.formbutton
+							= f.submit 'SUBMIT'
+						.formbutton_nextto
+							= link_to 'BACK', '/streams/manage'
+			.clear

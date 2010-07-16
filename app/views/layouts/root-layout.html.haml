@@ -48,8 +48,11 @@
       
       #content
         -if flash[:error]
-          .errbox_nonfloat
+          .error
             = flash[:error]
+        -if flash[:notice]
+          .notice
+            = flash[:notice]            
         = yield
 
       = render :partial => 'common_partials/footer'
