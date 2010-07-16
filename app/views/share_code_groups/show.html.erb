@@ -37,7 +37,7 @@
     <li>
       <span style="color: <%= (a_share_code.redeemed?) ? 'red' : 'green' %>"><%= a_share_code.key %></span>
       <%= (a_share_code.redeemed?) ? ' - ' + a_share_code.user.email : '' %>
-      <%= (a_share_code.redeemed?) ? ' - ' + a_share_code.updated_at.strftime("%m/%d/%Y %I:%M %p") + " (#{time_ago_in_words(a_share_code.updated_at)} days ago)" : '' %>
+      <%= (a_share_code.redeemed?) ? ' - ' + a_share_code.updated_at.strftime("%m/%d/%Y %I:%M %p") + " (#{time_ago_in_words(a_share_code.updated_at)} ago)" : '' %>
     </li>
     <%end%>
   </ul>
