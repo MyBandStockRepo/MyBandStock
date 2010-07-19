@@ -13,7 +13,7 @@ class StaticsController < ApplicationController
 #    if params[:page].nil?
 #      @pbands = PledgedBand.paginate :page => 1, :order => 'pledges_count DESC'
 #    else
-      @pbands = PledgedBand.all.paginate :page => params[:page], :order => 'pledges_count DESC'
+      @pbands = PledgedBand.order('pledges_count DESC').all.paginate(:page => nil)
 #    end
     render :action => 'pbands'
   end
