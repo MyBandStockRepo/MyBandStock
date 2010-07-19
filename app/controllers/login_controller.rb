@@ -98,8 +98,8 @@ class LoginController < ApplicationController
       	@user.password = Digest::SHA2.hexdigest(password)
       	
       	if @user.save 
-#					UserMailer.reset_password(@user, password).deliver
-          Delayed::Job.enqueue(ResetPasswordJob.new(@user, password), 1)
+					UserMailer.reset_password(@user, password).deliver
+#          Delayed::Job.enqueue(ResetPasswordJob.new(@user, password), 1)
 
 					@reminder_sent = true
 				else

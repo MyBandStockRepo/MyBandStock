@@ -1,0 +1,16 @@
+Bluepill.application("Cobain") do |app|
+  app.process("delayed_job") do |process|
+    process.working_dir = "/home/deploy/Cobain/current"
+ 
+    process.start_grace_time    = 10.seconds
+    process.stop_grace_time     = 10.seconds
+    process.restart_grace_time  = 10.seconds
+ 
+    process.start_command = "ruby script/delayed_job -e production start"
+    process.stop_command  = "ruby script/delayed_job -e production stop"
+ 
+    process.pid_file = "/home/deploy/Cobain/shared/pids/delayed_job.pid"
+    process.uid = "deploy"
+    process.gid = "deploy"
+  end
+end
