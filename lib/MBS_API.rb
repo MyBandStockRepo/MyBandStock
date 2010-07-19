@@ -113,7 +113,8 @@ module MBS_API
 			else
 				UserMailer.existing_user_stream_schedule_notification(user, streamingBand, lss).deliver
 #        Delayed::Job.enqueue(ExistingUserStreamScheduleNotificationJob.new(user, streamingBand, lss), 2)			end
-		end
+  		end
+  	end
 
     @output = { :api_key => api_key,
                 :hash => hash,
