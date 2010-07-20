@@ -2,7 +2,7 @@ APP_ROOT='/home/mbs_gary/mybandstock.com'
 RAILS_ROOT='/home/mbs_gary/mybandstock.com/current'
 RAILS_ENV='production'
 
-Bluepill.application("mybandstock.com") do |app|
+Bluepill.application("Cobain") do |app|
   app.process("delayed_job") do |process|
     process.working_dir = RAILS_ROOT
 
