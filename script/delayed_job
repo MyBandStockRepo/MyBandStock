@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
+# TODO improve the line of code below
+# The line below is just a hack while we wait the delayed job guys answer the following issue
+# http://github.com/collectiveidea/delayed_job/issues#issue/38
+#ENV['RAILS_ENV'] ||= "production"
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
 require 'delayed/command'
