@@ -197,33 +197,34 @@ class TwitterApiController < ApplicationController
 
 
 
-  def update
+def update
 
-  end
+end
 
 
 	def retweet
 		error = false
 		needtoauth = false
-		latest = params[:latest]
+		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
 		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
-		begin
+#		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
-				if (params[:tweet_id] || latest) && params[:band_id]
+				if (params[:tweet_id] || use_latest_status) && params[:band_id]
 					tweetclient = client(false, false, nil)
-					@tweet = if latest
-					           tweetclient.user_timeline.first # bug here
-					         else
-					           tweetclient.status(params[:tweet_id])
-					         end
-					@tweeter = @tweet.user #the band's twitter
 					@band = Band.find(params[:band_id])
-					if @band && @tweeter
-						if @band.twitter_user.twitter_id == @tweeter.id
+					band_twitter_username = @band.twitter_username || ((@band.twitter_user) ? @band.twitter_user.user_name : nil)
+					@tweeter = (use_latest_status && band_twitter_username) ? Twitter.user(band_twitter_username) : tweetclient.status(params[:tweet_id]).user
+					@tweet = if use_latest_status
+					           @tweeter.status.text
+					         else
+					           tweetclient.status(params[:tweet_id]).text
+					         end
+					if @band && @tweeter || use_latest_status
+						if @band.twitter_user.twitter_id == @tweeter.id || use_latest_status
 							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
 							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
-							@retweet = @tweet.text
+							@retweet = @tweet
 							@endtags = generate_endtag(@tweeter.screen_name, linkback_url)
 							@msg = ''
 							@ellipsis = '...'
@@ -231,7 +232,7 @@ class TwitterApiController < ApplicationController
 							endtaglen = @endtags.length
 							tweetlen = @retweet.length
 							
-							if endtaglen + tweetlen <= TWEET_MAX_LENGTH
+							if (endtaglen + tweetlen) <= TWEET_MAX_LENGTH
 								@msg = @retweet + @endtags
 							else
 								cutlen = TWEET_MAX_LENGTH - endtaglen - @ellipsis.length
@@ -253,22 +254,26 @@ class TwitterApiController < ApplicationController
 				error = true
 				needtoauth = true
 			end
-		rescue
-			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			error = true
-		end
+#		rescue
+#			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+#			error = true
+#		end
 	
 		if error
 			if needtoauth
-				redirecturl = url_for()+'?band_id='+params[:band_id].to_s+'&tweet_id='+params[:tweet_id].to_s
+				redirecturl = url_for() +
+				              '?band_id='+params[:band_id].to_s +
+				              '&tweet_id='+params[:tweet_id].to_s +
+				              '&latest=' + use_latest_status.to_s
+				
 				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl
 				return
 			else
 				redirect_to :action => 'error', :lightbox => params[:lightbox]
-				return false		
+				return false
 			end
 		end
-		
+
 		if request.xhr?
 			render :layout => false
 		end
