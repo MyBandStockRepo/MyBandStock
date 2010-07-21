@@ -313,7 +313,7 @@ body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-f
 body#lightbox .condense{margin-top:15px;}
 body#lightbox .condense2{margin-top:5px;}
 body#lightbox .condense3{margin-top:0px;}
-
+body#lightbox .condense4{margin-top:10px;margin-bottom:5px;}
 
 
 /* Recorded Video Modal */
@@ -345,7 +345,7 @@ body#lightbox .newform .fieldnamebottom {height:15px;background:url(/images/form
 body#lightbox .newform .fieldbox {float:left;width:400px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;margin:0px;}
 body#lightbox .newform .fieldbox input{background:none;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:normal;color:#333333;float:left;margin:10px 20px 0px 20px;padding:0px;height:auto;width:360px;}
 body#lightbox .newform .fieldbox input[type=password] {font-family: inherit;}
-body#lightbox .newform .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+body#lightbox .newform .fielderror{width:220px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
 body#lightbox .newform .desc, body#lightbox .newform .description {margin: 5px 0px 10px 15px;float:left;}
 body#lightbox .newform .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
 body#lightbox .newform .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
