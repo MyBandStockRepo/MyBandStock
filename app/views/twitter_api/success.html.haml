@@ -1,12 +1,14 @@
 .success_box
-	%h3 Success!
-	%p
-		You earned yourself
-		%span.grey99
-			= @shares
-		shares in the band
-		%span.grey99
-			= @band.name 
-		for retweeting their status.
-	.formbutton
-		= button_to 'BACK', ''
+  %h3 Success!
+  %p
+    You earned yourself
+    %span.grey99
+      = @shares
+    shares in the band
+    %span.grey99
+      = @band.name 
+    for retweeting their status.
+  -if @show_back_button
+    .formbutton
+      = button_to 'BACK', ''
+
