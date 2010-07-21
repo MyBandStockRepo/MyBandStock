@@ -94,7 +94,11 @@ class Band < ActiveRecord::Base
     return (result.length == 0) ? nil : result
   end
 
-
+  #returns nil or all band shreholders
+  def all_shareholder_users()
+    return ShareTotal.where(:band_id => self.id).collect{|shareTotal| shareTotal.user}
+  end
+  
   #####
   #stats and quick data retrieval methods
   #####

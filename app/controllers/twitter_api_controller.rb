@@ -212,11 +212,11 @@ class TwitterApiController < ApplicationController
 				if (params[:tweet_id] || latest) && params[:band_id]
 					tweetclient = client(false, false, nil)
 					@tweet = if latest
-					           tweetclient.user_timeline.first
+					           tweetclient.user_timeline.first # bug here
 					         else
 					           tweetclient.status(params[:tweet_id])
 					         end
-					@tweeter = @tweet.user
+					@tweeter = @tweet.user #the band's twitter
 					@band = Band.find(params[:band_id])
 					if @band && @tweeter
 						if @band.twitter_user.twitter_id == @tweeter.id

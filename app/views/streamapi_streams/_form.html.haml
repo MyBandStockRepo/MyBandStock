@@ -146,8 +146,8 @@
         .description
           Do you want this stream to show up in the public schedule?
     .fielderror
-      - if @streamapi_stream.errors[:viewer_theme]
-        - for e in @streamapi_stream.errors[:viewer_theme]
+      - if @streamapi_stream.errors[:public]
+        - for e in @streamapi_stream.errors[:public]
           %p
             = '- '+e.to_s
   

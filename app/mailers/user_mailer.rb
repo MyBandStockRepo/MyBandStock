@@ -117,6 +117,19 @@ class UserMailer < ActionMailer::Base
     mail(:to => recipient, :subject => subject)    		
 	end
 
+	def send_announcement(users, subject, message)
+  	if users.nil? || subject.nil? || message.nil?
+      return false
+    end
+    
+		rec_arr = users.collect{|u| make_address(u)}
+		logger.info rec_arr
+		@host = SITE_HOST || 'mybandstock.com'
+    @mbslink = SITE_URL || 'http://mybandstock.com'
+    @message = message
+    mail(:bcc => rec_arr, :subject => subject)    		
+	end
+
 
 private
 
@@ -132,5 +145,4 @@ private
     end
     recipient
   end
-
 end
