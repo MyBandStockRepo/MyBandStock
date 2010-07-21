@@ -212,7 +212,8 @@ end
 				if (params[:tweet_id] || use_latest_status) && params[:band_id]
 					tweetclient = client(false, false, nil)
 					@band = Band.find(params[:band_id])
-					@tweeter = (use_latest_status) ? Twitter.user(@band.twitter_username) : tweetclient.status(params[:tweet_id]).user
+					band_twitter_username = @band.twitter_username || ((@band.twitter_user) ? @band.twitter_user.user_name : nil)
+					@tweeter = (use_latest_status && band_twitter_username) ? Twitter.user(band_twitter_username) : tweetclient.status(params[:tweet_id]).user
 					@tweet = if use_latest_status
 					           @tweeter.status.text
 					         else
