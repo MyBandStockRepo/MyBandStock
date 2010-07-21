@@ -205,11 +205,17 @@ class TwitterApiController < ApplicationController
 	def retweet
 		error = false
 		needtoauth = false
+		latest = params[:latest]
+		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
 		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
-				if params[:tweet_id] && params[:band_id]
-					tweetclient = client
-					@tweet = tweetclient.status(params[:tweet_id])
+				if (params[:tweet_id] || latest) && params[:band_id]
+					tweetclient = client(false, false, nil)
+					@tweet = if latest
+					           tweetclient.user_timeline.first
+					         else
+					           tweetclient.status(params[:tweet_id])
+					         end
 					@tweeter = @tweet.user
 					@band = Band.find(params[:band_id])
 					if @band && @tweeter
@@ -284,27 +290,39 @@ class TwitterApiController < ApplicationController
 	end
 	
 	def success
+  # Here we award shares if the user has not posted a RT within the past 24 hours.
+  #
 		if params[:band_id]
 			@band = Band.find(params[:band_id])
-			unless @band.nil?
-				@shares = 20
-                                # Here we should check if the user retweeted this band < 1 day ago. If so, we withhold the points,
-                                # and notify them. Something like:
-                                # ShareLedgerEntry.where( :user_id, :band_id, :description => 'retweet_band', :created_at < 1.day.ago )
-                                unless ShareLedgerEntry.create( :user_id => session[:user_id],
-                                                                :band_id => @band.id,
-                                                                :adjustment => @shares,
-                                                                :description => 'retweet_band'
-                                                        )
-                                  @shares = nil
-                                end
-
+			@user = User.find(session[:user_id])
+			if !@band.nil? && !@user.nil?
+			  num_tweets_in_past_day = ShareLedgerEntry.where(
+			                                             :description => 'retweet_band',
+                			                             :band_id => @band.id,
+			                                             :user_id => @user.id 
+			                                           ).where("created_at > '#{ 1.day.ago }'").count
+			  if num_tweets_in_past_day == 0
+				  @shares = NUM_SHARES_AWARDED_FOR_RT
+          if ShareLedgerEntry.create( :user_id => session[:user_id],
+                                          :band_id => @band.id,
+                                          :adjustment => @shares,
+                                          :description => 'retweet_band'
+                              )
+            @success = true
+          else
+            @shares = nil
+          end
+        else
+        # User has already been awarded for tweeting today
+          flash[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
+          return false
+        end
 			else
 				return false
 			end
 		else
-			redirect_to root_url
 			flash[:error] = 'Could not get band ID for success page.'
+			redirect_to root_url
 			return false
 		end
 		

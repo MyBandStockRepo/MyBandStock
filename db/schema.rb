@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100714182910) do
+ActiveRecord::Schema.define(:version => 20100712222440) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -83,15 +83,6 @@ ActiveRecord::Schema.define(:version => 20100714182910) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "delayed_job_id"
-    t.integer  "streamapi_stream_id"
-  end
-
-  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"

@@ -23,21 +23,25 @@ STREAM_VIEWER_TIMEOUT = 2*60 # seconds
 STREAMAPI_KEY = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
 STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
 
-  TWITTERAPI_KEY = 'OxTeKBSHEM0ufsguoNNeg'
-  TWITTERAPI_SECRET_KEY = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
-
-  TWEET_MAX_LENGTH = 140
-
+####
+# Twitter
+#
+  TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
+  TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
+  TWEET_MAX_LENGTH          = 140
+  NUM_SHARES_AWARDED_FOR_RT = 10
+####
 
 URL_SHORTENER_HOST = 'http://mbs1.us'
 
+####
 # These keys must match exactly those of the ApiUser created in seeds. We use this user for internal
 # permission granting. For example, when we apply share code permissions, we call the MBS API with
 # these credentials.
-OUR_MBS_API_KEY = 'a3dcf5600b117fc0'
-OUR_MBS_API_SECRET_KEY = '7f5ba404ac8599fd0cf3623ebf84e97a'
-OUR_MBS_API_HASH = 'afc0c639f89e9e81230d457a1d4abe15bb3acaafe3345eef55e84754040823fe'
-
+  OUR_MBS_API_KEY = 'a3dcf5600b117fc0'
+  OUR_MBS_API_SECRET_KEY = '7f5ba404ac8599fd0cf3623ebf84e97a'
+  OUR_MBS_API_HASH = 'afc0c639f89e9e81230d457a1d4abe15bb3acaafe3345eef55e84754040823fe'
+####
 
 #this is the default value for the make public recording button
 #if true it will default so that a recording is made publicly available for the stream
