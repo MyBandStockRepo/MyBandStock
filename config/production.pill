@@ -1,19 +1,26 @@
-APP_ROOT='/home/mbs_gary/mybandstock.com'
-RAILS_ROOT='/home/mbs_gary/mybandstock.com/current'
-RAILS_ENV='production'
+#APP_ROOT='/home/mbs_gary/mybandstock.com'
+#RAILS_ROOT='/home/mbs_gary/mybandstock.com/current'
+#RAILS_ENV='production'
 
-Bluepill.application("MBS Bluepill") do |app|
+
+APP_ROOT='/Users/brianjennings/MBS Cobain/cobain'
+RAILS_ROOT='/Users/brianjennings/MBS Cobain/cobain'
+RAILS_ENV='development'
+
+
+Bluepill.application("Cobain") do |app|
   app.process("delayed_job") do |process|
-    process.working_dir = RAILS_ROOT
+    process.working_dir = APP_ROOT
 
-    process.start_command = "RAILS_ENV=#{RAILS_ENV} #{APP_ROOT}/script/delayed_job start"
-    process.stop_command  = "RAILS_ENV=#{RAILS_ENV} #{APP_ROOT}/script/delayed_job stop"
-    process.pid_file = "#{APP_ROOT}/shared/pids/delayed_job.pid"
+    process.start_command = "/usr/bin/env RAILS_ENV=#{RAILS_ENV} #{APP_ROOT}/script/delayed_job start"
+    process.stop_command  = "/usr/bin/env RAILS_ENV=#{RAILS_ENV} #{APP_ROOT}/script/delayed_job stop"
+    process.pid_file = "tmp/pids/delayed_job.pid"
+
     process.start_grace_time = 15.seconds
     process.stop_grace_time = 15.seconds
-    process.restart_grace_time  = 15.seconds
-    process.uid = "deploy"
-    process.gid = "deploy"
+
+    process.uid = "BLUEPILL"
+    process.gid = "BLUEPILL"
 
     process.checks :cpu_usage, :every => 10.seconds, :below => 5, :times => 3
     process.checks :mem_usage, :every => 10.seconds, :below => 100.megabytes, :times => [3,5]

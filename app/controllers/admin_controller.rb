@@ -35,5 +35,38 @@ class AdminController < ApplicationController
     redirect_to :action => :authorize_users, :response_text => @response_text
   end
   
+  
+  def email_users_form
+    #everyone
+    #shres in a given band
+    #permission on given series
+    #top 10
+    @series_list = LiveStreamSeries.all
+    @bands = Band.all
+    
+    
+  end
+  
+  def send_users_email
+    #unless missing params
+    unless params[:admin].nil? || params[:admin][:to].nil? || params[:admin][:subject].nil? || params[:admin][:subject] == '' || params[:admin][:message].nil? || params[:admin][:message] == ''
+      @to = params[:admin][:to]
+      @subject = params[:admin][:subject]
+      @message =  params[:admin][:message]
+      
+      #HERE  if to all, get all users, etc...
+      
+      
+#      @series = LiveStreamSeries.find(params[:admin][:live_stream_series_id])
+#      @band = Band.find(params[:admin][:band_id])
+    else
+      #since there is no admin model, and we want to display errors and re-render the form, need dot operators to work for admin.  ex, we need admin.band_id to return the band id, so we must create a struct and that allows the dot operator to work
+      emailFormStruct = Struct.new(:live_stream_series_id, :band_id, :subject, :message)       
+      @series_list = LiveStreamSeries.all
+      @bands = Band.all
+      @admin = emailFormStruct.new(params[:admin][:live_stream_series_id].to_i, params[:admin][:band_id].to_i, params[:admin][:subject], params[:admin][:message])
+      render :action => 'email_users_form'
+    end
+  end
 #end controller
 end

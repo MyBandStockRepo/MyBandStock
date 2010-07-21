@@ -197,9 +197,9 @@ class TwitterApiController < ApplicationController
 
 
 
-def update
+  def update
 
-end
+  end
 
 
 	def retweet
