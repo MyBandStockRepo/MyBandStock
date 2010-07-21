@@ -325,7 +325,7 @@ have to be a part of the band for the twitter api call ie. user want's to view t
 band_id -> sets the ID for the band so their oauth token can be retrieved.  Only set if you want to
 use the band's oauth
 ================================================================
-=end    
+=end
     def client(use_band_oauth = false, needs_band_member_status = false, band_id = nil)
 			user = User.find(session['user_id'])
       # want to use bands oauth to show posts but want non-band users to be able to view them

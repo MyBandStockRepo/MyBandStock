@@ -38,7 +38,13 @@
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
 
   -if @twitter_username && @twitter_username != ''
-    = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+    .twitter-box
+      -if @band.twitter_user
+        .retweet-status-button
+          = link_to ( raw("Retweet the band for <strong>#{ defined?(NUM_SHARES_AWARDED_FOR_RT) ? NUM_SHARES_AWARDED_FOR_RT : 10 } shares</strong>"), { :controller => 'twitter_api', :action => 'retweet', :band_id => @band.id, :latest => true }, :target => '_blank' )
+        .clear
+      = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 200 }
+
   = render :partial => 'share_codes/redeem_widget'
 
 -# Attach accordion listeners to the series list

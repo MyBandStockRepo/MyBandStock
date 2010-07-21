@@ -255,7 +255,9 @@ h3 {
 	font-weight: bold;
   margin: 2px 0 4px;
 }
-
+strong {
+  font-weight: bold;
+}
 .code, .inline-code {
   color: white;
   font-family: "Courier New", Courier, monospace;
@@ -430,6 +432,39 @@ div#slides ul li.show {z-index:500}
     position:absolute;
     width:645px;
   }
+.twitter-box {
+  position: relative;
+  float: left;
+  margin-top: 10px;
+}
+  .retweet-status-button {
+    position: absolute;
+    top: 12px;
+    right: 0;
+    z-index: 1; /* So it is atop the twidget */
+    cursor: pointer;
+    border-top: 1px solid #CCC;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    border-left: 1px solid #CCC;
+  }
+    .retweet-status-button:hover {
+      border-top: 1px solid #777;
+      border-right: 1px solid #CCC;
+      border-bottom: 1px solid #CCC;
+      border-left: 1px solid #777;
+    }
+    .retweet-status-button:hover a {
+      color: #FFF;
+    }
+    .retweet-status-button a {
+      margin: 2px;
+      color: #F90;
+      text-decoration: none;
+    }
+    .retweet-status-button a:hover {
+      text-decoration: none;
+    }
 
 /* Band profile */
 #profile-band-photo {
