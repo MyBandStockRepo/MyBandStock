@@ -81,6 +81,10 @@ class Band < ActiveRecord::Base
   end
   
   def top_ten_shareholders()
+  # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
+  # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
+  # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
+  #
     # The more senior user wins in a tie
     # result = ShareTotal.find_by_sql("
     #               SELECT * FROM share_totals
