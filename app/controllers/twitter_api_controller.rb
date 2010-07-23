@@ -199,6 +199,17 @@ class TwitterApiController < ApplicationController
   end
 
 	def retweet
+    unless session[:auth_success] == true
+      if params[:lightbox].nil?
+        update_last_location and render 'login/user'
+      else
+        @external = true
+        @login_only = true  # Tell the login view to only show the login form
+        update_last_location and render 'login/user', :layout => 'lightbox'
+      end
+      return false
+    end
+
 		error = false
 		needtoauth = false
 		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
@@ -265,16 +276,18 @@ class TwitterApiController < ApplicationController
 				return false
 			else
 				if request.xhr? || params[:lightbox]
-				  render :nothing => true
+				  render :error, :layout => 'lightbox'
 				else
-	  			redirect_to :action => 'error', :lightbox => params[:lightbox], :lightbox => params[:lightbox]
+	  			redirect_to :action => 'error', :lightbox => params[:lightbox]
   			end
 				return false
 			end
 		end
 
-		if request.xhr? || params[:lightbox]
-			render :layout => false
+		if request.xhr?
+		  render :layout => false
+		elsif params[:lightbox]
+			render :layout => 'lightbox'
 		end
 		
 	end
@@ -319,10 +332,9 @@ class TwitterApiController < ApplicationController
         else
         # User has already been awarded for tweeting today
           flash[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
-          return false
         end
 			else
-				return false
+				flash[:error] = 'Check to make sure your tweet went out.'
 			end
 		else
 			flash[:error] = 'Could not get band ID for success page.'
@@ -330,9 +342,11 @@ class TwitterApiController < ApplicationController
 			return false
 		end
 		
-		if request.xhr? || params[:lightbox]
+		if request.xhr?
 		  @show_back_button = true
-			render :layout => false
+		  render :layout => false
+		elsif params[:lightbox]
+			render :layout => 'lightbox'
 		end 
 	end
 	
@@ -347,13 +361,16 @@ class TwitterApiController < ApplicationController
 					tweet = client.update(params[:twitter_api][:message])
 					flash[:notice] = "Got it! Tweet ##{tweet.id} created."
 					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id]
+					return true
 				else
 					flash[:error] = 'Could not get required parameters to post message.'			
 					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
+					return false
 				end
 			else
 				flash[:error] = 'Could not get required parameters to post message.'
 				redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
+				return false
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
@@ -500,6 +517,6 @@ class TwitterApiController < ApplicationController
 		
 #		endtag_str += ' #MyBandStock'
   end
-  
+
 end
 

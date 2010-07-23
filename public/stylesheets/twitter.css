@@ -18,7 +18,7 @@
 
 
 /* resizeable field */
-.tweet_contain {float:left;width:329px; height:300px;display:block;}
+.tweet_contain { margin: 20px auto 10px; width:329px; height:300px;display:block;}
 .tweet_contain_top {display:block;height:70px;float:left;width:100%;}
 	.tweet_contain_top_span {width:289px;height:70px;float:left;background-image:url(/images/tweet_preview_box/top_span.png);background-repeat:repeat-x;}
 	.tweet_contain_top_l {height:70px;width:20px;float:left;background-image:url(/images/tweet_preview_box/top_l.png);background-repeat:no-repeat;}

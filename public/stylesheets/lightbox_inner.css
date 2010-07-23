@@ -29,6 +29,12 @@ body#lightbox {
   color:#666666;
 }
 
+h3 {
+  font-family: TitilliumText14L999wt;
+  font-size: 25px;
+  color: #FFF;
+}
+
 #broadcast-container, #viewer-container {
   margin: auto;
 }
@@ -125,7 +131,7 @@ body#lightbox #login_submit {height:30px;float:right;margin-top:10px;}
 /*
 #content_login_bg {background-image:url(/images/content_login_bg.png);background-repeat:repeat-y;}
 */
-#login_wrap_ext{margin:0 auto;padding-top:70px;padding-bottom:50px;}
+#login_wrap_ext{margin:0 auto;padding-top:50px;padding-bottom:30px;}
 #login_wrap_left_ext{width:390px;float:left;margin-left:20px;}
 #login_wrap_right.external{width:385px;float:right;margin-right:20px;}
 	#login_wrap_rightpad{height:104px;}
@@ -189,7 +195,6 @@ body#lightbox .long_button a {
 body#lightbox .long_button a:hover {
   float: left;
   width: 100%;
-  margin-top: 11px;
   color: #FFF;
 }
 #toggle_recording_visibility {
