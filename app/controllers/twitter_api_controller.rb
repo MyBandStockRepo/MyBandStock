@@ -219,8 +219,8 @@ end
 					         else
 					           tweetclient.status(params[:tweet_id]).text
 					         end
-					if @band && @tweeter || use_latest_status
-						if @band.twitter_user.twitter_id == @tweeter.id || use_latest_status
+					if @band && @tweeter
+						if use_latest_status || (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id)
 							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
 							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
@@ -332,6 +332,7 @@ end
 		end
 		
 		if request.xhr?
+		  @show_back_button = true
 			render :layout => false
 		end 
 	end
