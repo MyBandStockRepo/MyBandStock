@@ -127,7 +127,7 @@ class UserMailer < ActionMailer::Base
 		@host = SITE_HOST || 'mybandstock.com'
     @mbslink = SITE_URL || 'http://mybandstock.com'
     @message = message
-    mail(:bcc => rec_arr, :subject => subject)    		
+    mail(:to => rec_arr, :subject => subject)    		
 	end
 
 
