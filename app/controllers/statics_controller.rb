@@ -9,12 +9,11 @@ class StaticsController < ApplicationController
 
   #RENDER PLEDGED BANDS WHEN CLICKING BANDS IN HOMEPAGE
   def pbands
-    #@pbands = PledgedBand.find(:all, :order => 'pledges_count DESC')
-#    if params[:page].nil?
-#      @pbands = PledgedBand.paginate :page => 1, :order => 'pledges_count DESC'
-#    else
+    if params[:page].nil?
       @pbands = PledgedBand.order('pledges_count DESC').all.paginate(:page => nil)
-#    end
+    else
+      @pbands = PledgedBand.order('pledges_count DESC').all.paginate(:page => params[:page])
+    end
     render :action => 'pbands'
   end
 

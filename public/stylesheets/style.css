@@ -98,7 +98,7 @@ a.social facebook fb_login_not_logged_in FB_login_button FB_ElementReady{float: 
 .orange_bar {height:30px;background-image:url(/images/orange_bar.gif);background-repeat:repeat-x;clear:both;}
 /* class => 'next_page' was called 'more_bands' before, this change is due to the will_paginate plugin */
   a.next_page {width:113px;height:11px;display:block;margin-top:10px;margin-right:40px;float:right;background-image:url(/images/more_bands.gif);background-position:0px 0px;}
-  a.previous_page {width:145px;height:11px;display:block;margin-top:10px;margin-left:40px;float:left;background-image:url(/images/previous_bands.gif);background-position:0px 0px;}	
+  a.prev_page {width:145px;height:11px;display:block;margin-top:10px;margin-left:40px;float:left;background-image:url(/images/previous_bands.gif);background-position:0px 0px;}	
 
 .bands_list {width:489px;height:340px;float:left;line-height:20px;}
 	.bands_list  a{color:#ff9900;text-decoration:none;}
