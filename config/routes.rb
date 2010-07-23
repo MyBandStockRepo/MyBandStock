@@ -60,6 +60,14 @@ Cobain::Application.routes.draw do |map|
     #match '/share_code_groups', :to => 'share_code_groups#index'
     match '/share_code_groups/download(/:id/:band_id)', :to => 'share_code_groups#download'
     match '/share_code_groups/:id/:band_id', :to => 'share_code_groups#show'
+
+
+    # ADMIN STUFF #
+    match '/admin/email_users', :to => 'admin#email_users_form'
+    match '/admin/send_users_email', :to => 'admin#send_users_email'
+
+
+
   # /--- Share Codes ---- #
 
 

@@ -1,0 +1,159 @@
+.orange_bar
+  .placement_edituserprofilepic
+  .placement_edituserprofile SEND EMAIL TO USERS
+  .orange_divider
+#content_login_bg
+  #login_wrap
+    .newform
+      %p Only users who allow emails will receive this.
+      = form_for(:admin, :url => {:action => :send_users_email}) do |f|    
+        .fieldrow
+          .fieldleft      
+            .field
+              .fieldname
+                .fieldnametop
+                  = f.label  :to, 'to*'
+                .fieldnamebottom
+              .fieldbox
+                -# have these if statements so that if form comes back with errors, your data will be preserved
+                %select{:id => 'to_field', :name => 'admin[to]'}
+                  -if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:to]
+                    -if params[:admin][:to] == 'all'
+                      %option{:value => "all", :selected => true} 
+                        All System Users
+                        = '('+@all_users_count.to_s+' people)'
+                    -else
+                      %option{:value => "all"}
+                        All System Users
+                        = '('+@all_users_count.to_s+' people)'
+                    -if params[:admin][:to] == 'lss'
+                      %option{:value => "lss", :selected => true} All Who Have A Series Permission
+                    -else
+                      %option{:value => "lss"} All Who Have A Series Permission
+                    -if params[:admin][:to] == 'band'
+                      %option{:value => "band", :selected => true} All Shareholders in a Band
+                    -else
+                      %option{:value => "band"} All Shareholders in a Band
+                    -if params[:admin][:to] == 'bandtop10'  
+                      %option{:value => "bandtop10", :selected => true} Top 10 Shareholders in a Band    
+                    -else
+                      %option{:value => "bandtop10"} Top 10 Shareholders in a Band    
+                  -else
+                    %option{:value => "all"}
+                      All System Users
+                      = '('+@all_users_count.to_s+' people)'                      
+                    %option{:value => "lss"} All Who Have A Series Permission
+                    %option{:value => "band"} All Shareholders in a Band
+                    %option{:value => "bandtop10"} Top 10 Shareholders in a Band                
+                
+        #lss_field{:style => 'display:none;'}       
+          .fieldrow
+            .fieldleft      
+              .field
+                .fieldname
+                  .fieldnametop
+                    = f.label  :live_stream_series, 'stream series*'
+                  .fieldnamebottom
+                .fieldbox
+                  = #collection_select 'admin', 'live_stream_series_id', @series_list, :id, :title, :class => 'select'
+                  -# need to manually build collection select so # of people you email can be reported
+                  %select{:id => 'admin_live_stream_series_id', :name => 'admin[live_stream_series_id]'}
+                    -for series in @series_list
+                      -# have these if statements so that if form comes back with errors, your data will be preserved                    
+                      - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:live_stream_series_id] && params[:admin][:live_stream_series_id].to_i == series.id
+                        %option{:value => "#{series.id}", :selected => true}
+                          = series.title + ' (' + series.users_with_permissions().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                      -else
+                        %option{:value => "#{series.id}"}
+                          = series.title + ' (' + series.users_with_permissions().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                      
+                  
+        #bandtop10_field{:style => 'display:none;'}
+          .fieldrow
+            .fieldleft      
+              .field
+                .fieldname
+                  .fieldnametop
+                    = f.label  :band, 'band*'
+                  .fieldnamebottom
+                .fieldbox
+                  = #collection_select 'admin', 'band_id', @bands, :id, :name, :class => 'select'
+                  -# need to manually build collection select so # of people you email can be reported                  
+                  %select{:id => 'admin_bandtop10_id', :name => 'admin[bandtop10_id]'}
+                    -for band in @bands
+                      -# have these if statements so that if form comes back with errors, your data will be preserved                           
+                      - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:bandtop10_id] && params[:admin][:bandtop10_id].to_i == band.id
+                        %option{:value => "#{band.id}", :selected => true}
+                          - band_count = band.top_ten_shareholders()
+                          -# need this to fix null pointer error
+                          - if band_count
+                            = band.name + ' (' + band.top_ten_shareholders().collect{|shareTotal| shareTotal.user}.select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                          -else
+                            = band.name + ' (0 people)'
+                      -else
+                        %option{:value => "#{band.id}"}
+                          - band_count = band.top_ten_shareholders()
+                          -# need this to fix null pointer error                          
+                          - if band_count
+                            = band.name + ' (' + band.top_ten_shareholders().collect{|shareTotal| shareTotal.user}.select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                          -else
+                            = band.name + ' (0 people)'                      
+
+        #bandall_field{:style => 'display:none;'}
+          .fieldrow
+            .fieldleft      
+              .field
+                .fieldname
+                  .fieldnametop
+                    = f.label  :band, 'band*'
+                  .fieldnamebottom
+                .fieldbox
+                  = #collection_select 'admin', 'band_id', @bands, :id, :name, :class => 'select'
+                  -# need to manually build collection select so # of people you email can be reported                                    
+                  %select{:id => 'admin_bandall_id', :name => 'admin[bandall_id]'}
+                    -for band in @bands
+                      -# have these if statements so that if form comes back with errors, your data will be preserved                                  
+                      - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:bandall_id] && params[:admin][:bandall_id].to_i == band.id                    
+                        %option{:value => "#{band.id}", :selected => true}
+                          = band.name + ' (' + band.all_shareholder_users().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                      -else
+                        %option{:value => "#{band.id}"}
+                          = band.name + ' (' + band.all_shareholder_users().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                      
+                
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :subject, 'subject*'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :subject
+            .desc
+              This is the email subject line.
+          .fielderror
+            - if params[:action] == 'send_users_email' && @admin && (@admin.subject.nil? || @admin.subject == '')
+              = '- '+'You must provide a subject.'
+        .fieldrow
+          .fieldleft
+            .field
+              .LARGEfield
+                .fieldname
+                  .fieldnametop
+                    = f.label :message, 'message*'
+                  .fieldnamebottom
+                .fieldbox
+                  = f.text_area 'message', { :class => 'textarea' }
+            .desc
+              A footer will automatically be applied, including a 'thank you' from the MBS team.
+          .fielderror
+            - if params[:action] == 'send_users_email' && @admin && (@admin.message.nil? || @admin.message == '')
+              = '- '+'You must provide a message.'
+
+        .fieldrow
+          .fieldleft
+            .formbutton.condense3
+              = f.submit 'SEND', :confirm => 'Are you sure you want to send out these emails?'
+
+      .clear

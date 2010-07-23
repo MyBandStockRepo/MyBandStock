@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100712222440) do
+ActiveRecord::Schema.define(:version => 20100721180137) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -83,6 +83,15 @@ ActiveRecord::Schema.define(:version => 20100712222440) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "delayed_job_id"
+    t.integer  "streamapi_stream_id"
+  end
+
+  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -279,23 +288,25 @@ ActiveRecord::Schema.define(:version => 20100712222440) do
   create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "password",                                :null => false
+    t.string   "password",                                          :null => false
     t.text     "bio"
     t.string   "address1"
     t.string   "address2"
     t.string   "city"
-    t.string   "email",                                   :null => false
+    t.string   "email",                                             :null => false
     t.string   "zipcode"
     t.string   "phone"
-    t.boolean  "agreed_to_tos",     :default => false,    :null => false
-    t.boolean  "agreed_to_pp",      :default => false,    :null => false
+    t.boolean  "agreed_to_tos",               :default => false,    :null => false
+    t.boolean  "agreed_to_pp",                :default => false,    :null => false
     t.integer  "headline_photo_id"
-    t.string   "status",            :default => "active", :null => false
+    t.string   "status",                      :default => "active", :null => false
     t.integer  "country_id"
     t.integer  "state_id"
     t.integer  "twitter_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "receive_email_reminders",     :default => true,     :null => false
+    t.boolean  "receive_email_announcements", :default => true,     :null => false
   end
 
   create_table "zipcodes", :force => true do |t|
