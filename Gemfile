@@ -17,7 +17,7 @@ gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
 gem 'delayed_job', '>= 2.1.0.pre'
 #gem 'daemons', '1.0.10'
-gem 'bluepill'
+#gem 'bluepill'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
