@@ -58,8 +58,8 @@ function applyFbListeners() {
 			'transitionIn': 'fade',
 			'transitionOut': 'fade',
 			'overlayOpacity' : 0.6,
-			'overlayColor' : 'black',      
-			'type': 'iframe',
+			'overlayColor' : 'black',
+			'type': ( (jQuery(this).attr('fbtype') == null) ? 'iframe' : jQuery(this).attr('fbtype') ),
 			'width': 880, //( (jQuery(this).attr('fbwidth') == null) ? 560 : parseInt(jQuery(this).attr('fbwidth')) ),
 			'height': ( (jQuery(this).attr('fbheight') == null) ? 469 : parseInt(jQuery(this).attr('fbheight')) ),
 			'autoScale': false,        // These two only work with

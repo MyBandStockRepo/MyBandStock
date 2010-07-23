@@ -1,6 +1,6 @@
 class TwitterApiController < ApplicationController
 	protect_from_forgery :only => [:create, :update, :band_create, :post_retweet]
-	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error]
+	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error, :retweet] # Authentication in retweet is done manually
 	before_filter :user_part_of_or_admin_of_a_band?, :only => [:update, :band_create]
   skip_filter :update_last_location, :only => [:create_session, :finalize, :deauth, :retweet, :post_retweet, :create, :band_create, :error]
 
@@ -194,20 +194,16 @@ class TwitterApiController < ApplicationController
 		
 	end
 
+  def update
 
-
-
-def update
-
-end
-
+  end
 
 	def retweet
 		error = false
 		needtoauth = false
 		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
 		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
-#		begin
+		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if (params[:tweet_id] || use_latest_status) && params[:band_id]
 					tweetclient = client(false, false, nil)
@@ -254,10 +250,10 @@ end
 				error = true
 				needtoauth = true
 			end
-#		rescue
-#			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-#			error = true
-#		end
+		rescue
+			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+			error = true
+		end
 	
 		if error
 			if needtoauth
@@ -265,16 +261,19 @@ end
 				              '?band_id='+params[:band_id].to_s +
 				              '&tweet_id='+params[:tweet_id].to_s +
 				              '&latest=' + use_latest_status.to_s
-				
-				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl
-				return
+  				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl, :lightbox => params[:lightbox]
+				return false
 			else
-				redirect_to :action => 'error', :lightbox => params[:lightbox]
+				if request.xhr? || params[:lightbox]
+				  render :nothing => true
+				else
+	  			redirect_to :action => 'error', :lightbox => params[:lightbox], :lightbox => params[:lightbox]
+  			end
 				return false
 			end
 		end
 
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 			render :layout => false
 		end
 		
@@ -289,7 +288,7 @@ end
       return
     end
     
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 			render :layout => false
 		end    
 	end
@@ -331,7 +330,7 @@ end
 			return false
 		end
 		
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 		  @show_back_button = true
 			render :layout => false
 		end 
@@ -361,7 +360,7 @@ end
 			redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
 			return false			
 		end					
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 			render :layout => false
 		end		
 	end
