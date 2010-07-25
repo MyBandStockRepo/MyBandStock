@@ -136,6 +136,7 @@ class TwitterApiController < ApplicationController
 				else
 					path = path.to_s
 				end
+				$user_just_authorized_with_twitter = true
 				# send all params that came  with the redirect address
 				redirect_to path
 			else
@@ -268,11 +269,18 @@ class TwitterApiController < ApplicationController
 	
 		if error
 			if needtoauth
-				redirecturl = url_for() +
-				              '?band_id='+params[:band_id].to_s +
-				              '&tweet_id='+params[:tweet_id].to_s +
-				              '&latest=' + use_latest_status.to_s
-  				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl, :lightbox => params[:lightbox]
+			  if params[:from_band_profile]
+			    redirect_url = params[:from_band_profile]
+	  	  else
+  				redirect_url = url_for() +
+	  			              '?band_id='+params[:band_id].to_s +
+	  			              '&tweet_id='+params[:tweet_id].to_s +
+	  			              '&latest=' + use_latest_status.to_s
+	  	  end
+				logger.info "Telling Twitter to redirect to #{ redirect_url }"
+				redirect_to :action => 'create_session',
+				            :lightbox => params[:lightbox],
+				            :redirect_from_twitter => redirect_url
 				return false
 			else
 				if request.xhr? || params[:lightbox]

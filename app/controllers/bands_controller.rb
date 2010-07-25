@@ -35,6 +35,13 @@ class BandsController < ApplicationController
                         else
                           nil
                         end
+    # Twitter authentication can redirect to this band show page, sometimes with currently_tweeting=true.
+    #   If this is the case, we shall notify the view to pop open the retweet lightbox because the user
+    #   is currently in the process of retweeting.
+    if $user_just_authorized_with_twitter
+      $user_just_authorized_with_twitter = false
+      @currently_tweeting = true
+    end
     
     #make sure the band isn't hidden
     if @band.status != "active"
