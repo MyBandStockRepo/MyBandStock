@@ -43,7 +43,11 @@ class TwitterApiController < ApplicationController
 			end
 			
 			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-			oauth.set_callback_url(((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) + '/twitter/finalize/?redirect='+redirect)
+			oauth_callback_url = ((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) +
+			                     '/twitter/finalize/?'+
+			                     ( (params[:from_band_profile]) ? 'from_band_profile=true&' : '' )+
+			                     'redirect='+redirect
+			oauth.set_callback_url(oauth_callback_url)
 			request_token = oauth.request_token			
 			access_token = request_token.token
 			access_secret = request_token.secret
@@ -123,9 +127,16 @@ class TwitterApiController < ApplicationController
 				redirect_to root_url
 				return false
 			end							
+			if params[:from_band_profile]
+				# The RT link from the band profiles can sometimes result in redirecting the user to authorize with Twitter.
+				# If that is the case, then when he returns back to the page, the RT lightbox should automatically and violently unleash itself.
+				# So band#show will see this session variable, and act accordingly.
+				session[:user_just_authorized_with_twitter] = true
+		  end
 			if params[:redirect]
 				path = params[:redirect]
 				params.delete(:redirect)
+				params.delete(:from_band_profile)
 				params.delete(:oauth_verifier)
 				params.delete(:oauth_token)
 				params.delete(:action)
@@ -136,12 +147,6 @@ class TwitterApiController < ApplicationController
 				else
 					path = path.to_s
 				end
-				if params[:from_band_profile]
-  				# The RT link from the band profiles can sometimes result in redirecting the user to authorize with Twitter.
-  				# If that is the case, then when he returns back to the page, the RT lightbox should automatically and violently unleash itself.
-  				# So band#show will see this session variable, and act accordingly.
-  				session[:user_just_authorized_with_twitter] = true
-  		  end
 				# send all params that came  with the redirect address
 				redirect_to path
 			else
@@ -285,6 +290,7 @@ class TwitterApiController < ApplicationController
 				logger.info "Telling Twitter to redirect to #{ redirect_url }"
 				redirect_to :action => 'create_session',
 				            :lightbox => params[:lightbox],
+				            :from_band_profile => ( (params[:from_band_profile]) ? 'true' : nil ),
 				            :redirect_from_twitter => redirect_url
 				return false
 			else
