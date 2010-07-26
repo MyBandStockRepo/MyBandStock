@@ -436,6 +436,7 @@ div#slides ul li.show {z-index:500}
   position: relative;
   float: left;
   margin-top: 10px;
+  overflow: auto;
 }
   .retweet-status-button {
     position: absolute;

@@ -18,12 +18,12 @@
 
 
 /* resizeable field */
-.tweet_contain {float:left;width:329px; height:300px;display:block;}
+.tweet_contain { margin: 20px auto 10px; width:329px; height:300px;display:block; overflow: auto; }
 .tweet_contain_top {display:block;height:70px;float:left;width:100%;}
 	.tweet_contain_top_span {width:289px;height:70px;float:left;background-image:url(/images/tweet_preview_box/top_span.png);background-repeat:repeat-x;}
 	.tweet_contain_top_l {height:70px;width:20px;float:left;background-image:url(/images/tweet_preview_box/top_l.png);background-repeat:no-repeat;}
 	.tweet_contain_top_r {height:70px;width:20px;float:right;background-image:url(/images/tweet_preview_box/top_r.png);background-repeat:no-repeat;}
-.tweet_contain_middle {display:block;float:left;width:329px;}	
+.tweet_contain_middle {display:block;float:left;width:329px; background-color: white; }	
 	.tweet_contain_l {height:100px;float:left;width:5px;background-image:url(/images/tweet_preview_box/l_span.png);background-repeat:repeat-y;}
 	.tweet_contain_content{width:319px;height:100px;float:left;background-color:white;}
 	.tweet_contain_r {height:100px;float:right;width:5px;background-image:url(/images/tweet_preview_box/r_span.png);background-repeat:repeat-y;}
@@ -31,7 +31,14 @@
 	.tweet_contain_bottom_span{width:289px;float:left;height:16px;background-image:url(/images/tweet_preview_box/bottom_span.png);background-repeat:repeat-x;}
 	.tweet_contain_bottom_l{float:left;width:20px;height:16px;background-image:url(/images/tweet_preview_box/bottom_l.png);background-repeat:no-repeat;}
 	.tweet_contain_bottom_r{float:right;width:20px;height:16px;background-image:url(/images/tweet_preview_box/bottom_r.png);background-repeat:no-repeat;}	
-
+.tweet_contain .loading_indicator {
+  display: none;
+  float: left;
+  margin-left: 42%;
+  height: 32px;
+  width: 32px;
+  background: url(/images/loading_indicator.gif) 0 0 no-repeat #FFF;
+}
 
 
 /* Retweet Page */

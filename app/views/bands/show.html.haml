@@ -34,9 +34,13 @@
         = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
 
   -if @twitter_username && @twitter_username != ''
+    -if @currently_tweeting
+      :javascript
+        currentlyTweeting = true;
     .twitter-box
       .retweet-status-button
-        = link_to ( raw("Retweet the band for <strong>#{ defined?(NUM_SHARES_AWARDED_FOR_RT) ? NUM_SHARES_AWARDED_FOR_RT : 10 } shares</strong>"), { :controller => 'twitter_api', :action => 'retweet', :band_id => @band.id, :latest => true }, :target => '_blank' )
+        - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => @band.id, :latest => true, :lightbox => true, :from_band_profile => band_url(@band.id) }
+        = link_to( raw("Retweet the band for <strong>#{ defined?(NUM_SHARES_AWARDED_FOR_RT) ? NUM_SHARES_AWARDED_FOR_RT : 10 } shares</strong>"), rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
       .clear
       = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 225 }
     .clear

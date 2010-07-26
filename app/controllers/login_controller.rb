@@ -44,7 +44,6 @@ class LoginController < ApplicationController
       passed_email = params[:user][:email]
       passed_password = params[:user][:password]
     end
-#    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == passed_password ) --- old, not-hashed
     if ( @user = User.find_by_email(passed_email) ) && ( @user.password == Digest::SHA2.hexdigest(passed_password) )
 			log_user_in(@user.id)
       flash[:notice] = "Thanks for logging in " + @user.full_name + "!"
@@ -65,8 +64,10 @@ class LoginController < ApplicationController
       @user = User.new(:email => passed_email)
       unless params[:lightbox].nil?
         @external = true
+        @login_only = params[:show_login_only]  # Tell the view to only show the login form, excluding "Signup" and stuff
         render :controller => 'login', :action => :user, :layout => 'lightbox'
       else
+        @login_only = params[:show_login_only]
         render :controller => 'login', :action => :user
       end
       return false
