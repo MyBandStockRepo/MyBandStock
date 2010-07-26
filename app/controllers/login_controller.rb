@@ -21,6 +21,8 @@ class LoginController < ApplicationController
       end
     end
     
+    @login_only = true if params[:login_only]
+
 	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
       @external = true  # The view needs to know whether to include the "external" login partial or default one.

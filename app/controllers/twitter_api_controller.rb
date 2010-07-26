@@ -207,11 +207,11 @@ class TwitterApiController < ApplicationController
 	def retweet
     unless session[:auth_success] == true
       if params[:lightbox].nil?
-        update_last_location and render 'login/user'
+        update_last_location and redirect_to :controller => 'login', :action => 'user'
       else
         @external = true
         @login_only = true  # Tell the login view to only show the login form
-        update_last_location and render 'login/user', :layout => 'lightbox'
+        update_last_location and redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
       end
       return false
     end
