@@ -11,8 +11,10 @@
         %p.twitter_name  
           = @retweeter_info.name
     .tweet_contain_top_r
+  -# = image_tag 'loading_indicator.gif', :id => 'tweet_loading_indicator', :alt => 'Maximum tweet action', :style => 'display: none;'
   .tweet_contain_middle
     .tweet_contain_l
+    .loading_indicator
     .tweet_contain_content
       .twitter_preview
         status preview
@@ -30,7 +32,19 @@
     -if params[:lightbox]
       = hidden_field_tag 'lightbox', true
     .formbutton
-      = f.submit 'RETWEET'
+      = f.submit 'RETWEET', :id => 'tweet_submit'
+:javascript
+  jQuery('#tweet_submit').click(function(e) {
+    jQuery(this).hide();
+    jQuery('.tweet_contain_middle').slideUp('slow', function() {
+      jQuery('.tweet_contain_content').hide();
+      jQuery('.tweet_contain .loading_indicator').show();
+      setTimeout(function() {
+        jQuery('.tweet_contain_middle').slideDown('slow');
+      }, 100);
+    });
+  });
+
 -#
   .retweet-box
     %h2

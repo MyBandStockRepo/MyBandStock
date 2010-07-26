@@ -136,7 +136,12 @@ class TwitterApiController < ApplicationController
 				else
 					path = path.to_s
 				end
-				$user_just_authorized_with_twitter = true
+				if params[:from_band_profile]
+  				# The RT link from the band profiles can sometimes result in redirecting the user to authorize with Twitter.
+  				# If that is the case, then when he returns back to the page, the RT lightbox should automatically and violently unleash itself.
+  				# So band#show will see this session variable, and act accordingly.
+  				session[:user_just_authorized_with_twitter] = true
+  		  end
 				# send all params that came  with the redirect address
 				redirect_to path
 			else

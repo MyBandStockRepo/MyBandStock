@@ -65,13 +65,13 @@ class User < ActiveRecord::Base
     num_shares = (share_total) ? share_total.net : 0
     
     # The more senior user wins in a tie
-    ShareTotal.find_by_sql("
+    ShareTotal.find_by_sql(["
                 SELECT * FROM share_totals
                   INNER JOIN users ON users.id = share_totals.user_id
                   WHERE band_id = #{ band_id }
                   AND net > #{ num_shares }
-                  OR (net = #{ num_shares } AND users.created_at < '#{ self.created_at }')
-              ").count + 1
+                  OR (net = #{ num_shares } AND users.created_at < ?)
+               ", self.created_at] ).count + 1
     
     # Lexicographic email tie resolution:
     # ShareTotal.find_by_sql("
