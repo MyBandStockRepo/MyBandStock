@@ -8,10 +8,7 @@ module ApplicationHelper
     content_tag(:span, date, :class => 'date') + " " + content_tag(:span, time, :class => 'time')
   end
 	
-
-	
-	
-  def bodytag_id
+	def bodytag_id
     a = controller.class.to_s.underscore.gsub(/_controller$/, '')
     b = controller.action_name.underscore
     "#{a}-#{b}".gsub(/_/, '-')

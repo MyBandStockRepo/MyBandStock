@@ -1,6 +1,6 @@
 class TwitterApiController < ApplicationController
 	protect_from_forgery :only => [:create, :update, :band_create, :post_retweet]
-	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error]
+	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error, :retweet] # Authentication in retweet is done manually
 	before_filter :user_part_of_or_admin_of_a_band?, :only => [:update, :band_create]
   skip_filter :update_last_location, :only => [:create_session, :finalize, :deauth, :retweet, :post_retweet, :create, :band_create, :error]
 
@@ -43,7 +43,11 @@ class TwitterApiController < ApplicationController
 			end
 			
 			oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-			oauth.set_callback_url(((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) + '/twitter/finalize/?redirect='+redirect)
+			oauth_callback_url = ((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) +
+			                     '/twitter/finalize/?'+
+			                     ( (params[:from_band_profile]) ? 'from_band_profile=true&' : '' )+
+			                     'redirect='+redirect
+			oauth.set_callback_url(oauth_callback_url)
 			request_token = oauth.request_token			
 			access_token = request_token.token
 			access_secret = request_token.secret
@@ -123,9 +127,16 @@ class TwitterApiController < ApplicationController
 				redirect_to root_url
 				return false
 			end							
+			if params[:from_band_profile]
+				# The RT link from the band profiles can sometimes result in redirecting the user to authorize with Twitter.
+				# If that is the case, then when he returns back to the page, the RT lightbox should automatically and violently unleash itself.
+				# So band#show will see this session variable, and act accordingly.
+				session[:user_just_authorized_with_twitter] = true
+		  end
 			if params[:redirect]
 				path = params[:redirect]
 				params.delete(:redirect)
+				params.delete(:from_band_profile)
 				params.delete(:oauth_verifier)
 				params.delete(:oauth_token)
 				params.delete(:action)
@@ -194,20 +205,27 @@ class TwitterApiController < ApplicationController
 		
 	end
 
+  def update
 
-
-
-def update
-
-end
-
+  end
 
 	def retweet
+    unless session[:auth_success] == true
+      if params[:lightbox].nil?
+        update_last_location and redirect_to :controller => 'login', :action => 'user'
+      else
+        @external = true
+        @login_only = true  # Tell the login view to only show the login form
+        update_last_location and redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
+      end
+      return false
+    end
+
 		error = false
 		needtoauth = false
 		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
 		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
-#		begin
+		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if (params[:tweet_id] || use_latest_status) && params[:band_id]
 					tweetclient = client(false, false, nil)
@@ -254,28 +272,41 @@ end
 				error = true
 				needtoauth = true
 			end
-#		rescue
-#			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-#			error = true
-#		end
+		rescue
+			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+			error = true
+		end
 	
 		if error
 			if needtoauth
-				redirecturl = url_for() +
-				              '?band_id='+params[:band_id].to_s +
-				              '&tweet_id='+params[:tweet_id].to_s +
-				              '&latest=' + use_latest_status.to_s
-				
-				redirect_to :action => 'create_session', :redirect_from_twitter => redirecturl
-				return
+			  if params[:from_band_profile]
+			    redirect_url = params[:from_band_profile]
+	  	  else
+  				redirect_url = url_for() +
+	  			              '?band_id='+params[:band_id].to_s +
+	  			              '&tweet_id='+params[:tweet_id].to_s +
+	  			              '&latest=' + use_latest_status.to_s
+	  	  end
+				logger.info "Telling Twitter to redirect to #{ redirect_url }"
+				redirect_to :action => 'create_session',
+				            :lightbox => params[:lightbox],
+				            :from_band_profile => ( (params[:from_band_profile]) ? 'true' : nil ),
+				            :redirect_from_twitter => redirect_url
+				return false
 			else
-				redirect_to :action => 'error', :lightbox => params[:lightbox]
+				if request.xhr? || params[:lightbox]
+				  render :error, :layout => 'lightbox'
+				else
+	  			redirect_to :action => 'error', :lightbox => params[:lightbox]
+  			end
 				return false
 			end
 		end
 
 		if request.xhr?
-			render :layout => false
+		  render :layout => false
+		elsif params[:lightbox]
+			render :layout => 'lightbox'
 		end
 		
 	end
@@ -289,7 +320,7 @@ end
       return
     end
     
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 			render :layout => false
 		end    
 	end
@@ -320,10 +351,9 @@ end
         else
         # User has already been awarded for tweeting today
           flash[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
-          return false
         end
 			else
-				return false
+				flash[:error] = 'Check to make sure your tweet went out.'
 			end
 		else
 			flash[:error] = 'Could not get band ID for success page.'
@@ -333,7 +363,9 @@ end
 		
 		if request.xhr?
 		  @show_back_button = true
-			render :layout => false
+		  render :layout => false
+		elsif params[:lightbox]
+			render :layout => 'lightbox'
 		end 
 	end
 	
@@ -348,20 +380,23 @@ end
 					tweet = client.update(params[:twitter_api][:message])
 					flash[:notice] = "Got it! Tweet ##{tweet.id} created."
 					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id]
+					return true
 				else
 					flash[:error] = 'Could not get required parameters to post message.'			
 					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
+					return false
 				end
 			else
 				flash[:error] = 'Could not get required parameters to post message.'
 				redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
+				return false
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
 			return false			
 		end					
-		if request.xhr?
+		if request.xhr? || params[:lightbox]
 			render :layout => false
 		end		
 	end
@@ -501,6 +536,6 @@ end
 		
 #		endtag_str += ' #MyBandStock'
   end
-  
+
 end
 

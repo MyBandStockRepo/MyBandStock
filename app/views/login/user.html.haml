@@ -1,69 +1,77 @@
 #content_login_bg
-	-if @external
-		.vertical_bar
-			.left_half
-			.right_half
-		#login_wrap_ext
-			#login_wrap_left_ext
-				%h2 PLEASE LOGIN TO GAIN ACCESS
-				-if flash[:error]
-					.errbox
-						= flash[:error]
-				.newform
-					.formcontainer
-						=form_for(:user, :url => {:action => :process_user_login} ) do |f|
-							= hidden_field_tag 'lightbox', true
-							%fieldset
-								.fieldname_small
-									= f.label 'email', 'email'
-								.fieldbox_small
-									= f.text_field :email
-							%fieldset
-								.fieldname_small
-									= f.label 'password', 'password'
-								.fieldbox_small
-									= f.password_field :password
-								#checkbox_login_ext
-									=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-									=label_tag 'checkbox_remember', 'Remember Me'
-									%br
-									=link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
-								.formbutton{ :style => 'margin-right: 20px;' }
-									= submit_tag 'login'
-			= render :partial => 'get_access'
-			.clear
-	-else
-		#login_wrap
-			#login_wrap_left
-				.newform
-					.formcontainer
-						=form_for(:user, :url => {:action => :process_user_login} ) do |f|
-							%fieldset
-								.field
-									.fieldname
-										.fieldnametop
-											= f.label 'email', 'email'
-										.fieldnamebottom
-									.fieldbox
-										= f.text_field :email
+  -if @external
+    -unless @login_only
+      .vertical_bar
+        .left_half
+        .right_half
+    #login_wrap_ext
+      #login_wrap_left_ext
+        %h2 PLEASE LOGIN TO GAIN ACCESS
+        -if flash[:error]
+          .errbox
+            = flash[:error]
+          .clear
+        .newform
+          .formcontainer
+            =form_for(:user, :url => {:controller => 'login', :action => :process_user_login}, :html => {:id => 'login_form'} ) do |f|
+              = hidden_field_tag 'lightbox', true
+              -if @login_only
+                = hidden_field_tag 'show_login_only', true
+              %fieldset
+                .fieldname_small
+                  = f.label 'email', 'email'
+                .fieldbox_small
+                  = f.text_field :email
+              %fieldset
+                .fieldname_small
+                  = f.label 'password', 'password'
+                .fieldbox_small
+                  = f.password_field :password
+                #checkbox_login_ext
+                  =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+                  =label_tag 'checkbox_remember', 'Remember Me'
+                  %br
+                  =link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
+                .formbutton{ :style => 'margin-right: 20px;' }
+                  = submit_tag 'login'
+      -unless @login_only
+        = render :partial => 'login/get_access'
+      .clear
+  -else
+    #login_wrap
+      #login_wrap_left
+        .newform
+          .formcontainer
+            =form_for(:user, :url => {:controller => 'login', :action => :process_user_login}, :html => {:id => 'login_form'} ) do |f|
+              -if @login_only
+                = hidden_field_tag 'show_login_only', true
+              %fieldset
+                .field
+                  .fieldname
+                    .fieldnametop
+                      = f.label 'email', 'email'
+                    .fieldnamebottom
+                  .fieldbox
+                    = f.text_field :email
 
-							%fieldset
-								.field
-									.fieldname
-										.fieldnametop
-											= f.label 'password', 'password'
-										.fieldnamebottom
-									.fieldbox
-										= f.password_field :password
-							#checkbox_login
-								=check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-								=label_tag 'checkbox_remember', 'Remember Me'
-								%br
-								=link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]
-							.formbutton{ :style => 'margin-right: 5px;' }
-								= submit_tag 'login'
+              %fieldset
+                .field
+                  .fieldname
+                    .fieldnametop
+                      = f.label 'password', 'password'
+                    .fieldnamebottom
+                  .fieldbox
+                    = f.password_field :password
+              #checkbox_login
+                =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+                =label_tag 'checkbox_remember', 'Remember Me'
+                %br
+                =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]
+              .formbutton{ :style => 'margin-right: 5px;' }
+                = submit_tag 'login'
 
-			= render :partial => 'signup'
+      -unless @login_only
+        = render :partial => 'login/signup'
 
-			.clear
+      .clear
 
