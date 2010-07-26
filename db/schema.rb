@@ -84,15 +84,6 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "delayed_job_id"
-    t.integer  "streamapi_stream_id"
-  end
-
-  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
-
   create_table "fans", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
