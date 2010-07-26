@@ -60,7 +60,7 @@
         %fieldset
           .fieldname.required.condense2
             .fieldnametop
-              = f.label :first_name, 'first name'
+              = f.label :first_name, 'first name*'
             .fieldnamebottom
           .fieldbox.required.condense2
             = f.text_field :first_name
@@ -75,7 +75,7 @@
         %fieldset
           .fieldname.required.condense2
             .fieldnametop
-              = f.label :zipcode, 'zip code'
+              = f.label :zipcode, 'zip code*'
             .fieldnamebottom
           .fieldbox.required.condense2
             = f.text_field :zipcode
@@ -84,37 +84,7 @@
         - for e in @user.errors[:zipcode]
           %p
             = '- '+e.to_s
-  -if params[:action] == 'edit' || params[:action] == 'update'
-    .fieldrow
-      .fieldleft
-        .field.condense4
-          .fieldname
-            .fieldnametop
-              = f.label 'twitter'
-            .fieldnamebottom
-          .fieldbox
-            .form_input_text
-              -unless @user_twitter_authorized
-                Your account is not currently linked to a twitter account.
-                %br
-                = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-              -else
-                = image_tag(@twit_user.profile_image_url, :class => 'edit_band_twit_img')
-                .auth_twit_text
-                  Authorized as:
-                  %b
-                    = @twit_user.screen_name+' ('+@twit_user.name+')'
-                  %br
-                  = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-                  = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-        .desc
-          Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
-      .fielderror.condense
-        - if @user.errors[:twitter_user_id]
-          - for e in @user.errors[:twitter_user_id]
-            %p
-              = '- '+e.to_s
-
+            
     -if (params[:lightbox] && params[:lightbox] == false) || params[:lightbox].nil?
       .fieldrow
         .fieldleft      
@@ -163,5 +133,39 @@
           - if @user.errors[:receive_email_reminders]
             - for e in @user.errors[:receive_email_reminders]
               %p
-                = '- '+e.to_s
+                = '- '+e.to_s            
+    
+    
+  -if params[:action] == 'edit' || params[:action] == 'update'
+    .fieldrow
+      .fieldleft
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              = f.label 'twitter'
+            .fieldnamebottom
+          .fieldbox
+            .form_input_text
+              -unless @user_twitter_authorized
+                Your account is not currently linked to a twitter account.
+                %br
+                = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+              -else
+                = image_tag(@twit_user.profile_image_url, :class => 'edit_band_twit_img')
+                .auth_twit_text
+                  Authorized as:
+                  %b
+                    = @twit_user.screen_name+' ('+@twit_user.name+')'
+                  %br
+                  = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                  = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+        .desc
+          Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
+      .fielderror.condense
+        - if @user.errors[:twitter_user_id]
+          - for e in @user.errors[:twitter_user_id]
+            %p
+              = '- '+e.to_s
+
+
 

@@ -4,6 +4,8 @@ require File.expand_path('../application', __FILE__)
 # Initialize the rails application
 Cobain::Application.initialize!
 
+# will run the script to send out automated stream alert emails
+require 'lib/email_scheduler.rb'
 # ** Environment variables ** #
 
 # Email address to which support inquiries are sent.
@@ -46,3 +48,6 @@ URL_SHORTENER_HOST = 'http://mbs1.us'
 #this is the default value for the make public recording button
 #if true it will default so that a recording is made publicly available for the stream
 STREAMAPI_DEFAULT_PUBLIC_RECORDING = false
+
+
+#Time.zone = "Eastern Time (US & Canada)"

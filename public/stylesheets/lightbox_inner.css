@@ -184,6 +184,7 @@ body#lightbox .long_button a {
   font-size: 18px;
   text-decoration: none;
   margin-top: 11px;
+padding:0;
   color: #333;
   background: none;
 }
@@ -192,6 +193,9 @@ body#lightbox .long_button a:hover {
   width: 100%;
   margin-top: 11px;
   color: #FFF;
+  background:none;
+padding:0;
+
 }
 #toggle_recording_visibility {
   width: 285px;

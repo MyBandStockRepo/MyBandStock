@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100721180137) do
+ActiveRecord::Schema.define(:version => 20100723191945) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -83,15 +83,6 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "delayed_job_id"
-    t.integer  "streamapi_stream_id"
-  end
-
-  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -256,10 +247,10 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
     t.string   "private_hostid"
     t.string   "public_hostid"
     t.string   "channel_id"
-    t.string   "title",                                    :null => false
-    t.datetime "starts_at",                                :null => false
-    t.datetime "ends_at",                                  :null => false
-    t.boolean  "public",                 :default => true, :null => false
+    t.string   "title",                                       :null => false
+    t.datetime "starts_at",                                   :null => false
+    t.datetime "ends_at",                                     :null => false
+    t.boolean  "public",                   :default => true,  :null => false
     t.integer  "duration"
     t.integer  "total_viewers"
     t.integer  "max_concurrent_viewers"
@@ -273,6 +264,7 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
     t.integer  "viewer_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "users_have_been_notified", :default => false, :null => false
   end
 
   create_table "twitter_users", :force => true do |t|
