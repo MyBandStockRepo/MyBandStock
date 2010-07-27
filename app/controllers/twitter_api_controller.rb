@@ -365,6 +365,7 @@ class TwitterApiController < ApplicationController
 		  @show_back_button = true
 		  render :layout => false
 		elsif params[:lightbox]
+		  @external = true
 			render :layout => 'lightbox'
 		end 
 	end
