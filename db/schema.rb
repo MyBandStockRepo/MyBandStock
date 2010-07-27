@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100721180137) do
+ActiveRecord::Schema.define(:version => 20100723191945) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -247,10 +247,10 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
     t.string   "private_hostid"
     t.string   "public_hostid"
     t.string   "channel_id"
-    t.string   "title",                                    :null => false
-    t.datetime "starts_at",                                :null => false
-    t.datetime "ends_at",                                  :null => false
-    t.boolean  "public",                 :default => true, :null => false
+    t.string   "title",                                       :null => false
+    t.datetime "starts_at",                                   :null => false
+    t.datetime "ends_at",                                     :null => false
+    t.boolean  "public",                   :default => true,  :null => false
     t.integer  "duration"
     t.integer  "total_viewers"
     t.integer  "max_concurrent_viewers"
@@ -264,6 +264,7 @@ ActiveRecord::Schema.define(:version => 20100721180137) do
     t.integer  "viewer_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "users_have_been_notified", :default => false, :null => false
   end
 
   create_table "twitter_users", :force => true do |t|

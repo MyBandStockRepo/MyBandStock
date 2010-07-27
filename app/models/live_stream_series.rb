@@ -24,20 +24,16 @@ class LiveStreamSeries < ActiveRecord::Base
     end 
     failed_users = Array.new
     permissions = self.live_stream_series_permissions
-    #add check here for email opt out
     count = 0
     for permission in permissions
       user = permission.user
         
-      #delete old jobs if they exist for this stream already
       #make sure thay want email reminders
       if user.receive_email_reminders == true
-#        Delayed::Job.enqueue(StreamReminderJob.new(user, stream), 0, stream.starts_at - 24.hours)
         if Delayed::Job.enqueue(StreamReminderJob.new(user, stream), 0).nil?
           failed_users << user.email.to_s
         end      
         count += 1
-#        oldjoin = stream.delayed_job
       end
     end
     if failed_users.size() > 0 && failed_users.size() < count

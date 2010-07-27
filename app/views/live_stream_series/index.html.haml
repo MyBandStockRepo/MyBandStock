@@ -1,34 +1,35 @@
 %h1 Listing live_stream_series
-
+%h2
+  = Time.zone
 %table
-	%tr
-		%th Title
-		%th Start time
-		%th End time
-		%th Band   
-		%th
-		%th 
-		%th 
-		%th 
+  %tr
+    %th Title
+    %th Start time
+    %th End time
+    %th Band   
+    %th
+    %th 
+    %th 
+    %th 
 
-	- @live_stream_series.each do |live_stream_series| 
-		%tr
-			%td
-				= live_stream_series.title
-			%td
-				= live_stream_series.starts_at
-			%td
-				= live_stream_series.ends_at
-			%td
-				= Band.find(live_stream_series.band_id).name
-			%td
-				= live_stream_series.purchase_url
-			%td
-				= link_to 'Show', live_stream_series
-			%td
-				= link_to 'Edit', edit_live_stream_series_path(live_stream_series)
-			%td
-				= link_to 'Destroy', live_stream_series, :confirm => 'Are you sure?', :method => :delete
-	%br
+  - @live_stream_series.each do |live_stream_series| 
+    %tr
+      %td
+        = live_stream_series.title
+      %td
+        = live_stream_series.starts_at
+      %td
+        = live_stream_series.ends_at
+      %td
+        = Band.find(live_stream_series.band_id).name
+      %td
+        = live_stream_series.purchase_url
+      %td
+        = link_to 'Show', live_stream_series
+      %td
+        = link_to 'Edit', edit_live_stream_series_path(live_stream_series)
+      %td
+        = link_to 'Destroy', live_stream_series, :confirm => 'Are you sure?', :method => :delete
+  %br
 
 = link_to 'New Live stream series', new_live_stream_series_path

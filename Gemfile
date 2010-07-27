@@ -15,9 +15,12 @@ gem 'newrelic_rpm', :require => false
 
 gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
+#used to send out batch emails to multiple users
 gem 'delayed_job', '>= 2.1.0.pre'
-#gem 'daemons', '1.0.10'
-#gem 'bluepill'
+
+#used to see if batch emails need to be sent out
+gem 'rufus-scheduler'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
