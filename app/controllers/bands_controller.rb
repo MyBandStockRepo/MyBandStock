@@ -266,8 +266,12 @@ class BandsController < ApplicationController
   def buy_stock
     @band = Band.find(params[:band_id])
     unless @band
-      flash[:notice] = "You've attempted to buy stock from an invalid badn. Please try again."
-      redirect_to (session[:last_clean_url] || '/'), :lightbox => params[:lightbox]
+      if params[:lightbox]
+        render :text => "You've attempted to buy stock from an invalid band. Please try again.", :layout => 'lightbox'
+      else
+        flash[:notice] = "You've attempted to buy stock from an invalid band. Please try again."
+        redirect_to (session[:last_clean_url] || '/')
+      end
       return false
     end
     
