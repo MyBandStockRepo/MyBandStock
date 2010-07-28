@@ -10,7 +10,7 @@ SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] new scheduler created'
 
 
 #will run a check every 30 mins and see if any streams within 24 hour window.  
-scheduler.every '30m' do
+scheduler.every '5m' do
 
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script'
 
