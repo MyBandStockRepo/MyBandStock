@@ -189,13 +189,19 @@ body#lightbox .long_button a {
   width: 100%;
   font-size: 18px;
   text-decoration: none;
+  margin-top: 11px;
+padding:0;
   color: #333;
   background: none;
 }
 body#lightbox .long_button a:hover {
   float: left;
   width: 100%;
+  margin-top: 11px;
   color: #FFF;
+  background:none;
+padding:0;
+
 }
 #toggle_recording_visibility {
   width: 285px;

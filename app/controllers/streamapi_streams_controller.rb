@@ -857,7 +857,6 @@ respond_to :html, :js
     if @band_id
       @series_list = LiveStreamSeries.where(:band_id => @band_id)
     end
-    
     respond_to do |format|
       if @streamapi_stream.update_attributes(params[:streamapi_stream])
         format.html { redirect_to(@streamapi_stream, :notice => 'Streamapi stream was successfully updated.') }

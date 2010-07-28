@@ -30,4 +30,7 @@ Cobain::Application.configure do
   EMAIL_INTERCEPTOR_ADDRESS = 'brian@mybandstock.com'
   GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
   
+  #set timezone (only do for dev mode now so we don't break stuff on the server)
+  #Time.zone = "Eastern Time (US & Canada)"
+
 end

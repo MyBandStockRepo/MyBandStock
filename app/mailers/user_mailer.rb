@@ -127,7 +127,13 @@ class UserMailer < ActionMailer::Base
 		@host = SITE_HOST || 'mybandstock.com'
     @mbslink = SITE_URL || 'http://mybandstock.com'
     @message = message
-    mail(:bcc => rec_arr, :subject => subject)    		
+    
+    #do this because the interceptor doesn't work on bcc addresses
+    if RAILS_ENV == "development"
+      mail(:to => rec_arr, :subject => subject)    		
+    else
+      mail(:bcc => rec_arr, :subject => subject)    		      
+    end
 	end
 
 
