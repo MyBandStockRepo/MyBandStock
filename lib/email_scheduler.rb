@@ -6,11 +6,11 @@ require 'scheduler_logger.rb'
 
 scheduler = Rufus::Scheduler.start_new
 
-SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] new scheduler created from rails app with ruby PID='+Process.pid.to_s
+SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] scheduler included from rails app with ruby PID='+Process.pid.to_s
 
 
 #will run a check every 30 mins and see if any streams within 24 hour window.  
-scheduler.every '1m' do
+scheduler.every '5m' do
 
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script ruby PID='+Process.pid.to_s
 
