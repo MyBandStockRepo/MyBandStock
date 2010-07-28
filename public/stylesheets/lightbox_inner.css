@@ -33,10 +33,15 @@ body#lightbox #lightbox_feature { /* Like .maincont, except it doesn't conflict 
 	margin: 20px;
 }
 
-h3 {
+body#lightbox h3 {
   font-family: TitilliumText14L999wt;
   font-size: 25px;
   color: #FFF;
+}
+
+body#lightbox p {
+  float: left;
+  margin: 15px 0 10px;
 }
 
 #broadcast-container, #viewer-container {

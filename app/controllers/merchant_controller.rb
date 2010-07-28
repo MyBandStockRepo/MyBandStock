@@ -1,7 +1,24 @@
+require 'google4r/checkout'
+include Google4R::Checkout
+
 class MerchantController < ApplicationController
 
   def make_stock_purchase
-    band = ( (params[:band_id]) ? Band.find(params[:band_id] : nil )
+    
+    # Make sure user is logged in. If not, send him to the appropriate login view.
+    unless session[:auth_success] == true
+      if params[:lightbox].nil?
+        update_last_location and redirect_to :controller => 'login', :action => 'user'
+      else
+        @external = true
+        @login_only = true  # Tell the login view to only show the login form
+        update_last_location and redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
+      end
+      return false
+    end
+
+    # Check to assure the band exists.
+    band = ( (params[:band_id]) ? Band.find(params[:band_id].to_i) : nil )
     if band.nil?
       flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
@@ -10,13 +27,8 @@ class MerchantController < ApplicationController
     #make sure num_shares is good
     num_shares = params[:num_shares].to_i
     if num_shares.nil? || num_shares == 0 || num_shares < 1 || num_shares > 1000
-      flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
+      flash[:error] = 'Could not buy stock: share amount must be between 1 and 1000.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
-    end
-    
-    unless ( (params[:agreement] == '1') && (params[:security] == '1') )
-      redirect_to :controller => 'bands', :action => 'select_contribution_level', :id => contribution_level.band_id, :agreement => params[:agreement], :security => params[:security]
-      return false
     end
     
     #begin the transaction
