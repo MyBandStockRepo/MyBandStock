@@ -7,8 +7,8 @@ require 'scheduler_logger.rb'
 scheduler = Rufus::Scheduler.start_new
 
 
-#will run a check every hour and see if any streams within 24 hour window.  
-scheduler.every '3m' do
+#will run a check every 30 mins and see if any streams within 24 hour window.  
+scheduler.every '30m' do
 
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script'
 
@@ -40,8 +40,6 @@ scheduler.every '3m' do
       SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+']  ==> ERROR: Some users were added to the job queue, but not all.'      
     end
   end
+  
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] finishing script'
-  #Rails.logger.flush  
-  
-  
 end
