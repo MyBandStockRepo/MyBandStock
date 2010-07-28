@@ -12,6 +12,6 @@ class TaxTableFactory
     end
     
     [ table1 ]
-    end
+  end
     
 end
