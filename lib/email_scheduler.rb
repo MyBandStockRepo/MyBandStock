@@ -6,6 +6,8 @@ require 'scheduler_logger.rb'
 
 scheduler = Rufus::Scheduler.start_new
 
+SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] new scheduler created'
+
 
 #will run a check every 30 mins and see if any streams within 24 hour window.  
 scheduler.every '30m' do

@@ -5,7 +5,7 @@ require File.expand_path('../application', __FILE__)
 Cobain::Application.initialize!
 
 # will run the script to send out automated stream alert emails
-require 'lib/email_scheduler.rb'
+#require 'lib/email_scheduler.rb'
 # ** Environment variables ** #
 
 # Email address to which support inquiries are sent.
