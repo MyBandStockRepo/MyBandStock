@@ -1,5 +1,4 @@
 require 'google4r/checkout'
-include Google4R::Checkout
 
 class MerchantController < ApplicationController
 
@@ -215,10 +214,9 @@ private
         #mark the order as paid and grant their perks
         google_order.paid = true
         google_order.save
-        google_order.process_paid_order()
+        order_success = google_order.process_paid_order()
       end  
     end
-    
   end
   
   
