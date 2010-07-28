@@ -8,7 +8,7 @@ scheduler = Rufus::Scheduler.start_new
 
 
 #will run a check every hour and see if any streams within 24 hour window.  
-scheduler.every '10m' do
+scheduler.every '3m' do
 
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script'
 
