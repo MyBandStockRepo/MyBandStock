@@ -6,13 +6,13 @@ require 'scheduler_logger.rb'
 
 scheduler = Rufus::Scheduler.start_new
 
-SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] new scheduler created'
+SCHEDULER_LOG.info '[SCHEDULER]['+DateTime.now.to_s+'] new scheduler created from rails app with ruby PID='+Process.pid.to_s
 
 
 #will run a check every 30 mins and see if any streams within 24 hour window.  
-scheduler.every '5m' do
+scheduler.every '1m' do
 
-  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script'
+  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] running script ruby PID='+Process.pid.to_s
 
   #get all streams with a start time within 24 hours and the stream hasn't had an email go out for it yet
   #since field is datetime, have to do some strange math to get the timezones to match up and to get the date strings in the same format
@@ -43,5 +43,5 @@ scheduler.every '5m' do
     end
   end
   
-  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] finishing script'
+  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] finishing script ruby PID='+Process.pid.to_s
 end
