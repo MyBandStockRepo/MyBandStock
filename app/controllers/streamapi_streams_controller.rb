@@ -173,15 +173,15 @@ respond_to :html, :js
 		@theme = StreamapiStreamTheme.find(@stream.broadcaster_theme_id)
 
     # Sometimes we get double requests from lightboxes. If they came <= 1 seconds(es) apart, a repeat-request is suspected, so we should not proceed
-    lastUpdated = Time.now.to_i - @stream.updated_at.to_i
-    if (lastUpdated <= 1)
-      logger.info "Double GET request suspected, aborting"
-  	  unless params[:lightbox].nil?
-        # If our request tells us not to display layout (in a lightbox, for instance)
-        render :layout => 'lightbox'
-      end
-      return false
-    end
+    # lastUpdated = Time.now.to_i - @stream.updated_at.to_i
+    # if (lastUpdated <= 1)
+    #   logger.info "Double GET request suspected, aborting"
+  	#   unless params[:lightbox].nil?
+    #     # If our request tells us not to display layout (in a lightbox, for instance)
+    #     render :layout => 'lightbox'
+    #   end
+    #   return false
+    # end
 
   	apiurl = URI.parse('http://api.streamapi.com/service/session/create')
   	apikey = STREAMAPI_KEY
