@@ -126,6 +126,7 @@ class MerchantController < ApplicationController
     render :text => "<notification-acknowledgment xmlns=\"http://checkout.google.com/schema/2\" serial-number=\"#{response.root.attributes["serial-number"]}\"/>", :layout => false
     #below is the built in response which is out of date because it doesn't return the serial number of the notification and doesn't take params...
     #render :text => Google4R::Checkout::NotificationAcknowledgement.new.to_xml, :layout => false 
+    return
   end
 
 
