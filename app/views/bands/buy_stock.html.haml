@@ -1,0 +1,39 @@
+- stock_amounts = [1, 5, 10, 50, 100]
+- purchase_submit_text = 'POW!'
+
+#lightbox_feature
+  .orange_bar
+    %h3
+      Buy stock in
+      = @band.name
+
+  -if flash[:error]
+    .errbox
+      = flash[:error]
+
+  = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }) do
+    = hidden_field_tag 'band_id', @band.id
+    = hidden_field_tag 'lightbox', true if params[:lightbox]
+    .fieldrow
+      .fieldleft      
+        .field
+          .fieldname
+            .fieldnametop
+              = label_tag :num_shares, 'How many?'
+            .fieldnamebottom
+          .fieldbox
+            = select_tag( :num_shares, options_for_select(stock_amounts), :include_blank => 'Select number of shares', :class => 'select')
+
+    .fieldrow
+      .fieldleft                
+        .formbutton
+          = submit_tag purchase_submit_text, :onclick => 'this.disable();'
+  %p
+    By clicking
+    %em
+      = purchase_submit_text + ','
+    you agree to our
+    = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+    and
+    = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'
+
