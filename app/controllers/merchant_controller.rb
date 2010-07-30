@@ -6,8 +6,7 @@ class MerchantController < ApplicationController
   before_filter :google_checkout_callback_basic_auth, :only => 'google_checkout_callback'
  
  
-  def make_stock_purchase
-    
+  def make_stock_purchase    
     # Make sure user is logged in. If not, send him to the appropriate login view.
     unless session[:auth_success] == true
       if params[:lightbox].nil?
@@ -60,7 +59,7 @@ class MerchantController < ApplicationController
     end
     
     checkout_command.continue_shopping_url = "#{SITE_URL}/me/purchases"
-    response = checkout_command.send_to_google_checkout    
+    response = checkout_command.send_to_google_checkout
     redirect_to response.redirect_url    
 
   end  
