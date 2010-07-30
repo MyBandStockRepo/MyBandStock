@@ -33,7 +33,10 @@ class LoginController < ApplicationController
   
       
   def process_user_login
+    logger.info 'Beginning proces_user_login'
     if params[:user].nil? || params[:user][:email].nil? || params[:user][:password].nil?
+      logger.info 'Test:'
+      logger.info params.inspect
       if params[:email].nil? || params[:password].nil?
         flash[:notice] = "Email and password not sent appropriately."
         render :controller => 'login', :action => :user
