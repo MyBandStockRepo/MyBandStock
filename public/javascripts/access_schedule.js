@@ -101,28 +101,30 @@ function accessScheduleJsonCallback(data) {
     var table = jQuery(document.createElement('table'));
     table.addClass('access-schedule-list');
     jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
-      table.append(
-        jQuery(document.createElement('tr')).append(
-          jQuery('<td class="stream-start-day">'+ stream.start_day +'</td>')
-        ).append(
-          jQuery('<td class="stream-start-date">'+ stream.start_date +'</span>')
-        ).append(
-          jQuery('<td class="stream-start-time">'+ stream.start_time +'</span>')
-        ).append(
-          jQuery(document.createElement('td')).addClass('stream-name').append(
-            jQuery('<a \
-                      href="'+ stream.view_link.url +'" \
-                      class="'+ ((stream.past) ? 'mbs-past' : '') +'" \
-                      title="'+ ((stream.past) ? 'Stream has ended. Click the title to see recorded show.' : stream.title ) +'">'+ stream.title +
-                  '</a>')
-              .addClass('lightbox stream-title')
-              .attr('fbwidth', stream.view_link.width)
-              .attr('fbheight', stream.view_link.height)
-          )
-        ).append(
-          jQuery('<td class="stream-location">'+ stream.location +'</td>')
-        ).addClass((streamIndex % 2) ? 'odd' : 'even')
-      );
+      if (stream) {
+        table.append(
+          jQuery(document.createElement('tr')).append(
+            jQuery('<td class="stream-start-day">'+ stream.start_day +'</td>')
+          ).append(
+            jQuery('<td class="stream-start-date">'+ stream.start_date +'</span>')
+          ).append(
+            jQuery('<td class="stream-start-time">'+ stream.start_time +'</span>')
+          ).append(
+            jQuery(document.createElement('td')).addClass('stream-name').append(
+              jQuery('<a \
+                        href="'+ stream.view_link.url +'" \
+                        class="'+ ((stream.past) ? 'mbs-past' : '') +'" \
+                        title="'+ ((stream.past) ? 'Stream has ended. Click the title to see recorded show.' : stream.title ) +'">'+ stream.title +
+                    '</a>')
+                .addClass('lightbox stream-title')
+                .attr('fbwidth', stream.view_link.width)
+                .attr('fbheight', stream.view_link.height)
+            )
+          ).append(
+            jQuery('<td class="stream-location">'+ stream.location +'</td>')
+          ).addClass((streamIndex % 2) ? 'odd' : 'even')
+        );
+      }
     });
     jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
       jQuery('<a id="mbs-powered-by" href="'+ mbsDomain +'" title="mybandstock.com"> </a>')
