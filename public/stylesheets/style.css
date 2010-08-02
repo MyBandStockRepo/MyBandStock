@@ -652,6 +652,10 @@ fieldset {border:0px;padding:0px;margin:0px;}
       width: 20px;
       margin-right: 10px;
     }
+    .stream-title.not-public {
+      font-style: italic;
+      color: #555;
+    }
 /* EDIT BAND PROFILE PAGE */
 .placement_editbandprofile{width:564px;margin-left:10px;float:left;}
 .placement_editbandprofilepic {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;width:16px;height:16px;margin:6px 0px 0px 20px;float:left;}

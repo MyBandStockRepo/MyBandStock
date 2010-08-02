@@ -25,28 +25,31 @@
             %span.dark_accent ET
     .stream_list
       -series.streamapi_streams.order('streamapi_streams.starts_at ASC').each do |stream|
-        .stream_entry
-          %span.stream_manage_buttons
-            %span.stream_edit
+        -if stream.public || can_broadcast
+          .stream_entry
+            %span.stream_manage_buttons
+              %span.stream_edit
+                -if can_broadcast
+                  = link_to 'edit', { :controller => 'streamapi_streams', :action => 'edit', :id => stream.id }
+                -else
+                  &nbsp;
+            %span.stream_name
+              - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
               -if can_broadcast
-                = link_to 'edit', { :controller => 'streamapi_streams', :action => 'edit', :id => stream.id }
+                - hover_title = (stream.public) ? 'Review stream' : 'Stream is not public, but you can still see it.'
+                - title_class = (stream.public) ? 'stream-title' : 'stream-title not-public'
+                = link_to stream.title, stream, :class => title_class, :title => hover_title
+              -else
+                = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 469, :fbwidth => 880
+            %span.stream_broadcast_link
+              -if can_broadcast
+                = link_to ' ', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox broadcast', :title => 'Broadcast'
               -else
                 &nbsp;
-          %span.stream_name
-            - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
-            -if can_broadcast
-              = link_to stream.title, stream, :class => 'stream-title', :title => 'Review stream'
-            -else
-              = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 469, :fbwidth => 880
-          %span.stream_broadcast_link
-            -if can_broadcast
-              = link_to ' ', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox broadcast', :title => 'Broadcast'
-            -else
-              &nbsp;
-          .placement_starttime
-            = stream.starts_at.strftime("%b %d, %Y")
-            %span.dark_accent
-              = '|'
-            = stream.starts_at.strftime('%I:%M%p')
-            %span.dark_accent ET
+            .placement_starttime
+              = stream.starts_at.strftime("%b %d, %Y")
+              %span.dark_accent
+                = '|'
+              = stream.starts_at.strftime('%I:%M%p')
+              %span.dark_accent ET
 
