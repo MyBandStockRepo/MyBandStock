@@ -1,0 +1,11 @@
+= image_tag 'loading_indicator.gif'
+= image_tag 'indicator.gif'
+= image_tag 'progress_indicator.gif'
+:javascript
+  var target_location = '#{ @target_location }';
+  if (target_location)
+    top.location = target_location;
+  else {
+    
+  }
+

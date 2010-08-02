@@ -27,7 +27,7 @@
     .fieldrow
       .fieldleft                
         .formbutton
-          = submit_tag purchase_submit_text, :onclick => 'this.disable();'
+          = submit_tag purchase_submit_text #, :onclick => 'this.disable();'
   %p
     By clicking
     %em
@@ -36,4 +36,5 @@
     = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
     and
     = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'
-
+%form{ :action => "/merchant/test", :method => "post" }
+  %input{ :type => 'submit' }
