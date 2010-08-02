@@ -83,6 +83,9 @@ class ApplicationController < ActionController::Base
   end
   
   def break_out_of_lightbox
+  # This action breaks out of a lightbox, loading the supplied 'target' parameter as the new location of
+  #   the lightbox's parent.
+  #
     @target_location = params[:target] || ''
     render :layout => false
   end

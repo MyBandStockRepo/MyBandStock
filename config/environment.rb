@@ -10,6 +10,13 @@ require 'lib/email_scheduler.rb'
 
 # ** Environment variables ** #
 
+####
+# Share dispersal
+#
+  SHARE_LIMIT_LIFETIME        = 1.day
+  NUM_SHARES_PER_BAND_PER_DAY = 100
+####
+
 # Email address to which support inquiries are sent.
 # Currently displayed when a user does not have access to a stream, but tries to view it.
 # Also shown when an error message is displayed when redeeming a code.
