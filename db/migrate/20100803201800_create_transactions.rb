@@ -1,6 +1,5 @@
 class CreateTransactions < ActiveRecord::Migration
   def self.up
-=begin
     create_table :transactions do |t|
       t.string :buyer_id, :serial_number, :google_order_number, :peekok_order_number, {:null => true} 
       #order info
@@ -20,7 +19,6 @@ class CreateTransactions < ActiveRecord::Migration
       #associations
       t.belongs_to :user
     end
-=end
   end
 
   def self.down
