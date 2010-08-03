@@ -1,4 +1,4 @@
-#require 'google4r/checkout'
+require 'google4r/checkout'
 
 class MerchantController < ApplicationController
   ssl_required :google_checkout_callback
@@ -73,6 +73,7 @@ class MerchantController < ApplicationController
   def google_checkout_callback
 
     response = REXML::Document.new(request.raw_post)  #?!?! I think??? No documentation for this shit.  Yeah thats right I said it.
+    logger.info "Google Checkout callback XML: " + response.to_s
     
     ### ASSERT
     unless response.has_elements?
