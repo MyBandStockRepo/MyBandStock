@@ -37,3 +37,6 @@
     and
     = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'
 
+-# On the next redirect page, we displayt he loading_indicator gif for like a second.
+-# We want to preload it here so it's cached by the browser.
+%img{ :style => 'display: none; visible: false;', :src => 'images/loading_indicator_dark.gif' }

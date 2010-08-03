@@ -1,5 +1,5 @@
 #loading{ :style => 'color: #FFF; font-family:"Lucida Grande","Lucida Sans",Verdana, sans-serif;' }
-  = image_tag 'loading_indicator_dark.gif'
+  %img{ :src => 'images/loading_indicator_dark.gif' }
 :javascript
   var target_location = '#{ @target_location }';
   if (target_location)
