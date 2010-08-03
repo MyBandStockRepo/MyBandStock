@@ -1,6 +1,6 @@
 require 'google4r/checkout'
 
-class GoogleCheckoutOrder < ActiveRecord::Base
+class Transaction < ActiveRecord::Base
 
   belongs_to :user
   
@@ -18,7 +18,6 @@ class GoogleCheckoutOrder < ActiveRecord::Base
     self.user_id = target_user_id
     self.save
   end
-    
   
   
   def process_paid_order

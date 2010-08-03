@@ -100,7 +100,7 @@ class MerchantController < ApplicationController
     #sendemail(request.raw_post, str_googleordernum.to_s)
 
     #see if ordernumber exists.. if so proceed.. if not, bail and give Google Notification
-    #if google_checkout_order = GoogleCheckoutOrder.find_by_google_order_number(google_order_number) 
+    if google_checkout_order = Transaction.find_by_google_order_number(google_order_number) 
       case response.root().name
         when "order-state-change-notification" then
           oscn = Google4R::Checkout::OrderStateChangeNotification.create_from_element(response.root, a_frontend)
@@ -118,16 +118,15 @@ class MerchantController < ApplicationController
       else
                 #TODO, maybe send an email about some unrecognized function
       end
-      
-    #else
-    #    case response.root().name
-    #      when "new-order-notification" then
-    #        new_order_notification = Google4R::Checkout::NewOrderNotification.create_from_element(response.root, a_frontend)
-    #        cart_xml = response.root().elements.to_a("//shopping-cart/")[0].to_s
-    #        create_new_google_checkout_order_from_notification(new_order_notification, cart_xml) #although it seems silly, without writing something custom it isn't easy to get the xml back out of the NewOrderNotification object without serializing it myself and I'm lazy.
-    #    else
-    #    end
-    #end
+    else
+        case response.root().name
+          when "new-order-notification" then
+            new_order_notification = Google4R::Checkout::NewOrderNotification.create_from_element(response.root, a_frontend)
+            cart_xml = response.root().elements.to_a("//shopping-cart/")[0].to_s
+            create_new_google_checkout_order_from_notification(new_order_notification, cart_xml) #although it seems silly, without writing something custom it isn't easy to get the xml back out of the NewOrderNotification object without serializing it myself and I'm lazy.
+        else
+        end
+    end
     
     #let google know everything was successful so they dont retry
     render :text => "<notification-acknowledgment xmlns=\"http://checkout.google.com/schema/2\" serial-number=\"#{response.root.attributes["serial-number"]}\"/>", :layout => false
@@ -141,7 +140,7 @@ private
 
 
   def create_new_google_checkout_order_from_notification(new_order_notification, cart_xml)
-    google_order = GoogleCheckoutOrder.new do |o|
+    google_order = Transaction.new do |o|
       returning new_order_notification do |n|
         #global idents
         o.buyer_id = n.buyer_id
@@ -180,7 +179,7 @@ private
   end
   
   def process_order_state_change_notification(order_state_change_notification)
-    google_order = GoogleCheckoutOrder.find_by_google_order_number(order_state_change_notification.google_order_number)
+    google_order = Transaction.find_by_google_order_number(order_state_change_notification.google_order_number)
     
     returning google_order do |g|
       returning order_state_change_notification do |o|
@@ -215,7 +214,7 @@ private
   def process_charge_amount_notification(charge_amount_notification)
     logger.info "Processing Google Checkout charge notification."
     returning charge_amount_notification do |c|
-      google_order = GoogleCheckoutOrder.find_by_google_order_number(c.google_order_number)
+      google_order = Transaction.find_by_google_order_number(c.google_order_number)
       google_order.total_amount_charged = c.total_charge_amount.cents/100.to_f
       google_order.save
       if (google_order.total_amount_charged >= google_order.order_total)
@@ -226,7 +225,7 @@ private
       end  
     end
   end
-  
+
   
   
   def google_checkout_callback_basic_auth
