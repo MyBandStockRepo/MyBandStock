@@ -71,6 +71,7 @@ class MerchantController < ApplicationController
   
   
   def google_checkout_callback
+
     response = REXML::Document.new(request.raw_post)  #?!?! I think??? No documentation for this shit.  Yeah thats right I said it.
     
     ### ASSERT
@@ -210,6 +211,7 @@ private
   end
   
   def process_charge_amount_notification(charge_amount_notification)
+    logger.info "Processing Google Checkout charge notification."
     returning charge_amount_notification do |c|
       google_order = GoogleCheckoutOrder.find_by_google_order_number(c.google_order_number)
       google_order.total_amount_charged = c.total_charge_amount.cents/100.to_f
