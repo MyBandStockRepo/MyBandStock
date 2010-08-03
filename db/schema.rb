@@ -84,6 +84,15 @@ ActiveRecord::Schema.define(:version => 20100803201800) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "delayed_job_id"
+    t.integer  "streamapi_stream_id"
+  end
+
+  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
+
   create_table "fans", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -265,6 +274,35 @@ ActiveRecord::Schema.define(:version => 20100803201800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "users_have_been_notified", :default => false, :null => false
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.string   "buyer_id"
+    t.string   "serial_number"
+    t.string   "google_order_number"
+    t.string   "peekok_order_number"
+    t.string   "financial_order_state"
+    t.string   "fulfillment_order_state"
+    t.float    "order_total"
+    t.float    "total_amount_charged"
+    t.text     "shopping_cart_xml"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "company_name"
+    t.string   "contact_name"
+    t.string   "country_code"
+    t.string   "email"
+    t.string   "fax"
+    t.string   "phone"
+    t.string   "postal_code"
+    t.string   "region"
+    t.datetime "timestamp"
+    t.boolean  "email_allowed"
+    t.boolean  "paid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "twitter_users", :force => true do |t|
