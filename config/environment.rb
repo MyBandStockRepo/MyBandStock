@@ -8,11 +8,21 @@ Cobain::Application.initialize!
 #require 'lib/email_scheduler.rb'
 # ** Environment variables ** #
 
+####
+# Share dispersal
+#
+  SHARE_LIMIT_LIFETIME        = 1.day
+  NUM_SHARES_PER_BAND_PER_DAY = 100
+####
+
 # Email address to which support inquiries are sent.
 # Currently displayed when a user does not have access to a stream, but tries to view it.
 # Also shown when an error message is displayed when redeeming a code.
-  MBS_SUPPORT_EMAIL = 'help@mybandstock.com'  #'support@mybandstock.com' - bounces
+  MBS_SUPPORT_EMAIL = 'help@mybandstock.com'  #'support@mybandstock.com' bounces
 
+# This is the price per share, in cents, of stock on the site. @band.share_price() returns
+#  this if it is set.
+MBS_SHARE_PRICE = 15 #cents
 
 #for user remember me
 SHA_SALT_STRING = 'saefhkw4qrtAFHW#fjhasejfa3sfa3sHSFAWa3412!@#$^@'
@@ -20,7 +30,7 @@ SHA_SALT_STRING = 'saefhkw4qrtAFHW#fjhasejfa3sfa3sHSFAWa3412!@#$^@'
 # Time elapsed, in seconds, after which we consider a user to be not viewing a stream.
 #  We will allow him to reauthenticate after this amount of time, but not before this
 #  amount of time has elapsed. This is to prevent the user from sharing his viewer code.
-STREAM_VIEWER_TIMEOUT = 2*60 # seconds
+STREAM_VIEWER_TIMEOUT = 2*60 #seconds
 
 STREAMAPI_KEY = 'CGBSYICJLKEJQ3QYVH42S1N5SCTWYAN8'
 STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'

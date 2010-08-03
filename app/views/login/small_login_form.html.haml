@@ -1,0 +1,24 @@
+.newform
+  .formcontainer
+    =form_for(:user, :url => {:controller => 'login', :action => :process_user_login}, :html => {:id => 'login_form'} ) do |f|
+      = hidden_field_tag 'lightbox', true
+      -if login_only
+        = hidden_field_tag 'show_login_only', true
+      %fieldset
+        .fieldname_small
+          = f.label 'email', 'email'
+        .fieldbox_small
+          = f.text_field :email
+      %fieldset
+        .fieldname_small
+          = f.label 'password', 'password'
+        .fieldbox_small
+          = f.password_field :password
+        #checkbox_login_ext
+          =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+          =label_tag 'checkbox_remember', 'Remember Me'
+          %br
+          =link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
+        .formbutton{ :style => 'margin-right: 20px;' }
+          = submit_tag 'login'
+

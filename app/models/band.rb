@@ -16,15 +16,11 @@ class Band < ActiveRecord::Base
   has_many :streamapi_streams, :through => :live_stream_series
   has_many :recorded_videos, :through => :streamapi_streams
   
-#  has_many :contribution_levels, :dependent => :destroy
-#  has_many :perks, :dependent => :destroy
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
 
 #  has_many :stage_comments, :dependent => :destroy
 #  has_many :photos, :dependent => :destroy
-#  has_many :songs, :dependent => :destroy
-#  has_many :projects, :dependent => :destroy
 
 #  has_many :band_mails
   #has_many :received_mail, :through => 'band_mail', :source => 'BandMail', :conditions => 'from_band = 0'
@@ -39,7 +35,52 @@ class Band < ActiveRecord::Base
       earned_perks ledger_entries legal login merchant music_albums news_entries
       perks photo_albums photos projects search songs stage_comments users],
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
-  validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "must have only letters, numbers, and _."
+  validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
+  
+    
+  def available_shares_for_purchase
+  # Returns the number of shares available for purchase for the band, for this time period.
+  # Shares are only limited in the contexts of direct purchases. That is, someone can always retweet for shares,
+  #   but direct dollar-for-share purchases are limited.
+  # Dependents:
+  #   NUM_SHARES_PER_BAND_PER_DAY - in environment.rb, setting the limit for the amount of available shares/band/day
+  #   SHARE_LIMIT_LIFETIME        - in environment.rb, dictating the period of time between new share releases
+  #   ^^nevermind, too hard. It's just one day.
+  # Every [SHARE_LIMIT_LIFETIME], [NUM_SHARES_PER_BAND_PER_DAY] become available for the band, beginning at the most recent noon.
+  # There are no "rollover" shares, which means that N_S_P_B_P_D is the maximum amount of shares available in that
+  #   band per day.
+  #
+    
+    dispersed_shares_sum    = 0                          # This will be the total number of dispersed shares within the past SHARE_LIMIT_LIFETIME
+    noon_today        = (Time.now.midnight + 12.hours)   # Noon today in UTC time (like 'Mon Aug 02 12:00:00 UTC 2010')
+    
+    if noon_today > Time.now
+      most_recent_noon = noon_today - 1.day
+    else
+      most_recent_noon = noon_today
+    end
+    
+    dispersed_shares =  ShareLedgerEntry.where(
+                                           :band_id     => self.id,
+                                           :description => 'direct_purchase'
+                                         ).where(
+                                           ["created_at > ?", most_recent_noon]
+                                         ).all
+
+    dispersed_shares.each{ |entry|
+      dispersed_shares_sum += entry.adjustment
+    }
+    available_shares = NUM_SHARES_PER_BAND_PER_DAY - dispersed_shares_sum
+    available_shares = (available_shares >= 0) ? available_shares : 0
+    
+    return available_shares
+  end
+  
+  def share_price()
+  # This method returns the price per share for the given band.
+  # Currently, the share price is simply a static constant, defined in environment.rb.
+    return Cobain::Application::MBS_SHARE_PRICE
+  end
 
   def self.search_by_name(name)
   # Returns a band, given some common variation of its name or short name.

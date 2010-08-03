@@ -6,10 +6,9 @@ include REXML
 class BandsController < ApplicationController
   
  protect_from_forgery :only => [:create, :update]
- before_filter :only => :post, :only => [:create, :update] 
  before_filter :authenticated?, :except => [:show]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
- before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new]
+ before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users]
 
   def index
@@ -266,8 +265,12 @@ class BandsController < ApplicationController
   def buy_stock
     @band = Band.find(params[:band_id])
     unless @band
-      flash[:notice] = "You've attempted to buy stock from an invalid badn. Please try again."
-      redirect_to (session[:last_clean_url] || '/'), :lightbox => params[:lightbox]
+      if params[:lightbox]
+        render :text => "You've attempted to buy stock from an invalid band. Please try again.", :layout => 'lightbox'
+      else
+        flash[:notice] = "You've attempted to buy stock from an invalid band. Please try again."
+        redirect_to (session[:last_clean_url] || '/')
+      end
       return false
     end
     
