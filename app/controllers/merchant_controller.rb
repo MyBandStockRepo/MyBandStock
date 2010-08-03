@@ -1,12 +1,11 @@
-require 'google4r/checkout'
+#require 'google4r/checkout'
 
 class MerchantController < ApplicationController
-
   ssl_required :google_checkout_callback
   before_filter :google_checkout_callback_basic_auth, :only => 'google_checkout_callback'
- 
- 
-  def make_stock_purchase    
+
+
+  def make_stock_purchase
     # Make sure user is logged in. If not, send him to the appropriate login view.
     unless session[:auth_success] == true
       if params[:lightbox].nil?
@@ -58,14 +57,21 @@ class MerchantController < ApplicationController
       shipping_method.create_allowed_area(Google4R::Checkout::WorldArea)
     end
     
-    checkout_command.continue_shopping_url = "#{SITE_URL}/me/purchases"
+    checkout_command.continue_shopping_url = url_for(band)
     response = checkout_command.send_to_google_checkout
-    redirect_to response.redirect_url    
+    
+    if params[:lightbox]
+      redirect_to :controller => :application, :action => :break_out_of_lightbox, :target => response.redirect_url
+      return
+    else
+      redirect_to response.redirect_url and return
+    end
 
   end  
   
   
   def google_checkout_callback
+
     response = REXML::Document.new(request.raw_post)  #?!?! I think??? No documentation for this shit.  Yeah thats right I said it.
     
     ### ASSERT
@@ -206,6 +212,7 @@ private
   end
   
   def process_charge_amount_notification(charge_amount_notification)
+    logger.info "Processing Google Checkout charge notification."
     returning charge_amount_notification do |c|
       google_order = GoogleCheckoutOrder.find_by_google_order_number(c.google_order_number)
       google_order.total_amount_charged = c.total_charge_amount.cents/100.to_f

@@ -1,0 +1,10 @@
+#loading{ :style => 'color: #FFF; font-family:"Lucida Grande","Lucida Sans",Verdana, sans-serif;' }
+  = image_tag 'loading_indicator_dark.gif'
+:javascript
+  var target_location = '#{ @target_location }';
+  if (target_location)
+    top.location = target_location;
+  else {
+    document.getElementById('loading').innerHTML = "We're sorry, the page you requested could not be found. Please try your request again.";
+  }
+
