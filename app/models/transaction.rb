@@ -43,7 +43,7 @@ class Transaction < ActiveRecord::Base
           user = User.find(target_user_id)  # Though unlikely, we assume that each shopping cart item has a different user ID.
           if (user)
             update_user_information(user)
-            logger.info "Direct stock purchase: granting user #{user.id}  #{num_shares} shares in #{band.name}."
+            logger.info "Direct stock purchase: granting user #{user.id}  #{num_shares} shares in band #{band_id}."
             success = success && ShareLedgerEntry.create(
                                                     :user_id      => target_user_id,
                                                     :band_id      => band_id,
