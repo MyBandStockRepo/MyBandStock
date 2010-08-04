@@ -1,4 +1,4 @@
-- stock_amounts = [1, 5, 10, 50, 69, 100]
+- stock_amounts = [5, 10, 50, 69, 100]
 - purchase_submit_text = 'POW!'
 
 #lightbox_feature
@@ -22,8 +22,14 @@
               = label_tag :num_shares, 'How many?'
             .fieldnamebottom
           .fieldbox
-            = select_tag( :num_shares, options_for_select(stock_amounts), :include_blank => 'Select number of shares', :class => 'select')
-
+            = select_tag( :num_shares, options_for_select(stock_amounts), :include_blank => 'Select number of shares', :class => 'select', :disabled => (@available_shares > 0) ? nil : 'disabled' )
+    #purchase_cost
+      Current cost per share:
+      %span#current_share_price
+        = @band.share_price
+      %br
+      Estimated total cost (before tax):
+      %span#purchase_cost_value
     .fieldrow
       .fieldleft                
         .formbutton
@@ -36,7 +42,23 @@
     = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
     and
     = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'
+:javascript
+  var costPerShare = parseInt('#{ @band.share_price }') / 100;  // Cents to dollars
+  var valueElement = jQuery('#purchase_cost_value');
+  jQuery('#num_shares').change(function(e) {
+    if (this.value != '' && costPerShare) {
+      var totalCost = parseFloat(costPerShare * this.value);
+      valueElement.fadeOut(function() {
+        valueElement.html('$' + totalCost.toFixed(2));
+      });
+      valueElement.fadeIn();
+      
+    } else {
+      valueElement.fadeOut();
+    }
+  });
 
--# On the next redirect page, we displayt he loading_indicator gif for like a second.
--# We want to preload it here so it's cached by the browser.
+-# On the next redirect page, we display the loading_indicator gif for like a second.
+-# We want to preload it here so it's cached by the browser. I don't use image_tag for this reason.
 %img{ :style => 'display: none; visible: false;', :src => '/images/loading_indicator_dark.gif' }
+

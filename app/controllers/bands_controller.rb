@@ -273,7 +273,7 @@ class BandsController < ApplicationController
       end
       return false
     end
-    
+    @available_shares = @band.available_shares_for_purchase()
     render :layout => 'lightbox' if params[:lightbox]
   end
   

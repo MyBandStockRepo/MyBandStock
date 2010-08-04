@@ -108,6 +108,16 @@ body#lightbox .clear {clear:both;}
     color: #CCC;
   }
 
+/* Buy shares */
+#purchase_cost {
+  margin-left: 20px;
+  color: #999;
+}
+#current_share_price, #purchase_cost_value {
+  color: #FFF;
+}
+
+
 /* Login form */
 
 body#lightbox .login_form {

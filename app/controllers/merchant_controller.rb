@@ -6,6 +6,8 @@ class MerchantController < ApplicationController
 
 
   def make_stock_purchase
+  # buy_stock POSTs to here
+  #
     # Make sure user is logged in. If not, send him to the appropriate login view.
     unless session[:auth_success] == true
       if params[:lightbox].nil?
@@ -27,8 +29,8 @@ class MerchantController < ApplicationController
 
     #make sure num_shares is good
     num_shares = params[:num_shares].to_i
-    if num_shares.nil? || num_shares == 0 || num_shares < 1 || num_shares > 1000
-      flash[:error] = 'Could not buy stock: share amount must be between 1 and 1000.'
+    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > 1000
+      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE + ' and 1000.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     
