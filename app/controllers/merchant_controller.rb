@@ -192,7 +192,11 @@ private
     if (google_order.financial_order_state == 'CHARGEABLE')
       charge_command = order_state_change_notification.frontend.create_charge_order_command
       charge_command.google_order_number = google_order.google_order_number
-      response = charge_command.send_to_google_checkout
+      begin
+        response = charge_command.send_to_google_checkout
+      rescue Google4R::Checkout::GoogleCheckoutError
+        logger.info "Google Checkout: 'You cannot charge an order that is already completely charged'"
+      end
       logger.info response
     end
   end

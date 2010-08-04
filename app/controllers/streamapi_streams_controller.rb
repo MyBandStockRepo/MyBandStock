@@ -69,7 +69,9 @@ respond_to :html, :js
 
     @request_uri = root_url
 
-    if @stream.public_hostid.nil?
+    # We tell the view to not display the video player if the stream is not live.
+    # We can assume no one is broadcasting if currently_live is false, or there is no public_hostID.
+    if !@stream.currently_live || @stream.public_hostid.nil?
       @not_live = true
     end
 
