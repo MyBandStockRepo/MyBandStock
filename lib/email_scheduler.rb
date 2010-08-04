@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #Script run by a cron job to check if emails need to go out and to send them out
 #set RAILS_ENV here since it doesn't run rails
-RAILS_ENV='production'
+RAILS_ENV='development'
 
 
 
@@ -99,7 +99,9 @@ begin
 
   SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] finishing cron script'
 rescue
-  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] ERROR, RAN INTO EXCEPTION'
+  SCHEDULER_LOG.info '[AUTO_EMAIL_SCHEDULER]['+DateTime.now.to_s+'] ERROR, RAN INTO EXCEPTION:'
+  SCHEDULER_LOG.info $!.to_s+' , LINE: '+$@.to_s
+  
 end
 
 
