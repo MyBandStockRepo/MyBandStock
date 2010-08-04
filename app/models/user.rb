@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
   has_many :short_urls, :as => :maker # A shortened URL might have a "maker", which could refer to a band or a user.
   has_many :share_totals
   has_many :share_ledger_entries
+  has_many :transactions
 #  has_many :user_friends, :foreign_key => 'source_user_id'
 #  has_many :friends, :through => :user_friends, :source => 'destination'
-#  has_many :google_checkout_orders
 
   before_save :expand_zipcode # Populates state and country from zipcode
 
