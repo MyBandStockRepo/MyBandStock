@@ -13,6 +13,9 @@ Cobain::Application.initialize!
 #
   SHARE_LIMIT_LIFETIME        = 1.day
   NUM_SHARES_PER_BAND_PER_DAY = 100
+  MINIMUM_SHARE_PURCHASE      = 5       # Minimum number of shares per purchase.
+  MBS_SHARE_PRICE             = 15      # cents; This is the price per share, in cents, of stock on the site.
+                                        # @band.share_price() returns this if it is set.
 ####
 
 # Email address to which support inquiries are sent.
@@ -20,9 +23,6 @@ Cobain::Application.initialize!
 # Also shown when an error message is displayed when redeeming a code.
   MBS_SUPPORT_EMAIL = 'help@mybandstock.com'  #'support@mybandstock.com' bounces
 
-# This is the price per share, in cents, of stock on the site. @band.share_price() returns
-#  this if it is set.
-MBS_SHARE_PRICE = 15 #cents
 
 #for user remember me
 SHA_SALT_STRING = 'saefhkw4qrtAFHW#fjhasejfa3sfa3sHSFAWa3412!@#$^@'

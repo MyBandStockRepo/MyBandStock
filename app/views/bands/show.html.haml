@@ -7,6 +7,12 @@
   .profile-top-ten-container
     = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
 
+  .remaining-shares{ :style => '' }
+    New shares are released every day at noon ET.
+    Remaining shares today:
+    %span.remaining-shares-value{ :style => 'color: #FFF' }
+      = @band.available_shares_for_purchase.to_s
+
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
     #manage-band
       You are a manager for this band.

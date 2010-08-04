@@ -273,7 +273,10 @@ class BandsController < ApplicationController
       end
       return false
     end
-    
+    @available_shares = @band.available_shares_for_purchase()
+    if @available_shares <= 0
+      flash[:error] = 'There are no more shares available to purchase today. New shares are released every day at noon, so check back!'
+    end
     render :layout => 'lightbox' if params[:lightbox]
   end
   

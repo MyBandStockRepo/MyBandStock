@@ -1,4 +1,3 @@
-/* FORGOT PASSWORD PAGE */
 .errbox
 {
 	font: normal 10px arial;
@@ -107,6 +106,17 @@ body#lightbox .clear {clear:both;}
   .lightbox_welcome .welcome_band_name {
     color: #CCC;
   }
+
+/* Buy shares */
+#purchase_cost {
+  float: left;
+  margin-left: 20px;
+  color: #999;
+}
+#current_share_price, #purchase_cost_value {
+  color: #FFF;
+}
+
 
 /* Login form */
 
