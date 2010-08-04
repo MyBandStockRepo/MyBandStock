@@ -213,14 +213,16 @@ padding:0;
 
 }
 #toggle_recording_visibility {
-  width: 285px;
-  height: 25px;
+  width: 200px;
+  height: 22px;
+	margin-top:12px;
+	float:left;
 }
 .public_private_switch {
-  width: 360px;
-  height: 45px;
-  margin: 0 auto;
-  text-align: center;
+  width: 470px;
+  height: 40px;
+  margin-left:20px;
+float:left;
 }
 #recording_public_indicator {
   background-color: yellow;
@@ -228,6 +230,8 @@ padding:0;
   width: 12px;
   float: left;
 }
+.public_note{float:left;font-size:10px;width:240px;margin:7px 10px 0px 0px;}
+.public_button{float:left;width:210px;}
   #recording_public_indicator.on { background-color: green; }
 
 .loading-indicator {
@@ -401,3 +405,32 @@ body#lightbox .newform .fieldname_small {background:url(/images/forms/field_name
 body#lightbox .newform .fieldnametop_small {height:27px;background:url(/images/forms/field_name_top_small.png);padding-left:20px;}
 body#lightbox .newform .fieldnamebottom_small {height:15px;background:url(/images/forms/field_name_bottom_small.png);}
 
+.broadcast_faq_box{
+	width: 300px;
+	
+}
+.broadcast_faq_box p {
+	font-size:10px;
+}
+.broadcast_faq_box h2 {
+	font-size:12px;
+}
+
+.broadcast_faq_box .question {
+	float: left;
+
+	margin-top:15px;
+}
+.broadcast_faq_box .question a {
+	font-size:12px;
+}
+.broadcast_faq_box .answer{
+	float: left;
+
+	margin-left:10px;
+}
+.cookies_reminder{
+	float:left;
+	margin: 5px 0px 0px 230px;
+	font-size:8px;
+}
