@@ -730,3 +730,33 @@ fieldset {border:0px;padding:0px;margin:0px;}
 #ui-timepicker-div dl{ text-align: left; }
 #ui-timepicker-div dl dt{ height: 25px; }
 #ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+
+.broadcast_faq_box{
+	width: 300px;
+	
+}
+.broadcast_faq_box p {
+	font-size:10px;
+}
+.broadcast_faq_box h2 {
+	font-size:12px;
+}
+
+.broadcast_faq_box .question {
+	float: left;
+
+	margin-top:15px;
+}
+.broadcast_faq_box .question a {
+	font-size:12px;
+}
+.broadcast_faq_box .answer{
+	float: left;
+
+	margin-left:10px;
+}
+.cookies_reminder{
+	float:left;
+	margin: 5px 0px 0px 400px;
+	font-size:8px;
+}

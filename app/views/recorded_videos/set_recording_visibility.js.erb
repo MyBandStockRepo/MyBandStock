@@ -3,6 +3,6 @@ jQuery.noConflict();
 <% if (@result == 1) %>
   jQuery('#toggle_recording_visibility').toggleClass('on', <%= @public %>);
   jQuery('#recording_public_indicator').toggleClass('on', <%= @public %>);
-  jQuery('#toggle_recording_visibility').val('<%= "Toggle recording visibility - click to make #{ (@public) ? 'unpublic' : 'public' }" %>');
+  jQuery('#toggle_recording_visibility').val('<%= "Make this recording #{ (@public) ? 'private' : 'public' }" %>');
   jQuery('#toggle_recording_visibility_next_value').val(<%= !@public %>);
 <% end %>

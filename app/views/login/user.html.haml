@@ -44,10 +44,12 @@
                 =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
                 =label_tag 'checkbox_remember', 'Remember Me'
                 %br
-                =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]
+                =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]                
               .formbutton{ :style => 'margin-right: 5px;' }
                 = submit_tag 'login'
-
+              .cookies_reminder
+                *Cookies must be enabled to login
+                
       -unless @login_only
         = render :partial => 'login/signup'
 
