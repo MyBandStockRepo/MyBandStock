@@ -100,21 +100,33 @@ class UserMailer < ActionMailer::Base
     mail(:to => recipient, :subject => "MyBandStock Password Reset")    		
 	end
 
-	def stream_reminder(user, stream)
-  	if user.nil? || stream.nil?
+	def stream_reminder(user_param, stream_param)
+  	if user_param.nil? || stream_param.nil?
       return false
     end
 
-		recipient = make_address(user)
-		@user = user
-    @band = stream.band
-    @lss = stream.live_stream_series
-    @stream = stream
+		recipient = make_address(user_param)
+		@user = user_param
+    @band = stream_param.band
+    @lss = stream_param.live_stream_series
+    @stream = stream_param
 		@host = SITE_HOST || 'mybandstock.com'
     @mbslink = SITE_URL || 'http://mybandstock.com'
+    @support_email = MBS_SUPPORT_EMAIL || 'help@mybandstock.com'
     
     subject = "Reminder - live stream for "+@band.name+" coming up"
-    mail(:to => recipient, :subject => subject)    		
+
+    #convert times to UTC
+    offset = Time.now.utc_offset
+    stream_starts_at = @stream.starts_at
+    stream_starts_at = stream_starts_at.utc + offset
+
+    #convert times to ET
+    stream_starts_at = stream_starts_at.in_time_zone('Eastern Time (US & Canada)')
+    
+    mail(:to => recipient, :subject => subject) do |format|
+      format.html{ render 'app/views/user_mailer/reminder.html.erb', :locals => {:stream_starts_at => stream_starts_at} }    
+    end
 	end
 
 	def send_announcement(users, subject, message)

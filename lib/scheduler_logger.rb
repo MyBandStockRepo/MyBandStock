@@ -4,7 +4,8 @@ class SchedulerLogger < Logger
   end 
 end
 
+current_directory = File.expand_path(File.dirname(__FILE__))
 #do logging in a seperate file
-logfile = File.open(Rails.root.to_s+'/log/scheduler.log', 'a')    
+logfile = File.open(current_directory+'/../log/scheduler.log', 'a')    
 logfile.sync = true
 SCHEDULER_LOG = SchedulerLogger.new(logfile)
