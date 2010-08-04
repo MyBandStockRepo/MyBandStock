@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100803201800) do
+ActiveRecord::Schema.define(:version => 20100804172526) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(:version => 20100803201800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "users_have_been_notified", :default => false, :null => false
+    t.boolean  "currently_live",           :default => false, :null => false
   end
 
   create_table "transactions", :force => true do |t|

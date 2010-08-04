@@ -40,7 +40,7 @@
                 - title_class = (stream.public) ? 'stream-title' : 'stream-title not-public'
                 = link_to stream.title, stream, :class => title_class, :title => hover_title
               -else
-                = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 469, :fbwidth => 880
+                = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
             %span.stream_broadcast_link
               -if can_broadcast
                 = link_to ' ', { :controller => 'streamapi_streams', :action => 'broadcast', :id => stream.id, :lightbox => true }, :class => 'lightbox broadcast', :title => 'Broadcast'

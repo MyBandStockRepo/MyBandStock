@@ -148,7 +148,7 @@ class LiveStreamSeriesController < ApplicationController
               :view_link => {
                 :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => params[:lightbox] ),
                 :width => 880, #(theme) ? theme.width+50 : 560,
-                :height => (theme) ? theme.height+94 : 560
+                :height => (theme) ? theme.height+115 : 580
               }
             }
           end

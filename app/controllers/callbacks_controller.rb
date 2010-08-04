@@ -103,12 +103,14 @@ private
 
     options_hash = Hash.new
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
-      #if @streamapi_stream.save
-      #  #fixup the options hash
+      # We now set the stream to 'live', so the viewer knows.
+      @streamapi_stream.currently_live = true
+      if @streamapi_stream.save
+        #fixup the options hash
         options_hash['code'] = 0
-      #else
-      #  options_hash['code'] = -101
-      #end
+      else
+        options_hash['code'] = -101
+      end
     else
       #we couldn't find the record so return failure to stremaapi
       options_hash['code'] = -100
@@ -117,12 +119,16 @@ private
   end
 
   def streamapi_live_stream_finished(params)
+  # This is used when a host closes his live session window or ends his session.
+  # With this callback type, streamAPI notifies you that a live session has just ended.
+  #
     options_hash = Hash.new
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
       @streamapi_stream.channel_id = params[:channel_id]
-      @streamapi_stream.duration = params[:duration].to_i*60 #this one comes in minutes from sapi but we store it in seconds because we get more precision from them later
+      @streamapi_stream.duration = params[:duration].to_i*60 #this one comes in minutes from sapi but we store it in seconds because we get more precision from them latter
       @streamapi_stream.total_viewers = params[:viewers].to_i
       @streamapi_stream.max_concurrent_viewers = params[:max_viewers].to_i
+      @streamapi_stream.currently_live = false
 
       if @streamapi_stream.save
         #fixup the options hash
@@ -131,7 +137,7 @@ private
         options_hash['code'] = -101
       end
     else
-      #we couldn't find the record so return failure ot stremaapi
+      #we couldn't find the record so return failure to stremaapi
       options_hash['code'] = -100
     end
     return options_hash
@@ -157,7 +163,6 @@ private
     else
       options_hash['code'] = -100
     end
-
 
 =begin
     if (@streamapi_stream = StreamapiStream.where(:public_hostid => params[:public_hostid]).first)
