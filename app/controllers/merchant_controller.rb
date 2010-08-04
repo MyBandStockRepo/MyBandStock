@@ -30,7 +30,18 @@ class MerchantController < ApplicationController
     #make sure num_shares is good
     num_shares = params[:num_shares].to_i
     if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > 1000
-      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE + ' and 1000.'
+      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and 1000.'
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
+    
+    # Assure that there are shares available for purchase today.
+    available_shares = band.available_shares_for_purchase
+    if available_shares <= 0 || num_shares > available_shares
+      if (available_shares <= 0)
+        flash[:error] = "There are no more shares available today! Check back soon - new shares are released every day at noon."
+      else
+        flash[:error] = "There aren't that many shares available! You can buy up to #{ available_shares } until more are released."
+      end
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     

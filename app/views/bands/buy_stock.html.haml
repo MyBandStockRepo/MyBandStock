@@ -6,6 +6,7 @@
     %h3
       Buy stock in
       = @band.name
+      = ' - ' + pluralize(@available_shares, 'share') + " left today"
 
   -if flash[:error]
     .errbox
@@ -26,14 +27,14 @@
     #purchase_cost
       Current cost per share:
       %span#current_share_price
-        = @band.share_price
-      %br
+        = number_to_currency(@band.share_price.to_f / 100) + '.'
       Estimated total cost (before tax):
       %span#purchase_cost_value
-    .fieldrow
-      .fieldleft                
-        .formbutton
-          = submit_tag purchase_submit_text #, :onclick => 'this.disable();'
+    -if @available_shares > 0
+      .fieldrow
+        .fieldleft                
+          .formbutton
+            = submit_tag purchase_submit_text #, :onclick => 'this.disable();'
   %p
     By clicking
     %em

@@ -76,14 +76,17 @@ class Band < ActiveRecord::Base
     return available_shares
   end
   
+  
   def share_price()
   # This method returns the price per share for the given band.
   # Currently, the share price is simply a static constant, defined in environment.rb.
+  #
     return Cobain::Application::MBS_SHARE_PRICE
   end
 
   def self.search_by_name(name)
   # Returns a band, given some common variation of its name or short name.
+  #
     return nil if name.nil? || name == ''
 
     # Let's pretend name = 'Daft Punk'. Search matches one of:
@@ -105,8 +108,7 @@ class Band < ActiveRecord::Base
 
   def tweets(twitter_client, num_tweets = 3)
   # Takes a Twitter Oauth API client, like client(true, false, bandID)
-    #
-    logger.info "In band.tweets"
+  #
     tweet_list = nil
 		if self.twitter_user.nil? || twitter_client == nil
 			return nil
