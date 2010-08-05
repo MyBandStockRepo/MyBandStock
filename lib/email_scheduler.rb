@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #Script run by a cron job to check if emails need to go out and to send them out
 #set RAILS_ENV here since it doesn't run rails
-RAILS_ENV='development'
+RAILS_ENV='production'
 
 
 
