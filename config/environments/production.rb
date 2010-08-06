@@ -6,8 +6,13 @@ Cobain::Application.configure do
   SECURE_SITE_URL = 'https://mybandstock.com'
   SITE_HOST = 'mybandstock.com'
   
-  # GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '763010463949940', :merchant_key => 'MRHuj7I0AbG5vnPwJAunRg', :use_sandbox => false }
-  GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
+  ####
+  # Google Checkout API
+  # Production:
+      GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '763010463949940', :merchant_key => 'MRHuj7I0AbG5vnPwJAunRg', :use_sandbox => false }
+  # Sandbox:
+  #   GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
+  ####
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests

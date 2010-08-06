@@ -51,10 +51,10 @@ class Band < ActiveRecord::Base
   #   band per day.
   #
     
-    dispersed_shares_sum    = 0                          # This will be the total number of dispersed shares within the past SHARE_LIMIT_LIFETIME
-    noon_today        = (Time.now.midnight + 12.hours)   # Noon today in UTC time (like 'Mon Aug 02 12:00:00 UTC 2010')
+    dispersed_shares_sum    = 0          # This will be the total number of dispersed shares within the past SHARE_LIMIT_LIFETIME
+    noon_today        = (Time.zone.now.midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
     
-    if noon_today > Time.now
+    if noon_today > Time.zone.now
       most_recent_noon = noon_today - 1.day
     else
       most_recent_noon = noon_today
@@ -64,12 +64,13 @@ class Band < ActiveRecord::Base
                                            :band_id     => self.id,
                                            :description => 'direct_purchase'
                                          ).where(
-                                           ["created_at > ?", most_recent_noon]
+                                           ["created_at > ?", most_recent_noon.utc]
                                          ).all
 
     dispersed_shares.each{ |entry|
-      dispersed_shares_sum += entry.adjustment
+      dispersed_shares_sum += entry.adjustment  # Takes works with negative adjustments
     }
+    
     available_shares = NUM_SHARES_PER_BAND_PER_DAY - dispersed_shares_sum
     available_shares = (available_shares >= 0) ? available_shares : 0
     
