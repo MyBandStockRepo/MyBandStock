@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100804172526) do
+ActiveRecord::Schema.define(:version => 20100806195559) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -83,15 +83,6 @@ ActiveRecord::Schema.define(:version => 20100804172526) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "delayed_jobs_streamapi_streams", :id => false, :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "delayed_job_id"
-    t.integer  "streamapi_stream_id"
-  end
-
-  add_index "delayed_jobs_streamapi_streams", ["delayed_job_id", "streamapi_stream_id"], :name => "delayed_jobs_streamapi_streams_join_index"
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -194,12 +185,13 @@ ActiveRecord::Schema.define(:version => 20100804172526) do
   add_index "share_codes", ["key"], :name => "index_share_codes_on_key", :unique => true
 
   create_table "share_ledger_entries", :force => true do |t|
-    t.integer  "adjustment",  :null => false
-    t.string   "description", :null => false
-    t.integer  "user_id",     :null => false
-    t.integer  "band_id",     :null => false
+    t.integer  "adjustment",     :null => false
+    t.string   "description",    :null => false
+    t.integer  "user_id",        :null => false
+    t.integer  "band_id",        :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "transaction_id"
   end
 
   create_table "share_totals", :force => true do |t|
@@ -275,35 +267,6 @@ ActiveRecord::Schema.define(:version => 20100804172526) do
     t.datetime "updated_at"
     t.boolean  "users_have_been_notified", :default => false, :null => false
     t.boolean  "currently_live",           :default => false, :null => false
-  end
-
-  create_table "transactions", :force => true do |t|
-    t.string   "buyer_id"
-    t.string   "serial_number"
-    t.string   "google_order_number"
-    t.string   "peekok_order_number"
-    t.string   "financial_order_state"
-    t.string   "fulfillment_order_state"
-    t.float    "order_total"
-    t.float    "total_amount_charged"
-    t.text     "shopping_cart_xml"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "company_name"
-    t.string   "contact_name"
-    t.string   "country_code"
-    t.string   "email"
-    t.string   "fax"
-    t.string   "phone"
-    t.string   "postal_code"
-    t.string   "region"
-    t.datetime "timestamp"
-    t.boolean  "email_allowed"
-    t.boolean  "paid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "twitter_users", :force => true do |t|

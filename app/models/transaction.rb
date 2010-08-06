@@ -2,7 +2,8 @@ require 'google4r/checkout'
 
 class Transaction < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to  :user
+  has_many    :share_ledger_entries
   
   def update_user_id
     shopping_cart = Google4R::Checkout::ShoppingCart.create_from_element(REXML::Document.new(self.shopping_cart_xml).root, 2) #the 2 is random, its the "owner" parameter but we dont care who the owner is ---
@@ -45,10 +46,11 @@ class Transaction < ActiveRecord::Base
             update_user_information(user)
             logger.info "Direct stock purchase: granting user #{user.id}  #{num_shares} shares in band #{band_id}."
             success = success && ShareLedgerEntry.create(
-                                                    :user_id      => target_user_id,
-                                                    :band_id      => band_id,
-                                                    :adjustment   => num_shares,
-                                                    :description  => 'direct_purchase'
+                                                    :user_id        => target_user_id,
+                                                    :band_id        => band_id,
+                                                    :adjustment     => num_shares,
+                                                    :description    => 'direct_purchase'
+                                                    :transaction_id => self.id
                                                   )
           else
             success = false
