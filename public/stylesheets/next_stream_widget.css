@@ -1,0 +1,13 @@
+.next_stream_widget{
+	width:630px;
+	background-color:#141414;
+	padding:10px;
+	float:left;
+}
+.next_stream_widget .header{float:left;width:600px;}
+.next_stream_widget .stream_time{height:50px;background-color:black;padding:5px;width:450px;margin:10px 5px;float:left;}
+.next_stream_widget .online_status{height:50px;background-color:black; width:140px;float:right;padding:5px;margin:10px 5px;text-align:center;font-family:TitilliumText14L600wt;}
+.next_stream_widget .online_status .online{color:green;}
+.next_stream_widget .online_status .offline{color:yellow;}
+.next_stream_widget .online_status .join_now a{color:#FF9900;}
+.next_stream_widget .online_status .join_now a:hover{color:white;}

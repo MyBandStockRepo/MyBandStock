@@ -51,6 +51,13 @@
       = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 225 }
     .clear
 
+
+
+  -#HERE FOR TESTING
+  .next_stream
+    = render :partial => 'bands/next_stream', :locals => { :band => @band }
+  
+
   .access-schedule
     = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
     -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }

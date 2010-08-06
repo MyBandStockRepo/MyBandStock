@@ -1,0 +1,29 @@
+- @next_stream = @band.next_stream
+
+.next_stream_widget
+  .header
+    %h2
+      = @band.name  
+      %span.grey99 live video stream
+    
+  .stream_time
+    %p.grey99 next stream starts: 
+    %h2
+      -if @next_stream.nil?   
+        TBA
+      -else
+        -if @next_stream.currently_live != true
+          Stream currently being broadcast!
+        -else
+          = @next_stream.starts_at.strftime("%a, %B %d, %Y at %I:%M%p ET")
+  .online_status
+    -if @next_stream.currently_live != true
+      %p.online STREAM IN PROGRESS
+      %h2.join_now
+        = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @next_stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
+
+    -else
+      %p.offline CAMERA OFFLINE
+  .schedule
+    %a
+.clear

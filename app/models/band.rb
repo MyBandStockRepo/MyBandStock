@@ -37,6 +37,19 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
+  def next_stream
+    all_streams = self.streamapi_streams.order('streamapi_streams.starts_at ASC').where(:public => true).all
+    next_stream = nil
+    unless all_streams.nil?
+      for stream in all_streams
+        if stream.starts_at > Time.now
+          return stream        
+        end
+      end
+    end
+    return nil
+  end
+    
     
   def available_shares_for_purchase
   # Returns the number of shares available for purchase for the band, for this time period.
