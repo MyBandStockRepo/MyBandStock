@@ -49,7 +49,7 @@ class Transaction < ActiveRecord::Base
                                                     :user_id        => target_user_id,
                                                     :band_id        => band_id,
                                                     :adjustment     => num_shares,
-                                                    :description    => 'direct_purchase'
+                                                    :description    => 'direct_purchase',
                                                     :transaction_id => self.id
                                                   )
           else
