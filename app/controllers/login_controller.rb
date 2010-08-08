@@ -7,6 +7,7 @@ class LoginController < ApplicationController
   
   
   def user
+    logger.info "LCU: #{ session[:last_clean_url] }"
     if session[:user_id]
       redirect_to '/me/home'
       return false

@@ -467,14 +467,26 @@ div#slides ul li.show {z-index:500}
       text-decoration: none;
     }
 
+
 /* Band profile */
+
 #profile-band-photo {
   width: 320px;
+}
+
+#profile-left-column .remaining-shares, #profile-right-column .buy-shares-button {
+  margin: 10px 0 10px 10px;
 }
 
 #profile-right-column #mbs-share-code-container {
   margin: 15px 5px 15px;
 }
+
+.remaining-shares {
+  font-size: 15px;
+  font-family: TitilliumText14L999wt, Tahoma, sans-serif;
+}
+
 
 
 
@@ -583,6 +595,29 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 10px;}
 .formbutton_left_nextto {width:140px;height:42px;float:left;margin:20px 10px 0px 10px;}
+
+.silver_button {
+  background: url(/images/buttons/global/silver_button.png) no-repeat;
+  border: 0;
+  width: 140px;
+  height: 42px;
+  color: #333;
+  font-family: TitilliumText14L999wt, Tahoma, sans-serif;
+  font-size: 18px;
+  padding-bottom: 2px;
+  text-align: center;
+  cursor: pointer;
+  float: right;
+}
+  a.silver_button {
+    padding-top: 10px;
+    color: #000;
+    text-decoration: none;
+  }
+  a.silver_button:hover {
+    color: #777;
+  }
+
 
 /* LOGIN PAGE */
 

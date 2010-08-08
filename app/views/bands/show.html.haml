@@ -7,17 +7,20 @@
   .profile-top-ten-container
     = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
 
-  .remaining-shares{ :style => '' }
+  .remaining-shares
     New shares are released every day at noon ET.
     Remaining shares today:
     %span.remaining-shares-value{ :style => 'color: #FFF' }
       = @band.available_shares_for_purchase.to_s
+  %a.silver_button{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
+    Buy stock now
+  -# = link_to 'Buy stock now', buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300', :style => 'color: black;'
 
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
+    %br
     #manage-band
       You are a manager for this band.
-      = link_to_unless_current 'Manage', edit_band_path(:id => @band.id)
-    = link_to 'Buy stock', buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300', :style => 'color: black;'
+      = link_to_unless_current 'Edit band account', edit_band_path(:id => @band.id)
   
 
 #profile-right-column
