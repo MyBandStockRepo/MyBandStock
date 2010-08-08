@@ -91,7 +91,7 @@ class MerchantController < ApplicationController
     ### ASSERT
     unless response.has_elements?
       #ABORT, bad request
-      render :nothing => :true
+      render :nothing => true
       return false
     end
     
@@ -101,7 +101,7 @@ class MerchantController < ApplicationController
     ### ASSERT
     unless google_order_number.length > 0
       #ABORT, bad request
-      render :nothing => :true
+      render :nothing => true
       return false
     end
 
