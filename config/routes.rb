@@ -61,15 +61,13 @@ Cobain::Application.routes.draw do |map|
     match '/share_code_groups/download(/:id/:band_id)', :to => 'share_code_groups#download'
     match '/share_code_groups/:id/:band_id', :to => 'share_code_groups#show'
 
-
-    # ADMIN STUFF #
-    match '/admin/email_users', :to => 'admin#email_users_form'
-    match '/admin/send_users_email', :to => 'admin#send_users_email'
-
-
-
   # /--- Share Codes ---- #
 
+
+
+  # ADMIN STUFF #
+  match '/admin/email_users', :to => 'admin#email_users_form'
+  match '/admin/send_users_email', :to => 'admin#send_users_email'
 
   resources :streamapi_stream_themes
   resources :facebook_publishers
@@ -98,7 +96,8 @@ Cobain::Application.routes.draw do |map|
   match 'developers', :to => 'developer#index'
 
   # ---- URL Shortener ---- #
-    #match '/short/favicon.ico', :to => '/favicon.ico' - can I serve a static asset here? I think .htaccess might have to be used for this.
+    match 'short/favicon.ico', :to => 'statics#favicon_ico'  #can I serve a static asset here? I think .htaccess might have to be used for this.
+    match '/short/robots.txt', :to => 'statics#robots_txt'
     match 'short(/:key)', :to => 'short_urls#redirect'
   # /--- URL Shortener ---- #
 

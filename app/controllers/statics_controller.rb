@@ -21,5 +21,15 @@ class StaticsController < ApplicationController
   def faq
     render :action => 'faq'
   end
+  
+  def robots_txt
+    render :file => 'public/shorturl_robots.txt', :layout => false and return
+  end
+  
+  def favicon_ico
+    #render :file => 'public/favicon.ico', :layout => false, :type => 'text/plain' and return
+    send_file 'public/favicon.ico', :type => 'image/vnd.microsoft.icon', :disposition => 'inline'
+    return
+  end
 
 end
