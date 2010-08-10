@@ -2,23 +2,88 @@ require 'MBS_API'
 
 class AdminController < ApplicationController
   protect_from_forgery :only => [:send_users_email]
-  before_filter :authenticated?
-  before_filter :user_has_site_admin
+  before_filter :authenticated?, :user_has_site_admin
   skip_filter :update_last_location, :only => [:authorize_users_post, :index, :email_users_form]
   
   
   def index
-    #something
   end
+
+
+  def grant_shares
+    @response_text = params[:response_text]
+  end
+
+  def grant_shares_post
+  # Arbitrarily grant shares to users. Takes (user_id || user_email) && adjustment && band_id.
+    # Check for band parameter
+    if params[:band_id].blank? || params[:band_id] == 0 || (band = Band.find(params[:band_id])).nil?
+      @response_text = 'Band ID not specified, or band does not exist.'
+      redirect_to grant_shares_path(:response_text => @response_text) and return
+    end
+    
+    # Check for adjustment parameter; it must be numerical.
+    adjustment = params[:adjustment]
+    if params[:adjustment].blank?
+      @response_text = 'Please specify an adjustment'
+      redirect_to grant_shares_path(:response_text => @response_text) and return
+    else
+      adjustment = adjustment if ( Integer(adjustment) rescue Float(adjustment) rescue false ) # Numeric
+      unless adjustment
+        @response_text = 'Adjustment must be numerical'
+        redirect_to grant_shares_path(:response_text => @response_text) and return
+      else
+        adjustment = adjustment.to_i
+        logger.info adjustment
+      end
+    end
+  
+    # Check for user parameter; we can take either user ID or user email.
+    if params[:user_id].blank?
+      if params[:user_email].blank?
+        flash[:error] = 'Please provide user ID or email address.'
+        redirect_to grant_shares_path(:response_text => @response_text) and return
+      else
+        user = User.where(:email => params[:user_email]).first
+        if user.nil?
+          @response_text = 'No user exists by that email address'
+          redirect_to grant_shares_path(:response_text => @response_text) and return
+        end
+      end
+    else
+      user = User.find(params[:user_id])
+      if user.nil?
+        @response_text = 'No user exists by that ID'
+        redirect_to grant_shares_path(:response_text => @response_text) and return
+      end
+    end
+    
+    # A response has been generated already, and we haven't awarded shares yet so it's probably not good, so we redirect.
+    if !@response_text.blank?
+      redirect_to grant_shares_path(:response_text => @response_text) and return
+    end
+    
+    # Award shares
+    if ShareLedgerEntry.create(:user_id => user.id, :band_id => band.id, :adjustment => adjustment, :description => 'manual admin')
+      @response_text = "Sucessfully granted #{ user.email } #{ adjustment } share(s) in #{ band.name }"
+    else
+      @response_text = 'Error: unable to create share ledger entry.'
+    end
+
+    # Go back to form
+    redirect_to grant_shares_path(:response_text => @response_text)
+    return
+  end
+
 
   def authorize_users
     @response_text = params[:response_text]
   end
   
   def authorize_users_post
-    unless params[:email] && params[:lss_id]
+    unless params[:email] && params[:lss_id] && !params[:email].blank?
       @response_text = 'Invalid input - please specify an email address and a Live Stream Series'
-      return false
+      return redirect_to :action => :authorize_users, :response_text => @response_text
     end
     unless MBS_API.change_stream_permission( { :api_key => OUR_MBS_API_KEY,
                                                :hash => OUR_MBS_API_HASH,

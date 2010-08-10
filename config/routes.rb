@@ -65,9 +65,11 @@ Cobain::Application.routes.draw do |map|
 
 
 
-  # ADMIN STUFF #
-  match '/admin/email_users', :to => 'admin#email_users_form'
-  match '/admin/send_users_email', :to => 'admin#send_users_email'
+  # ---- Administration ---- #
+    match 'admin/grant_shares', :to => 'admin#grant_shares', :as => 'grant_shares'
+    match '/admin/email_users', :to => 'admin#email_users_form'
+    match '/admin/send_users_email', :to => 'admin#send_users_email'
+  # /--- Administration ---- #
 
   resources :streamapi_stream_themes
   resources :facebook_publishers
