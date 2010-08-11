@@ -1,7 +1,8 @@
--if grooveshark_widget_id && grooveshark_widget_id != ''
-  %object{ :width => "645", :height => "270" }
-    %param{ :name => "movie", :value => "http://listen.grooveshark.com/widget.swf" }
-    %param{ :name => "wmode", :value => "window" }
-    %param{ :name => "allowScriptAccess", :value => "always" }
-    %param{ :name => "flashvars", :value => "hostname=cowbell.grooveshark.com&widgetID=#{ grooveshark_widget_id }&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0" }
-    %embed{ :src => "http://listen.grooveshark.com/widget.swf", :type => "application/x-shockwave-flash", :width => "645", :height => "270", :flashvars => "hostname=cowbell.grooveshark.com&widgetID=#{ grooveshark_widget_id }&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0", :allowScriptAccess => "always", :wmode => "window" }
+-unless grooveshark_widget_id.blank?
+  .media-player.grooveshark
+    %object{ :width => "320", :height => "270" }
+      %param{ :name => "movie", :value => "http://listen.grooveshark.com/widget.swf" }
+      %param{ :name => "wmode", :value => "window" }
+      %param{ :name => "allowScriptAccess", :value => "always" }
+      %param{ :name => "flashvars", :value => "hostname=cowbell.grooveshark.com&widgetID=#{ grooveshark_widget_id }&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0" }
+      %embed{ :src => "http://listen.grooveshark.com/widget.swf", :type => "application/x-shockwave-flash", :width => "320", :height => "270", :flashvars => "hostname=cowbell.grooveshark.com&widgetID=#{ grooveshark_widget_id }&style=metal&bbg=000000&bfg=ff9900&bt=FFFFFF&bth=000000&pbg=FFFFFF&pbgh=ff9900&pfg=000000&pfgh=FFFFFF&si=FFFFFF&lbg=FFFFFF&lbgh=ff9900&lfg=000000&lfgh=FFFFFF&sb=FFFFFF&sbh=ff9900&p=0", :allowScriptAccess => "always", :wmode => "window" }

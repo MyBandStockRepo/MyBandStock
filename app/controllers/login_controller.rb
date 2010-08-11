@@ -22,8 +22,7 @@ class LoginController < ApplicationController
       end
     end
     
-    @login_only = true if params[:login_only]
-
+    set_view_variables()
 	  unless params[:lightbox].nil?
       # If our request tells us not to display layout (in a lightbox, for instance)
       @external = true  # The view needs to know whether to include the "external" login partial or default one.
@@ -136,6 +135,29 @@ class LoginController < ApplicationController
     return true
   end
 
+  #######
+  private
+  #######
+  
+  def set_view_variables
+    @login_only = true if params[:login_only]
 
+    # If the user just came from the stream viewer, he should see the get_access partial.
+    if (session[:last_controller] == 'streamapi_streams' and session[:last_action] == 'view')
+      @show_get_access = true
+    else
+      # Otherwise, just show the register partial
+      @show_register = true
+    end
+    
+    # If the user just came from buying stock and clicked Register, we should tell user#create to bring him back.
+    if (session[:last_controller] == 'bands' and session[:last_action] == 'buy_stock' and session[:last_id])
+      come_back_to = band_url(session[:last_id])
+      logger.info "Telling user/create to redirect back to " + come_back_to + "."
+      @redemption_redirect = come_back_to
+    end
+    
+  end
 
 end
+

@@ -32,6 +32,9 @@ class ApplicationController < ActionController::Base
 
   #puts a variable in session related to the url ur at
   after_filter :update_last_location
+
+  # Stores the last controller and action in session[:last_controller], session[:last_action]
+  after_filter :update_last_controller_and_action
   
   #basic layout
   layout "root-layout"
@@ -139,6 +142,12 @@ class ApplicationController < ActionController::Base
   
   def update_last_location
     session[:last_clean_url] = request.url
+  end
+  
+  def update_last_controller_and_action
+    session[:last_controller] = params[:controller]
+    session[:last_action]     = params[:action]
+    session[:last_id]         = params[:id] || params[:band_id] || params[:user_id]
   end
   
   

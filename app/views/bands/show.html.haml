@@ -7,14 +7,9 @@
   .profile-top-ten-container
     = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
 
-  .remaining-shares
-    New shares are released every day at noon ET.
-    Remaining shares today:
-    %span.remaining-shares-value{ :style => 'color: #FFF' }
-      = @band.available_shares_for_purchase.to_s
-  %a.silver_button{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
-    Buy stock now
   -# = link_to 'Buy stock now', buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300', :style => 'color: black;'
+
+  = render :partial => 'grooveshark_widget', :locals => { :grooveshark_widget_id => @band.grooveshark_widget_id }
 
   -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
     %br
@@ -24,9 +19,16 @@
   
 
 #profile-right-column
-  -if @band.grooveshark_widget_id && @band.grooveshark_widget_id != ''
-    .media-player.grooveshark
-      = render :partial => 'grooveshark_widget', :locals => { :grooveshark_widget_id => @band.grooveshark_widget_id }
+
+  .stock_widget
+    .remaining-shares
+      Remaining shares today:
+      %span.remaining-shares-value{ :style => 'color: #FFF' }
+        = @band.available_shares_for_purchase.to_s
+    New shares are released every day at noon ET.
+    .formbutton
+      %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
+        BUY STOCK
 
   -# __commented__
     - if @band_twitter_authorized

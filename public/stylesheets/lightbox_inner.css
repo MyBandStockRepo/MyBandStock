@@ -152,9 +152,9 @@ body#lightbox #login_submit {height:30px;float:right;margin-top:10px;}
 */
 #login_wrap_ext{margin:0 auto;padding-top:50px;padding-bottom:30px;}
 #login_wrap_left_ext{width:390px;float:left;margin-left:20px;}
-#login_wrap_right.external{width:385px;float:right;margin-right:20px;}
+#login_wrap_right{width:385px;float:right;margin-right:20px;}
 	#login_wrap_rightpad{height:104px;}
-		#login_wrap_right.external h2{margin-bottom:20px;}
+		#login_wrap_right h2{margin-bottom:20px;}
 #signupbutton { float: left; width: auto; }
 body#lightbox .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
 

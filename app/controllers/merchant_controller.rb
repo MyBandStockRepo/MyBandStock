@@ -28,9 +28,14 @@ class MerchantController < ApplicationController
     end
 
     #make sure num_shares is good
+    if params[:num_shares] == ''
+      flash[:error] = 'Please select an amount of shares.'
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
+    
     num_shares = params[:num_shares].to_i
-    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > 1000
-      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and 1000.'
+    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > NUM_SHARES_PER_BAND_PER_DAY
+      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and ' + NUM_SHARES_PER_BAND_PER_DAY.to_s + '.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     
