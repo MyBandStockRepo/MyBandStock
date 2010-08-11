@@ -1,6 +1,7 @@
 class LoginController < ApplicationController
 
   skip_filter :update_last_location
+  skip_filter :update_last_controller_and_action, :only => :user  # Otherwise last_controller and last_action would be invalidated when the user is redirected to https/
   protect_from_forgery :only => [:process_user_login, :forgot_password]
   
   ssl_required :user, :process_user_login, :admin
