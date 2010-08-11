@@ -13,7 +13,10 @@
           .clear
         = render :partial => 'login/small_login_form', :locals => { :login_only => @login_only }
       -unless @login_only
-        = render :partial => 'login/get_access'
+        -if @show_register
+          = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
+        -if @show_get_access
+          = render :partial => 'login/get_access'
       .clear
   -else
     #login_wrap
@@ -51,7 +54,8 @@
                 *Cookies must be enabled to login
                 
       -unless @login_only
-        = render :partial => 'login/signup'
+        -if @show_register
+          = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
 
       .clear
 
