@@ -20,13 +20,13 @@
 
 #profile-right-column
 
-  .stock_widget
+  .stock-widget
     .remaining-shares
       Remaining shares today:
       %span.remaining-shares-value{ :style => 'color: #FFF' }
         = @band.available_shares_for_purchase.to_s
     New shares are released every day at noon ET.
-    .formbutton
+    .formbutton.buy-stock-button
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
         BUY STOCK
 

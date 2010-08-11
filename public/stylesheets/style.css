@@ -479,11 +479,17 @@ div#slides ul li.show {z-index:500}
   margin: 15px 5px 15px;
 }
 
-.remaining-shares {
-  font-size: 15px;
-  font-family: TitilliumText14L400wt, Tahoma, sans-serif;
+.stock-widget {
+  margin: 10px;
 }
-
+  .stock-widget .buy-stock-button {
+    float: none;
+  }
+.remaining-shares {
+  font-size: 21px;
+  font-family: TitilliumText14L400wt, Tahoma, sans-serif;
+  color: #CCC;
+}
 
 
 
