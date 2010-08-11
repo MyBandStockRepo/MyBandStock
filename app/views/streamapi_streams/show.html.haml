@@ -12,10 +12,7 @@
 				|
 				= @streamapi_stream.location
 	%span.grey99
-		= @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
-		to
-		= @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
-		(EST)
+		= output_datetime(@streamapi_stream.starts_at)
 	%br
 	%br
 	%p

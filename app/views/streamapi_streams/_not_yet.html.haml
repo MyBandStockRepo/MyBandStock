@@ -1,4 +1,4 @@
-= raw "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p') }</strong>."
+= raw "This stream is not currently being broadcast. It is scheduled to start on <strong>#{ output_datetime(stream.starts_at)}</strong>."
 Once the host is live, you will automatically be taken to the stream.
 
 :javascript
@@ -6,17 +6,5 @@ Once the host is live, you will automatically be taken to the stream.
   setInterval(function(){
     window.location.reload();
   }, 60000);
-
--# __commented__
-  #viewer-container
-    %h2
-      = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
-    This stream is not currently being broadcast. It is scheduled to start on
-    %strong
-      = @stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
-    \.
-    %br
-    %p
-      If you believe you are receiving this message in error, please email
-      = mail_to(MBS_SUPPORT_EMAIL, MBS_SUPPORT_EMAIL, :encode => "hex") + '.'
-
+%br
+%br

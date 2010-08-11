@@ -6,8 +6,8 @@
   The next stream, 
   = @stream.title+", will be starting on"
   %strong
-    = @stream.starts_at.strftime("%A %B %d, %Y at %I:%M:%p ET.")
-  Note the time given is in the Eastern Timezone.
+    = @stream.starts_at.strftime("%A %B %d, %Y at %I:%M%p %Z.")
+  Note the time given time zone.
 %p
   Please login with the email address 
   %strong

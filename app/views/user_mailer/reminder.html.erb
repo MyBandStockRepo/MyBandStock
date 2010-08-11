@@ -1,6 +1,6 @@
 <h2>Reminder: You have access to a LIVE video stream with <%= @band.name %></h2>
 
-<p>The next stream, <%= @stream.title+", will be starting on"%> <strong><%= stream_starts_at.strftime("%A %B %d, %Y at %I:%M:%p ET.") %> Note the time given is in the Eastern Timezone.</strong></p>
+<p>The next stream, <%= @stream.title+", will be starting on"%> <strong><%= stream_starts_at.strftime("%a, %B %d, %Y at %I:%M%p %Z") %> PLEASE NOTE THE TIME ZONE.</strong></p>
 
 <p>Please login with the email address <strong><%= @user.email %></strong> to watch the stream during the scheduled time.</p>
 

@@ -69,7 +69,7 @@
           -else
             = f.text_field :starts_at, :id => 'starts_at', :value => @streamapi_stream.starts_at.strftime("%m/%d/%Y %I:%M %p")
         .description
-          All times are in EST.
+          All times are in Eastern Time.
     .fielderror
       - if @streamapi_stream.errors[:starts_at]
         - for e in @streamapi_stream.errors[:starts_at]
@@ -89,7 +89,7 @@
           -else
             = f.text_field :ends_at, :id => 'ends_at', :value => @streamapi_stream.ends_at.strftime("%m/%d/%Y %I:%M %p")
         .description
-          All times are in EST.
+          All times are in Eastern Time.
     .fielderror
       - if @streamapi_stream.errors[:ends_at]
         - for e in @streamapi_stream.errors[:ends_at]

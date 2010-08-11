@@ -16,13 +16,16 @@
             %span.dark_accent
               = '|'
             = series.starts_at.strftime("%I:%M%p")
-            %span.dark_accent ET
+            %span.dark_accent 
+              = series.starts_at.strftime("%Z")
           .placement_endtime
             = series.ends_at.strftime("%m.%d.%Y")
             %span.dark_accent
               = '|'
             = series.ends_at.strftime("%I:%M%p")
-            %span.dark_accent ET
+            %span.dark_accent
+              = series.ends_at.strftime("%Z")
+              
     .stream_list
       -series.streamapi_streams.order('streamapi_streams.starts_at ASC').each do |stream|
         -if stream.public || can_broadcast
@@ -51,5 +54,5 @@
               %span.dark_accent
                 = '|'
               = stream.starts_at.strftime('%I:%M%p')
-              %span.dark_accent ET
-
+              %span.dark_accent 
+                = stream.starts_at.strftime('%Z')

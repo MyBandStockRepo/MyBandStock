@@ -8,6 +8,14 @@ module ApplicationHelper
     content_tag(:span, date, :class => 'date') + " " + content_tag(:span, time, :class => 'time')
   end
 	
+	def convert_to_eastern_time(time)
+	  return time.utc.in_time_zone('Eastern Time (US & Canada)')
+  end
+	
+	def output_datetime(time)
+	  return time.strftime("%a, %B %d, %Y at %I:%M%p %Z")
+  end
+	
 	def bodytag_id
     a = controller.class.to_s.underscore.gsub(/_controller$/, '')
     b = controller.action_name.underscore

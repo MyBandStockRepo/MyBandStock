@@ -56,9 +56,3 @@
 
   .lightbox_welcome
     = render :partial => 'welcome_message', :locals => { :user => @user, :band => @stream.band }
-
--# __commented__
-  %h2
-    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
-
-

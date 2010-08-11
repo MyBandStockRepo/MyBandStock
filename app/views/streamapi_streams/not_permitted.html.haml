@@ -1,7 +1,9 @@
 .maincont
   #viewer-container
     %h2
-      = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y") + ' to ' + @stream.ends_at.strftime("%m/%d/%Y")
+      = @stream.title 
+      %span.grey99
+        = output_datetime(@stream.starts_at)
     %p
       You have not purchased access to this stream. 
       -if @stream.live_stream_series.purchase_url.nil?

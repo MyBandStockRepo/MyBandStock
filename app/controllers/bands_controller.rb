@@ -6,10 +6,53 @@ include REXML
 class BandsController < ApplicationController
   
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:show]
+ before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
- before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock]
+ before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users]
+
+# returns a json object about if the band is currently broadcasting
+ def is_band_broadcasting_live
+   is_live = false
+   output = Hash.new
+   
+   output[:next_stream_starts_at] = nil
+   if params[:band_id]
+     band = Band.find(params[:band_id])
+     
+     current_broadcasts = band.current_broadcast_streams
+
+     if current_broadcasts.nil? || current_broadcasts.count == 0
+       next_stream = band.next_stream
+     
+       unless next_stream.nil?
+         is_live = next_stream.currently_live
+         output[:next_stream_starts_at] = output_datetime(next_stream.starts_at)
+         output[:view_link] = {
+           :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => next_stream.id, :lightbox => params[:lightbox] ),
+           :width => 880, #(theme) ? theme.width+50 : 560,
+           :height => 480 #(theme) ? theme.height+115 : 580
+         }
+       end
+     else
+       #here
+       is_live = true
+       output[:view_link] = {
+         :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => current_broadcasts.first.id, :lightbox => params[:lightbox] ),
+         :width => 880, #(theme) ? theme.width+50 : 560,
+         :height => 480 #(theme) ? theme.height+115 : 580
+       }
+       
+     end
+     
+   end
+   
+   output[:is_live] = is_live
+  
+   output_json = output.to_json
+   
+   return render :json => output_json, :callback => 'bandIsBroadcastingJsonCallback'
+ end
 
   def index
     redirect_to session[:last_clean_url]

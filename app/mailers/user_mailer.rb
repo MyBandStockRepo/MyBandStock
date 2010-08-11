@@ -121,8 +121,10 @@ class UserMailer < ActionMailer::Base
     stream_starts_at = @stream.starts_at
     stream_starts_at = stream_starts_at.utc + offset
 
+    
     #convert times to ET
     stream_starts_at = stream_starts_at.in_time_zone('Eastern Time (US & Canada)')
+    
     
     mail(:to => recipient, :subject => subject) do |format|
       format.html{ render 'app/views/user_mailer/reminder.html.erb', :locals => {:stream_starts_at => stream_starts_at} }    

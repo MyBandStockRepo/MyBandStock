@@ -7,7 +7,6 @@ include REXML
 class StreamapiStreamsController < ApplicationController
 respond_to :html, :js
 
-## NOTE THESE FILTERS NEED WORK BEFORE IT GOES LIVE
  protect_from_forgery :only => [:create, :update]
  #before_filter :only => :post, :only => [:create, :update]
  before_filter :authenticated?, :except => [:ping]

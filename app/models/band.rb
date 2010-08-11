@@ -37,19 +37,16 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
+  
+  # returns the next public streamapi stream out of all their series and if none exist, returns nil
   def next_stream
-    all_streams = self.streamapi_streams.order('streamapi_streams.starts_at ASC').where(:public => true).all
-    next_stream = nil
-    unless all_streams.nil?
-      for stream in all_streams
-        if stream.starts_at > Time.now
-          return stream        
-        end
-      end
-    end
-    return nil
+    return self.streamapi_streams.where('streamapi_streams.starts_at > ? AND public = ?', Time.now, true).order('streamapi_streams.starts_at ASC').first
   end
     
+  #returns an array of streams the band is currently broadcasting on, or nil
+  def current_broadcast_streams
+    return self.streamapi_streams.where(:currently_live => true).all
+  end
     
   def available_shares_for_purchase
   # Returns the number of shares available for purchase for the band, for this time period.
