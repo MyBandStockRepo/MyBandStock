@@ -2,6 +2,12 @@
   %b Name:
   = @streamapi_stream_theme.name
 
+
+%p
+  %b Embed:
+%embed{:id => 'show-embed', :height=>"#{ @streamapi_stream_theme.height }", :width=>"#{ @streamapi_stream_theme.width }", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @streamapi_stream_theme.layout_path }&skinPath=#{ @streamapi_stream_theme.skin_path }&autoRecord=false&publicHostID=1&privateHostID=1&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
+
+
 %p
   %b Layout path:
   = @streamapi_stream_theme.layout_path

@@ -1,10 +1,11 @@
 -# We limit the available theme options for simplicity (only for non-admins)
--unless user.site_admin
-  - available_themes = StreamapiStreamTheme.find(8, 9)
-  - available_themes[0].name = "16:9, Normal Quality" # no chat
-  - available_themes[1].name = "16:9, High" # no chat
--else
-  - available_themes = StreamapiStreamTheme.all
+-#
+  -unless user.site_admin
+    - available_themes = StreamapiStreamTheme.find(8, 9)
+    - available_themes[0].name = "16:9, Normal Quality" # no chat
+    - available_themes[1].name = "16:9, High" # no chat
+  -else
+- available_themes = StreamapiStreamTheme.all
 
 .newform 
   .fieldrow
