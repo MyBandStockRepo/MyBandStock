@@ -347,9 +347,9 @@ class UsersController < ApplicationController
       @user.password = ''
 #      @user.password_confirmation = ''
 			if params[:lightbox].nil?
-				render :action => :new
+				render :action => :new, :redemption_redirect => params[:redemption_redirect]
 			else
-				render :action => :new, :layout => 'lightbox'
+				render :action => :new, :layout => 'lightbox', :redemption_redirect => params[:redemption_redirect]
 			end
       return
     end

@@ -68,14 +68,23 @@ class LoginController < ApplicationController
     else
       flash[:error] = "Email and password do not match."
       @user = User.new(:email => passed_email)
-      unless params[:lightbox].nil?
-        @external = true
-        @login_only = params[:show_login_only]  # Tell the view to only show the login form, excluding "Signup" and stuff
-        render :controller => 'login', :action => :user, :layout => 'lightbox'
-      else
-        @login_only = params[:show_login_only]
-        render :controller => 'login', :action => :user
-      end
+      redirect_to :controller => 'login',
+                  :action => :user,
+                  :lightbox => params[:lightbox],
+                  :show_login_only => params[:show_login_only]
+
+      # unless params[:lightbox].nil?
+      #   # @external = true
+      #   # @login_only = params[:show_login_only]  # Tell the view to only show the login form, excluding "Signup" and stuff
+      #   # render :controller => 'login', :action => :user, :layout => 'lightbox'
+      #   redirect_to :controller => 'login',
+      #               :action => :user,
+      #               :lightbox => params[:lightbox],
+      #               :show_login_only => params[:show_login_only]
+      # else
+      #   @login_only = params[:show_login_only]
+      #   render :controller => 'login', :action => :user
+      # end
       return false
     end
   end
@@ -141,10 +150,11 @@ class LoginController < ApplicationController
   #######
   
   def set_view_variables
-    @login_only = true if params[:login_only]
+    @login_only = true if (!params[:login_only].blank? or !params[:show_login_only].blank?)
+    logger.info "Login only: #{@login_only}"
 
     # If the user just came from the stream viewer, he should see the get_access partial.
-    if (session[:last_controller] == 'streamapi_streams' and session[:last_action] == 'view')
+    if (!params[:show_get_access].blank? || (session[:last_controller] == 'streamapi_streams' and session[:last_action] == 'view'))
       @show_get_access = true
     else
       # Otherwise, just show the register partial
