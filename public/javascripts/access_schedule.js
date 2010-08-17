@@ -3,11 +3,6 @@ var mbsDomain = 'http://mybandstock.com';
 var redeemDefaultText = 'Or Enter Your Share Code Here';
 
 
-var script = document.createElement('script');
-script.src = 'http://www.peekok.com/js/peekokLibrary.js';
-script.type = 'text/javascript';
-jQuery('head').append(script);
-
 jQuery('head').append(
 	jQuery('<link href="'+mbsDomain+'/stylesheets/access_schedule.css" media="screen" rel="stylesheet" type="text/css" />')
 ).append(
@@ -87,10 +82,6 @@ function accessScheduleJsonCallback(data) {
   ;
 
   jQuery('#mbs-access-schedule-container').append(
-    jQuery('<script type="text/javascript" src="http://www.peekok.com/jswidget/button/id/799">You must enable javascript in order to purchase</script>')
-  ).append(
-    jQuery('<a href="#" class="mbs-exclusive-access-banner" onclick="peekok_button_submit(799)"><img src="'+ mbsDomain + data.banner_image +'" /></a>')
-  ).append(
     redeemCodeSection
   ).append(title);
 
