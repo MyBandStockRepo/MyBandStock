@@ -1,0 +1,13 @@
+%h1.orange_bar Page not found - 404
+.maincont
+  %h3 You partied too hard!
+  %h2
+    We couldn't find the page you're looking for.
+    -unless @requested_page.blank?
+      Are you looking for the artist
+      = link_to @requested_page, { :controller => 'fans', :action => 'store_band_name', :band => { :search_text => @requested_page } }
+      ?
+    Click
+    = link_to 'here', root_url
+    to go home.
+
