@@ -1,6 +1,11 @@
 require "will_paginate"
 
 class StaticsController < ApplicationController
+
+  def status_404
+    @requested_page = params[:requested_page]
+    render :status => 404
+  end
   
   #RENDER ABOUT WHEN CLICKING ABOUT IN HOMEPAGE
   def about

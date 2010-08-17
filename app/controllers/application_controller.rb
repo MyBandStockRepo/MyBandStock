@@ -204,6 +204,10 @@ class ApplicationController < ActionController::Base
     #if we got a short_name convert it to an id
     if params[:band_short_name]
       band = Band.find_by_short_name(params[:band_short_name])
+      unless band
+        # We search for many string variants of the given short_name.
+        band = Band.search_by_name(params[:band_short_name])
+      end
     end
     
     #make sure that was good
