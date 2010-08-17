@@ -26,6 +26,11 @@ class MerchantController < ApplicationController
       flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
+    
+    unless band.commerce_allowed
+      flash[:error] = "This artist is not currently working with us, but thank you for your interest. Let them know that you want to buy their stock on MyBandStock.com!"
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
 
     #make sure num_shares is good
     if params[:num_shares] == ''

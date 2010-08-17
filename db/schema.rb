@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100806195559) do
+ActiveRecord::Schema.define(:version => 20100817191812) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20100806195559) do
     t.datetime "updated_at"
     t.string   "twitter_username"
     t.string   "grooveshark_widget_id"
+    t.boolean  "commerce_allowed",      :default => false,    :null => false
   end
 
   create_table "countries", :force => true do |t|
