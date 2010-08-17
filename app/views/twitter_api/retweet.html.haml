@@ -5,10 +5,10 @@
       .twitter_pic
         = image_tag(@retweeter_info.profile_image_url)      
       .twitter_info
-        %p retweeting from
-        %p.twitter_sn
+        %div retweeting from
+        .twitter_sn
           = @retweeter_info.screen_name
-        %p.twitter_name  
+        .twitter_name  
           = @retweeter_info.name
     .tweet_contain_top_r
   -# = image_tag 'loading_indicator.gif', :id => 'tweet_loading_indicator', :alt => 'Maximum tweet action', :style => 'display: none;'

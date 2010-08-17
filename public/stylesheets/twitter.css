@@ -43,9 +43,9 @@
 
 /* Retweet Page */
 .twitter_info{float:left;font-family:TitilliumText14L600wt;color:white;margin:5px 0px 0px 0px;}
-.twitter_info p{font-size:10px;line-height:14px;color:#ffca95;}
-.twitter_info p.twitter_sn{font-size:21px;line-height:20px;color:white;}
-.twitter_info p.twitter_name{font-size:11px;line-height:18px;color:white;}
+.twitter_info p, .twitter_info div, .twitter_info span {font-size:10px;line-height:14px;color:#ffca95;}
+.twitter_info .twitter_sn{font-size:21px;line-height:20px;color:white;}
+.twitter_info .twitter_name{font-size:11px;line-height:18px;color:white;}
 .twitter_pic{float:left;margin:9px 10px 0px 0px;width:48px;height:48px;}
 .twitter_pic img{border:1px solid #e17000;}
 .twitter_follower_info{font-size:10px;}

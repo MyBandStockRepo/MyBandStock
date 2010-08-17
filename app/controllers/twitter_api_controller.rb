@@ -337,7 +337,7 @@ class TwitterApiController < ApplicationController
 			  num_tweets_in_past_day = ShareLedgerEntry.where(
 			                                             :description => 'retweet_band',
                 			                             :band_id => @band.id,
-			                                             :user_id => @user.id 
+			                                             :user_id => @user.id
 			                                           ).where("created_at > ?", 1.day.ago).count
 			  if num_tweets_in_past_day == 0
 				  @shares = NUM_SHARES_AWARDED_FOR_RT
