@@ -8,6 +8,8 @@
         = user.email
       = link_to '', me_account_path(:id => user.id), :class => 'account'
     = link_to '', logout_path, :class => 'logout'
+  -if user.site_admin
+    = render :partial => 'admin/admin_bar'
 
 #head_bottom
   #logo_float

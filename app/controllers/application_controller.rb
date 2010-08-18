@@ -101,15 +101,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def has_role?(role)
-    @user_roles = User.find(session[:user_id], :include => :roles).roles
-    if @user_roles.include?(Role.find_by_name(role)) || @user_roles.include?(Role.find_by_name('site_admin'))
-      return true
-    else
-      redirect_to :controller => 'application', :action => 'index'
-      return false
-    end
-  end
+  #def has_role?(role)
+  #  @user_roles = User.find(session[:user_id], :include => :roles).roles
+  #  if @user_roles.include?(Role.find_by_name(role)) || @user_roles.include?(Role.find_by_name('site_admin'))
+  #    return true
+  #  else
+  #    redirect_to :controller => 'application', :action => 'index'
+  #    return false
+  #  end
+  #end
  
   def captcha_valid?(answer)
     answer  = answer.gsub(/\W/, '')

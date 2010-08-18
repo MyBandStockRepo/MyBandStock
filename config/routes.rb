@@ -66,6 +66,7 @@ Cobain::Application.routes.draw do |map|
 
 
   # ---- Administration ---- #
+    match 'admin', :to => 'admin#index', :as => 'admin'
     match 'admin/grant_shares', :to => 'admin#grant_shares', :as => 'grant_shares'
     match '/admin/email_users', :to => 'admin#email_users_form'
     match '/admin/send_users_email', :to => 'admin#send_users_email'
@@ -193,13 +194,8 @@ Cobain::Application.routes.draw do |map|
   match '/me/control_panel', :to => 'users#control_panel'
   match '/me/forgot_password', :to => 'login#forgot_password'
   match '/me/home', :to => 'users#control_panel'
-#  match '/me/manage_artists', :to => 'users#manage_artists'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'
-#  match '/me/inbox', :to => 'users#inbox'
-#  match '/me/purchases', :to => 'users#purchases'
-  #band public profile
-  match ':name/profile', :to => 'bands#show'
 
   #users stuff
   match 'users/edit', :to => 'users#edit'

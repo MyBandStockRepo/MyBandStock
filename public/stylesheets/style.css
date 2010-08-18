@@ -639,8 +639,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 /* STREAM SCHEDULE PAGE */
 
-.add_band {width:300px;padding-left:40px;}
-
 .placement_streamschedule {width:380px;margin-left:38px;float:left;}
 .placement_starts {width:160px;float:left;}
 .placement_ends {float:left;}

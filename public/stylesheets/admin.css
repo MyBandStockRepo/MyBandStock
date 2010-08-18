@@ -1,16 +1,27 @@
 #admin-bar {
-  width: 100%;
-  border: 1px solid #565;
-  height: 2em;
-  display: block;
-  padding-top: 3px;
-  margin-bottom: 1em;
-}
-#admin-bar em:first-child {
-  color: #777;
-  font-style: italic;
-}
-.add-band {
   float: right;
+  margin: 17px 0 0 0;
+  background-color: HoneyDew;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0FFF0', endColorstr='#90A090'); /* for IE */
+  background: -webkit-gradient(linear, left top, left bottom, from(#F0FFF0), to(#90A090)); /* for webkit browsers */
+  background: -moz-linear-gradient(top,  #F0FFF0,  #90A090); /* for firefox 3.6+ */
+  width: 65px;
+  text-align: right;
+  cursor: pointer;
+  filter: alpha(opacity = 80);
+  opacity: .8;
+  -moz-border-radius-topleft: 6px;
+  border-top-left-radius: 6px;
+}
+#admin-bar:hover {
+  background-color: PeachPuff;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFDAB9', endColorstr='#A06050'); /* for IE */
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFDAB9), to(#A06050)); /* for webkit browsers */
+  background: -moz-linear-gradient(top,  #FFDAB9,  #A06050); /* for firefox 3.6+ */
+}
+#admin-bar a.admin-link {
+  width: 55px;
+  padding-right: 10px;
+  text-decoration: none;
 }
 
