@@ -25,4 +25,40 @@ private
     return share_total.save!
   end
   
+  def update_user_ranks
+    band = self.band    
+    share_totals = band.get_shareholder_list_in_order
+    
+    #add +1 since array index starts at 0
+    calculated_rank = share_totals.index(self)+1
+
+    return false if calculated_rank.blank?
+    
+    #copy current rank to last rank
+    self.last_rank = self.current_rank
+    self.current_rank = calculated_rank
+    
+    if self.last_rank > self.current_rank
+      #moved up the list ie. 5 to 3
+      #incrament others in-between
+      for i in (self.current_rank+1..self.last_rank)
+        share_totals[i].last_rank = share_totals[i].current_rank
+        share_totals[i].current_rank = share_totals[i].current_rank + 1
+        share_totals[i].save
+      end
+    elsif self.last_rank < self.current_rank
+      #moved down the list ie. 3 to 5
+      #decrament others in-between
+      for i in (self.last_rank..self.current_rank-1)
+        share_totals[i].last_rank = share_totals[i].current_rank
+        share_totals[i].current_rank = share_totals[i].current_rank - 1
+        share_totals[i].save
+      end      
+    end
+    
+    return share_total.save!
+  end
+  
+
+  
 end
