@@ -206,14 +206,6 @@
                 .fieldnamebottom
               .fieldbox
                 = f.select :commerce_allowed, [['No', 'f'], ['Yes', 't']], :selected => (@band.commerce_allowed ? 't' : 'f')
-                -# 
-                  %select{:name => "user[receive_email_announcements]"}
-                    - if @user.nil? || @user.receive_email_announcements.nil? || @user.receive_email_announcements == true
-                      %option{:value => "1", :selected => true}Yes
-                      %option No
-                    - else
-                      %option{:value => "1"}Yes
-                      %option{:selected => true} No
 
             .description
               Do you want users to be able to buy stock in this artist?
