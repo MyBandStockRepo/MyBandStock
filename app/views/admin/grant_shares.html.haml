@@ -4,16 +4,16 @@
   .notice
     = @response_text
 
+%p.desc
+  Use this form to grant shares in a band to certain users.
+  You must enter in an adjustment, which is the number of shares to grant.
+  You must also enter in an email OR user ID if you want to grant shares to
+  %em one individual
+  user. If you want to grant shares to
+  %em multiple
+  users, use the multiple users field with the desired options. The earlier fields have precedence.
+
 = form_tag({ :controller => 'admin', :action => 'grant_shares_post' }) do
-  .fieldrow
-    .fieldleft      
-      .field
-        .fieldname.required
-          .fieldnametop
-            = label_tag :user_email, 'email'
-          .fieldnamebottom      
-        .fieldbox.required
-          = text_field_tag :user_email
 
   .fieldrow
     .fieldleft      
@@ -30,10 +30,138 @@
       .field
         .fieldname.required
           .fieldnametop
-            = label_tag :adjustment, 'adjustment'
+            = label_tag :user_email, 'email'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :user_email
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = label_tag  :to, 'multiple users*'
+          .fieldnamebottom
+        .fieldbox
+          -# have these if statements so that if form comes back with errors, your data will be preserved
+          %select{:id => 'to_field', :name => 'admin[to]'}
+            -if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:to]
+              -if params[:admin][:to] == 'all'
+                %option{:value => "all", :selected => true} 
+                  All system users
+                  = '('+@all_users_count.to_s+' people)'
+              -else
+                %option{:value => "all"}
+                  All system users
+                  = '('+@all_users_count.to_s+' people)'
+              -if params[:admin][:to] == 'lss'
+                %option{:value => "lss", :selected => true} Everyone with a certain series permission...
+              -else
+                %option{:value => "lss"} Everyone with a certain series permission...
+              -if params[:admin][:to] == 'band'
+                %option{:value => "band", :selected => true} All shareholders in a given band...
+              -else
+                %option{:value => "band"} All shareholders in a given band...
+              -if params[:admin][:to] == 'bandtop10'  
+                %option{:value => "bandtop10", :selected => true} Top 10 shareholders in a given band...
+              -else
+                %option{:value => "bandtop10"} Top 10 shareholders in a given band...
+            -else
+              %option{:value => ''} Individual (see above)
+              %option{:value => "all"}
+                All system users
+                = '('+@all_users_count.to_s+' people)'                      
+              %option{:value => "lss"} Everyone with a given series permission...
+              %option{:value => "band"} All shareholders in a given band...
+              %option{:value => "bandtop10"} Top 10 shareholders in a given band...
+      .desc
+        Select one of these options if you want to grant shares to many people at once.
+        If you only want to grant shares to one person, enter either his ID or email above.
+          
+  #lss_field{:style => 'display:none;'}       
+    .fieldrow
+      .fieldleft      
+        .field
+          .fieldname
+            .fieldnametop
+              = label_tag  :live_stream_series, 'stream series*'
+            .fieldnamebottom
+          .fieldbox
+            -# need to manually build collection select so # of people you email can be reported
+            %select{:id => 'admin_live_stream_series_id', :name => 'admin[live_stream_series_id]'}
+              -for series in @series_list
+                -# have these if statements so that if form comes back with errors, your data will be preserved                    
+                - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:live_stream_series_id] && params[:admin][:live_stream_series_id].to_i == series.id
+                  %option{:value => "#{series.id}", :selected => true}
+                    = series.title + ' (' + pluralize(series.users_with_permissions().select{|u| u && u.receive_email_announcements == true}.count, 'person') + ')'
+                -else
+                  %option{:value => "#{series.id}"}
+                    = series.title + ' (' + pluralize(series.users_with_permissions().select{|u| u && u.receive_email_announcements == true}.count, 'person') + ')'
+                
+            
+  #bandtop10_field{:style => 'display:none;'}
+    .fieldrow
+      .fieldleft
+        .field
+          .fieldname
+            .fieldnametop
+              = label_tag  :band, 'band*'
+            .fieldnamebottom
+          .fieldbox
+            -# need to manually build collection select so # of people you email can be reported                  
+            %select{:id => 'admin_bandtop10_id', :name => 'admin[bandtop10_id]'}
+              -for band in @bands
+                -# have these if statements so that if form comes back with errors, your data will be preserved                           
+                - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:bandtop10_id] && params[:admin][:bandtop10_id].to_i == band.id
+                  %option{:value => "#{band.id}", :selected => true}
+                    - band_count = band.top_ten_shareholders()
+                    -# need this to fix null pointer error
+                    - if band_count
+                      = band.name + ' (' + band.top_ten_shareholders().collect{|shareTotal| shareTotal.user}.select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                    -else
+                      = band.name + ' (0 people)'
+                -else
+                  %option{:value => "#{band.id}"}
+                    - band_count = band.top_ten_shareholders()
+                    -# need this to fix null pointer error                          
+                    - if band_count
+                      = band.name + ' (' + band.top_ten_shareholders().collect{|shareTotal| shareTotal.user}.select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                    -else
+                      = band.name + ' (0 people)'
+        .desc The top ten shareholders in this band will be granted shares.
+
+  #bandall_field{:style => 'display:none;'}
+    .fieldrow
+      .fieldleft      
+        .field
+          .fieldname
+            .fieldnametop
+              = label_tag  :band, 'band*'
+            .fieldnamebottom
+          .fieldbox
+            = #collection_select 'admin', 'band_id', @bands, :id, :name, :class => 'select'
+            -# need to manually build collection select so # of people you email can be reported                                    
+            %select{:id => 'admin_bandall_id', :name => 'admin[bandall_id]'}
+              -for band in @bands
+                -# have these if statements so that if form comes back with errors, your data will be preserved                                  
+                - if params[:action] == 'send_users_email' && params[:admin] && params[:admin][:bandall_id] && params[:admin][:bandall_id].to_i == band.id                    
+                  %option{:value => "#{band.id}", :selected => true}
+                    = band.name + ' (' + band.all_shareholder_users().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+                -else
+                  %option{:value => "#{band.id}"}
+                    = band.name + ' (' + band.all_shareholder_users().select{|u| u.receive_email_announcements == true}.count.to_s + ' people)'
+        .desc Shareholders who already own shares in this band will be granted shares.
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :adjustment, 'adjustment*'
           .fieldnamebottom      
         .fieldbox.required
           = text_field_tag :adjustment
+      .desc The quantity of shares to grant. This number should look like 50 or -10.
 
   .fieldrow
     .fieldleft      
@@ -44,6 +172,7 @@
           .fieldnamebottom
         .fieldbox
           = select_tag( :band_id, options_from_collection_for_select(Band.all, :id, :name), :class => 'select')
+      .desc The band whose shares will be granted to the given user(s).
 
   .fieldrow
     .fieldleft                
