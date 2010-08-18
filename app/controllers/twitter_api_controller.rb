@@ -352,7 +352,7 @@ class TwitterApiController < ApplicationController
           end
         else
         # User has already been awarded for tweeting today
-          flash[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
+          flash.now[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
         end
 			else
 				flash[:error] = 'Check to make sure your tweet went out.'
@@ -364,10 +364,10 @@ class TwitterApiController < ApplicationController
 		end
 		
 		if request.xhr?
-		  @show_back_button = true
 		  render :layout => false
 		elsif params[:lightbox]
 		  @external = true
+		  @show_close_button = true
 			render :layout => 'lightbox'
 		end 
 	end
