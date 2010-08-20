@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :share_totals
   has_many :share_ledger_entries
   has_many :transactions
+  has_many :pledges
 #  has_many :user_friends, :foreign_key => 'source_user_id'
 #  has_many :friends, :through => :user_friends, :source => 'destination'
 
