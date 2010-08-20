@@ -77,9 +77,14 @@ class ApplicationController < ActionController::Base
   
   def band_home
     if @user = User.find_by_id(session[:user_id])
-      @bands = @user.bands #associations.find_all(:joins => :band, :conditions => {:associations => {:name => ['admin', 'member']}}, :group => 'band_id').collect{|a| a.band}
+      # If a bandID was supplied, then show only that band. Otherwise, show all bands on which the user has permissions.
+      if params[:band_id] && band = Band.where(:id => params[:band_id])
+        @bands = band
+      else
+        @bands = @user.bands #associations.find_all(:joins => :band, :conditions => {:associations => {:name => ['admin', 'member']}}, :group => 'band_id').collect{|a| a.band}
+      end
     end
-    unless @bands
+    if !@bands
       flash[:error] = 'You do not manage any bands.'
       redirect_to '/me/home'
     end
