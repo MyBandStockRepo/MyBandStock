@@ -23,7 +23,7 @@
             = "from #{ location }"
       = lightboard_text share_total.net, :digits => 4, :size => 'small'
   -if !user_found && current_user
-    .leaduser.highlight{ :class => "#{ (i % 2 == 1) ? 'odd' : 'even' }" }
+    .leaduser.highlight.even
       .leadnumber
         = user_rank.to_s + '.'
       .leadname
