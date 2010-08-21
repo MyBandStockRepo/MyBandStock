@@ -13,51 +13,33 @@ private
     #Does a share_total entry exist for this user and band combo?
     share_total = ShareTotal.where(:user_id => self.user_id, :band_id => self.band_id).first
     unless ( share_total )
+      #create the entry for 0 shares, then update the rank
       share_total = ShareTotal.create(:user_id => self.user_id,
                                       :band_id => self.band_id,
                                       :gross => 0,
-                                      :net => 0 )
+                                      :net => 0
+                                      )
+      
+      #set the rank (+1 because starts at 0)
+      rank = band.get_shareholder_list_in_order.index(share_total)+1
+      share_total.last_rank = rank
+      share_total.current_rank = rank
     end
     
     total_query = ShareLedgerEntry.where(:user_id => self.user_id, :band_id => self.band_id)
     share_total.net = total_query.sum(:adjustment)
     share_total.gross = total_query.where('adjustment > 0').sum(:adjustment)
-    return share_total.save!
+    
+    success = share_total.save!
+    logger.info 'SUCCESS? '+success.to_s
+
+    share_total.update_user_ranks
+
+    
+    return success
   end
   
-  def update_user_ranks
-    band = self.band    
-    share_totals = band.get_shareholder_list_in_order
-    
-    #add +1 since array index starts at 0
-    calculated_rank = share_totals.index(self)+1
-
-    return false if calculated_rank.blank?
-    
-    #copy current rank to last rank
-    self.last_rank = self.current_rank
-    self.current_rank = calculated_rank
-    
-    if self.last_rank > self.current_rank
-      #moved up the list ie. 5 to 3
-      #incrament others in-between
-      for i in (self.current_rank+1..self.last_rank)
-        share_totals[i].last_rank = share_totals[i].current_rank
-        share_totals[i].current_rank = share_totals[i].current_rank + 1
-        share_totals[i].save
-      end
-    elsif self.last_rank < self.current_rank
-      #moved down the list ie. 3 to 5
-      #decrament others in-between
-      for i in (self.last_rank..self.current_rank-1)
-        share_totals[i].last_rank = share_totals[i].current_rank
-        share_totals[i].current_rank = share_totals[i].current_rank - 1
-        share_totals[i].save
-      end      
-    end
-    
-    return share_total.save!
-  end
+  
   
 
   

@@ -257,7 +257,7 @@ class Band < ActiveRecord::Base
 =end
   # ***************
   
-  # returns an array of the sharetotal entries while specifying the limit, returns empty array, or array with share totals
+  # returns an array of the sharetotal joined to user entries while specifying the limit, returns empty array, or array with share totals
   def get_shareholder_list_in_order(limit=nil)
     # The more senioruser wins in a tie
     # result = ShareTotal.find_by_sql("
@@ -267,8 +267,7 @@ class Band < ActiveRecord::Base
     #                 ORDER BY net DESC, users.created_at ASC
     #                 LIMIT 10
     #              ")
-    #    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)    
-    
+    #    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)        
     return ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(limit).all      
   end
   
