@@ -109,9 +109,6 @@ a.social facebook fb_login_not_logged_in FB_login_button FB_ElementReady{float: 
 	
 .middle_bar {width:2px;height:340px;background-image:url(/images/middle_bar.gif);background-repeat:no-repeat;float:left;}
 
-.light {height:20px;padding-left:40px;padding-right:40px;position: relative; }
-.dark {height:20px;background:#131313;padding-left:40px;padding-right:40px;position: relative;}
-		
 a.bandlink {padding-left:10px;}
 span.number_count {width:100px;position:absolute; right: 40px; text-align:right;}
 
@@ -796,3 +793,75 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	margin: 5px 0px 0px 400px;
 	font-size:8px;
 }
+
+
+
+
+/*  STAGE UI CSS */
+
+#band_stage {background-image:url(/images/stage/bg.png);background-color:#000000;color:#736257;}
+#band_stage #outer_wrap{width:100%;background-image:url(/images/stage/stage_bg.jpg);background-position:top center;background-repeat:no-repeat;}
+#band_stage #footer{ margin-top: 20px; }
+
+#band_stage #content{background-image:url(/images/stage/stagefloor.jpg);background-position:bottom center;background-repeat:no-repeat;background-color:transparent;margin-top:0px;}
+
+.stageheader{height:71px;}
+.stagename{width:390px;text-align:center;padding-top:30px;font-size:28px;font-family:TitilliumText14L999wt;text-transform:uppercase;margin:0 auto;color:#FFFFFF;text-shadow: 0px 0px 6px #ffcc00;}
+
+.stageunits{height:493px;width:557px;background-image:url(/images/stage/stageunits.png);float:left;}
+.stagepadding{clear:both;height:140px;}
+.socialshare{width:300px;float:left;}
+.socialshare_title{height:32px;margin-top:22px;padding-left:90px;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;}
+	.socialshare_title p{padding-top:9px;}
+.share_post{background-image:url(/images/stage/share_post_divide.png);background-position:bottom;background-repeat:no-repeat;margin-top:5px;padding-bottom:7px;padding-left:10px;padding-right:10px;font-size:10px;line-height:13px;}
+	.share_date{font-size:9px;color:#3a312c;}
+	.share_avatar{width:50px;height:50px;background-image:url(/images/stage/share_avatar.png);float:left;margin-right:10px;margin-top:2px;}
+	.share_text{padding-top:4px;color:#a89588;}
+		.share_text span{font-size:14px;font-family:TitilliumText14L800wt;}
+	.reshare{font-size:14px;font-family:TitilliumText14L800wt;margin-top:5px;}
+		.sharelink{padding-top:10px;}
+		.reshare a{color:#ff9900;text-decoration:none;text-transform:uppercase;}
+		.reshare a:hover{color:#FFFFFF;border-bottom: 1px dotted;}
+		.share_lightboard {float:left;margin-right:8px;}
+			.light{width:17px;height:23px;background-image:url(/images/stage/mini_lightboard.png);float:left;}
+			.light.l_ {background-position:0px 0px;}
+			.light.l0 {background-position:-17px 0px;}
+			.light.l1 {background-position:-34px 0px;}
+			.light.l2 {background-position:-51px 0px;}
+			.light.l3 {background-position:-68px 0px;}
+			.light.l4 {background-position:-85px 0px;}
+			.light.l5 {background-position:-102px 0px;}
+			.light.l6 {background-position:-119px 0px;}
+			.light.l7 {background-position:-136px 0px;}
+			.light.l8 {background-position:-153px 0px;}
+			.light.l9 {background-position:-170px 0px;}
+			
+.share_viewmore{background-image:url(/images/stage/viewmore_shadow.png);background-repeat:repeat-x;text-align:right;padding-top:10px;padding-right:20px;font-size:18px;font-family:TitilliumText14L800wt;color:#3a312c;}
+
+.leaderboard{width:216px;float:right;margin-top:29px;margin-right:19px;font-size:14px;font-family:TitilliumText14L800wt;text-align:center;color:#d4cac3;}
+.leaderboard p{margin:4px 0px 8px 0px;text-transform:uppercase;}
+.leaduser{height:23px;margin-top:1px;}
+.leadnumber{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#736257;width:26px;text-align:right;line-height:25px;}
+.leadname{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#ff6600;width:108px;margin-left:7px;text-align:left;line-height:25px;}
+
+.stageright{width:383px;float:left;margin-top:23px;}
+.buystock{width:383px;height:110px;background-image:url(/images/stage/buystock.png);}
+.sharesleft{height:51px;}
+	.shareslefttext {margin:0px;margin-left:55px;text-align:right;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;padding-top:10px;float:left;color:#9f8d81;}
+	.big_lightboard {float:right;margin-right:55px;margin-top:6px;}
+		.biglight{width:33px;height:42px;background-image:url(/images/stage/big_lightboard.png);float:left;}
+		.biglight.l_ {background-position:0px 0px;}
+		.biglight.l0 {background-position:-33px 0px;}
+		.biglight.l1 {background-position:-66px 0px;}
+		.biglight.l2 {background-position:-99px 0px;}
+		.biglight.l3 {background-position:-132px 0px;}
+		.biglight.l4 {background-position:-165px 0px;}
+		.biglight.l5 {background-position:-198px 0px;}
+		.biglight.l6 {background-position:-231px 0px;}
+		.biglight.l7 {background-position:-264px 0px;}
+		.biglight.l8 {background-position:-297px 0px;}
+		.biglight.l9 {background-position:-330px 0px;}
+.buy_bandname{text-align:center;}
+	.buy_bandname a{display:block;width:383px;height:59px;font-size:15px;font-family:TitilliumText14L800wt;text-transform:uppercase;color:#FFFFFF;text-decoration:none;line-height:55px;}
+		.buy_bandname a:hover{color:#25201c;text-shadow: 0px 0px 6px #df6d09;}
+

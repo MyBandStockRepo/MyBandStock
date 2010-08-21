@@ -36,28 +36,29 @@
     = javascript_include_tag "jquery_rotator.js"
     = javascript_include_tag "ajax_search.js"
     = csrf_meta_tag
-  %body
-    #wrap  
-      #header
-        -if session[:user_id]
-          = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
-        -else
-          = render :partial => 'common_partials/logged_out'
+  %body{ :id => @body_id }
+    #outer_wrap
+      #wrap  
+        #header
+          -if session[:user_id]
+            = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
+          -else
+            = render :partial => 'common_partials/logged_out'
 
-      -if flash[:logout]
-        #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
-          = flash[:logout]
+        -if flash[:logout]
+          #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
+            = flash[:logout]
+        
+        #content
+          -if flash[:error]
+            .error
+              = flash[:error]
+          -if flash[:notice]
+            .notice
+              = flash[:notice]            
+          = yield
+
+        = render :partial => 'common_partials/footer'
       
-      #content
-        -if flash[:error]
-          .error
-            = flash[:error]
-        -if flash[:notice]
-          .notice
-            = flash[:notice]            
-        = yield
-
-      = render :partial => 'common_partials/footer'
-    
     = render :partial => 'common_partials/google_tracker'
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100817191812) do
+ActiveRecord::Schema.define(:version => 20100820040052) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(:version => 20100817191812) do
     t.integer  "fan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.integer  "num_shares"
   end
 
   create_table "recorded_videos", :force => true do |t|
