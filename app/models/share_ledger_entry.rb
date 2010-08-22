@@ -34,7 +34,8 @@ private
     success = share_total.save!
     logger.info 'SUCCESS? '+success.to_s
 
-    share_total.update_user_ranks
+    #commented out because not fully tested yet
+   # share_total.update_user_ranks
 
     
     return success
