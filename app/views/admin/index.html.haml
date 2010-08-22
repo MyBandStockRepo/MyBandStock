@@ -1,16 +1,20 @@
 .orange_bar Admin controls
-%ul
-  %li
-    =link_to 'Roles and Users', roles_path
-  %li
-    =link_to 'Someone just bought access', :controller => 'admin', :action => 'authorize_users'
-  %li
-    =link_to 'Create new Live Stream Series', new_live_stream_series_path
-  %li
-    =link_to 'Create a band', new_band_path
-  %li
-    =link_to 'Band Assocations', new_association_path
-  %li
-    =link_to 'API Tool', { :controller => 'api', :action => 'test' }
-  %li
-    =link_to 'Send Email Announcements', { :controller => 'admin', :action => 'email_users_form' }
+.maincont
+  %ul
+    %li
+      =link_to 'Someone just bought access', :controller => 'admin', :action => 'authorize_users'
+    %li
+      =link_to 'Grant shares', grant_shares_path
+    %li
+      =link_to 'Send email announcements', { :controller => 'admin', :action => 'email_users_form' }
+    %li
+      =link_to 'Create new Live Stream Series', new_live_stream_series_path
+    %li
+      =link_to 'Create a band', new_band_path
+    %li
+      =link_to 'Band membership', new_association_path
+    %li
+      =link_to 'Site administrators and roles', roles_path
+    %li
+      =link_to 'API tool', { :controller => 'api', :action => 'test' }
+

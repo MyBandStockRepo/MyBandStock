@@ -1,3 +1,5 @@
 # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
 #
+User-Agent: *
+Crawl-delay: 10   # 10 seconds between requests
 

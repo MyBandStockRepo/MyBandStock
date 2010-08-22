@@ -1,6 +1,11 @@
 require "will_paginate"
 
 class StaticsController < ApplicationController
+
+  def status_404
+    @requested_page = params[:requested_page]
+    render :status => 404
+  end
   
   #RENDER ABOUT WHEN CLICKING ABOUT IN HOMEPAGE
   def about
@@ -20,6 +25,16 @@ class StaticsController < ApplicationController
   #RENDER FAQ WHEN CLICKING FAQ IN HOMEPAGE
   def faq
     render :action => 'faq'
+  end
+  
+  def robots_txt
+    render :file => 'public/shorturl_robots.txt', :layout => false and return
+  end
+  
+  def favicon_ico
+    #render :file => 'public/favicon.ico', :layout => false, :type => 'text/plain' and return
+    send_file 'public/favicon.ico', :type => 'image/vnd.microsoft.icon', :disposition => 'inline'
+    return
   end
 
 end

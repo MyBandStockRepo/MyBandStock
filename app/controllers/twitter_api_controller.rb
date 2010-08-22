@@ -212,11 +212,13 @@ class TwitterApiController < ApplicationController
 	def retweet
     unless session[:auth_success] == true
       if params[:lightbox].nil?
-        update_last_location and redirect_to :controller => 'login', :action => 'user'
+        update_last_location
+        redirect_to :controller => 'login', :action => 'user'
       else
         @external = true
         @login_only = true  # Tell the login view to only show the login form
-        update_last_location and redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
+        update_last_location
+        redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
       end
       return false
     end
@@ -335,7 +337,7 @@ class TwitterApiController < ApplicationController
 			  num_tweets_in_past_day = ShareLedgerEntry.where(
 			                                             :description => 'retweet_band',
                 			                             :band_id => @band.id,
-			                                             :user_id => @user.id 
+			                                             :user_id => @user.id
 			                                           ).where("created_at > ?", 1.day.ago).count
 			  if num_tweets_in_past_day == 0
 				  @shares = NUM_SHARES_AWARDED_FOR_RT

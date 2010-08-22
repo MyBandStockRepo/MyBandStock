@@ -18,7 +18,6 @@
     = stylesheet_link_tag 'next_stream_widget'
     
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
-    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"
     = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js'
     = javascript_include_tag 'jquery.fancybox-1.3.1.pack'
     = javascript_include_tag 'jquery.easing-1.3.pack'
@@ -38,36 +37,29 @@
     = javascript_include_tag "jquery_rotator.js"
     = javascript_include_tag "ajax_search.js"
     = csrf_meta_tag
-  %body
-    #wrap  
-      #header
-        -if session[:user_id]
-          = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
-        -else
-          = render :partial => 'common_partials/logged_out'
+  %body{ :id => @body_id }
+    #outer_wrap
+      #wrap  
+        #header
+          -if session[:user_id]
+            = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
+          -else
+            = render :partial => 'common_partials/logged_out'
 
-      -if flash[:logout]
-        #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
-          = flash[:logout]
+        -if flash[:logout]
+          #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
+            = flash[:logout]
+        
+        #content
+          -if flash[:error]
+            .error
+              = flash[:error]
+          -if flash[:notice]
+            .notice
+              = flash[:notice]            
+          = yield
+
+        = render :partial => 'common_partials/footer'
       
-      #content
-        -if flash[:error]
-          .error
-            = flash[:error]
-        -if flash[:notice]
-          .notice
-            = flash[:notice]            
-        = yield
-
-      = render :partial => 'common_partials/footer'
-    
-    -# __commented__
-      / KISSinsights code for cobain.mybandstock.com
-      :javascript
-        var _kiq = [];
-        (function(s){
-        document.write(unescape('%3Cscript id="ki_loader" defer="defer" src="'+document.location.protocol+'//s3.amazonaws.com/j.kissinsights.com/2.0/sites/'+s+'.js?'+(5*Math.floor(new Date().getMinutes()/5))+'"%3E%3C/script%3E'));
-        })('cobain.mybandstock.com');
-        _kiq.push(['identify', '#{ session[:user_id] || '[not logged in]' }']);
     = render :partial => 'common_partials/google_tracker'
 

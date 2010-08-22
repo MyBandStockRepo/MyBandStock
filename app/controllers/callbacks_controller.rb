@@ -54,7 +54,11 @@ private
       if (viewer_key_check(@user, @streamapi_stream, params[:key], params[:userip]))
         @lssp = @user.live_stream_series_permissions.find_by_live_stream_series_id(@streamapi_stream.live_stream_series.id)
         if @lssp || @user.site_admin
-          user_name = (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
+          user_name = if @user.display_name && @user.display_name != '[No name]'
+                        @user.display_name
+                      else
+                        (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
+                      end
           if (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
             #let them do both
             options_hash['user'] = { :name => user_name,

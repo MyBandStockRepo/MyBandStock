@@ -1,0 +1,68 @@
+-# { :top_ten => top_ten, :user_rank => user_rank, :band => band }
+  If you aren't logged in
+  Are logged in
+    not shareholder
+    shareholder
+      in top ten
+      not in top ten
+
+- current_user = (session[:user_id]) ? User.find(session[:user_id]) : nil
+- user_found = false
+
+%p Your Rank
+      
+-if current_user.nil?
+  -#not logged in
+  %p.top_ten_message
+    You must be logged in to view your rank.
+-else
+  - share_totals = band.get_shareholder_list_in_order{|item| ShareTotal.find(item.id)}
+  
+  - rank_in_band = current_user.shareholder_rank_for_band(band.id)
+  - if rank_in_band != false
+    - start_index = rank_in_band - 3
+    - end_index = rank_in_band + 1
+
+    -# make sure that it doesn't index out of bounds
+    - while start_index < 0
+      - start_index += 1
+
+    - while end_index >= share_totals.size
+      - end_index -= 1
+
+
+    -# if user_rank > 10
+    %p
+      - for i in start_index..end_index
+        - man = share_totals[i].user
+        - location = man.display_location
+        -if current_user && man && man.email == current_user.email
+          - user_found = true
+          - class_name = 'highlight'
+        -else
+          - class_name = ''
+        .leaduser{ :class => "#{ (i % 2 == 1) ? 'odd' : 'even' } #{ class_name }" }
+          .leadnumber
+            = (i+1).to_s
+          .leadname
+            = man.display_name
+            -if false && location
+              %span.shareholder_aside
+                = "from #{ location }"
+          = lightboard_text_number share_totals[i].net, :digits => 4, :size => 'small'
+  -else
+    .leaduser.highlight.even
+      .leadnumber
+        = 'N/A'
+      .leadname
+        = current_user.display_name
+        -if false && current_user.display_location
+          %span.shareholder_aside
+            = "from #{ current_user.display_location }"
+      - share_total_row = current_user.share_totals.where(:band_id => band.id).first
+      - num_shares = (share_total_row) ? share_total_row.net : 0
+      = lightboard_text_number num_shares, :digits => 4, :size => 'small'
+
+
+  -# else
+    -# ??

@@ -65,8 +65,15 @@ class BandsController < ApplicationController
       redirect_to :controller => 'fans', :action => 'store_band_name', :band => { :search_text => params[:id] }
       return false
     end
-    @band = Band.includes(:live_stream_series).find(id) #, :include => [:concerts, :news_entries, :stage_comments])
+    begin
+      @band = Band.includes(:live_stream_series).find(id)
+    rescue ActiveRecord::RecordNotFound
+      # No band exists by that ID. This could also have been an attempt to navigate to '/corporate' or something.
+      # So we redirect to 404
+      redirect_to status_404_path(:requested_page => params[:band_short_name]) and return
+    end
 		@request_uri = url_for()
+		@body_id = 'band_stage'
     @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
     @user_rank = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).count + 1)

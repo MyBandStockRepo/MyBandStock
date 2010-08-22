@@ -1,4 +1,4 @@
-- stock_amounts = [5, 10, 50, 69, 100]
+- stock_amounts = (NUM_SHARES_PER_BAND_PER_DAY/5).times.collect{ |n| 5*n + 5 } # Multiples of 5 from 5 to NUM_SHARES_PER_BAND_PER_DAY
 - purchase_submit_text = 'POW!'
 
 #lightbox_feature

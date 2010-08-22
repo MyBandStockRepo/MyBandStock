@@ -11,11 +11,11 @@ class MerchantController < ApplicationController
     # Make sure user is logged in. If not, send him to the appropriate login view.
     unless session[:auth_success] == true
       if params[:lightbox].nil?
-        update_last_location and redirect_to :controller => 'login', :action => 'user'
+        redirect_to :controller => 'login', :action => 'user'
       else
         @external = true
         @login_only = true  # Tell the login view to only show the login form
-        update_last_location and redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
+        redirect_to :controller => 'login', :action => 'user', :lightbox => 'true', :login_only => 'true'
       end
       return false
     end
@@ -26,11 +26,21 @@ class MerchantController < ApplicationController
       flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
+    
+    unless band.commerce_allowed
+      flash[:error] = "This artist is not currently working with us, but thank you for your interest. Let them know that you want to buy their stock on MyBandStock.com!"
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
 
     #make sure num_shares is good
+    if params[:num_shares] == ''
+      flash[:error] = 'Please select an amount of shares.'
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
+    
     num_shares = params[:num_shares].to_i
-    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > 1000
-      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and 1000.'
+    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > NUM_SHARES_PER_BAND_PER_DAY
+      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and ' + NUM_SHARES_PER_BAND_PER_DAY.to_s + '.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     
@@ -91,7 +101,7 @@ class MerchantController < ApplicationController
     ### ASSERT
     unless response.has_elements?
       #ABORT, bad request
-      render :nothing => :true
+      render :nothing => true
       return false
     end
     
@@ -101,7 +111,7 @@ class MerchantController < ApplicationController
     ### ASSERT
     unless google_order_number.length > 0
       #ABORT, bad request
-      render :nothing => :true
+      render :nothing => true
       return false
     end
 
@@ -132,13 +142,13 @@ class MerchantController < ApplicationController
                 #TODO, maybe send an email about some unrecognized function
       end
     else
-        case response.root().name
-          when "new-order-notification" then
-            new_order_notification = Google4R::Checkout::NewOrderNotification.create_from_element(response.root, a_frontend)
-            cart_xml = response.root().elements.to_a("//shopping-cart/")[0].to_s
-            create_new_google_checkout_order_from_notification(new_order_notification, cart_xml) #although it seems silly, without writing something custom it isn't easy to get the xml back out of the NewOrderNotification object without serializing it myself and I'm lazy.
-        else
-        end
+      case response.root().name
+        when "new-order-notification" then
+          new_order_notification = Google4R::Checkout::NewOrderNotification.create_from_element(response.root, a_frontend)
+          cart_xml = response.root().elements.to_a("//shopping-cart/")[0].to_s
+          create_new_google_checkout_order_from_notification(new_order_notification, cart_xml) #although it seems silly, without writing something custom it isn't easy to get the xml back out of the NewOrderNotification object without serializing it myself and I'm lazy.
+      else
+      end
     end
     
     #let google know everything was successful so they dont retry

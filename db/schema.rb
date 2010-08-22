@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100816170423) do
+ActiveRecord::Schema.define(:version => 20100820040052) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20100816170423) do
     t.datetime "updated_at"
     t.string   "twitter_username"
     t.string   "grooveshark_widget_id"
+    t.boolean  "commerce_allowed",      :default => false,    :null => false
   end
 
   create_table "countries", :force => true do |t|
@@ -135,6 +136,9 @@ ActiveRecord::Schema.define(:version => 20100816170423) do
     t.integer  "fan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.integer  "num_shares"
   end
 
   create_table "recorded_videos", :force => true do |t|
@@ -194,12 +198,13 @@ ActiveRecord::Schema.define(:version => 20100816170423) do
   add_index "share_codes", ["key"], :name => "index_share_codes_on_key", :unique => true
 
   create_table "share_ledger_entries", :force => true do |t|
-    t.integer  "adjustment",  :null => false
-    t.string   "description", :null => false
-    t.integer  "user_id",     :null => false
-    t.integer  "band_id",     :null => false
+    t.integer  "adjustment",     :null => false
+    t.string   "description",    :null => false
+    t.integer  "user_id",        :null => false
+    t.integer  "band_id",        :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "transaction_id"
   end
 
   create_table "share_totals", :force => true do |t|

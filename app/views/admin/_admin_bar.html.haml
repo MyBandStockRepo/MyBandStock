@@ -1,9 +1,4 @@
 #admin-bar
-  %em You are an admin
-  .add-band
-    = link_to 'New band', new_band_path
--# __commented__
-  %ul
-    %li
-      =link_to 'Roles and Users', :controller => 'roles', :action => 'index'
+  = link_to admin_path, :class => 'admin-link' do
+    %em Admin
 

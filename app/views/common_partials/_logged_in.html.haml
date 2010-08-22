@@ -1,6 +1,6 @@
 #head_top
   = link_to root_path, {:id => 'header-logo-link'} do
-    = image_tag('/images/header/mbs_logo.gif', :alt => 'MyBandStock')
+    = image_tag('/images/header/mbs_logo.png', :alt => 'MyBandStock')
   .loggedin
     .loggedin_leftborder
     #logged_info
@@ -8,6 +8,8 @@
         = user.email
       = link_to '', me_account_path(:id => user.id), :class => 'account'
     = link_to '', logout_path, :class => 'logout'
+  -if user.site_admin
+    = render :partial => 'admin/admin_bar'
 
 #head_bottom
   #logo_float

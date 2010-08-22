@@ -61,15 +61,16 @@ Cobain::Application.routes.draw do |map|
     match '/share_code_groups/download(/:id/:band_id)', :to => 'share_code_groups#download'
     match '/share_code_groups/:id/:band_id', :to => 'share_code_groups#show'
 
-
-    # ADMIN STUFF #
-    match '/admin/email_users', :to => 'admin#email_users_form'
-    match '/admin/send_users_email', :to => 'admin#send_users_email'
-
-
-
   # /--- Share Codes ---- #
 
+
+
+  # ---- Administration ---- #
+    match 'admin', :to => 'admin#index', :as => 'admin'
+    match 'admin/grant_shares', :to => 'admin#grant_shares', :as => 'grant_shares'
+    match '/admin/email_users', :to => 'admin#email_users_form'
+    match '/admin/send_users_email', :to => 'admin#send_users_email'
+  # /--- Administration ---- #
 
   resources :streamapi_stream_themes
   resources :facebook_publishers
@@ -98,7 +99,8 @@ Cobain::Application.routes.draw do |map|
   match 'developers', :to => 'developer#index'
 
   # ---- URL Shortener ---- #
-    #match '/short/favicon.ico', :to => '/favicon.ico' - can I serve a static asset here? I think .htaccess might have to be used for this.
+    match 'short/favicon.ico', :to => 'statics#favicon_ico'  #can I serve a static asset here? I think .htaccess might have to be used for this.
+    match '/short/robots.txt', :to => 'statics#robots_txt'
     match 'short(/:key)', :to => 'short_urls#redirect'
   # /--- URL Shortener ---- #
 
@@ -192,13 +194,8 @@ Cobain::Application.routes.draw do |map|
   match '/me/control_panel', :to => 'users#control_panel'
   match '/me/forgot_password', :to => 'login#forgot_password'
   match '/me/home', :to => 'users#control_panel'
-#  match '/me/manage_artists', :to => 'users#manage_artists'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'
-#  match '/me/inbox', :to => 'users#inbox'
-#  match '/me/purchases', :to => 'users#purchases'
-  #band public profile
-  match ':name/profile', :to => 'bands#show'
 
   #users stuff
   match 'users/edit', :to => 'users#edit'
@@ -324,10 +321,9 @@ Cobain::Application.routes.draw do |map|
 
    #CONTROLLER: STATICS
   map.pbands 'pledge_bands', :controller => 'statics', :action => 'pbands'
-
   map.faq 'faq', :controller => 'statics', :action => 'faq'
-
   map.about 'about', :controller => 'statics', :action => 'about'
+  match 'status_404', :to => 'statics#status_404', :as => 'status_404'
 
   # Install the default routes as the lowest priority.
   match ':controller(/:action)'

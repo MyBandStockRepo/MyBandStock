@@ -330,7 +330,7 @@ class UsersController < ApplicationController
       # send email to new users welcoming to website, priority -1, default is 0
 #      Delayed::Job.enqueue(RegistrationNotificationJob.new(@user), -1)
       
-      if params[:redemption_redirect]
+      if !params[:redemption_redirect].blank?
         redirect_url = params[:redemption_redirect] + '&user_id=' + @user.id.to_s
         logger.info "Redirecting to " + redirect_url
       	redirect_to redirect_url
@@ -347,9 +347,9 @@ class UsersController < ApplicationController
       @user.password = ''
 #      @user.password_confirmation = ''
 			if params[:lightbox].nil?
-				render :action => :new
+				render :action => :new, :redemption_redirect => params[:redemption_redirect]
 			else
-				render :action => :new, :layout => 'lightbox'
+				render :action => :new, :layout => 'lightbox', :redemption_redirect => params[:redemption_redirect]
 			end
       return
     end

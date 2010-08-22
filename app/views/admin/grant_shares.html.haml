@@ -1,0 +1,52 @@
+.orange_bar Grant Shares
+
+-if @response_text
+  .notice
+    = @response_text
+
+= form_tag({ :controller => 'admin', :action => 'grant_shares_post' }) do
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :user_email, 'email'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :user_email
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :user_id, 'user id'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :user_id
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname.required
+          .fieldnametop
+            = label_tag :adjustment, 'adjustment'
+          .fieldnamebottom      
+        .fieldbox.required
+          = text_field_tag :adjustment
+
+  .fieldrow
+    .fieldleft      
+      .field
+        .fieldname
+          .fieldnametop
+            = label_tag :band_id, 'Band*'
+          .fieldnamebottom
+        .fieldbox
+          = select_tag( :band_id, options_from_collection_for_select(Band.all, :id, :name), :class => 'select')
+
+  .fieldrow
+    .fieldleft                
+      .formbutton
+        = submit_tag 'Pow!'
+

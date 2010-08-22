@@ -2,6 +2,48 @@
 module ApplicationHelper
 	include Twitter::Autolink
 
+  def lightboard_text(text, options)
+  # Options is optional, but should look like
+  #  { :digits => 4, :size => 'big' }
+    html_string       = ''
+    size              = options[:size] || 'small'
+    num_digits        = options[:digits] || 3
+    text              = sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_')
+    lightboard_class  = (size == 'small') ? 'light' : 'biglight'
+
+    text.to_s.each_char{ |char|
+      html_string << "<div class=\"#{lightboard_class} l#{char}\"></div>"
+    }
+    raw html_string
+  end
+  
+  def lightboard_text_number(text, options)
+  # Options is optional, but should look like
+  #if the negative number is larger than what the lightbox can fit, outputs '-' followed by a '9' for each digit
+  #  { :digits => 4, :size => 'big' }
+    integer_text = text.to_i
+    html_string       = ''
+    size              = options[:size] || 'small'
+    num_digits        = options[:digits] || 3
+    
+    #see if it's too small      
+    if integer_text < ('-'+'9'*(num_digits-1)).to_i # ie. see if -1000 will overflow on a 4 digit setup
+      text = '-'+'9'*(num_digits-1)
+    #or too big
+    elsif integer_text > ('9'*(num_digits)).to_i # ie. see if 1000 will overflow on a 3 digit setup
+      text = '9'*(num_digits)
+    end
+    
+    text              = sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_')
+    lightboard_class  = (size == 'small') ? 'light' : 'biglight'
+
+    text.to_s.each_char{ |char|
+      html_string << "<div class=\"#{lightboard_class} l#{char}\"></div>"
+    }
+    raw html_string
+  end  
+  
+
   def pretty_datetime(datetime)
     date = datetime.strftime('%b %e, %Y').downcase
     time = datetime.strftime('%l:%M%p').downcase

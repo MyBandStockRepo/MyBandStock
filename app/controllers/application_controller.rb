@@ -34,6 +34,9 @@ class ApplicationController < ActionController::Base
 
   #puts a variable in session related to the url ur at
   after_filter :update_last_location
+
+  # Stores the last controller and action in session[:last_controller], session[:last_action]
+  after_filter :update_last_controller_and_action
   
   #basic layout
   layout "root-layout"
@@ -100,15 +103,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def has_role?(role)
-    @user_roles = User.find(session[:user_id], :include => :roles).roles
-    if @user_roles.include?(Role.find_by_name(role)) || @user_roles.include?(Role.find_by_name('site_admin'))
-      return true
-    else
-      redirect_to :controller => 'application', :action => 'index'
-      return false
-    end
-  end
+  #def has_role?(role)
+  #  @user_roles = User.find(session[:user_id], :include => :roles).roles
+  #  if @user_roles.include?(Role.find_by_name(role)) || @user_roles.include?(Role.find_by_name('site_admin'))
+  #    return true
+  #  else
+  #    redirect_to :controller => 'application', :action => 'index'
+  #    return false
+  #  end
+  #end
  
   def captcha_valid?(answer)
     answer  = answer.gsub(/\W/, '')
@@ -141,6 +144,12 @@ class ApplicationController < ActionController::Base
   
   def update_last_location
     session[:last_clean_url] = request.url
+  end
+  
+  def update_last_controller_and_action
+    session[:last_controller] = params[:controller]
+    session[:last_action]     = params[:action]
+    session[:last_id]         = params[:id] || params[:band_id] || params[:user_id]
   end
   
   
@@ -197,6 +206,10 @@ class ApplicationController < ActionController::Base
     #if we got a short_name convert it to an id
     if params[:band_short_name]
       band = Band.find_by_short_name(params[:band_short_name])
+      unless band
+        # We search for many string variants of the given short_name.
+        band = Band.search_by_name(params[:band_short_name])
+      end
     end
     
     #make sure that was good

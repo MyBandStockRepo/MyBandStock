@@ -3,6 +3,7 @@ class ShareLedgerEntry < ActiveRecord::Base
   #The adjustment in the ledger entry is seen as the number of shares granted TO the USER FOR the BAND.  Band's can never have shares in fans.  So if the number is positive, that means the users shares in the band will go UP.  If the number is negative, the users shares in the band will go DOWN.
   belongs_to :user
   belongs_to :band
+  belongs_to :transaction
   
   after_save :update_share_total
   
