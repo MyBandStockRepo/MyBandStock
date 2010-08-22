@@ -1,0 +1,39 @@
+.socialshare
+  -if !twitter_username.blank?
+    -if currently_tweeting
+      :javascript
+        currentlyTweeting = true;
+    .socialshare_title
+      %p Share for Stock!
+    %ul.statuses_wrap
+      - 10.times do |i|
+        %li.share_post
+          %span.share_date
+            = "8:31 PM | Aug #{i}th 2010 | Twitter:"
+          .share_text
+            .share_avatar
+            %span
+              = (band.twitter_user) ? band.twitter_user.name : band.twitter_username
+            RT @xJeffxAdaliax: Nothing better to top off a day then some good old @ampla. Let's build something to break. http://myloc.me/aLTuP
+          .reshare
+            .share_lightboard
+              = lightboard_text_number NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
+            .sharelink
+              %a{ :href => '#' } Retweet
+              for shares!
+          .clear
+      
+    .share_viewmore
+      %a.socialshare_prev{ :href => '#' }
+        = image_tag 'stage/viewmore_up.png'
+      view more
+      %a.socialshare_next{ :href => '#' }
+        = image_tag 'stage/viewmore_down.png'
+  -else # No Twitter username
+    .social_feed_message
+      This artist doesn't have any recent status posts.
+
+
+
+-# = render :partial => 'twitter_statuses_widget', :locals => { :user => twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 225 }
+

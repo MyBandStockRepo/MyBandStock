@@ -3,34 +3,10 @@
     = @band.name
     
 .stageunits
-  .socialshare
-    .socialshare_title
-      %p Share for Stock!
-
-    - 3.times do
-      .share_post
-        %span.share_date
-          8:31 PM | Aug 8th 2010 | Twitter:
-        .share_text
-          .share_avatar
-          %span
-            = (@band.twitter_user) ? @band.twitter_user.name : @band.twitter_username
-          RT @xJeffxAdaliax: Nothing better to top off a day then some good old @ampla. Let's build something to break. http://myloc.me/aLTuP
-        .reshare
-          .share_lightboard
-            = lightboard_text_number NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
-          .sharelink
-            %a{ :href => '#' } Retweet
-            for shares!
-        .clear
-      
-    .share_viewmore
-      = image_tag 'stage/viewmore_up.png'
-      view more
-      %a{ :href => '#' }
-        = image_tag 'stage/viewmore_down.png'
+  = render :partial => 'social_feed', :locals => { :band => @band, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting }
 
   = render :partial => 'leaderboard', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band}
+
 
 .stageright
   .buystock
@@ -41,13 +17,6 @@
         Buy Today:
       .big_lightboard        
         = lightboard_text_number @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'        
-      -#  
-      
-        .biglight.l_
-        .biglight.l_
-        .biglight.l2
-        .biglight.l0
-        .biglight.l0
     .buy_bandname
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
         Buy Stock in

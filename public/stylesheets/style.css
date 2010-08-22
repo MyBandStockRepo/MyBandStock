@@ -835,7 +835,25 @@ fieldset {border:0px;padding:0px;margin:0px;}
 			.light.l7 {background-position:-136px 0px;}
 			.light.l8 {background-position:-153px 0px;}
 			.light.l9 {background-position:-170px 0px;}
-			.light.l- {background-position:-187px 0px;}			
+			.light.l- {background-position:-187px 0px;}
+	.socialshare .social_feed_message {
+	  font-family:TitilliumText14L800wt;
+    font-size:18px;
+    margin:70px 5px 5px 10px;
+    text-indent:10px;
+	}
+	.socialshare .statuses_wrap {
+	  width: 300px;
+	  height: 380px;
+	  overflow: hidden;
+	}
+	.statuses_wrap li {
+	  width: 250px;
+	  height: 115px;
+	}
+	.jcarousel-clip-vertical {
+	  height: 380px;
+	}
 			
 .share_viewmore{background-image:url(/images/stage/viewmore_shadow.png);background-repeat:repeat-x;text-align:right;padding-top:10px;padding-right:20px;font-size:18px;font-family:TitilliumText14L800wt;color:#3a312c;}
 
