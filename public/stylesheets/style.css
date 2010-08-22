@@ -801,7 +801,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 #band_stage {background-image:url(/images/stage/bg.png);background-color:#000000;color:#736257;}
 #band_stage #outer_wrap{width:100%;background-image:url(/images/stage/stage_bg.jpg);background-position:top center;background-repeat:no-repeat;}
-#band_stage #footer{ margin-top: 20px; }
+#band_stage #footer{ margin-top: 20px; background: none repeat scroll 0 0 transparent; }
 
 #band_stage #content{background-image:url(/images/stage/stagefloor.jpg);background-position:bottom center;background-repeat:no-repeat;background-color:transparent;margin-top:0px;}
 
