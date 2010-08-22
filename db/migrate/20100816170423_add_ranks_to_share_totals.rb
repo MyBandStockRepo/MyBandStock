@@ -3,7 +3,7 @@ class AddRanksToShareTotals < ActiveRecord::Migration
     add_column :share_totals, :last_rank, :integer  
     add_column :share_totals, :current_rank, :integer     
     
-    ShareTotal.initialize_ranks 
+#    ShareTotal.initialize_ranks 
   end
   
   def self.down
