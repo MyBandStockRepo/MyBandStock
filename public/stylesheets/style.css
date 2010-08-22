@@ -112,6 +112,8 @@ a.social facebook fb_login_not_logged_in FB_login_button FB_ElementReady{float: 
 a.bandlink {padding-left:10px;}
 span.number_count {width:100px;position:absolute; right: 40px; text-align:right;}
 
+.light {height:20px;padding-left:40px;padding-right:40px;position: relative; }
+.dark {height:20px;background:#131313;padding-left:40px;padding-right:40px;position: relative;}
 
 
 /* ABOUT US */
@@ -823,19 +825,19 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		.reshare a{color:#ff9900;text-decoration:none;text-transform:uppercase;}
 		.reshare a:hover{color:#FFFFFF;border-bottom: 1px dotted;}
 		.share_lightboard {float:left;margin-right:8px;}
-			.light{width:17px;height:23px;background-image:url(/images/stage/mini_lightboard.png);float:left;}
-			.light.l_ {background-position:0px 0px;}
-			.light.l0 {background-position:-17px 0px;}
-			.light.l1 {background-position:-34px 0px;}
-			.light.l2 {background-position:-51px 0px;}
-			.light.l3 {background-position:-68px 0px;}
-			.light.l4 {background-position:-85px 0px;}
-			.light.l5 {background-position:-102px 0px;}
-			.light.l6 {background-position:-119px 0px;}
-			.light.l7 {background-position:-136px 0px;}
-			.light.l8 {background-position:-153px 0px;}
-			.light.l9 {background-position:-170px 0px;}
-			.light.l- {background-position:-187px 0px;}
+			.light-text{width:17px;height:23px;background-image:url(/images/stage/mini_lightboard.png);float:left;}
+			.light-text.l_ {background-position:0px 0px;}
+			.light-text.l0 {background-position:-17px 0px;}
+			.light-text.l1 {background-position:-34px 0px;}
+			.light-text.l2 {background-position:-51px 0px;}
+			.light-text.l3 {background-position:-68px 0px;}
+			.light-text.l4 {background-position:-85px 0px;}
+			.light-text.l5 {background-position:-102px 0px;}
+			.light-text.l6 {background-position:-119px 0px;}
+			.light-text.l7 {background-position:-136px 0px;}
+			.light-text.l8 {background-position:-153px 0px;}
+			.light-text.l9 {background-position:-170px 0px;}
+			.light-text.l- {background-position:-187px 0px;}
 	.socialshare .social_feed_message {
 	  font-family:TitilliumText14L800wt;
     font-size:18px;
@@ -848,14 +850,30 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	  overflow: hidden;
 	}
 	.statuses_wrap li {
-	  width: 250px;
 	  height: 115px;
 	}
-	.jcarousel-clip-vertical {
-	  height: 380px;
+	.socialshare .jcarousel-clip-vertical {
+	  height: 385px;
 	}
 			
 .share_viewmore{background-image:url(/images/stage/viewmore_shadow.png);background-repeat:repeat-x;text-align:right;padding-top:10px;padding-right:20px;font-size:18px;font-family:TitilliumText14L800wt;color:#3a312c;}
+  .share_viewmore .socialshare_next,
+  .share_viewmore .socialshare_prev {
+    display: inline-block;
+    height: 11px;
+    width: 21px;
+    background-image: url(/images/stage/viewmore_arrows.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  .share_viewmore .socialshare_next { background-position: 0px 0px; }
+  .share_viewmore .socialshare_next:hover { background-position: -84px 0px; }
+  .share_viewmore .socialshare_next.disabled { background-position: -42px 0px; }
+  .share_viewmore .socialshare_next.disabled:hover { background-position: -42px 0px; cursor: default; }
+  .share_viewmore .socialshare_prev { background-position: -22px 0px; }
+  .share_viewmore .socialshare_prev:hover { background-position: -105px 0px; }
+  .share_viewmore .socialshare_prev.disabled { background-position: -62px 0px; }
+  .share_viewmore .socialshare_prev.disabled:hover { background-position: -62px 0px; cursor: default; }
 
 .leaderboard{width:216px;float:right;margin-top:29px;margin-right:19px;font-size:14px;font-family:TitilliumText14L800wt;text-align:center;color:#d4cac3;}
 .leaderboard p{margin:4px 0px 8px 0px;text-transform:uppercase;}

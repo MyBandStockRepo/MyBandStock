@@ -49,7 +49,7 @@
             -if false && location
               %span.shareholder_aside
                 = "from #{ location }"
-          = lightboard_text_number share_totals[i].net, :digits => 4, :size => 'small'
+          = lightboard_text share_totals[i].net, :digits => 4, :size => 'small'
   -else
     .leaduser.highlight.even
       .leadnumber
@@ -61,7 +61,7 @@
             = "from #{ current_user.display_location }"
       - share_total_row = current_user.share_totals.where(:band_id => band.id).first
       - num_shares = (share_total_row) ? share_total_row.net : 0
-      = lightboard_text_number num_shares, :digits => 4, :size => 'small'
+      = lightboard_text num_shares, :digits => 4, :size => 'small'
 
 
   -# else

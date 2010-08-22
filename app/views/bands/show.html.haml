@@ -5,8 +5,7 @@
 .stageunits
   = render :partial => 'social_feed', :locals => { :band => @band, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting }
 
-  = render :partial => 'leaderboard', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band}
-
+  = render :partial => 'leaderboard', :locals => { :band => @band, :top_ten => @top_ten, :user_rank => @user_rank }
 
 .stageright
   .buystock
@@ -16,7 +15,7 @@
         %br
         Buy Today:
       .big_lightboard        
-        = lightboard_text_number @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'        
+        = lightboard_text @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'        
     .buy_bandname
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
         Buy Stock in

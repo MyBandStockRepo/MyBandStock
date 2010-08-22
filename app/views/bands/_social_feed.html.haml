@@ -6,7 +6,7 @@
     .socialshare_title
       %p Share for Stock!
     %ul.statuses_wrap
-      - 10.times do |i|
+      - 5.times do |i|
         %li.share_post
           %span.share_date
             = "8:31 PM | Aug #{i}th 2010 | Twitter:"
@@ -17,18 +17,16 @@
             RT @xJeffxAdaliax: Nothing better to top off a day then some good old @ampla. Let's build something to break. http://myloc.me/aLTuP
           .reshare
             .share_lightboard
-              = lightboard_text_number NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
+              = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
             .sharelink
               %a{ :href => '#' } Retweet
               for shares!
           .clear
       
     .share_viewmore
-      %a.socialshare_prev{ :href => '#' }
-        = image_tag 'stage/viewmore_up.png'
+      .socialshare_prev 
       view more
-      %a.socialshare_next{ :href => '#' }
-        = image_tag 'stage/viewmore_down.png'
+      .socialshare_next 
   -else # No Twitter username
     .social_feed_message
       This artist doesn't have any recent status posts.

@@ -2,13 +2,15 @@
 module ApplicationHelper
 	include Twitter::Autolink
 
+
   def lightboard_text(text, options)
+  # Returns the raw HTML that displays the given number as lightboard-illuminated text.
   # Options is optional, but should look like
   #  { :digits => 4, :size => 'big' }
     html_string       = ''
     size              = options[:size] || 'small'
     num_digits        = options[:digits] || 3
-    text              = sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_')
+    text              = bound_number(sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_'))
     lightboard_class  = (size == 'small') ? 'light' : 'biglight'
 
     text.to_s.each_char{ |char|
@@ -16,33 +18,7 @@ module ApplicationHelper
     }
     raw html_string
   end
-  
-  def lightboard_text_number(text, options)
-  # Options is optional, but should look like
-  #if the negative number is larger than what the lightbox can fit, outputs '-' followed by a '9' for each digit
-  #  { :digits => 4, :size => 'big' }
-    integer_text = text.to_i
-    html_string       = ''
-    size              = options[:size] || 'small'
-    num_digits        = options[:digits] || 3
-    
-    #see if it's too small      
-    if integer_text < ('-'+'9'*(num_digits-1)).to_i # ie. see if -1000 will overflow on a 4 digit setup
-      text = '-'+'9'*(num_digits-1)
-    #or too big
-    elsif integer_text > ('9'*(num_digits)).to_i # ie. see if 1000 will overflow on a 3 digit setup
-      text = '9'*(num_digits)
-    end
-    
-    text              = sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_')
-    lightboard_class  = (size == 'small') ? 'light' : 'biglight'
 
-    text.to_s.each_char{ |char|
-      html_string << "<div class=\"#{lightboard_class} l#{char}\"></div>"
-    }
-    raw html_string
-  end  
-  
 
   def pretty_datetime(datetime)
     date = datetime.strftime('%b %e, %Y').downcase
@@ -50,6 +26,7 @@ module ApplicationHelper
     content_tag(:span, date, :class => 'date') + " " + content_tag(:span, time, :class => 'time')
   end
 	
+
 	def convert_to_eastern_time(time)
 	  return time.utc.in_time_zone('Eastern Time (US & Canada)')
   end
@@ -132,6 +109,28 @@ module ApplicationHelper
    end
    return out
   end
+  
+  
+  
+private
+
+  
+  def bound_number(input, num_digits = 3)
+  # Returns input, bounded by ±10^num_digits
+  #   Example: b_n(50, 2) -> 50;  b_n(-5000, 3) -> -999
+  #
+    input = input.to_i
+    #see if it's too small      
+    if input < ('-'+'9'*(num_digits-1)).to_i # ie. see if -1000 will overflow on a 4 digit setup
+      text = '-'+'9'*(num_digits-1)
+    #or too big
+    elsif input > ('9'*(num_digits)).to_i # ie. see if 1000 will overflow on a 3 digit setup
+      text = '9'*(num_digits)
+    end
+    text.to_i
+  end
+
+
 
 end
 

@@ -1,5 +1,7 @@
 var currentlyTweeting = false;
 
+var mycarousel_buttonNextCallback = function(carousel, el, enable) { jQuery('#logo_float').append('Prev enable: ' + enable + '<br />'); };
+
 jQuery(function() {
   if (currentlyTweeting) {
     jQuery('.retweet-status-button a').click();
@@ -8,16 +10,14 @@ jQuery(function() {
   jQuery('.statuses_wrap').jcarousel({
     vertical: true,
     scroll:   1,
-    animation: 'fast',
+    animation: 800,
     initCallback: initializeViewMore,
-    buttonNextHTML:   null,
-    buittonPrevHTML:  null
+    buttonNextCallback: function(c, el, enable) { jQuery('.socialshare_next').toggleClass('disabled', !enable); },
+    buttonPrevCallback: function(c, el, enable) { jQuery('.socialshare_prev').toggleClass('disabled', !enable); },
+    buttonNextHTML: '<span></span>',
+    buttonPrevHTML: '<span></span>'
   })
 });
-
-
-
-
 
 function initializeViewMore(carousel) {
   jQuery('.socialshare_next').bind('click', function() {
