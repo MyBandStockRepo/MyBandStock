@@ -12,7 +12,7 @@
           %td.stream-name
             - viewerTheme = StreamapiStreamTheme.find(stream.viewer_theme_id)
             = link_to stream.title, { :controller => 'streamapi_streams', :action => 'view', :id => stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
-            = stream.starts_at.strftime('%a %b %d, %Y at %I:%M%p')
+            = output_datetime(stream.starts_at)
           - if can_broadcast
             %td.begin-broadcast
               - broadcasterTheme = StreamapiStreamTheme.find(stream.broadcaster_theme_id)

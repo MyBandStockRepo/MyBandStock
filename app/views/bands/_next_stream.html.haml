@@ -1,0 +1,94 @@
+:javascript
+  function showSchedule(){
+    jQuery("#live_stream_schedule").show('blind');
+    accordion_series();
+    jQuery("#show_schedule_link").hide();
+    jQuery("#hide_schedule_link").show();
+  }
+  function hideSchedule(){  
+    jQuery("#live_stream_schedule").hide('blind');
+    jQuery("#hide_schedule_link").hide();
+    jQuery("#show_schedule_link").show();
+  }
+  
+  // ajax to see if a stream is live
+  var url = "#{SITE_URL}"+"/bands/"+"#{@band.id.to_s}"+"/is_band_broadcasting_live?jsoncallback=?"
+  setInterval(function() {  
+    jQuery.getJSON(url, function(data){ })
+  }, 30000);
+  
+
+  function bandIsBroadcastingJsonCallback(data) {
+    if (data != null)
+    {
+    
+      var is_live = data.is_live;
+      var starts_at = data.next_stream_starts_at;
+      if(is_live == true)
+      {
+        jQuery('#next_stream_time').html("Stream currently being broadcast!");
+        jQuery('.online_status').html('<p class="online">STREAM IN PROGRESS</p><h2 class="join_now"></h2>');
+        jQuery('.online_status .join_now').append( jQuery('<a href="'+ data.view_link.url +'" class="lightbox">View Now!</a>'));
+
+       } 
+
+      else
+      {
+        jQuery('.online_status').html('<p class="offline">CAMERA OFFLINE</p>');
+      
+        if(starts_at == null)
+          jQuery('#next_stream_time').html("TBA");
+        else
+          jQuery('#next_stream_time').html(starts_at);      
+      }
+    }
+    else  // if data is null
+    {
+      jQuery('.online_status').html('<p class="offline">CAMERA OFFLINE</p>');  
+      jQuery('#next_stream_time').html("TBA");
+    }
+  }
+
+
+- @next_stream = @band.next_stream
+- @current_broadcasts = @band.current_broadcast_streams
+.next_stream_widget
+  .header
+    %h2
+      = @band.name  
+      %span.grey99 live video stream
+  #time_block
+    .stream_time
+      %p.grey99 next stream starts: 
+      %h2#next_stream_time
+        -if @current_broadcasts.nil? || @current_broadcasts.count == 0
+          -if @next_stream.nil?   
+            TBA
+          -else
+            -if @next_stream.currently_live == true
+              Stream currently being broadcast!
+            -else
+              = output_datetime(@next_stream.starts_at)
+        -else
+          Stream currently being broadcast!              
+    .online_status
+      - if @current_broadcasts.nil? || @current_broadcasts.count == 0
+        -if @next_stream && @next_stream.currently_live == true
+          %p.online STREAM IN PROGRESS
+          %h2.join_now
+            = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @next_stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
+        
+        -else
+          %p.offline CAMERA OFFLINE
+      -else
+        %p.online STREAM IN PROGRESS
+        %h2.join_now
+          = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @current_broadcasts.first.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
+        
+  .clear      
+  .schedule
+    %a{:href => "#", :id => "show_schedule_link", :onClick => "showSchedule()"}Show Full Stream Schedule
+    %a{:href => "#", :id => "hide_schedule_link", :onClick => "hideSchedule()", :style => "display:none;"}Hide Stream Schedule
+    
+    #live_stream_schedule{:style => "display:none;"}
+      = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }

@@ -37,6 +37,16 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
+  
+  # returns the next public streamapi stream out of all their series and if none exist, returns nil
+  def next_stream
+    return self.streamapi_streams.where('streamapi_streams.starts_at > ? AND public = ?', Time.now, true).order('streamapi_streams.starts_at ASC').first
+  end
+    
+  #returns an array of streams the band is currently broadcasting on, or nil
+  def current_broadcast_streams
+    return self.streamapi_streams.where(:currently_live => true).all
+  end
     
   def available_shares_for_purchase
   # Returns the number of shares available for purchase for the band, for this time period.
@@ -128,16 +138,10 @@ class Band < ActiveRecord::Base
   # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
   # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
   # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
-  #
-    # The more senior user wins in a tie
-    # result = ShareTotal.find_by_sql("
-    #               SELECT * FROM share_totals
-    #                 INNER JOIN users ON users.id = share_totals.user_id
-    #                 WHERE band_id = #{ self.id }
-    #                 ORDER BY net DESC, users.created_at ASC
-    #                 LIMIT 10
-    #              ")
-    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)
+
+    # get top 10
+    result = self.get_shareholder_list_in_order(10)
+
 
     return (result.length == 0) ? nil : result
   end
@@ -253,8 +257,23 @@ class Band < ActiveRecord::Base
   end
 =end
   # ***************
-  # Image helper
   
+  # returns an array of the sharetotal joined to user entries while specifying the limit, returns empty array, or array with share totals
+  def get_shareholder_list_in_order(limit=nil)
+    # The more senioruser wins in a tie
+    # result = ShareTotal.find_by_sql("
+    #               SELECT * FROM share_totals
+    #                 INNER JOIN users ON users.id = share_totals.user_id
+    #                 WHERE band_id = #{ self.id }
+    #                 ORDER BY net DESC, users.created_at ASC
+    #                 LIMIT 10
+    #              ")
+    #    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)        
+    return ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(limit).all      
+  end
+  
+  
+  # Image helper
   def path_to_headline_photo(thumbnail_key)
     if path_to_photo = Photo.find_by_id(self.headline_photo_id)
       path_to_photo = path_to_photo.public_filename(thumbnail_key)

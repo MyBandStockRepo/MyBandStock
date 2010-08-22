@@ -18,7 +18,7 @@
           RT @xJeffxAdaliax: Nothing better to top off a day then some good old @ampla. Let's build something to break. http://myloc.me/aLTuP
         .reshare
           .share_lightboard
-            = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
+            = lightboard_text_number NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
           .sharelink
             %a{ :href => '#' } Retweet
             for shares!
@@ -39,7 +39,10 @@
         Shares Left to
         %br
         Buy Today:
-      .big_lightboard
+      .big_lightboard        
+        = lightboard_text_number @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'        
+      -#  
+      
         .biglight.l_
         .biglight.l_
         .biglight.l2

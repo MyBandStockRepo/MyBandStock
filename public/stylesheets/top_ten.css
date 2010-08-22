@@ -45,7 +45,7 @@ table.top_ten_shareholders {
   padding: 0 5px 0 0;
   text-align: right;
 }
-table.top_ten_shareholders tr.highlight .list_number {
+table.top_ten_shareholders tr.highlight .leadname {
   color: #FFF;
 }
 .top_ten_notice {

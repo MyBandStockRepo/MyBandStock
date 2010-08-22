@@ -50,7 +50,7 @@ Cobain::Application.routes.draw do |map|
 
 	match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
 	match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
-
+  match 'bands/:band_id/is_band_broadcasting_live', :to => 'bands#is_band_broadcasting_live'
 
   # ---- Share Codes ---- #
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'

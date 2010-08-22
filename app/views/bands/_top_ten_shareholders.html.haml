@@ -21,19 +21,8 @@
         -if false && location
           %span.shareholder_aside
             = "from #{ location }"
-      = lightboard_text share_total.net, :digits => 4, :size => 'small'
-  -if !user_found && current_user
-    .leaduser.highlight.even
-      .leadnumber
-        = user_rank.to_s + '.'
-      .leadname
-        = current_user.display_name
-        -if false && current_user.display_location
-          %span.shareholder_aside
-            = "from #{ current_user.display_location }"
-      - share_total_row = current_user.share_totals.where(:band_id => band.id).first
-      - num_shares = (share_total_row) ? share_total_row.net : 0
-      = lightboard_text num_shares, :digits => 4, :size => 'small'
+      = lightboard_text_number share_total.net, :digits => 4, :size => 'small'
+ 
 -else
   .top_ten_notice
     This band has no shareholders.

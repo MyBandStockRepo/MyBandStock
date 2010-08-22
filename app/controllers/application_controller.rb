@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
   # Uncomment the :secret if you're not using the cookie session store
   
   
+  include ApplicationHelper
+  
   #prod stuff
   rescue_from ActionController::RoutingError, :with => :routingerror_exception
   rescue_from ActionController::UnknownAction, :with => :routingerror_exception
@@ -47,7 +49,7 @@ class ApplicationController < ActionController::Base
   
   
   #################
-  
+
   def index
     #unless params[:no_splash]
     #  redirect_to :controller => 'application', :action => 'event_splash'
