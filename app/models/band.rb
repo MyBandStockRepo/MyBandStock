@@ -42,7 +42,7 @@ class Band < ActiveRecord::Base
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
 
-  def status_feed()
+  def status_feed(num_items = 7)
   # This function returns an array of recent social statuses for the band instance.
   # On failure or no statuses, nil is returned.
   # Currently, the only source queried is Twitter, but this method will be a central point for all social feeds.
@@ -61,18 +61,17 @@ class Band < ActiveRecord::Base
     return nil if response.code != '200'
     
     xml_doc = Document.new(response.body)
-    logger.info xml_doc.to_s
     
-      a = Array.new
-      xml_doc.root.each_element_with_text{ |status|
-        a << {
-                :source =>  'Twitter',
-                :body =>  status.elements['text'].text, # 'Shipmen and stevedore alike confirmed that the crate is unpleasantly cold to the touch, and none reportedly wished to remain in its presence for long.',
-                :username =>  twitter_username,
-                :posted_at => Time.now  # DateTime.strptime(a.first[:posted_at], "%a %b %d %H:%M:%S ")
-              }
-      }
-      a
+    statuses = Array.new
+    xml_doc.root.each_element_with_text{ |status|
+      statuses << {
+                    :source =>  'Twitter',
+                    :body =>  status.elements['text'].text,
+                    :username =>  twitter_username,
+                    :posted_at => Time.now  # DateTime.strptime(status.elements[:posted_at].text, "%a %b %d %H:%M:%S ")
+                  }
+    }
+    statuses[0..(num_items-1)]  # Return truncated array
   end
   
 

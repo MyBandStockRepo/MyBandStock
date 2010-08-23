@@ -6,6 +6,7 @@
       :javascript
         currentlyTweeting = true;
     %ul.statuses_wrap
+      - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :latest => true, :lightbox => true, :from_band_profile => band_url(band.id) }
       -recent_statuses.each do |status|
         %li.share_post
           %span.share_date
@@ -20,7 +21,7 @@
             .share_lightboard
               = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
             .sharelink
-              %a{ :href => '#' } Retweet
+              = link_to( 'Retweet', rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
               for shares!
           .clear
       

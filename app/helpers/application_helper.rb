@@ -3,15 +3,15 @@ module ApplicationHelper
 	include Twitter::Autolink
 
 
-  def lightboard_text(text, options)
+  def lightboard_text(text, options = {})
   # Returns the raw HTML that displays the given number as lightboard-illuminated text.
   # Options is optional, but should look like
   #  { :digits => 4, :size => 'big' }
     html_string       = ''
     size              = options[:size] || 'small'
     num_digits        = options[:digits] || 3
-    text              = bound_number(sprintf("%*s", num_digits, text.to_s).gsub(/ /, '_'))
-    lightboard_class  = (size == 'small') ? 'light' : 'biglight'
+    text              = sprintf("%*s", num_digits, bound_number(text, num_digits).to_s).gsub(/ /, '_')
+    lightboard_class  = (size == 'small') ? 'light-text' : 'biglight'
 
     text.to_s.each_char{ |char|
       html_string << "<div class=\"#{lightboard_class} l#{char}\"></div>"
@@ -126,6 +126,8 @@ private
     #or too big
     elsif input > ('9'*(num_digits)).to_i # ie. see if 1000 will overflow on a 3 digit setup
       text = '9'*(num_digits)
+    else
+      text = input
     end
     text.to_i
   end

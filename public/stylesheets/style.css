@@ -815,13 +815,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .socialshare{width:300px;float:left;}
 .socialshare_title{height:32px;margin-top:22px;padding-left:90px;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;}
 	.socialshare_title p{padding-top:9px;}
-li.share_post{ list-style: none outside none; }
-.share_post{background-image:url(/images/stage/share_post_divide.png);background-position:bottom;background-repeat:no-repeat;margin-top:5px;padding-bottom:7px;padding-left:10px;padding-right:10px;font-size:10px;line-height:13px;}
+.share_post{background-image:url(/images/stage/share_post_divide.png);background-position:bottom;background-repeat:no-repeat;margin-top:5px;padding-bottom:7px;padding-left:10px;padding-right:10px;font-size:10px;line-height:13px; position: relative; }
 	.share_date{font-size:9px;color:#3a312c;}
 	.share_avatar{width:50px;height:50px;background-image:url(/images/stage/share_avatar.png);float:left;margin-right:10px;margin-top:2px;}
 	.share_text{padding-top:4px;color:#a89588;}
 		.share_text span{font-size:14px;font-family:TitilliumText14L800wt;}
-	.reshare{font-size:14px;font-family:TitilliumText14L800wt;margin-top:5px;}
+	.reshare{font-size:14px;font-family:TitilliumText14L800wt;margin-top:5px; position: absolute; bottom: 4px; width: 100%; }
 		.sharelink{padding-top:10px;}
 		.reshare a{color:#ff9900;text-decoration:none;text-transform:uppercase;}
 		.reshare a:hover{color:#FFFFFF;border-bottom: 1px dotted;}
@@ -851,7 +850,10 @@ li.share_post{ list-style: none outside none; }
 	  overflow: hidden;
 	}
 	.statuses_wrap li {
-	  height: 115px;
+	  min-height: 69px;
+	  padding-bottom: 30px;
+	  list-style: none outside none;
+    /* height: 115px; */
 	}
 	.socialshare .jcarousel-clip-vertical {
 	  height: 385px;
