@@ -3,7 +3,7 @@
     = @band.name
     
 .stageunits
-  = render :partial => 'social_feed', :locals => { :band => @band, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting }
+  = render :partial => 'social_feed', :locals => { :band => @band, :recent_statuses => @recent_statuses, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting }
 
   = render :partial => 'leaderboard', :locals => { :band => @band, :top_ten => @top_ten, :user_rank => @user_rank }
 

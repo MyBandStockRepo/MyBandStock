@@ -1,20 +1,21 @@
 .socialshare
-  -if !twitter_username.blank?
+  .socialshare_title
+    %p Share for Stock!
+  -if !recent_statuses.blank?
     -if currently_tweeting
       :javascript
         currentlyTweeting = true;
-    .socialshare_title
-      %p Share for Stock!
     %ul.statuses_wrap
-      - 5.times do |i|
+      -recent_statuses.each do |status|
         %li.share_post
           %span.share_date
-            = "8:31 PM | Aug #{i}th 2010 | Twitter:"
+            = status[:posted_at].strftime("%l:%M %p | %b #{status[:posted_at].strftime("%e").to_i.ordinalize} | ")
+            = status[:source]
           .share_text
             .share_avatar
             %span
-              = (band.twitter_user) ? band.twitter_user.name : band.twitter_username
-            RT @xJeffxAdaliax: Nothing better to top off a day then some good old @ampla. Let's build something to break. http://myloc.me/aLTuP
+              = status[:username]
+            = status[:body]
           .reshare
             .share_lightboard
               = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'

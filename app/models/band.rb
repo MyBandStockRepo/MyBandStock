@@ -1,3 +1,7 @@
+require 'net/http'
+require "rexml/document"
+include REXML
+
 class Band < ActiveRecord::Base
   
   has_many :associations, :dependent => :destroy
@@ -37,7 +41,41 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
+
+  def status_feed()
+  # This function returns an array of recent social statuses for the band instance.
+  # On failure or no statuses, nil is returned.
+  # Currently, the only source queried is Twitter, but this method will be a central point for all social feeds.
+  #
+  # TODO: Set a timeout on the HTTP request, and return a special value on timeout. Then the view will tell javascript to
+  #   make the request client-side.
+  #
+    twitter_username = (self.twitter_user) ? self.twitter_user.name : self.twitter_username
+    return nil if twitter_username.blank?
+    twitter_timeline_uri = URI.parse('http://twitter.com/statuses/user_timeline.xml?screen_name=' + twitter_username)
+    http = Net::HTTP.new(twitter_timeline_uri.host, twitter_timeline_uri.port)
+    request = Net::HTTP::Get.new(twitter_timeline_uri.request_uri)
+
+    response = http.request(request)
+    logger.info "Status feed: Twitter response code [#{response.code}]"
+    return nil if response.code != '200'
+    
+    xml_doc = Document.new(response.body)
+    logger.info xml_doc.to_s
+    
+      a = Array.new
+      xml_doc.root.each_element_with_text{ |status|
+        a << {
+                :source =>  'Twitter',
+                :body =>  status.elements['text'].text, # 'Shipmen and stevedore alike confirmed that the crate is unpleasantly cold to the touch, and none reportedly wished to remain in its presence for long.',
+                :username =>  twitter_username,
+                :posted_at => Time.now  # DateTime.strptime(a.first[:posted_at], "%a %b %d %H:%M:%S ")
+              }
+      }
+      a
+  end
   
+
   # returns the next public streamapi stream out of all their series and if none exist, returns nil
   def next_stream
     return self.streamapi_streams.where('streamapi_streams.starts_at > ? AND public = ?', Time.now, true).order('streamapi_streams.starts_at ASC').first

@@ -84,6 +84,9 @@ class BandsController < ApplicationController
                         else
                           nil
                         end
+
+    @recent_statuses = @band.status_feed()
+
     # Twitter authentication can redirect to this band show page. If the user just authorized with Twitter,
     #   We shall notify the view to pop open the retweet lightbox because the user is currently in the process of retweeting.
     if session[:user_just_authorized_with_twitter]

@@ -815,6 +815,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .socialshare{width:300px;float:left;}
 .socialshare_title{height:32px;margin-top:22px;padding-left:90px;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;}
 	.socialshare_title p{padding-top:9px;}
+li.share_post{ list-style: none outside none; }
 .share_post{background-image:url(/images/stage/share_post_divide.png);background-position:bottom;background-repeat:no-repeat;margin-top:5px;padding-bottom:7px;padding-left:10px;padding-right:10px;font-size:10px;line-height:13px;}
 	.share_date{font-size:9px;color:#3a312c;}
 	.share_avatar{width:50px;height:50px;background-image:url(/images/stage/share_avatar.png);float:left;margin-right:10px;margin-top:2px;}
@@ -841,7 +842,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	.socialshare .social_feed_message {
 	  font-family:TitilliumText14L800wt;
     font-size:18px;
-    margin:70px 5px 5px 10px;
+    margin: 10px 5px 5px 10px;
     text-indent:10px;
 	}
 	.socialshare .statuses_wrap {
