@@ -10,7 +10,9 @@
       -recent_statuses.each do |status|
         %li.share_post
           %span.share_date
-            = status[:posted_at].strftime("%l:%M %p | %b #{status[:posted_at].strftime("%e").to_i.ordinalize} | ")
+            -# status[:posted_at].strftime("%l:%M %p | %b #{status[:posted_at].strftime("%e").to_i.ordinalize} | ")
+            = time_ago_in_words status[:posted_at]
+            ago via
             = status[:source]
           .share_text
             .share_avatar

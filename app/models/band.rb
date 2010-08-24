@@ -64,11 +64,13 @@ class Band < ActiveRecord::Base
     
     statuses = Array.new
     xml_doc.root.each_element_with_text{ |status|
+      posted_at = status.elements['created_at'].text
+      posted_at_timezone = /\+\d{4}/.match(posted_at).to_s
       statuses << {
                     :source =>  'Twitter',
                     :body =>  status.elements['text'].text,
                     :username =>  twitter_username,
-                    :posted_at => Time.now  # DateTime.strptime(status.elements[:posted_at].text, "%a %b %d %H:%M:%S ")
+                    :posted_at => status.elements['created_at'].text  # DateTime.strptime(status.elements[:created_at].text, "%a %b %d %H:%M:%S ")
                   }
     }
     statuses[0..(num_items-1)]  # Return truncated array
@@ -155,7 +157,7 @@ class Band < ActiveRecord::Base
   end
 
   def tweets(twitter_client, num_tweets = 3)
-  # Takes a Twitter Oauth API client, like client(true, false, bandID)
+  # Takes a Twitter Oauth API client, like that returned from client(true, false, bandID)
   #
     tweet_list = nil
 		if self.twitter_user.nil? || twitter_client == nil
