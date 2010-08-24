@@ -18,7 +18,7 @@
     = select( 'share_code_group', 'share_amount', num_shares_array, :class => 'select')
 
   .field
-    = f.label :live_stream_series_id, "Stream series: [is this field necessary?]"
+    = f.label :live_stream_series_id, "Stream series:"
     = select_tag( 'live_stream_series_id', options_from_collection_for_select(@series_list, :id, :title), :class => 'select')
 
   .field

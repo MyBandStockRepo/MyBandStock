@@ -16,6 +16,7 @@ class Band < ActiveRecord::Base
   has_many :streamapi_streams, :through => :live_stream_series
   has_many :recorded_videos, :through => :streamapi_streams
   has_many :pledges
+  has_many :share_code_groups
   
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true

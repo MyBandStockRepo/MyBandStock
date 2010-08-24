@@ -54,6 +54,7 @@ class ShareCodeGroupsController < ApplicationController
   def show
   # Note that the show view must get @band
     @share_code_group = ShareCodeGroup.find(params[:id])
+    logger.info "Band ID: " + params[:band_id].to_s
     
     #unless @band_id
     #  flash[:error] = 'Band ID not specified'
