@@ -21,9 +21,14 @@
         Buy Stock in
         = @band.name
 
+
+  .stream_info
+    = render :partial => 'bands/next_stream', :locals => { :band => @band }
+
+
 .stagepadding
 
-
+  
 
 
 

@@ -5,20 +5,20 @@
   - available_themes[1].name = "16:9, High" # no chat
 
 .maincont
-	%h2
-		= @streamapi_stream.title
-		Stream
-		-unless @streamapi_stream.location.nil? || @streamapi_stream.location == ''
-			%span.grey99
-				|
-				= @streamapi_stream.location
-	%span.grey99
-		= output_datetime(@streamapi_stream.starts_at)
-	%br
-	%br
-	%p
-		%b Band:
-		= @streamapi_stream.band.name
+  %h2
+    = @streamapi_stream.title
+    Stream
+    -unless @streamapi_stream.location.nil? || @streamapi_stream.location == ''
+      %span.grey99
+        |
+        = @streamapi_stream.location
+  %span.grey99
+    = output_datetime(@streamapi_stream.starts_at)
+  %br
+  %br
+  %p
+    %b Band:
+    = @streamapi_stream.band.name
 
   %p
     %b Broadcast Theme:

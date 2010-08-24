@@ -1,3 +1,5 @@
+=javascript_include_tag 'series_list_accordion'
+
 :javascript
   function showSchedule(){
     jQuery("#live_stream_schedule").show('blind');
@@ -54,9 +56,9 @@
 - @current_broadcasts = @band.current_broadcast_streams
 .next_stream_widget
   .header
-    %h2
-      = @band.name  
-      %span.grey99 live video stream
+    %h2 
+      live 
+      %span.grey99 video stream
   #time_block
     .stream_time
       %p.grey99 next stream starts: 
