@@ -88,9 +88,11 @@ class ShareTotal < ActiveRecord::Base
       
       
       #save the fields
-      ShareTotal.find_by_sql('UPDATE share_totals SET last_rank = share_totals.current_rank WHERE share_totals.id in'+id_list)
-      ShareTotal.find_by_sql('UPDATE share_totals SET current_rank = share_totals.current_rank + 1 WHERE share_totals.id in'+id_list)
-
+#      ShareTotal.find_by_sql('UPDATE share_totals SET last_rank = share_totals.current_rank WHERE share_totals.id in'+id_list)
+#      ShareTotal.find_by_sql('UPDATE share_totals SET current_rank = share_totals.current_rank + 1 WHERE share_totals.id in'+id_list)
+      
+      ShareTotal.update_all('last_rank = current_rank', 'id IN '+id_list.to_s)
+      ShareTotal.update_all('current_rank = current_rank+1', 'id IN '+id_list.to_s)
     elsif self.last_rank < self.current_rank
       #moved down the list ie. 3 to 5
       #decrament others in-between
@@ -109,9 +111,10 @@ class ShareTotal < ActiveRecord::Base
       puts id_list
 
       #save the fields
-      ShareTotal.find_by_sql('UPDATE share_totals SET last_rank = share_totals.current_rank WHERE share_totals.id in'+id_list)
-      ShareTotal.find_by_sql('UPDATE share_totals SET current_rank = share_totals.current_rank - 1 WHERE share_totals.id in'+id_list)
-
+#      ShareTotal.find_by_sql('UPDATE share_totals SET last_rank = share_totals.current_rank WHERE share_totals.id in'+id_list)
+#      ShareTotal.find_by_sql('UPDATE share_totals SET current_rank = share_totals.current_rank - 1 WHERE share_totals.id in'+id_list)
+      ShareTotal.update_all('last_rank = current_rank', 'id IN '+id_list.to_s)
+      ShareTotal.update_all('current_rank = current_rank-1', 'id IN '+id_list.to_s)
 =begin      
       for i in (self.last_rank..self.current_rank-1)
         share_totals[i].last_rank = share_totals[i].current_rank
