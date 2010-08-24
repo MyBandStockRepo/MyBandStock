@@ -134,10 +134,15 @@ class ShareCodeGroupsController < ApplicationController
       return false
     end
     
+    if @lss && @lss.band
+      band_id = @lss.band.id
+    end
+    
     @share_code_group = ShareCodeGroup.create(
       :share_amount => share_amount,
       :expires_on => expires_on,
-      :label => params[:share_code_group][:label]
+      :label => params[:share_code_group][:label],
+      :band_id => band_id
     )
     
     begin
