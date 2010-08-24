@@ -70,7 +70,7 @@ class Band < ActiveRecord::Base
                     :source =>  'Twitter',
                     :body =>  status.elements['text'].text,
                     :username =>  twitter_username,
-                    :posted_at => time_ago_in_words status.elements['created_at'].text  # DateTime.strptime(status.elements[:created_at].text, "%a %b %d %H:%M:%S ")
+                    :posted_at => status.elements['created_at'].text  # DateTime.strptime(status.elements[:created_at].text, "%a %b %d %H:%M:%S ")
                   }
     }
     statuses[0..(num_items-1)]  # Return truncated array
