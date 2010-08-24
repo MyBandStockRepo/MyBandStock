@@ -59,7 +59,13 @@ private
                       else
                         (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
                       end
-          if (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
+          if @user.site_admin
+            # Admin will be just a chatter for now
+            options_hash['user'] = { :name => user_name,
+                                     :role => 'chatter' }
+            options_hash['code'] = 0
+            logger.info "Admin user allowed as a chatter."
+          elsif (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
             #let them do both
             options_hash['user'] = { :name => user_name,
                                      :role => 'chatter' }
