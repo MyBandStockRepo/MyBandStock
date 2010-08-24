@@ -85,12 +85,21 @@ function accessScheduleJsonCallback(data) {
     redeemCodeSection
   ).append(title);
 
+  var table = jQuery(document.createElement('table'));
+  table.addClass('access-schedule-list');
+
   jQuery.each(data.serieses, function(seriesIndex, series) { // for each series
     var seriesTitle = jQuery(document.createElement('h2')).addClass('series-name');
     seriesTitle.html(series.series_title);
+    
+    table.append(
+      jQuery('<tr class="mbs-series-title"></tr>').append(
+        jQuery('<td colspan="3"></td>').append(
+          seriesTitle
+        )
+      )
+    );
 
-    var table = jQuery(document.createElement('table'));
-    table.addClass('access-schedule-list');
     jQuery.each(series.streams, function(streamIndex, stream) {  // for each stream
       if (stream) {
         table.append(
@@ -117,10 +126,11 @@ function accessScheduleJsonCallback(data) {
         );
       }
     });
-    jQuery('#mbs-access-schedule-container').append(seriesTitle).append(table).append(
-      jQuery('<a id="mbs-powered-by" href="'+ mbsDomain +'" title="mybandstock.com"> </a>')
-    );
   });
+  // Add "Powered by"
+  jQuery('#mbs-access-schedule-container').append(table).append(
+    jQuery('<a id="mbs-powered-by" href="'+ mbsDomain +'" title="mybandstock.com"> </a>')
+  );
   applyFbListeners();
   applyShareCodeListener();
 }
