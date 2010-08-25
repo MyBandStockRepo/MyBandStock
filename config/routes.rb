@@ -324,6 +324,7 @@ Cobain::Application.routes.draw do |map|
   map.faq 'faq', :controller => 'statics', :action => 'faq'
   map.about 'about', :controller => 'statics', :action => 'about'
   match 'status_404', :to => 'statics#status_404', :as => 'status_404'
+  match 'broadcast_faq', :to => 'statics#broadcast_faq'
 
   # Install the default routes as the lowest priority.
   match ':controller(/:action)'

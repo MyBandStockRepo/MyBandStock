@@ -7,7 +7,7 @@
       = @stream.title
       %span.grey99
         Broadcast
-    = @stream.starts_at.strftime("%a, %B %d, %Y at %I:%M%p ET")
+    = output_datetime(@stream.starts_at)
     .embed-container
       -unless flash[:error]
         %embed{:id => 'broadcast-embed', :height=>"#{ @theme.height }", :width=>"#{ @theme.width }", :class => 'streamapi-embed', :wmode=>"", :type=>"application/x-shockwave-flash", :bgcolor=>"#000000", :quality=>"high", :scale=>"noscale", :allowfullscreen=>"true", :allowscriptaccess=>"always", :flashvars=>"siteID=1000008664&layoutPath=#{ @theme.layout_path }&skinPath=#{ @theme.skin_path }&autoRecord=true&publicHostID=#{ @stream.public_hostid }&privateHostID=#{ @stream.private_hostid }&userType=host", :src=>"http://static.streamapi.com/flash/loader.swf?app=custom.swf"}
@@ -25,6 +25,11 @@
 
   .video_right
     .broadcast_faq_box
+      = render :partial => 'broadcast_faq'
+    
+    
+    
+    -#
       %h2 
         Troubleshooting
         %span.grey99 FAQ
