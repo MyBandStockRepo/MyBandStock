@@ -1,5 +1,6 @@
 require 'net/http'
 require "rexml/document"
+require 'digest/md5'
 include REXML
 
 class Band < ActiveRecord::Base
@@ -29,7 +30,7 @@ class Band < ActiveRecord::Base
 #  has_many :band_mails
   #has_many :received_mail, :through => 'band_mail', :source => 'BandMail', :conditions => 'from_band = 0'
   
-  validates_presence_of :name, :country_id, :zipcode, :city, :short_name
+  validates_presence_of :name, :country_id, :zipcode, :city, :short_name, :secret_token
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_numericality_of :zipcode, :country_id
   validates_uniqueness_of :short_name
@@ -41,13 +42,15 @@ class Band < ActiveRecord::Base
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
+  before_validation(:on => :create) do generate_secret_token() end
+  
 
-  def status_feed(num_items = 7)
+  def status_feed(num_items = 7, text_length_limit = 200)
   # This function returns an array of recent social statuses for the band instance.
   # On failure or no statuses, nil is returned.
   # Currently, the only source queried is Twitter, but this method will be a central point for all social feeds.
   #
-  # TODO: Set a timeout on the HTTP request, and return a special value on timeout. Then the view will tell javascript to
+  # TODO: Set a timeout on the HTTP requests, and return a special value on timeout. Then the view will tell javascript to
   #   make the request client-side.
   #
     twitter_username = (self.twitter_user) ? self.twitter_user.name : self.twitter_username
@@ -63,15 +66,29 @@ class Band < ActiveRecord::Base
     xml_doc = Document.new(response.body)
     
     statuses = Array.new
+    # Loop through each XML element, adding them to the statuses array
     xml_doc.root.each_element_with_text{ |status|
-      posted_at = status.elements['created_at'].text
-      posted_at_timezone = /\+\d{4}/.match(posted_at).to_s
+    
+       # Truncate text to the specified limit
+      body =  if text_length_limit
+                status.elements['text'].text[0..text_length_limit] + '...'
+              else
+                status.elements['text'].text
+              end
+      status_id = status.elements['id'].text
+       # We make a hash of band ID + status ID + band secret token.
+       # This is then used to make sure the user doesn't try tweeting somebody else other than the band.
+      hash_identifier = Digest::MD5.hexdigest(self.id.to_s + status_id.to_s + self.secret_token.to_s)
       statuses << {
                     :source =>  'Twitter',
-                    :body =>  status.elements['text'].text,
+                    :status_id => status_id,
+                    :body =>  body,
                     :username =>  twitter_username,
-                    :posted_at => status.elements['created_at'].text  # DateTime.strptime(status.elements[:created_at].text, "%a %b %d %H:%M:%S ")
+                    :posted_at => status.elements['created_at'].text,
+                    :hash_identifier => hash_identifier
                   }
+      
+
     }
     statuses[0..(num_items-1)]  # Return truncated array
   end
@@ -356,5 +373,16 @@ class Band < ActiveRecord::Base
   def admin_association
     return self.association.find_by_name(self.short_name + "_admin")
   end
+  
+protected
+
+  
+  def generate_secret_token()
+    puts 'Generate secret token'
+    self.secret_token = Digest::MD5.hexdigest(SecureRandom.random_bytes(4))
+    return true
+  end
+
 
 end
+

@@ -240,7 +240,11 @@ class TwitterApiController < ApplicationController
 					           tweetclient.status(params[:tweet_id]).text
 					         end
 					if @band && @tweeter
-						if use_latest_status || (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id)
+						if  (
+						      use_latest_status ||
+  						    (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id) ||
+	  					    does_tweet_belong_to_band(params[:hash_identifier], @band)
+	  					  )
 							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
 							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
@@ -268,7 +272,7 @@ class TwitterApiController < ApplicationController
 					end		
 				else
 					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
-						error = true
+					error = true
 				end
 			else
 				error = true
@@ -437,7 +441,7 @@ class TwitterApiController < ApplicationController
   end
 
   def mentions
-		begin		
+		begin
 			params[:page] ||= 1
 			@mentions = client.replies(:page => params[:page])
 		rescue
@@ -494,7 +498,7 @@ class TwitterApiController < ApplicationController
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to session[:last_clean_url]
-			return false			
+			return false
 		end								
   end
 
@@ -508,7 +512,7 @@ class TwitterApiController < ApplicationController
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to session[:last_clean_url]
 			return false			
-		end					
+		end
 			
   end
 
@@ -526,6 +530,21 @@ class TwitterApiController < ApplicationController
 
   
   private
+  
+  
+  def does_tweet_belong_to_band(hash, tweet_id, band)
+  # We need to make sure that the tweet that the user is retweeting was actually posted by the given band.
+  # So that way Nefarious Ned couldn't just retweet his own status, for example, and gain shares in one of our bands.
+  # When the Retweet link was generated, it was also given a hash token, which is
+  #   md5(band_id + tweet_id + band_secret_token)
+  #
+    if hash.blank? || tweet_id.blank? || band.blank?
+      return false
+    end
+    return true
+    #band.id.to_s + tweet_id.to_s band.secret_token.to_s
+  end
+  
   
   def generate_endtag(screen_name = nil, long_url = nil)
 		endtag_str = ''
