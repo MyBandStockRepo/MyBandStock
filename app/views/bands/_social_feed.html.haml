@@ -22,7 +22,7 @@
             .share_lightboard
               = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
             .sharelink
-              - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :tweet_id => status[:status_id], :lightbox => true, :from_band_profile => band_url(band.id) }
+              - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :tweet_id => status[:status_id], :hash_identifier => status[:hash_identifier], :lightbox => true, :from_band_profile => band_url(band.id) }
               = link_to( 'Retweet', rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
               for shares!
           .clear

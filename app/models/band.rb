@@ -378,7 +378,8 @@ protected
 
   
   def generate_secret_token()
-    puts 'Generate secret token'
+  # Set secret_token to be 40 randomish characters.
+  #
     self.secret_token = Digest::MD5.hexdigest(SecureRandom.random_bytes(4))
     return true
   end
