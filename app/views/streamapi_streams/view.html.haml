@@ -33,15 +33,13 @@
           = NUM_SHARES_AWARDED_FOR_RT
           shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
+    -if @theme.has_guest_cam == true
+      = link_to 'Camera not working? Check out the FAQ', { :controller => 'statics', :action => 'broadcast_faq'} , :target => '_blank'
   .clear
   .lightbox_welcome
     = render :partial => 'welcome_message', :locals => { :user => @user, :band => @stream.band }
 
 :javascript
   startPinger( '#{ @stream.id }', '#{ @viewer_key }' );
-
--# __commented__
-  %h2
-    = @stream.title + ' - ' + @stream.starts_at.strftime("%m/%d/%Y")
 
 

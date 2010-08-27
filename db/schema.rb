@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100824175207) do
+ActiveRecord::Schema.define(:version => 20100825170256) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20100824175207) do
     t.string   "twitter_username"
     t.string   "grooveshark_widget_id"
     t.boolean  "commerce_allowed",      :default => false,    :null => false
+    t.string   "secret_token"
   end
 
   create_table "countries", :force => true do |t|
@@ -203,6 +204,8 @@ ActiveRecord::Schema.define(:version => 20100824175207) do
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "last_rank"
+    t.integer  "current_rank"
   end
 
   create_table "short_urls", :force => true do |t|
@@ -225,14 +228,15 @@ ActiveRecord::Schema.define(:version => 20100824175207) do
   end
 
   create_table "streamapi_stream_themes", :force => true do |t|
-    t.string   "name",        :null => false
-    t.string   "layout_path", :null => false
-    t.string   "skin_path",   :null => false
-    t.integer  "width",       :null => false
-    t.integer  "height",      :null => false
+    t.string   "name",                             :null => false
+    t.string   "layout_path",                      :null => false
+    t.string   "skin_path",                        :null => false
+    t.integer  "width",                            :null => false
+    t.integer  "height",                           :null => false
     t.string   "quality"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_guest_cam", :default => false
   end
 
   create_table "streamapi_stream_viewer_statuses", :force => true do |t|
