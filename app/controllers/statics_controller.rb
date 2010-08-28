@@ -31,6 +31,10 @@ class StaticsController < ApplicationController
     render :action => 'faq'
   end
   
+  def support
+    
+  end
+  
   def robots_txt
     render :file => 'public/shorturl_robots.txt', :layout => false and return
   end
