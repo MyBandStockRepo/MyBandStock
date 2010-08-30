@@ -5,7 +5,8 @@
     .loggedin_leftborder
     #logged_info
       #user_email
-        = user.email
+        =link_to user.email, user_path(:id => user.id)
+
       = link_to '', me_account_path(:id => user.id), :class => 'account'
     = link_to '', logout_path, :class => 'logout'
   -if user.site_admin

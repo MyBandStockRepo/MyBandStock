@@ -354,7 +354,8 @@ div#slides ul li.show {z-index:500}
 	.loggedin_leftborder{width:1px;height:29px;background-image:url(/images/header/loggedin_leftborder.png);float:left;}
 	#logged_info{color:#333333;margin-left:19px;margin-right:20px;float:left;}
 		#logged_info #user_email{color:#333333;float:left; cursor: default; }
-		/* #logged_info a:hover{color:#FFFFFF;} */
+		#logged_info #user_email a{color:#333333;float:left; text-decoration:none; }
+		#logged_info #user_email a:hover{color:#FFFFFF;}
 
 .logout {display:block;width:82px;height:29px;background-image:url(/images/header/logout.png);float:left;}
 	.logout:hover {background-position:0px -29px;}
