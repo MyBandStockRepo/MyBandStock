@@ -908,3 +908,22 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	.buy_bandname a{display:block;width:383px;height:59px;font-size:15px;font-family:TitilliumText14L800wt;text-transform:uppercase;color:#FFFFFF;text-decoration:none;line-height:55px;}
 		.buy_bandname a:hover{color:#25201c;text-shadow: 0px 0px 6px #df6d09;}
 .leaderboard .top_ten_message {float:left;font-size:12px;color:#ff6600;margin:10px;text-align:center;text-transform:none;}
+
+/* USER PROFILE */
+.left_side_user_profile{float:left;width:450px;}
+.right_side_user_profile{float:right;width:350px;margin-left:120px;}
+
+.invested_bands {font-size:16px;line-height:20px;background-color:#141414;padding:0px 0px 20px 0px;}
+.invested_bands td{padding:5px 10px 0px 10px;}
+.invested_bands th{padding:10px;background-color:999999;color:white;}
+.invested_bands .share_total{text-align:right;width:85px;}
+.invested_bands .share_rank{text-align:center;width:85px;}
+.invested_bands .band_name{width:220px;color:white;}
+.invested_bands .movement{float:right;}
+.invested_bands .movement .down_movement {margin-top:2px;}
+.invested_bands .movement .up_movement {margin-top:0px;}
+.invested_bands .band_name_header{margin-left:10px;display:inline;}
+.invested_bands .shares_header{margin-left:195px;display:inline;}
+.invested_bands .rank_header{margin-left:45px;display:inline;}
+
+.badges_earned {font-size:16px;line-height:20px;background-color:#141414;padding:0px 0px 20px 0px;}

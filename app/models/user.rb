@@ -55,6 +55,27 @@ class User < ActiveRecord::Base
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
+  def share_totals
+    ShareTotal.where(:user_id => self.id).all
+  end
+
+  # -1 for downward movement, 0 for stable, 1 for upward movement, nil for not a shareholder
+  def rank_in_band_movement(band_id)
+    share_total = ShareTotal.where(:user_id => self.id, :band_id => band_id).first
+    if share_total.blank?
+      return nil
+    end
+    
+    #moved down
+    if share_total.last_rank < share_total.current_rank
+      return -1
+    #moved up
+    elsif share_total.last_rank > share_total.current_rank
+      return 1
+    else
+      return 0
+    end    
+  end
 
   def shareholder_rank_for_band(band_id)
   # Takes a band ID, and return's the user object's rank. or false
