@@ -1,0 +1,41 @@
+.socialshare
+  .socialshare_title
+    %p Share for Stock!
+  -if !recent_statuses.blank?
+    -if currently_tweeting
+      :javascript
+        currentlyTweeting = true;
+    %ul.statuses_wrap
+      -recent_statuses.each do |status|
+        %li.share_post
+          %span.share_date
+            -# status[:posted_at].strftime("%l:%M %p | %b #{status[:posted_at].strftime("%e").to_i.ordinalize} | ")
+            = time_ago_in_words status[:posted_at]
+            ago via
+            = status[:source]
+          .share_text
+            .share_avatar
+            %span
+              = status[:username]
+            = status[:body]
+          .reshare
+            .share_lightboard
+              = lightboard_text NUM_SHARES_AWARDED_FOR_RT, :digits => 3, :size => 'small'
+            .sharelink
+              - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :tweet_id => status[:status_id], :hash_identifier => status[:hash_identifier], :lightbox => true, :from_band_profile => band_url(band.id) }
+              = link_to( 'Retweet', rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
+              for shares!
+          .clear
+      
+    .share_viewmore
+      .socialshare_prev 
+      view more
+      .socialshare_next 
+  -else # No Twitter username
+    .social_feed_message
+      This artist doesn't have any recent status posts.
+
+
+
+-# = render :partial => 'twitter_statuses_widget', :locals => { :user => twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 225 }
+

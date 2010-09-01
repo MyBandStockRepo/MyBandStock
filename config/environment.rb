@@ -12,7 +12,7 @@ Cobain::Application.initialize!
 # Share dispersal
 #
   SHARE_LIMIT_LIFETIME        = 1.day
-  NUM_SHARES_PER_BAND_PER_DAY = 100
+  NUM_SHARES_PER_BAND_PER_DAY = 1000
   MINIMUM_SHARE_PURCHASE      = 5       # Minimum number of shares per purchase.
   MBS_SHARE_PRICE             = 15      # cents; This is the price per share, in cents, of stock on the site.
                                         # @band.share_price() returns this if it is set.
