@@ -11,7 +11,7 @@
     - for sharetotal in @user_share_totals
       %tr
         %td.band_name
-          = sharetotal.band.name
+          = link_to sharetotal.band.name, band_path(:id => sharetotal.band.id)
         %td.share_total
           = sharetotal.net
         %td.share_rank
