@@ -205,7 +205,14 @@
                   = f.label :commerce_allowed, 'Stock available'
                 .fieldnamebottom
               .fieldbox
-                = f.select :commerce_allowed, [['No', 'f'], ['Yes', 't']], :selected => (@band.commerce_allowed ? 't' : 'f')
+                =# f.select :commerce_allowed, [['No', 'f'], ['Yes', 't']], :selected => (@band.commerce_allowed ? 't' : 'f')
+                %select{:name => "band[commerce_allowed]"}
+                  - if @band.nil? || @band.commerce_allowed.nil? || @band.commerce_allowed == false
+                    %option{:value => "1"}Yes
+                    %option{:selected => true} No
+                  - else
+                    %option{:value => "1", :selected => true}Yes
+                    %option No
 
             .description
               Do you want users to be able to buy stock in this artist?
