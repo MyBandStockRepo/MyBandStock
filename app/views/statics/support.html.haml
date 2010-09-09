@@ -1,0 +1,22 @@
+.maincont
+  :javascript
+    // Olark:
+    (function(){document.write(unescape('%3Cscript src=%27' + (document.location.protocol == 'https:' ? "https:" : "http:") + '//static.olark.com/js/wc.js%27 type=%27text/javascript%27%3E%3C/script%3E'));})();
+    jQuery(
+      function() {jQuery("#faq_accordion").accordion({collapsible: true, autoHeight: false});}
+    );
+  .broadcast_faq_box
+    = render :partial => 'streamapi_streams/viewer_broadcast_faq'
+
+
+%h2 
+  Live
+  %span.grey99 Help
+
+
+#olark-data
+  %a{ :class => "olark-key", :id => "olark-7274-436-10-4477", :title => "Powered by Olark", :href => "http://olark.com/about", :rel => "nofollow"}
+    Powered by Olark
+  :javascript
+    wc_init();  // Olark
+
