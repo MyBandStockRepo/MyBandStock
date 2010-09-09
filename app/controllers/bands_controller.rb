@@ -75,7 +75,7 @@ class BandsController < ApplicationController
 		@request_uri = url_for()
 		@body_id = 'band_stage'
 		@user = User.where(:id => session[:user_id]).first
-    @can_broadcast = ( session[:user_id] && @user && user.can_broadcast_for(@band.id) )
+    @can_broadcast = ( session[:user_id] && @user && @user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
     @user_rank = (@user) ? @user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).count + 1)
     @twitter_username = if !@band.twitter_username.blank?
