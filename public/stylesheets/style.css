@@ -908,3 +908,16 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	.buy_bandname a{display:block;width:383px;height:59px;font-size:15px;font-family:TitilliumText14L800wt;text-transform:uppercase;color:#FFFFFF;text-decoration:none;line-height:55px;}
 		.buy_bandname a:hover{color:#25201c;text-shadow: 0px 0px 6px #df6d09;}
 .leaderboard .top_ten_message {float:left;font-size:12px;color:#ff6600;margin:10px;text-align:center;text-transform:none;}
+
+.videobox{width:383px;height:200px;background-image:url(images/stage/videobox.png);margin-top:20px;}
+.nextstream{float:left;width:106px;height:11px;background-image:url(images/stage/nextstream.png);margin-top:14px;margin-left:48px;}
+.streamdate{float:left;margin-left:10px;width:60px;height:20px;text-align:center;font-family:TitilliumText14L999wt;color:#a89588;font-size:18px;text-transform:uppercase;margin-top:8px;}
+.ampm{float:left;width:18px;font-family:TitilliumText14L999wt;color:#a89588;font-size:10px;text-transform:uppercase;margin-top:11px;}
+.watchbox{clear:both;padding-left:30px;padding-top:75px;padding-bottom:37px;}
+.watchstream{display:block;width:325px;height:32px;background-image:url(images/stage/watchstream.png);}
+.viewpaststream{margin-left:76px;display:block;height:16px;font-family:TitilliumText14L800wt;color:#736257;font-size:14px;text-transform:uppercase;background-image:url(images/stage/viewpasticon.png);background-repeat:no-repeat;padding-left:20px;text-decoration:none;}
+.viewpaststream:hover{background-position:0px -16px;color:#FFFFFF;}
+.videonotice{padding:20px;background-image:url(images/stage/tranny_bg.png);font-family:TitilliumText14L800wt;color:#736257;font-size:14px;}
+.videonotice p{text-transform:uppercase;margin-bottom:0px;}
+.videonotice span{color:#a89588;}
+

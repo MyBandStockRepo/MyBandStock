@@ -1,0 +1,20 @@
+.videobox
+  .nextstream
+  .streamdate
+    Aug
+  .streamdate
+    25
+  .streamdate
+    12:30
+  .ampm
+    pm
+  .watchbox
+    %a.watchstream{  :href =>"#" }
+    %a.viewpaststream{  :href =>"#" } view past streams
+.videonotice
+  %span
+    -if user
+      = user.display_name + ", you haven't earned video access... yet."
+    -else
+      Log in or register to get video access.
+  %p Gain access to LIVE video chats with Daft Punk by EARNING STOCK!
