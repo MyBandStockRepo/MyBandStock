@@ -1,0 +1,20 @@
+- @user_share_totals = user.share_totals
+.invested_bands
+  .orange_bar
+    .band_name_header
+      Band Name
+    .shares_header
+      Shares
+    .rank_header
+      Rank
+  %table
+    - for sharetotal in @user_share_totals
+      %tr
+        %td.band_name
+          = link_to sharetotal.band.name, band_path(:id => sharetotal.band.id)
+        %td.share_total
+          = sharetotal.net
+        %td.share_rank
+          = user.shareholder_rank_for_band(sharetotal.band.id)
+          .movement
+            = user_movement(user.rank_in_band_movement(sharetotal.band.id))

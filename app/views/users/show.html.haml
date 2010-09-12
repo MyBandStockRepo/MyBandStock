@@ -1,29 +1,20 @@
-#content-utility.control-panel
-  #utility-overview
-    #overview-primary
-      %h2< 
-        =@user.full_name
-        %br
-      .stats
-        %dl#fan
-          %dt Join Date:
-          %dd<
-            =@user.created_at.strftime("%m/%d/%Y")
-        =#link_to image_tag("/images/buttons/global/btn-invitecta.png", :alt => "Invite a Friend", :width => "302", :height => "74"), '',:class => "call-to-action"
-    #overview-secondary
-
-  %ul.utility-nav
-    =render :partial => 'users/profile_tabs', :locals => {:user => @user}
-#content-primary
-  .profile-column-wide
-    #bio.widget-box
-      %h2 About Me
-      %dl.location
-        %dt Location:
-        %dd<
-          =@user.location_zoom_city
-  
-      %h3 Profile
-      .profile
-        -# =@user.bio
-    
+.maincont
+  %h3
+    =@user.full_name
+  %p.grey99
+    User since
+    =@user.created_at.strftime("%B, %Y")
+  %p
+    =@user.location_zoom_city
+  %br
+  %br
+  .clear
+  .left_side_user_profile
+    %h2 Invested Bands
+    %br
+    =render :partial => 'invested_bands_list', :locals => {:user => @user}  
+  .right_side_user_profile
+    %h2 Badges Earned
+    %br
+    =render :partial => 'badges_earned', :locals => {:user => @user}  
+  .clear

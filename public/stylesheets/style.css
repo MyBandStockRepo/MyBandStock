@@ -354,7 +354,8 @@ div#slides ul li.show {z-index:500}
 	.loggedin_leftborder{width:1px;height:29px;background-image:url(/images/header/loggedin_leftborder.png);float:left;}
 	#logged_info{color:#333333;margin-left:19px;margin-right:20px;float:left;}
 		#logged_info #user_email{color:#333333;float:left; cursor: default; }
-		/* #logged_info a:hover{color:#FFFFFF;} */
+		#logged_info #user_email a{color:#333333;float:left; text-decoration:none; }
+		#logged_info #user_email a:hover{color:#FFFFFF;}
 
 .logout {display:block;width:82px;height:29px;background-image:url(/images/header/logout.png);float:left;}
 	.logout:hover {background-position:0px -29px;}
@@ -921,3 +922,22 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .videonotice p{text-transform:uppercase;margin-bottom:0px;}
 .videonotice span{color:#a89588;}
 
+
+/* USER PROFILE */
+.left_side_user_profile{float:left;width:450px;}
+.right_side_user_profile{float:right;width:350px;margin-left:120px;}
+
+.invested_bands {font-size:16px;line-height:20px;background-color:#141414;padding:0px 0px 20px 0px;}
+.invested_bands td{padding:5px 10px 0px 10px;}
+.invested_bands th{padding:10px;background-color:999999;color:white;}
+.invested_bands .share_total{text-align:right;width:85px;}
+.invested_bands .share_rank{text-align:center;width:85px;}
+.invested_bands .band_name{width:220px;color:white;}
+.invested_bands .movement{float:right;}
+.invested_bands .movement .down_movement {margin-top:2px;}
+.invested_bands .movement .up_movement {margin-top:0px;}
+.invested_bands .band_name_header{margin-left:10px;display:inline;}
+.invested_bands .shares_header{margin-left:195px;display:inline;}
+.invested_bands .rank_header{margin-left:45px;display:inline;}
+
+.badges_earned {font-size:16px;line-height:20px;background-color:#141414;padding:0px 0px 20px 0px;}

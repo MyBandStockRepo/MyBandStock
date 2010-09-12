@@ -1,3 +1,5 @@
+= stylesheet_link_tag 'band_stage_specific'
+
 .stageheader
   .stagename
     = @band.name
@@ -23,9 +25,14 @@
 
   = render :partial => 'video_box', :locals => { :user => @user }
 
+
+  .stream_info
+    = render :partial => 'bands/next_stream', :locals => { :band => @band }
+
+
 .stagepadding
 
-
+  
 
 
 

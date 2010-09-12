@@ -59,8 +59,7 @@
         -if false && current_user.display_location
           %span.shareholder_aside
             = "from #{ current_user.display_location }"
-      - share_total_row = current_user.share_totals.where(:band_id => band.id).first
-      - num_shares = (share_total_row) ? share_total_row.net : 0
+      - num_shares = 0
       = lightboard_text num_shares, :digits => 4, :size => 'small'
 
 

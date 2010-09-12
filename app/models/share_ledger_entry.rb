@@ -35,7 +35,7 @@ private
     logger.info 'SUCCESS? '+success.to_s
 
     #commented out because not fully tested yet
-   # share_total.update_user_ranks
+    share_total.update_user_ranks
 
     
     return success

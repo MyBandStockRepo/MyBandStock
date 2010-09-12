@@ -2,6 +2,17 @@
 module ApplicationHelper
 	include Twitter::Autolink
 
+  def user_movement(movement_val)
+    # -1 displays down arrow, 1 displays up arrow, otherwise, sideways arrow
+    if movement_val == -1
+      image_tag 'user_profile/down_movement.png', :class => 'down_movement'
+    elsif movement_val == 1
+      image_tag 'user_profile/up_movement.png', :class => 'up_movement'
+    else
+      image_tag 'user_profile/no_movement.png', :class => 'no_movement'
+    end
+  end
+
 
   def lightboard_text(text, options = {})
   # Returns the raw HTML that displays the given number as lightboard-illuminated text.
