@@ -23,11 +23,8 @@
         Buy Stock in
         = @band.name
 
-  = render :partial => 'video_box', :locals => { :user => @user }
-
-
-  .stream_info
-    = render :partial => 'bands/next_stream', :locals => { :band => @band }
+  -# = render :partial => 'video_box', :locals => { :user => @user }
+  = render :partial => 'bands/next_stream', :locals => { :band => @band, :user => @user }
 
 
 .stagepadding

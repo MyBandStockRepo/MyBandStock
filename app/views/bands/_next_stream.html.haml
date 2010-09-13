@@ -54,43 +54,73 @@
 
 - @next_stream = @band.next_stream
 - @current_broadcasts = @band.current_broadcast_streams
-.next_stream_widget
-  .header
-    %h2 
-      live 
-      %span.grey99 video stream
-  #time_block
-    .stream_time
-      %p.grey99 next stream starts: 
-      %h2#next_stream_time
-        -if @current_broadcasts.nil? || @current_broadcasts.count == 0
-          -if @next_stream.nil?   
-            TBA
-          -else
-            -if @next_stream.currently_live == true
-              Stream currently being broadcast!
+
+.videobox{ :class => (@current_broadcasts.empty?) ? 'offline' : 'online' }
+  .nextstream
+  .streamdate
+    = (@next_stream) ? @next_stream.starts_at.strftime('%b') : '-'
+  .streamdate
+    = (@next_stream) ? @next_stream.starts_at.strftime('%d') : '-'
+  .streamdate
+    = (@next_stream) ? @next_stream.starts_at.strftime('%I:%M') : '-'
+  .ampm
+    = (@next_stream) ? @next_stream.starts_at.strftime('%p').downcase : ''
+  .watchbox
+    %a.watchstream{ :href => "#" }
+  %a.viewpaststream{ :href => "#" } view past streams
+.videonotice
+  %span
+    -if user
+      -unless user.can_view_series(@next_stream.live_stream_series_id)
+        = user.display_name + ", you haven't earned video access yet."
+    -else
+      Log in or register to get video access.
+  %p
+    Gain access to LIVE video chats with
+    = @band.name
+    by EARNING STOCK!
+
+
+-# __commented__
+  - @next_stream = @band.next_stream
+  - @current_broadcasts = @band.current_broadcast_streams
+  .next_stream_widget
+    .header
+      %h2 
+        live 
+        %span.grey99 video stream
+    #time_block
+      .stream_time
+        %p.grey99 next stream starts: 
+        %h2#next_stream_time
+          -if @current_broadcasts.nil? || @current_broadcasts.count == 0
+            -if @next_stream.nil?   
+              TBA
             -else
-              = output_datetime(@next_stream.starts_at)
+              -if @next_stream.currently_live == true
+                Stream currently being broadcast!
+              -else
+                = output_datetime(@next_stream.starts_at)
+          -else
+            Stream currently being broadcast!              
+      .online_status
+        - if @current_broadcasts.nil? || @current_broadcasts.count == 0
+          -if @next_stream && @next_stream.currently_live == true
+            %p.online STREAM IN PROGRESS
+            %h2.join_now
+              = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @next_stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
+          
+          -else
+            %p.offline CAMERA OFFLINE
         -else
-          Stream currently being broadcast!              
-    .online_status
-      - if @current_broadcasts.nil? || @current_broadcasts.count == 0
-        -if @next_stream && @next_stream.currently_live == true
           %p.online STREAM IN PROGRESS
           %h2.join_now
-            = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @next_stream.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
-        
-        -else
-          %p.offline CAMERA OFFLINE
-      -else
-        %p.online STREAM IN PROGRESS
-        %h2.join_now
-          = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @current_broadcasts.first.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
-        
-  .clear      
-  .schedule
-    %a{:href => "#", :id => "show_schedule_link", :onClick => "showSchedule()"}Show Full Stream Schedule
-    %a{:href => "#", :id => "hide_schedule_link", :onClick => "hideSchedule()", :style => "display:none;"}Hide Stream Schedule
-    
-    #live_stream_schedule{:style => "display:none;"}
-      = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
+            = link_to 'View Now!', { :controller => 'streamapi_streams', :action => 'view', :id => @current_broadcasts.first.id, :lightbox => true }, :class => 'lightbox stream-title', :fbheight => 480, :fbwidth => 880
+          
+    .clear      
+    .schedule
+      %a{:href => "#", :id => "show_schedule_link", :onClick => "showSchedule()"}Show Full Stream Schedule
+      %a{:href => "#", :id => "hide_schedule_link", :onClick => "hideSchedule()", :style => "display:none;"}Hide Stream Schedule
+      
+      #live_stream_schedule{:style => "display:none;"}
+        = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
