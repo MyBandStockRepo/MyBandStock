@@ -30,7 +30,7 @@ class BandsController < ApplicationController
       redirect_to status_404_path(:requested_page => params[:band_short_name]) and return
     end
 		@request_uri            = url_for()
-		@show_welcome_message   = ( came_from_band_site(@band) && cookies[:supress_welcome_header].blank? )
+		@show_welcome_message   = ( came_from_band_site(@band) && cookies[:supress_welcome_popup].blank? )
     @can_broadcast          = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
     @top_ten                = @band.top_ten_shareholders
     @user_rank              = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).where('net > 0').count + 1)
