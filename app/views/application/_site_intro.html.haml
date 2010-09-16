@@ -3,8 +3,7 @@
     Video chat with
     = band.name + '!'
   
-  .welcome-message-band-photo
-    = image_tag band.band_photo
+  = image_tag band.band_photo, :class => 'welcome-message-band-photo'
 
   %p
     %span.welcome-message-band-name.welcome-message-highlight

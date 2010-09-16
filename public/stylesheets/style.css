@@ -727,7 +727,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
   }
   .welcome-message-band-photo {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 10px;
     border: 1px solid #333;
   }
 /*/Welcome message modal */
