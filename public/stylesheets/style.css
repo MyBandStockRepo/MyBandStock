@@ -887,8 +887,17 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .highlight .leadname {
   color: #FFF;
 }
-.stageright{width:383px;float:left;margin-top:23px;}
+.stageright{width:383px;float:left;}
 .buystock{width:383px;height:110px;background-image:url(/images/stage/buystock.png);}
+.share-code-link {
+  display: block;
+  color: #A89588;
+  height: 23px;
+  padding-right: 19px;
+  text-align: right;
+  font-family: TitilliumText14L800wt;
+  font-size: 16px;
+}
 .sharesleft{height:51px;}
 	.shareslefttext {margin:0px;margin-left:55px;text-align:right;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;padding-top:10px;float:left;color:#9f8d81;}
 	.big_lightboard {float:right;margin-right:55px;margin-top:6px;}

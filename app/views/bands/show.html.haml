@@ -10,6 +10,7 @@
   = render :partial => 'leaderboard', :locals => { :band => @band, :top_ten => @top_ten, :user_rank => @user_rank }
 
 .stageright
+  = link_to 'Enter share code', redeem_code_url(:lightbox => true), :class => 'share-code-link lightbox'
   .buystock
     .sharesleft
       .shareslefttext
@@ -23,16 +24,10 @@
         Buy Stock in
         = @band.name
 
-  -# = render :partial => 'video_box', :locals => { :user => @user }
   = render :partial => 'bands/next_stream', :locals => { :band => @band, :user => @user }
 
 
 .stagepadding
-
-  
-
-
-
 
 
 -# __commented__
