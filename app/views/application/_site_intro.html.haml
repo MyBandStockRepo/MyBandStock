@@ -1,0 +1,30 @@
+#welcome-message-container
+  %h1.welcome-message-title
+    Video chat with
+    = band.name + '!'
+  
+  .welcome-message-band-photo
+    = image_tag band.band_photo
+
+  %p
+    %span.welcome-message-band-name.welcome-message-highlight
+      = band.name
+    has teamed with MyBandStock to offer private video chat sessions
+    with their biggest fans!
+
+  %p
+    Every time you re-tweet
+    %span.welcome-message-band-name.welcome-message-highlight
+      = band.name
+    or buy merchandise (at a show or online), you will be rewarded with&nbsp;
+    %span.welcome-message-highlight{ :title => '' }><
+      BandStock
+    \.
+
+  %p
+    Being a stockholder unlocks live updates, and the fans with the most BandStock will
+    get their own private video chat session with&nbsp;
+    %span.welcome-message-band-name.welcome-message-highlight><
+      = band.name
+    %span>< !
+
