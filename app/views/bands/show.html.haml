@@ -16,7 +16,6 @@
     #manage-band
       You are a manager for this band.
       = link_to_unless_current 'Edit band account', edit_band_path(:id => @band.id)
-  
 
 #profile-right-column
 
@@ -63,9 +62,25 @@
 
   = render :partial => 'share_codes/redeem_widget'
 
+-if @show_welcome_message
+  %div{ :style => "display:none" }
+    = render :partial => 'application/site_intro', :locals => { :band => @band }
+
+
 -# Attach accordion listeners to the series list
 = javascript_include_tag 'series_list_accordion'
 
+:javascript
+  // Open the new user welcome lightbox if necessary
+  if ( #{ @show_welcome_message ? true : false } ) {
+    if (typeof(openWelcomeLightbox) == 'function') {
+      jQuery(function() {
+        // Open on page load
+        openWelcomeLightbox();
+      });
+    }
+  }
+ 
 -# __commented__
   #remote-page-test
     %br

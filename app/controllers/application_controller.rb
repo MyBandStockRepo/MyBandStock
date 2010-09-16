@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 #	rescue_from Twitter::Unauthorized, :with => :login	
 	
 	include SslRequirement
+	require 'uri'
   
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
@@ -134,6 +135,23 @@ class ApplicationController < ActionController::Base
   protected
   ##########
   
+  def came_from_band_site(band)
+  # Returns true if the user looks like he came from the given band's site. Returns false if not, and nil if
+  # bad params given. Checks if the referring host matches the band's access_schedule_url, short_name, or name.
+  #
+    return nil if band.nil?
+    
+    referer_domain  = URI.parse(request.referer).host  # Get 'www.google.com' from 'http://www.google.com'
+    band_domain     = URI.parse(band.access_schedule_url).host
+
+    match_location =
+      referer_domain =~ /(#{band_domain}|#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
+    logger.info "Referer: [#{referer_domain}]"
+    
+    # Convert to bool and return
+    !!match_location
+  end
+
   def ssl_required?
     # (Comment this one line out if you want to test ssl locally)
     return false if local_request? 

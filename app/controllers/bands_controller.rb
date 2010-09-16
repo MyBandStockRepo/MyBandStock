@@ -29,17 +29,18 @@ class BandsController < ApplicationController
       # So we redirect to 404
       redirect_to status_404_path(:requested_page => params[:band_short_name]) and return
     end
-		@request_uri = url_for()
-    @can_broadcast = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
-    @top_ten = @band.top_ten_shareholders
-    @user_rank = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).where('net > 0').count + 1)
-    @twitter_username = if @band.twitter_username && @band.twitter_username != ''
-                          @band.twitter_username
-                        elsif @band.twitter_user && @band.twitter_user.user_name
-                          @band.twitter_user.user_name
-                        else
-                          nil
-                        end
+		@request_uri            = url_for()
+		@show_welcome_message   = ( came_from_band_site(@band) && cookies[:supress_welcome_header].blank? )
+    @can_broadcast          = ( session[:user_id] && (user = User.find(session[:user_id])) && user.can_broadcast_for(@band.id) )
+    @top_ten                = @band.top_ten_shareholders
+    @user_rank              = (user) ? user.shareholder_rank_for_band(id) : (ShareTotal.where(:band_id => id).where('net > 0').count + 1)
+    @twitter_username       = if @band.twitter_username && @band.twitter_username != ''
+                                @band.twitter_username
+                              elsif @band.twitter_user && @band.twitter_user.user_name
+                                @band.twitter_user.user_name
+                              else
+                                nil
+                              end
     # Twitter authentication can redirect to this band show page. If the user just authorized with Twitter,
     #   We shall notify the view to pop open the retweet lightbox because the user is currently in the process of retweeting.
     if session[:user_just_authorized_with_twitter]

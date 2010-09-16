@@ -711,7 +711,26 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .auth_user_text{float:left;font-size:12px;margin-left:10px;}
 
 
-
+/* Welcome message modal */
+  #welcome-message-container {
+    background-color: #191919;
+    padding: 0 10px 20px;
+    max-width: 936px;
+  }
+    #welcome-message-container p {
+      margin: 5px 0 10px;
+      font-size: 15px;
+      color: #999;
+    }
+  .welcome-message-highlight {
+    color: #FFF;
+  }
+  .welcome-message-band-photo {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #333;
+  }
+/*/Welcome message modal */
 
 
 
