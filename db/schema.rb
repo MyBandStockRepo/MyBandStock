@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100824224137) do
+ActiveRecord::Schema.define(:version => 20100825163519) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20100824224137) do
     t.string   "twitter_username"
     t.string   "grooveshark_widget_id"
     t.boolean  "commerce_allowed",      :default => false,    :null => false
+    t.string   "secret_token"
   end
 
   create_table "countries", :force => true do |t|
@@ -184,6 +185,7 @@ ActiveRecord::Schema.define(:version => 20100824224137) do
     t.datetime "expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "band_id"
   end
 
   create_table "share_codes", :force => true do |t|

@@ -227,7 +227,7 @@ class TwitterApiController < ApplicationController
 		needtoauth = false
 		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
 		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
-		begin
+#		begin
 			if @retweeter = User.find(session[:user_id]).twitter_user
 				if (params[:tweet_id] || use_latest_status) && params[:band_id]
 					tweetclient = client(false, false, nil)
@@ -240,7 +240,11 @@ class TwitterApiController < ApplicationController
 					           tweetclient.status(params[:tweet_id]).text
 					         end
 					if @band && @tweeter
-						if use_latest_status || (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id)
+						if  (
+						      use_latest_status ||
+  						    (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id) ||
+	  					    does_tweet_belong_to_band(params[:hash_identifier], params[:tweet_id], @band)
+	  					  )
 							@retweeter_info = tweetclient.verify_credentials
 							#all good to retweet
 							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
@@ -268,16 +272,16 @@ class TwitterApiController < ApplicationController
 					end		
 				else
 					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
-						error = true
+					error = true
 				end
 			else
 				error = true
 				needtoauth = true
 			end
-		rescue
-			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
-			error = true
-		end
+#		rescue
+#			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+#			error = true
+#		end
 	
 		if error
 			if needtoauth
@@ -437,7 +441,7 @@ class TwitterApiController < ApplicationController
   end
 
   def mentions
-		begin		
+		begin
 			params[:page] ||= 1
 			@mentions = client.replies(:page => params[:page])
 		rescue
@@ -494,7 +498,7 @@ class TwitterApiController < ApplicationController
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to session[:last_clean_url]
-			return false			
+			return false
 		end								
   end
 
@@ -508,7 +512,7 @@ class TwitterApiController < ApplicationController
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
 			redirect_to session[:last_clean_url]
 			return false			
-		end					
+		end
 			
   end
 
@@ -527,6 +531,21 @@ class TwitterApiController < ApplicationController
   
   private
   
+  
+  def does_tweet_belong_to_band(hash, tweet_id, band)
+  # We need to make sure that the tweet that the user is retweeting was actually posted by the given band.
+  # So that way Nefarious Ned couldn't just retweet his own status, for example, and gain shares in one of our bands.
+  # When the Retweet link was generated, it was also given a hash token, which is
+  #   md5(band_id + tweet_id + band_secret_token)
+  # So we generate the hash ourselves and see if it matches. If not, either the tweet ID or band ID has been forged.
+  #
+    return false if hash.blank? || tweet_id.blank? || band.blank?
+    we_have_a_match = hash.to_s == Digest::MD5.hexdigest(band.id.to_s + tweet_id.to_s + band.secret_token.to_s).to_s
+    logger.info "User tried forging band ID or tweet ID when retweeting." unless we_have_a_match
+    return we_have_a_match
+  end
+  
+  
   def generate_endtag(screen_name = nil, long_url = nil)
 		endtag_str = ''
   	if screen_name
@@ -536,8 +555,6 @@ class TwitterApiController < ApplicationController
 		  short_url = ShortUrl.generate_short_url(long_url)
 			endtag_str += ' '+short_url
 		end
-		
-#		endtag_str += ' #MyBandStock'
   end
 
 end
