@@ -43,7 +43,6 @@ class Band < ActiveRecord::Base
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   
   before_validation(:on => :create) do generate_secret_token() end
-  
 
   def status_feed(num_items = 7, text_length_limit = 200)
   # This function returns an array of recent social statuses for the band instance.
@@ -67,8 +66,7 @@ class Band < ActiveRecord::Base
     
     statuses = Array.new
     # Loop through each XML element, adding them to the statuses array
-    xml_doc.root.each_element_with_text{ |status|
-    
+    xml_doc.root.each_element_with_text{ |status|      
        # Truncate text to the specified limit
       body =  if text_length_limit
                 status.elements['text'].text[0..text_length_limit] + '...'
@@ -76,6 +74,7 @@ class Band < ActiveRecord::Base
                 status.elements['text'].text
               end
       status_id = status.elements['id'].text
+      profile_image_url = status.elements['user'].elements['profile_image_url'].text
        # We make a hash of band ID + status ID + band secret token.
        # This is then used to make sure the user doesn't try tweeting somebody else other than the band.
       hash_identifier = Digest::MD5.hexdigest(self.id.to_s + status_id.to_s + self.secret_token.to_s)
@@ -85,7 +84,8 @@ class Band < ActiveRecord::Base
                     :body =>  body,
                     :username =>  twitter_username,
                     :posted_at => status.elements['created_at'].text,
-                    :hash_identifier => hash_identifier
+                    :hash_identifier => hash_identifier,
+                    :profile_image_url => profile_image_url
                   }
       
 

@@ -14,7 +14,10 @@
             ago via
             = status[:source]
           .share_text
-            .share_avatar
+            -if status[:profile_image_url]
+              .share_avatar{:style => "background-image:url(#{status[:profile_image_url]});"}
+            -else 
+              .share_avatar
             %span
               = status[:username]
             = status[:body]
