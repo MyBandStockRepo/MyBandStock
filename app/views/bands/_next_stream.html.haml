@@ -72,9 +72,10 @@
   %span
     -if user
       -if @next_stream && user.can_view_series(@next_stream.live_stream_series_id)
-        There are no Live Streams coming up.
-      -else
         = user.display_name + ", you haven't earned video access yet."
+      -else
+        There are no Live Streams coming up.
+        
     -else
       Log in or register to get video access.
   %p
