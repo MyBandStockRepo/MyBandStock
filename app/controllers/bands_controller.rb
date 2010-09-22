@@ -75,6 +75,9 @@ class BandsController < ApplicationController
 		@request_uri = url_for()
 		@body_id = 'band_stage'
 		@show_welcome_message   = ( came_from_band_site(@band) && cookies[:supress_welcome_popup].blank? )
+		
+		puts 'WELCOMMEN??: '+@show_welcome_message.to_s
+		
 		@user = User.where(:id => session[:user_id]).first
     @can_broadcast = ( session[:user_id] && @user && @user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
