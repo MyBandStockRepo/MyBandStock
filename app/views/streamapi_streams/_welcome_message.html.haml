@@ -3,7 +3,7 @@
 -else
   = "Welcome, #{ user.first_name }. You currently have "
 %span.share_amount
-  - user_shares = user.share_totals.where(:band_id => band.id).first
+  - user_shares = ShareTotal.where(:user_id => user.id, :band_id => band.id).first
   -if user_shares
     = user_shares = user_shares.net
   -else
