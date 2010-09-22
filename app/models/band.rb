@@ -54,7 +54,7 @@ class Band < ActiveRecord::Base
   # TODO: Set a timeout on the HTTP requests, and return a special value on timeout. Then the view will tell javascript to
   #   make the request client-side.
   #
-    twitter_username = (self.twitter_user) ? self.twitter_user.name : self.twitter_username
+    twitter_username = (self.twitter_user) ? self.twitter_user.user_name : self.twitter_username
     return nil if twitter_username.blank?
     twitter_timeline_uri = URI.parse('http://twitter.com/statuses/user_timeline.xml?screen_name=' + twitter_username)
     http = Net::HTTP.new(twitter_timeline_uri.host, twitter_timeline_uri.port)
