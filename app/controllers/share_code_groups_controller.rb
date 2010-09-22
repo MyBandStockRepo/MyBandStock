@@ -1,10 +1,9 @@
 class ShareCodeGroupsController < ApplicationController
 
-  before_filter :authenticated?, :user_is_admin_of_a_band?
+  before_filter :authenticated?, :user_has_site_admin
   protect_from_forgery :only => [:create, :update]
-  layout 'root-layout'
   skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :download]
-
+  layout 'root-layout'
   
   
   def download
@@ -15,7 +14,7 @@ class ShareCodeGroupsController < ApplicationController
       flash[:error] = 'Please try again - no share code group specified.'
       return redirect_to '/band_home'
     end
-    unless @user.has_band_admin(params[:band_id])
+    unless @user.site_admin
       flash[:error] = 'Only band admins can download share codes.'
       return redirect_to '/band_home'
     end
@@ -30,21 +29,19 @@ class ShareCodeGroupsController < ApplicationController
   # GET /share_code_groups
   # GET /share_code_groups.xml
   def index
+  # Because ShareCodeGroups are not necessarily associated with bands,
+  #  the user must be a site admin to see this page.
+  #
     @user = User.find(session[:user_id])
-    unless @user && params[:band_id] && @user.has_band_admin(params[:band_id])
-      if params[:band_id].nil?
-        flash[:error] = "Cannot manage share codes - invalid band ID given."
-      else
-        flash[:error] = "Only band admins can manage share codes."
-      end
-      redirect_to '/band_home' #session[:last_clean_url]
+    unless @user && @user.site_admin
+      flash[:error] = "Only band admins can manage share codes."
+      redirect_to session[:last_clean_url]  # /band_home
       return false
     end
 
     @share_code_groups = ShareCodeGroup.all
     @share_code_group = ShareCodeGroup.new
-    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])
-    @band_id = params[:band_id]
+    @series_list = LiveStreamSeries.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -57,7 +54,7 @@ class ShareCodeGroupsController < ApplicationController
   def show
   # Note that the show view must get @band
     @share_code_group = ShareCodeGroup.find(params[:id])
-    @band_id = params[:band_id]
+    logger.info "Band ID: " + params[:band_id].to_s
     
     #unless @band_id
     #  flash[:error] = 'Band ID not specified'
@@ -81,18 +78,14 @@ class ShareCodeGroupsController < ApplicationController
   def new
     @user = User.find(session[:user_id])
 
-    unless @user && params[:band_id] && @user.has_band_admin(params[:band_id])
-      if params[:band_id].nil?
-        flash[:error] = "Cannot manage share codes - invalid band ID given."
-      else
-        flash[:error] = "Only band admins can manage share codes."
-      end
+    unless @user && @user.site_admin
+      flash[:error] = "Only band admins can manage share codes."
       redirect_to '/band_home' #session[:last_clean_url]
       return false
     end
 
     @share_code_group = ShareCodeGroup.new
-    @series_list = LiveStreamSeries.where(:band_id => params[:band_id])    
+    @series_list = LiveStreamSeries.all
     
     respond_to do |format|
       format.html # new.html.erb
@@ -141,7 +134,16 @@ class ShareCodeGroupsController < ApplicationController
       return false
     end
     
-    @share_code_group = ShareCodeGroup.create(:share_amount => share_amount, :expires_on => expires_on)
+    if @lss && @lss.band
+      band_id = @lss.band.id
+    end
+    
+    @share_code_group = ShareCodeGroup.create(
+      :share_amount => share_amount,
+      :expires_on => expires_on,
+      :label => params[:share_code_group][:label],
+      :band_id => band_id
+    )
     
     begin
       ShareCode.transaction do
@@ -166,7 +168,7 @@ class ShareCodeGroupsController < ApplicationController
         format.xml  { render :xml => @share_code_group, :status => :created, :location => @share_code_group }
       end
     rescue
-      flash[:notice] = 'Key generation failed.  Please notify someone.'
+      flash[:notice] = 'Key generation failed. Please notify the MyBandStock staff.'
       respond_to do |format|
         format.html { redirect_to(new_share_code_group_url) }
         format.xml  { render :xml => @share_code_group.errors, :status => :unprocessable_entity }
@@ -194,7 +196,8 @@ class ShareCodeGroupsController < ApplicationController
   # DELETE /share_code_groups/1
   # DELETE /share_code_groups/1.xml
   def destroy
-    unless (@user.site_admin)
+    @user = User.where(:id => session[:user_id]).first
+    unless (@user && @user.site_admin)
       flash[:notice] = 'Error.  Sorry.'
       redirect_to '/me/control_panel'
       return false
@@ -237,7 +240,12 @@ private
     unless group && band_id
       return out
     end
-    website = Band.find(band_id).access_schedule_url || 'www.mybandstock.com'
+    
+    website = if band_id
+                Band.find(band_id).access_schedule_url || 'www.mybandstock.com'
+              else
+                'www.mybandstock.com'
+              end
     expires = (group.expires_on) ? group.expires_on.strftime("%m/%d/%Y") : nil
     out << "code,website,expiration\n"
     group.share_codes.each { |code|

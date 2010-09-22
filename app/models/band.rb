@@ -20,6 +20,8 @@ class Band < ActiveRecord::Base
   has_many :live_stream_series, :dependent => :destroy
   has_many :streamapi_streams, :through => :live_stream_series
   has_many :recorded_videos, :through => :streamapi_streams
+  has_many :pledges
+  has_many :share_code_groups
   
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
@@ -38,7 +40,7 @@ class Band < ActiveRecord::Base
   validates_exclusion_of  :short_name, :in => %w[
       admin application bands charts concerts contests contribution_levels
       earned_perks ledger_entries legal login merchant music_albums news_entries
-      perks photo_albums photos projects search songs stage_comments users],
+      perks photo_albums photos projects search songs stage_comments users support],
     :message => 'Sorry, but that shortname conflicts with a list of words reserved by the website.'
   validates_format_of     :short_name, :with => /^[\w]{3,15}$/, :message => "Must have only letters, numbers, and _."
   

@@ -31,6 +31,7 @@ class CallbacksController < ApplicationController
     end
 
     render :xml => @response_hash.to_xml(:root => 'response', :skip_types => true)
+    return
   end
 
   def peekok
@@ -46,6 +47,7 @@ class CallbacksController < ApplicationController
 private
 
   def streamapi_authenticate_user(params)
+    # We return a role of '', because that's the only one we've found so far that allows users to broadcast video if they want.
     options_hash = Hash.new
     viewer_status_entry = StreamapiStreamViewerStatus.where(:viewer_key => params[:key]).first
     if  ( (viewer_status_entry) && (@user = viewer_status_entry.user) &&
@@ -59,17 +61,22 @@ private
                       else
                         (@user.full_name.nil? || @user.full_name == '') ? @user.email : @user.full_name
                       end
-          if (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
+          if @user.site_admin
+            # Admin will be just a chatter for now
+            options_hash['user'] = { :name => user_name,
+                                     :role => '' }
+            options_hash['code'] = 0
+            logger.info "Admin user allowed as a chatter."
+          elsif (@lssp.can_chat && @lssp.can_view) || @user.can_view_series(@lssp.id)
             #let them do both
             options_hash['user'] = { :name => user_name,
-                                     :role => 'chatter' }
+                                     :role => '' }
             options_hash['code'] = 0
             logger.info "User allowed as a chatter."
           elsif @lssp.can_view
             #they only get a viewer role
             options_hash['user'] = { :name => user_name,
-                                     :role => 'viewer' }
-            options_hash['code'] = 0
+                                     :role => '' }
             options_hash['code'] = 0
             logger.info "User allowed as a viewer."
           else

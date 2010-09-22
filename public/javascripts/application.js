@@ -1,5 +1,22 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
+function openWelcomeLightbox() {
+// Opens a lightbox containing the #welcome-message-container element on the page.
+//
+  if (!document.getElementById('welcome-message-container'))
+    return false;
+  var hiddenLink = document.createElement('a');
+  hiddenLink.href = '#welcome-message-container';
+  hiddenLink.style.display = 'none';
+  hiddenLink.style.visibility = 'hidden';
+  document.body.appendChild(hiddenLink);
+  jQuery(hiddenLink).fancybox()
+  
+  setTimeout(function() {
+    jQuery(hiddenLink).trigger('click');
+  }, 1000);
+  
+  return true;
+}
+
 
 jQuery(function() {
 	var selection = jQuery('#to_field').val();
@@ -57,5 +74,3 @@ jQuery(function() {
 		}
 	});
 });
-
-

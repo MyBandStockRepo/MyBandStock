@@ -2,6 +2,10 @@ require "will_paginate"
 
 class StaticsController < ApplicationController
 
+  def broadcast_faq
+    
+  end
+
   def status_404
     @requested_page = params[:requested_page]
     render :status => 404
@@ -25,6 +29,10 @@ class StaticsController < ApplicationController
   #RENDER FAQ WHEN CLICKING FAQ IN HOMEPAGE
   def faq
     render :action => 'faq'
+  end
+  
+  def support
+    
   end
   
   def robots_txt

@@ -12,7 +12,7 @@
     %span.grey99
       = @band.name 
     for retweeting their status.
-  -if @show_back_button
-    .formbutton
-      = button_to 'BACK', ''
+  -if @show_close_button
+    .formbutton{ :style => 'float: left' }
+      = link_to 'CLOSE', '', :onclick => 'parent.jQuery.fancybox.close(); top.location.href = top.location.href;'
 

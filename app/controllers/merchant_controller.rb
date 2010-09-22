@@ -26,11 +26,6 @@ class MerchantController < ApplicationController
       flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
-    
-    unless band.commerce_allowed
-      flash[:error] = "This artist is not currently working with us, but thank you for your interest. Let them know that you want to buy their stock on MyBandStock.com!"
-      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
-    end
 
     #make sure num_shares is good
     if params[:num_shares] == ''
@@ -41,6 +36,17 @@ class MerchantController < ApplicationController
     num_shares = params[:num_shares].to_i
     if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > NUM_SHARES_PER_BAND_PER_DAY
       flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and ' + NUM_SHARES_PER_BAND_PER_DAY.to_s + '.'
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end
+    
+    # We must assure that the band has allowed us to sell their shares.
+    unless band.commerce_allowed
+      flash[:error] = "This artist is not currently working with us, but thank you for your interest. Let them know that you want to buy their stock on MyBandStock.com!"
+      # We make a record of the rejected purchase, storing num_shares.
+      Pledge.create(:band_id => band.id,
+                    :num_shares => num_shares,
+                    :user_id => session[:user_id]
+                   )
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     

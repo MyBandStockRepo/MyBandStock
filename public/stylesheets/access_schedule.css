@@ -33,6 +33,9 @@ a:hover {
   .access-schedule-list .stream-name {
     font-style: italic;
   }
+  .access-schedule-lsit .mbs-series-title td {
+    padding: 8px 0 2px 0;
+  }
   .access-schedule-list .stream-title {
     font-size: 10px;
     font-family:verdana;

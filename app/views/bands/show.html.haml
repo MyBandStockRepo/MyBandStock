@@ -98,13 +98,13 @@
   -# Attach accordion listeners to the series list
   = javascript_include_tag 'series_list_accordion'
 
-  -# __commented__
-    #remote-page-test
-      %br
-      %br
-      #mbs-access-schedule-container{ :class => 'band=' + @band.short_name }
-        &nbsp;
-      %br
-      %strong
-        =link_to 'View access schedule', { :controller => 'live_stream_series', :action => 'by_band', :id => @band.id } , :class => 'lightbox'
-
+:javascript
+  // Open the new user welcome lightbox if necessary
+  if ( #{ @show_welcome_message ? true : false } ) {
+    if (typeof(openWelcomeLightbox) == 'function') {
+      jQuery(function() {
+        // Open on page load
+        openWelcomeLightbox();
+      });
+    }
+  }

@@ -636,6 +636,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		#signupbutton input:hover, #signupbutton a:hover {height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF;}
 */
 #checkbox_login {float:left;font-size:12px;color:#CCCCCC;margin-left:270px;margin-top:15px;line-height:25px;}
+.cookies_reminder{
+	float:left;
+	margin: 5px 0px 0px 400px;
+	font-size:8px;
+}
 
 /* STREAM SCHEDULE PAGE */
 
@@ -706,7 +711,26 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .auth_user_text{float:left;font-size:12px;margin-left:10px;}
 
 
-
+/* Welcome message modal */
+  #welcome-message-container {
+    background-color: #191919;
+    padding: 0 10px 20px;
+    max-width: 936px;
+  }
+    #welcome-message-container p {
+      margin: 5px 0 10px;
+      font-size: 15px;
+      color: #999;
+    }
+  .welcome-message-highlight {
+    color: #FFF;
+  }
+  .welcome-message-band-photo {
+    display: block;
+    margin: 0 auto 10px;
+    border: 1px solid #333;
+  }
+/*/Welcome message modal */
 
 
 
@@ -768,19 +792,18 @@ fieldset {border:0px;padding:0px;margin:0px;}
 #ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 
 .broadcast_faq_box{
-	width: 300px;
-	
+	width: 800px;
+
 }
 .broadcast_faq_box p {
-	font-size:10px;
+	font-size:14px;
 }
 .broadcast_faq_box h2 {
-	font-size:12px;
 }
 
 .broadcast_faq_box .question {
 	float: left;
-
+	width: 800px;
 	margin-top:15px;
 }
 .broadcast_faq_box .question a {
@@ -788,7 +811,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 }
 .broadcast_faq_box .answer{
 	float: left;
-
+	color:white;
 	margin-left:10px;
 }
 .cookies_reminder{
@@ -939,6 +962,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .videonotice p{text-transform:uppercase;margin-bottom:0px;}
 .videonotice span{color:#a89588;}
 
+/*/ STAGE UI CSS */
 
 /* USER PROFILE */
 .left_side_user_profile{float:left;width:450px;}
