@@ -28,15 +28,18 @@
   = link_to 'ENTER SHARE CODE', redeem_code_url(:lightbox => true), :class => 'share-code-link lightbox'
 .stagepadding
 
+  %div{ :style => 'display: none; visibility: hidden;' }
+    = render :partial => 'application/site_intro', :locals => { :band => @band }
+
 
 :javascript
   // Open the new user welcome lightbox if necessary
-  if ( #{ @show_welcome_message ? true : false } ) {
-    if (typeof(openWelcomeLightbox) == 'function') {
-      jQuery(function() {
+  jQuery(function() {
+    if ( #{ @show_welcome_message ? true : false } ) {
+      if (typeof(openWelcomeLightbox) == 'function') {
         // Open on page load
         openWelcomeLightbox();
-      });
+      }
     }
-  }
+  });
 
