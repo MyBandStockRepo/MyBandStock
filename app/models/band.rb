@@ -208,113 +208,7 @@ class Band < ActiveRecord::Base
   def all_shareholder_users()
     return ShareTotal.where(:band_id => self.id).collect{|shareTotal| shareTotal.user}
   end
-  
-  #####
-  #stats and quick data retrieval methods
-  #####
-=begin  
-  def concerts_after_now
-    return self.concerts.find(:all, :conditions => ['date > NOW()'])
-  end
-  
-  
-  def stage_comments_yesterday
-    return self.stage_comments.find(:all, :conditions => ['created_at > ? AND created_at < ?', 1.day.ago.midnight, Time.now.midnight])
-  end
-  
-  def unread_mail
-    return self.band_mails.find_all_by_opened(false)
-  end
-  
-  def new_watchers_yesterday
-    return self.associations.find(:all, :conditions => ['created_at > ? AND created_at < ? AND name = ?', 1.day.ago.midnight, Time.now.midnight, 'watching'])
-  end
-  
-  
-  def net_worth
-    #this will work for now.  If updated make sure to update in concert with the net_worth action on the user model
-    return self.stocks_sold
-  end
-  
-  
-  def flagged_perks
-    return 0
-  end
-  
-  
-  def total_fans
-    return self.contributors.size
-  end
-  
-  
-  def stocks_sold
-    return self.contributions.collect{|x| x.contribution_level.number_of_shares}.sum
-  end
-  
-  
-  def active_project
-    return self.projects.find_by_active(1)
-  end
-  
-  
-  def top_fans
-    #Caches out of the box! 
-    return Rails.cache.fetch("band_#{self.id}_top_fans", :expires_in => 1.hour) { Contribution.find(:all, :select => ['user_id, users.nickname, sum(number_of_shares) as tot_shares'], :joins => [:contribution_level, :user], :conditions => ['contributions.band_id = ?', self.id], :group => 'user_id', :order => ['tot_shares desc'], :limit => 15) }
-    
-  end
-  
-  
-  def filled_perks
-    return self.earned_perks.find_all_by_filled_and_flagged(true,false).length
-  end
-  
-  
-  def unfilled_perks
-    return self.earned_perks.find_all_by_filled(false).length
-  end
-  
-  def new_fans_last_week
-    return Rails.cache.fetch("band_#{self.id}_new_fans_last_week", :expires_in => (Time.now.end_of_week.end_of_day - Time.now) ) {
-      created_last_week = self.contributions.find(:all, :conditions => ['created_at > ? AND created_at < ?', 7.days.ago.beginning_of_week.midnight, Time.now.beginning_of_week.midnight]).collect{|c| c.user_id}
-      created_previous_users = self.contributions.find(:all, :conditions => ['created_at < ?', 7.days.ago.beginning_of_week.midnight]).collect{|c| c.user_id}
-      created_last_week_new = ( created_last_week - created_previous_users ).size
-    }
-  end
-  
-  def playlist_songs
-    return self.songs.find(:all, :conditions => ['playlist_position is NOT NULL AND thumbnail is NULL'], :order => 'playlist_position ASC')
-  end
-  
-  def playlist_url
-    return SITE_URL+'/files/playlists/'+self.id.to_s+'_main.xml'
-  end
 
-  # ********************
-  # Utility Methods
-  # ********************
-  
-  def update_playlist_xml
-    songs = self.songs.find(:all, :conditions => ['playlist_position is NOT null'], :order => 'playlist_position ASC')
-    builder = Builder::XmlMarkup.new
-    xml = builder.playlist(:artist => self.name) do |p|
-      for song in songs
-        if song.music_album
-          album_title = song.music_album.name
-        else
-          album_title = 'Unreleased'
-        end
-        streamable = Song.find(:first, :conditions => ['parent_id = ? AND thumbnail = ?', song.id, 'lq_stream'])
-        p.song(:name => song.name, :artist_name => song.band.name, :album_title => album_title, :length => streamable.length.to_s, :filename => streamable.id.to_s, :file_type => 'mp4', :stream_url => STREAMS_URL, :file_size => song.size)
-      end
-    end
-
-    f = File.new("#{RAILS_ROOT}/public/files/playlists/#{self.id}_main.xml",  "w+")  
-    f << xml
-    f.close
-    File.chmod(0755, "#{RAILS_ROOT}/public/files/playlists/#{self.id}_main.xml" )
-  end
-=end
-  # ***************
   
   # returns an array of the sharetotal joined to user entries while specifying the limit, returns empty array, or array with share totals
   def get_shareholder_list_in_order(limit=nil)
@@ -374,7 +268,7 @@ class Band < ActiveRecord::Base
   
   def admin_association
     return self.association.find_by_name(self.short_name + "_admin")
-  end
+  end  
   
 protected
 

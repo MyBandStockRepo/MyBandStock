@@ -20,7 +20,7 @@
         = lightboard_text @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'        
     .buy_bandname
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
-        Buy Stock in
+        Buy BandStock in
         = @band.name
 
   = render :partial => 'bands/next_stream', :locals => { :band => @band, :user => @user }
