@@ -29,75 +29,6 @@
 .stagepadding
 
 
--# __commented__
-  %h1.orange_bar
-    = @band.name
-    
-  #profile-left-column
-    -if @band.band_photo && @band.band_photo != ''
-      = image_tag @band.band_photo, :id => 'profile-band-photo', :alt => @band.name
-    .profile-top-ten-container
-      = render :partial => 'top_ten_shareholders', :locals => { :top_ten => @top_ten, :user_rank => @user_rank, :band => @band }
-
-    -# = link_to 'Buy stock now', buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300', :style => 'color: black;'
-
-    = render :partial => 'grooveshark_widget', :locals => { :grooveshark_widget_id => @band.grooveshark_widget_id }
-
-    -if @band.admins.collect{ |user| user.id}.include? session[:user_id]
-      %br
-      #manage-band
-        You are a manager for this band.
-        = link_to_unless_current 'Edit band account', edit_band_path(:id => @band.id)
-    
-
-  #profile-right-column
-
-    .stock-widget
-      .remaining-shares
-        Remaining shares today:
-        %span.remaining-shares-value{ :style => 'color: #FFF' }
-          = @band.available_shares_for_purchase.to_s
-      New shares are released every day at noon ET.
-      .formbutton.buy-stock-button
-        %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
-          BUY STOCK
-
-    -# __commented__
-      - if @band_twitter_authorized
-        .recent_TWETZ
-          %h1 Recent Band Tweets
-          - unless @user_twitter_authorized
-            = link_to 'Authorize your Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-			
-          - else
-            %p 
-              Currently authenticated with the Twitter account 
-              = @twit_user.screen_name
-              = link_to 'Authorize a different Twitter Account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}
-          = render :partial => "twitter_api/twitter_box", :locals => {:band_id => @band.id, :tweets => @band_tweets}
-
-    -if @twitter_username && @twitter_username != ''
-      -if @currently_tweeting
-        :javascript
-          currentlyTweeting = true;
-      .twitter-box
-        .retweet-status-button
-          - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => @band.id, :latest => true, :lightbox => true, :from_band_profile => band_url(@band.id) }
-          = link_to( raw("Retweet the band for <strong>#{ defined?(NUM_SHARES_AWARDED_FOR_RT) ? NUM_SHARES_AWARDED_FOR_RT : 10 } shares</strong>"), rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
-        .clear
-        = render :partial => 'twitter_statuses_widget', :locals => { :user => @twitter_username, :max_tweets => 4, :interval => 4500, :loop => false, :width => 600, :height => 225 }
-      .clear
-
-    .access-schedule
-      = render :partial => 'bands/series_list', :locals => { :band => @band, :can_broadcast => false }
-      -# = render :partial => 'live_stream_series/by_band', :locals => { :band => @band, :can_broadcast => @can_broadcast }
-
-
-    = render :partial => 'share_codes/redeem_widget'
-
-  -# Attach accordion listeners to the series list
-  = javascript_include_tag 'series_list_accordion'
-
 :javascript
   // Open the new user welcome lightbox if necessary
   if ( #{ @show_welcome_message ? true : false } ) {
@@ -108,3 +39,4 @@
       });
     }
   }
+
