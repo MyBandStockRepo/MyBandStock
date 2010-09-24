@@ -8,7 +8,7 @@ function openWelcomeLightbox() {
   hiddenLink.style.display = 'none';
   hiddenLink.style.visibility = 'hidden';
   document.body.appendChild(hiddenLink);
-  jQuery(hiddenLink).fancybox()
+  jQuery(hiddenLink).fancybox({'overlayColor' : '#000000'})
   
   setTimeout(function() {
     jQuery(hiddenLink).trigger('click');

@@ -711,26 +711,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .auth_user_text{float:left;font-size:12px;margin-left:10px;}
 
 
-/* Welcome message modal */
-  #welcome-message-container {
-    background-color: #191919;
-    padding: 0 10px 20px;
-    max-width: 936px;
-  }
-    #welcome-message-container p {
-      margin: 5px 0 10px;
-      font-size: 15px;
-      color: #999;
-    }
-  .welcome-message-highlight {
-    color: #FFF;
-  }
-  .welcome-message-band-photo {
-    display: block;
-    margin: 0 auto 10px;
-    border: 1px solid #333;
-  }
-/*/Welcome message modal */
 
 
 
@@ -982,3 +962,75 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .invested_bands .rank_header{margin-left:45px;display:inline;}
 
 .badges_earned {font-size:16px;line-height:20px;background-color:#141414;padding:0px 0px 20px 0px;}
+
+/* Welcome message modal */
+  #welcome-message-container {
+    background-color: black;
+    padding: 0 20px 20px;
+    max-width: 936px;
+		height:420px;
+  }
+	
+    #welcome-message-container p {
+      margin: 5px 0 10px;
+      font-size: 13px;
+      color: white;
+    }
+  #welcome-message-container .highlight {
+    color: #f90;
+  }
+  #welcome-message-container a{
+    color: #f90;
+  }
+
+  .welcome-message-band-photo {
+    display: block;
+    margin: 0 auto 10px;
+    border: 1px solid white;
+  }
+	#welcome-message-container .small_text{
+		font-size:10px;
+		text-align:center;
+		color:white;
+		margin-top:40px;
+	}
+
+	#welcome-message-container .video_player_overlay{
+		background-image: url(/images/stage/video_player_overlay.png);
+		height:350px;
+		width:400px;
+		float:left;
+		margin-left:-396px;
+		margin-top:3px;
+	}
+	#welcome-message-container .band_photo{
+		width:392px;
+		height: 271px;
+		float:left;
+		margin-top:40px;
+		
+	}	
+	#welcome-message-container .window_title{
+		float:left;
+	}
+	#welcome-message-container .window_title h1{
+		text-align:right;
+	}
+	#welcome-message-container .right_side {
+		float:left;
+		width:500px;
+		margin:20px;
+		
+	}	
+	#welcome-message-container .right_side h2{
+		margin-top:30px;
+		margin-bottom:10px;
+	}
+#welcome-message-container .right_side .indent{	
+	margin-left:15px;
+}
+	#welcome-message-container .intro_sentence{
+		font-size:16px;
+}	
+/*/Welcome message modal */
+

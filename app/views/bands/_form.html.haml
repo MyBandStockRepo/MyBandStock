@@ -221,6 +221,21 @@
             - for e in @band.errors[:commerce_allowed]
               %p
                 = '- '+e.to_s
+        .fieldrow
+          .fieldleft
+            .field
+              %fieldset
+                .fieldname.required
+                  .fieldnametop
+                    = f.label :merch_site_url, 'merch site url'
+                  .fieldnamebottom
+                .fieldbox.required
+                  = f.text_field :merch_site_url
+          .fielderror
+            - if @band.errors[:merch_site_url]
+              - for e in @band.errors[:merch_site_url]
+                %p
+                  = '- '+e.to_s                
 
         .fieldrow
           .fieldleft

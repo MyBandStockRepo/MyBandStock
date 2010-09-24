@@ -1,25 +1,98 @@
 #welcome-message-container
-  %h1.welcome-message-title
-    Video chat with
-    = band.name + '!'
+  .window-title
+    %h1
+      Video chat with
+      %span.grey99
+        = band.name
+    %br
+  .band_photo{:style=> "background-image:url(#{band.band_photo});"}
+  .video_player_overlay
+  .right_side
+    %p.intro_sentence
+      %strong
+        = band.name
+      has teamed with MyBandStock to offer private video chat sessions
+      with their biggest fans!
+    .indent
+      %h2
+        EARN
+        %span.grey99
+          SHARES    
+      %p 
+        -if band.merch_site_url.blank?      
+          Retweet
+        -else
+          =link_to 'Buy merchandise', band.merch_site_url, :target => '_blank'
+          and 
+          retweet
+        %strong
+          =band.name
+        to get BandStock and unlock live video updates from the road.
+
+      %h2
+        GET
+        %span.grey99
+          REWARDS
+
+      %p
+        Fans with the most BandStock will get a 
+        private video chat with
+        %strong
+          =band.name + '!'
+      %p.small_text
+        Already have merch or a CD?  Send a pic to 
+        =mail_to "merch@mybandstock.com"
+-#
   
   = image_tag band.band_photo, :class => 'welcome-message-band-photo'
+  %br
+  %br
+  %br
+  %p
+    %strong
+      = band.name
+    has teamed with MyBandStock to offer private video chat sessions
+    with their biggest fans!
+  %br
+  %p 
+    -if band.merch_site_url.blank?      
+      Retweet
+    -else
+      =link_to 'Buy merchandise', band.merch_site_url, :target => '_blank'
+      and 
+      retweet
+    %strong
+      =band.name
+    to get 
+    BandStock 
+    and unlock live video updates from the road.  
+  %br
+  %p
+    Fans with the most BandStock will get a 
+    private video chat with
+    %strong
+      =band.name + '!'
+    
+  %p.small_text
+    Already have merch or a CD?  Send a pic to 
+    =mail_to "merch@mybandstock.com"
 
+-# commented
   %p
     %span.welcome-message-band-name.welcome-message-highlight
       = band.name
     has teamed with MyBandStock to offer private video chat sessions
     with their biggest fans!
-
+  %br
   %p
-    Every time you re-tweet
+    Buy
     %span.welcome-message-band-name.welcome-message-highlight
       = band.name
     or buy merchandise (at a show or online), you will be rewarded with&nbsp;
     %span.welcome-message-highlight{ :title => '' }><
       BandStock
     \.
-
+  %h2 Be Rewarded!
   %p
     Being a stockholder unlocks live updates, and the fans with the most BandStock will
     get their own private video chat session with&nbsp;
