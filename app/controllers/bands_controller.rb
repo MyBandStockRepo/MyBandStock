@@ -74,7 +74,6 @@ class BandsController < ApplicationController
     end
 		@request_uri = url_for()
 		@body_id = 'band_stage'
-		@show_welcome_message   = ( came_from_band_site(@band) && cookies[:supress_welcome_popup].blank? )		
 		@user = User.where(:id => session[:user_id]).first
     @can_broadcast = ( session[:user_id] && @user && @user.can_broadcast_for(@band.id) )
     @top_ten = @band.top_ten_shareholders
@@ -96,6 +95,13 @@ class BandsController < ApplicationController
       session[:user_just_authorized_with_twitter] = false
       @currently_tweeting = true
     end
+    
+    # If the user was just referred here from the band's site, display the welcome message. Then set the cookie so
+    #   it doesn't open again.
+    if ( came_from_band_site(@band) && cookies[:supress_welcome_popup].blank? )
+  		@show_welcome_message = true
+  		cookies[:supress_welcome_popup] = true
+  	end
 
     #make sure the band isn't hidden
     if @band.status != "active"
