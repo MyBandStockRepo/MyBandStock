@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100923221954) do
+ActiveRecord::Schema.define(:version => 20100926051739) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -96,13 +96,14 @@ ActiveRecord::Schema.define(:version => 20100923221954) do
   end
 
   create_table "live_stream_series", :force => true do |t|
-    t.string   "title",        :null => false
-    t.datetime "starts_at",    :null => false
-    t.datetime "ends_at",      :null => false
+    t.string   "title",                          :null => false
+    t.datetime "starts_at",                      :null => false
+    t.datetime "ends_at",                        :null => false
     t.string   "purchase_url"
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "public",       :default => true
   end
 
   create_table "live_stream_series_permissions", :force => true do |t|

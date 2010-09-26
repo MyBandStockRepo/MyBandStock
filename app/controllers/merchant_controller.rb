@@ -41,7 +41,7 @@ class MerchantController < ApplicationController
     
     # We must assure that the band has allowed us to sell their shares.
     unless band.commerce_allowed
-      flash[:error] = "This artist is not currently working with us, but thank you for your interest. Let them know that you want to buy their stock on MyBandStock.com!"
+      flash[:error] = "This artist is not currently offering BandStock for sale. Thank you for your interest."
       # We make a record of the rejected purchase, storing num_shares.
       Pledge.create(:band_id => band.id,
                     :num_shares => num_shares,
