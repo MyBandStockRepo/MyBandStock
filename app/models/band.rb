@@ -98,7 +98,7 @@ class Band < ActiveRecord::Base
 
   # returns the next public streamapi stream out of all their series and if none exist, returns nil
   def next_stream
-    return self.streamapi_streams.where('streamapi_streams.starts_at > ? AND public = ?', Time.now, true).order('streamapi_streams.starts_at ASC').first
+    return self.streamapi_streams.where('streamapi_streams.starts_at > ? AND streamapi_streams.public = ?', Time.now, true).order('streamapi_streams.starts_at ASC').first
   end
     
   #returns an array of streams the band is currently broadcasting on, or nil
