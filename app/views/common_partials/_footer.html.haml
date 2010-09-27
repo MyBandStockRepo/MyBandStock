@@ -1,6 +1,11 @@
 #footer
   #footer-links
+    
+        
+        
+        
     %ul.footer-links-section
+    
       %li.footer-section-title
         MyBandStock
       %li
@@ -11,11 +16,8 @@
         = link_to 'FAQ', faq_path
       %li
         = link_to 'About', about_path
-    %ul.footer-links-section
-      %li.footer-section-title
-        Developers
-      %li
-        = link_to 'Embed codes', developers_path
+    
+    
     %ul.footer-links-section
       %li.footer-section-title
         Bands
@@ -25,6 +27,22 @@
       %li
         = link_to 'Manage your band', '/band_home'
 
+      %li
+        &nbsp
+      %li.footer-section-title
+        Developers
+      %li
+        = link_to 'Embed codes', developers_path
+
+    %ul.footer-links-section
+      %li.footer-section-title
+        Follow us!
+      %li 
+        #follow_on_twitter        
+          =link_to image_tag('/images/twitter/t_logo-c.png'), 'http://www.twitter.com/MyBandStock', :target => '_blank'
+
+
+    
   #securities
     I understand that The Non-Negotiable, Non-Transferable "stock" or "shares" purchased through MyBandStock have no monetary value and are NOT securities under United States Code Title 15, Chapter 2B &sect; 78c or any other applicable law
     -# = link_to "Privacy Policy", "http://alpha.mybandstock.com/legal/privacy_policy"

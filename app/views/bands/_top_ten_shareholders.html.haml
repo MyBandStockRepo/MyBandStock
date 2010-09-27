@@ -1,7 +1,7 @@
 - current_user = (session[:user_id]) ? User.find(session[:user_id]) : nil
 - user_found = false
 
-%p Top 10 Shareholders
+%p Top 10 Stockholders
 -if top_ten
   -top_ten.each_with_index do |share_total, i|
     - man = share_total.user

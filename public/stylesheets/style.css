@@ -365,6 +365,8 @@ div#slides ul li.show {z-index:500}
 
 /* FOOTER */
 
+#follow_on_twitter {margin-top:5px;}
+
 #footer {background:#2f2b25;padding:20px;}
   #footer-links {
     float: left;
@@ -910,7 +912,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 }
 
 .sharesleft{height:51px;}
-	.shareslefttext {margin:0px;margin-left:55px;text-align:right;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;padding-top:10px;float:left;color:#9f8d81;}
+	.shareslefttext {margin:0px;margin-left:30px;text-align:right;font-size:14px;font-family:TitilliumText14L800wt;text-transform:uppercase;padding-top:10px;float:left;color:#9f8d81;}
 	.big_lightboard {float:right;margin-right:55px;margin-top:6px;}
 		.biglight{width:33px;height:42px;background-image:url(/images/stage/big_lightboard.png);float:left;}
 		.biglight.l_ {background-position:0px 0px;}
