@@ -56,7 +56,7 @@ class BandsController < ApplicationController
 
   def index
     
-    @official_bands = Band.where(:mbs_official_band => true).order('random()')
+    @official_bands = Band.where(:mbs_official_band => true)
     @top_pledged_bands = PledgedBand.order('pledges_count DESC').limit(5)
     
   end
