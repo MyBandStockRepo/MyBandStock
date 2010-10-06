@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100926051739) do
+ActiveRecord::Schema.define(:version => 20101002001045) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20100926051739) do
     t.boolean  "commerce_allowed",      :default => false,    :null => false
     t.string   "secret_token"
     t.string   "merch_site_url"
+    t.boolean  "mbs_official_band",     :default => false
   end
 
   create_table "countries", :force => true do |t|

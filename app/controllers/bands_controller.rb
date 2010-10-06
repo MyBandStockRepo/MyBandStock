@@ -6,9 +6,9 @@ include REXML
 class BandsController < ApplicationController
   
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live]
+ before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live, :index]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
- before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live]
+ before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users]
 
 # returns a json object about if the band is currently broadcasting
@@ -55,7 +55,10 @@ class BandsController < ApplicationController
  end
 
   def index
-    redirect_to session[:last_clean_url]
+    
+    @official_bands = Band.where(:mbs_official_band => true).order('random()')
+    @top_pledged_bands = PledgedBand.order('pledges_count DESC').limit(5)
+    
   end
   
   def show

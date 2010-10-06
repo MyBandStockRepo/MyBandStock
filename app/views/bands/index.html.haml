@@ -1,0 +1,162 @@
+:css
+
+  .band_image {
+  	width:432px;
+  	height:246px;
+  	background-color:white;
+  	float:left;
+  	text-align:center;
+  }
+  
+  .band_image img:hover {
+    opacity: 0.95;
+  }
+
+  .jcarousel-skin-tango .jcarousel-direction-rtl {
+    direction: rtl;
+  }
+
+  .jcarousel-skin-tango .jcarousel-container-horizontal {
+    width: 884px;
+    margin-left:47px;
+    border:1px solid black;
+  }
+
+  .jcarousel-skin-tango .jcarousel-clip-horizontal {
+    width:  884px;
+    height: 246px;
+  }
+
+  .jcarousel-skin-tango .jcarousel-item {
+    width: 432px;
+    height: 246px;
+  }
+
+  .jcarousel-skin-tango .jcarousel-item-horizontal {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-item-horizontal {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+
+  .jcarousel-skin-tango .jcarousel-item-placeholder {
+    background: #fff;
+    color: #000;
+  }
+
+  /**
+   *  Horizontal Buttons
+   */
+  .jcarousel-skin-tango .jcarousel-next-horizontal {
+    position: absolute;
+    cursor: pointer;      
+    background-image:url('/images/bands/index/right_arrow.jpg');	
+    left:884px;
+    top:0px;
+    width:25px;
+    height:246px;            
+  }
+
+  .jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-next-horizontal {
+    left: 5px;
+    right: auto;
+    background-image:url('/images/bands/index/left_arrow.jpg');
+  }
+
+  .jcarousel-skin-tango .jcarousel-next-horizontal:hover {
+    background-image:url('/images/bands/index/right_arrow_hover.jpg');	
+  }
+
+  .jcarousel-skin-tango .jcarousel-next-horizontal:active {
+      
+  }
+
+  .jcarousel-skin-tango .jcarousel-next-disabled-horizontal,
+  .jcarousel-skin-tango .jcarousel-next-disabled-horizontal:hover,
+  .jcarousel-skin-tango .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-image:url('/images/bands/index/right_disabled.jpg');	
+  }
+
+  .jcarousel-skin-tango .jcarousel-prev-horizontal {
+    position: absolute;
+    left:-25px;
+    top:0px;
+    cursor: pointer;
+    background-image:url('/images/bands/index/left_arrow.jpg');
+    width:25px;
+    height:246px;            
+  }
+
+  .jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-prev-horizontal {
+    left: auto;
+    right: 5px;
+    background-image:url('/images/bands/index/right_arrow.jpg');	
+  }
+
+  .jcarousel-skin-tango .jcarousel-prev-horizontal:hover {
+    background-image:url('/images/bands/index/left_arrow_hover.jpg');
+  }
+
+  .jcarousel-skin-tango .jcarousel-prev-horizontal:active {
+
+  }
+
+  .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal,
+  .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:hover,
+  .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-image:url('/images/bands/index/left_arrow_disabled.jpg');
+  }
+
+
+
+
+:javascript
+  function mycarousel_initCallback(carousel)
+  {
+      // Disable autoscrolling if the user clicks the prev or next button.
+      carousel.buttonNext.bind('click', function() {
+          carousel.startAuto(0);
+      });
+ 
+      carousel.buttonPrev.bind('click', function() {
+          carousel.startAuto(0);
+      });
+ 
+      // Pause autoscrolling if the user moves with the cursor over the clip.
+      carousel.clip.hover(function() {
+          carousel.stopAuto();
+      }, function() {
+          carousel.startAuto();
+      });
+  };
+ 
+  jQuery(document).ready(function() {
+      jQuery('#mycarousel').jcarousel({
+          auto: 4,
+          wrap: 'last',
+          initCallback: mycarousel_initCallback
+      });
+  });
+ 
+.orange_bar
+  .placement_edituserprofile
+    BANDS WE'RE WORKING WITH
+ 
+#wrap
+  %ul#mycarousel.jcarousel-skin-tango
+    -for band in @official_bands      
+      %li
+        =link_to image_tag("/images/bands/index/#{band.short_name}.jpg"), {:controller => 'bands', :action => 'show', :id => band.id}, :class => 'band_image'
+  
+.clear
+%br
+%br
+
+= render :partial => 'common_partials/artist_search'
+%br
