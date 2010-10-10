@@ -53,6 +53,12 @@ class BandsController < ApplicationController
    
    return render :json => output_json, :callback => 'bandIsBroadcastingJsonCallback'
  end
+ 
+ 
+  def leaderboard_widget
+    #
+  end
+ 
 
   def index
     
