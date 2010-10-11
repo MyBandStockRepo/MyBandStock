@@ -1,4 +1,6 @@
 Cobain::Application.routes.draw do |map|
+  resources :twitter_crawler_hash_tags
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -88,6 +90,7 @@ Cobain::Application.routes.draw do |map|
   resources :bands
   resources :user_roles
   resources :twitter_users
+  resources :twitter_crawler_hash_tags  
   resources :live_stream_series
   resources :live_stream_series_permissions
   #codingisanart

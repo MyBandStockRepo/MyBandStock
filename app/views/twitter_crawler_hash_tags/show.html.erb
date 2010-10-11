@@ -1,0 +1,18 @@
+<p>
+  <b>Term:</b>
+  <%= @twitter_crawler_hash_tag.term %>
+</p>
+
+<p>
+  <b>Last tweet:</b>
+  <%= @twitter_crawler_hash_tag.last_tweet_id %>
+</p>
+
+<p>
+  <b>Band:</b>
+  <%= @twitter_crawler_hash_tag.band %>
+</p>
+
+
+<%= link_to 'Edit', edit_twitter_crawler_hash_tag_path(@twitter_crawler_hash_tag) %> |
+<%= link_to 'Back', twitter_crawler_hash_tags_path %>

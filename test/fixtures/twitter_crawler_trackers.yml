@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tweet_id: 1
+  twitter_user: 
+  twitter_crawler_hash_tag: 
+  tweet: MyString
+  twitter_followers: 1
+  share_value: 1
+
+two:
+  tweet_id: 1
+  twitter_user: 
+  twitter_crawler_hash_tag: 
+  tweet: MyString
+  twitter_followers: 1
+  share_value: 1

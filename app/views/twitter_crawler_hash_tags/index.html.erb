@@ -1,0 +1,27 @@
+<h1>Listing twitter_crawler_hash_tags</h1>
+
+<table>
+  <tr>
+    <th>Term</th>
+    <th>Last tweet</th>
+    <th>Band</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @twitter_crawler_hash_tags.each do |twitter_crawler_hash_tag| %>
+  <tr>
+    <td><%= twitter_crawler_hash_tag.term %></td>
+    <td><%= twitter_crawler_hash_tag.last_tweet_id %></td>
+    <td><%= twitter_crawler_hash_tag.band %></td>
+    <td><%= link_to 'Show', twitter_crawler_hash_tag %></td>
+    <td><%= link_to 'Edit', edit_twitter_crawler_hash_tag_path(twitter_crawler_hash_tag) %></td>
+    <td><%= link_to 'Destroy', twitter_crawler_hash_tag, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Twitter crawler hash tag', new_twitter_crawler_hash_tag_path %>
