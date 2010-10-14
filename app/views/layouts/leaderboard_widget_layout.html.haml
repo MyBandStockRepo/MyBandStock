@@ -1,0 +1,38 @@
+!!! 5
+%html
+  %head
+    %title MyBandStock | The Music Revolution
+    -# Stylesheets are declared explicitly here so we can establish an ordering (e.g., reset should be before style)
+    = stylesheet_link_tag 'reset'
+    = stylesheet_link_tag 'fonts'
+    = stylesheet_link_tag 'style'
+    
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
+
+  %body{ :id => @body_id }
+    #outer_wrap
+      #wrap  
+        #header
+          -if session[:user_id]
+            = render :partial => 'common_partials/logged_in', :locals => { :user => User.find(session[:user_id]) }
+          -else
+            = render :partial => 'common_partials/logged_out'
+
+        -if flash[:logout]
+          #logout_flash_notice{ :style => 'float: right; color: red; margin-right: 10px' }
+            = flash[:logout]
+        
+        #content
+                   
+          -if flash[:error]
+            .error
+              = flash[:error]
+          -if flash[:notice]
+            .notice
+              = flash[:notice]            
+          = yield
+
+        = render :partial => 'common_partials/footer'
+      
+    = render :partial => 'common_partials/google_tracker'
+

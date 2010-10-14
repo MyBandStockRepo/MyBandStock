@@ -88,29 +88,21 @@ class User < ActiveRecord::Base
     if user_share_total.nil?
       return false
     else
-      rank = band.get_shareholder_list_in_order.index(user_share_total)+1
+      return band.get_shareholder_list_in_order.index(user_share_total)+1
     end
     
-    
-=begin    
-    # Current tie resolution scheme: date of user registration
-    share_total = self.share_totals.where(:band_id => band_id).first
-    num_shares = (share_total) ? share_total.net : 0
-    
-    # The more senior user wins in a tie
-    ShareTotal.find_by_sql(["
-                SELECT * FROM share_totals
-                  INNER JOIN users ON users.id = share_totals.user_id
-                  WHERE band_id = #{ band_id }
-                  AND net > #{ num_shares }
-                  OR (net = #{ num_shares } AND users.created_at < ?)
-               ", self.created_at] ).count + 1
-=end    
-    
-    
-    
-    
-    
+    #  # Current tie resolution scheme: date of user registration
+    #  share_total = self.share_totals.where(:band_id => band_id).first
+    #  num_shares = (share_total) ? share_total.net : 0
+    #  
+    #  # The more senior user wins in a tie
+    #  ShareTotal.find_by_sql(["
+    #              SELECT * FROM share_totals
+    #                INNER JOIN users ON users.id = share_totals.user_id
+    #                WHERE band_id = #{ band_id }
+    #                AND net > #{ num_shares }
+    #                OR (net = #{ num_shares } AND users.created_at < ?)
+    #             ", self.created_at] ).count + 1
     
     # Lexicographic email tie resolution:
     # ShareTotal.find_by_sql("

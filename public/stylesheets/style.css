@@ -895,6 +895,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .highlight .leadname {
   color: #FFF;
 }
+
 .stageright{width:383px;float:left;}
 .buystock{width:383px;height:110px;background-image:url(/images/stage/buystock.png);margin-top:23px;}
 .share-code-link {
@@ -948,6 +949,69 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .videonotice span{color:#a89588;}
 
 /*/ STAGE UI CSS */
+
+
+
+
+/*
+  Leaderboard Widget
+*/
+
+  .mbs-leaderboard-widget {
+    position: relative;
+    height: 420px;
+    width: 236px;
+    overflow: auto;
+    background: url(/images/leaderboard/leaderboard_widget_background.png) no-repeat;
+    border-top: 2px solid #333;
+    border-right: 2px solid #111;
+    border-bottom: 2px solid #111;
+    border-left: 2px solid #333;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-band-name {
+    text-align: center;
+    color: #F90;
+    font-family: TitilliumText14L800wt;
+    font-size: 25px;
+    line-height: 22px;
+    text-shadow: #000 4px 4px 2px;
+    margin: 8px 10px 10px;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-info {
+    position: absolute;
+    top: 67px;
+    width: 100%;
+    line-height: 13px;
+    color: #FFF;
+    text-align: center;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {
+    position: absolute;
+    top: 103px;
+    left: 21px;
+    width: 200px;
+    height: 50px;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining-info {
+    font-size: 13px;
+    color: #F90;
+    font-family: TitilliumText14L800wt;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {}
+  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {}
+  .mbs-leaderboard-widget .leaderboard {
+    display: none;
+  }
+
+/* /Leaderboard Widget */
+
+
+
 
 /* USER PROFILE */
 .left_side_user_profile{float:left;width:450px;}

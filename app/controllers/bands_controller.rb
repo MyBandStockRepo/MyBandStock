@@ -6,10 +6,11 @@ include REXML
 class BandsController < ApplicationController
   
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live, :index]
+ before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live, :index, :leaderboard_widget]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
- before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index]
- skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users]
+ before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index, :leaderboard_widget]
+ skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users, :leaderboard_widget]
+
 
 # returns a json object about if the band is currently broadcasting
  def is_band_broadcasting_live
@@ -56,7 +57,31 @@ class BandsController < ApplicationController
  
  
   def leaderboard_widget
-    #
+  # Action for the external leaderboard widget for a given band.
+  # Parameters:
+  #   band_id
+  #
+    if params[:band_id].blank?
+      render :nothing => true and return
+    end
+    
+    @band = Band.where(:id => params[:band_id]).first
+    
+    unless @band
+      render :nothing => true and return
+    end
+    
+    @top_ten_stockholders = @band.top_ten_shareholders
+    
+    if session[:user_id]
+      # If the user is logged in, we provide his rank.
+      user = User.where(:id => session[:user_id]).first
+      if user
+        @user_rank = user.shareholder_rank_for_band(@band.id)
+      end
+    end
+    
+    render :layout => 'leaderboard_widget_layout'
   end
  
 

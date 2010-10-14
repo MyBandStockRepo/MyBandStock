@@ -48,9 +48,14 @@ Cobain::Application.routes.draw do |map|
 
 	match '/users/activate', :to => 'users#activate'
 
-	match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
-	match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
-  match 'bands/:band_id/is_band_broadcasting_live', :to => 'bands#is_band_broadcasting_live'
+
+  # ---- Band Actions ---- #
+	  match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
+	  match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
+    match 'bands/:band_id/is_band_broadcasting_live', :to => 'bands#is_band_broadcasting_live'
+    match 'bands/:band_id/leaderboard', :to => 'bands#leaderboard_widget'
+  # /--- Band Actions ---- #
+
 
   # ---- Share Codes ---- #
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
@@ -64,14 +69,14 @@ Cobain::Application.routes.draw do |map|
   # /--- Share Codes ---- #
 
 
-
   # ---- Administration ---- #
     match 'admin', :to => 'admin#index', :as => 'admin'
     match 'admin/grant_shares', :to => 'admin#grant_shares', :as => 'grant_shares'
     match '/admin/email_users', :to => 'admin#email_users_form'
     match '/admin/send_users_email', :to => 'admin#send_users_email'
   # /--- Administration ---- #
-
+  
+  
   resources :streamapi_stream_themes
   resources :facebook_publishers
   resources :share_code_groups
