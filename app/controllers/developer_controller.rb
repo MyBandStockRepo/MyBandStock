@@ -4,4 +4,14 @@ class DeveloperController < ApplicationController
     
   end
 
+
+  def leaderboard_widget
+      
+  end
+
+
+  def live_streams_widget
+    
+  end
+
 end

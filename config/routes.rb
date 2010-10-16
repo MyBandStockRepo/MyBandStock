@@ -101,8 +101,14 @@ Cobain::Application.routes.draw do |map|
 	match '/legal/privacy_policy', :to => 'legal#privacy_policy'
 	match '/legal/tos', :to => 'legal#tos'
 
-  match 'developers', :to => 'developer#index'
 
+  # ---- Developer Center ---- #
+    match 'developers', :to => 'developer#index'
+    match 'developers/live_streams_widget', :to => 'developer#live_streams_widget'
+    match 'developers/leaderboard_widget', :to => 'developer#leaderboard_widget'
+  # /--- Developer Center ---- #
+  
+  
   # ---- URL Shortener ---- #
     match 'short/favicon.ico', :to => 'statics#favicon_ico'  #can I serve a static asset here? I think .htaccess might have to be used for this.
     match '/short/robots.txt', :to => 'statics#robots_txt'
