@@ -1,6 +1,7 @@
 .mbs-leaderboard-widget
   .mbs-leaderboard-band-name
-    = link_to @band.name, @band
+    %a{ :href => band_url(@band), :onclick => "top.location.href = '#{ band_url(@band) }'; return false;"}
+      = @band.name
   .mbs-leaderboard-header
     BE ONE OF THE
     %strong TOP 5 FANS
