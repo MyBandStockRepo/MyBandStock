@@ -1,18 +1,25 @@
 .mbs-leaderboard-widget
   .mbs-leaderboard-band-name
-    = @band.name
-  .mbs-leaderboard-info
+    = link_to @band.name, @band
+  .mbs-leaderboard-header
     BE ONE OF THE
-    %strong
-      TOP 5 FANS
+    %strong TOP 5 FANS
     %br
     &amp; GET A
-    %strong
-      PRIVATE VIDEO CHAT!
+    %strong PRIVATE VIDEO CHAT!
   .mbs-leaderboard-shares-remaining
     .mbs-leaderboard-shares-remaining-info
       BANDSTOCK LEFT TO BUY TODAY:
     .mbs-leaderboard-shares-remaining-amount
       = lightboard_text(@band.available_shares_for_purchase, { :digits => 6, :size => 'big' })
-  = render :partial => 'leaderboard', :locals => { :top_ten => @top_ten_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true }
-
+  = render :partial => 'leaderboard', :locals => { :top_ten => @top_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true }
+  .mbs-leaderboard-info
+    Tweet with the hashtag
+    %strong.mbs-leaderboard-hashtag
+      = @band.reward_hashtag
+    to earn daily shares in
+    %strong><
+      = ' '+ @band.name
+    !
+  .mbs-leaderboard-footer
+    = link_to ' ', root_url

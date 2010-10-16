@@ -1,6 +1,6 @@
 .leaderboard
   = render :partial => 'top_ten_shareholders', :locals => { :top_ten => top_ten, :user_rank => user_rank, :band => band }
   
-  -unless skip_your_rank
+  -if (not defined? skip_your_rank) or skip_your_rank.blank?
     = render :partial => 'players_around_your_rank', :locals => { :top_ten => top_ten, :user_rank => user_rank, :band => band }
 

@@ -961,7 +961,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
     position: relative;
     height: 420px;
     width: 236px;
-    overflow: auto;
+/*    overflow: auto;*/
     background: url(/images/leaderboard/leaderboard_widget_background.png) no-repeat;
     border-top: 2px solid #333;
     border-right: 2px solid #111;
@@ -971,15 +971,21 @@ fieldset {border:0px;padding:0px;margin:0px;}
   
   .mbs-leaderboard-widget .mbs-leaderboard-band-name {
     text-align: center;
-    color: #F90;
     font-family: TitilliumText14L800wt;
     font-size: 25px;
     line-height: 22px;
     text-shadow: #000 4px 4px 2px;
     margin: 8px 10px 10px;
   }
+    .mbs-leaderboard-widget .mbs-leaderboard-band-name a {
+      color: #F90;
+      text-decoration: none;
+    }
+    .mbs-leaderboard-widget .mbs-leaderboard-band-name a:hover {
+      color: #C60;
+    }
   
-  .mbs-leaderboard-widget .mbs-leaderboard-info {
+  .mbs-leaderboard-widget .mbs-leaderboard-header {
     position: absolute;
     top: 67px;
     width: 100%;
@@ -1002,11 +1008,39 @@ fieldset {border:0px;padding:0px;margin:0px;}
     font-family: TitilliumText14L800wt;
   }
   
-  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {}
-  .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {}
   .mbs-leaderboard-widget .leaderboard {
-    display: none;
+    position: absolute;
+    margin: 0;
+    top: 182px;
+    left: 12px;
+    width: 216px;
   }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-info {
+    position: absolute;
+    top: 332px;
+    width: 204px;
+    left: 12px;
+    color: #D4CAC3;
+    font-size: 11px;
+    /*font-family: TitilliumText14L400wt;*/
+    line-height: 12px;
+    padding: 6px;
+    cursor: default;
+  }
+  
+  .mbs-leaderboard-widget .mbs-leaderboard-footer {
+    position: absolute;
+    top: 390px;
+    width: 100%;
+    height: 31px;
+  }
+
+    .mbs-leaderboard-widget .mbs-leaderboard-footer a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
 /* /Leaderboard Widget */
 

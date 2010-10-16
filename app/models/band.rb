@@ -192,16 +192,28 @@ class Band < ActiveRecord::Base
 		return tweet_list
   end
   
+  
+  def reward_hashtag
+  # Returns a hashtag that our crawler looks for to award shares.
+  #
+    '#' + self.short_name + '-bandstock'
+  end
+  
+  
+  def top_shareholders(num_users)
+  # Called like @band.top_shareholders(5). Returns array of ShareTotals or nil.
+  # If num_users is nil, returns all the shareholders.
+  #
+    result = self.get_shareholder_list_in_order(num_users)
+    return (result.length == 0) ? nil : result
+  end
+  
+  
   def top_ten_shareholders()
   # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
   # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
   # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
-
-    # get top 10
-    result = self.get_shareholder_list_in_order(10)
-
-
-    return (result.length == 0) ? nil : result
+    self.top_shareholders(10)
   end
 
   #returns nil or all band shreholders

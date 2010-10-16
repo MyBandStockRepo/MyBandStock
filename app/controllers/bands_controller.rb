@@ -71,7 +71,7 @@ class BandsController < ApplicationController
       render :nothing => true and return
     end
     
-    @top_ten_stockholders = @band.top_ten_shareholders
+    @top_stockholders = @band.top_shareholders(5)
     
     if session[:user_id]
       # If the user is logged in, we provide his rank.
