@@ -1,65 +1,123 @@
-- stock_amounts = (NUM_SHARES_PER_BAND_PER_DAY/5).times.collect{ |n| 5*n + 5 } # Multiples of 5 from 5 to NUM_SHARES_PER_BAND_PER_DAY
 - purchase_submit_text = 'POW!'
 
-#lightbox_feature
-  .orange_bar
-    %h3
-      Buy BandStock in
-      = @band.name
-      = ' - ' + pluralize(@available_shares, 'share') + " left today"
+-if @band.commerce_allowed
 
-  -if flash[:error]
-    .errbox
-      = flash[:error]
-  .newform
-    = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }) do
-      = hidden_field_tag 'band_id', @band.id
-      = hidden_field_tag 'lightbox', true if params[:lightbox]
-      .fieldrow
-        .fieldleft      
-          .field
-            .fieldname
-              .fieldnametop
-                = label_tag :num_shares, 'How many?'
-              .fieldnamebottom
-            .fieldbox
-              = select_tag( :num_shares, options_for_select(stock_amounts), :include_blank => 'Select number of shares', :class => 'select', :disabled => (@available_shares > 0) ? nil : 'disabled' )
-      #purchase_cost
-        Current cost per share:
-        %span#current_share_price
-          = number_to_currency(@band.share_price.to_f / 100) + '.'
-        Estimated total cost (before tax):
-        %span#purchase_cost_value
-      -if @available_shares > 0
-        .fieldrow
-          .fieldleft                
-            .formbutton
-              = submit_tag purchase_submit_text #, :onclick => 'this.disable();'
-  %p
-    By clicking
-    %em
-      = purchase_submit_text + ','
-    you agree to our
-    = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
-    and
-    = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'
-:javascript
-  var costPerShare = parseInt('#{ @band.share_price }') / 100;  // Cents to dollars
-  var valueElement = jQuery('#purchase_cost_value');
-  jQuery('#num_shares').change(function(e) {
-    if (this.value != '' && costPerShare) {
-      var totalCost = parseFloat(costPerShare * this.value);
-      valueElement.fadeOut(function() {
-        valueElement.html('$' + totalCost.toFixed(2));
-      });
-      valueElement.fadeIn();
+  -# stock_amounts = ((@available_shares-@band.min_share_purchase_amount)/5+1).times.collect{ |n| 5*n + @band.min_share_purchase_amount } # Multiples of 5 from 5 to NUM_SHARES_PER_BAND_PER_DAY
+
+  #lightbox_feature
+    .orange_bar
+      %h2
+        Buy BandStock in
+        = @band.name
       
-    } else {
-      valueElement.fadeOut();
-    }
-  });
+      -if flash[:error]
+        .errbox
+          = flash[:error]    
+        .clear
+      -if @min_amount < @max_amount
+        %p
+          You can buy between
+          -# some conditions, max < available with cap or >.  There is no cap. available < min.
+          = @min_amount
+          and
+          = @max_amount 
+          shares.
 
--# On the next redirect page, we display the loading_indicator gif for like a second.
--# We want to preload it here so it's cached by the browser. I don't use image_tag for this reason.
-%img{ :style => 'display: none; visible: false;', :src => '/images/loading_indicator_dark.gif' }
 
+    .newform
+      = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }) do
+        = hidden_field_tag 'band_id', @band.id
+        = hidden_field_tag 'lightbox', true if params[:lightbox]
+        .fieldrow
+          .fieldleft      
+            .field.condense4
+              .fieldname.condense2
+                .fieldnametop
+                  = label_tag :num_shares, 'How much?'
+                .fieldnamebottom
+              .fieldbox.condense2
+                -#if @band.purchaseable_shares_release_amount.blank?
+                = text_field_tag(:num_shares, nil, :maxlength => @max_amount.to_s.length)
+                -#else
+                  = select_tag(:num_shares, options_for_select(stock_amounts), :include_blank => 'Select number of BandStock', :class                  => 'select', :disabled => (@available_shares > 0) ? nil : 'disabled' )
+          -#if @band.purchaseable_shares_release_amount.blank?                  
+          .formbutton_left
+            = link_to 'CALCULATE', '#'
+      						
+
+        #purchase_cost
+          Current cost per share:
+          %span#current_share_price
+            = number_to_currency(@band.share_price) + '.'
+          Estimated total cost (before tax):
+          %span#purchase_cost_value
+        -if @available_shares > 0
+          .fieldrow
+            .fieldleft   
+              %p{:style=>"width: 350px;padding-top:10px;"}
+                By clicking
+                %em
+                  = purchase_submit_text + ','
+                you agree to our
+                = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+                and
+                = link_to('Privacy Policy', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}) + '.'             
+              .formbutton
+                = submit_tag purchase_submit_text #, :onclick => 'this.disable();'
+    
+  :javascript
+    var costPerShare = parseFloat('#{ @band.share_price }');
+    var valueElement = jQuery('#purchase_cost_value');
+    jQuery('#num_shares').change(function(e) {
+      if (this.value != '' && costPerShare) {
+        var totalCost = parseFloat(costPerShare * this.value);
+        if (isNaN(totalCost))
+        {
+          valueElement.fadeOut(function() {
+            valueElement.html("N/A");
+          });      
+        }
+        else
+        {
+          valueElement.fadeOut(function() {
+            valueElement.html('$' + totalCost.toFixed(2));
+          });
+        }
+        valueElement.fadeIn();
+      
+      } else {
+        valueElement.fadeOut();
+      }    
+    });
+
+  -# On the next redirect page, we display the loading_indicator gif for like a second.
+  -# We want to preload it here so it's cached by the browser. I don't use image_tag for this reason.
+  %img{ :style => 'display: none; visible: false;', :src => '/images/loading_indicator_dark.gif' }
+-else
+  #lightbox_feature
+    .orange_bar
+      %h3
+        Buy BandStock in
+        = @band.name
+    
+      -if flash[:error]
+        .errbox
+          = flash[:error]  
+          .newform
+      = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }) do
+        .fieldrow
+          .fieldleft      
+            .field
+              .fieldname
+                .fieldnametop
+                  = label_tag :num_shares, 'How much?'
+                .fieldnamebottom
+              .fieldbox
+                = text_field_tag(:num_shares, nil, :disabled => true)              
+        #purchase_cost
+          Current cost per share:
+          %span#current_share_price
+            = number_to_currency(0) + '.'
+          Estimated total cost (before tax):
+          %span#purchase_cost_value
+            = number_to_currency(0) + '.'          

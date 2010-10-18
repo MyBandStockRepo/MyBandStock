@@ -53,15 +53,17 @@ else
   #Connect to Twitter Oauth Stuff
   TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
-  TWITTERAPI_ACCESS_TOKEN   = '149205307-PuLfH6MfIjaavon1yFuYAMgr6HIGRIgrdzqRXgGi'
-  TWITTERAPI_SECRET_TOKEN   = 'y3PUmN9r7E4uJvw6HUOPMRLfCFmV09ZBwyYC1zLh0'
+#  TWITTERAPI_ACCESS_TOKEN   = '149205307-PuLfH6MfIjaavon1yFuYAMgr6HIGRIgrdzqRXgGi'
+#  TWITTERAPI_SECRET_TOKEN   = 'y3PUmN9r7E4uJvw6HUOPMRLfCFmV09ZBwyYC1zLh0'
+  MBS_REWARD_BOT_ACCESS_TOKEN = '202291092-onrcAsPHAut3EmnLxFvI1Dn6DIMBqTEwSYirVcxc'
+  MBS_REWARD_BOT_ACCESS_SECRET = 'fvuBb12KVj7cXWqwSXPk4MqwRTkF4uO2SS3UAxG6lk'  
   oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-  oauth.authorize_from_access(TWITTERAPI_ACCESS_TOKEN, TWITTERAPI_SECRET_TOKEN) 
+  oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
   client = Twitter::Base.new(oauth) 
 
   #can write a function 
   def calc_points_hash_tag(followers)
-    return (10*(Math.log(followers+1)+Math.exp(1))).round
+    return (7*(Math.log(followers+1)+Math.exp(1))).round
   end
   
   #looks for a user in the array and returns a twitter user object, if it can't be found, returns nil
@@ -73,8 +75,17 @@ else
     end
     return nil
   end
+  
+  def tweet_reply(to_user)
+    oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
+    oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
+    client = Twitter::Base.new(oauth)
+    client.update('@'+to_user.to_s+' You just earned some bandstock!!  :) :D :O <-- videochat with band!')    
+  end
+  
 
   begin
+    tweet_reply('bomatson')
     loop do      
       for search_item in TwitterCrawlerHashTag.all        
         search_term = search_item.term
@@ -92,10 +103,6 @@ else
         FileUtils.touch "twitter_crawler_timestamp"
       
         #keep incramenting pages until we find the last tweet we have seen
-        
-        #NOTE NOTE
-        #wonder if the topic is trending extremely fast, will get duplicates
-
         page=1
         while !result.blank? && (result.count % rpp) == 0 && page < (1500/rpp)
           page += 1          

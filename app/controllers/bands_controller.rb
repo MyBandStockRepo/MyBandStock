@@ -337,9 +337,16 @@ class BandsController < ApplicationController
       end
       return false
     end
-    @available_shares = @band.available_shares_for_purchase()
-    if @available_shares <= 0
-      flash[:error] = 'There are no more shares available to purchase today. New shares are released every day at noon, so check back!'
+    if @band.commerce_allowed == true    
+      @available_shares = @band.available_shares_for_purchase()
+      if @available_shares < @band.min_share_purchase_amount
+        flash[:error] = 'There are no more shares available to purchase today. New shares are released every day at noon, so check back!'
+      end
+    
+      @min_amount = @band.min_share_purchase_amount
+      @max_amount = @band.max_share_purchase_amount > @available_shares ? @available_shares : @band.max_share_purchase_amount
+    else
+      flash[:error] = "This artist is not currently offering BandStock for sale. Thank you for your interest."      
     end
     render :layout => 'lightbox' if params[:lightbox]
   end
