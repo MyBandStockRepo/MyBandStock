@@ -210,6 +210,8 @@ class TwitterApiController < ApplicationController
   end
 
 	def retweet
+		session[:twitter_followers] = nil
+		session[:original_tweet_id] = nil
     unless session[:auth_success] == true
       if params[:lightbox].nil?
         update_last_location
@@ -227,53 +229,67 @@ class TwitterApiController < ApplicationController
 		needtoauth = false
 		use_latest_status = (params[:latest] && params[:latest] != '') ? params[:latest] : nil
 		# When latest = true, the band's current status is tweeted, rather than the given tweet_id
-#		begin
-			if @retweeter = User.find(session[:user_id]).twitter_user
-				if (params[:tweet_id] || use_latest_status) && params[:band_id]
-					tweetclient = client(false, false, nil)
-					@band = Band.find(params[:band_id])
-					band_twitter_username = @band.twitter_username || ((@band.twitter_user) ? @band.twitter_user.user_name : nil)
-					@tweeter = (use_latest_status && band_twitter_username) ? Twitter.user(band_twitter_username) : tweetclient.status(params[:tweet_id]).user
-					@tweet = if use_latest_status
-					           @tweeter.status.text
-					         else
-					           tweetclient.status(params[:tweet_id]).text
-					         end
-					if @band && @tweeter
-						if  (
-						      use_latest_status ||
-  						    (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id) ||
-	  					    does_tweet_belong_to_band(params[:hash_identifier], params[:tweet_id], @band)
-	  					  )
-							@retweeter_info = tweetclient.verify_credentials
-							#all good to retweet
-							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
-							@retweet = @tweet
-							@endtags = generate_endtag(@tweeter.screen_name, linkback_url)
-							@msg = ''
-							@ellipsis = '...'
+		
+			if @retweeter = User.find(session[:user_id]).twitter_user 
+			  if @retweeter.oauth_access_token && @retweeter.oauth_access_secret
+  				if (params[:tweet_id] || use_latest_status) && params[:band_id]
+  					tweetclient = client(false, false, nil)
+  					@band = Band.find(params[:band_id])
+  					band_twitter_username = @band.twitter_username || ((@band.twitter_user) ? @band.twitter_user.user_name : nil)
+  					@tweeter = (use_latest_status && band_twitter_username) ? Twitter.user(band_twitter_username) : tweetclient.status(params[:tweet_id]).user
+  					@tweet = if use_latest_status
+  					           @tweeter.status.text
+  					         else
+  					           tweetclient.status(params[:tweet_id]).text              
+  					         end
+  					         
+  					if use_latest_status
+  					  session[:original_tweet_id] = @tweeter.status.id              
+					  else
+              session[:original_tweet_id] = tweetclient.status(params[:tweet_id]).id					           
+  				  end
+  					         
+  					if @band && @tweeter
+  						if  (
+  						      use_latest_status ||
+    						    (@band.twitter_user && @band.twitter_user.twitter_id == @tweeter.id) ||
+  	  					    does_tweet_belong_to_band(params[:hash_identifier], params[:tweet_id], @band)
+  	  					  )
+  							@retweeter_info = tweetclient.verify_credentials
+  							session[:twitter_followers] = @retweeter_info.followers_count
+
+  							#all good to retweet
+  							linkback_url = ((defined?(SITE_URL)) ? SITE_URL : 'http://mybandstock.com') + '/' + @band.short_name
+  							@retweet = @tweet
+  							@endtags = generate_endtag(@tweeter.screen_name, linkback_url)
+  							@msg = ''
+  							@ellipsis = '...'
 							
-							endtaglen = @endtags.length
-							tweetlen = @retweet.length
+  							endtaglen = @endtags.to_s.length
+  							tweetlen = @retweet.to_s.length
 							
-							if (endtaglen + tweetlen) <= TWEET_MAX_LENGTH
-								@msg = @retweet + @endtags
-							else
-								cutlen = TWEET_MAX_LENGTH - endtaglen - @ellipsis.length
-								@msg = @retweet[0,cutlen]+@ellipsis+@endtags
-							end				
-						else
-							flash[:error] = 'The band ID and tweeting user didn\'t match up.'			
-							error = true
-						end
-					else
-						flash[:error] = 'Couldn\'t find the tweet posting user.'
-						error = true
-					end		
-				else
-					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
-					error = true
-				end
+  							if (endtaglen + tweetlen) <= TWEET_MAX_LENGTH
+  								@msg = @retweet + @endtags
+  							else
+  								cutlen = TWEET_MAX_LENGTH - endtaglen - @ellipsis.length
+  								@msg = @retweet[0,cutlen]+@ellipsis+@endtags
+  							end				
+  						else
+  							flash[:error] = 'The band ID and tweeting user didn\'t match up.'			
+  							error = true
+  						end
+  					else
+  						flash[:error] = 'Couldn\'t find the tweet posting user.'
+  						error = true
+  					end		
+  				else
+  					flash[:error] = 'Cound\'t get the parameters to post a re-tweet.'
+  					error = true
+  				end
+  			else
+  				error = true
+  				needtoauth = true  			  
+			  end
 			else
 				error = true
 				needtoauth = true
@@ -334,30 +350,46 @@ class TwitterApiController < ApplicationController
 	def success
   # Here we award shares if the user has not posted a RT within the past 24 hours.
   #
+    @shares = params[:shares_awarded]
+
 		if params[:band_id]
 			@band = Band.find(params[:band_id])
 			@user = User.find(session[:user_id])
 			if !@band.nil? && !@user.nil?
+			  @success = true
+=begin
 			  num_tweets_in_past_day = ShareLedgerEntry.where(
 			                                             :description => 'retweet_band',
                 			                             :band_id => @band.id,
 			                                             :user_id => @user.id
 			                                           ).where("created_at > ?", 1.day.ago).count
-			  if num_tweets_in_past_day == 0
-				  @shares = NUM_SHARES_AWARDED_FOR_RT
+			  if num_tweets_in_past_day == 0 || true # HERE DELETE THIS
+
+			    if session[:twitter_followers]
+				    @shares = twitter_follower_point_calculation(session[:twitter_followers].to_i)#NUM_SHARES_AWARDED_FOR_RT
+			    else
+			      @shares = twitter_follower_point_calculation(0)
+			    end
+				  session[:twitter_followers] = nil
+
+				  
+
           if ShareLedgerEntry.create( :user_id => session[:user_id],
                                           :band_id => @band.id,
                                           :adjustment => @shares,
                                           :description => 'retweet_band'
                               )
+                              
             @success = true
           else
             @shares = nil
           end
+
         else
         # User has already been awarded for tweeting today
           flash.now[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
         end
+=end
 			else
 				flash[:error] = 'Check to make sure your tweet went out.'
 			end
@@ -381,25 +413,84 @@ class TwitterApiController < ApplicationController
 		begin
 			options = {}
 			options.update(:in_reply_to_status_id => params[:in_reply_to_status_id]) if params[:in_reply_to_status_id].present?
-	
-			if params[:twitter_api]
+
+			@user = User.find(session[:user_id])    			
+
+			if params[:twitter_api] && session[:original_tweet_id] && @user.twitter_user
 				if params[:twitter_api][:user_id] && params[:twitter_api][:message] && params[:twitter_api][:band_id]
+				  @band = Band.find(params[:twitter_api][:band_id])
+
+					
+					#make tweet
 					tweet = client.update(params[:twitter_api][:message])
 					flash[:notice] = "Got it! Tweet ##{tweet.id} created."
-					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id]
+					
+=begin					
+  			  num_retweets_in_past_day = ShareLedgerEntry.where(
+  			                                             :description => 'retweet_band',
+                  			                             :band_id => @band.id,
+  			                                             :user_id => @user.id
+  			                                           ).where("created_at > ?", 1.day.ago).count
+=end
+          num_retweets_in_past_day = Retweet.where(:band_id => @band.id, :twitter_user_id => @user.twitter_user.id).where("created_at > ?", 1.day.ago).count
+  			                                           
+  			                                           
+  			  if true#num_retweets_in_past_day == 0
+
+  			    if session[:twitter_followers]
+  				    shares = twitter_follower_point_calculation(session[:twitter_followers].to_i)#NUM_SHARES_AWARDED_FOR_RT
+  			    else
+  			      shares = twitter_follower_point_calculation(0)
+  			    end
+
+  			    
+            if Retweet.where(:original_tweet_id => session[:original_tweet_id], :twitter_user_id => @user.twitter_user.id).count == 0
+              Retweet.create(:original_tweet_id => session[:original_tweet_id], :retweet_tweet_id => tweet.id, :tweet => tweet.text, :twitter_user_id => @user.twitter_user.id, :band_id => @band.id, :twitter_followers => session[:twitter_followers], :share_value => shares)
+              ShareLedgerEntry.create( :user_id => session[:user_id],
+                                              :band_id => @band.id,
+                                              :adjustment => shares,
+                                              :description => 'retweet_band'
+                                  )
+            else
+              flash[:error] = 'You have already retweeted this status, so we allowed you to retweet it again. Although, you didn\'t earn any points this time around.'
+    				  session[:twitter_followers] = nil
+    				  session[:original_tweet_id] = nil
+#  					  redirect_to session['last_clean_url'], :lightbox => params[:lightbox]    
+					    redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id], :shares_awarded => 0  					
+    				  return false
+            end
+
+          else
+          # User has already been awarded for tweeting today
+            flash[:error] = 'Retweet successful, but you have already earned shares for retweeting this band today.'
+  				  session[:twitter_followers] = nil
+  				  session[:original_tweet_id] = nil            
+#  					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
+					  redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id], :shares_awarded => 0  					
+  					return false            
+          end					
+					session[:twitter_followers] = nil
+				  session[:original_tweet_id] = nil
+					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id], :shares_awarded => shares
 					return true
 				else
 					flash[:error] = 'Could not get required parameters to post message.'			
+				  session[:twitter_followers] = nil
+				  session[:original_tweet_id] = nil					
 					redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
 					return false
 				end
 			else
-				flash[:error] = 'Could not get required parameters to post message.'
+				flash[:error] = 'Could not get required parameters to post message. Make sure cookies are enabled and try again.'
+			  session[:twitter_followers] = nil
+			  session[:original_tweet_id] = nil				
 				redirect_to session['last_clean_url'], :lightbox => params[:lightbox]
 				return false
 			end
 		rescue
 			flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+		  session[:twitter_followers] = nil
+		  session[:original_tweet_id] = nil			
 			redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
 			return false			
 		end					

@@ -30,7 +30,7 @@
         repost
         %span.grey99
           the band for
-          = NUM_SHARES_AWARDED_FOR_RT
+          = @points_per_retweet
           shares!
       = render :partial => 'twitter_api/twitter_box', :locals => { :band_id => @stream.band.id, :tweets => @tweets, :redirect_url => @request_uri }
     -if @theme.has_guest_cam == true

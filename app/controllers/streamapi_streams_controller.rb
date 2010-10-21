@@ -67,7 +67,7 @@ respond_to :html, :js
     end
 
     @request_uri = root_url
-
+    @points_per_retweet = twitter_follower_point_calculation(0)		    
     # We tell the view to not display the video player if the stream is not live.
     # We can assume no one is broadcasting if currently_live is false, or there is no public_hostID.
     if !@stream.currently_live || @stream.public_hostid.nil?
@@ -80,6 +80,11 @@ respond_to :html, :js
 		end
     @user = User.find(session[:user_id])
 		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
+
+    if @user.twitter_user			
+			@twit_user = client(false, false, nil).verify_credentials
+			@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+    end
 
     unless @user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream

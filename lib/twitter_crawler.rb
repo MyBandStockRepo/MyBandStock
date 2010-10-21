@@ -61,7 +61,7 @@ else
   oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
   client = Twitter::Base.new(oauth) 
 
-  #can write a function 
+  #can write a function #also, similar function in application controller
   def calc_points_hash_tag(followers)
     return (7*(Math.log(followers+1)+Math.exp(1))).round
   end

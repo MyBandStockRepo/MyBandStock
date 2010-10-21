@@ -68,6 +68,7 @@ class BandsController < ApplicationController
       redirect_to :controller => 'fans', :action => 'store_band_name', :band => { :search_text => params[:id] }
       return false
     end
+    @points_per_retweet = twitter_follower_point_calculation(0)		    
     begin
       @band = Band.includes(:live_stream_series).find(id)
     rescue ActiveRecord::RecordNotFound
@@ -132,16 +133,18 @@ class BandsController < ApplicationController
 				@band_twitter_authorized = false
 		end					
 		begin
-			if session[:user_id] && @user = user
+			if @user
 				unless @user.twitter_user
-					@user_twitter_authorized = false
+					@user_twitter_authorized = false					
 				else
 					@twit_user = client(false, false, nil).verify_credentials
+					@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
 					@user_twitter_authorized = true			
 				end		    
 			end    
 		rescue
 			@user_twitter_authorized = false
+			@points_per_retweet = twitter_follower_point_calculation(0)	
 		end
     
   end

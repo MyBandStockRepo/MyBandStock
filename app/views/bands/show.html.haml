@@ -5,7 +5,7 @@
     = @band.name
     
 .stageunits
-  = render :partial => 'social_feed', :locals => { :band => @band, :recent_statuses => @recent_statuses, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting }
+  = render :partial => 'social_feed', :locals => { :band => @band, :recent_statuses => @recent_statuses, :twitter_username => @twitter_username, :currently_tweeting => @currently_tweeting, :user => @user, :points_per_retweet => @points_per_retweet}
 
   = render :partial => 'leaderboard', :locals => { :band => @band, :top_ten => @top_ten, :user_rank => @user_rank }
 
@@ -15,12 +15,12 @@
       .shareslefttext
         BandStock Left to
         %br
-        Buy Today:
+        earn Today:
       .big_lightboard        
-        -if @band.purchaseable_shares_release_amount.blank?
+        -if @band.earnable_shares_release_amount.blank?
           = lightboard_text 9999999, :digits => 5, :size => 'big'                
         -else
-          = lightboard_text @band.available_shares_for_purchase.to_s, :digits => 5, :size => 'big'                
+          = lightboard_text @band.earnable_shares_release_amount.to_s, :digits => 5, :size => 'big'                
         
     .buy_bandname
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }
