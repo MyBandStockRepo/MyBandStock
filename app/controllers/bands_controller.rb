@@ -68,7 +68,7 @@ class BandsController < ApplicationController
       redirect_to :controller => 'fans', :action => 'store_band_name', :band => { :search_text => params[:id] }
       return false
     end
-    @points_per_retweet = twitter_follower_point_calculation(0)		    
+
     begin
       @band = Band.includes(:live_stream_series).find(id)
     rescue ActiveRecord::RecordNotFound
@@ -90,8 +90,12 @@ class BandsController < ApplicationController
                           nil
                         end
 
-    @recent_statuses = @band.status_feed()
-
+    @recent_statuses = @band.status_feed()    
+    @points_per_retweet = twitter_follower_point_calculation(0)
+    available_shares = @band.available_shares_for_earning
+    if available_shares && available_shares < @points_per_retweet
+      @points_per_retweet = available_shares
+    end
     # Twitter authentication can redirect to this band show page. If the user just authorized with Twitter,
     #   We shall notify the view to pop open the retweet lightbox because the user is currently in the process of retweeting.
     if session[:user_just_authorized_with_twitter]
@@ -139,12 +143,20 @@ class BandsController < ApplicationController
 				else
 					@twit_user = client(false, false, nil).verify_credentials
 					@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+					available_shares = @band.available_shares_for_earning
+          if available_shares && available_shares < @points_per_retweet
+            @points_per_retweet = available_shares
+          end
 					@user_twitter_authorized = true			
 				end		    
 			end    
 		rescue
 			@user_twitter_authorized = false
 			@points_per_retweet = twitter_follower_point_calculation(0)	
+			available_shares = @band.available_shares_for_earning
+      if available_shares && available_shares < @points_per_retweet
+        @points_per_retweet = available_shares
+      end
 		end
     
   end

@@ -41,15 +41,20 @@ else
   require 'logger'
   require 'twitter'
 
+
+
   #connect activerecord to DB
   dbconfig = YAML::load(File.open(current_directory+'/../config/database.yml'))[RAILS_ENV]
   ActiveRecord::Base.establish_connection(dbconfig)
 
   #models
+  require current_directory+'/../app/models/band.rb'
   require current_directory+'/../app/models/twitter_user.rb'
   require current_directory+'/../app/models/twitter_crawler_hash_tag.rb'
   require current_directory+'/../app/models/twitter_crawler_tracker.rb'
+  require current_directory+'/../app/models/retweet.rb'
 
+  
   #Connect to Twitter Oauth Stuff
   TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
@@ -85,7 +90,7 @@ else
   
 
   begin
-    tweet_reply('bomatson')
+    #tweet_reply('bomatson')
     loop do      
       for search_item in TwitterCrawlerHashTag.all        
         search_term = search_item.term
@@ -136,9 +141,16 @@ else
                 twitter_user = TwitterUser.create(:twitter_id => user.id, :name => user.name.to_s, :user_name => user.screen_name.to_s)
               end
               
-              TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => calc_points_hash_tag(user.followers_count.to_i))
+              shares = calc_points_hash_tag(user.followers_count.to_i)
+              available_shares = search_item.band.available_shares_for_earning
+              if available_shares && available_shares < shares
+                shares = available_shares
+              end
+              
+              TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares)
           
-             puts "@"+twitter_user.name.to_s+" - "+r.text.to_s+"\n\n"
+#             puts "@"+twitter_user.name.to_s+" - "+r.text.to_s+"\n\n"
+              #DO @ Replies
   
               count += 1
             else

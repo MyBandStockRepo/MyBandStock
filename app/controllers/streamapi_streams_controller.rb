@@ -65,9 +65,13 @@ respond_to :html, :js
       redirect_to session[:last_clean_url]
       return false
     end
-
+    @band = @stream.band
     @request_uri = root_url
-    @points_per_retweet = twitter_follower_point_calculation(0)		    
+    @points_per_retweet = twitter_follower_point_calculation(0)
+    available_shares = @band.available_shares_for_earning
+    if available_shares && available_shares < @points_per_retweet
+      @points_per_retweet = available_shares
+    end		    
     # We tell the view to not display the video player if the stream is not live.
     # We can assume no one is broadcasting if currently_live is false, or there is no public_hostID.
     if !@stream.currently_live || @stream.public_hostid.nil?
@@ -84,6 +88,10 @@ respond_to :html, :js
     if @user.twitter_user			
 			@twit_user = client(false, false, nil).verify_credentials
 			@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+			available_shares = @band.available_shares_for_earning
+      if available_shares && available_shares < @points_per_retweet
+        @points_per_retweet = available_shares
+      end
     end
 
     unless @user.can_view_series(@stream.live_stream_series.id)

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101020210417) do
+ActiveRecord::Schema.define(:version => 20101022020704) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -344,6 +344,7 @@ ActiveRecord::Schema.define(:version => 20101020210417) do
     t.integer  "share_value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "shares_awarded",              :default => false
   end
 
   create_table "twitter_users", :force => true do |t|

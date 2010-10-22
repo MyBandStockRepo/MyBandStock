@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   def twitter_follower_point_calculation(followers)
     return (7*(Math.log(followers+1)+Math.exp(1))).round
   end
-
+  
   def index
     #unless params[:no_splash]
     #  redirect_to :controller => 'application', :action => 'event_splash'

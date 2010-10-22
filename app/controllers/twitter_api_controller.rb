@@ -442,7 +442,11 @@ class TwitterApiController < ApplicationController
   			    else
   			      shares = twitter_follower_point_calculation(0)
   			    end
-
+            
+            available_shares = @band.available_shares_for_earning
+            if available_shares && available_shares < shares
+              shares = available_shares
+            end
   			    
             if Retweet.where(:original_tweet_id => session[:original_tweet_id], :twitter_user_id => @user.twitter_user.id).count == 0
               Retweet.create(:original_tweet_id => session[:original_tweet_id], :retweet_tweet_id => tweet.id, :tweet => tweet.text, :twitter_user_id => @user.twitter_user.id, :band_id => @band.id, :twitter_followers => session[:twitter_followers], :share_value => shares)
@@ -471,6 +475,9 @@ class TwitterApiController < ApplicationController
           end					
 					session[:twitter_followers] = nil
 				  session[:original_tweet_id] = nil
+				  if shares == 0
+				    flash[:error] = 'Sorry, all earnable shares have been used up today.The retweet went through but you didn\'t get any shares.  Check back tomorrow to earn BandStock.'
+				  end
 					redirect_to :action => 'success', :lightbox => params[:lightbox], :band_id => params[:twitter_api][:band_id], :shares_awarded => shares
 					return true
 				else

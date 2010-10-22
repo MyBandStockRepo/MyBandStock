@@ -17,10 +17,10 @@
         %br
         earn Today:
       .big_lightboard        
-        -if @band.earnable_shares_release_amount.blank?
+        -if @band.available_shares_for_earning.blank?
           = lightboard_text 9999999, :digits => 5, :size => 'big'                
         -else
-          = lightboard_text @band.earnable_shares_release_amount.to_s, :digits => 5, :size => 'big'                
+          = lightboard_text @band.available_shares_for_earning.to_s, :digits => 5, :size => 'big'                
         
     .buy_bandname
       %a{ :href => buy_stock_url(@band.id, :lightbox => true), :class => 'lightbox', :fbwidth => '880', :fbheight => '300' }

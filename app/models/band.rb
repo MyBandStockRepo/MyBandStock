@@ -22,6 +22,9 @@ class Band < ActiveRecord::Base
   has_many :recorded_videos, :through => :streamapi_streams
   has_many :pledges
   has_many :share_code_groups
+  has_many :twitter_crawler_hash_tags
+  has_many :twitter_crawler_trackers, :through => :twitter_crawler_hash_tags
+  has_many :retweets
   
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
@@ -85,7 +88,10 @@ class Band < ActiveRecord::Base
 
   end
 
-
+  def convert_to_eastern_time(time)
+	  return time.utc.in_time_zone('Eastern Time (US & Canada)')
+  end
+  
   def status_feed(num_items = 7, text_length_limit = 200)
   # This function returns an array of recent social statuses for the band instance.
   # On failure or no statuses, nil is returned.
@@ -187,6 +193,48 @@ class Band < ActiveRecord::Base
     
     return available_shares
   end
+  
+  def available_shares_for_earning
+    #returns nil if no cap on the shares or the number of avaialable shares, it will never return a negative number
+    
+    
+    retweet_shares_sum    = 0
+    hash_tag_shares_sum   = 0
+    noon_today        = (convert_to_eastern_time(Time.now).midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
+    
+    if noon_today > convert_to_eastern_time(Time.now)
+      most_recent_noon = noon_today - 1.day
+    else
+      most_recent_noon = noon_today
+    end
+    
+    #get all the retweets
+    retweet_shares =  self.retweets.where(["created_at > ?", most_recent_noon.utc]).all
+    retweet_shares.each{ |entry|
+      retweet_shares_sum += entry.share_value
+    }
+    puts 'RETWEET SHARES IN LAST DAY: '+retweet_shares_sum.to_s
+    
+    
+    #get all the hash tags and phrases
+    hash_tag_shares =  self.twitter_crawler_trackers.where(["twitter_crawler_trackers.created_at > ?", most_recent_noon.utc]).all
+    hash_tag_shares.each{ |entry|
+      hash_tag_shares_sum += entry.share_value
+    }
+    puts 'HASH TAG SHARES IN LAST DAY: '+hash_tag_shares_sum.to_s
+    
+    
+    #if there is no cap on released share amounts, set it to nil
+    if self.earnable_shares_release_amount.blank?
+      available_shares = nil
+    else
+      available_shares = self.earnable_shares_release_amount - retweet_shares_sum - hash_tag_shares_sum
+      available_shares = (available_shares >= 0) ? available_shares : 0      
+    end
+    puts 'AVAILABLE SHARES: '+available_shares.to_s
+    return available_shares
+  end  
+  
   
 =begin
   def share_price()
