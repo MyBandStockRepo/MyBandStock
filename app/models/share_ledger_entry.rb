@@ -32,7 +32,7 @@ private
     share_total.gross = total_query.where('adjustment > 0').sum(:adjustment)
     
     success = share_total.save!
-    logger.info 'SUCCESS? '+success.to_s
+#    logger.info 'SUCCESS? '+success.to_s
 
     #commented out because not fully tested yet
     share_total.update_user_ranks

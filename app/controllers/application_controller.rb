@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
     #  return
     #end
 
+    
     if (session[:user_id])
       @user = User.find(session[:user_id])
       redirect_to '/me/control_panel'

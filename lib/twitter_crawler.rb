@@ -53,6 +53,9 @@ else
   require current_directory+'/../app/models/twitter_crawler_hash_tag.rb'
   require current_directory+'/../app/models/twitter_crawler_tracker.rb'
   require current_directory+'/../app/models/retweet.rb'
+  require current_directory+'/../app/models/user.rb'
+  require current_directory+'/../app/models/share_ledger_entry.rb'
+  require current_directory+'/../app/models/share_total.rb'
 
   
   #Connect to Twitter Oauth Stuff
@@ -90,7 +93,6 @@ else
   
 
   begin
-    #tweet_reply('bomatson')
     loop do      
       for search_item in TwitterCrawlerHashTag.all        
         search_term = search_item.term
@@ -145,12 +147,36 @@ else
               available_shares = search_item.band.available_shares_for_earning
               if available_shares && available_shares < shares
                 shares = available_shares
-              end
-              
-              TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares)
+              end              
           
-#             puts "@"+twitter_user.name.to_s+" - "+r.text.to_s+"\n\n"
-              #DO @ Replies
+              #if user in the system, create share ledger entry
+              if twitter_user.users.last
+                TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
+                #user in the system
+                ShareLedgerEntry.create( :user_id => twitter_user.users.last.id,
+                                                :band_id => search_item.band.id,
+                                                :adjustment => shares,
+                                                :description => 'tweeted_band'
+                                    )
+                #DO @ Replies                                    
+                if shares > 0
+#                 tweet_reply('bomatson')
+                else
+                  
+                end
+              else
+                #user not in the system
+                TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false)
+
+                #DO @ Replies                
+                if shares > 0
+                  
+                else
+                  
+                end
+              end
+          
+             puts "@"+twitter_user.name.to_s+" - "+r.text.to_s+"\n\n"
   
               count += 1
             else

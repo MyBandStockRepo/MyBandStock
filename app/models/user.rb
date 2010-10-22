@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   #field specific
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
+  validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
   validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
 #  validates_numericality_of :country_id

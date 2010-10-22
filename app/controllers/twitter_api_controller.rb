@@ -83,6 +83,11 @@ class TwitterApiController < ApplicationController
 					
 					if existing_twitter
 						twitter_user = existing_twitter
+						if twitter_user.oauth_access_token.blank? || twitter_user.oauth_access_secret.blank?
+						  twitter_user.oauth_access_token = band_oauth.access_token.token
+						  twitter_user.oauth_access_secret = band_oauth.access_token.secret
+						  twitter_user.save
+					  end
 					else
 						unless twitter_user = TwitterUser.create(:name => profile.name, :user_name => profile.screen_name, :twitter_id => profile.id, :oauth_access_token => band_oauth.access_token.token, :oauth_access_secret => band_oauth.access_token.secret)
 							flash[:error] = 'Could not create Twitter user.'
@@ -105,6 +110,11 @@ class TwitterApiController < ApplicationController
 	
 					if existing_twitter				
 						twitter_user = existing_twitter
+						if twitter_user.oauth_access_token.blank? || twitter_user.oauth_access_secret.blank?
+						  twitter_user.oauth_access_token = user_oauth.access_token.token
+						  twitter_user.oauth_access_secret = user_oauth.access_token.secret
+						  twitter_user.save
+					  end
 					else
 						unless twitter_user = TwitterUser.create(:name => profile.name, :user_name => profile.screen_name, :twitter_id => profile.id, :oauth_access_token => user_oauth.access_token.token, :oauth_access_secret => user_oauth.access_token.secret)					
 							flash[:error] = 'Could not create Twitter user.'
@@ -112,8 +122,16 @@ class TwitterApiController < ApplicationController
 						end
 					end				
 									
+					if twitter_user.users.count > 0
+				    flash[:error] = 'This twitter account is currently tied to another MyBandStock account.  It can\'t be tied to more than one account at a time.'
+				    session['rtoken'] = session['rsecret'] = session['band_id_for_twitter'] = nil			
+				    redirect_to :controller => 'users', :action => 'edit', :id => @user.id
+				    return false
+			    end
+				  				
+									
 					@user.twitter_user_id = twitter_user.id
-					unless @user.save
+					unless @user.save					  
 						flash[:error] = 'Could not update user database with Twitter keys.'
 						error = true
 					end					
