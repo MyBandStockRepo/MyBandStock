@@ -5,15 +5,16 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 5
+script_downtime_minutes_allowed = 1
 RAILS_ENV='production'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
-require 'rubygems'
-require 'FileUtils'
+SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
+
+require 'fileutils'
 #if the script has been run within the last 5 mintes, don't run it now.
 if File.exist?("twitter_crawler_timestamp") && (File.stat("twitter_crawler_timestamp").mtime+(script_downtime_minutes_allowed*60)) > Time.now
   puts 'Script was run within the past '+script_downtime_minutes_allowed.to_s+' minutes.  Exiting.'  
@@ -36,7 +37,7 @@ else
   current_directory = File.expand_path(File.dirname(__FILE__))
 
   #Necessary requires since rails isn't running
-
+  require 'rubygems'
   require 'active_record'
   require 'yaml'
   require 'logger'
@@ -97,13 +98,13 @@ else
   end
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. You now have BandStock! #{registration_link}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. You now have BandStock! #{SHORT_REGISTRATION_LINK}")
   end
   def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
     tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. You earned #{shares} BandStock and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard!")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. No more BandStock available today - try tmrw #{registration_link}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. No more BandStock available today - try tmrw #{SHORT_REGISTRATION_LINK}")
   end
   def yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
     tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. No more BandStock is available to earn today. You can buy more at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
