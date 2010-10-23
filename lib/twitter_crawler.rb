@@ -210,9 +210,9 @@ else
             end
             #if the user couldn't be found, skip it and go ahead with the script
             search_item.last_tweet_id = r.id
-            
+            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
             if search_item.save
-              puts 'SAVED WITH last_tweet_id '+r.id.to_s
+              puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
             else
               puts 'SAVE FAILED!!'
             end
