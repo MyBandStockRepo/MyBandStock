@@ -191,7 +191,7 @@ class Band < ActiveRecord::Base
       available_shares = (available_shares >= 0) ? available_shares : 0      
     end
     
-    return available_shares
+    return available_shares.to_i
   end
   
   def available_shares_for_earning
