@@ -117,6 +117,7 @@ else
         last_tweet_id = search_item.last_tweet_id
       
         sleep sleep_num
+        puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
         result = Twitter::Search.new(search_term).since(last_tweet_id).result_type('recent').per_page(rpp).fetch().results
 
         #lookup users
