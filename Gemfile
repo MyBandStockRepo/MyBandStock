@@ -16,7 +16,7 @@ gem 'will_paginate', :branch => "rails3"
 #gem 'will_paginate'
 gem 'newrelic_rpm', :require => false
 
-gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
+#gem 'acts_as_dropdown', :git => 'git://github.com/gbdev/acts_as_dropdown.git'
 
 #used to send out batch emails to multiple users
 gem 'delayed_job', '>= 2.1.0.pre'

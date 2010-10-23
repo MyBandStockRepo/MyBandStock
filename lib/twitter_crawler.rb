@@ -98,16 +98,17 @@ else
   end
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. You now have BandStock! #{SHORT_REGISTRATION_LINK}")
-  end
-  def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
-    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. You earned #{shares} BandStock and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard!")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{SHORT_REGISTRATION_LINK}")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. No more BandStock available today - try tmrw #{SHORT_REGISTRATION_LINK}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{SHORT_REGISTRATION_LINK}")
+  end
+
+  def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
+    tweet_reply("@#{twitter_user.user_name} Yay! You earned #{shares} BandStock in @#{band.twitter_username} and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard! #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")
   end
   def yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
-    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. No more BandStock is available to earn today. You can buy more at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
+    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting @#{band.twitter_username}. No more BandStock can be earned today, but you can buy it at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
   end
   begin
     loop do      

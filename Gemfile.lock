@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/gbdev/acts_as_dropdown.git
-  revision: 9df3733375e274d3f512e3e65ff327d437a7e638
-  specs:
-    acts_as_dropdown (2.0.3)
-
-GIT
   remote: git://github.com/rubypond/twitter-text-rb.git
   revision: 9cc953abb76070cf4a5f5142b63abfa18483feea
   specs:
@@ -109,7 +103,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_dropdown!
   builder
   delayed_job (>= 2.1.0.pre)
   fastercsv
