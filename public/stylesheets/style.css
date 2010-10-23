@@ -984,7 +984,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
     .mbs-leaderboard-widget .mbs-leaderboard-band-name a:hover {
       color: #C60;
     }
-  
   .mbs-leaderboard-widget .mbs-leaderboard-header {
     position: absolute;
     top: 67px;
@@ -993,7 +992,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
     color: #FFF;
     text-align: center;
   }
-  
   .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining {
     position: absolute;
     top: 103px;
@@ -1001,13 +999,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
     width: 200px;
     height: 50px;
   }
-  
   .mbs-leaderboard-widget .mbs-leaderboard-shares-remaining-info {
     font-size: 13px;
     color: #F90;
     font-family: TitilliumText14L800wt;
   }
-  
   .mbs-leaderboard-widget .leaderboard {
     position: absolute;
     margin: 0;
@@ -1015,7 +1011,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
     left: 12px;
     width: 216px;
   }
-  
   .mbs-leaderboard-widget .mbs-leaderboard-info {
     position: absolute;
     top: 332px;
@@ -1028,20 +1023,30 @@ fieldset {border:0px;padding:0px;margin:0px;}
     padding: 6px;
     cursor: default;
   }
-  
+  .mbs-leaderboard-widget .mbs-leaderboard-tweet-button {
+    background: transparent url(/images/icons/tweet_button.png) no-repeat;
+    height: 20px;
+    width: 55px;
+  }
+    .mbs-leaderboard-widget .mbs-leaderboard-tweet-button a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   .mbs-leaderboard-widget .mbs-leaderboard-footer {
     position: absolute;
     top: 390px;
     width: 100%;
     height: 31px;
   }
-
     .mbs-leaderboard-widget .mbs-leaderboard-footer a {
       display: block;
       width: 100%;
       height: 100%;
     }
 
+  /* .es .tb,.es .t-count,.es .t-count button{background-image:url(/widgets/images/tweet_es.png);}.fr .tb,.fr .t-count,.fr .t-count button{background-image:url(/widgets/images/tweet_fr.png);}.de .tb,.de .t-count,.de .t-count button{background-image:url(/widgets/images/tweet_de.png);}.ja .tb,.ja .t-count,.ja .t-count button{background-image:url(/widgets/images/tweet_ja.png);}.tb button{position:absolute;left:-999em;}.tb:hover,.tb-focus{background-position:0 -21px;}.tb:active{background-position:0 -42px;}
+  */
 /* /Leaderboard Widget */
 
 

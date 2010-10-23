@@ -72,6 +72,9 @@ class BandsController < ApplicationController
     end
     
     @top_stockholders = @band.top_shareholders(5)
+    @twitter_set_status_url = "http://twitter.com/home?status="
+    @twitter_status_text = "Rock on! Tweet %23#{@band.name.gsub(' ', '')} for BandStock!"
+    @twitter_set_status_link = @twitter_set_status_url + @twitter_status_text
     
     if session[:user_id]
       # If the user is logged in, we provide his rank.

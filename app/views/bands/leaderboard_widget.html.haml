@@ -1,3 +1,5 @@
+- @twitter_set_status_link ||= "http://twitter.com/home?status=Rock on! Tweet %23#{@band.name.gsub(' ', '')} for BandStock!"
+
 .mbs-leaderboard-widget
   .mbs-leaderboard-band-name
     %a{ :href => band_url(@band), :onclick => "top.location.href = '#{ band_url(@band) }'; return false;"}
@@ -22,6 +24,8 @@
     %strong><
       = ' '+ @band.name
     !
+    .mbs-leaderboard-tweet-button
+      %a{ :href => @twitter_set_status_link, :target => '_blank' } &nbsp;
   .mbs-leaderboard-footer
     = link_to ' ', root_url
 -# http://twitter.com/home?status=asdfsadf
