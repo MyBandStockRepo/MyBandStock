@@ -11,6 +11,7 @@ RAILS_ENV='development'
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 5
+URL_SHORTENER_HOST = 'http://mbs1.us'
 
 require 'FileUtils'
 #if the script has been run within the last 5 mintes, don't run it now.
@@ -46,7 +47,8 @@ else
   #connect activerecord to DB
   dbconfig = YAML::load(File.open(current_directory+'/../config/database.yml'))[RAILS_ENV]
   ActiveRecord::Base.establish_connection(dbconfig)
-
+  ActiveRecord::Base.default_timezone = :utc
+  
   #models
   require current_directory+'/../app/models/band.rb'
   require current_directory+'/../app/models/twitter_user.rb'
@@ -56,6 +58,7 @@ else
   require current_directory+'/../app/models/user.rb'
   require current_directory+'/../app/models/share_ledger_entry.rb'
   require current_directory+'/../app/models/share_total.rb'
+  require current_directory+'/../app/models/short_url.rb'
 
   
   #Connect to Twitter Oauth Stuff
@@ -84,14 +87,27 @@ else
     return nil
   end
   
-  def tweet_reply(to_user)
+  def tweet_reply(message)
     oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
     oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
     client = Twitter::Base.new(oauth)
-    client.update('@'+to_user.to_s+' You just earned some bandstock!!  :) :D :O <-- videochat with band!')    
+    client.update(message.to_s[0..139])    #dont let it go over 140 characters
+
+   # puts 'MESSAGE: '+message.to_s
   end
   
-
+  def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. You now have BandStock! #{registration_link}")
+  end
+  def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
+    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. You earned #{shares} BandStock and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard!")
+  end
+  def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working with @MyBandStock to reward fans for tweeting. No more BandStock available today - try tmrw #{registration_link}")
+  end
+  def yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
+    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting about @#{band.twitter_username}. No more BandStock is available to earn today. You can buy more at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
+  end
   begin
     loop do      
       for search_item in TwitterCrawlerHashTag.all        
@@ -141,6 +157,7 @@ else
               #if user not in our system, put them in as a twitter user
               if twitter_user.nil?
                 twitter_user = TwitterUser.create(:twitter_id => user.id, :name => user.name.to_s, :user_name => user.screen_name.to_s)
+                
               end
               
               shares = calc_points_hash_tag(user.followers_count.to_i)
@@ -152,17 +169,20 @@ else
               #if user in the system, create share ledger entry
               if twitter_user.users.last
                 TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
+                
                 #user in the system
-                ShareLedgerEntry.create( :user_id => twitter_user.users.last.id,
-                                                :band_id => search_item.band.id,
-                                                :adjustment => shares,
-                                                :description => 'tweeted_band'
-                                    )
                 #DO @ Replies                                    
                 if shares > 0
-#                 tweet_reply('bomatson')
-                else
+
+                  ShareLedgerEntry.create( :user_id => twitter_user.users.last.id,
+                                :band_id => search_item.band.id,
+                                :adjustment => shares,
+                                :description => 'tweeted_band'
+                  )
+                  yes_mbs_account_stock_available_reply(twitter_user, search_item.band, shares)
                   
+                else
+                  yes_mbs_account_no_stock_available_reply(twitter_user, search_item.band, shares)
                 end
               else
                 #user not in the system
@@ -170,9 +190,9 @@ else
 
                 #DO @ Replies                
                 if shares > 0
-                  
+                  no_mbs_account_stock_available_reply(twitter_user, search_item.band, shares, 'registration_link')
                 else
-                  
+                  no_mbs_account_no_stock_available_reply(twitter_user, search_item.band, shares, 'registration_link')
                 end
               end
           

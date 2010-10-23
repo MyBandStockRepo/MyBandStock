@@ -134,6 +134,8 @@ class TwitterApiController < ApplicationController
 					unless @user.save					  
 						flash[:error] = 'Could not update user database with Twitter keys.'
 						error = true
+					else
+					  @user.reward_tweet_bandstock_retroactively
 					end					
 				end	
 			else			
@@ -434,7 +436,7 @@ class TwitterApiController < ApplicationController
 
 			@user = User.find(session[:user_id])    			
 
-			if params[:twitter_api] && session[:original_tweet_id] && @user.twitter_user
+			if params[:twitter_api] && session[:original_tweet_id] && @user.twitter_user && @user.twitter_user.oauth_access_token && @user.twitter_user.oauth_access_secret
 				if params[:twitter_api][:user_id] && params[:twitter_api][:message] && params[:twitter_api][:band_id]
 				  @band = Band.find(params[:twitter_api][:band_id])
 

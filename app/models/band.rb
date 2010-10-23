@@ -200,9 +200,9 @@ class Band < ActiveRecord::Base
     
     retweet_shares_sum    = 0
     hash_tag_shares_sum   = 0
-    noon_today        = (convert_to_eastern_time(Time.now).midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
+    noon_today        = (convert_to_eastern_time(Time.now.utc).midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
     
-    if noon_today > convert_to_eastern_time(Time.now)
+    if noon_today > convert_to_eastern_time(Time.now.utc)
       most_recent_noon = noon_today - 1.day
     else
       most_recent_noon = noon_today
