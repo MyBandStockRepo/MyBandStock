@@ -16,7 +16,8 @@ class TwitterApiController < ApplicationController
   		auth_url = request_token.authorize_url
   		session['rtoken_quick'] = access_token
   		session['rsecret_quick'] = access_secret		
-  		redirect_to 'http://'+auth_url
+#  		redirect_to 'http://'+auth_url
+      redirect_to auth_url
     rescue
       flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
       redirect_to :controller => 'users', :action => 'register_with_twitter'
@@ -134,7 +135,8 @@ class TwitterApiController < ApplicationController
 			session['rtoken'] = access_token
 			session['rsecret'] = access_secret		
 #			puts 'TEST AUTH URL'+auth_url.to_s
-			redirect_to 'http://'+auth_url
+#			redirect_to 'http://'+auth_url
+      redirect_to auth_url
     rescue
       flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
       redirect_to root_url
