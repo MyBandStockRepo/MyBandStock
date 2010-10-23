@@ -5,7 +5,7 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 1
+script_downtime_minutes_allowed = 5
 RAILS_ENV='production'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
