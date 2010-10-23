@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
 
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:new, :create, :state_select, :activate]
+ before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists]
+ skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists, :register_with_twitter_step_2]
 
   def index
     #What do we do with this action?
@@ -31,8 +31,11 @@ class UsersController < ApplicationController
     end
     
   end
-
-
+  
+  def register_with_twitter
+    
+  end
+  
 	def activate
 		if params[:user_id] && params[:code]
 			lookup_user = User.where(:id => params[:user_id], :password => Digest::SHA2.hexdigest(params[:code])).first
@@ -152,7 +155,9 @@ class UsersController < ApplicationController
       params[:user][:state_id] = 1
 
       @user.update_attributes(params[:user])
-      
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end
       redirect_to :action => "state_select"
       return true
       end
@@ -164,7 +169,9 @@ class UsersController < ApplicationController
     @user.update_attributes(params[:user])
     
     success = @user.save
-    
+    if @user.twitter_user
+      @user.reward_tweet_bandstock_retroactively
+    end
     if success
 			if @user.status == 'pending'
 				@user.status = 'active'
@@ -214,44 +221,62 @@ class UsersController < ApplicationController
 
 
   def new
-		@request_uri = url_for()  
-#		@newform = true
-    @user = User.new
-    #check to see if they've been around before
-    if params[:user]
-      @user = User.new(params[:user])
-    end
-
-    
-		begin
-			unless @user.twitter_user
-				@user_twitter_authorized = false
-			else
-				user_client = client(false, false, nil)
-				@twit_user = user_client.verify_credentials
-				@user_twitter_authorized = true										
-			end		
-		rescue
-				@user_twitter_authorized = false
-		end       
-    if (@user.country_id.nil? || @user.country_id == '' )
-      #calculate their ip number to determine country of origin
-      ip_parts = request.remote_ip.split(".")
-      ipnum = 16777216*ip_parts[0].to_i + 65536*ip_parts[1].to_i + 256*ip_parts[2].to_i + ip_parts[3].to_i 
-      c_ip = CountryIp.find(:first, :conditions => ["begin_num < ? AND end_num > ?", ipnum, ipnum])
-      unless c_ip.nil?
-        if user_country = Country.find_by_name(c_ip.name.upcase)
-          @user.country_id = user_country.id
+    if session[:quick_registration_twitter_user_id]
+      if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
+        oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
+        oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
+        profile = Twitter::Base.new(oauth)
+        @twit_user = profile.verify_credentials
+        @user = User.new
+        #check to see if they've been around before
+        if params[:user]
+          @user = User.new(params[:user])
         end
+  #      session[:quick_registration_twitter_user_id] = nil
+      else
+        session[:quick_registration_twitter_user_id] = nil
+        flash[:error] = 'Could not find that twitter account in our system. Please retry'
+        redirect_to 'register_with_twitter'
       end
-      #update the states list
-      state_select(@user.country_id)
-    end
-    
-    unless params[:lightbox].nil?
-      render :layout => 'lightbox'
-    end
+    else
+  		@request_uri = url_for()  
+  #		@newform = true
+      @user = User.new
+      #check to see if they've been around before
+      if params[:user]
+        @user = User.new(params[:user])
+      end
 
+    
+  		begin
+  			unless @user.twitter_user
+  				@user_twitter_authorized = false
+  			else
+  				user_client = client(false, false, nil)
+  				@twit_user = user_client.verify_credentials
+  				@user_twitter_authorized = true										
+  			end		
+  		rescue
+  				@user_twitter_authorized = false
+  		end       
+      if (@user.country_id.nil? || @user.country_id == '' )
+        #calculate their ip number to determine country of origin
+        ip_parts = request.remote_ip.split(".")
+        ipnum = 16777216*ip_parts[0].to_i + 65536*ip_parts[1].to_i + 256*ip_parts[2].to_i + ip_parts[3].to_i 
+        c_ip = CountryIp.find(:first, :conditions => ["begin_num < ? AND end_num > ?", ipnum, ipnum])
+        unless c_ip.nil?
+          if user_country = Country.find_by_name(c_ip.name.upcase)
+            @user.country_id = user_country.id
+          end
+        end
+        #update the states list
+        state_select(@user.country_id)
+      end
+    
+      unless params[:lightbox].nil?
+        render :layout => 'lightbox'
+      end
+    end
   end
       
   
@@ -309,6 +334,23 @@ class UsersController < ApplicationController
       redirect_to :action => "new", :lightbox => params[:lightbox]
     end
 
+
+      if session[:quick_registration_twitter_user_id]
+        if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
+          oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
+          oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
+          profile = Twitter::Base.new(oauth)
+          @twit_user = profile.verify_credentials
+          
+        else
+          session[:quick_registration_twitter_user_id] = nil
+          flash[:error] = 'Could not find that twitter account in our system. Please retry'
+          redirect_to 'register_with_twitter'
+        end
+      end
+
+
+
     # Hash the password before putting it into DB
     if user_registration_info[:password] && !user_registration_info[:password].nil? && user_registration_info[:password] != ''
 			user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
@@ -325,8 +367,12 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
+      session[:quick_registration_twitter_user_id] = nil
+      
       UserMailer.registration_notification(@user).deliver
-
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end
       # send email to new users welcoming to website, priority -1, default is 0
 #      Delayed::Job.enqueue(RegistrationNotificationJob.new(@user), -1)
       

@@ -1,0 +1,96 @@
+
+.newform
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        .fieldname
+          .fieldnametop
+            = f.label 'twitter'
+          .fieldnamebottom
+        .fieldbox
+          .form_input_text
+            = image_tag(@twit_user.profile_image_url, :class => 'edit_band_twit_img')
+            .auth_twit_text
+              Authorized as:
+              %br
+              %b
+                = @twit_user.screen_name+' ('+@twit_user.name+')'
+                =f.hidden_field :twitter_user_id, :value => @twitter_user.id                 
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :email, 'email*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :email
+    .fielderror.condense
+      - if @user.errors[:email]
+        - for e in @user.errors[:email]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :email_confirmation, 'confirm email*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :email_confirmation
+    .fielderror.condense
+      - if @user.errors[:email_confirmation]
+        - for e in @user.errors[:email_confirmation]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :password, 'password*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.password_field :password, :value => ''
+      - if @user.status != 'pending' && (params[:action] == 'edit' || params[:action] == 'update')
+        .desc
+          Leave this unchanged if you wish to keep your current password.
+    .fielderror.condense
+      - if @user.errors[:password]
+        - for e in @user.errors[:password]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :first_name, 'first name*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :first_name, :value => @twit_user.name.split[0]
+    .fielderror.condense
+      - if @user.errors[:first_name]
+        - for e in @user.errors[:first_name]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :zipcode, 'zip code*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :zipcode
+    .fielderror.condense
+      - if @user.errors[:zipcode]
+        - for e in @user.errors[:zipcode]
+          %p
+            = '- '+e.to_s

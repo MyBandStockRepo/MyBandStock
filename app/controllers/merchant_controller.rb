@@ -23,21 +23,29 @@ class MerchantController < ApplicationController
     # Check to assure the band exists.
     band = ( (params[:band_id]) ? Band.find(params[:band_id].to_i) : nil )
     if band.nil?
-      flash[:error] = 'Could not buy stock: band does not exist or was not specified.'
+      flash[:error] = 'Could not buy BandStock: band does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
 
     #make sure num_shares is good
-    if params[:num_shares] == ''
-      flash[:error] = 'Please select an amount of shares.'
+    if params[:num_shares].blank?
+      flash[:error] = 'Please select an amount of BandStock.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
     
     num_shares = params[:num_shares].to_i
-    if num_shares.nil? || num_shares == 0 || num_shares < MINIMUM_SHARE_PURCHASE || num_shares > NUM_SHARES_PER_BAND_PER_DAY
-      flash[:error] = 'Could not buy stock: share amount must be between ' + MINIMUM_SHARE_PURCHASE.to_s + ' and ' + NUM_SHARES_PER_BAND_PER_DAY.to_s + '.'
+#    if num_shares.nil? || num_shares == 0 || num_shares < band.min_share_purchase_amount || num_shares > band.purchaseable_shares_release_amount
+    min_amount = band.min_share_purchase_amount
+    max_amount = band.max_share_purchase_amount > band.available_shares_for_purchase ? band.available_shares_for_purchase : band.max_share_purchase_amount      
+    if num_shares.nil? || num_shares == 0 || num_shares < min_amount
+      flash[:error] = 'Could not buy BandStock: amount must be at least ' + min_amount.to_s + '.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
+    
+    if num_shares.nil? || num_shares == 0 || num_shares > max_amount
+      flash[:error] = 'Could not buy BandStock: amount less then or equal to ' + max_amount.to_s + '.'
+      redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
+    end    
     
     # We must assure that the band has allowed us to sell their shares.
     unless band.commerce_allowed
@@ -54,9 +62,9 @@ class MerchantController < ApplicationController
     available_shares = band.available_shares_for_purchase
     if available_shares <= 0 || num_shares > available_shares
       if (available_shares <= 0)
-        flash[:error] = "There are no more shares available today! Check back soon - new shares are released every day at noon."
+        flash[:error] = "There is no more BandStock available today! Check back soon - BandStock released every day at noon ET."
       else
-        flash[:error] = "There aren't that many shares available! You can buy up to #{ available_shares } until more are released."
+        flash[:error] = "There isn't that much BandStock available! You can buy up to #{ available_shares } BandStock in this transaction."
       end
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
@@ -65,13 +73,13 @@ class MerchantController < ApplicationController
     @frontend = Google4R::Checkout::Frontend.new(GOOGLE_CHECKOUT_CONFIGURATION)
     @frontend.tax_table_factory = TaxTableFactory.new
     checkout_command = @frontend.create_checkout_command
-    total_cost = num_shares * band.share_price()
+    total_cost = num_shares * band.share_price * 100 # convert to cents
 
     # Adding an item to shopping cart
     # The product ID for stock looks like "stock-bandID-numShares-userID", like
     #   "stock-4-100-49"
     checkout_command.shopping_cart.create_item do |item|      
-      item.name = "#{num_shares} shares in #{band.name}"
+      item.name = "#{num_shares} BandStock in #{band.name}"
       item.description = "Exclusive MyBandStock.com stock in #{band.name}"
       item.unit_price = Money.new(total_cost, "USD") #this takes cents
       item.quantity = 1

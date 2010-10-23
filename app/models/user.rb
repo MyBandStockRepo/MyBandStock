@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   #field specific
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
+  validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
   validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
 #  validates_numericality_of :country_id
@@ -46,8 +47,8 @@ class User < ActiveRecord::Base
 #  validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
   
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
-  validates_length_of :first_name, :maximum => 50, :unless => Proc.new {|user| user.first_name.nil?}
-  validates_length_of :last_name, :maximum => 50, :unless => Proc.new {|user| user.last_name.nil?}
+  validates_length_of :first_name, :maximum => 20, :unless => Proc.new {|user| user.first_name.nil?}
+  validates_length_of :last_name, :maximum => 25, :unless => Proc.new {|user| user.last_name.nil?}
   validates_length_of :address1, :maximum => 100, :unless => Proc.new {|user| user.address1.nil?}
 
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
@@ -55,6 +56,29 @@ class User < ActiveRecord::Base
   validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
+  
+  #this method will award bandstock to the user for tweets they made in the past (for new users who sign up, or users who tie in a twitter account)
+  def reward_tweet_bandstock_retroactively
+    #award bandstock for hash_tags and phrases
+    if self.twitter_user
+      not_yet_awarded_tweets = self.twitter_user.twitter_crawler_trackers.where(:shares_awarded => false).all
+    
+      for tweet in not_yet_awarded_tweets
+        unless tweet.share_value == 0
+          ShareLedgerEntry.create( :user_id => self.id,
+                                          :band_id => tweet.twitter_crawler_hash_tag.band.id,
+                                          :adjustment => tweet.share_value,
+                                          :description => 'tweeted_band_retroactively_awarded'
+                              )
+        end
+        tweet.shares_awarded = true
+        tweet.save
+      end    
+    else
+      return false
+    end
+  end
+  
   
   def share_totals
     ShareTotal.where(:user_id => self.id).all

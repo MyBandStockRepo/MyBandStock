@@ -51,12 +51,18 @@ class ApplicationController < ActionController::Base
   
   #################
 
+  #a similar function also needs to be changed for the twitter crawler script in lib/twitter_crawler.rb
+  def twitter_follower_point_calculation(followers)
+    return (7*(Math.log(followers+1)+Math.exp(1))).round
+  end
+  
   def index
     #unless params[:no_splash]
     #  redirect_to :controller => 'application', :action => 'event_splash'
     #  return
     #end
 
+    
     if (session[:user_id])
       @user = User.find(session[:user_id])
       redirect_to '/me/control_panel'
@@ -64,9 +70,8 @@ class ApplicationController < ActionController::Base
     @bands = Band.all(:limit => 10)
     if (session[:user_id])
       @user = User.find(session[:user_id])
-    end
-    
-  end
+    end  
+  end  
   
   def event_splash
     # whatever the event splash needs
@@ -144,10 +149,21 @@ class ApplicationController < ActionController::Base
     return nil if band.nil?
     
     referer_domain  = URI.parse(request.referer).host  # Get 'www.google.com' from 'http://www.google.com'
-    band_domain     = URI.parse(band.access_schedule_url).host
-
+    if band.access_schedule_url
+      band_domain     = URI.parse(band.access_schedule_url).host
+      match_location =
+        referer_domain =~ /(#{band_domain}|#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
+      
+    else
+      band_domain
+      match_location =
+        referer_domain =~ /(#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
+      
+    end
+=begin    
     match_location =
       referer_domain =~ /(#{band_domain}|#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
+=end      
     logger.info "Referer: [#{referer_domain}]"
     
     # Convert to bool and return

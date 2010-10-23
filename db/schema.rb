@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101002001045) do
+ActiveRecord::Schema.define(:version => 20101022020704) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -35,14 +35,14 @@ ActiveRecord::Schema.define(:version => 20101002001045) do
   end
 
   create_table "bands", :force => true do |t|
-    t.string   "name",                                        :null => false
-    t.string   "short_name",                                  :null => false
+    t.string   "name",                                                     :null => false
+    t.string   "short_name",                                               :null => false
     t.text     "bio"
-    t.boolean  "terms_of_service",      :default => false,    :null => false
-    t.string   "city",                                        :null => false
-    t.integer  "zipcode",                                     :null => false
+    t.boolean  "terms_of_service",                   :default => false,    :null => false
+    t.string   "city",                                                     :null => false
+    t.integer  "zipcode",                                                  :null => false
     t.string   "band_photo"
-    t.string   "status",                :default => "active", :null => false
+    t.string   "status",                             :default => "active", :null => false
     t.string   "external_css_link"
     t.string   "access_schedule_url"
     t.integer  "country_id"
@@ -52,10 +52,15 @@ ActiveRecord::Schema.define(:version => 20101002001045) do
     t.datetime "updated_at"
     t.string   "twitter_username"
     t.string   "grooveshark_widget_id"
-    t.boolean  "commerce_allowed",      :default => false,    :null => false
+    t.boolean  "commerce_allowed",                   :default => false,    :null => false
     t.string   "secret_token"
     t.string   "merch_site_url"
-    t.boolean  "mbs_official_band",     :default => false
+    t.boolean  "mbs_official_band",                  :default => false
+    t.integer  "earnable_shares_release_amount"
+    t.integer  "purchaseable_shares_release_amount"
+    t.float    "share_price"
+    t.integer  "min_share_purchase_amount"
+    t.integer  "max_share_purchase_amount"
   end
 
   create_table "countries", :force => true do |t|
@@ -143,6 +148,18 @@ ActiveRecord::Schema.define(:version => 20101002001045) do
     t.boolean  "public",              :default => false, :null => false
     t.integer  "duration"
     t.integer  "streamapi_stream_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "retweets", :force => true do |t|
+    t.integer  "original_tweet_id"
+    t.integer  "retweet_tweet_id"
+    t.string   "tweet"
+    t.integer  "twitter_user_id"
+    t.integer  "band_id"
+    t.integer  "twitter_followers"
+    t.integer  "share_value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -282,6 +299,58 @@ ActiveRecord::Schema.define(:version => 20101002001045) do
     t.boolean  "currently_live",           :default => false, :null => false
   end
 
+<<<<<<< HEAD
+=======
+  create_table "transactions", :force => true do |t|
+    t.string   "buyer_id"
+    t.string   "serial_number"
+    t.string   "google_order_number"
+    t.string   "peekok_order_number"
+    t.string   "financial_order_state"
+    t.string   "fulfillment_order_state"
+    t.float    "order_total"
+    t.float    "total_amount_charged"
+    t.text     "shopping_cart_xml"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "company_name"
+    t.string   "contact_name"
+    t.string   "country_code"
+    t.string   "email"
+    t.string   "fax"
+    t.string   "phone"
+    t.string   "postal_code"
+    t.string   "region"
+    t.datetime "timestamp"
+    t.boolean  "email_allowed"
+    t.boolean  "paid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  create_table "twitter_crawler_hash_tags", :force => true do |t|
+    t.string   "term"
+    t.integer  "last_tweet_id"
+    t.integer  "band_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "twitter_crawler_trackers", :force => true do |t|
+    t.integer  "tweet_id"
+    t.string   "tweet"
+    t.integer  "twitter_user_id"
+    t.integer  "twitter_crawler_hash_tag_id"
+    t.integer  "twitter_followers"
+    t.integer  "share_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "shares_awarded",              :default => false
+  end
+
+>>>>>>> db2ab4d0e4bcb3b412acc6e0f03255b0a30dcd99
   create_table "twitter_users", :force => true do |t|
     t.string   "name"
     t.string   "user_name"

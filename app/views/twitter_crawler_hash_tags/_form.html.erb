@@ -1,0 +1,19 @@
+<%= form_for(@twitter_crawler_hash_tag) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :term %><br />
+    <%= f.text_field :term %>
+  </div>
+  <div class="field">
+    <%= f.label :last_tweet_id %><br />
+    <%= f.text_field :last_tweet_id %>
+  </div>
+  <div class="field">
+    <%= f.label :band %><br />
+    <%= collection_select 'band', 'band_id', Band.all, 'id', 'name', :class => 'select' %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

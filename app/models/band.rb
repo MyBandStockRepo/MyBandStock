@@ -22,6 +22,9 @@ class Band < ActiveRecord::Base
   has_many :recorded_videos, :through => :streamapi_streams
   has_many :pledges
   has_many :share_code_groups
+  has_many :twitter_crawler_hash_tags
+  has_many :twitter_crawler_trackers, :through => :twitter_crawler_hash_tags
+  has_many :retweets
   
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true
@@ -35,6 +38,12 @@ class Band < ActiveRecord::Base
   validates_presence_of :name, :country_id, :zipcode, :city, :short_name, :secret_token
 #  validates_acceptance_of :terms_of_service, :accept => true, :message => "You must agree to our terms of service."
   validates_numericality_of :zipcode, :country_id
+  validates_numericality_of :purchaseable_shares_release_amount, :unless => Proc.new {|band| band.purchaseable_shares_release_amount.nil? || band.purchaseable_shares_release_amount == ''}
+  validates_numericality_of :earnable_shares_release_amount, :unless => Proc.new {|band| band.earnable_shares_release_amount.nil? || band.earnable_shares_release_amount == ''}
+  validates_numericality_of :min_share_purchase_amount, :unless => Proc.new {|band| band.min_share_purchase_amount.nil? || band.min_share_purchase_amount == ''}
+  validates_numericality_of :max_share_purchase_amount, :unless => Proc.new {|band| band.max_share_purchase_amount.nil? || band.max_share_purchase_amount == ''}
+  validates_numericality_of :share_price, :unless => Proc.new {|band| band.share_price.nil? || band.share_price == ''}
+  
   validates_uniqueness_of :short_name
   validates_length_of     :short_name, :in => 3..15
   validates_exclusion_of  :short_name, :in => %w[
@@ -46,6 +55,43 @@ class Band < ActiveRecord::Base
   
   before_validation(:on => :create) do generate_secret_token() end
 
+
+  validate :valid_purchasing_options?
+
+
+  #makes sure that if purchasing is turned on, the share price and minimum amounts to buy are set
+  def valid_purchasing_options?
+    #Validate numericallity of purchaseable_shares_release_amount, earnable_shares_release_amount, share_price, min share purcahse amount, max share purchase amount
+    if self.commerce_allowed && self.min_share_purchase_amount.blank?
+      errors.add(:min_share_purchase_amount, "Must be set if allowing commerce")      
+    end 
+    if self.min_share_purchase_amount &&  self.min_share_purchase_amount < 1
+      errors.add(:min_share_purchase_amount, "Has to be greater than 0")      
+    end
+    
+    if self.commerce_allowed && self.max_share_purchase_amount.blank?
+      errors.add(:max_share_purchase_amount, "Must be set if allowing commerce")      
+    end
+    if self.max_share_purchase_amount && self.max_share_purchase_amount > 100000
+      errors.add(:max_share_purchase_amount, "Has to be less than or equal to 100,000")      
+    end    
+    if self.max_share_purchase_amount && self.min_share_purchase_amount && self.max_share_purchase_amount < self.min_share_purchase_amount
+      errors.add(:max_share_purchase_amount, "Has to be greater than the minimum")      
+    end
+    
+    if self.commerce_allowed && self.share_price.blank?
+      errors.add(:share_price, "Must be set if allowing commerce")      
+    end     
+    if self.share_price && self.share_price < 0.01
+      errors.add(:share_price, "Has to be greater than 0.01")      
+    end
+
+  end
+
+  def convert_to_eastern_time(time)
+	  return time.utc.in_time_zone('Eastern Time (US & Canada)')
+  end
+  
   def status_feed(num_items = 7, text_length_limit = 200)
   # This function returns an array of recent social statuses for the band instance.
   # On failure or no statuses, nil is returned.
@@ -112,8 +158,6 @@ class Band < ActiveRecord::Base
   #   but direct dollar-for-share purchases are limited.
   # Dependents:
   #   NUM_SHARES_PER_BAND_PER_DAY - in environment.rb, setting the limit for the amount of available shares/band/day
-  #   SHARE_LIMIT_LIFETIME        - in environment.rb, dictating the period of time between new share releases
-  #   ^^nevermind, too hard. It's just one day.
   # Every [SHARE_LIMIT_LIFETIME], [NUM_SHARES_PER_BAND_PER_DAY] become available for the band, beginning at the most recent noon.
   # There are no "rollover" shares, which means that N_S_P_B_P_D is the maximum amount of shares available in that
   #   band per day.
@@ -139,19 +183,67 @@ class Band < ActiveRecord::Base
       dispersed_shares_sum += entry.adjustment  # Takes works with negative adjustments
     }
     
-    available_shares = NUM_SHARES_PER_BAND_PER_DAY - dispersed_shares_sum
-    available_shares = (available_shares >= 0) ? available_shares : 0
+    #if there is no cap on released share amounts, set it to the max per transaction amount
+    if self.purchaseable_shares_release_amount.blank?
+      available_shares = self.max_share_purchase_amount
+    else
+      available_shares = self.purchaseable_shares_release_amount - dispersed_shares_sum
+      available_shares = (available_shares >= 0) ? available_shares : 0      
+    end
     
     return available_shares
   end
   
+  def available_shares_for_earning
+    #returns nil if no cap on the shares or the number of avaialable shares, it will never return a negative number
+    
+    
+    retweet_shares_sum    = 0
+    hash_tag_shares_sum   = 0
+    noon_today        = (convert_to_eastern_time(Time.now.utc).midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
+    
+    if noon_today > convert_to_eastern_time(Time.now.utc)
+      most_recent_noon = noon_today - 1.day
+    else
+      most_recent_noon = noon_today
+    end
+    
+    #get all the retweets
+    retweet_shares =  self.retweets.where(["created_at > ?", most_recent_noon.utc]).all
+    retweet_shares.each{ |entry|
+      retweet_shares_sum += entry.share_value
+    }
+    puts 'RETWEET SHARES IN LAST DAY: '+retweet_shares_sum.to_s
+    
+    
+    #get all the hash tags and phrases
+    hash_tag_shares =  self.twitter_crawler_trackers.where(["twitter_crawler_trackers.created_at > ?", most_recent_noon.utc]).all
+    hash_tag_shares.each{ |entry|
+      hash_tag_shares_sum += entry.share_value
+    }
+    puts 'HASH TAG SHARES IN LAST DAY: '+hash_tag_shares_sum.to_s
+    
+    
+    #if there is no cap on released share amounts, set it to nil
+    if self.earnable_shares_release_amount.blank?
+      available_shares = nil
+    else
+      available_shares = self.earnable_shares_release_amount - retweet_shares_sum - hash_tag_shares_sum
+      available_shares = (available_shares >= 0) ? available_shares : 0      
+    end
+    puts 'AVAILABLE SHARES: '+available_shares.to_s
+    return available_shares
+  end  
   
+  
+=begin
   def share_price()
   # This method returns the price per share for the given band.
   # Currently, the share price is simply a static constant, defined in environment.rb.
   #
     return Cobain::Application::MBS_SHARE_PRICE
   end
+=end
 
   def self.search_by_name(name)
   # Returns a band, given some common variation of its name or short name.

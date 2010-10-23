@@ -205,7 +205,6 @@
                   = f.label :commerce_allowed, 'Stock available'
                 .fieldnamebottom
               .fieldbox
-                =# f.select :commerce_allowed, [['No', 'f'], ['Yes', 't']], :selected => (@band.commerce_allowed ? 't' : 'f')
                 %select{:name => "band[commerce_allowed]"}
                   - if @band.nil? || @band.commerce_allowed.nil? || @band.commerce_allowed == false
                     %option{:value => "1"}Yes
@@ -236,6 +235,115 @@
               - for e in @band.errors[:merch_site_url]
                 %p
                   = '- '+e.to_s                
+                  
+        .fieldrow
+          .fieldleft      
+            .field.condense4
+              .fieldname
+                .fieldnametop
+                  = f.label :mbs_official_band, 'Offer Rewards?'
+                .fieldnamebottom
+              .fieldbox
+                %select{:name => "band[mbs_official_band]"}
+                  - if @band.nil? || @band.mbs_official_band.nil? || @band.mbs_official_band == false
+                    %option{:value => "1"}Yes
+                    %option{:selected => true} No
+                  - else
+                    %option{:value => "1", :selected => true}Yes
+                    %option No
+
+            .description
+              Is this band working with MBS to offer rewards to fans?
+        .fielderror
+          - if @band.errors[:mbs_official_band]
+            - for e in @band.errors[:mbs_official_band]
+              %p
+                = '- '+e.to_s                  
+
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :earnable_shares_release_amount, 'Shares to earn'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :earnable_shares_release_amount
+            .description
+              How many shares will be released at each release interval for people to EARN by retweeting, etc.  Leave blank to un-cap
+          .fielderror
+            - if @band.errors[:earnable_shares_release_amount]
+              - for e in @band.errors[:earnable_shares_release_amount]
+                %p
+                  = '- '+e.to_s                  
+
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :purchaseable_shares_release_amount, 'Shares to buy'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :purchaseable_shares_release_amount
+            .description
+              How many shares will be released at each release interval for people to BUY directly.  Leave blank to un-cap
+          .fielderror
+            - if @band.errors[:purchaseable_shares_release_amount]
+              - for e in @band.errors[:purchaseable_shares_release_amount]
+                %p
+                  = '- '+e.to_s
+
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :share_price, 'Share price'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :share_price
+            .description
+              The price of one BandStock (in US Dollars)
+          .fielderror
+            - if @band.errors[:share_price]
+              - for e in @band.errors[:share_price]
+                %p
+                  = '- '+e.to_s       
+                  
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :min_share_purchase_amount, 'Min shares 2 buy'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :min_share_purchase_amount
+            .description
+              The minimum amount of shares a user can buy per transaction.  Has to be greater than 0
+          .fielderror
+            - if @band.errors[:min_share_purchase_amount]
+              - for e in @band.errors[:min_share_purchase_amount]
+                %p
+                  = '- '+e.to_s              
+                  
+        .fieldrow
+          .fieldleft
+            .field
+              .fieldname.required
+                .fieldnametop
+                  = f.label :max_share_purchase_amount, 'Max shares 2 buy'
+                .fieldnamebottom
+              .fieldbox.required
+                = f.text_field :max_share_purchase_amount
+            .description
+              The maximum amount of shares a user can buy per transaction. Has to be less than or equal to 100,000 and greater than the minimum
+          .fielderror
+            - if @band.errors[:max_share_purchase_amount]
+              - for e in @band.errors[:max_share_purchase_amount]
+                %p
+                  = '- '+e.to_s                                 
 
         .fieldrow
           .fieldleft
@@ -247,81 +355,4 @@
       .clear
 
 
-
-
--# __commented__
-
-  = form_for(@band) do |f|
-    #form-entry
-      %fieldset.basic-info
-        %legend
-          %strong basic info
-        = error_messages_for :band
-        %ul.form-fields
-          = render :partial => "form", :locals => { :f=>f }
-        =image_submit_tag 'buttons/global/btn-submit.png', :class => 'submit'
-
-
-  %li
-    =f.label 'name'
-    %br
-    =f.text_field :name, :class => 'text'
-
-  %li
-    =f.label 'short_name'
-    %br
-    =f.text_field :short_name, :class => 'text'
-
-  %li
-    =f.label 'bio'
-    %br
-    %label.desc A description of your band.
-    %br
-    =f.text_area 'bio', {:cols => 20, :rows => 10, :class => "textarea"}
-
-  %li
-    =f.label 'city'
-    %br
-    =f.text_field 'city', :class => 'required'
-
-  %li
-    =f.label 'zipcode'
-    %br
-    =f.text_field 'zipcode'
-
-  %li
-    =f.label :country_id, '* Country'
-    %br
-    =collection_select 'band', 'country_id', Country.cached_all, 'id', 'name', :class => 'select'
-
-  %li
-    -# =observe_field 'band_country_id', :url => url_for(:controller => 'users', :action => 'state_select', :model => 'band'), :with => 'country_id'
-    #state_select
-      -# =render :partial=>'common_partials/state_select', :locals => {:states => @states, :model => 'band'}
-
-  %li
-    =f.label 'external_css_link'
-    %br
-    %label.desc External CSS Link (optional) If you want to customize how the band access schedule and stream viewer look, please create a CSS file and upload it to an external source.  Provide the link here, if no link it provided, it will use a generic looking style developed by us.
-    %br
-    =f.text_field 'external_css_link'
-
-  %li
-    =f.label 'access_schedule_url'
-    %br
-    %label.desc Provide a link where a user will be able to go to and watch the live streaming videos.  This will be sent in an email to users who have access to the videos.  If left blank, it will send users to MyBandStock.com to watch them, but you can specify the band's website here instead.
-    %br
-    =f.text_field 'access_schedule_url'
-
-  %li
-    =f.label 'Tether the Band\'s Twitter Account to MyBandStock.'
-    %br
-    %label.desc This allows MBS visitors to view the band's tweets and they can help promote the band by re-tweeting band statuses.
-    %br
-    -unless @band.twitter_user
-      = link_to 'Authorize a Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id,
-    -else
-      %p
-        You are already tethered to a Twitter account.  You can change this to tether to a different account if you would like to.
-        = link_to 'Authorize a different Twitter account with MyBandStock', :controller => 'twitter_api', :action => 'create_session', :band_id => @band.id
 

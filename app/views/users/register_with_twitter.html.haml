@@ -1,0 +1,22 @@
+.maincont
+  -unless session[:user_id]
+    %h2 Create an account!
+    %br
+    %p Sign in with your twitter account to make registration painless!
+
+    =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}
+
+    %br
+    %br
+    %p
+      Or, register the good old-fashioned way.
+      %br
+      =link_to 'Create an account', new_user_path
+    %br
+    %br
+  -else
+    %h2 Create an account!
+    %br
+    %p It looks like you already have an account.  Please logout to register a new account.
+    %br
+    %br

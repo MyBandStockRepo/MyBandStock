@@ -1,19 +1,42 @@
-#content_login_bg
-	#login_wrap.lightboxpad
-		%h2#sign-up Sign Up
-		%br
-		= form_for(@user) do |f|
-			=render :partial => 'required_form', :locals => {:f => f}
-			.fieldrow
-				.fieldleft
-					%p
-						By clicking on "Submit" below, you are agreeing to the MyBandStock
-						= link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
-						and
-						= link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
-			.fieldrow
-				.fieldleft
-					.formbutton.condense3
-						= f.submit 'SUBMIT'
+-if session[:quick_registration_twitter_user_id]
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h2#sign-up Sign Up with Twitter (Step 2)
+      %br
+      = form_for(@user) do |f|
+        =render :partial => 'quick_register_twitter', :locals => {:f => f}
+        .fieldrow
+          .fieldleft
+            %p
+              By clicking on "Submit" below, you are agreeing to the MyBandStock
+              = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+              and
+              = link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
+        .fieldrow
+          .fieldleft
+            .formbutton.condense3
+              = f.submit 'SUBMIT'
 
-		.clear
+      .clear
+
+
+-else
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h2#sign-up Sign Up
+      %br
+      = form_for(@user) do |f|
+        =render :partial => 'required_form', :locals => {:f => f}
+        .fieldrow
+          .fieldleft
+            %p
+              By clicking on "Submit" below, you are agreeing to the MyBandStock
+              = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+              and
+              = link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
+        .fieldrow
+          .fieldleft
+            .formbutton.condense3
+              = f.submit 'SUBMIT'
+
+      .clear
