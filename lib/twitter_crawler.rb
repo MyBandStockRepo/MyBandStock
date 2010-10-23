@@ -104,7 +104,7 @@ else
         last_tweet_id = search_item.last_tweet_id
       
         sleep sleep_num
-        puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
+   #     puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
         result = Twitter::Search.new(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch().results
 
         #lookup users
@@ -198,11 +198,11 @@ else
             end
             #if the user couldn't be found, skip it and go ahead with the script
             search_item.last_tweet_id = r.id.to_s
-            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
+#            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
             if search_item.save
-              puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
+ #             puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
             else
-              puts 'SAVE FAILED!!'
+  #            puts 'SAVE FAILED!!'
             end
           end
           puts "END GROUP of #{result.count}\n\n"+' for '+search_term.to_s          

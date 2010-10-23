@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101023223407) do
+ActiveRecord::Schema.define(:version => 20101023231637) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -153,8 +153,8 @@ ActiveRecord::Schema.define(:version => 20101023223407) do
   end
 
   create_table "retweets", :force => true do |t|
-    t.integer  "original_tweet_id"
-    t.integer  "retweet_tweet_id"
+    t.string   "original_tweet_id"
+    t.string   "retweet_tweet_id"
     t.string   "tweet"
     t.integer  "twitter_user_id"
     t.integer  "band_id"
