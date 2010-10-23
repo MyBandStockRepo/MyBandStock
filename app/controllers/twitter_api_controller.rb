@@ -1,8 +1,87 @@
 class TwitterApiController < ApplicationController
 	protect_from_forgery :only => [:create, :update, :band_create, :post_retweet]
-	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error, :retweet] # Authentication in retweet is done manually
+	before_filter :authenticated?, :except => [:index, :band_index, :show, :mentions, :favorites, :error, :retweet, :quick_register, :quick_finalize] # Authentication in retweet is done manually
 	before_filter :user_part_of_or_admin_of_a_band?, :only => [:update, :band_create]
-  skip_filter :update_last_location, :only => [:create_session, :finalize, :deauth, :retweet, :post_retweet, :create, :band_create, :error]
+  skip_filter :update_last_location, :only => [:create_session, :finalize, :deauth, :retweet, :post_retweet, :create, :band_create, :error, :quick_register, :quick_finalize]
+
+
+  def quick_register
+    begin
+  		oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
+  		oauth_callback_url = ((defined? SITE_URL) ? SITE_URL : 'http://mybandstock.com' ) +'/twitter/quick_finalize'
+  		oauth.set_callback_url(oauth_callback_url)
+  		request_token = oauth.request_token			
+  		access_token = request_token.token
+  		access_secret = request_token.secret
+  		auth_url = request_token.authorize_url
+  		session['rtoken_quick'] = access_token
+  		session['rsecret_quick'] = access_secret		
+  		redirect_to 'http://'+auth_url
+    rescue
+      flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+      redirect_to :controller => 'users', :action => 'register_with_twitter'
+      session['rtoken_quick'] = session['rsecret_quick'] = nil
+      return false      
+    end
+  end
+  
+  def quick_finalize
+    begin
+			unless params[:oauth_verifier]
+				flash[:error] = 'Could not verify twitter oauth.'			
+        session['rtoken_quick'] = session['rsecret_quick'] = nil									
+				redirect_to :controller => 'users', :action => 'register_with_twitter'
+		    return false
+			end
+			unless session['rtoken_quick'].nil? || session['rsecret_quick'].nil?
+  			user_oauth.authorize_from_request(session['rtoken_quick'], session['rsecret_quick'], params[:oauth_verifier])	
+				profile = Twitter::Base.new(user_oauth).verify_credentials				
+	
+				#see if twitter account already exists
+				existing_twitter = TwitterUser.where(:twitter_id => profile.id).first
+	
+				if existing_twitter				
+					twitter_user = existing_twitter
+					if twitter_user.oauth_access_token.blank? || twitter_user.oauth_access_secret.blank?
+						twitter_user.oauth_access_token = user_oauth.access_token.token
+						twitter_user.oauth_access_secret = user_oauth.access_token.secret
+						twitter_user.save
+					end
+				else
+					unless twitter_user = TwitterUser.create(:name => profile.name, :user_name => profile.screen_name, :twitter_id => profile.id, :oauth_access_token => user_oauth.access_token.token, :oauth_access_secret => user_oauth.access_token.secret)					
+						flash[:error] = 'Could not create Twitter user.'
+				    session['rtoken_quick'] = session['rsecret_quick'] = nil									
+						redirect_to :controller => 'users', :action => 'register_with_twitter'
+  			    return false
+					end
+				end				
+									
+				if twitter_user.users.count > 0
+				  flash[:error] = 'This twitter account is currently tied to another MyBandStock account.  It can\'t be tied to more than one account at a time.'
+				  session['rtoken_quick'] = session['rsecret_quick'] = nil			
+			    redirect_to :controller => 'users', :action => 'register_with_twitter'
+			    return false
+			  end
+				  				
+				session[:quick_registration_twitter_user_id] = twitter_user.id					
+
+			else			
+				flash[:error] = 'Could not find Twitter request token or secret.'
+				session['rtoken_quick'] = session['rsecret_quick'] = nil			
+		    redirect_to :controller => 'users', :action => 'register_with_twitter'
+		    return false
+			end
+
+			session['rtoken_quick'] = session['rsecret_quick'] = nil			
+	    redirect_to :controller => 'users', :action => 'new'
+	    return true
+		rescue
+    	flash[:error] = 'Sorry, Twitter is being unresponsive at the moment.'
+			session['rtoken'] = session['rsecret'] = session[:quick_registration_twitter_user_id] = nil
+    	redirect_to :controller => 'users', :action => 'register_with_twitter'
+			return false
+    end
+  end
 
 	def create_session
 		begin

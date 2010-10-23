@@ -17,6 +17,8 @@ Cobain::Application.routes.draw do |map|
 #twitter api
 	match '/twitter/create_session', :to => 'twitter_api#create_session'
 	match '/twitter/finalize', :to => 'twitter_api#finalize'
+	match '/twitter/quick_finalize', :to => 'twitter_api#quick_finalize'	
+	match '/twitter/quick_register', :to => 'twitter_api#quick_register'		
 	match '/twitter/mentions', :to => 'twitter_api#mentions'
 	match '/twitter/index', :to => 'twitter_api#index'
 	match '/twitter/show/:id/', :to => 'twitter_api#show'
@@ -190,7 +192,7 @@ Cobain::Application.routes.draw do |map|
   match '/registration', :to => 'users#new'
   match '/signup', :to => 'users#new'
   match '/sign_up', :to => 'users#new'
-
+  match '/register/twitter', :to => 'users#register_with_twitter'
 
   #users routes - this is stuff like '/users/edit' but it looks better this way
   match '/me/account', :to => 'users#edit'
@@ -199,6 +201,9 @@ Cobain::Application.routes.draw do |map|
   match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'
+
+
+
 
   #users stuff
   match 'users/edit', :to => 'users#edit'
