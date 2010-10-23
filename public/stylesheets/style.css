@@ -961,7 +961,6 @@ fieldset {border:0px;padding:0px;margin:0px;}
     position: relative;
     height: 420px;
     width: 236px;
-/*    overflow: auto;*/
     background: url(/images/leaderboard/leaderboard_widget_background.png) no-repeat;
     border-top: 2px solid #333;
     border-right: 2px solid #111;
@@ -1011,6 +1010,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
     left: 12px;
     width: 216px;
   }
+    .mbs-leaderboard-widget .leaderboard p {
+      margin: 4px 0 5px;
+    }
   .mbs-leaderboard-widget .mbs-leaderboard-info {
     position: absolute;
     top: 332px;
@@ -1020,10 +1022,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
     font-size: 11px;
     /*font-family: TitilliumText14L400wt;*/
     line-height: 12px;
-    padding: 6px;
+    padding: 0 6px 6px 6px;
     cursor: default;
   }
   .mbs-leaderboard-widget .mbs-leaderboard-tweet-button {
+    float: left;
+    margin-top: 6px;
     background: transparent url(/images/icons/tweet_button.png) no-repeat;
     height: 20px;
     width: 55px;
@@ -1032,6 +1036,34 @@ fieldset {border:0px;padding:0px;margin:0px;}
       display: block;
       width: 100%;
       height: 100%;
+      text-decoration: none;
+    }
+    .mbs-leaderboard-widget .mbs-leaderboard-tweet-button:hover {
+      background-position: 0 -21px;
+    }
+    .mbs-leaderboard-widget .mbs-leaderboard-tweet-button:active {
+      background-position: 0 -42px;
+    }
+  .mbs-leaderboard-widget .mbs-leaderboard-buy-stock-button {
+    float: right;
+    margin: 6px 4px 0 0;
+    background: transparent url(/images/buttons/global/small_orange_button.gif) no-repeat;
+    height: 20px;
+    width: 70px;
+  }
+    .mbs-leaderboard-widget .mbs-leaderboard-buy-stock-button a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 4px 0 0 2px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #FFF;
+    }
+    .mbs-leaderboard-widget .mbs-leaderboard-buy-stock-button:hover {
+      background-position: 0 -20px;
     }
   .mbs-leaderboard-widget .mbs-leaderboard-footer {
     position: absolute;

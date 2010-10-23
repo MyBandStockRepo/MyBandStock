@@ -122,6 +122,6 @@ DEPENDENCIES
   rails (= 3.0.0)
   rufus-scheduler
   sqlite3-ruby
-  twitter
+  twitter (>= 0.9.12)
   twitter-text (= 1.1)!
   will_paginate

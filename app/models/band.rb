@@ -286,9 +286,10 @@ class Band < ActiveRecord::Base
   
   
   def reward_hashtag
-  # Returns a hashtag that our crawler looks for to award shares.
+  # Returns a hashtag that our crawler looks for to award shares. Currently set to return the first of the array
+  # of twitter_crawler_hash_tags, or band name with spaces removed.
   #
-    '#' + self.short_name + '-bandstock'
+    return self.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
   end
   
   

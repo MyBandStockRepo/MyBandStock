@@ -73,7 +73,8 @@ class BandsController < ApplicationController
     
     @top_stockholders = @band.top_shareholders(5)
     @twitter_set_status_url = "http://twitter.com/home?status="
-    @twitter_status_text = "Rock on! Tweet %23#{@band.name.gsub(' ', '')} for BandStock!"
+    #@twitter_hashtag = @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
+    @twitter_status_text = "Rock on! Tweet #{@twitter_hashtag} for BandStock!"
     @twitter_set_status_link = @twitter_set_status_url + @twitter_status_text
     
     if session[:user_id]
@@ -130,6 +131,7 @@ class BandsController < ApplicationController
     if available_shares && available_shares < @points_per_retweet
       @points_per_retweet = available_shares
     end
+    
     # Twitter authentication can redirect to this band show page. If the user just authorized with Twitter,
     #   We shall notify the view to pop open the retweet lightbox because the user is currently in the process of retweeting.
     if session[:user_just_authorized_with_twitter]

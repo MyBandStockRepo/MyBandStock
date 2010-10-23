@@ -1,4 +1,6 @@
-- @twitter_set_status_link ||= "http://twitter.com/home?status=Rock on! Tweet %23#{@band.name.gsub(' ', '')} for BandStock!"
+- @twitter_hashtag ||= @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
+- @twitter_set_status_link ||= "http://twitter.com/home?status=Rock on! Tweet #{ @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')} for BandStock!"
+- @buy_stock_link ||= buy_stock_url(@band.id)
 
 .mbs-leaderboard-widget
   .mbs-leaderboard-band-name
@@ -12,20 +14,24 @@
     %strong PRIVATE VIDEO CHAT!
   .mbs-leaderboard-shares-remaining
     .mbs-leaderboard-shares-remaining-info
-      BANDSTOCK LEFT TO BUY TODAY:
+      BANDSTOCK LEFT TO EARN TODAY:
     .mbs-leaderboard-shares-remaining-amount
       = lightboard_text(@band.available_shares_for_purchase, { :digits => 6, :size => 'big' })
   = render :partial => 'leaderboard', :locals => { :top_ten => @top_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true }
   .mbs-leaderboard-info
-    Tweet with the hashtag
+    Tweet
     %strong.mbs-leaderboard-hashtag
       = @band.reward_hashtag
-    to earn daily shares in
+    to earn shares in
     %strong><
       = ' '+ @band.name
     !
     .mbs-leaderboard-tweet-button
       %a{ :href => @twitter_set_status_link, :target => '_blank' } &nbsp;
+    -if @band.commerce_allowed
+      .mbs-leaderboard-buy-stock-button
+        %a{ :href => @buy_stock_link, :target => '_blank' }
+          BUY STOCK
   .mbs-leaderboard-footer
     = link_to ' ', root_url
 -# http://twitter.com/home?status=asdfsadf
