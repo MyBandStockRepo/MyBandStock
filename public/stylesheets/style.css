@@ -890,8 +890,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .leaderboard{width:216px;float:right;margin-top:29px;margin-right:19px;font-size:14px;font-family:TitilliumText14L800wt;text-align:center;color:#d4cac3;}
 .leaderboard p{margin:4px 0px 8px 0px;text-transform:uppercase;}
 .leaduser{height:23px;margin-top:1px;}
-.leadnumber{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#736257;width:26px;text-align:right;line-height:25px;}
-.leadname{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#ff6600;width:108px;margin-left:7px;text-align:left;line-height:25px;}
+.leadnumber{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#736257;width:17px;text-align:right;line-height:25px;}
+.leadname{height:23px;float:left;font-size:12px;font-family:TitilliumText14L600wt;color:#ff6600;width:114px;margin-left:7px;text-align:left;line-height:25px;}
 .highlight .leadname {
   color: #FFF;
 }
