@@ -1,6 +1,6 @@
 - current_user = (session[:user_id]) ? User.find(session[:user_id]) : nil
 - user_found = false
-- num_stockholders = top_ten.count || 10
+- num_stockholders = (top_ten && top_ten.count) || 10
 
 %p
   Top
@@ -31,5 +31,6 @@
   .top_ten_notice
     This band has no shareholders.
     %br
-    = link_to 'You can be the first!', fan_new_suggestions_path(band.name)
+    %a{ :href => fan_new_suggestions_path(band.name), :onclick => "top.location.href=#{fan_new_suggestions_path(band.name)}; return false;" }
+      You can be the first!
 
