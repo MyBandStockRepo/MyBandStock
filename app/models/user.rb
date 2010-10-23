@@ -60,20 +60,25 @@ class User < ActiveRecord::Base
   #this method will award bandstock to the user for tweets they made in the past (for new users who sign up, or users who tie in a twitter account)
   def reward_tweet_bandstock_retroactively
     #award bandstock for hash_tags and phrases
-    not_yet_awarded_tweets = self.twitter_user.twitter_crawler_trackers.where(:shares_awarded => false).all
+    if self.twitter_user
+      not_yet_awarded_tweets = self.twitter_user.twitter_crawler_trackers.where(:shares_awarded => false).all
     
-    for tweet in not_yet_awarded_tweets
-      unless tweet.share_value == 0
-        ShareLedgerEntry.create( :user_id => self.id,
-                                        :band_id => tweet.twitter_crawler_hash_tag.band.id,
-                                        :adjustment => tweet.share_value,
-                                        :description => 'tweeted_band_retroactively_awarded'
-                            )
-      end
-      tweet.shares_awarded = true
-      tweet.save
-    end    
+      for tweet in not_yet_awarded_tweets
+        unless tweet.share_value == 0
+          ShareLedgerEntry.create( :user_id => self.id,
+                                          :band_id => tweet.twitter_crawler_hash_tag.band.id,
+                                          :adjustment => tweet.share_value,
+                                          :description => 'tweeted_band_retroactively_awarded'
+                              )
+        end
+        tweet.shares_awarded = true
+        tweet.save
+      end    
+    else
+      return false
+    end
   end
+  
   
   def share_totals
     ShareTotal.where(:user_id => self.id).all

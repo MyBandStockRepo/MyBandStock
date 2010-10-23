@@ -155,7 +155,9 @@ class UsersController < ApplicationController
       params[:user][:state_id] = 1
 
       @user.update_attributes(params[:user])
-      
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end
       redirect_to :action => "state_select"
       return true
       end
@@ -167,7 +169,9 @@ class UsersController < ApplicationController
     @user.update_attributes(params[:user])
     
     success = @user.save
-    
+    if @user.twitter_user
+      @user.reward_tweet_bandstock_retroactively
+    end
     if success
 			if @user.status == 'pending'
 				@user.status = 'active'
@@ -366,7 +370,9 @@ class UsersController < ApplicationController
       session[:quick_registration_twitter_user_id] = nil
       
       UserMailer.registration_notification(@user).deliver
-
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end
       # send email to new users welcoming to website, priority -1, default is 0
 #      Delayed::Job.enqueue(RegistrationNotificationJob.new(@user), -1)
       
