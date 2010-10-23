@@ -12,7 +12,7 @@ rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
-
+require 'rubygems'
 require 'FileUtils'
 #if the script has been run within the last 5 mintes, don't run it now.
 if File.exist?("twitter_crawler_timestamp") && (File.stat("twitter_crawler_timestamp").mtime+(script_downtime_minutes_allowed*60)) > Time.now
@@ -36,7 +36,7 @@ else
   current_directory = File.expand_path(File.dirname(__FILE__))
 
   #Necessary requires since rails isn't running
-  require 'rubygems'
+
   require 'active_record'
   require 'yaml'
   require 'logger'
