@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101022020704) do
+ActiveRecord::Schema.define(:version => 20101023223407) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -330,14 +330,14 @@ ActiveRecord::Schema.define(:version => 20101022020704) do
 
   create_table "twitter_crawler_hash_tags", :force => true do |t|
     t.string   "term"
-    t.integer  "last_tweet_id"
+    t.string   "last_tweet_id"
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "twitter_crawler_trackers", :force => true do |t|
-    t.integer  "tweet_id"
+    t.string   "tweet_id"
     t.string   "tweet"
     t.integer  "twitter_user_id"
     t.integer  "twitter_crawler_hash_tag_id"
