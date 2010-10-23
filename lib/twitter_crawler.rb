@@ -212,7 +212,7 @@ else
             search_item.last_tweet_id = r.id
             
             if search_item.save
-              puts 'SAVED WITH last_tweet_id ' r.id.to_s
+              puts 'SAVED WITH last_tweet_id '+r.id.to_s
             else
               puts 'SAVE FAILED!!'
             end
