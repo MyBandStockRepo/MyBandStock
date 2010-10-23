@@ -19,19 +19,6 @@ require 'fileutils'
 if File.exist?("twitter_crawler_timestamp") && (File.stat("twitter_crawler_timestamp").mtime+(script_downtime_minutes_allowed*60)) > Time.now
   puts 'Script was run within the past '+script_downtime_minutes_allowed.to_s+' minutes.  Exiting.'  
 else  
-  if RAILS_ENV=='development'
-    SITE_URL = 'http://127.0.0.1:3000'
-    SECURE_SITE_URL = 'http://127.0.0.1:3000'
-    SITE_HOST = '127.0.0.1:3000'
-  elsif RAILS_ENV=='production'
-    SITE_URL = 'http://mybandstock.com'
-    SECURE_SITE_URL = 'https://mybandstock.com'
-    SITE_HOST = 'mybandstock.com'
-  elsif RAILS_ENV=='staging'
-    SITE_URL = 'http://gary.mybandstock.com'
-    SECURE_SITE_URL = 'http://gary.mybandstock.com'
-    SITE_HOST = 'gary.mybandstock.com'
-  end
 
   #get the current directory (the lib folder path)
   current_directory = File.expand_path(File.dirname(__FILE__))
@@ -42,7 +29,7 @@ else
   require 'yaml'
   require 'logger'
   require 'twitter'
-
+  
 
 
   #connect activerecord to DB
@@ -60,7 +47,7 @@ else
   require current_directory+'/../app/models/share_ledger_entry.rb'
   require current_directory+'/../app/models/share_total.rb'
   require current_directory+'/../app/models/short_url.rb'
-
+  
   
   #Connect to Twitter Oauth Stuff
   TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
@@ -98,10 +85,10 @@ else
   end
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{SHORT_REGISTRATION_LINK}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter')}")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{SHORT_REGISTRATION_LINK}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter')}")
   end
 
   def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
