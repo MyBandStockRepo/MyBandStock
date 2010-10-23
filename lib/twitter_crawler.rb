@@ -181,10 +181,12 @@ else
                                 :adjustment => shares,
                                 :description => 'tweeted_band'
                   )
-                  yes_mbs_account_stock_available_reply(twitter_user, search_item.band, shares)
+                  band = search_item.band
+                  yes_mbs_account_stock_available_reply(twitter_user, band, shares)
                   
                 else
-                  yes_mbs_account_no_stock_available_reply(twitter_user, search_item.band, shares)
+                  band = search_item.band
+                  yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
                 end
               else
                 #user not in the system
@@ -192,9 +194,11 @@ else
 
                 #DO @ Replies                
                 if shares > 0
-                  no_mbs_account_stock_available_reply(twitter_user, search_item.band, shares, 'registration_link')
+                  band = search_item.band
+                  no_mbs_account_stock_available_reply(twitter_user, band, shares, 'registration_link')
                 else
-                  no_mbs_account_no_stock_available_reply(twitter_user, search_item.band, shares, 'registration_link')
+                  band = search_item.band
+                  no_mbs_account_no_stock_available_reply(twitter_user, band, shares, 'registration_link')
                 end
               end
           
@@ -206,7 +210,12 @@ else
             end
             #if the user couldn't be found, skip it and go ahead with the script
             search_item.last_tweet_id = r.id
-            search_item.save
+            
+            if search_item.save
+              puts 'SAVED WITH last_tweet_id ' r.id.to_s
+            else
+              puts 'SAVE FAILED!!'
+            end
           end
           puts "END GROUP of #{result.count}\n\n"+' for '+search_term.to_s          
         else
