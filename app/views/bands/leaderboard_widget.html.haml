@@ -1,4 +1,7 @@
-- @twitter_hashtag ||= @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
+-if @band.twitter_crawler_hash_tags.first
+  - @twitter_hashtag ||= @band.twitter_crawler_hash_tags.first.term
+-else
+  - @twitter_hashtag ||= '%23' + @band.name.gsub(' ', '')
 - @twitter_set_status_link ||= "http://twitter.com/home?status=Rock on! Tweet #{ @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')} for BandStock!"
 - @buy_stock_link ||= buy_stock_url(@band.id)
 
@@ -16,7 +19,7 @@
     .mbs-leaderboard-shares-remaining-info
       BANDSTOCK LEFT TO EARN TODAY:
     .mbs-leaderboard-shares-remaining-amount
-      = lightboard_text(@band.available_shares_for_purchase, { :digits => 6, :size => 'big' })
+      = lightboard_text(@band.available_shares_for_earning, { :digits => 6, :size => 'big' })
   = render :partial => 'leaderboard', :locals => { :top_ten => @top_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true }
   .mbs-leaderboard-info
     Tweet

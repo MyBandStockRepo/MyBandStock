@@ -73,7 +73,7 @@ class BandsController < ApplicationController
     
     @top_stockholders = @band.top_shareholders(5)
     @twitter_set_status_url = "http://twitter.com/home?status="
-    #@twitter_hashtag = @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
+    @twitter_hashtag = (@band.twitter_crawler_hash_tags.first && @band.twitter_crawler_hash_tags.first.term) || '%23' + @band.name.gsub(' ', '')
     @twitter_status_text = "Rock on! Tweet #{@twitter_hashtag} for BandStock!"
     @twitter_set_status_link = @twitter_set_status_url + @twitter_status_text
     

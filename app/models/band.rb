@@ -197,7 +197,7 @@ class Band < ActiveRecord::Base
   def available_shares_for_earning
     #returns nil if no cap on the shares or the number of avaialable shares, it will never return a negative number
     
-    
+
     retweet_shares_sum    = 0
     hash_tag_shares_sum   = 0
     noon_today        = (convert_to_eastern_time(Time.now.utc).midnight + 12.hours)   # Noon today in Eastern Time (like 'Mon Aug 02 12:00:00 EDT 2010')
@@ -289,7 +289,7 @@ class Band < ActiveRecord::Base
   # Returns a hashtag that our crawler looks for to award shares. Currently set to return the first of the array
   # of twitter_crawler_hash_tags, or band name with spaces removed.
   #
-    return self.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')
+    return (self.twitter_crawler_hash_tags.first && self.twitter_crawler_hash_tags.first.term) || '#' + self.name.gsub(' ', '')
   end
   
   
