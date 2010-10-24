@@ -104,8 +104,8 @@ else
         last_tweet_id = search_item.last_tweet_id
       
         sleep sleep_num
-        puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
-        result = Twitter::Search.new(search_term).since(last_tweet_id).result_type('recent').per_page(rpp).fetch().results
+   #     puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
+        result = Twitter::Search.new(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch().results
 
         #lookup users
         unless result.blank?
@@ -120,7 +120,7 @@ else
         while !result.blank? && (result.count % rpp) == 0 && page < (1500/rpp)
           page += 1          
 
-          result_next_page = Twitter::Search.new(search_term).since(last_tweet_id).result_type('recent').per_page(rpp).page(page).fetch().results          
+          result_next_page = Twitter::Search.new(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).page(page).fetch().results          
           
           unless result_next_page.blank?
             users_next_page = client.users(result_next_page.collect{|res| res.from_user})
@@ -159,7 +159,7 @@ else
           
               #if user in the system, create share ledger entry
               if twitter_user.users.last
-                TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
                 
                 #user in the system
                 #DO @ Replies                                    
@@ -179,7 +179,7 @@ else
                 end
               else
                 #user not in the system
-                TwitterCrawlerTracker.create(:tweet_id => r.id, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false)
 
                 #DO @ Replies                
                 if shares > 0
@@ -198,12 +198,12 @@ else
               puts 'Couldn\'t find user with screen name '+r.from_user.to_s
             end
             #if the user couldn't be found, skip it and go ahead with the script
-            search_item.last_tweet_id = r.id
-            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
+            search_item.last_tweet_id = r.id.to_s
+#            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
             if search_item.save
-              puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
+ #             puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
             else
-              puts 'SAVE FAILED!!'
+  #            puts 'SAVE FAILED!!'
             end
           end
           puts "END GROUP of #{result.count}\n\n"+' for '+search_term.to_s          

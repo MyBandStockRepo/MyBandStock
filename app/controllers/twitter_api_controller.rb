@@ -549,8 +549,8 @@ class TwitterApiController < ApplicationController
               shares = available_shares
             end
   			    
-            if Retweet.where(:original_tweet_id => session[:original_tweet_id], :twitter_user_id => @user.twitter_user.id).count == 0
-              Retweet.create(:original_tweet_id => session[:original_tweet_id], :retweet_tweet_id => tweet.id, :tweet => tweet.text, :twitter_user_id => @user.twitter_user.id, :band_id => @band.id, :twitter_followers => session[:twitter_followers], :share_value => shares)
+            if Retweet.where(:original_tweet_id => session[:original_tweet_id].to_s, :twitter_user_id => @user.twitter_user.id).count == 0
+              Retweet.create(:original_tweet_id => session[:original_tweet_id].to_s, :retweet_tweet_id => tweet.id.to_s, :tweet => tweet.text, :twitter_user_id => @user.twitter_user.id, :band_id => @band.id, :twitter_followers => session[:twitter_followers], :share_value => shares)
               ShareLedgerEntry.create( :user_id => session[:user_id],
                                               :band_id => @band.id,
                                               :adjustment => shares,
