@@ -138,7 +138,8 @@ else
                 
           count = 0
           for r in result
-            logger.info r.from_user
+            # We must skip consideration of this user if he is MBS_Reward
+            next if r.from_user == 'MBS_Reward'
             user = find_user_in_array(users, r.from_user)
 
             unless user.nil?
