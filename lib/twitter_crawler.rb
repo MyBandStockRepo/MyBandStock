@@ -138,6 +138,7 @@ else
                 
           count = 0
           for r in result
+            logger.info r.from_user
             user = find_user_in_array(users, r.from_user)
 
             unless user.nil?
