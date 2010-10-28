@@ -1,9 +1,13 @@
 #login_wrap_right
   #login_wrap_rightpad
     %h2 NOT SIGNED UP YET?
+    .twitter_sign_in
+      =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}
     %h4 If you haven't created an account yet, sign up now! It's free and allows you to interact with all the bands on MyBandStock.
+  -#
+    .formbutton#signupbutton
+      = submit_tag 'sign up!', :onclick => "top.location.href='#{ new_user_path(:redemption_redirect => redemption_redirect) }';  return false;"
   .formbutton#signupbutton
-    = submit_tag 'sign up!', :onclick => "top.location.href='#{ new_user_path(:redemption_redirect => redemption_redirect) }';  return false;"
+    = link_to 'sign up!', :controller => 'users', :action => 'clear_twitter_registration_session', :redemption_redirect => redemption_redirect
+
   .clear
-  %br
-  =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}

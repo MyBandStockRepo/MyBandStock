@@ -1,22 +1,56 @@
-.maincont
-  -unless session[:user_id]
-    %h2 Create an account!
-    %br
-    %p Sign in with your twitter account to make registration painless!
+.orange_bar
+  %h2.new_user_reg_title USER REGISTRATION
+#faq_left
 
-    =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}
+  .sign_up_box
+    .sign_up_box_padder
+      -unless session[:user_id]
+    
+        %h3 Painless registration through Twitter.
+        .sign_up_with_twitter_button
+          =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}
 
+        %p
+          Or, 
+          =link_to 'register the good old-fashioned way.', :controller => 'users', :action => 'clear_twitter_registration_session'
+      -else
+        %p It looks like you already have an account.  Please logout to register a new account.
+  
+
+#faq_right
+  -#
+    %span.question What does MyBandStock do?
+    %p MyBandStock powers online loyalty solutions for artists and venues. Our technology ties into merchandise lines, album releases, ticketing and social media to reward the biggest fans for purchasing and promoting.
     %br
+
+    %span.question What do fans get for having BandStock?
+    %p We deliver fans exclusive experiences, such as private video chats with their favorite artists. On our platform, we call these fans Stockholders.
+
+  .registration_steps
+    %h2 Get started today!
     %br
     %p
-      Or, register the good old-fashioned way.
-      %br
-      =link_to 'Create an account', new_user_path
-    %br
-    %br
-  -else
-    %h2 Create an account!
-    %br
-    %p It looks like you already have an account.  Please logout to register a new account.
-    %br
-    %br
+      1. 
+      %span.highlight Register 
+      for a MyBandStock account
+    %p
+      2. 
+      %span.highlight Earn BandStock
+      for tweeting about bands
+    %p
+      3. 
+      %span.highlight Win 
+      a video chat with the band for being a top fan
+
+
+  %br
+  %object{:width => "400", :height => "240"}
+    %param{:name => "movie", :value => "http://www.youtube.com/v/xDpMC2cl6w4?fs=1&amp;hl=en_US"}
+    %param{:name => "allowFullScreen", :value => "true"}
+    %param{:name => "allowscriptaccess", :value => "always"}
+    %embed{:src => "http://www.youtube.com/v/xDpMC2cl6w4?fs=1&amp;hl=en_US", :type => "application/x-shockwave-flash", :allowscriptaccess => "always", :allowfullscreen => "true", :width => "400", :height => "240"}
+
+.clear
+%br
+
+

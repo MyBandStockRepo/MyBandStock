@@ -119,7 +119,10 @@ body#lightbox .clear {clear:both;}
 
 
 /* Login form */
-
+.twitter_sign_in{
+	margin-top:10px;
+	margin-bottom:10px;
+}
 body#lightbox .login_form {
   width:390px;
   float:left;

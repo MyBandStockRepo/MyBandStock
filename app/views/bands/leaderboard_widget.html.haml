@@ -3,7 +3,7 @@
 -else
   - @twitter_hashtag ||= '%23' + @band.name.gsub(' ', '')
 - @twitter_set_status_link ||= "http://twitter.com/home?status=Rock on! Tweet #{ @band.twitter_crawler_hash_tags.first.term || '%23' + @band.name.gsub(' ', '')} for BandStock!"
-- @buy_stock_link ||= buy_stock_url(@band.id)
+- @buy_stock_link ||= buy_stock_url(@band.id, :lightbox => true)
 
 .mbs-leaderboard-widget
   .mbs-leaderboard-band-name

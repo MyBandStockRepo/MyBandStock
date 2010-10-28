@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
  protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2]
+ before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists, :register_with_twitter_step_2]
 
@@ -33,7 +33,11 @@ class UsersController < ApplicationController
   end
   
   def register_with_twitter
-    
+    if params[:band_id] && Band.find(params[:band_id])
+      session[:register_and_redirect_to_band_id] = params[:band_id]
+    else
+      session[:register_and_redirect_to_band_id] = nil
+    end
   end
   
 	def activate
@@ -219,6 +223,10 @@ class UsersController < ApplicationController
 
   end
 
+  def clear_twitter_registration_session
+    session[:quick_registration_twitter_user_id] = nil
+    redirect_to :controller => 'users', :action => 'new', :redemption_redirect => params[:redemption_redirect]
+  end
 
   def new
     if session[:quick_registration_twitter_user_id]
@@ -383,7 +391,13 @@ class UsersController < ApplicationController
 #      elsif session[:last_clean_url]
 #      	redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
       else
-				redirect_to '/me/control_panel', :lightbox => params[:lightbox]
+        if session[:register_and_redirect_to_band_id] && Band.find(session[:register_and_redirect_to_band_id])
+          redirect_to :controller => 'bands', :action => 'show', :id => session[:register_and_redirect_to_band_id]
+          session[:register_and_redirect_to_band_id] = nil
+        else
+  				redirect_to '/me/control_panel', :lightbox => params[:lightbox]
+        end
+
       end
       
 			return
@@ -497,7 +511,7 @@ class UsersController < ApplicationController
 
 		
 		if @bands.count == 0
-			redirect_to :controller => 'pledge_bands', :action => 'index'
+			redirect_to :controller => 'bands', :action => 'index'
 		end
   end
   

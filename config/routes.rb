@@ -51,7 +51,7 @@ Cobain::Application.routes.draw do |map|
 	match '/streamapi_streams/:id/email_stream_reminder', :to => 'streamapi_streams#email_stream_reminder'
 
 	match '/users/activate', :to => 'users#activate'
-
+  match '/users/clear_new', :to => 'users#clear_twitter_registration_session'
 
   # ---- Band Actions ---- #
 	  match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
@@ -203,6 +203,7 @@ Cobain::Application.routes.draw do |map|
   match '/registration', :to => 'users#new'
   match '/signup', :to => 'users#new'
   match '/sign_up', :to => 'users#new'
+  match '/register/twitter/:band_id', :to => 'users#register_with_twitter'
   match '/register/twitter', :to => 'users#register_with_twitter'
 
   #users routes - this is stuff like '/users/edit' but it looks better this way

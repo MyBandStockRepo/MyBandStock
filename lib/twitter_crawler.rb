@@ -13,6 +13,8 @@ rpp = 100
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
 SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
+TWEETS_ALLOWED_PER_HOUR = 1
+
 
 require 'fileutils'
 #if the script has been run within the last 5 mintes, don't run it now.
@@ -65,6 +67,19 @@ else
     return (7*(Math.log(followers+1)+Math.exp(1))).round
   end
   
+  def randomcode(length=4)
+    chars = ("a".."z").to_a + ('A'..'Z').to_a + ("0".."9").to_a;
+    Array.new(length, '').collect{chars[rand(chars.size)]}.join
+  end
+  
+  def recent_tweets(twitter_user_id, band_id)
+    if band = Band.find(band_id)
+      return TwitterCrawlerTracker.where(:twitter_user_id => twitter_user_id, :twitter_crawler_hash_tag_id => band.twitter_crawler_hash_tags.collect{|h|h.id}).where("created_at > ?", Time.now.utc-3600).count
+    else
+      return nil
+    end
+  end
+  
   #looks for a user in the array and returns a twitter user object, if it can't be found, returns nil
   def find_user_in_array(user_array, screen_name)
     for u in user_array
@@ -79,24 +94,37 @@ else
     oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
     oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
     client = Twitter::Base.new(oauth)
-    client.update(message.to_s[0..139])    #dont let it go over 140 characters
-
+    
+    begin
+      client.update(message.to_s[0..139])    #dont let it go over 140 characters
+    rescue
+      
+    end
    # puts 'MESSAGE: '+message.to_s
   end
+
+
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter')}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter')}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
   end
-
+  def no_mbs_account_rate_limit_reply(twitter_user, band, shares, registration_link)
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. We can only reward #{TWEETS_ALLOWED_PER_HOUR.to_s} per hour, so try later! "+randomcode.to_s)
+  end
+    
   def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
     tweet_reply("@#{twitter_user.user_name} Yay! You earned #{shares} BandStock in @#{band.twitter_username} and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard! #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")
   end
   def yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
     tweet_reply("@#{twitter_user.user_name} Thanks for tweeting @#{band.twitter_username}. No more BandStock can be earned today, but you can buy it at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
   end
+  def yes_mbs_account_rate_limit_reply(twitter_user, band, shares, registration_link)
+    tweet_reply("@#{twitter_user.user_name} Thanks for tweeting @#{band.twitter_username}. We can only reward #{TWEETS_ALLOWED_PER_HOUR.to_s} per hour, so try later! "+randomcode.to_s)
+  end
+  
   begin
     loop do      
       for search_item in TwitterCrawlerHashTag.all        
@@ -139,7 +167,11 @@ else
           count = 0
           for r in result
             # We must skip consideration of this user if he is MBS_Reward
-            next if r.from_user == 'MBS_Reward'
+            if r.from_user == 'MBS_Reward' || (search_item.band.twitter_username && r.from_user == search_item.band.twitter_username)
+              search_item.last_tweet_id = r.id.to_s
+              search_item.save
+              next
+            end
             user = find_user_in_array(users, r.from_user)
 
             unless user.nil?
@@ -148,9 +180,24 @@ else
 
               #if user not in our system, put them in as a twitter user
               if twitter_user.nil?
-                twitter_user = TwitterUser.create(:twitter_id => user.id, :name => user.name.to_s, :user_name => user.screen_name.to_s)
-                
+                twitter_user = TwitterUser.create(:twitter_id => user.id, :name => user.name.to_s, :user_name => user.screen_name.to_s)                
               end
+              
+              #IF MORE THAN X TWEETS PER HOUR, DONT DO A DB ENTRY AND AT REPLY THEM LETTING THEM KNOW SUP
+              tweets_in_last_hour = recent_tweets(twitter_user.id, search_item.band.id)
+              
+              if tweets_in_last_hour.nil? || tweets_in_last_hour >=   TWEETS_ALLOWED_PER_HOUR
+                #if user in the system
+                if twitter_user.users.last
+                  yes_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
+                else
+                  no_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
+                end
+                search_item.last_tweet_id = r.id.to_s
+                search_item.save
+                next
+              end
+              
               
               shares = calc_points_hash_tag(user.followers_count.to_i)
               available_shares = search_item.band.available_shares_for_earning
@@ -200,12 +247,7 @@ else
             end
             #if the user couldn't be found, skip it and go ahead with the script
             search_item.last_tweet_id = r.id.to_s
-#            puts 'Search item last tweet id before save '+search_item.last_tweet_id.to_s
-            if search_item.save
- #             puts 'SAVED WITH last_tweet_id '+r.id.to_s+' actually is '+ search_item.last_tweet_id.to_s
-            else
-  #            puts 'SAVE FAILED!!'
-            end
+            search_item.save
           end
           puts "END GROUP of #{result.count}\n\n"+' for '+search_term.to_s          
         else

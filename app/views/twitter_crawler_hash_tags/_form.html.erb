@@ -11,7 +11,7 @@
   </div>
   <div class="field">
     <%= f.label :band %><br />
-    <%= collection_select 'band', 'band_id', Band.all, 'id', 'name', :class => 'select' %>
+    <%= collection_select 'twitter_crawler_hash_tag', 'band_id', Band.all, 'id', 'name', :class => 'select' %>
   </div>
   <div class="actions">
     <%= f.submit %>
