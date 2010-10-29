@@ -167,7 +167,7 @@ else
           count = 0
           for r in result
             # We must skip consideration of this user if he is MBS_Reward
-            if r.from_user == 'MBS_Reward' || (search_item.band.twitter_username && r.from_user == search_item.band.twitter_username)
+            if r.from_user == 'MBS_Reward' || (search_item.band.twitter_username && r.from_user.downcase == search_item.band.twitter_username.downcase)
               search_item.last_tweet_id = r.id.to_s
               search_item.save
               next
