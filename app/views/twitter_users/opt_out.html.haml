@@ -1,0 +1,26 @@
+.maincont
+  %h2 Opt-out from MyBandStock Twitter Messages
+  %br
+  %p We use twitter to monitor fans supporting their favorite bands. We will sometimes send an @reply to twitter accounts so that we can notify users of our service, and their fan ranking in our system. If you do not wish to receive these @replies in the future, please enter your twitter handle below. 
+  %br
+  You can always change it back in your MyBandStock user profile.
+  =form_tag('/twitter/opt_out_finish', :method => :post) do |f|
+    .newform
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = label_tag :user_name, 'Twitter Name'
+                .fieldnamebottom
+              .fieldbox.required
+                = text_field_tag :user_name, "", :maxlength => 15
+          .description
+            Please enter in your twitter user screen name to opt-out from receiving MyBandStock reward tweets.
+
+      .fieldrow
+        .fieldleft
+          .formbutton
+            = submit_tag "submit"
+

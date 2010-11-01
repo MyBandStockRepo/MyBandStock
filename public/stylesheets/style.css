@@ -691,6 +691,12 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .registration_steps .highlight{
 	color: #ff9900;
 }
+.opt_out_box{
+	margin-top:90px;
+	font-size:7pt;
+	float:left;
+}
+
 /* STREAM SCHEDULE PAGE */
 
 .placement_streamschedule {width:380px;margin-left:38px;float:left;}

@@ -15,8 +15,8 @@
           =link_to 'register the good old-fashioned way.', :controller => 'users', :action => 'clear_twitter_registration_session'
       -else
         %p It looks like you already have an account.  Please logout to register a new account.
-  
-
+  .opt_out_box
+    =link_to "Opt-out from receiving twitter @replies", :controller => 'twitter_users', :action => 'opt_out'
 #faq_right
   -#
     %span.question What does MyBandStock do?

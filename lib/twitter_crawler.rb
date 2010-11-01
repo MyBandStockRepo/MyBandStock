@@ -186,12 +186,17 @@ else
               #IF MORE THAN X TWEETS PER HOUR, DONT DO A DB ENTRY AND AT REPLY THEM LETTING THEM KNOW SUP
               tweets_in_last_hour = recent_tweets(twitter_user.id, search_item.band.id)
               
-              if tweets_in_last_hour.nil? || tweets_in_last_hour >=   TWEETS_ALLOWED_PER_HOUR
-                #if user in the system
-                if twitter_user.users.last
-                  yes_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
-                else
-                  no_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
+
+              
+              if tweets_in_last_hour.nil? || tweets_in_last_hour >= TWEETS_ALLOWED_PER_HOUR
+                #here dont message people who have opted out
+                unless twitter_user.opt_out_of_messages
+                  #if user in the system
+                  if twitter_user.users.last
+                    yes_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
+                  else
+                    no_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
+                  end
                 end
                 search_item.last_tweet_id = r.id.to_s
                 search_item.save
@@ -219,11 +224,15 @@ else
                                 :description => 'tweeted_band'
                   )
                   band = search_item.band
-                  yes_mbs_account_stock_available_reply(twitter_user, band, shares)
                   
+                  unless twitter_user.opt_out_of_messages
+                    yes_mbs_account_stock_available_reply(twitter_user, band, shares)
+                  end
                 else
                   band = search_item.band
-                  yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
+                  unless twitter_user.opt_out_of_messages
+                    yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
+                  end
                 end
               else
                 #user not in the system
@@ -232,10 +241,14 @@ else
                 #DO @ Replies                
                 if shares > 0
                   band = search_item.band
-                  no_mbs_account_stock_available_reply(twitter_user, band, shares, 'registration_link')
+                  unless twitter_user.opt_out_of_messages
+                    no_mbs_account_stock_available_reply(twitter_user, band, shares, 'registration_link')
+                  end
                 else
                   band = search_item.band
-                  no_mbs_account_no_stock_available_reply(twitter_user, band, shares, 'registration_link')
+                  unless twitter_user.opt_out_of_messages                  
+                    no_mbs_account_no_stock_available_reply(twitter_user, band, shares, 'registration_link')
+                  end
                 end
               end
           

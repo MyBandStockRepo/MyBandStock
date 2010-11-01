@@ -35,7 +35,8 @@ class User < ActiveRecord::Base
 #  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
   validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
-  validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
+  #UK zipcodes not numerical
+#  validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
 #  validates_numericality_of :country_id
   
@@ -53,7 +54,7 @@ class User < ActiveRecord::Base
 
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
-  validates_length_of :zipcode, :maximum => 10, :unless => Proc.new {|user| user.zipcode.nil?}
+  validates_length_of :zipcode, :maximum => 15, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
@@ -490,7 +491,7 @@ class User < ActiveRecord::Base
       zip_row = Zipcode.where(:zipcode => self.zipcode).first
       if zip_row
         self.state = self.state || State.where(:abbreviation => zip_row.abbr).first
-        self.city = self.city || zip_row.city
+        self.city = self.city || zip_row.city        
       end
     end
     return true
