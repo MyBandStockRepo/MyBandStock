@@ -945,6 +945,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .highlight .leadname {
   color: #FFF;
 }
+.leadname a{color:#ff6600;}
+.highlight .leadname a{
+  color: #FFF;
+}
+
 
 .stageright{width:383px;float:left;}
 .buystock{width:383px;height:110px;background-image:url(/images/stage/buystock.png);margin-top:23px;}

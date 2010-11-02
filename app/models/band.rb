@@ -326,7 +326,7 @@ class Band < ActiveRecord::Base
     #                 LIMIT 10
     #              ")
     #    result = ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(10)        
-    return ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, users.created_at ASC').limit(limit).all      
+    return ShareTotal.where(:band_id => self.id).joins(:user).includes(:user).order('share_totals.net DESC, share_totals.created_at ASC').limit(limit).all      
   end
   
   

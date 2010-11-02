@@ -21,7 +21,7 @@
       .leadnumber
         = (i+1).to_s
       .leadname
-        = man.display_name
+        = link_to man.display_name, :controller => 'users', :action => 'show', :id => man.id
         -if false && location
           %span.shareholder_aside
             = "from #{ location }"
