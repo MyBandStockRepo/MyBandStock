@@ -117,7 +117,7 @@ else
   end
     
   def yes_mbs_account_stock_available_reply(twitter_user, band, shares)
-    tweet_reply("@#{twitter_user.user_name} Yay! You earned #{shares} BandStock in @#{band.twitter_username} and are rank #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard! #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")
+    tweet_reply("@#{twitter_user.user_name} Yay! You earned #{shares} BandStock in @#{band.twitter_username} and are ranked #{twitter_user.users.last.shareholder_rank_for_band(band.id)} on the leaderboard! #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")
   end
   def yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
     tweet_reply("@#{twitter_user.user_name} Thanks for tweeting @#{band.twitter_username}. No more BandStock can be earned today, but you can buy it at #{ShortUrl.generate_short_url('http://mybandstock.com/bands/'+band.id.to_s)}")  
