@@ -20,7 +20,7 @@
       BANDSTOCK LEFT TO EARN TODAY:
     .mbs-leaderboard-shares-remaining-amount
       = lightboard_text(@band.available_shares_for_earning, { :digits => 6, :size => 'big' })
-  = render :partial => 'leaderboard', :locals => { :top_ten => @top_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true }
+  = render :partial => 'leaderboard', :locals => { :top_ten => @top_stockholders, :user_rank => @user_rank, :band => @band, :skip_your_rank => true, :widget_display => true }
   .mbs-leaderboard-info
     Tweet
     %strong.mbs-leaderboard-hashtag
