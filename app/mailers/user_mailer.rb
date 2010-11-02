@@ -72,7 +72,7 @@ class UserMailer < ActionMailer::Base
     @user = user  # Send user object to the email view
     @mbslink = (defined? SITE_URL ) ? SITE_URL : 'http://mybandstock.com'
 		@host = (defined? SITE_HOST ) ? SITE_HOST : 'mybandstock.com'
-    
+    @profilelink = (defined? SITE_URL) ? SITE_URL+'/users/'+@user.id.to_s : 'http://mybandstock.com/users/'+@user.id.to_s
     mail(:to => recipient, :subject => "MyBandStock Registration")
 
     return true

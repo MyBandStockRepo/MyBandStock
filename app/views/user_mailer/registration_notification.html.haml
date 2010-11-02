@@ -1,12 +1,18 @@
 %h2 Welcome to MyBandStock!
 
-%p YES! You're officially a member of The Music Revolution™ ! Thanks for directly supporting the band(s) that you believe in. Remember, you can earn more stock by re-tweeting the band, buying stock, or buying more merch!
+%p 
+  You can now login at
+  = link_to 'MyBandStock.com', @mbslink
+  using this email address:
+  = @user.email
+
+%p BandStock gives you music rewards and special offers that you can’t get anywhere else. The type of rewards you get will vary based on how active you are!
+
+%p You can earn more BandStock by staying active with your favorite artist on Twitter. Seriously, we track any hash-tag, tweet, or @mention of the artist! We’ll also keep you up to date on new ways you can earn BandStock.
 
 %p 
-	You can now login at
-	= link_to 'MyBandStock.com', @mbslink
-	using this email address:
-	= @user.email
-%p Thank you!
+  Be sure to visit your
+  = link_to 'profile', @profilelink 
+  to see your bands and rank. Thanks for supporting your favorite artist!
 
 %p The MBS Team
