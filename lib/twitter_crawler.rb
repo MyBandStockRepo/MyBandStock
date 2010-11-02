@@ -106,10 +106,11 @@ else
 
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
+#    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
+    tweet_reply("@#{twitter_user.user_name} you have #{shares} shares in @#{band.twitter_username}. You must register at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)} to redeem the private video chat!")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
+    #tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
   end
   def no_mbs_account_rate_limit_reply(twitter_user, band, shares, registration_link)
     tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. We can only reward #{TWEETS_ALLOWED_PER_HOUR.to_s} per hour, so try later! "+randomcode.to_s)
@@ -242,7 +243,9 @@ else
                 if shares > 0
                   band = search_item.band
                   unless twitter_user.opt_out_of_messages
-                    no_mbs_account_stock_available_reply(twitter_user, band, shares, 'registration_link')
+                    sum_points = 0
+                    share_points = twitter_user.twitter_crawler_trackers.all.each{|t| sum_points = sum_points + t.share_value}
+                    no_mbs_account_stock_available_reply(twitter_user, band, sum_points, 'registration_link')
                   end
                 else
                   band = search_item.band
