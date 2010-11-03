@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101029220828) do
+ActiveRecord::Schema.define(:version => 20101102223145) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -381,6 +381,7 @@ ActiveRecord::Schema.define(:version => 20101029220828) do
     t.datetime "updated_at"
     t.boolean  "receive_email_reminders",     :default => true,     :null => false
     t.boolean  "receive_email_announcements", :default => true,     :null => false
+    t.string   "password_salt"
   end
 
   create_table "zipcodes", :force => true do |t|

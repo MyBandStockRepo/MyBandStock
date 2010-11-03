@@ -64,15 +64,21 @@ class ApiController < ApplicationController
 			newUser = true
 			
 			genpass = generate_key(16)
+			random = ActiveSupport::SecureRandom.hex(10)
+      salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+      salted_password = Digest::SHA2.hexdigest("#{salt}#{genpass}")
+			
+			
 			user = User.create(:first_name => '',
                   :last_name => '',
-                  :password => Digest::SHA2.hexdigest(genpass),
-#                  :password_confirmation => Digest::SHA2.hexdigest(genpass),
+                  :password => salted_password,
+#                  :password_confirmation => salted_password,
                   :email => email.downcase,
 	                :email_confirmation => email.downcase,                  
                   :status => 'pending',
                   :agreed_to_tos => false,
-                  :agreed_to_pp => false)
+                  :agreed_to_pp => false,
+                  :password_salt => salt)
 =begin			
 			unless user.save			
 				logger.info "\nFailed To Create User.\n"

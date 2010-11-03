@@ -10,16 +10,23 @@
 
 #the creation tree goes as follows
 #user ->
+
+password = "test123"
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
+
 adminUser = User.create( :first_name => 'admin',
                         :last_name => 'user',
-                        :password => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
-#												:password_confirmation => 'fd7013a96f6210e7aa475bed9f422f70ffefa5932e5e05a6aea77840929edce2',
+                        :password => "c7e9034a207365a6b9ee5ec01e881cd029a937ca2465698ad048a317fdf737bc",
+#												:password_confirmation => salted_password',
                         :country_id => 233,
                         :email => 'mbstech@mybandstock.com',
                         :email_confirmation => 'mbstech@mybandstock.com',
                         :status => 'active',
                         :agreed_to_tos => true,
-                        :agreed_to_pp => true)
+                        :agreed_to_pp => true,
+                        :password_salt => "c995ca183dd8b88ba693eec5ec0b5df8a8ba06a719e50b3a8e51c157a60d76f0")
 
 site_admin_role = Role.create(:name => 'site_admin')
 Role.create(:name => 'staff')
@@ -29,18 +36,21 @@ adminUser.roles << site_admin_role
 
 
 #create JM's stuff
-#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
 
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 jm = User.create( :first_name => 'John-Michael',
                   :last_name => 'Fischer',
-                  :password => Digest::SHA2.hexdigest('test123'),
+                  :password => salted_password,
                   :zipcode => '48116',
                   :country_id => 233,
                   :email => 'jm@mybandstock.com',
                   :email_confirmation => 'jm@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
-                  :agreed_to_pp => true)
+                  :agreed_to_pp => true,
+                  :password_salt => salt)
 #grant admin
 jm.roles << site_admin_role
 #create some test bands
@@ -273,58 +283,76 @@ lss_amp.streamapi_streams.create(
 =end
 
 #create Brians stuff
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 brian = User.create( :first_name => 'Brian',
                   :last_name => 'Jennings',
-                  :password => Digest::SHA2.hexdigest('test123'),
-#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
+                  :password => salted_password,
+#                  :password_confirmation => salted_password,
                   :country_id => 233,
                   :email => 'brian@mybandstock.com',
                   :email_confirmation => 'brian@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
-                  :agreed_to_pp => true)
+                  :agreed_to_pp => true,
+                  :password_salt => salt)
 
 #create Jakes stuff
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 jake = User.create( :first_name => 'Jake',
                   :last_name => 'Schwartz',
-                  :password => Digest::SHA2.hexdigest('test123'),
-#                  :password_confirmation => Digest::SHA2.hexdigest('test123'),
+                  :password => salted_password,
+#                  :password_confirmation => salted_password,
                   :country_id => 233,
                   :email => 'jake@mybandstock.com',
                   :email_confirmation => 'jake@mybandstock.com',
                   :status => 'active',
                   :agreed_to_tos => true,
-                  :agreed_to_pp => true)
+                  :agreed_to_pp => true,
+                  :password_salt => salt)
 
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 fan = User.create( :first_name => 'Fanzo',
                    :last_name => 'Gonzales',
-                   :password => Digest::SHA2.hexdigest('test123'),
+                   :password => salted_password,
                    :country_id => 233,
                    :email => 'fan1@mybandstock.com',
                    :email_confirmation => 'fan1@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
-                   :agreed_to_pp => true)
-
+                   :agreed_to_pp => true,
+                   :password_salt => salt)
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 fan = User.create( :first_name => 'Bobeeto',
                    :last_name => 'Garcia',
-                   :password => Digest::SHA2.hexdigest('test123'),
+                   :password => salted_password,
                    :country_id => 233,
                    :email => 'fan2@mybandstock.com',
                    :email_confirmation => 'fan2@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
-                   :agreed_to_pp => true)
-
+                   :agreed_to_pp => true,
+                   :password_salt => salt)
+random = ActiveSupport::SecureRandom.hex(10)
+salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
 fan = User.create( :first_name => 'Cucumber',
                    :last_name => 'Slice',
-                   :password => Digest::SHA2.hexdigest('test123'),
+                   :password => salted_password,
                    :country_id => 233,
                    :email => 'fan3@mybandstock.com',
                    :email_confirmation => 'fan3@mybandstock.com',
                    :status => 'active',
                    :agreed_to_tos => true,
-                   :agreed_to_pp => true)
+                   :agreed_to_pp => true,
+                   :password_salt => salt)
 
 # This is the MBS API user that we use internally. These keys must match exactly the ones listed
 # in environment.rb. For example, when we apply share code permissions, we call the MBS API with

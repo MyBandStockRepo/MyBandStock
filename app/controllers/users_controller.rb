@@ -42,16 +42,24 @@ class UsersController < ApplicationController
   
 	def activate
 		if params[:user_id] && params[:code]
-			lookup_user = User.where(:id => params[:user_id], :password => Digest::SHA2.hexdigest(params[:code])).first
-			if lookup_user
-				if lookup_user.status == 'pending'
-					log_user_in(lookup_user.id)
-					redirect_to :action => 'edit'
-				else
-					flash[:error] = 'This account has already been activated.'
-					redirect_to :controller => :login, :action => :user, :lightbox => params[:lightbox]
-					return false							
-				end
+			lookup_user = User.find(params[:user_id])
+						
+			if lookup_user			  
+			  #check that password matches
+			  if (lookup_user.password_salt.blank? && lookup_user.password == Digest::SHA2.hexdigest(params[:code])) || (!lookup_user.password_salt.blank? && lookup_user.password == Digest::SHA2.hexdigest("#{lookup_user.password_salt}#{params[:code]}"))
+  				if lookup_user.status == 'pending'
+  					log_user_in(lookup_user.id)
+  					redirect_to :action => 'edit'
+  				else
+  					flash[:error] = 'This account has already been activated.'
+  					redirect_to :controller => :login, :action => :user, :lightbox => params[:lightbox]
+  					return false							
+  				end
+  			else
+  				flash[:error] = 'Incorrect activation code. Please try again.'
+  				redirect_to root_url
+  				return false
+			  end
 			else
 				flash[:error] = 'Could not find user with the given email and code.'
 				redirect_to root_url
@@ -147,7 +155,13 @@ class UsersController < ApplicationController
 		# Hash the password before putting it into DB
 		
 		if params[:user] && params[:user][:password] && params[:user][:password] != '' && params[:user][:password] != nil
-			params[:user][:password] = Digest::SHA2.hexdigest(params[:user][:password])
+		  
+		  #see if a salt exists
+      random = ActiveSupport::SecureRandom.hex(10)
+      salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+      salted_password = Digest::SHA2.hexdigest("#{salt}#{params[:user][:password]}")
+      params[:user][:password_salt] = salt
+			params[:user][:password] = salted_password
 		else
 			if @user.status == 'pending'
 				#set password to nil if user is activating so that they are required to put a password
@@ -159,7 +173,7 @@ class UsersController < ApplicationController
 
 
 		# We must also hash the confirmation entry so the model can check them together
-#		params[:user][:password_confirmation] = Digest::SHA2.hexdigest(params[:user][:password_confirmation])
+#		params[:user][:password_confirmation] = salted_password
         
     #for the regular "post"ers make sure the country matches the state in case they changed it
     unless ( params[:user][:country_id].nil? || (params[:user][:country_id].to_i == @user.country_id) || (params[:user][:state_id] == '1') )
@@ -193,29 +207,6 @@ class UsersController < ApplicationController
 			success = @user.save
 		end    
     
-=begin    
-    photo_success = true #init this
-    #if there is a new user photo update it
-    if (success && (params[:user_photo] && (params[:user_photo][:uploaded_data] != '')) )
-      @user_photo = UserPhoto.new(params[:user_photo])
-      @user_photo.user_id = session[:user_id]
-      photo_success = @user_photo.save
-      if photo_success
-        #update the perms on all parent directories
-        File.chmod( 0755, File.dirname(RAILS_ROOT+'/public'+@user_photo.public_filename(:center_graphic)) )
-        File.chmod( 0755, File.dirname(RAILS_ROOT+'/public'+@user_photo.public_filename(:center_graphic))+'/../' )
-        
-        #and see if we need to delete an old one
-        if (old = UserPhoto.find_by_id(@user.headline_photo_id))
-          old.destroy
-        end
-        
-        #then update the user record to use that image
-        @user.headline_photo_id = @user_photo.id
-        @user.save
-      end
-    end
-=end    
     respond_to do |format|
       format.html { 
                     unless success #&& photo_success
@@ -370,10 +361,14 @@ class UsersController < ApplicationController
 
     # Hash the password before putting it into DB
     if user_registration_info[:password] && !user_registration_info[:password].nil? && user_registration_info[:password] != ''
-			user_registration_info[:password] = Digest::SHA2.hexdigest(user_registration_info[:password])
+      random = ActiveSupport::SecureRandom.hex(10)
+      salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+      salted_password = Digest::SHA2.hexdigest("#{salt}#{user_registration_info[:password]}")
+			user_registration_info[:password] = salted_password
+			user_registration_info[:password_salt] = salt
 		end
     # We must also hash the confirmation entry so the model can check them together
-#    user_registration_info[:password_confirmation] = Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
+#    user_registration_info[:password_confirmation] = #needs work if we have the confirmation again Digest::SHA2.hexdigest(user_registration_info[:password_confirmation])
    
     #we can assume at this point that we've got something ready to authenticate in user_registration_info
     @user = User.new(user_registration_info)

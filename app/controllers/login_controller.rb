@@ -50,9 +50,24 @@ class LoginController < ApplicationController
       passed_email = params[:user][:email]
       passed_password = params[:user][:password]
     end
-    if ( @user = User.find_by_email(passed_email) ) && ( @user.password == Digest::SHA2.hexdigest(passed_password) )
+    
+    
+
+    if ( @user = User.find_by_email(passed_email) ) && (( @user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest(passed_password) ) || (!@user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest("#{@user.password_salt}#{passed_password}")))
 			log_user_in(@user.id)
       flash[:notice] = "Thanks for logging in " + @user.full_name + "!"
+
+      #see if it has been salted previously or not  (because salting was added in after users had already been in the system)
+      if @user.password_salt.blank?      
+        #create salted password
+        random = ActiveSupport::SecureRandom.hex(10)
+        salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+        salted_password = Digest::SHA2.hexdigest("#{salt}#{passed_password}")
+      
+        @user.password_salt = salt
+        @user.password = salted_password
+        @user.save
+      end
       #if they wanted to be remembered, do it
       if (params[:remember] == '1')
         cookies[:saved_user_id] = {:value => @user.id.to_s, :expires => 14.days.from_now}
@@ -73,20 +88,10 @@ class LoginController < ApplicationController
                   :lightbox => params[:lightbox],
                   :show_login_only => params[:show_login_only]
 
-      # unless params[:lightbox].nil?
-      #   # @external = true
-      #   # @login_only = params[:show_login_only]  # Tell the view to only show the login form, excluding "Signup" and stuff
-      #   # render :controller => 'login', :action => :user, :layout => 'lightbox'
-      #   redirect_to :controller => 'login',
-      #               :action => :user,
-      #               :lightbox => params[:lightbox],
-      #               :show_login_only => params[:show_login_only]
-      # else
-      #   @login_only = params[:show_login_only]
-      #   render :controller => 'login', :action => :user
-      # end
       return false
-    end
+    end      
+    
+
   end
       
       
@@ -110,8 +115,15 @@ class LoginController < ApplicationController
     @bad_user_save = false
     if ( params[:email] && (search_email = params[:email].strip.downcase) && (search_email != '') )
       if @user = User.find_by_email(search_email)
+      	
       	password = generate_key(8)
-      	@user.password = Digest::SHA2.hexdigest(password)
+      	#create salted password
+        random = ActiveSupport::SecureRandom.hex(10)
+        salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+        salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
+      
+        @user.password_salt = salt
+        @user.password = salted_password
       	
       	if @user.save 
 					UserMailer.reset_password(@user, password).deliver
