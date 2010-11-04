@@ -1,5 +1,5 @@
 Cobain::Application.routes.draw do |map|
-  resources :twitter_crawler_hash_tags
+
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
@@ -59,6 +59,7 @@ Cobain::Application.routes.draw do |map|
 	  match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
     match 'bands/:band_id/is_band_broadcasting_live', :to => 'bands#is_band_broadcasting_live'
     match 'bands/:band_id/leaderboard', :to => 'bands#leaderboard_widget'
+
   # /--- Band Actions ---- #
 
 
@@ -73,6 +74,9 @@ Cobain::Application.routes.draw do |map|
 
   # /--- Share Codes ---- #
 
+  # /--- Promotional Coes --- #
+    match '/promo/redeem', :to => 'promotional_codes#redeem'
+    match '/promo/redeem_complete', :to => 'promotional_codes#redeem_complete'
 
   # ---- Administration ---- #
     match 'admin', :to => 'admin#index', :as => 'admin'
@@ -101,6 +105,8 @@ Cobain::Application.routes.draw do |map|
   resources :twitter_crawler_hash_tags  
   resources :live_stream_series
   resources :live_stream_series_permissions
+  resources :twitter_crawler_hash_tags
+  resources :promotional_codes  
   #codingisanart
 
 

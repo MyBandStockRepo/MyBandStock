@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101102223145) do
+ActiveRecord::Schema.define(:version => 20101104011141) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -141,6 +141,25 @@ ActiveRecord::Schema.define(:version => 20101102223145) do
     t.integer  "band_id"
     t.integer  "num_shares"
   end
+
+  create_table "promotional_codes", :force => true do |t|
+    t.string   "code"
+    t.integer  "band_id"
+    t.datetime "expiration_date"
+    t.integer  "share_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "start_date"
+  end
+
+  create_table "promotional_codes_users", :id => false, :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "promotional_code_id"
+    t.integer  "user_id"
+  end
+
+  add_index "promotional_codes_users", ["promotional_code_id", "user_id"], :name => "promotional_codes_users_join_index"
 
   create_table "recorded_videos", :force => true do |t|
     t.integer  "public_hostid"
