@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Code:</b>
+  <%= @promotional_code.code %>
+</p>
+
+<p>
+  <b>Band:</b>
+  <%= @promotional_code.band.name %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @promotional_code.start_date %>
+</p>
+
+<p>
+  <b>Expiration date:</b>
+  <%= @promotional_code.expiration_date %>
+</p>
+
+<p>
+  <b>Share value:</b>
+  <%= @promotional_code.share_value %>
+</p>
+
+
+<%= link_to 'Edit', edit_promotional_code_path(@promotional_code) %> |
+<%= link_to 'Back', promotional_codes_path %>

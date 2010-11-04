@@ -1,0 +1,37 @@
+<%= form_for(@promotional_code) do |f| %>
+  <% if @promotional_code.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@promotional_code.errors.count, "error") %> prohibited this promotional_code from being saved:</h2>
+
+      <ul>
+      <% @promotional_code.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :code %><br />
+    <%= f.text_field :code %>
+  </div>
+  <div class="field">
+    <%= f.label :band %><br />
+    <%= collection_select 'promotional_code', 'band_id', Band.all, 'id', 'name', :class => 'select' %>
+  </div>
+  <div class="field">
+    <%= f.label :start_date %><br />
+    <%= f.datetime_select :start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :expiration_date %><br />
+    <%= f.datetime_select :expiration_date %>
+  </div>
+  <div class="field">
+    <%= f.label :share_value %><br />
+    <%= f.text_field :share_value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

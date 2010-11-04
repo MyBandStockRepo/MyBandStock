@@ -1,0 +1,30 @@
+<h1>Listing promotional_codes</h1>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Band</th>
+    <th>Expiration date</th>
+    <th>Share value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @promotional_codes.each do |promotional_code| %>
+  <tr>
+    <td><%= promotional_code.code %></td>
+    <td><%= promotional_code.band.name %></td>
+    <td><%= promotional_code.start_date %></td>
+    <td><%= promotional_code.expiration_date %></td>
+    <td><%= promotional_code.share_value %></td>
+    <td><%= link_to 'Show', promotional_code %></td>
+    <td><%= link_to 'Edit', edit_promotional_code_path(promotional_code) %></td>
+    <td><%= link_to 'Destroy', promotional_code, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Promotional code', new_promotional_code_path %>
