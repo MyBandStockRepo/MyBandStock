@@ -1,0 +1,173 @@
+-#
+  @twitter_hash_tags = @band.twitter_crawler_hash_tags
+  @twitter_trackers = @band.twitter_crawler_trackers
+  @twitter_users = @twitter_trackers.collect{|t| t.twitter_user}
+  @registered_users = @twitter_users.collect{|u| u.user}
+
+
+.orange_bar
+  %h2.new_user_reg_title BAND STATS
+.maincont
+  %h3 Twitter Hash Tag Tracker stuff
+  %p 
+    Tracking Hash tags:
+    %br
+    -for hash_tag in @twitter_hash_tags
+      =hash_tag.term
+      %br
+  %br
+  %p
+    Tracked Hash Tag tweets:
+    = @twitter_trackers.count
+  %p
+    Hash Tag tracking Total BandStock awarded:
+    -sum=0
+    -@twitter_trackers.each{|entry| sum = sum + entry.share_value}
+    =sum
+  %p
+    Hash Tag Total tweeting users:
+    = @twitter_users.count
+  %p
+    Average Hash Tag tweets per user:
+    - if @twitter_users.count == 0
+      = 0
+    -else
+      = @twitter_trackers.count*1.0 / @twitter_users.count*1.0
+  %p
+    Average Hash Tag BandStock per user:
+    - if @twitter_users.count == 0    
+      = 0
+    -else
+      = sum*1.0 / @twitter_users.count*1.0
+  %p
+    Average Hash Tag BandStock per tweet:
+    - if @twitter_trackers.count == 0    
+      = 0
+    -else
+      = sum*1.0 / @twitter_trackers.count*1.0      
+  %p
+    Average *value* of a tweet (in USD):
+    - if @twitter_trackers.count == 0 || @band.share_price.blank?
+      = 0
+    -else
+      = (sum*1.0 / @twitter_trackers.count*1.0) * @band.share_price
+  %p 
+    How many total people saw the message blasts (every follower for each tweet added up [if same user tweets twice, counts their followers twice]):
+    -followers=0
+    -@twitter_trackers.each{|entry| followers = followers + entry.twitter_followers}
+    =followers
+  %p
+    Average amount of people who saw a hash tag tweet (follower average per user):
+    - if @twitter_trackers.count == 0
+      =0
+    -else
+      =followers*1.0 / @twitter_trackers.count*1.0
+  
+  -#
+    %p
+      Users:
+      -for user in @users
+        -unless user.nil?
+          =user.display_name
+        %br
+  %br
+  %br
+  %p
+    Registered Tweeting Users (info for this band):
+    %table{:style => "border-spacing:20px 10px;"}
+      %tr{:style => "color:white;"}
+        %th
+          twitter handle
+        %th
+          tweets tracked
+        %th
+          average followers (over tracking time)
+        %th
+          BandStock earned
+        %th
+          opt-out of twitter messages?
+        %th
+          user's MBS ID
+        
+      -for user in @registered_users
+        -@tweets = @twitter_trackers.where(:twitter_user_id => user.id)
+        %tr
+          %td
+            ="@#{user.user_name}"
+          %td            
+            =@tweets.count
+          %td
+            -user_followers = 0
+            -@tweets.each{|entry| user_followers = user_followers + entry.twitter_followers}
+            -if @tweets.count == 0
+              = 0
+            -else
+              =user_followers*1.0 / @tweets.count*1.0
+          %td
+            -user_sum = 0
+            -@tweets.each{|entry| user_sum = user_sum + entry.share_value}
+            =user_sum
+          %td
+            -if user.opt_out_of_messages
+              YES
+            -else
+              NO
+          %td
+            =user.users.last.id
+              
+  %br
+  %br
+  %p
+    Unregistered Tweeting Users (info for this band):
+    %table{:style => "border-spacing:20px 10px;"}
+      %tr{:style => "color:white;"}
+        %th
+          twitter handle
+        %th
+          tweets tracked
+        %th
+          average followers (over tracking time)
+        %th
+          BandStock earned
+        %th
+          opt-out of twitter messages?
+
+      -for user in @unregistered_users
+        -@tweets = @twitter_trackers.where(:twitter_user_id => user.id)
+        %tr
+          %td
+            ="@#{user.user_name}"
+          %td            
+            =@tweets.count
+          %td
+            -user_followers = 0
+            -@tweets.each{|entry| user_followers = user_followers + entry.twitter_followers}
+            -if @tweets.count == 0
+              = 0
+            -else
+              =user_followers*1.0 / @tweets.count*1.0
+          %td
+            -user_sum = 0
+            -@tweets.each{|entry| user_sum = user_sum + entry.share_value}
+            =user_sum
+          %td
+            -if user.opt_out_of_messages
+              YES
+            -else
+              NO
+              
+  %br
+  %br
+  %h3 Twitter Retweet stuff    
+  %br
+  %p
+    MyBandStock 'esque Retweets:
+    = @retweets.count    
+  %p
+    Retweet Total BandStock awarded:
+    -sum=0
+    -@retweets.each{|entry| sun = sum + entry.share_value}
+    =sum
+  %p
+    Number of people who have retweeted:
+    =@retweet_twitter_users.count

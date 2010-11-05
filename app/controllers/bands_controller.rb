@@ -9,8 +9,34 @@ class BandsController < ApplicationController
  before_filter :authenticated?, :except => [:show, :is_band_broadcasting_live, :index, :leaderboard_widget]
 # skip_filter :update_last_location, :except => [:index, :show, :control_panel, :manage_users, :manage_project, :manage_music, :manage_photos, :manage_perks, :manage_fans, :inbox]
  before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index, :leaderboard_widget]
- skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users, :leaderboard_widget]
+ skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users, :leaderboard_widget, :stats]
 
+
+
+def stats
+  if params[:band_id] && @band = Band.find(params[:band_id])
+    @twitter_hash_tags = @band.twitter_crawler_hash_tags
+    @twitter_trackers = @band.twitter_crawler_trackers
+    @twitter_users = @twitter_trackers.collect{|t| t.twitter_user}
+    @twitter_users = @twitter_users.uniq
+    @retweets = Retweet.where(:band_id => @band.id).all
+    @retweet_twitter_users = @retweets.collect{|rt| rt.twitter_user}
+    @registered_users = []
+    @unregistered_users = []
+    for t_user in @twitter_users
+      if t_user.users.last.nil?
+        @unregistered_users << t_user
+      else
+        @registered_users << t_user
+      end
+    end
+    @users = @registered_users.collect{|u| u.users.last}    
+    
+  else
+    flash[:error] = "Could not find Band ID."
+    return false
+  end
+end
 
 # returns a json object about if the band is currently broadcasting
  def is_band_broadcasting_live

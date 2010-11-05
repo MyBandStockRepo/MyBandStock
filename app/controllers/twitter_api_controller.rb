@@ -747,9 +747,9 @@ class TwitterApiController < ApplicationController
   
   def generate_endtag(screen_name = nil, long_url = nil)
 		endtag_str = ''
-  	if screen_name
-			endtag_str +=' @'+screen_name
-		end
+#  	if screen_name
+#			endtag_str +=' @'+screen_name
+#		end
 		if long_url
 		  short_url = ShortUrl.generate_short_url(long_url)
 			endtag_str += ' '+short_url

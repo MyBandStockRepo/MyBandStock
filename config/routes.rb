@@ -59,6 +59,7 @@ Cobain::Application.routes.draw do |map|
 	  match 'bands/:band_id/make_stock_purchase', :to => 'merchant#make_stock_purchase', :as => :make_stock_purchase
     match 'bands/:band_id/is_band_broadcasting_live', :to => 'bands#is_band_broadcasting_live'
     match 'bands/:band_id/leaderboard', :to => 'bands#leaderboard_widget'
+    match 'bands/:band_id/stats', :to => 'bands#stats'    
   # /--- Band Actions ---- #
 
 
