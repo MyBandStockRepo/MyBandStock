@@ -13,7 +13,7 @@ class PromotionalCodesController < ApplicationController
   def redeem_complete
     @success = false
     #lookup code to see if it exists
-    if params[:code] && promo_code = PromotionalCode.where(:code => params[:code]).first      
+    if params[:code] && promo_code = PromotionalCode.where(:code => params[:code].downcase).first 
       #see if code is expired
       if promo_code.start_date.utc < Time.now.utc && Time.now.utc < promo_code.expiration_date.utc
         @user = User.find(session[:user_id])
