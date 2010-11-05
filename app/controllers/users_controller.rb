@@ -3,7 +3,7 @@ class UsersController < ApplicationController
  protect_from_forgery :only => [:create, :update]
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :new, :membership, :control_panel, :manage_artists, :register_with_twitter_step_2]
+ skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
 
   def index
     #What do we do with this action?
@@ -399,7 +399,11 @@ class UsersController < ApplicationController
           redirect_to :controller => 'bands', :action => 'show', :id => session[:register_and_redirect_to_band_id]
           session[:register_and_redirect_to_band_id] = nil
         else
-  				redirect_to '/me/control_panel', :lightbox => params[:lightbox]
+          if session[:last_clean_url]
+  				  redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
+          else
+  				  redirect_to '/me/control_panel', :lightbox => params[:lightbox]
+				  end
         end
 
       end

@@ -74,6 +74,7 @@ class LoginController < ApplicationController
         cookies[:salted_user_id] = {:value => Digest::SHA256.digest(@user.id.to_s+SHA_SALT_STRING), :expires => 14.days.from_now}
       end
       if session[:last_clean_url]
+        puts "LCU: #{session[:last_clean_url]}"
         redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
         return true
       else
