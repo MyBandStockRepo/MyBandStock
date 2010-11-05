@@ -62,7 +62,15 @@
       =0
     -else
       =followers*1.0 / @twitter_trackers.count*1.0
-  
+  %p
+    Registered Users:
+    =@registered_users.count
+  %p
+    Unregistered Users:
+    =@unregistered_users.count
+  %p
+    Conversion Rate:
+    ="#{(@registered_users.count*1.0 / (@registered_users.count+@unregistered_users.count)*1.0)*100}% of total tweeters are registered."
   -#
     %p
       Users:
