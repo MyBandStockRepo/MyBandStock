@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  code: MyString
+  band: 
+  expiration_date: 2010-11-03 17:39:03
+  share_value: 1
+
+two:
+  code: MyString
+  band: 
+  expiration_date: 2010-11-03 17:39:03
+  share_value: 1

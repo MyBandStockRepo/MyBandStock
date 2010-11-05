@@ -25,6 +25,7 @@ class Band < ActiveRecord::Base
   has_many :twitter_crawler_hash_tags
   has_many :twitter_crawler_trackers, :through => :twitter_crawler_hash_tags
   has_many :retweets
+  has_many :promotional_codes
   
 #  has_many :contributions, :dependent => :destroy
 #  has_many :contributors, :through => :contributions, :source => :user, :uniq => true

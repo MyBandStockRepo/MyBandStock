@@ -1,0 +1,22 @@
+.maincont
+  %h2 MyBandStock Promotional Codes
+  %br
+  %p If you have received a valid promotional code please enter it below to earn BandStock.  You can only enter each promotional code one time per user.
+
+  =form_tag('/promotional_codes/redeem_complete', :method => :post) do |f|
+    .newform
+      .fieldrow
+        .fieldleft
+          .field
+            %fieldset
+              .fieldname.required
+                .fieldnametop
+                  = label_tag :user_name, 'promo code'
+                .fieldnamebottom
+              .fieldbox.required
+                = text_field_tag :code
+      .fieldrow
+        .fieldleft
+          .formbutton
+            = submit_tag "submit"
+

@@ -1,5 +1,5 @@
 Cobain::Application.routes.draw do |map|
-  resources :twitter_crawler_hash_tags
+
 
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
@@ -74,6 +74,9 @@ Cobain::Application.routes.draw do |map|
 
   # /--- Share Codes ---- #
 
+  # /--- Promotional Coes --- #
+    match '/promo/redeem', :to => 'promotional_codes#redeem'
+    match '/promo/redeem_complete', :to => 'promotional_codes#redeem_complete'
 
   # ---- Administration ---- #
     match 'admin', :to => 'admin#index', :as => 'admin'
@@ -102,6 +105,8 @@ Cobain::Application.routes.draw do |map|
   resources :twitter_crawler_hash_tags  
   resources :live_stream_series
   resources :live_stream_series_permissions
+  resources :twitter_crawler_hash_tags
+  resources :promotional_codes  
   #codingisanart
 
 
