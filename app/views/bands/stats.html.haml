@@ -166,7 +166,7 @@
   %p
     Retweet Total BandStock awarded:
     -sum=0
-    -@retweets.each{|entry| sun = sum + entry.share_value}
+    -@retweets.each{|entry| sum = sum + entry.share_value}
     =sum
   %p
     Number of people who have retweeted:
