@@ -9,6 +9,7 @@ gem 'twitter', '>=0.9.12'
 gem 'google4r'
 gem 'google4r-checkout'
 gem 'fastercsv' # For exporting a CSV of share codes
+gem 'mysql'
 
 #following added by JM so we can run this under ruby 1.9
 gem 'twitter-text', "1.1", :git => 'git://github.com/rubypond/twitter-text-rb.git'
