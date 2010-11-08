@@ -1,3 +1,8 @@
+*.log
+*.cache
+*~
+config/database.yml
+*.pid
 .bundle
 .DS_Store
 *.orig
