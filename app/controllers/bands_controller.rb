@@ -11,7 +11,22 @@ class BandsController < ApplicationController
  before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index, :leaderboard_widget]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users, :leaderboard_widget, :stats]
 
-
+# Plot a graph of Twitter mentions by date for the last week
+# Docs at http://code.google.com/apis/chart/docs/chart_wizard.html
+def graph
+  return unless @band = Band.find_by_id(params[:id])
+  # Extract Twitter mentions within a week, grouped by date
+  dates_and_mentions = @band.twitter_crawler_trackers.recent.by_date.count(:id)
+  dates = dates_and_mentions.collect{|mention| mention.first.to_date.day}.join "|"
+  mentions = dates_and_mentions.collect{|mention| mention.second}.join ","
+  # Add some basic properties to the chart
+  size = "300x225"
+  title = CGI.escape "Twitter mentions for #{@band.name}"
+  color = "3D7930"
+  dates_pos = (1..dates_and_mentions.size).to_a.join ","
+  dates_count = [1,dates_and_mentions.size].join ","
+  @graph_url = "http://chart.apis.google.com/chart?chxl=1:|#{dates}&chxp=1,#{dates_pos}&chxr=1,#{dates_count}&chxt=y,x&chs=#{size}&cht=lc&chco=#{color}&chd=t:#{mentions}&chg=14.3,-1,1,1&chls=2,4,0&chm=B,C5D4B5BB,0,0,0&chtt=#{title}"
+end
 
 def stats
   if params[:band_id] && @band = Band.find(params[:band_id])

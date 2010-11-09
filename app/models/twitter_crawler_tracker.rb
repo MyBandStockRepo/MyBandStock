@@ -4,7 +4,9 @@ class TwitterCrawlerTracker < ActiveRecord::Base
 #  belongs_to :band, :through => :twitter_crawler_hash_tag
   validates_uniqueness_of :tweet_id, :scope => :twitter_crawler_hash_tag_id
   
-  
+  scope :recent, where('twitter_crawler_trackers.created_at > ?', 1.week.ago)
+
+  scope :by_date, group("date(twitter_crawler_trackers.created_at)")
   
   before_create :tweet_does_not_exist_for_band?
   
