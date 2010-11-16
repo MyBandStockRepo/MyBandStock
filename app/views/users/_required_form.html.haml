@@ -6,36 +6,10 @@
   .fieldrow
     .fieldleft
       %p * Denotes a required field.
-  .fieldrow
-    .fieldleft
-      .field.condense4
-        %fieldset
-          .fieldname.required.condense2
-            .fieldnametop
-              = f.label :email, 'email*'
-            .fieldnamebottom
-          .fieldbox.required.condense2
-            = f.text_field :email
-    .fielderror.condense
-      - if @user.errors[:email]
-        - for e in @user.errors[:email]
-          %p
-            = '- '+e.to_s
-  .fieldrow
-    .fieldleft
-      .field.condense4
-        %fieldset
-          .fieldname.required.condense2
-            .fieldnametop
-              = f.label :email_confirmation, 'confirm email*'
-            .fieldnamebottom
-          .fieldbox.required.condense2
-            = f.text_field :email_confirmation
-    .fielderror.condense
-      - if @user.errors[:email_confirmation]
-        - for e in @user.errors[:email_confirmation]
-          %p
-            = '- '+e.to_s
+
+  =render 'field_required', :f => f, :field => :email,  :label => 'Email'
+  =render 'field_required', :f => f, :field => :email_confirmation,  :label => 'Confirm Email'
+
   .fieldrow
     .fieldleft
       .field.condense4
@@ -54,87 +28,60 @@
         - for e in @user.errors[:password]
           %p
             = '- '+e.to_s
-  .fieldrow
-    .fieldleft
-      .field.condense4
-        %fieldset
-          .fieldname.required.condense2
+
+  =render 'field_required', :f => f, :field => :first_name,  :label => 'First name'
+  =render 'field_required', :f => f, :field => :zipcode,  :label => 'ZIP Code'
+          
+  -if (params[:lightbox] && params[:lightbox] == false) || params[:lightbox].nil?
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
             .fieldnametop
-              = f.label :first_name, 'first name*'
+              = f.label :receive_email_announcements, 'announcements'
             .fieldnamebottom
-          .fieldbox.required.condense2
-            = f.text_field :first_name
-    .fielderror.condense
-      - if @user.errors[:first_name]
-        - for e in @user.errors[:first_name]
-          %p
-            = '- '+e.to_s
-  .fieldrow
-    .fieldleft
-      .field.condense4
-        %fieldset
-          .fieldname.required.condense2
+          .fieldbox
+            %select{:name => "user[receive_email_announcements]"}
+              - if @user.nil? || @user.receive_email_announcements.nil? || @user.receive_email_announcements == true
+                %option{:value => "1", :selected => true}Yes
+                %option No
+              - else
+                %option{:value => "1"}Yes
+                %option{:selected => true} No
+
+          .description
+            Do you want to be contacted via email by MyBandStock regarding various announcements including new features, band updates etc? (We will not distribute your email to 3rd parties)
+      .fielderror
+        - if @user.errors[:receive_email_announcements]
+          - for e in @user.errors[:receive_email_announcements]
+            %p
+              = '- '+e.to_s
+
+  -if (params[:lightbox] && params[:lightbox] == false) || params[:lightbox].nil?
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
             .fieldnametop
-              = f.label :zipcode, 'zip code*'
+              = f.label :receive_email_reminders, 'reminders'
             .fieldnamebottom
-          .fieldbox.required.condense2
-            = f.text_field :zipcode
-    .fielderror.condense
-      - if @user.errors[:zipcode]
-        - for e in @user.errors[:zipcode]
-          %p
-            = '- '+e.to_s
-            
-    -if (params[:lightbox] && params[:lightbox] == false) || params[:lightbox].nil?
-      .fieldrow
-        .fieldleft      
-          .field.condense4
-            .fieldname
-              .fieldnametop
-                = f.label :receive_email_announcements, 'announcements'
-              .fieldnamebottom
-            .fieldbox
-              %select{:name => "user[receive_email_announcements]"}
-                - if @user.nil? || @user.receive_email_announcements.nil? || @user.receive_email_announcements == true
-                  %option{:value => "1", :selected => true}Yes
-                  %option No
-                - else
-                  %option{:value => "1"}Yes
-                  %option{:selected => true} No
+          .fieldbox
+            %select{:name => "user[receive_email_reminders]"}
+              - if @user.nil? || @user.receive_email_reminders.nil? || @user.receive_email_reminders == true
+                %option{:value => "1", :selected => true}Yes
+                %option No
+              - else
+                %option{:value => "1"}Yes
+                %option{:selected => true} No
 
-            .description
-              Do you want to be contacted via email by MyBandStock regarding various announcements including new features, band updates etc? (We will not distribute your email to 3rd parties)
-        .fielderror
-          - if @user.errors[:receive_email_announcements]
-            - for e in @user.errors[:receive_email_announcements]
-              %p
-                = '- '+e.to_s
-
-    -if (params[:lightbox] && params[:lightbox] == false) || params[:lightbox].nil?
-      .fieldrow
-        .fieldleft      
-          .field.condense4
-            .fieldname
-              .fieldnametop
-                = f.label :receive_email_reminders, 'reminders'
-              .fieldnamebottom
-            .fieldbox
-              %select{:name => "user[receive_email_reminders]"}
-                - if @user.nil? || @user.receive_email_reminders.nil? || @user.receive_email_reminders == true
-                  %option{:value => "1", :selected => true}Yes
-                  %option No
-                - else
-                  %option{:value => "1"}Yes
-                  %option{:selected => true} No
-
-            .description
-              Do you want to be reminded via email by MyBandStock when you have upcoming events like live video streams? (We will not distribute your email to 3rd parties)
-        .fielderror
-          - if @user.errors[:receive_email_reminders]
-            - for e in @user.errors[:receive_email_reminders]
-              %p
-                = '- '+e.to_s            
-    
+          .description
+            Do you want to be reminded via email by MyBandStock when you have upcoming events like live video streams? (We will not distribute your email to 3rd parties)
+      .fielderror
+        - if @user.errors[:receive_email_reminders]
+          - for e in @user.errors[:receive_email_reminders]
+            %p
+              = '- '+e.to_s            
+  
     
   -if params[:action] == 'edit' || params[:action] == 'update'
     .fieldrow
