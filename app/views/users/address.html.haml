@@ -1,0 +1,12 @@
+.orange_bar
+  .placement_edituserprofilepic
+  .placement_edituserprofile EDIT SHIPPING ADDRESS
+  .orange_divider
+#content_login_bg
+  #login_wrap
+    = form_for(@user) do |f|
+      .newform
+        =render 'field_textarea', :f => f, :field => :address1, :label => 'Address'
+        =render 'field_required', :f => f, :field => :zipcode,  :label => 'ZIP Code'
+        =render 'field_submit',   :f => f
+      .clear

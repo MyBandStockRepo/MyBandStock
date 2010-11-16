@@ -1,0 +1,15 @@
+.fieldrow
+  .fieldleft
+    .field.condense4
+      %fieldset
+        .fieldname.required.condense2
+          .fieldnametop
+            = f.label field, "#{label}*"
+          .fieldnamebottom
+        .fieldbox.required.condense2
+          = f.text_field field
+  .fielderror.condense
+    - if @user.errors[field]
+      - for e in @user.errors[field]
+        %p
+          = '- '+e.to_s

@@ -1,0 +1,15 @@
+.fieldrow
+  .fieldleft
+    .field
+      .LARGEfield
+        .fieldname
+          .fieldnametop
+            = f.label :address1, 'Address'
+          .fieldnamebottom
+        .fieldbox
+          = f.text_area :address1, { :class => 'textarea' }
+  .fielderror
+    - if @user.errors[:address1]
+      - for e in @user.errors[:address1]
+        %p
+          = '- '+e.to_s

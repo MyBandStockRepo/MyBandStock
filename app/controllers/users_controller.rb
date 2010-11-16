@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
  protect_from_forgery :only => [:create, :update]
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+ before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
 
@@ -76,16 +77,6 @@ class UsersController < ApplicationController
 		@request_uri = url_for()
 #@newform = false		
 #@page = 'edit'		
-    unless (id = params[:id])
-      id = session[:user_id]
-    else
-      unless ( (id != session[:user_id]) && (User.find(session[:user_id]).site_admin) )
-        id = session[:user_id]
-      end
-    end
-    
-    @user = User.find(id)
-
     # Clear password field for editing
 #    @user.password_confirmation = ''
 		@user.email_confirmation = @user.email    
@@ -113,6 +104,9 @@ class UsersController < ApplicationController
     
     
     render :layout => 'lightbox' unless params[:lightbox].nil?
+  end
+  
+  def address
   end
   
   
@@ -558,5 +552,17 @@ protected
   end
 =end
   
+  def find_user
+    unless (id = params[:id])
+      id = session[:user_id]
+    else
+      unless ( (id != session[:user_id]) && (User.find(session[:user_id]).site_admin) )
+        id = session[:user_id]
+      end
+    end
+    
+    @user = User.find(id)
+  end
+    
 
 end #end controller

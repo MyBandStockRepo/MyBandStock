@@ -220,6 +220,7 @@ Cobain::Application.routes.draw do |map|
   match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'
+  match '/me/address', :to => 'users#address'
 
 
 
