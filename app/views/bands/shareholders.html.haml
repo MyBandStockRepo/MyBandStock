@@ -1,0 +1,15 @@
+.orange_bar Shareholder addresses for #{@band.name}
+.maincont
+  %table{:style => 'border-spacing: 10px;'}
+    %tr
+      %th #
+      %th Name
+      %th Address
+      %th ZIP Code
+      
+    - @shareholders.each_with_index do |shareholder, i|
+      %tr
+        %td= i+1
+        %td= shareholder.first_name
+        %td= shareholder.address1
+        %td= shareholder.zipcode            
