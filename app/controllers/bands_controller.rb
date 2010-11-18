@@ -62,7 +62,7 @@ end
          }
        end
      else
-       #here
+
        is_live = true
        output[:view_link] = {
          :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => current_broadcasts.first.id, :lightbox => params[:lightbox] ),

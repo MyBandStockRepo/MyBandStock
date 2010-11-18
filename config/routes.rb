@@ -1,6 +1,7 @@
 Cobain::Application.routes.draw do |map|
 
 
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -85,7 +86,12 @@ Cobain::Application.routes.draw do |map|
     match '/admin/send_users_email', :to => 'admin#send_users_email'
   # /--- Administration ---- #
   
+  #/ ---- OmniAuth Callbacks ----/#
+  match '/auth/:provider/callback' => 'authentications#create'  
+  match '/auth/failure' => 'authentications#failure'  
+  match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
   
+  resources :authentications
   resources :streamapi_stream_themes
   resources :facebook_publishers
   resources :share_code_groups

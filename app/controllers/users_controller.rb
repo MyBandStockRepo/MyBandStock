@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     end
     
     @user = User.find(id)
-
+    @authentications = @user.authentications if @user  
     # Clear password field for editing
 #    @user.password_confirmation = ''
 		@user.email_confirmation = @user.email    
@@ -129,6 +129,7 @@ class UsersController < ApplicationController
       id = session[:user_id]
     end
     @user = User.find(id)
+    @authentications = @user.authentications if @user  
 		@request_uri = edit_user_url(id)
     @user.email_confirmation = params[:user][:email_confirmation]
 		begin
@@ -225,10 +226,13 @@ class UsersController < ApplicationController
 
   def clear_twitter_registration_session
     session[:quick_registration_twitter_user_id] = nil
+    #clear omniauth
+    session[:user_hash] = nil
     redirect_to :controller => 'users', :action => 'new', :redemption_redirect => params[:redemption_redirect]
   end
 
   def new
+    #coming from old twitter gem registration
     if session[:quick_registration_twitter_user_id]
       if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
         oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
@@ -246,6 +250,33 @@ class UsersController < ApplicationController
         flash[:error] = 'Could not find that twitter account in our system. Please retry'
         redirect_to 'register_with_twitter'
       end
+      
+    #coming from omniauth
+    elsif session[:user_hash]
+      user_hash = session[:user_hash]
+#      session[:user_hash] = nil
+      @facebook_user = nil
+      @twitter_user = nil
+      @omniauth = true
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+      
+      #note still have to save auth id into fb/twitter users table
+      if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+        
+      elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+
+      end
+
+      #check to see if they've been around before
+      if params[:user]   
+        @user = User.new(params[:user])
+      else
+        @user = User.new(:first_name => user_hash[:first_name], :last_name => user_hash[:last_name], :email => user_hash[:email], :email_confirmation => user_hash[:email])
+      end
+
+
+    #clicked new account button
     else
   		@request_uri = url_for()  
   #		@newform = true
@@ -308,27 +339,7 @@ class UsersController < ApplicationController
   end
   
   
-  def create
-#  		@newform = true
-
-=begin
-    #validate the captcha
-    if ((session[:passed_captcha] && params[:captcha_response]) || (session[:passed_captcha] != true) )
-      unless captcha_valid?(params[:captcha_response])
-        @captcha_error = 'You did not enter the correct letters and numbers in the captcha at the bottom.  Please try again.'
-        @user = User.new
-        #check to see if they've been around before
-        if params[:user]
-          @user = User.new(params[:user])
-          @user.valid?
-        end
-        state_select(@user.country_id)
-        render :action => 'new'
-        return false
-      end
-    end
-=end
-    
+  def create    
     #check to see if they've posted
     if params[:user]
       #so they have posted to us, filter the posted data
@@ -342,20 +353,34 @@ class UsersController < ApplicationController
       redirect_to :action => "new", :lightbox => params[:lightbox]
     end
 
-
-      if session[:quick_registration_twitter_user_id]
-        if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
-          oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-          oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
-          profile = Twitter::Base.new(oauth)
-          @twit_user = profile.verify_credentials
-          
-        else
-          session[:quick_registration_twitter_user_id] = nil
-          flash[:error] = 'Could not find that twitter account in our system. Please retry'
-          redirect_to 'register_with_twitter'
-        end
+    #if register through old twitter gem
+    if session[:quick_registration_twitter_user_id]
+      if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
+        oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
+        oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
+        profile = Twitter::Base.new(oauth)
+        @twit_user = profile.verify_credentials        
+      else
+        session[:quick_registration_twitter_user_id] = nil
+        flash[:error] = 'Could not find that twitter account in our system. Please retry'
+        redirect_to 'register_with_twitter'
       end
+    #if register through omniauth
+    elsif session[:user_hash]
+      user_hash = session[:user_hash]
+      @facebook_user = nil
+      @twitter_user = nil
+      @omniauth = true
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+      
+      #note still have to save auth id into fb/twitter users table
+      if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+        
+      elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+
+      end      
+    end
 
 
 
@@ -376,6 +401,22 @@ class UsersController < ApplicationController
     if (@user.save)
       #clear out the session
       session[:user_registration_info] = nil
+      
+      #if from omniauth, save the authentication and connect to the twitter/facebook user
+      if session[:user_hash]
+        user_hash = session[:user_hash]
+        auth = @user.authentications.create(:provider => user_hash[:provider], :uid => user_hash[:uid])
+        if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+          @facebook_user.authentication_id = auth.id
+          @facebook_user.save
+        elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+          @twitter_user.authentication_id = auth.id
+          @twitter_user.save
+        end
+      end
+      
+      
+      session[:user_hash] = nil
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true

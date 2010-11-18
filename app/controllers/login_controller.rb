@@ -10,7 +10,7 @@ class LoginController < ApplicationController
   def user
     logger.info "LCU: #{ session[:last_clean_url] }"
     if session[:user_id]
-      redirect_to '/me/home'
+      redirect_to :controller => 'users', :action => 'control_panel'
       return false
     end
     if ( (user_id = cookies[:saved_user_id]) && (salted_string = cookies[:salted_user_id]) )
@@ -31,69 +31,91 @@ class LoginController < ApplicationController
     end
 
   end
-  
+ 
       
   def process_user_login
-    logger.info 'Beginning proces_user_login'
-    if params[:user].nil? || params[:user][:email].nil? || params[:user][:password].nil?
-      logger.info 'Test:'
-      logger.info params.inspect
-      if params[:email].nil? || params[:password].nil?
-        flash[:notice] = "Email and password not sent appropriately."
-        render :controller => 'login', :action => :user
-        return false
+    if session[:user_id]
+      flash[:error] = 'Already logged in.'
+      redirect_to :controller => 'users', :action => 'control_panel', :lightbox => params[:lightbox]
+      return false
+    end
+    
+    #see if logging in from omniauth
+    if session[:authentication_id]
+      auth_id = session[:authentication_id]
+      session[:authentication_id] = nil
+      authentication = Authentication.find(auth_id)
+      
+      if authentication && authentication.user
+        @user = authentication.user
       else
-        passed_email = params[:email]
-        passed_password = params[:password]
+        flash[:notice] = "Could not log in properly. Please try again."
+        render :controller => 'login', :action => 'user', :lightbox => params[:lightbox]
+        return false
       end
+
+            
+    #else see if email and password sent          
     else
-      passed_email = params[:user][:email]
-      passed_password = params[:user][:password]
+      if params[:user].nil? || params[:user][:email].nil? || params[:user][:password].nil?
+        if params[:email].nil? || params[:password].nil?
+          flash[:notice] = "Email and password not sent appropriately."
+          render :controller => 'login', :action => :user, :lightbox => params[:lightbox]
+          return false
+        else
+          passed_email = params[:email]
+          passed_password = params[:password]
+        end
+      else
+        passed_email = params[:user][:email]
+        passed_password = params[:user][:password]
+      end
+      
+      #see if the password matches, check salted and non-salted
+      #see if it has been salted previously or not  (because salting was added in after users had already been in the system)
+      if ( @user = User.find_by_email(passed_email) ) && (( @user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest(passed_password) ) || (!@user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest("#{@user.password_salt}#{passed_password}")))    
+        #if the password is yet to be salted, salt it
+        if @user.password_salt.blank?      
+          #create salted password
+          random = ActiveSupport::SecureRandom.hex(10)
+          salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+          salted_password = Digest::SHA2.hexdigest("#{salt}#{passed_password}")
+
+          @user.password_salt = salt
+          @user.password = salted_password
+          @user.save
+        end
+      #wrong password
+      else
+        flash[:error] = "Email and password do not match."
+        @user = User.new(:email => passed_email)
+        redirect_to :controller => 'login',
+                    :action => :user,
+                    :lightbox => params[:lightbox],
+                    :show_login_only => params[:show_login_only]
+        return false        
+      end    
     end
     
     
+    #log the user in
+    log_user_in(@user.id)
+    flash[:notice] = "Thanks for logging in " + @user.full_name + "!"
 
-    if ( @user = User.find_by_email(passed_email) ) && (( @user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest(passed_password) ) || (!@user.password_salt.blank? && @user.password == Digest::SHA2.hexdigest("#{@user.password_salt}#{passed_password}")))
-			log_user_in(@user.id)
-      flash[:notice] = "Thanks for logging in " + @user.full_name + "!"
-
-      #see if it has been salted previously or not  (because salting was added in after users had already been in the system)
-      if @user.password_salt.blank?      
-        #create salted password
-        random = ActiveSupport::SecureRandom.hex(10)
-        salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
-        salted_password = Digest::SHA2.hexdigest("#{salt}#{passed_password}")
-      
-        @user.password_salt = salt
-        @user.password = salted_password
-        @user.save
-      end
-      #if they wanted to be remembered, do it
-      if (params[:remember] == '1')
-        cookies[:saved_user_id] = {:value => @user.id.to_s, :expires => 14.days.from_now}
-        cookies[:salted_user_id] = {:value => Digest::SHA256.digest(@user.id.to_s+SHA_SALT_STRING), :expires => 14.days.from_now}
-      end
-      if session[:last_clean_url]
-        puts "LCU: #{session[:last_clean_url]}"
-        redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
-        return true
-      else
-        redirect_to :controller => 'login', :action => 'user', :lightbox => params[:lightbox]
-        return false
-      end
+    #if they wanted to be remembered, do it
+    if (params[:remember] == '1')
+      cookies[:saved_user_id] = {:value => @user.id.to_s, :expires => 14.days.from_now}
+      cookies[:salted_user_id] = {:value => Digest::SHA256.digest(@user.id.to_s+SHA_SALT_STRING), :expires => 14.days.from_now}
+    end
+    if session[:last_clean_url]
+      redirect_to session[:last_clean_url], :lightbox => params[:lightbox]
+      return true
     else
-      flash[:error] = "Email and password do not match."
-      @user = User.new(:email => passed_email)
-      redirect_to :controller => 'login',
-                  :action => :user,
-                  :lightbox => params[:lightbox],
-                  :show_login_only => params[:show_login_only]
-
+      redirect_to :controller => 'users', :action => 'control_panel', :lightbox => params[:lightbox]
       return false
-    end      
-    
-
+    end
   end
+
       
       
   def admin
