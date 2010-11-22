@@ -28,6 +28,22 @@ def graph
   @graph_url = "http://chart.apis.google.com/chart?chxl=1:|#{dates}&chxp=1,#{dates_pos}&chxr=1,#{dates_count}&chxt=y,x&chs=#{size}&cht=lc&chco=#{color}&chd=t:#{mentions}&chg=14.3,-1,1,1&chls=2,4,0&chm=B,C5D4B5BB,0,0,0&chtt=#{title}"
 end
 
+
+def dashboard
+# Action for the Artist Dashboard. Main page is the statistics page.
+# Only viewable to band admins.
+#
+  redirect_to root_url and return if params[:band_id].blank?
+  @band = Band.where(:id => params[:band_id]).first
+  redirect_to root_url and return unless @band
+    
+  @top_fans = @band.top_shareholders(10)
+  #@top_influencers = 
+  
+  render 'bands/dashboard/statistics' and return
+end
+
+
 def stats
   if params[:band_id] && @band = Band.find(params[:band_id])
     @twitter_hash_tags = @band.twitter_crawler_hash_tags
