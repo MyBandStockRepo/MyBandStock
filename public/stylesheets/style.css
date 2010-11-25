@@ -628,28 +628,30 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 
 /* LOGIN PAGE */
-#content_onehalf_bg {background-image:url(/images/content_onehalf_bg.png);background-repeat:repeat-y;}
+#content_onehalf_bg {background-image:url(/images/content_onehalf_bg.png);background-repeat:repeat-y;background-position:100px 0px;}
 /* social network connect partial */
-.social_network_connect{width:470px;float:left;}
-.social_network_connect .inner_content{margin:15px 0px 15px 15px;}
+.social_network_connect{width:570px;float:left;}
+.social_network_connect .inner_content{margin:15px 0px 65px 15px;}
 .social_network_connect .inner_content h2{font-size:20pt;}
 .social_network_connect .inner_content .small_headline{font-size:14pt;}
 .social_network_connect .inner_content .connect_instructions{font-size:7pt;text-align:center;}
 .social_network_connect .inner_content p{margin-top:15px;}
-.social_network_connect .inner_content .networks{margin:15px 0px 0px 85px;float:left;}
+.social_network_connect .inner_content .networks{margin:15px 0px 0px 120px;float:left;}
 .social_network_connect .inner_content .networks .network_name{font-size: 12pt;}
-
+.social_network_connect .inner_content .networks .auth_provider img{height:140px;width:140px;}
 /* normal login and sign up partial */
-.normal_login_sign_up{width:470px;float:right;}	
-.normal_login_sign_up .inner_content{margin:19px 15px 15px 0px;}
-.normal_login_sign_up .fieldname_small {background:url(/images/forms/field_name_small.png);width:81px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:14px;line-height:27px;color:#FFFFFF;margin-top:20px;padding-left:10px;margin-left:30px;}
-.normal_login_sign_up .fieldbox_small {float:left;margin-top:20px;width:260px;height:27px;background:url(/images/forms/field_entry_small.png);background-repeat:no-repeat;}
+.normal_login_sign_up{width:370px;float:right;}	
+.normal_login_sign_up .inner_content{margin:19px 15px 65px 0px;}
+.normal_login_sign_up .fieldname_small {background:url(/images/forms/field_name_small_grey.png);width:81px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:14px;line-height:27px;color:#FFFFFF;margin-top:30px;padding-left:10px;margin-left:0px;}
+.normal_login_sign_up .fieldbox_small {float:left;margin-top:30px;width:260px;height:27px;background:url(/images/forms/field_entry_small.png);background-repeat:no-repeat;}
 .normal_login_sign_up .fieldbox_small input, .normal_login_sign_up .fieldbox_small .normal_login_sign_up .form_input_text_small {width:240px;height:auto;background:none;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:normal;color:#333333;float:left;padding:0px;margin:5px 10px 0px 10px;}
 .normal_login_sign_up .fieldbox_small input[type=password] {font-family: inherit;}
 .normal_login_sign_up .fieldbox_small .form_input_text_small {font-size: 14px;line-height: 14px;padding-top: 6px;}
-.normal_login_sign_up .remember_cookie{float:left;margin:23px 20px 0px 110px;}
-.normal_login_sign_up .cookies_reminder{margin:5px 0px 0px 242px;}
+.normal_login_sign_up .remember_cookie{float:left;margin:23px 20px 0px 80px;}
+.normal_login_sign_up .cookies_reminder{margin:5px 0px 0px 212px;}
 .normal_login_sign_up .sign-up{margin:30px 0px 0px 0px;text-align:center;font-size:12pt;}
+.normal_login_sign_up .inner_content .login_button{margin:30px 0px 0px 10px;}
+.normal_login_sign_up .inner_content .login_button input{width:110px;font-size:16pt;}
 
 
 #content_login_bg {background-image:url(/images/content_login_bg.png);background-repeat:repeat-y;}
@@ -1259,19 +1261,18 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 /* Authentications */
 .authentications {
-  margin-bottom: 30px;
+  margin:20px 0px 30px 0px;
 }
 
 .authentication {
-  width: 130px;
+  width: 300px;
   float: left;
   background-color: #EEE;
-  border: solid 1px #999;
   padding: 5px 10px;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
   position: relative;
-  margin-right: 10px;
+  margin:15px 0px 0px 0px;
 }
 
 .authentication .remove {
@@ -1287,8 +1288,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
 .authentication .remove:hover {
   color: #CCC;
   background-color: #777;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
 }
 
 .authentication img {
@@ -1304,7 +1305,10 @@ fieldset {border:0px;padding:0px;margin:0px;}
   color: #666;
   font-size: 11px;
 }
-
+.authentication .name {
+  color: #666;
+  font-size: 11px;
+}
 .auth_provider img {
   display: block;
 }

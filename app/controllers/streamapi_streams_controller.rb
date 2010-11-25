@@ -84,15 +84,24 @@ respond_to :html, :js
 		end
     @user = User.find(session[:user_id])
 		@theme = StreamapiStreamTheme.find(@stream.viewer_theme_id)
-
-    if @user.twitter_user			
-			@twit_user = client(false, false, nil).verify_credentials
-			@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+  
+    begin
+			if @user && @user.twitter_user
+				@twit_user = @user.twitter_client.verify_credentials
+			  @points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+				available_shares = @band.available_shares_for_earning
+        if available_shares && available_shares < @points_per_retweet
+          @points_per_retweet = available_shares
+        end					
+			end    
+		rescue
+			@points_per_retweet = twitter_follower_point_calculation(0)	
 			available_shares = @band.available_shares_for_earning
       if available_shares && available_shares < @points_per_retweet
         @points_per_retweet = available_shares
       end
-    end
+		end
+
 
     unless @user.can_view_series(@stream.live_stream_series.id)
       #they are valid mbs users but haven't purchased the stream
@@ -108,8 +117,7 @@ respond_to :html, :js
     end
 
     begin
-      twitter_client = client(true, false, @stream.band.id)
-      @tweets = @stream.band.tweets(twitter_client, 3)
+      @tweets = @stream.band.status_feed(3)
     rescue
       logger.info "Twitter failure"
       @tweets = nil
@@ -322,8 +330,7 @@ respond_to :html, :js
 		end
 
     begin
-      twitter_client = client(true, false, @stream.band.id)
-      @tweets = @stream.band.tweets(twitter_client, 3)
+      @tweets = @stream.band.status_feed(3)
     rescue
       logger.info "Twitter failure"
       @tweets = nil

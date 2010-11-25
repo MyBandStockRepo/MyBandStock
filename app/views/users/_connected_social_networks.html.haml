@@ -1,0 +1,44 @@
+.orange_bar
+  .placement_edituserprofilepic
+  .placement_edituserprofile CONNECTED SOCIAL NETWORKS
+  .orange_divider		
+#content_login_bg
+  #login_wrap
+    .fieldleft
+      %p You can connect your MyBandStock account to a social network to allow you to login with a single mouse click. Connecting a Twitter account will allow you to earn BandStock for tweeting about your favorite bands too!
+      %br
+      - if @authentications
+        - unless @authentications.empty?          
+          %h2 You can sign in to this account using:          
+          .authentications
+            - for authentication in @authentications
+              .authentication
+                = image_tag "authbuttons/#{authentication.provider}_64.png", :size => "40x40"
+                .provider
+                  = "#{authentication.provider.titleize} ID #{authentication.uid}"
+                .name
+                  -if authentication.provider.downcase == "twitter"
+                    -if @twitter_user
+                      ="#{@twitter_user.user_name} (#{@twitter_user.name})"
+                  -elsif authentication.provider.downcase == "facebook"
+                    -if @facebook_user
+                      ="#{@facebook_user.email} (#{@facebook_user.name})"
+                    
+                  -else
+                    = authentication.uid
+                = link_to "X", authentication, :confirm => 'Are you sure you want to remove this authentication option? You will lose any unsaved changes.', :method => :delete, :class => "remove"
+            .clear    
+        %h2 Add another service to sign in with:        
+      -else
+        %h2 Connect through one of these services:
+
+      %br      
+      =link_to '/auth/twitter', :class => "auth_provider", :confirm => 'Are you sure you want to leave this page to authenticate? You will lose any unsaved changes.' do
+        =image_tag("authbuttons/twitter_128.png", :size => "90x90", :alt => "Twitter")
+        Twitter
+      
+      =link_to '/auth/facebook', :class => "auth_provider", :confirm => 'Are you sure you want to leave this page to authenticate? You will lose any unsaved changes.' do
+        = image_tag "authbuttons/facebook_128.png", :size => "90x90", :alt => "Facebook"
+        Facebook
+      
+    .clear

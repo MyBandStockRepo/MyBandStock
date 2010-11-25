@@ -5,15 +5,15 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 5
-RAILS_ENV='production'
+script_downtime_minutes_allowed = 0.5
+RAILS_ENV='development'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
 SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
-TWEETS_ALLOWED_PER_HOUR = 1
+TWEETS_ALLOWED_PER_HOUR = 10
 
 
 require 'fileutils'
@@ -58,10 +58,14 @@ else
 #  TWITTERAPI_SECRET_TOKEN   = 'y3PUmN9r7E4uJvw6HUOPMRLfCFmV09ZBwyYC1zLh0'
   MBS_REWARD_BOT_ACCESS_TOKEN = '202291092-onrcAsPHAut3EmnLxFvI1Dn6DIMBqTEwSYirVcxc'
   MBS_REWARD_BOT_ACCESS_SECRET = 'fvuBb12KVj7cXWqwSXPk4MqwRTkF4uO2SS3UAxG6lk'  
-  oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-  oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
-  client = Twitter::Base.new(oauth) 
-
+  
+  #new with twitter gem 1.0
+  Twitter.configure do |config|
+    config.consumer_key = TWITTERAPI_KEY
+    config.consumer_secret = TWITTERAPI_SECRET_KEY
+  end
+  client = Twitter::Client.new(:oauth_token => MBS_REWARD_BOT_ACCESS_TOKEN, :oauth_token_secret => MBS_REWARD_BOT_ACCESS_SECRET)
+  
   #can write a function #also, similar function in application controller
   def calc_points_hash_tag(followers)
     return (7*(Math.log(followers+1)+Math.exp(1))).round
@@ -91,9 +95,8 @@ else
   end
   
   def tweet_reply(message)
-    oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-    oauth.authorize_from_access(MBS_REWARD_BOT_ACCESS_TOKEN, MBS_REWARD_BOT_ACCESS_SECRET) 
-    client = Twitter::Base.new(oauth)
+    #new with twitter gem 1.0
+    client = Twitter::Client.new(:oauth_token => MBS_REWARD_BOT_ACCESS_TOKEN, :oauth_token_secret => MBS_REWARD_BOT_ACCESS_SECRET)
     
     begin
       client.update(message.to_s[0..139])    #dont let it go over 140 characters
@@ -134,7 +137,7 @@ else
       
         sleep sleep_num
    #     puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
-        result = Twitter::Search.new(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch().results
+        result = Twitter::Search.new.q(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch
 
         #lookup users
         unless result.blank?
@@ -149,7 +152,7 @@ else
         while !result.blank? && (result.count % rpp) == 0 && page < (1500/rpp)
           page += 1          
 
-          result_next_page = Twitter::Search.new(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).page(page).fetch().results          
+          result_next_page = Twitter::Search.new.q(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).page(page).fetch
           
           unless result_next_page.blank?
             users_next_page = client.users(result_next_page.collect{|res| res.from_user})

@@ -16,12 +16,17 @@
         .remember_cookie
           =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
           =label_tag 'checkbox_remember', 'Remember Me'
+            
           %br
           =link_to 'Forgot password?', {:controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]}, {:class => 'white_link' }
-        .formbutton_left
+        -#
+          .formbutton_left
+            = submit_tag 'login'
+        .login_button
           = submit_tag 'login'
+          
         .cookies_reminder
-          *Cookies must be enabled to login
+          Cookies must be enabled to login
     .clear
     .sign-up
       =link_to "Register the old-fashioned way", :controller => 'users', :action => 'clear_twitter_registration_session'

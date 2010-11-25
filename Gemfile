@@ -5,7 +5,7 @@ gem 'haml', '3.0.3'
 gem 'builder'
 gem 'memcache-client' #need this for staging and production environments
 gem 'money', '3.0.5' #we need money > 1.7 something but >3.0.5 requires rubygems>1.3.6 which dh can't handle
-gem 'twitter', '>=1.0.0.rc.6'
+gem 'twitter', '>=1.0.0'
 gem 'google4r'
 gem 'google4r-checkout'
 gem 'fastercsv' # For exporting a CSV of share codes

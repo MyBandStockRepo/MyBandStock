@@ -1,13 +1,16 @@
 class AuthenticationsController < ApplicationController
  before_filter :authenticated?, :except => [:index, :create]
  skip_filter :update_last_location, :except => [:index]
-
   
   def failure
     if params[:message]
       flash[:error] = params[:message].gsub(/[_]/, ' ')
     end
-    redirect_to authentications_url
+    if session[:user_id]      
+      redirect_to edit_user_path(session[:user_id])
+    else
+      redirect_to :controller => "login", :action => "user"
+    end
   end
   
   def index    
@@ -19,11 +22,14 @@ class AuthenticationsController < ApplicationController
     omniauth = request.env["omniauth.auth"]
     if omniauth.blank? || omniauth['provider'].blank? || omniauth['uid'].blank?
       flash[:error] = "Could not get authentication parameters."  
-      redirect_to authentications_url
+      if session[:user_id]      
+        redirect_to edit_user_path(session[:user_id])
+      else
+        redirect_to :controller => "login", :action => "user"
+      end
+
       return false            
     end
-
-    puts omniauth.to_yaml
 
     if session[:user_id]
       @user = User.find(session[:user_id])       
@@ -31,7 +37,7 @@ class AuthenticationsController < ApplicationController
       #see if they already ahve an authentication with this provider
       unless @user.authentications.find_by_provider(omniauth['provider']).blank?
         flash[:error] = "You have already connected a #{omniauth['provider']} account to this MyBandStock account."  
-        redirect_to authentications_url
+        redirect_to edit_user_path(session[:user_id])   
         return false      
       end      
     end
@@ -41,8 +47,8 @@ class AuthenticationsController < ApplicationController
     #authentication exists already, log user in
     if authentication
       if @user
-        flash[:error] = "Sorry, this account has already been linked to another account."  
-        redirect_to authentications_url        
+        flash[:error] = "Sorry, this account has already been linked to another account."          
+        redirect_to edit_user_path(session[:user_id])   
         return false
       end
       session[:authentication_id] = authentication.id
@@ -61,7 +67,7 @@ class AuthenticationsController < ApplicationController
       create_or_update_omniauth_service(omniauth, authentication, params)
 
       flash[:notice] = "Authentication successful."  
-      redirect_to authentications_url
+      redirect_to edit_user_path(session[:user_id])   
       
     #Don't have a website account, redirect to new users
     else
@@ -70,8 +76,6 @@ class AuthenticationsController < ApplicationController
       
       #if validation passes, log the user in
       if user.save
-#        authentication = user.authentications.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])      
-
         session[:authentication_id] = authentication.id
         #create/update omniauth db info on login
         create_or_update_omniauth_service(omniauth, authentication, params)
@@ -80,8 +84,6 @@ class AuthenticationsController < ApplicationController
         
       #take them to a form to fill in information that is necessary
       else
-        #session[:omniauth] = omniauth.except('extra')
-#        puts "#{user.to_yaml}"
         create_or_update_omniauth_service(omniauth, nil, params)
         facebook_id = omniauth['provider'].to_s.downcase == 'facebook' ? FacebookUser.find_by_facebook_id(omniauth['uid']) : nil
         twitter_id = omniauth['provider'].to_s.downcase == 'twitter' ? TwitterUser.find_by_twitter_id(omniauth['uid']) : nil
@@ -107,11 +109,11 @@ class AuthenticationsController < ApplicationController
     if @user
       @authentication = @user.authentications.find(params[:id])  
       @authentication.destroy  
-      flash[:notice] = "Successfully destroyed authentication."  
-      redirect_to authentications_url
+      flash[:notice] = "Successfully removed authentication."  
+      redirect_to edit_user_path(session[:user_id])   
     else
       flash[:notice] = "Could not get a User to delete their Authentication."
-      redirect_to authentications_url
+      redirect_to :controller => "login", :action => "user"
     end
   end
   

@@ -35,6 +35,13 @@ class User < ActiveRecord::Base
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
+  def twitter_client
+    twitter_user_account = self.twitter_user
+    if twitter_user_account
+      return twitter_user_account.client
+    end
+    return nil
+  end
   
   #will return the twitter user through the authentications join table
   def twitter_user
@@ -45,6 +52,28 @@ class User < ActiveRecord::Base
     end
     return twitter
   end
+
+  def authenticated_with_twitter?
+    twitter_user_account = self.twitter_user
+    if twitter_user_account
+      return twitter_user_account.authenticated?
+    end
+    return false
+  end
+
+  def num_retweets_in_band_in_past_day(band_id=nil)
+    if band_id == nil || self.twitter_user.blank?
+      return 0
+    end
+    return Retweet.where(:band_id => band_id, :twitter_user_id => self.twitter_user.id).where("created_at > ?", 1.day.ago).count
+  end
+  
+
+
+
+
+
+
 
 
   #will return the facebook user through the authentications join table  

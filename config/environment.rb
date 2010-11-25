@@ -43,7 +43,14 @@ STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
   TWEET_MAX_LENGTH          = 140
   NUM_SHARES_AWARDED_FOR_RT = 10
+
+  Twitter.configure do |config|
+    config.consumer_key = TWITTERAPI_KEY
+    config.consumer_secret = TWITTERAPI_SECRET_KEY
+  end  
+  
 ####
+
 
 ####
 # Facebook

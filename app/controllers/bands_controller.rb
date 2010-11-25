@@ -186,34 +186,16 @@ end
       @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC').all
     end
 
-    begin
-			unless @band.twitter_user
-				@band_twitter_authorized = false
-			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
-				@band_twitter_authorized = true	
-				@band_tweets = @band.tweets(band_client, 5) #.user_timeline(:id => @twit_band.id)
-			end		
-		rescue
-				@band_twitter_authorized = false
-		end					
 		begin
-			if @user
-				unless @user.twitter_user
-					@user_twitter_authorized = false					
-				else
-					@twit_user = client(false, false, nil).verify_credentials
-					@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
-					available_shares = @band.available_shares_for_earning
-          if available_shares && available_shares < @points_per_retweet
-            @points_per_retweet = available_shares
-          end
-					@user_twitter_authorized = true			
-				end		    
+			if @user && @user.twitter_user
+				@twit_user = @user.twitter_client.verify_credentials
+			  @points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+				available_shares = @band.available_shares_for_earning
+        if available_shares && available_shares < @points_per_retweet
+          @points_per_retweet = available_shares
+        end					
 			end    
 		rescue
-			@user_twitter_authorized = false
 			@points_per_retweet = twitter_follower_point_calculation(0)	
 			available_shares = @band.available_shares_for_earning
       if available_shares && available_shares < @points_per_retweet
@@ -245,9 +227,8 @@ end
     begin
 			unless @band.twitter_user
 				@band_twitter_authorized = false
-			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+			else				
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -284,8 +265,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -319,8 +299,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -354,8 +333,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -811,44 +789,6 @@ protected
 =end
 private
 
-	def convert_twitter_name(name)	
-		unless (name)
-      redirect_to session[:last_clean_url]      
-      return false
-    end	
-
-		# Parameters
-  	apiurl = 'http://api.twitter.com/1/users/show.xml'
-		url = URI.parse(apiurl)
-		res = Net::HTTP.new(url.host, url.port)
-
-		# Form GET Request
-		req, res = res.get(url.path+'?'+'screen_name='+name)
-
-		doc = Document.new(res)
-
-		@twitter_id = XPath.first( doc, '//id') { |e| puts e.text }
-		
-		if @twitter_id.count == 1
-			@protected = XPath.first( doc, '//protected') { |e| puts e.text }
-			for p in @protected
-				p = p.to_s
-			end
-			@protected = p.to_s			
-
-		
-			for i in @twitter_id
-				i = i.to_s
-			end
-			@twitter_id = i.to_s		
-			
-			obj = Array.new([@twitter_id, @protected])
-			
-			return obj
-		else
-			return false
-		end
-	end
 
 
 end

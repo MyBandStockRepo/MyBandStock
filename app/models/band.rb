@@ -59,6 +59,44 @@ class Band < ActiveRecord::Base
 
   validate :valid_purchasing_options?
 
+  
+  def twitter_client
+    twitter_user_account = self.twitter_user
+    if twitter_user_account
+      if twitter_user_account.oauth_access_token && twitter_user_account.oauth_access_secret
+        #new with twitter gem 1.0        
+        begin
+          return Twitter::Client.new(:oauth_token => twitter_user_account.oauth_access_token, :oauth_token_secret => twitter_user_account.oauth_access_secret)          
+        rescue
+          return nil
+        end
+      end
+    end
+    return nil
+  end
+  
+  def twitter_credentials        
+    if self.twitter_user && self.twitter_user.oauth_access_token && self.twitter_user.oauth_access_secret
+      #authorized way
+      begin
+        twitter_client = Twitter::Client.new(:oauth_token => self.twitter_user.oauth_access_token, :oauth_token_secret => self.twitter_user.oauth_access_secret)
+        return twitter_client.verify_credentials
+      rescue
+        return nil
+      end
+    else
+      #unauthorized way
+      if self.twitter_username.blank?
+        return nil
+      end
+      begin
+        return Twitter.user(self.twitter_username)
+      rescue
+        return nil
+      end      
+    end
+  end
+  
 
   #makes sure that if purchasing is turned on, the share price and minimum amounts to buy are set
   def valid_purchasing_options?
@@ -93,53 +131,16 @@ class Band < ActiveRecord::Base
 	  return time.utc.in_time_zone('Eastern Time (US & Canada)')
   end
   
-  def status_feed(num_items = 7, text_length_limit = 200)
-  # This function returns an array of recent social statuses for the band instance.
-  # On failure or no statuses, nil is returned.
-  # Currently, the only source queried is Twitter, but this method will be a central point for all social feeds.
-  #
-  # TODO: Set a timeout on the HTTP requests, and return a special value on timeout. Then the view will tell javascript to
-  #   make the request client-side.
-  #
-    twitter_username = (self.twitter_user) ? self.twitter_user.user_name : self.twitter_username
-    return nil if twitter_username.blank?
-    twitter_timeline_uri = URI.parse('http://twitter.com/statuses/user_timeline.xml?screen_name=' + twitter_username)
-    http = Net::HTTP.new(twitter_timeline_uri.host, twitter_timeline_uri.port)
-    request = Net::HTTP::Get.new(twitter_timeline_uri.request_uri)
-
-    response = http.request(request)
-    logger.info "Status feed: Twitter response code [#{response.code}]"
-    return nil if response.code != '200'
-    
-    xml_doc = Document.new(response.body)
-    
-    statuses = Array.new
-    # Loop through each XML element, adding them to the statuses array
-    xml_doc.root.each_element_with_text{ |status|      
-       # Truncate text to the specified limit
-      body =  if text_length_limit
-                status.elements['text'].text[0..text_length_limit] + '...'
-              else
-                status.elements['text'].text
-              end
-      status_id = status.elements['id'].text
-      profile_image_url = status.elements['user'].elements['profile_image_url'].text
-       # We make a hash of band ID + status ID + band secret token.
-       # This is then used to make sure the user doesn't try tweeting somebody else other than the band.
-      hash_identifier = Digest::MD5.hexdigest(self.id.to_s + status_id.to_s + self.secret_token.to_s)
-      statuses << {
-                    :source =>  'Twitter',
-                    :status_id => status_id,
-                    :body =>  body,
-                    :username =>  twitter_username,
-                    :posted_at => status.elements['created_at'].text,
-                    :hash_identifier => hash_identifier,
-                    :profile_image_url => profile_image_url
-                  }
-      
-
-    }
-    statuses[0..(num_items-1)]  # Return truncated array
+  def status_feed(num_items = 7)
+    twitter_username = self.twitter_username
+    if twitter_username.blank?
+      return nil
+    end
+    begin
+      return Twitter.user_timeline(twitter_username, :count => num_items)
+    rescue
+      return nil
+    end
   end
   
 
@@ -266,23 +267,6 @@ class Band < ActiveRecord::Base
         ]
     band = Band.where(query_string).first
     return band
-  end
-
-  def tweets(twitter_client, num_tweets = 3)
-  # Takes a Twitter Oauth API client, like that returned from client(true, false, bandID)
-  #
-    tweet_list = nil
-		if self.twitter_user.nil? || twitter_client == nil
-			return nil
-		else
-		  begin
-			  tweet_list = twitter_client.user_timeline(:id => self.twitter_user.twitter_id, :count => num_tweets)
-			rescue
-			  logger.info "Band.tweets error"
-			  return nil
-			end
-		end
-		return tweet_list
   end
   
   

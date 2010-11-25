@@ -11,7 +11,7 @@
 	.tweet_message
 		= raw(auto_link(status.text, :target => '_blank'))
 .retweet
-	= link_to ( ' ', { :controller => 'twitter_api', :action => 'retweet', :tweet_id => status.id, :band_id => band_id }, :target => '_blank' )
+	= link_to ( ' ', { :controller => 'twitter_api', :action => 'actual_retweet', :tweet_id => status.id, :band_id => band_id })
 .clear
 -unless status_counter == (num_tweets-1)
 	-# Only display tweet_break after middle tweets

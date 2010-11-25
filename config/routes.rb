@@ -30,9 +30,10 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/update', :to => 'twitter_api#update'
 	match '/twitter/error', :to => 'twitter_api#error'
 	match '/twitter/success', :to => 'twitter_api#success'
+	match '/twitter/retweet', :to => 'twitter_api#actual_retweet'	
 	match '/twitter/opt_out', :to => 'twitter_users#opt_out'
 	match '/twitter/opt_out_finish', :to => 'twitter_users#opt_out_finish'
-	
+
   #stream methods
   match '/streams/manage', :to => 'users#control_panel'
 	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'

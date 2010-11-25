@@ -134,37 +134,37 @@
               %p
                 = '- '+e.to_s            
     
-    
-  -if params[:action] == 'edit' || params[:action] == 'update'
-    .fieldrow
-      .fieldleft
-        .field.condense4
-          .fieldname
-            .fieldnametop
-              = f.label 'twitter'
-            .fieldnamebottom
-          .fieldbox
-            .form_input_text
-              -unless @user_twitter_authorized
-                Your account is not currently linked to a twitter account.
-                %br
-                = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-              -else
-                = image_tag(@twit_user.profile_image_url, :class => 'edit_band_twit_img')
-                .auth_twit_text
-                  Authorized as:
-                  %b
-                    = @twit_user.screen_name+' ('+@twit_user.name+')'
+  -#  
+    -if params[:action] == 'edit' || params[:action] == 'update'
+      .fieldrow
+        .fieldleft
+          .field.condense4
+            .fieldname
+              .fieldnametop
+                = f.label 'twitter'
+              .fieldnamebottom
+            .fieldbox
+              .form_input_text
+                -unless @user_twitter_authorized
+                  Your account is not currently linked to a twitter account.
                   %br
-                  = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-                  = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-        .desc
-          Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
-      .fielderror.condense
-        - if @user.errors[:twitter_user_id]
-          - for e in @user.errors[:twitter_user_id]
-            %p
-              = '- '+e.to_s
+                  = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                -else
+                  = image_tag(@twit_user.profile_image_url, :class => 'edit_band_twit_img')
+                  .auth_twit_text
+                    Authorized as:
+                    %b
+                      = @twit_user.screen_name+' ('+@twit_user.name+')'
+                    %br
+                    = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+                    = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth'}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
+          .desc
+            Authorizing your twitter account with MyBandStock allows you to earn shares in your favorite bands by simply retweeting their statuses through MyBandStock's website.
+        .fielderror.condense
+          - if @user.errors[:twitter_user_id]
+            - for e in @user.errors[:twitter_user_id]
+              %p
+                = '- '+e.to_s
 
   - if @user && @user.twitter_user
     .fieldrow
@@ -183,6 +183,6 @@
                 %option{:value => "1"}Yes
                 %option{:value => "0", :selected => true} No
           .description
-            We use twitter to monitor fans supporting their favorite bands. We will sometimes send an @reply to twitter accounts so that we can notify users of our service, and their fan ranking in our system. Choose "Yes" if you would like to keep receiving these notifications.
-            
+            We use twitter to monitor fans supporting their favorite bands. We will sometimes send an @reply to twitter accounts so that we can notify users of our service, and their fan ranking in our system. Choose "Yes" if you would like to receive these notifications.
+          
 
