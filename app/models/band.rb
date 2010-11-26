@@ -292,9 +292,64 @@ class Band < ActiveRecord::Base
   #
     return (self.twitter_crawler_hash_tags.first && self.twitter_crawler_hash_tags.first.term) || '#' + self.name.gsub(' ', '')
   end
+
+
+  def total_mentions
+    TwitterCrawlerTracker.find_by_sql(
+     'SELECT DISTINCT tweet_id
+      FROM twitter_crawler_trackers
+      JOIN twitter_crawler_hash_tags as ht on ht.id = twitter_crawler_trackers.twitter_crawler_hash_tag_id
+      WHERE ht.band_id = 1'
+    ).count
+  end
   
   
-  def top_shareholders(num_users)
+  def top_influencers(num_users = nil)
+  # Returns an array of Twitter usernames in order of their number of followers on Twitter, or an empty array.
+  # Called like @band.top_influencers(10).
+  # Example: ["plagosus", "Ruri_Sakuma", "Haeroina", "jaffeon"]
+  #
+    TwitterCrawlerTracker.joins(
+      :twitter_crawler_hash_tag, :twitter_user
+    ).where(
+      'twitter_crawler_hash_tags.band_id = 1'
+    ).includes(
+      :twitter_crawler_hash_tag, :twitter_user
+    ).order(
+      'twitter_followers DESC'
+    ).limit(
+      num_users
+    ).collect{ |a|
+      a.twitter_user.user_name
+    }.uniq
+  end
+  
+  
+  def top_purchasers(num_users = nil)
+  # Returns an array of users in order of descending total purchased shares, or an empty array.
+  # Called like @band.top_purchasers(10).
+  #
+    ShareLedgerEntry.where(
+      :description => "direct_purchase", :band_id => self.id
+    ).includes(
+      :user
+    ).joins(
+      :user
+    ).group(
+      'user_id'
+    ).select(
+      'sum(adjustment) as total, *'
+    ).order(
+      'total DESC'
+    ).limit(
+      num_users
+    ).collect{ |sle|
+      sle.user
+    }
+  end
+  
+  
+  def top_shareholders(num_users = nil)
   # Called like @band.top_shareholders(5). Returns array of ShareTotals or nil.
   # If num_users is nil, returns all the shareholders.
   #

@@ -1025,6 +1025,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
     min-height: 500px;
   }
 
+    .dashboard-main .one-third {
+      width: 33.3%;
+      float: left;
+      overflow: auto;
+      margin: 0;
+      padding: 0;
+    }
+
     .dashboard-main .feature {
       height: 200px;
     }
@@ -1041,19 +1049,40 @@ fieldset {border:0px;padding:0px;margin:0px;}
       width: 100%;
     }
     
+      .stats-summary .stats-module {
+        width: 225px;
+        overflow: auto;
+        margin: 5px auto;
+      }
+    
+      .stats-summary .stats-module .stats-caption {
+        float: left;
+        margin: 4px;
+        font-size: 12pt;
+        color: #F90;
+      }
+    
+      .stats-summary .stats-module .stats-value {
+        float: right;
+        height: 15px;
+        min-width: 40px;
+        margin: 4px 6px;
+        padding: 4px 4px 10px 2px;
+        background-color: #CCC;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        font-size: 14pt;
+        text-align: center;
+        color: #FFF;
+        text-shadow: 2px 2px 2px #333;
+      }
+    
     .stats-main {
       height: 300px;
       width: 100%;
       padding: 0;
     }
 
-      .stats-main .one-third {
-        width: 33.3%;
-        float: left;
-        overflow: auto;
-        margin: 0;
-        padding: 0;
-      }
       .stats-main .stats-module {
         position: relative;
 /*        height: 275px;*/
@@ -1124,6 +1153,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
           .stats-main .stats-module .send-email a:hover {
             color: #CCC;
           }
+  #tooltip {
+	  position: absolute;
+	  z-index: 3000;
+	  padding: 0px;
+	  opacity: 0.85;
+  }
+  #tooltip h3, #tooltip div { margin: 0; }
+
 
 /* /Artist Dashboard */
 

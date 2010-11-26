@@ -37,9 +37,14 @@ def dashboard
   @band = Band.where(:id => params[:band_id]).first
   redirect_to root_url and return unless @band
     
-  @top_fans = @band.top_shareholders(10)
-  #@top_influencers = 
-  
+  @top_fans         = @band.top_shareholders(10)
+  @top_influencers  = @band.top_influencers(10)
+  @top_purchasers   = @band.top_purchasers(10)
+
+  #@num_new_fans      = 
+  @num_total_fans     = @band.share_totals.where('net >= 0').count
+  @num_total_mentions = @band.total_mentions
+
   render 'bands/dashboard/statistics' and return
 end
 

@@ -1,0 +1,93 @@
+.orange_bar
+  .placement_edituserprofilepic
+  .placement_edituserprofile
+    = @band.name.upcase
+    DASHBOARD
+  .orange_divider
+.navigation
+.dashboard-main
+  .feature
+    .stats-graph
+    
+  .stats-summary
+    .one-third
+      .stats-module
+        .stats-caption New fans
+        .stats-value
+          = @num_total_fans
+    .one-third
+      .stats-module
+        .stats-caption Total fans
+        .stats-value
+          = @num_total_fans
+    .one-third
+      .stats-module
+        .stats-caption Total mentions
+        .stats-value
+          = @num_total_mentions
+  .stats-main
+    .one-third
+      .stats-module.top-fans
+        %h3.stats-module-title Fans
+        -if @top_fans
+          %ol.user-list
+            -@top_fans.each do |fan|
+              - user = fan.user
+              - location = user.display_location
+              %li
+                = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
+                -if location
+                  %span.shareholder_aside
+                    = " from #{ location }"
+        .send-email
+          %a{ :href => '#' } SEND EMAIL
+    .one-third
+      .stats-module.top-purchasers
+        %h3.stats-module-title Influencers
+        -if @top_influencers
+          %ol.user-list
+            -@top_influencers.each do |twitter_username|
+              - link = 'http://twitter.com/'+ twitter_username
+              %li
+                = link_to twitter_username, link, :target => '_blank', :class => "stats-user-name stats-twitter-link"
+          -# %a{ :href => '#' } SEND EMAIL
+    .one-third
+      .stats-module.top-purchasers
+        %h3.stats-module-title Purchasers
+        -if @top_purchasers
+          %ol.user-list
+            -@top_purchasers.each do |user|
+              - location = user.display_location
+              %li
+                = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
+                -if location
+                  %span.shareholder_aside
+                    = " from #{ location }"
+        .send-email
+          %a{ :href => '#' } SEND EMAIL
+
+:javascript
+  jQuery('.stats-twitter-link').tooltip({ 
+    delay: 0,
+    track: true,
+    showURL: false, 
+    bodyHandler: function() { 
+        return jQuery("<img/>").attr("src", '/images/twitter/t_logo-c.png'); 
+    } 
+  });
+
+-# __commented__
+  start = Time.now.to_f
+  TwitterCrawlerTracker.find_by_sql(
+    'SELECT DISTINCT tt.twitter_user_id, tt.tweet_id from twitter_crawler_trackers tt JOIN users u ON u.twitter_user_id = tt.twitter_user_id order by twitter_followers').collect{|tt|
+      {
+        :twitter_user_id => tt.twitter_user_id,
+        :display_name => User.display_name(tt.email, tt.first_name),
+        :tweet_id => tt.tweet_id
+      }
+    }
+  p (Time.now.to_f - start).to_s
+  http://www.themomorohoax.com/2009/06/24/quickly-export-a-table-to-csv-in-the-rails-console-with-fastercsv
+
+  http://pastie.org/201610
+
