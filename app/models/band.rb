@@ -294,7 +294,19 @@ class Band < ActiveRecord::Base
   end
 
 
-  def total_mentions
+  def tweets_per_day
+  #
+  #
+    tweets = TwitterCrawlerTracker.find_by_sql('SELECT DISTINCT t.tweet_id, count(date(t.created_at)) as count_for_date, date(t.created_at) as date, t.* FROM twitter_crawler_trackers t JOIN twitter_crawler_hash_tags ht ON t.twitter_crawler_hash_tag_id = ht.id WHERE ht.band_id = 13 GROUP BY date(t.created_at)')
+    data_points = tweets.collect{|tweet|
+      [tweet.date[-2, 2].to_i, tweet.count_for_date.to_i]
+    }
+
+    return (data_points.length == 0) ? nil : data_points
+  end
+
+
+  def num_total_mentions
     TwitterCrawlerTracker.find_by_sql(
      'SELECT DISTINCT tweet_id
       FROM twitter_crawler_trackers
@@ -331,9 +343,9 @@ class Band < ActiveRecord::Base
   #
     ShareLedgerEntry.where(
       :description => "direct_purchase", :band_id => self.id
-    ).includes(
-      :user
     ).joins(
+      :user
+    ).includes(
       :user
     ).group(
       'user_id'

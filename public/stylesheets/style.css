@@ -1055,7 +1055,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
         margin: 5px auto;
       }
     
-      .stats-summary .stats-module .stats-caption {
+      .stats-caption {
         float: left;
         margin: 4px;
         font-size: 12pt;

@@ -6,6 +6,10 @@
   .orange_divider
 .navigation
 .dashboard-main
+  .stats-time-selector
+    .stats-caption Time range
+    = select_tag 'time_range', options_for_select(['all time'])
+
   .feature
     .stats-graph
     
@@ -67,6 +71,9 @@
           %a{ :href => '#' } SEND EMAIL
 
 :javascript
+  
+  var tweets_per_day_data = #{ @tweets_per_day_data || 'NULL' };
+  
   jQuery('.stats-twitter-link').tooltip({ 
     delay: 0,
     track: true,
@@ -75,6 +82,8 @@
         return jQuery("<img/>").attr("src", '/images/twitter/t_logo-c.png'); 
     } 
   });
+  
+  jQuery.plot('.stats-graph', [ tweets_per_day_data ]);
 
 -# __commented__
   start = Time.now.to_f

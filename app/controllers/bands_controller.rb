@@ -43,7 +43,10 @@ def dashboard
 
   #@num_new_fans      = 
   @num_total_fans     = @band.share_totals.where('net >= 0').count
-  @num_total_mentions = @band.total_mentions
+  @num_total_mentions = @band.num_total_mentions
+  
+  @tweets_per_day_data = @band.tweets_per_day
+  @tweets_per_day_data = '[[24, 79], [25, 25], [26, 61], [27, 30], [28, 22], [29, 21], [30, 6], [31, 21], [1, 4], [2, 13], [3, 25], [4, 15], [5, 32], [6, 29], [7, 7], [8, 8], [9, 10], [10, 10], [11, 10], [12, 29], [13, 15], [14, 19], [15, 7], [16, 26], [17, 15], [18, 24], [19, 32], [20, 10], [21, 18], [22, 14], [23, 4]]'
 
   render 'bands/dashboard/statistics' and return
 end
