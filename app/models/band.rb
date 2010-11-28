@@ -299,10 +299,10 @@ class Band < ActiveRecord::Base
   #******************************
 
     def tweets_per_day
-    # Returns a data string representing the number of tweets per day for the current object. Called like:
+    # Returns data of the number of tweets per day for the current object. Called like:
     #   @band.tweets_per_day
     #
-    # This function returns an string resembling an array of data points like the following:
+    # This function returns  an array of data points like the following:
     #   [ [1287903600000, 79], [1287990000000, 25], [1288076400000, 61] ]
     # The first number in each element is Unix time in milliseconds. The second number is the number of tweets that occured on that day for the given band.
     # Returns nil if there are no results.
@@ -322,17 +322,16 @@ class Band < ActiveRecord::Base
       data_points = tweets.collect{|tweet|
         [Time.parse(tweet.date).to_i*1000, tweet.count_for_date.to_i]
       }
-      output = '['
-      data_points.each_with_index{ |point, i|
-        output << ((i == 0) ? ' [' : ', [' ) << point[0].to_s << ', ' << point[1].to_s << ']'
-      }
-      output << ' ]'
 
-      return (data_points.length == 0) ? nil : output
+      return (data_points.length == 0) ? nil : data_points
     end
     
     
     def tweets_per_day_as_string
+    # Returns a Javascript-ready version of tweets_per_day, as if "instpect" was called on its output.
+    # Returns a string like:
+    #   "[ [1287903600000, 79], [1287990000000, 25], [1288076400000, 61] ]"
+    #
       data_points = self.tweets_per_day
       return nil unless data_points
 
