@@ -1039,10 +1039,19 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
     .stats-graph {
       height: 200px;
-      width: 100%;
+      width: 96%;
+      margin: 0 auto;
       -moz-border-radius: 12px;
       border-radius: 12px;
     }
+      .stats-graph .stats-chart-notification {
+        font-size: 10pt;
+        font-style: italic;
+        padding-top: 15px;
+      }
+      .stats-graph .tickLabel {
+        color: #FFF;
+      }
         
     .stats-summary {
       height: 100px;
@@ -1160,6 +1169,19 @@ fieldset {border:0px;padding:0px;margin:0px;}
 	  opacity: 0.85;
   }
   #tooltip h3, #tooltip div { margin: 0; }
+  .stats-tooltip {
+    border: 1px solid black;
+    background-color: #CCC;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 20px;
+  }
+    .stats-tooltip h3 {
+      color: #000;
+      font-weight: normal;
+      font-size: 9pt;
+      padding: 2px 8px;
+    }
 
 
 /* /Artist Dashboard */

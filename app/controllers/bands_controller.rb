@@ -36,17 +36,23 @@ def dashboard
   redirect_to root_url and return if params[:band_id].blank?
   @band = Band.where(:id => params[:band_id]).first
   redirect_to root_url and return unless @band
+  
+  # time_range_start = 
+  # time_range_end = 
     
   @top_fans         = @band.top_shareholders(10)
   @top_influencers  = @band.top_influencers(10)
   @top_purchasers   = @band.top_purchasers(10)
 
-  #@num_new_fans      = 
   @num_total_fans     = @band.share_totals.where('net >= 0').count
+  @num_new_fans       = @num_total_fans # @band.share_totals.joins(:user).includes(:user).where('net >= 0').where('users.created_at > ?', Time.now - time_range_start).count
   @num_total_mentions = @band.num_total_mentions
   
-  @tweets_per_day_data = @band.tweets_per_day
-  @tweets_per_day_data = '[[24, 79], [25, 25], [26, 61], [27, 30], [28, 22], [29, 21], [30, 6], [31, 21], [1, 4], [2, 13], [3, 25], [4, 15], [5, 32], [6, 29], [7, 7], [8, 8], [9, 10], [10, 10], [11, 10], [12, 29], [13, 15], [14, 19], [15, 7], [16, 26], [17, 15], [18, 24], [19, 32], [20, 10], [21, 18], [22, 14], [23, 4]]'
+  if Rails.env == 'development'
+    @tweets_per_day_data = '[[1287903600000, 79], [1287990000000, 25], [1288076400000, 61], [1288162800000, 30], [1288249200000, 22], [1288335600000, 21], [1288422000000, 6], [1288508400000, 21], [1288594800000, 4], [1288681200000, 13], [1288767600000, 25], [1288854000000, 15], [1288940400000, 32], [1289026800000, 29], [1289113200000, 7], [1289203200000, 8], [1289289600000, 10], [1289376000000, 10], [1289462400000, 10], [1289548800000, 29], [1289635200000, 15], [1289721600000, 19], [1289808000000, 7], [1289894400000, 26], [1289980800000, 15], [1290067200000, 24], [1290153600000, 32], [1290240000000, 10], [1290326400000, 18], [1290412800000, 14], [1290499200000, 4]]'
+  else
+    @tweets_per_day_data = @band.tweets_per_day
+  end
 
   render 'bands/dashboard/statistics' and return
 end
