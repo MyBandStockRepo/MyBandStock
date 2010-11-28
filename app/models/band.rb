@@ -372,7 +372,7 @@ class Band < ActiveRecord::Base
       ).group(
         'user_id'
       ).select(
-        'sum(adjustment) as total, *'
+        'sum(adjustment) as total, share_ledger_entries.*'
       ).order(
         'total DESC'
       ).limit(
