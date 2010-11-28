@@ -1007,6 +1007,187 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
 
 
+/*
+  Artist Dashboard
+*/
+
+  .navigation {
+    float: left;
+    width: 250px;
+    min-height: 200px;
+    height: 100%;
+  }
+  
+  .dashboard-main {
+    float: right;
+    height: 100%;
+    width: 730px;
+    min-height: 500px;
+  }
+
+    .dashboard-main .one-third {
+      width: 33.3%;
+      float: left;
+      overflow: auto;
+      margin: 0;
+      padding: 0;
+    }
+
+    .dashboard-main .feature {
+      height: 200px;
+    }
+
+    .stats-graph {
+      height: 200px;
+      width: 96%;
+      margin: 0 auto;
+      -moz-border-radius: 12px;
+      border-radius: 12px;
+    }
+      .stats-graph .stats-chart-notification {
+        font-size: 10pt;
+        font-style: italic;
+        padding-top: 15px;
+      }
+      .stats-graph .tickLabel {
+        color: #FFF;
+      }
+        
+    .stats-summary {
+      height: 100px;
+      width: 100%;
+    }
+    
+      .stats-summary .stats-module {
+        width: 225px;
+        overflow: auto;
+        margin: 5px auto;
+      }
+    
+      .stats-caption {
+        float: left;
+        margin: 4px;
+        font-size: 12pt;
+        color: #F90;
+      }
+    
+      .stats-summary .stats-module .stats-value {
+        float: right;
+        height: 15px;
+        min-width: 40px;
+        margin: 4px 6px;
+        padding: 4px 4px 10px 2px;
+        background-color: #CCC;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        font-size: 14pt;
+        text-align: center;
+        color: #FFF;
+        text-shadow: 2px 2px 2px #333;
+      }
+    
+    .stats-main {
+      height: 300px;
+      width: 100%;
+      padding: 0;
+    }
+
+      .stats-main .stats-module {
+        position: relative;
+/*        height: 275px;*/
+        width: 225px;
+        margin: 5px auto;
+        padding: 2px 2px 40px 2px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+        background-color: #777;
+        
+      }
+      
+        .stats-main .stats-module .stats-module-title {
+          margin: 4px auto 6px;
+          text-shadow: 2px 2px 2px #333;
+          text-align: center;
+          color: #FFF;
+        }
+        .stats-main .stats-module ol.user-list {
+          width: 195px;
+/*          height: 220px;*/
+          padding: 0 0 15px 27px;
+          overflow-y: visible;
+          overflow-x: auto;
+          font-size: 9pt;
+          color: #FFF;
+          text-shadow: 2px 2px 2px #000;
+          list-style-type: decimal !important;
+        }
+          .stats-main .stats-module ol.user-list .stats-user-name {
+            color: #FFF;
+          }
+          .stats-main .stats-module ol.user-list .stats-user-name:hover {
+            text-shadow: none;
+          }
+  
+          .stats-main .stats-module ol.user-list .shareholder_aside {
+            font-size: 8pt;
+            font-style: italic;
+          }
+
+      
+      .stats-main .stats-module.top-fans {
+        
+      }
+      .stats-main .stats-module.top-influencers {
+      }
+      .stats-main .stats-module.top-purchasers {
+      }
+
+        .stats-main .stats-module .send-email a {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 24px;
+          padding-top: 5px;
+          -moz-border-radius: 12px;
+          border-radius: 12px;
+          background-color: #F90;
+          font-family: TitilliumText14L800wt;
+          font-size: 14pt;
+          color: #FFF;
+          text-shadow:2px 2px 2px #333;
+          text-align: center;
+          text-decoration: none;
+        }
+          .stats-main .stats-module .send-email a:hover {
+            color: #CCC;
+          }
+  #tooltip {
+	  position: absolute;
+	  z-index: 3000;
+	  padding: 0px;
+	  opacity: 0.85;
+  }
+  #tooltip h3, #tooltip div { margin: 0; }
+  .stats-tooltip {
+    border: 1px solid black;
+    background-color: #CCC;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 20px;
+  }
+    .stats-tooltip h3 {
+      color: #000;
+      font-weight: normal;
+      font-size: 9pt;
+      padding: 2px 8px;
+    }
+
+
+/* /Artist Dashboard */
+
+
+
 
 /*
   Leaderboard Widget
