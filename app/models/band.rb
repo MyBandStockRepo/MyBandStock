@@ -334,17 +334,25 @@ class Band < ActiveRecord::Base
     
     def tweets_per_day_as_string
       data_points = self.tweets_per_day
+      return nil unless data_points
+
+      output = '['
+      data_points.each_with_index{ |point, i|
+        output << ((i == 0) ? ' [' : ', [' ) << point[0].to_s << ', ' << point[1].to_s << ']'
+      }
+      output << ' ]'
       
+      return output
     end
 
 
     def num_total_mentions
       TwitterCrawlerTracker.find_by_sql(
-       'SELECT DISTINCT tweet_id
+       "SELECT DISTINCT tweet_id
         FROM twitter_crawler_trackers
         JOIN twitter_crawler_hash_tags as ht
           ON ht.id = twitter_crawler_trackers.twitter_crawler_hash_tag_id
-        WHERE ht.band_id = 1'
+        WHERE ht.band_id = #{ self.id }"
       ).count
     end
     
