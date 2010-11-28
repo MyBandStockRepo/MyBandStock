@@ -357,7 +357,7 @@ class Band < ActiveRecord::Base
       TwitterCrawlerTracker.joins(
         :twitter_crawler_hash_tag, :twitter_user
       ).where(
-        'twitter_crawler_hash_tags.band_id = 1'
+        "twitter_crawler_hash_tags.band_id = #{ self.id }"
       ).includes(
         :twitter_crawler_hash_tag, :twitter_user
       ).order(
