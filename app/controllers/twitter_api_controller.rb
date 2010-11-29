@@ -1,10 +1,17 @@
 class TwitterApiController < ApplicationController
-  before_filter :authenticated?, :except => [:error] # Authentication in retweet is done manually
+  before_filter :authenticated?, :except => [:error, :actual_retweet] # Authentication in retweet is done manually
   
   skip_filter :update_last_location  #NOT WORKING FOR SOME REASON  
 
   #get params for tweet_id and band_id
   def actual_retweet
+    unless session[:user_id]
+      flash[:error] = "You must be logged in to retweet."
+      redirect_to :controller => "login", :action => "user"
+
+      return false      
+    end
+    
     #see if user is authenticated with twitter
     @user = User.find(session[:user_id])    
     unless @user.authenticated_with_twitter?

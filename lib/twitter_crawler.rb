@@ -5,15 +5,15 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 0.5
-RAILS_ENV='development'
+script_downtime_minutes_allowed = 5
+RAILS_ENV='production'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
 SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
-TWEETS_ALLOWED_PER_HOUR = 10
+TWEETS_ALLOWED_PER_HOUR = 1
 
 
 require 'fileutils'
@@ -40,6 +40,7 @@ else
   ActiveRecord::Base.default_timezone = :utc
   
   #models
+  require current_directory+'/../app/models/authentication.rb'
   require current_directory+'/../app/models/band.rb'
   require current_directory+'/../app/models/twitter_user.rb'
   require current_directory+'/../app/models/twitter_crawler_hash_tag.rb'
@@ -137,7 +138,7 @@ else
       
         sleep sleep_num
    #     puts 'Looking since: '+last_tweet_id.to_s+' and the actual db reading '+search_item.last_tweet_id.to_s
-        result = Twitter::Search.new.q(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch
+        result = Twitter::Search.new.q(search_term).since_id(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).fetch
 
         #lookup users
         unless result.blank?
@@ -152,7 +153,7 @@ else
         while !result.blank? && (result.count % rpp) == 0 && page < (1500/rpp)
           page += 1          
 
-          result_next_page = Twitter::Search.new.q(search_term).since(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).page(page).fetch
+          result_next_page = Twitter::Search.new.q(search_term).since_id(last_tweet_id.to_i).result_type('recent').per_page(rpp.to_i).page(page).fetch
           
           unless result_next_page.blank?
             users_next_page = client.users(result_next_page.collect{|res| res.from_user})

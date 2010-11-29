@@ -65,7 +65,11 @@ class AuthenticationsController < ApplicationController
 
       #create/update omniauth db info on login
       create_or_update_omniauth_service(omniauth, authentication, params)
-
+      
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end
+      
       flash[:notice] = "Authentication successful."  
       redirect_to edit_user_path(session[:user_id])   
       
@@ -79,6 +83,11 @@ class AuthenticationsController < ApplicationController
         session[:authentication_id] = authentication.id
         #create/update omniauth db info on login
         create_or_update_omniauth_service(omniauth, authentication, params)
+        
+        if @user.twitter_user
+          @user.reward_tweet_bandstock_retroactively
+        end
+        
         #log user in      
         redirect_to :controller => 'login', :action => 'process_user_login'
         
@@ -107,7 +116,25 @@ class AuthenticationsController < ApplicationController
   def destroy
     @user = User.find(session[:user_id]) if session[:user_id]
     if @user
-      @authentication = @user.authentications.find(params[:id])  
+      @authentication = @user.authentications.find(params[:id]) 
+      
+      #remove the facebook and twitter auth ids
+      if @authentication.provider.downcase == 'twitter'
+        twitter_user = TwitterUser.find_by_authentication_id(@authentication.id)
+        if twitter_user
+          twitter_user.authentication_id = nil
+          twitter_user.save
+        end
+        @user.twitter_user_id = nil
+        @user.save
+      elsif @authentication.provider.downcase == 'facebook'
+        facebook_user = FacebookUser.find_by_authentication_id(@authentication.id)
+        if facebook_user
+          facebook_user.authentication_id = nil
+          facebook_user.save
+        end        
+      end
+      
       @authentication.destroy  
       flash[:notice] = "Successfully removed authentication."  
       redirect_to edit_user_path(session[:user_id])   

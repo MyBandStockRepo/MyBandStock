@@ -154,6 +154,7 @@ class ApplicationController < ActionController::Base
   
   def update_last_location
     session[:last_clean_url] = request.url
+    logger.info "Updating Last Location LCU: #{session[:last_clean_url]}"    
   end
   
   def update_last_controller_and_action

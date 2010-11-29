@@ -2,10 +2,10 @@ class TwitterUser < ActiveRecord::Base
   belongs_to :authentication
   has_many :twitter_crawler_trackers
   has_many :retweets
-  has_many :users
+  has_many :users, :through => :authentication
   validates_presence_of :twitter_id
   validates_uniqueness_of :twitter_id  
-  
+    
   def client
     if self.authenticated?
       #new with twitter gem 1.0              
