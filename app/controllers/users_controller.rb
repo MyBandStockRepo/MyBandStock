@@ -163,8 +163,9 @@ class UsersController < ApplicationController
     
     # if they have flipped whether they want messages or not
 		if @user.twitter_user && params[:twitter_user] && params[:twitter_user][:twitter_replies] && ((params[:twitter_user][:twitter_replies] == "0" && @user.twitter_user.opt_out_of_messages == false) ||(params[:twitter_user][:twitter_replies] == "1" && @user.twitter_user.opt_out_of_messages == true))
-		  @user.twitter_user.opt_out_of_messages = !@user.twitter_user.opt_out_of_messages
-		  @user.twitter_user.save
+		  tw_user = @user.twitter_user
+		  tw_user.opt_out_of_messages = !tw_user.opt_out_of_messages
+		  tw_user.save
 	  end
 		
     

@@ -145,36 +145,6 @@
               - for e in @band.errors[:access_schedule_url]
                 %p
                   = '- '+e.to_s
-        -if params[:action] == 'edit' || params[:action] == 'update'
-          .fieldrow
-            .fieldleft
-              .field
-                .fieldname
-                  .fieldnametop
-                    = f.label 'twitter'
-                  .fieldnamebottom
-                .fieldbox
-                  .form_input_text
-                    -unless @band_twitter_authorized
-                      Your band is not currently linked to a twitter account.
-                      %br
-                      = link_to 'Authorize a Twitter account with MyBandStock', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-                    -else
-                      = image_tag(@twit_band.profile_image_url, :class => 'edit_band_twit_img')
-                      .auth_twit_text
-                        Authorized as:
-                        %b
-                          = @twit_band.screen_name+' ('+@twit_band.name+')'
-                        %br
-                        = link_to 'Authorize a different account', {:controller => 'twitter_api', :action => 'create_session', :auth_band_id => @band.id, :redirect_from_twitter => @request_uri}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-                        = link_to 'Deauthorize account', {:controller => 'twitter_api', :action => 'deauth', :deauth_band_id => @band.id}, {:confirm => "Do you wish to proceed?  You will lose any changes you have made on this page."}
-              .desc
-                Authorizing a band's twitter account allows the band to connect with their fans.  Fans will be able to see the band's most recent tweets and will be offered points to retweet band statuses and help promote the band.
-            .fielderror
-              - if @band.errors[:twitter_user_id]
-                - for e in @band.errors[:twitter_user_id]
-                  %p
-                    = '- '+e.to_s
 
         .fieldrow
           .fieldleft
