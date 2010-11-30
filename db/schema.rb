@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101116220954) do
+ActiveRecord::Schema.define(:version => 20101111193637) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -327,6 +327,35 @@ ActiveRecord::Schema.define(:version => 20101116220954) do
     t.datetime "updated_at"
     t.boolean  "users_have_been_notified", :default => false, :null => false
     t.boolean  "currently_live",           :default => false, :null => false
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.string   "buyer_id"
+    t.string   "serial_number"
+    t.string   "google_order_number"
+    t.string   "peekok_order_number"
+    t.string   "financial_order_state"
+    t.string   "fulfillment_order_state"
+    t.float    "order_total"
+    t.float    "total_amount_charged"
+    t.text     "shopping_cart_xml"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "company_name"
+    t.string   "contact_name"
+    t.string   "country_code"
+    t.string   "email"
+    t.string   "fax"
+    t.string   "phone"
+    t.string   "postal_code"
+    t.string   "region"
+    t.datetime "timestamp"
+    t.boolean  "email_allowed"
+    t.boolean  "paid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "twitter_crawler_hash_tags", :force => true do |t|
