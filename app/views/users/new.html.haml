@@ -19,6 +19,33 @@
 
       .clear
 
+-elsif @omniauth
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h2#sign-up 
+        Sign Up 
+        -if @twitter_user
+          with twitter
+        -elsif @facebook_user
+          with Facebook        
+        (Step 2)
+      %br
+      = form_for(@user) do |f|
+        =render :partial => 'quick_register_omniauth', :locals => {:f => f}
+        .fieldrow
+          .fieldleft
+            %p
+              By clicking on "Submit" below, you are agreeing to the MyBandStock
+              = link_to 'Terms of Service', {:action => :tos, :controller => :legal}, {:target => '_blank'}
+              and
+              = link_to 'Privacy Policy.', {:action => :privacy_policy, :controller => :legal}, {:target => '_blank'}
+        .fieldrow
+          .fieldleft
+            .formbutton.condense3
+              = f.submit 'SUBMIT'
+
+      .clear
+
 
 -else
   #content_login_bg

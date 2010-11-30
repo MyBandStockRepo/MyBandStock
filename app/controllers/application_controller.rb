@@ -3,17 +3,10 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-  #helper_method :render_to_string
 
-#	include Twitter::AuthenticationHelpers
-#	rescue_from Twitter::Unauthorized, :with => :login	
 	
 	include SslRequirement
 	require 'uri'
-  
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  
   
   include ApplicationHelper
   
@@ -30,9 +23,6 @@ class ApplicationController < ActionController::Base
   
   before_filter :fix_site_base_url
   
-  #turns off sessions for search engine bots
-  #session :off, :if => proc { |request| self.is_megatron?(request.user_agent) }
-
   #puts a variable in session related to the url ur at
   after_filter :update_last_location
 
@@ -56,21 +46,13 @@ class ApplicationController < ActionController::Base
     return (7*(Math.log(followers+1)+Math.exp(1))).round
   end
   
-  def index
-    #unless params[:no_splash]
-    #  redirect_to :controller => 'application', :action => 'event_splash'
-    #  return
-    #end
-
-    
+  def index    
     if (session[:user_id])
       @user = User.find(session[:user_id])
       redirect_to '/me/control_panel'
+      flash[:error] = flash[:error]
+      flash[:notice] = flash[:notice]
     end
-    @bands = Band.all(:limit => 10)
-    if (session[:user_id])
-      @user = User.find(session[:user_id])
-    end  
   end  
   
   def event_splash
@@ -113,17 +95,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
-  #def has_role?(role)
-  #  @user_roles = User.find(session[:user_id], :include => :roles).roles
-  #  if @user_roles.include?(Role.find_by_name(role)) || @user_roles.include?(Role.find_by_name('site_admin'))
-  #    return true
-  #  else
-  #    redirect_to :controller => 'application', :action => 'index'
-  #    return false
-  #  end
-  #end
- 
+   
   def captcha_valid?(answer)
     answer  = answer.gsub(/\W/, '')
     if (answer == '')
@@ -160,10 +132,7 @@ class ApplicationController < ActionController::Base
         referer_domain =~ /(#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
       
     end
-=begin    
-    match_location =
-      referer_domain =~ /(#{band_domain}|#{band.short_name}|#{band.name.downcase.gsub(' ', '')})/
-=end      
+
     logger.info "Referer: [#{referer_domain}]"
     
     # Convert to bool and return
@@ -183,6 +152,7 @@ class ApplicationController < ActionController::Base
   
   def update_last_location
     session[:last_clean_url] = request.url
+    logger.info "Updating Last Location LCU: #{session[:last_clean_url]}"    
   end
   
   def update_last_controller_and_action
@@ -323,73 +293,6 @@ class ApplicationController < ActionController::Base
     #  redirect_to SITE_URL+request.fullpath
     #end
   end
-
-#twitter stuff
-
-  
-    def band_oauth
-#      @oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY, :sign_in => true)
-      @band_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-    end
-
-    def user_oauth
-
-      @user_oauth ||= Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY)
-    end
-    
-
-=begin
-============================ CLIENT ============================
-use_band_oauth -> Use the band's twitter oauth when using the twitter API, if true will look for
-the band's credentials when doing things, ie. pull the band's tweets.  If false, will use the logged
-in user's credentials when doing things, ie. posting a re-tweet
-
-needs_band_member_status -> If true, requires that the logged in user is part of the band before
-they can make the twitter API call ie. if someone wants to post a tweet, if false, the user dosesn't
-have to be a part of the band for the twitter api call ie. user want's to view the band's tweets
-
-band_id -> sets the ID for the band so their oauth token can be retrieved.  Only set if you want to
-use the band's oauth
-================================================================
-=end
-    def client(use_band_oauth = false, needs_band_member_status = false, band_id = nil)
-			user = User.find(session['user_id'])
-      # want to use bands oauth to show posts but want non-band users to be able to view them
-			if use_band_oauth
-				if needs_band_member_status
-					if band_id
-						if user.has_band_admin(band_id) || user.is_member_of_band(band_id)
-							thing = Band.find(band_id)
-						else
-							flash[:error] = 'You do not have permissions to use this Twitter function for this band.'
-							return false
-						end
-					else
-						flash[:error] = 'Could not get a band ID.'
-						return false						
-					end
-				else
-					thing = Band.find(band_id)
-				end
-			else
-				thing = user
-			end
-
-			if thing.twitter_user
-				if band_id.nil?
-					user_oauth.authorize_from_access(thing.twitter_user.oauth_access_token, thing.twitter_user.oauth_access_secret)						
-					Twitter::Base.new(user_oauth)
-				else
-					band_oauth.authorize_from_access(thing.twitter_user.oauth_access_token, thing.twitter_user.oauth_access_secret)						
-					Twitter::Base.new(band_oauth)			
-				end
-			else
-			#	flash[:error] = 'Could not find an authorized Twitter account.'
-				return false				
-			end
-    end
-		helper_method :client
-		
 end
 
 

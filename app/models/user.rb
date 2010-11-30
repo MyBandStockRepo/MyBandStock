@@ -14,50 +14,89 @@ class User < ActiveRecord::Base
   has_many :share_ledger_entries
   has_many :transactions
   has_many :pledges
-#  has_many :user_friends, :foreign_key => 'source_user_id'
-#  has_many :friends, :through => :user_friends, :source => 'destination'
-
+  has_many :authentications
+  
   before_save :expand_zipcode # Populates state and country from zipcode
 
-  #validations -- goes down to the first def
-  
-  #empty?
-#  validates_presence_of :first_name, :after => :create
-#  validates_presence_of :zipcode, :after => :create  
   validates_presence_of :email
   validates_presence_of :password
-#  validates_presence_of :password_confirmation, :on => :create
-#  validates_confirmation_of :password, :on => :create
   validates_confirmation_of :email
-  #validates_acceptance_of :agreed_to_tos, :accept => true, :message => "- You must agree to our Terms of Service to register"
-  #validates_acceptance_of :agreed_to_pp, :accept => true, :message => "- You must agree to our Privacy Policy to register"
-#	validates :email, :email => true
-  #field specific
-#  validates_uniqueness_of :nickname
   validates_uniqueness_of :email
   validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
-  #UK zipcodes not numerical
-#  validates_numericality_of :zipcode, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
-#  validates_numericality_of :country_id
-  
-  #length
-  #the length of these is maxed by the field width in the database.  And that width was chosen rather arbitrarily - while being long enough to be safe.
-#  validates_length_of :nickname, :maximum => 50, :unless => Proc.new {|user| user.nickname.nil?}
-  
-  #validates_length_of :password, :maximum => 50, :unless => Proc.new {|user| user.password.nil?} --- commented because all hashes now are going to be 40/64 characters long
-#  validates_length_of :password, :minimum => 6, :unless => Proc.new {|user| user.password.nil?}
-  
+
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
   validates_length_of :first_name, :maximum => 20, :unless => Proc.new {|user| user.first_name.nil?}
   validates_length_of :last_name, :maximum => 25, :unless => Proc.new {|user| user.last_name.nil?}
   validates_length_of :address1, :maximum => 100, :unless => Proc.new {|user| user.address1.nil?}
-
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_length_of :zipcode, :maximum => 15, :unless => Proc.new {|user| user.zipcode.nil?}
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
+  
+  def twitter_client
+    twitter_user_account = self.twitter_user
+    if twitter_user_account
+      return twitter_user_account.client
+    end
+    return nil
+  end
+  
+  #will return the twitter user through the authentications join table
+  def twitter_user
+    auth = self.authentications.find_by_provider('twitter')
+    twitter = nil
+    if auth
+      twitter = TwitterUser.find_by_twitter_id(auth.uid)
+    end
+    return twitter
+  end
+
+  def authenticated_with_twitter?
+    twitter_user_account = self.twitter_user
+    if twitter_user_account
+      return twitter_user_account.authenticated?
+    end
+    return false
+  end
+
+  def num_retweets_in_band_in_past_day(band_id=nil)
+    if band_id == nil || self.twitter_user.blank?
+      return 0
+    end
+    return Retweet.where(:band_id => band_id, :twitter_user_id => self.twitter_user.id).where("created_at > ?", 1.day.ago).count
+  end
+  
+
+
+
+
+
+
+
+
+  #will return the facebook user through the authentications join table  
+  def facebook_user
+    auth = self.authentications.find_by_provider('facebook')
+    facebook = nil
+    if auth
+      facebook = FacebookUser.find_by_facebook_id(auth.uid)
+    end
+    return facebook
+  end
+  
+  #takes an omniauth callback and fill in as much user information as possible
+  def apply_omniauth(omniauth, params)
+    if omniauth && omniauth['user_info'] && omniauth['provider'] && omniauth['uid']
+      if omniauth['provider'].to_s.downcase == 'facebook' && omniauth['extra'] && omniauth['extra']['user_hash'] && omniauth['extra']['user_hash']['email']
+        self.email = omniauth['extra']['user_hash']['email'].to_s if email.blank?
+      end
+      self.first_name = omniauth['user_info']['name'].to_s.split[0] if first_name.blank?
+      self.last_name = omniauth['user_info']['name'].to_s.split[1] if last_name.blank?
+      authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
+    end
+  end
   
   #this method will award bandstock to the user for tweets they made in the past (for new users who sign up, or users who tie in a twitter account)
   def reward_tweet_bandstock_retroactively
@@ -302,93 +341,6 @@ class User < ActiveRecord::Base
     return location
   end
   
-  # ***************
-  # Image helper
-  
-=begin  def path_to_headline_image(thumbnail_key)
-    if path_to_image = UserPhoto.find_by_id(self.headline_photo_id)
-      path_to_image = path_to_image.public_filename(thumbnail_key)
-    else
-      path_to_image = NO_IMAGE_PATHS[thumbnail_key]
-    end
-    return path_to_image
-  end
-  
-  
-  def unread_mail
-    return self.band_mails.find_all_by_opened(false)
-  end
-  
-  
-  def new_friends_yesterday
-    0
-  end
-  
-  def shares_donated_to_band(band_id)
-    return Contribution.find_all_by_user_id_and_band_id(self.id, band_id, :include => :contribution_level).collect {|c| c.contribution_level.number_of_shares}.sum
-  end
-
-  
-  def contributions_made_to_band(band_id)
-    return self.contributions.find_all_by_band_id(band_id, :joins => :contribution_level)
-  end
-  #the following is a great proponent for caching, once the first association is made it'll always be the earliest
-
-  def date_associated_with_band(band_id)
-    a = Association.find_by_user_id_and_band_id(self.id, band_id, :order => "by created_at desc")
-    if (a.nil?)
-      return "Never"
-    else
-      return a.created_at.to_s
-    end
-  end
-       
-  
-  
-  # ********
-  # Friend Actions
-  def has_friend_by_id(user_id)
-    return UserFriend.find_by_source_user_id_and_destination_user_id(user_id, self.id)
-  end
-  
-  def is_friends_with_user_id(user_id)
-    return UserFriend.find_by_source_user_id_and_destination_user_id(self.id, user_id)
-  end
-  
-  # End Friend Actions
-  # *********
-  
-  
-  def total_shares
-    return  self.contributions.find(:all, :joins => :contribution_level).collect{|c| c.contribution_level.number_of_shares}.sum
-  end    
-  
-  
-  def net_worth
-    #this will have to work for now
-    return self.total_shares
-  end
-  
-  
-  def earned_perks_from_band(target_band)
-    #yes,this takes a band object, not a band_id
-    return self.earned_perks.find_all_by_band_id(target_band.id)
-    
-  end
-  
-  
-  def top_friends
-    return Contribution.find(:all, :select => ['user_id, users.nickname as nickname, sum(number_of_shares) as tot_shares'], :joins => [:contribution_level, :user], :conditions => ['user_id IN (?)', self.friends.collect{|f| f.id}], :order => ['tot_shares desc'], :group => ['user_id'], :limit => 10)
-    
-  end
-  
-  
-  def top_invested_artists
-    return Band.find(:all, :select => ['contributions.band_id as band_id, bands.name as name, sum(number_of_shares) as total'], :joins => [{:contributions => :contribution_level}], :conditions => ['contributions.user_id = ?', self.id], :order => ['total desc'], :group => ['band_id'], :limit => 10)
-    
-  end
-=end       
-  
   
   #**********************
   # ROLES AND AUTH STUFF
@@ -481,26 +433,6 @@ class User < ActiveRecord::Base
   def site_admin
     return self.has_role?('site_admin', nil)
   end
-
-  # END PERMS METHODS
-
-  # **************
-  # PERKS
-  # *************
-=begin  
-  def grant_perk(input_hash)
-    user_perk = EarnedPerk.new do |p|
-      p.perk_id = input_hash[:perk_id]
-      p.contribution_level_id = input_hash[:contribution_level_id]
-      p.band_id = Perk.find(input_hash[:perk_id]).band.id
-      p.user_id = self.id
-      p.filled = input_hash[:filled]
-      p.confirmed = false
-      p.google_checkout_order_id = input_hash[:google_checkout_order_id]
-      p.save
-    end
-  end
-=end  
 
   private
   

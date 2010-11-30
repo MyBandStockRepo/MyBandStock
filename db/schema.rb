@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104011141) do
+ActiveRecord::Schema.define(:version => 20101116220954) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(:version => 20101104011141) do
     t.string   "name",       :null => false
     t.integer  "user_id"
     t.integer  "band_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -93,6 +101,9 @@ ActiveRecord::Schema.define(:version => 20101104011141) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+# Could not dump table "facebook_users" because of following StandardError
+#   Unknown type 'belongs_to' for column 'authentication_id'
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -338,16 +349,8 @@ ActiveRecord::Schema.define(:version => 20101104011141) do
     t.boolean  "shares_awarded",              :default => false
   end
 
-  create_table "twitter_users", :force => true do |t|
-    t.string   "name"
-    t.string   "user_name"
-    t.integer  "twitter_id",                             :null => false
-    t.string   "oauth_access_token"
-    t.string   "oauth_access_secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "opt_out_of_messages", :default => false
-  end
+# Could not dump table "twitter_users" because of following StandardError
+#   Unknown type 'belongs_to' for column 'authentication_id'
 
   create_table "users", :force => true do |t|
     t.string   "first_name"

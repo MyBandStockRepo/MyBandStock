@@ -74,8 +74,7 @@ class UsersController < ApplicationController
   
   def edit
 		@request_uri = url_for()
-#@newform = false		
-#@page = 'edit'		
+
     unless (id = params[:id])
       id = session[:user_id]
     else
@@ -85,9 +84,21 @@ class UsersController < ApplicationController
     end
     
     @user = User.find(id)
-
+    @authentications = @user.authentications if @user
+    fb = @user.authentications.where(:provider => 'facebook').first
+    if fb
+      @facebook_user = FacebookUser.find_by_authentication_id(fb.id)
+    else
+      @facebook_user = nil
+    end
+    twit = @user.authentications.where(:provider => 'twitter').first    
+    if twit
+      @twitter_user = TwitterUser.find_by_authentication_id(twit.id)
+    else
+      @twitter_user = nil
+    end
+        
     # Clear password field for editing
-#    @user.password_confirmation = ''
 		@user.email_confirmation = @user.email    
     
     
@@ -100,11 +111,10 @@ class UsersController < ApplicationController
     @user_is_pending = true if @user.status == 'pending'
     
 		begin
-			unless @user.twitter_user
+			unless @user.authenticated_with_twitter?
 				@user_twitter_authorized = false
 			else
-				user_client = client(false, false, nil)
-				@twit_user = user_client.verify_credentials
+				@twit_user = @user.twitter_client.verify_credentials
 				@user_twitter_authorized = true										
 			end		
 		rescue
@@ -118,36 +128,44 @@ class UsersController < ApplicationController
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
-#		@newform = false  
-
-=begin		if params[:user] && params[:user][:newform] && params[:user][:newform] == true
-			@newform = true
-		end
-=end
-
     unless ( (id = params[:id]) && ( (id == session[:user_id]) || (User.find(session[:user_id]).site_admin) ) )
       id = session[:user_id]
     end
     @user = User.find(id)
+    @authentications = @user.authentications if @user  
+    
+    fb = @user.authentications.where(:provider => 'facebook').first
+    if fb
+      @facebook_user = FacebookUser.find_by_authentication_id(fb.id)
+    else
+      @facebook_user = nil
+    end
+    twit = @user.authentications.where(:provider => 'twitter').first    
+    if twit
+      @twitter_user = TwitterUser.find_by_authentication_id(twit.id)
+    else
+      @twitter_user = nil
+    end    
+    
 		@request_uri = edit_user_url(id)
     @user.email_confirmation = params[:user][:email_confirmation]
 		begin
-			unless @user.twitter_user
-				@user_twitter_authorized = false				
+			unless @user.authenticated_with_twitter?
+				@user_twitter_authorized = false
 			else
-				user_client = client(false, false, nil)
-				@twit_user = user_client.verify_credentials
-				@user_twitter_authorized = true				
+				@twit_user = @user.twitter_client.verify_credentials
+				@user_twitter_authorized = true										
 			end		
 		rescue
 				@user_twitter_authorized = false
-		end        
+		end    
     
     
     # if they have flipped whether they want messages or not
 		if @user.twitter_user && params[:twitter_user] && params[:twitter_user][:twitter_replies] && ((params[:twitter_user][:twitter_replies] == "0" && @user.twitter_user.opt_out_of_messages == false) ||(params[:twitter_user][:twitter_replies] == "1" && @user.twitter_user.opt_out_of_messages == true))
-		  @user.twitter_user.opt_out_of_messages = !@user.twitter_user.opt_out_of_messages
-		  @user.twitter_user.save
+		  tw_user = @user.twitter_user
+		  tw_user.opt_out_of_messages = !tw_user.opt_out_of_messages
+		  tw_user.save
 	  end
 		
     
@@ -173,7 +191,6 @@ class UsersController < ApplicationController
 
 
 		# We must also hash the confirmation entry so the model can check them together
-#		params[:user][:password_confirmation] = salted_password
         
     #for the regular "post"ers make sure the country matches the state in case they changed it
     unless ( params[:user][:country_id].nil? || (params[:user][:country_id].to_i == @user.country_id) || (params[:user][:state_id] == '1') )
@@ -225,27 +242,38 @@ class UsersController < ApplicationController
 
   def clear_twitter_registration_session
     session[:quick_registration_twitter_user_id] = nil
+    #clear omniauth
+    session[:user_hash] = nil
     redirect_to :controller => 'users', :action => 'new', :redemption_redirect => params[:redemption_redirect]
   end
 
   def new
-    if session[:quick_registration_twitter_user_id]
-      if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
-        oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-        oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
-        profile = Twitter::Base.new(oauth)
-        @twit_user = profile.verify_credentials
-        @user = User.new
-        #check to see if they've been around before
-        if params[:user]
-          @user = User.new(params[:user])
-        end
-  #      session[:quick_registration_twitter_user_id] = nil
-      else
-        session[:quick_registration_twitter_user_id] = nil
-        flash[:error] = 'Could not find that twitter account in our system. Please retry'
-        redirect_to 'register_with_twitter'
+    #coming from omniauth
+    if session[:user_hash]
+      user_hash = session[:user_hash]
+#      session[:user_hash] = nil
+      @facebook_user = nil
+      @twitter_user = nil
+      @omniauth = true
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+      
+      #note still have to save auth id into fb/twitter users table
+      if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+        
+      elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+
       end
+
+      #check to see if they've been around before
+      if params[:user]   
+        @user = User.new(params[:user])
+      else
+        @user = User.new(:first_name => user_hash[:first_name], :last_name => user_hash[:last_name], :email => user_hash[:email], :email_confirmation => user_hash[:email])
+      end
+
+
+    #clicked new account button
     else
   		@request_uri = url_for()  
   #		@newform = true
@@ -257,16 +285,15 @@ class UsersController < ApplicationController
 
     
   		begin
-  			unless @user.twitter_user
+  			unless @user.authenticated_with_twitter?
   				@user_twitter_authorized = false
   			else
-  				user_client = client(false, false, nil)
-  				@twit_user = user_client.verify_credentials
+  				@twit_user = @user.twitter_client.verify_credentials
   				@user_twitter_authorized = true										
   			end		
   		rescue
   				@user_twitter_authorized = false
-  		end       
+  		end    
       if (@user.country_id.nil? || @user.country_id == '' )
         #calculate their ip number to determine country of origin
         ip_parts = request.remote_ip.split(".")
@@ -308,27 +335,7 @@ class UsersController < ApplicationController
   end
   
   
-  def create
-#  		@newform = true
-
-=begin
-    #validate the captcha
-    if ((session[:passed_captcha] && params[:captcha_response]) || (session[:passed_captcha] != true) )
-      unless captcha_valid?(params[:captcha_response])
-        @captcha_error = 'You did not enter the correct letters and numbers in the captcha at the bottom.  Please try again.'
-        @user = User.new
-        #check to see if they've been around before
-        if params[:user]
-          @user = User.new(params[:user])
-          @user.valid?
-        end
-        state_select(@user.country_id)
-        render :action => 'new'
-        return false
-      end
-    end
-=end
-    
+  def create    
     #check to see if they've posted
     if params[:user]
       #so they have posted to us, filter the posted data
@@ -342,20 +349,22 @@ class UsersController < ApplicationController
       redirect_to :action => "new", :lightbox => params[:lightbox]
     end
 
+    #if register through omniauth
+    if session[:user_hash]
+      user_hash = session[:user_hash]
+      @facebook_user = nil
+      @twitter_user = nil
+      @omniauth = true
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+      
+      #note still have to save auth id into fb/twitter users table
+      if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+        
+      elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
 
-      if session[:quick_registration_twitter_user_id]
-        if @twitter_user = TwitterUser.find(session[:quick_registration_twitter_user_id])
-          oauth = Twitter::OAuth.new(TWITTERAPI_KEY, TWITTERAPI_SECRET_KEY) 
-          oauth.authorize_from_access(@twitter_user.oauth_access_token, @twitter_user.oauth_access_secret) 
-          profile = Twitter::Base.new(oauth)
-          @twit_user = profile.verify_credentials
-          
-        else
-          session[:quick_registration_twitter_user_id] = nil
-          flash[:error] = 'Could not find that twitter account in our system. Please retry'
-          redirect_to 'register_with_twitter'
-        end
-      end
+      end      
+    end
 
 
 
@@ -376,6 +385,22 @@ class UsersController < ApplicationController
     if (@user.save)
       #clear out the session
       session[:user_registration_info] = nil
+      
+      #if from omniauth, save the authentication and connect to the twitter/facebook user
+      if session[:user_hash]
+        user_hash = session[:user_hash]
+        auth = @user.authentications.create(:provider => user_hash[:provider], :uid => user_hash[:uid])
+        if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+          @facebook_user.authentication_id = auth.id
+          @facebook_user.save
+        elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+          @twitter_user.authentication_id = auth.id
+          @twitter_user.save
+        end
+      end
+      
+      
+      session[:user_hash] = nil
       session[:user_id] = @user.id
       flash[:notice] = "Registration successful."
       session[:auth_success] = true
@@ -485,60 +510,19 @@ class UsersController < ApplicationController
   #************************
   #  USER Control Panel STUFF
   #************************
-  
-=begin
-  def auto_complete_for_recipient_band_name
-    unless ( (params[:recipient] && (band_name_search = params[:recipient][:band_name]) ) && (band_name_search.length >= 2) )
-      render :nothing => true
-      return false
-    end
-    
-    @bands = Band.find(:all, :conditions => ['name LIKE ?', "%#{band_name_search}%"], :limit => 15)
 
-    respond_to do |format|
-      format.html {
-                    render :nothing => true
-                  }
-      format.js   {
-                    #dont like calling render in the code but it is what it is
-                    render :partial => 'band_mails/band_recipient_autocomplete', :locals => {:band_collection => @bands}
-                  }
-    end
-    
-  end
-  
-=end  
   def control_panel
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
     authenticated?
     @user = User.find(session[:user_id])
-
-    # @bands is an array of band objects, or an empty array (never nil)
-    @bands = @user.bands.includes(:live_stream_series => :streamapi_streams) #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
-
-		
-		if @bands.count == 0
-			redirect_to :controller => 'bands', :action => 'index'
-		end
+	
+    flash[:error] = flash[:error]
+    flash[:notice] = flash[:notice]	
+		redirect_to :controller => 'bands', :action => 'index'	
   end
   
-=begin  
-  def manage_artists
-    unless ( @user = User.find_by_id(session[:user_id], :joins => {:earned_perks => {:google_checkout_order => :contributions}}) )
-      @user = User.find(session[:user_id]) #the above is done for bringing data out with inner joins for better performance.  Although since I use joins, when a user cant fill one of those join models it returns nil.  so we have to be careful.
-    end
-    
-    @total_shares = @user.total_shares
-    @total_friends = @user.friends.size
-    @user_net_worth = @user.net_worth
-    @number_of_invested_artists = @user.invested_artists.size
-    @prospective_artists = Band.find_all_by_id( @user.associations.find(:all, :conditions => ['name = ?', 'watching']).collect{|a| a.band_id} )
-    
-    @random_band = get_random_band()
 
-  end  
-=end  
 protected
 
 =begin

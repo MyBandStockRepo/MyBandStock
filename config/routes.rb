@@ -1,6 +1,7 @@
 Cobain::Application.routes.draw do |map|
 
 
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -29,9 +30,10 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/update', :to => 'twitter_api#update'
 	match '/twitter/error', :to => 'twitter_api#error'
 	match '/twitter/success', :to => 'twitter_api#success'
+	match '/twitter/retweet', :to => 'twitter_api#actual_retweet'	
 	match '/twitter/opt_out', :to => 'twitter_users#opt_out'
 	match '/twitter/opt_out_finish', :to => 'twitter_users#opt_out_finish'
-	
+
   #stream methods
   match '/streams/manage', :to => 'users#control_panel'
 	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'
@@ -86,7 +88,12 @@ Cobain::Application.routes.draw do |map|
     match '/admin/send_users_email', :to => 'admin#send_users_email'
   # /--- Administration ---- #
   
+  #/ ---- OmniAuth Callbacks ----/#
+  match '/auth/:provider/callback' => 'authentications#create'  
+  match '/auth/failure' => 'authentications#failure'  
+  match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
   
+  resources :authentications
   resources :streamapi_stream_themes
   resources :facebook_publishers
   resources :share_code_groups

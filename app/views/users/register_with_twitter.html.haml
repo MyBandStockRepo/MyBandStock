@@ -8,7 +8,7 @@
     
         %h3 Painless registration through Twitter.
         .sign_up_with_twitter_button
-          =link_to image_tag("sign-in-with-twitter-l.png"), {:controller => 'twitter_api', :action => 'quick_register'}
+          =link_to image_tag("sign-in-with-twitter-l.png"), "/auth/twitter"
 
         %p
           Or, 
@@ -18,14 +18,6 @@
   .opt_out_box
     =link_to "Opt-out from receiving twitter @replies", :controller => 'twitter_users', :action => 'opt_out'
 #faq_right
-  -#
-    %span.question What does MyBandStock do?
-    %p MyBandStock powers online loyalty solutions for artists and venues. Our technology ties into merchandise lines, album releases, ticketing and social media to reward the biggest fans for purchasing and promoting.
-    %br
-
-    %span.question What do fans get for having BandStock?
-    %p We deliver fans exclusive experiences, such as private video chats with their favorite artists. On our platform, we call these fans Stockholders.
-
   .registration_steps
     %h2 Get started today!
     %br
@@ -41,7 +33,6 @@
       3. 
       %span.highlight Win 
       a video chat with the band for being a top fan
-
 
   %br
   %object{:width => "400", :height => "240"}

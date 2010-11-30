@@ -1,0 +1,111 @@
+.newform
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        .fieldname
+          .fieldnametop
+            -if @facebook_user
+              = f.label 'Facebook'            
+            -elsif @twitter_user
+              = f.label 'twitter'
+            -else
+              = f.label 'connect'
+          .fieldnamebottom
+        .fieldbox
+          .form_input_text          
+            -if @facebook_user
+              = image_tag "authbuttons/facebook_32.png", :alt => "Facebook", :class => 'edit_band_twit_img'
+            -elsif @twitter_user
+              = image_tag "authbuttons/twitter_32.png", :alt => "Twitter", :class => 'edit_band_twit_img'
+
+            .auth_twit_text
+              Authorized as:
+              %br
+              -if @facebook_user
+                %b
+                  = @facebook_user.name
+              -elsif @twitter_user
+                %b
+                  = @twitter_user.user_name
+              -else
+                ="Connected to #{@provider} as user #{uid}"
+
+                
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :email, 'email*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :email
+    .fielderror.condense
+      - if @user.errors[:email]
+        - for e in @user.errors[:email]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :email_confirmation, 'confirm email*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :email_confirmation
+    .fielderror.condense
+      - if @user.errors[:email_confirmation]
+        - for e in @user.errors[:email_confirmation]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :password, 'password*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.password_field :password, :value => ''
+      - if @user.status != 'pending' && (params[:action] == 'edit' || params[:action] == 'update')
+        .desc
+          Leave this unchanged if you wish to keep your current password.
+    .fielderror.condense
+      - if @user.errors[:password]
+        - for e in @user.errors[:password]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :first_name, 'first name*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :first_name
+    .fielderror.condense
+      - if @user.errors[:first_name]
+        - for e in @user.errors[:first_name]
+          %p
+            = '- '+e.to_s
+  .fieldrow
+    .fieldleft
+      .field.condense4
+        %fieldset
+          .fieldname.required.condense2
+            .fieldnametop
+              = f.label :zipcode, 'zip code*'
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            = f.text_field :zipcode
+    .fielderror.condense
+      - if @user.errors[:zipcode]
+        - for e in @user.errors[:zipcode]
+          %p
+            = '- '+e.to_s

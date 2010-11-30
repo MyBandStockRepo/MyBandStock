@@ -10,23 +10,26 @@
         %li.share_post
           %span.share_date
             -# status[:posted_at].strftime("%l:%M %p | %b #{status[:posted_at].strftime("%e").to_i.ordinalize} | ")
-            = time_ago_in_words status[:posted_at]
+            = time_ago_in_words status[:created_at]
             ago via
             = status[:source]
           .share_text
-            -if status[:profile_image_url]
-              .share_avatar{:style => "background-image:url(#{status[:profile_image_url]});"}
+            -if status[:user] && status[:user][:profile_image_url]
+              .share_avatar{:style => "background-image:url(#{status[:user][:profile_image_url]});"}
             -else 
               .share_avatar
             %span
-              = status[:username]
-            = status[:body]
+              -if status[:user] && status[:user][:screen_name]
+                = status[:user][:screen_name]
+
+            = status[:text]
           .reshare
             .share_lightboard
               = lightboard_text points_per_retweet, :digits => 3, :size => 'small'
             .sharelink
-              - rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :tweet_id => status[:status_id], :hash_identifier => status[:hash_identifier], :lightbox => true, :from_band_profile => band_url(band.id) }
-              = link_to( 'Retweet', rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
+              -# rt_url_hash = { :controller => 'twitter_api', :action => 'retweet', :band_id => band.id, :tweet_id => status[:status_id], :hash_identifier => status[:hash_identifier], :lightbox => true, :from_band_profile => band_url(band.id) }
+              -# link_to( 'Retweet', rt_url_hash, :class => 'lightbox', :fbheight => '330', :fbwidth => '430', :target => '_blank' )
+              = link_to ( 'Retweet', { :controller => 'twitter_api', :action => 'actual_retweet', :tweet_id => status[:id], :band_id => band.id })
               for BandStock!
           .clear
       

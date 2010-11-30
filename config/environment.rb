@@ -4,6 +4,7 @@ require File.expand_path('../application', __FILE__)
 # Initialize the rails application
 Cobain::Application.initialize!
 
+
 # will run the script to send out automated stream alert emails
 #require 'lib/email_scheduler.rb'
 # ** Environment variables ** #
@@ -42,7 +43,22 @@ STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
   TWEET_MAX_LENGTH          = 140
   NUM_SHARES_AWARDED_FOR_RT = 10
+
+  Twitter.configure do |config|
+    config.consumer_key = TWITTERAPI_KEY
+    config.consumer_secret = TWITTERAPI_SECRET_KEY
+  end  
+  
 ####
+
+
+####
+# Facebook
+#
+  FACEBOOK_APP_ID = 110251749041497
+  FACEBOOK_APP_SECRET = '158eb74a5eff840f0afb818e378f03aa'
+####
+
 
 URL_SHORTENER_HOST = 'http://mbs1.us'
 
@@ -58,6 +74,5 @@ URL_SHORTENER_HOST = 'http://mbs1.us'
 #this is the default value for the make public recording button
 #if true it will default so that a recording is made publicly available for the stream
 STREAMAPI_DEFAULT_PUBLIC_RECORDING = false
-
 
 #Time.zone = "Eastern Time (US & Canada)"

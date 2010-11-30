@@ -1,19 +1,20 @@
 .orange_bar
-	.placement_edituserprofilepic
-	.placement_edituserprofile EDIT USER PROFILE
-	.orange_divider
+  .placement_edituserprofilepic
+  .placement_edituserprofile EDIT USER PROFILE
+  .orange_divider
 #content_login_bg
-	#login_wrap
-		-if @user_is_pending
-			.notice You have not yet activated your account. Please enter your desired password below and click Submit.
-		= form_for(@user) do |f|
-			=render :partial => 'required_form', :locals => {:f => f}
-			.fieldrow
-				.fieldleft
-					.formbutton
-						= f.submit 'SUBMIT'
-					-if params[:action] && params[:action] == 'edit'
-						.formbutton_nextto
-							= link_to 'BACK', session[:last_clean_url]
+  #login_wrap
+    -if @user_is_pending
+      .notice You have not yet activated your account. Please enter your desired password below and click Submit.
+    = form_for(@user) do |f|
+      =render :partial => 'required_form', :locals => {:f => f}
+      .fieldrow
+        .fieldleft
+          .formbutton
+            = f.submit 'SUBMIT'
+          -if params[:action] && params[:action] == 'edit'
+            .formbutton_nextto
+              = link_to 'BACK', session[:last_clean_url]
 
-		.clear
+    .clear
+=render 'connected_social_networks'

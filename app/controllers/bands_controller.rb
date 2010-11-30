@@ -107,7 +107,7 @@ end
          }
        end
      else
-       #here
+
        is_live = true
        output[:view_link] = {
          :url => url_for( :controller => 'streamapi_streams', :action => 'view', :id => current_broadcasts.first.id, :lightbox => params[:lightbox] ),
@@ -231,34 +231,16 @@ end
       @live_stream_series = @band.live_stream_series.includes(:streamapi_streams).order('streamapi_streams.starts_at ASC').all
     end
 
-    begin
-			unless @band.twitter_user
-				@band_twitter_authorized = false
-			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
-				@band_twitter_authorized = true	
-				@band_tweets = @band.tweets(band_client, 5) #.user_timeline(:id => @twit_band.id)
-			end		
-		rescue
-				@band_twitter_authorized = false
-		end					
 		begin
-			if @user
-				unless @user.twitter_user
-					@user_twitter_authorized = false					
-				else
-					@twit_user = client(false, false, nil).verify_credentials
-					@points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
-					available_shares = @band.available_shares_for_earning
-          if available_shares && available_shares < @points_per_retweet
-            @points_per_retweet = available_shares
-          end
-					@user_twitter_authorized = true			
-				end		    
+			if @user && @user.twitter_user
+				@twit_user = @user.twitter_client.verify_credentials
+			  @points_per_retweet = twitter_follower_point_calculation(@twit_user.followers_count)
+				available_shares = @band.available_shares_for_earning
+        if available_shares && available_shares < @points_per_retweet
+          @points_per_retweet = available_shares
+        end					
 			end    
 		rescue
-			@user_twitter_authorized = false
 			@points_per_retweet = twitter_follower_point_calculation(0)	
 			available_shares = @band.available_shares_for_earning
       if available_shares && available_shares < @points_per_retweet
@@ -290,9 +272,8 @@ end
     begin
 			unless @band.twitter_user
 				@band_twitter_authorized = false
-			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+			else				
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -329,8 +310,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -364,8 +344,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -399,8 +378,7 @@ end
 			unless @band.twitter_user
 				@band_twitter_authorized = false
 			else
-				band_client = client(true, false, @band.id)
-				@twit_band = band_client.verify_credentials
+				@twit_band = @band.twitter_client.verify_credentials
 				@band_twitter_authorized = true										
 			end		
 		rescue
@@ -575,182 +553,9 @@ end
     @new_shares_yesterday = Rails.cache.fetch("band_#{@band.id}_new_shares_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.contributions.find(:all, :joins => [:contribution_level], :conditions => ['contributions.created_at > ? AND contributions.created_at < ?', 1.day.ago.midnight, Time.now.midnight]).collect{|c| c.contribution_level.number_of_shares}.sum }
 =end    
   end
-  
-=begin    
-  def manage_fans
-    unless id = get_band_id_from_request()
-      return false
-    end
-    
-    unless ( @band = Band.find_by_id(id) ) && ( User.find(session[:user_id]).has_band_admin(@band.id) )
-      redirect_to session[:last_clean_url]
-    end
-  
-    @new_investors_yesterday = Rails.cache.fetch("band_#{@band.id}_new_fans_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) {
-       all = @band.contributions.find(:all, :joins => :user, :conditions => ['contributions.created_at > ? AND contributions.created_at < ?',  1.day.ago.midnight,Time.now.midnight])
-       previous = @band.contributions.find(:all, :joins => :user, :conditions => ['contributions.created_at < ?',  1.day.ago.midnight]) 
-       (all-previous).size.to_i
-       }
-    @new_investments_yesterday = Rails.cache.fetch("band_#{@band.id}_new_shares_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.contributions.find(:all, :joins => [:contribution_level], :conditions => ['contributions.created_at > ? AND contributions.created_at < ?', 1.day.ago.midnight, Time.now.midnight]).collect{|c| c.contribution_level.number_of_shares}.sum }
-    
-    #do the update band statistics loop
-    Rails.cache.fetch("last_statistics_update_for_band_#{@band.id}", :expires_in => (Time.now.end_of_day+1.second - Time.now) ) { update_band_statistics(@band.id) }
-   
-    @zipcode_passed = params[:zipcode]
-    if params[:zipcode] == 'Zip Code'
-      zip = nil
-    else
-      zip = params[:zipcode]
-    end
-
-    if ( ( @zip = Zipcode.find_by_zipcode(zip) ) && ( @miles_away_passed = params[:miles_away].to_f ) )
-      miles_away = params[:miles_away].to_f
-      #1.8 used as fudge factor -- yeah I know this isn't accurate, but honestly no body lives in the center of their zip code anyway so what are we supposed to do without better address resolution
-      lat_lower = @zip.latitude.to_f-(miles_away/(1.8*MILES_PER_DEGREE))
-      lat_upper = @zip.latitude.to_f+(miles_away/(1.8*MILES_PER_DEGREE))
-      longi_lower = @zip.longitude.to_f-(miles_away/(1.8*MILES_PER_DEGREE))
-      longi_upper = @zip.longitude.to_f+(miles_away/(1.8*MILES_PER_DEGREE))
-      zipcodes = Zipcode.find(:all, :conditions => ['latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?',lat_lower,lat_upper,longi_lower,longi_upper]).collect{|z| z.zipcode}
-    end
-    
-    if ((@invest_low_passed = params[:invest_low]) && params[:invest_low ] != '')
-      investment_lower = params[:invest_low].to_f
-    else
-      investment_lower = 0
-    end
-    if ((@invest_high_passed = params[:invest_high]) && params[:invest_high] != '')
-      investment_upper = params[:invest_high].to_f
-    else
-      investment_upper = 10000000000
-    end
-    
-    amounts_available_boolean = ((params[:invest_low] && (params[:invest_low] != '')) || (params[:invest_high] && (params[:invest_high] != '')))
-    #now actually make the fans object
-    #assume we'll get results
-    @fans_empty = false
-    if (zipcodes && !zipcodes.empty?) && amounts_available_boolean
-      #RAILS_DEFAULT_LOGGER.warn('\nin all\n')
-      fans_by_zip = User.find_all_by_zipcode(zipcodes)
-      #RAILS_DEFAULT_LOGGER.warn('\nFBZ ')
-      #RAILS_DEFAULT_LOGGER.warn(fans_by_zip)
-      contribs = @band.contributors
-      for contrib in contribs
-        contrib[:amount_given] = contrib.contributions_made_to_band(@band.id).collect{|c| c.contribution_level.us_dollar_amount}.sum
-      end
-      #RAILS_DEFAULT_LOGGER.warn('\nCONTRIBS11 ')
-      #RAILS_DEFAULT_LOGGER.warn(contribs)
-      contribs.reject! { |c| c[:amount_given] < investment_lower || c[:amount_given] > investment_upper }
-      #RAILS_DEFAULT_LOGGER.warn('\nCONTRIBS22 ')
-      #RAILS_DEFAULT_LOGGER.warn(contribs)
-      @fans = (fans_by_zip & contribs)
-    elsif (zipcodes && !zipcodes.empty?)
-      #RAILS_DEFAULT_LOGGER.warn('\nonly zips\n')
-      @fans = @band.contributors.find_all_by_zipcode(zipcodes)
-    elsif amounts_available_boolean
-      #RAILS_DEFAULT_LOGGER.warn('\nonly amounts\n')
-      #do the work!
-      contribs = @band.contributors
-      for contrib in contribs
-        contrib[:amount_given] = contrib.contributions_made_to_band(@band.id).collect{|c| c.contribution_level.us_dollar_amount}.sum
-      end
-      contribs.reject! { |c| c[:amount_given] < investment_lower || c[:amount_given] > investment_upper }
-      @fans = contribs
-    else
-      @fans = @band.contributors.find(:all, :limit => 50, :offset => rand(@band.contributors.count))
-      @fans_empty = true
-    end
-    
-    
-    
-    respond_to do |format|
-      format.html {
-                    @top_fans = @band.top_fans
-    
-                    @total_shares = @band.contributions.find(:all, :include => :contribution_level).collect{|a| a.contribution_level.number_of_shares}.sum()
-                    @total_capital = @band.contributions.find(:all, :include => :contribution_level).collect{|a| a.contribution_level.us_dollar_amount}.sum()
-                    
-                    #these both assign to 0 if no records return
-                    @investors_yesterday = Rails.cache.fetch("band_#{@band.id}_investors_yesterday", :expires_in => (Time.now.end_of_day - Time.now)) { @band.contributors.find(:all, :conditions => ["contributions.created_at > ?", 1.day.ago], :group => "id").length }
-                    @new_investments = Rails.cache.fetch("band_#{@band.id}_investments_yesterday", :expires_in => (Time.now.end_of_day - Time.now)) {@band.contributions.find(:all, :conditions => ["created_at > ?", 1.day.ago]).collect{|i| i.contribution_level.us_dollar_amount}.sum.to_i}
-                  }
-      format.js
-      format.xml
-    end
-  
-  end
 
 
-  def manage_perks
-    unless id = get_band_id_from_request()
-      return false
-    end
-    
-    @band = Band.find(id)
-    
-    @perks = @band.perks.paginate(:page => params[:perks_page], :per_page => 13, :order => ['created_at desc'])
-    @contribution_levels = @band.contribution_levels.paginate(:page => params[:contribution_levels_page], :per_page => 13, :order => ['created_at desc'])
-    @earned_perks = EarnedPerk.paginate(:page => params[:earned_perks_page], :per_page => 13, :conditions => ['band_id = ?', id], :order => ['earned_perks.filled, earned_perks.created_at desc'], :limit => 10)
-    
-    #create the new quick-add templates
-    @fresh_contribution_level = ContributionLevel.new
-    @fresh_contribution_level.band_id = @band.id
-    
-    @fresh_perk = Perk.new
-    @fresh_perk.band_id = @band.id
-   
-  end
 
-  
-  def manage_project
-    unless id = get_band_id_from_request()
-      return false
-    end
-    
-    @band = Band.find(id, :include => :projects, :order => 'projects.active, projects.created_at desc')
-    
-    @fresh_ledger_entry = LedgerEntry.new
-  end
-
-
-  def manage_photos
-    unless id = get_band_id_from_request()
-      return false
-    end
-
-    @band = Band.find(id)
-    @photos = @band.photos.paginate(:page => params[:thumbnail_photos_page], :conditions => ["thumbnail is null"], :order => ['created_at DESC'], :per_page => 6)
-    @photo_albums = @band.photo_albums.paginate(:page => params[:photo_albums_page], :order => ['created_at DESC'], :per_page => 10)
-   
-    @photos_uploaded = Photo.find_all_by_band_id(@band.id).size
-    @photo_albums_created = @photo_albums.size
-    @megabytes_available = '??'
-    
-    #create quick add fresh objects
-    @fresh_photo = Photo.new(:band_id => @band.id)
-    @fresh_photo_album = PhotoAlbum.new(:band_id => @band.id)
-    
-  end
-  
-  
-  def manage_music
-    unless id = get_band_id_from_request()
-      return false
-    end
-
-    @band = Band.find(id)
-    @songs = @band.songs.paginate(:page => params[:songs_page], :order => ['created_at DESC'], :per_page => 10)
-    @music_albums = @band.music_albums.paginate(:page => params[:music_albums_page], :order => ['created_at DESC'], :per_page => 10)
-    
-    @music_albums_created = @music_albums.size
-    @tracks_uploaded = Song.find_all_by_band_id(@band.id).size
-    @megabytes_available = '??'
-    
-    #create quick add fresh objects
-    @fresh_song = Song.new(:band_id => @band.id)
-    @fresh_music_album = MusicAlbum.new(:band_id => @band.id)
-    
-  end
-=end  
   def manage_users
     unless id = get_band_id_from_request()
       return false
@@ -774,126 +579,10 @@ end
 protected
   
   
-  ######################
-  # update statistics routine
-  ######################
   
   
-  
-  
-=begin  
-  def update_band_statistics(band_id)
-    if band = Band.find_by_id(band_id)
-      
-      #fans per day  
-      s = band.band_statistics.find_by_name('fans_per_day', :order => "created_at desc")
-      if s.nil? || s.expires < Time.now
-        for n in 1..(((Time.now - s.expires)/86400).to_i-1)
-          ns = BandStatistic.new(:name => 'fans_per_day', :band_id => band.id)
-        
-          divisor = (((s.expires+n.days) - band.created_at)/86400) #where 86400 is seconds in a day
-          if divisor == 0 then divisor = 1 end
-          ns.value = Band.find(band.id).contributors.size / divisor 
-          ns.expires = (s.expires+n.days).end_of_day
-          ns.save
-      
-          #calculate total shares for the following two stats
-          tot_shares = band.contributions.find(:all, :conditions => ['created_at < ?', (s.expires+n.days).midnight]).collect{|c| c.contribution_level.number_of_shares}.sum
-      
-          #shares per day
-          #s = band.band_statistics.find_by_name('shares_per_day', :order => "created_at desc")
-        
-          ns = BandStatistic.new(:name => 'shares_per_day', :band_id => band.id)
-        
-          divisor = (((s.expires+n.days) - band.created_at)/86400) #where 86400 is seconds in a day
-          if divisor == 0 then divisor = 1 end
-          ns.value = tot_shares / divisor 
-          ns.expires = (s.expires+n.days).end_of_day
-          ns.save
-      
-          #shares per fan
-          #s = band.band_statistics.find_by_name('shares_per_fan', :order => "created_at desc")
-        
-          ns = BandStatistic.new(:name => 'shares_per_fan', :band_id => band.id)
-        
-          divisor =  Band.find(band.id).contributors.size
-          if divisor == 0 then divisor = 1 end
-          ns.value = tot_shares / divisor
-          ns.expires = (s.expires+n.days).end_of_day
-          ns.save
-      
-          #capital per day
-          #s = band.band_statistics.find_by_name('capital_per_day', :order => "created_at desc")
-        
-          ns = BandStatistic.new(:name => 'capital_per_day', :band_id => band.id)
-        
-          divisor = (((s.expires+n.days) - band.created_at)/86400) #where 86400 is seconds in a day
-          if divisor == 0 then divisor = 1 end
-          ns.value = band.contributions.find(:all, :conditions => ['created_at < ?', (s.expires+n.days).midnight]).collect{|c| c.contribution_level.us_dollar_amount}.sum / divisor
-          ns.expires = (s.expires+n.days).end_of_day
-          ns.save
-      
-          #capital per fan
-          #s = band.band_statistics.find_by_name('capital_per_fan', :order => "created_at desc")
-      
-          ns = BandStatistic.new(:name => 'capital_per_fan', :band_id => band.id)
-        
-          divisor = Band.find(band.id).contributors.size
-          if divisor == 0 then divisor = 1 end
-          ns.value = band.contributions.find(:all, :conditions => ['created_at < ?', (s.expires+n.days).midnight]).collect{|c| c.contribution_level.us_dollar_amount}.sum / divisor
-          ns.expires = (s.expires+n.days).end_of_day
-          ns.save
-          
-        #end the for
-        end
-      #end the big if
-      end
-    end
-    
-    return Time.now
-  end
-
-=end
 private
 
-	def convert_twitter_name(name)	
-		unless (name)
-      redirect_to session[:last_clean_url]      
-      return false
-    end	
-
-		# Parameters
-  	apiurl = 'http://api.twitter.com/1/users/show.xml'
-		url = URI.parse(apiurl)
-		res = Net::HTTP.new(url.host, url.port)
-
-		# Form GET Request
-		req, res = res.get(url.path+'?'+'screen_name='+name)
-
-		doc = Document.new(res)
-
-		@twitter_id = XPath.first( doc, '//id') { |e| puts e.text }
-		
-		if @twitter_id.count == 1
-			@protected = XPath.first( doc, '//protected') { |e| puts e.text }
-			for p in @protected
-				p = p.to_s
-			end
-			@protected = p.to_s			
-
-		
-			for i in @twitter_id
-				i = i.to_s
-			end
-			@twitter_id = i.to_s		
-			
-			obj = Array.new([@twitter_id, @protected])
-			
-			return obj
-		else
-			return false
-		end
-	end
 
 
 end

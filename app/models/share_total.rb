@@ -34,6 +34,7 @@ class ShareTotal < ActiveRecord::Base
     share_totals = band.get_shareholder_list_in_order
     
     # output for testing
+=begin
      puts"\n"    
     puts ' RANKS (before update) '
     puts '================================'    
@@ -48,7 +49,7 @@ class ShareTotal < ActiveRecord::Base
     end
     puts '================================'
          puts"\n"
-    
+=end    
     
     
     
@@ -58,10 +59,12 @@ class ShareTotal < ActiveRecord::Base
     calculated_rank = share_totals.index(self)+1
 
     return false if calculated_rank.blank?
-    
+
+=begin    
     puts 'CURRENT RANK: '+self.current_rank.to_s
     puts 'LAST RANK: '+self.last_rank.to_s    
     puts 'CALCULATED RANK: '+calculated_rank.to_s        
+=end
     
     #copy current rank to last rank
     self.last_rank = self.current_rank
@@ -125,7 +128,7 @@ class ShareTotal < ActiveRecord::Base
     end
     
     
-    
+=begin    
     # output for testing
      share_totals = band.get_shareholder_list_in_order
      puts"\n"
@@ -143,6 +146,7 @@ class ShareTotal < ActiveRecord::Base
     puts '================================'
      puts"\n"  
     #return share_total.save!
+=end
   end
   
   

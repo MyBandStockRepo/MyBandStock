@@ -306,7 +306,43 @@ body#lightbox .fieldname {width:140px;float:left;text-transform:lowercase;font-f
 
 
 /* external login */
+body#lightbox #content_onehalf_bg {background-image:url(/images/content_onehalf_bg.png);background-repeat:repeat-y;background-position:0px 0px;}
+/* social network connect partial */
+body#lightbox .social_network_connect{width:470px;float:left;}
+body#lightbox .social_network_connect .inner_content{margin:15px 0px 15px 15px;}
+body#lightbox .social_network_connect .inner_content h2{font-size:18pt;}
+body#lightbox .social_network_connect .inner_content .small_headline{font-size:12pt;}
+body#lightbox .social_network_connect .inner_content .connect_instructions{font-size:7pt;text-align:center;margin:-10px 0px 0px 50px;}
+body#lightbox .social_network_connect .inner_content p{margin-top:15px;}
+body#lightbox .social_network_connect .inner_content .networks{margin:0px 0px 0px 95px;float:left;}
+body#lightbox .social_network_connect .inner_content .networks .network_name{font-size: 12pt;}
 
+/* normal login and sign up partial */
+body#lightbox .normal_login_sign_up{width:370px;float:right;}	
+body#lightbox .normal_login_sign_up .inner_content{margin:19px 15px 0px 0px;}
+body#lightbox .normal_login_sign_up .fieldname_small {background:url(/images/forms/field_name_small_grey.png);width:81px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:14px;line-height:27px;color:#FFFFFF;margin-top:30px;padding-left:10px;margin-left:0px;}
+body#lightbox .normal_login_sign_up .fieldbox_small {float:left;margin-top:30px;width:260px;height:27px;background:url(/images/forms/field_entry_small.png);background-repeat:no-repeat;}
+body#lightbox .normal_login_sign_up .fieldbox_small input, body#lightbox  .normal_login_sign_up .fieldbox_small .normal_login_sign_up .form_input_text_small {width:240px;height:auto;background:none;border:none;font-family:TitilliumText14L600wt;font-size:14px;line-height:normal;color:#333333;float:left;padding:0px;margin:5px 10px 0px 10px;}
+body#lightbox .normal_login_sign_up .fieldbox_small input[type=password] {font-family: inherit;}
+body#lightbox .normal_login_sign_up .fieldbox_small .form_input_text_small {font-size: 14px;line-height: 14px;padding-top: 6px;}
+body#lightbox .normal_login_sign_up .remember_cookie{float:left;margin:23px 20px 0px 80px;}
+body#lightbox .normal_login_sign_up .cookies_reminder{margin:5px 0px 0px 212px;}
+body#lightbox .normal_login_sign_up .sign-up{margin:30px 0px 0px 0px;text-align:center;font-size:12pt;}
+body#lightbox .normal_login_sign_up .inner_content .login_button{margin:30px 0px 0px 10px; float:left;}
+body#lightbox .normal_login_sign_up .inner_content .login_button input{width:110px;font-size:16pt;}
+
+
+body#lightbox .auth_provider img {
+  display: block;
+}
+
+body#lightbox .auth_provider {
+  float: left;
+  text-decoration: none;
+  margin-right: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
 /*#content_login_bg {background-color:#191919;}*/
 .vertical_bar {
   height: 100%;

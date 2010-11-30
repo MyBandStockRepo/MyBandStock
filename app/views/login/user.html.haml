@@ -1,61 +1,84 @@
-#content_login_bg
-  -if @external
-    -unless @login_only
-      .vertical_bar
-        .left_half
-        .right_half
-    #login_wrap_ext
-      #login_wrap_left_ext
-        %h2 PLEASE LOGIN TO GAIN ACCESS
-        -if flash[:error]
-          .errbox
-            = flash[:error]
-          .clear
-        = render :partial => 'login/small_login_form', :locals => { :login_only => @login_only }
-      -unless @login_only
-        -if @show_register
-          = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
-        -if @show_get_access
-          = render :partial => 'login/get_access'
-      .clear
-  -else
-    #login_wrap
-      #login_wrap_left
-        .newform
-          .formcontainer
-            =form_for(:user, :url => {:controller => 'login', :action => :process_user_login}, :html => {:id => 'login_form'} ) do |f|
-              -if @login_only
-                = hidden_field_tag 'show_login_only', true
-              %fieldset
-                .field
-                  .fieldname
-                    .fieldnametop
-                      = f.label 'email', 'email'
-                    .fieldnamebottom
-                  .fieldbox
-                    = f.text_field :email
+#content_onehalf_bg    
+  =render "social_network_connect"
+  =render "normal_login_sign_up"
+  .clear
 
-              %fieldset
-                .field
-                  .fieldname
-                    .fieldnametop
-                      = f.label 'password', 'password'
-                    .fieldnamebottom
-                  .fieldbox
-                    = f.password_field :password
-              #checkbox_login
-                =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
-                =label_tag 'checkbox_remember', 'Remember Me'
-                %br
-                =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]                
-              .formbutton{ :style => 'margin-right: 5px;' }
-                = submit_tag 'login'
-              .cookies_reminder
-                *Cookies must be enabled to login
+
+-#
+  #content_login_bg
+    -if @external
+      -unless @login_only
+        .vertical_bar
+          .left_half
+          .right_half
+      #login_wrap_ext
+        #login_wrap_left_ext
+          %h2 PLEASE LOGIN TO GAIN ACCESS
+          -if flash[:error]
+            .errbox
+              = flash[:error]
+            .clear
+          = render :partial => 'login/small_login_form', :locals => { :login_only => @login_only }
+        -unless @login_only
+          -if @show_register
+            = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
+          -if @show_get_access
+            = render :partial => 'login/get_access'
+        .clear
+    -else
+      #login_wrap
+        #login_wrap_left
+          .newform
+            .formcontainer
+              =form_for(:user, :url => {:controller => 'login', :action => :process_user_login}, :html => {:id => 'login_form'} ) do |f|
+                -if @login_only
+                  = hidden_field_tag 'show_login_only', true
+                %fieldset
+                  .field
+                    .fieldname
+                      .fieldnametop
+                        = f.label 'email', 'email'
+                      .fieldnamebottom
+                    .fieldbox
+                      = f.text_field :email
+
+                %fieldset
+                  .field
+                    .fieldname
+                      .fieldnametop
+                        = f.label 'password', 'password'
+                      .fieldnamebottom
+                    .fieldbox
+                      = f.password_field :password
+                .social_network_logins
+                  Or, login through a social network
+
+                  %a{:href => "/auth/twitter", :class => "auth_provider"}
+                    = image_tag "authbuttons/twitter_64.png", :size => "50x50", :alt => "Twitter"
+                    Twitter
+                  %a{:href => "/auth/facebook", :class => "auth_provider"}
+                    = image_tag "authbuttons/facebook_64.png", :size => "50x50", :alt => "Facebook"
+                    Facebook
+
+
+
+                  -#
+                    =link_to image_tag("login/facebook-login.png"), '/auth/facebook', :class => 'login_button'
+                    %br
+                    =link_to image_tag("login/twitter-login.png"), '/auth/twitter', :class => 'login_button'
+                #checkbox_login
+                  =check_box_tag 'remember','1', false, {:id => 'checkbox_remember'}
+                  =label_tag 'checkbox_remember', 'Remember Me'
+                  %br
+                  =link_to 'Forgot password?', :controller => 'login', :action => 'forgot_password', :lightbox => params[:lightbox]                
+                .formbutton{ :style => 'margin-right: 5px;' }
+                  = submit_tag 'login'
+                .cookies_reminder
+                  *Cookies must be enabled to login
                 
-      -unless @login_only
-        -if @show_register
-          = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
+        -unless @login_only
+          -if @show_register
+            = render :partial => 'login/signup', :locals => { :redemption_redirect => @redemption_redirect }
 
-      .clear
+        .clear
 

@@ -33,6 +33,7 @@ class TwitterUsersController < ApplicationController
     else
       flash[:error] = "No user name was specified."
       redirect_to :action => 'opt_out'
+      return false
     end
     
     flash[:notice] = params[:user_name].to_s+" will no longer receive @replies through twitter."
