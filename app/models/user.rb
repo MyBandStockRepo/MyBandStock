@@ -257,6 +257,7 @@ class User < ActiveRecord::Base
     return (first_name || '') + " " + (last_name || '')
   end
   
+
   def display_name
   # Returns a proper, non-email address display name. One of the following is used, in order of preference:
   #   first_name
@@ -269,6 +270,23 @@ class User < ActiveRecord::Base
     return output
   end
   
+
+  def self.display_name(email, first_name)
+  # Returns a proper, non-email address display name.
+  # Takes two strings (all can be nil):
+  #   email, first_name
+  # One of the following is used, in order of preference:
+  #   first_name
+  #   text_before_the@symbol.com, from the user's email address
+  #   [No name]
+  #
+    email_username = email[0, email.index('@') || 0]  # Text before the @
+    email_username = (email_username == '') ? '[No name]' : email_username
+    output = (first_name && !first_name.strip.empty?) ? first_name : email_username
+    return output
+  end
+  
+
   def display_location
   # Returns, in order of preference, one of: explicit state abbreviation, state abbreviation obtained by zipcode, or nil
   # Like: 'CA'

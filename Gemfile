@@ -30,6 +30,8 @@ gem 'rufus-scheduler'
 # gem 'rails', :git => 'git://github.com/rails/auto_complete.git'
 
 gem 'sqlite3-ruby', :require => 'sqlite3', :group => :development
+gem 'ruby-mysql', :group => :production
+
 
 # Use unicorn as the web server
 # gem 'unicorn'

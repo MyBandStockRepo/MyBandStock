@@ -292,23 +292,135 @@ class Band < ActiveRecord::Base
   #
     return (self.twitter_crawler_hash_tags.first && self.twitter_crawler_hash_tags.first.term) || '#' + self.name.gsub(' ', '')
   end
+
   
-  
-  def top_shareholders(num_users)
-  # Called like @band.top_shareholders(5). Returns array of ShareTotals or nil.
-  # If num_users is nil, returns all the shareholders.
-  #
-    result = self.get_shareholder_list_in_order(num_users)
-    return (result.length == 0) ? nil : result
-  end
-  
-  
-  def top_ten_shareholders()
-  # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
-  # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
-  # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
-    self.top_shareholders(10)
-  end
+  #******************************
+  # Statistics
+  #******************************
+
+    def tweets_per_day
+    # Returns data of the number of tweets per day for the current object. Called like:
+    #   @band.tweets_per_day
+    #
+    # This function returns  an array of data points like the following:
+    #   [ [1287903600000, 79], [1287990000000, 25], [1288076400000, 61] ]
+    # The first number in each element is Unix time in milliseconds. The second number is the number of tweets that occured on that day for the given band.
+    # Returns nil if there are no results.
+    #
+      tweets = TwitterCrawlerTracker.find_by_sql(
+       "SELECT
+          DISTINCT t.tweet_id,
+          count(date(t.created_at)) as count_for_date,
+          date(t.created_at) as date,
+          t.*
+        FROM twitter_crawler_trackers t
+        JOIN twitter_crawler_hash_tags ht
+          ON t.twitter_crawler_hash_tag_id = ht.id
+        WHERE ht.band_id = #{ self.id }
+        GROUP BY date(t.created_at)"
+      )
+      data_points = tweets.collect{|tweet|
+        [Time.parse(tweet.date).to_i*1000, tweet.count_for_date.to_i]
+      }
+
+      return (data_points.length == 0) ? nil : data_points
+    end
+    
+    
+    def tweets_per_day_as_string
+    # Returns a Javascript-ready version of tweets_per_day, as if "instpect" was called on its output.
+    # Returns a string like:
+    #   "[ [1287903600000, 79], [1287990000000, 25], [1288076400000, 61] ]"
+    #
+      data_points = self.tweets_per_day
+      return nil unless data_points
+
+      output = '['
+      data_points.each_with_index{ |point, i|
+        output << ((i == 0) ? ' [' : ', [' ) << point[0].to_s << ', ' << point[1].to_s << ']'
+      }
+      output << ' ]'
+      
+      return output
+    end
+
+
+    def num_total_mentions
+      TwitterCrawlerTracker.find_by_sql(
+       "SELECT DISTINCT tweet_id
+        FROM twitter_crawler_trackers
+        JOIN twitter_crawler_hash_tags as ht
+          ON ht.id = twitter_crawler_trackers.twitter_crawler_hash_tag_id
+        WHERE ht.band_id = #{ self.id }"
+      ).count
+    end
+    
+    
+    def top_influencers(num_users = nil)
+    # Returns an array of Twitter usernames in order of their number of followers on Twitter, or an empty array.
+    # Called like @band.top_influencers(10).
+    # Example: ["plagosus", "Ruri_Sakuma", "Haeroina", "jaffeon"]
+    #
+      TwitterCrawlerTracker.joins(
+        :twitter_crawler_hash_tag, :twitter_user
+      ).where(
+        "twitter_crawler_hash_tags.band_id = #{ self.id }"
+      ).includes(
+        :twitter_crawler_hash_tag, :twitter_user
+      ).order(
+        'twitter_followers DESC'
+      ).limit(
+        num_users
+      ).collect{ |a|
+        a.twitter_user.user_name
+      }.uniq
+    end
+    
+    
+    def top_purchasers(num_users = nil)
+    # Returns an array of users in order of descending total purchased shares, or an empty array.
+    # Called like @band.top_purchasers(10).
+    #
+      ShareLedgerEntry.where(
+        :description => "direct_purchase", :band_id => self.id
+      ).joins(
+        :user
+      ).includes(
+        :user
+      ).group(
+        'user_id'
+      ).select(
+        'sum(adjustment) as total, share_ledger_entries.*'
+      ).order(
+        'total DESC'
+      ).limit(
+        num_users
+      ).collect{ |sle|
+        sle.user
+      }
+    end
+    
+    
+    def top_shareholders(num_users = nil)
+    # Called like @band.top_shareholders(5). Returns array of ShareTotals or nil.
+    # If num_users is nil, returns all the shareholders.
+    #
+      result = self.get_shareholder_list_in_order(num_users)
+      return (result.length == 0) ? nil : result
+    end
+    
+    
+    def top_ten_shareholders()
+    # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
+    # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
+    # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
+      self.top_shareholders(10)
+    end  
+
+  #******************************
+  # /Statistics
+  #******************************
+
 
   #returns nil or all band shreholders
   def all_shareholder_users()

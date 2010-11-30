@@ -11,6 +11,51 @@ class BandsController < ApplicationController
  before_filter :user_is_admin_of_a_band?, :except => [:show, :create, :new, :buy_stock, :is_band_broadcasting_live, :index, :leaderboard_widget]
  skip_filter :update_last_location, :except => [:index, :show, :edit, :new, :control_panel, :manage_users, :leaderboard_widget, :stats]
 
+# Plot a graph of Twitter mentions by date for the last week
+# Docs at http://code.google.com/apis/chart/docs/chart_wizard.html
+def graph
+  return unless @band = Band.find_by_id(params[:id])
+  # Extract Twitter mentions within a week, grouped by date
+  dates_and_mentions = @band.twitter_crawler_trackers.recent.by_date.count(:id)
+  dates = dates_and_mentions.collect{|mention| mention.first.to_date.day}.join "|"
+  mentions = dates_and_mentions.collect{|mention| mention.second}.join ","
+  # Add some basic properties to the chart
+  size = "300x225"
+  title = CGI.escape "Twitter mentions for #{@band.name}"
+  color = "3D7930"
+  dates_pos = (1..dates_and_mentions.size).to_a.join ","
+  dates_count = [1,dates_and_mentions.size].join ","
+  @graph_url = "http://chart.apis.google.com/chart?chxl=1:|#{dates}&chxp=1,#{dates_pos}&chxr=1,#{dates_count}&chxt=y,x&chs=#{size}&cht=lc&chco=#{color}&chd=t:#{mentions}&chg=14.3,-1,1,1&chls=2,4,0&chm=B,C5D4B5BB,0,0,0&chtt=#{title}"
+end
+
+
+def dashboard
+# Action for the Artist Dashboard. Main page is the statistics page.
+# Only viewable to band admins.
+#
+  redirect_to root_url and return if params[:band_id].blank?
+  @band = Band.where(:id => params[:band_id]).first
+  redirect_to root_url and return unless @band
+  
+  # time_range_start = 
+  # time_range_end = 
+    
+  @top_fans         = @band.top_shareholders(10)
+  @top_influencers  = @band.top_influencers(10)
+  @top_purchasers   = @band.top_purchasers(10)
+
+  @num_total_fans     = @band.share_totals.where('net >= 0').count
+  @num_new_fans       = @num_total_fans # @band.share_totals.joins(:user).includes(:user).where('net >= 0').where('users.created_at > ?', Time.now - time_range_start).count
+  @num_total_mentions = @band.num_total_mentions
+  
+  if Rails.env == 'development'
+    @tweets_per_day_data = '[[1287903600000, 79], [1287990000000, 25], [1288076400000, 61], [1288162800000, 30], [1288249200000, 22], [1288335600000, 21], [1288422000000, 6], [1288508400000, 21], [1288594800000, 4], [1288681200000, 13], [1288767600000, 25], [1288854000000, 15], [1288940400000, 32], [1289026800000, 29], [1289113200000, 7], [1289203200000, 8], [1289289600000, 10], [1289376000000, 10], [1289462400000, 10], [1289548800000, 29], [1289635200000, 15], [1289721600000, 19], [1289808000000, 7], [1289894400000, 26], [1289980800000, 15], [1290067200000, 24], [1290153600000, 32], [1290240000000, 10], [1290326400000, 18], [1290412800000, 14], [1290499200000, 4]]'
+  else
+    @tweets_per_day_data = @band.tweets_per_day_as_string
+  end
+
+  render 'bands/dashboard/statistics' and return
+end
 
 
 def stats
