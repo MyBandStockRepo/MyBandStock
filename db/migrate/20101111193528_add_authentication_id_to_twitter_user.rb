@@ -1,6 +1,6 @@
 class AddAuthenticationIdToTwitterUser < ActiveRecord::Migration
   def self.up
-    add_column :twitter_users, :authentication_id, :belongs_to
+    add_column :twitter_users, :authentication_id, :integer
   end
 
   def self.down

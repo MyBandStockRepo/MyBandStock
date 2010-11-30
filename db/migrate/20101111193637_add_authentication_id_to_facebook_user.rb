@@ -1,6 +1,6 @@
 class AddAuthenticationIdToFacebookUser < ActiveRecord::Migration
   def self.up
-    add_column :facebook_users, :authentication_id, :belongs_to
+    add_column :facebook_users, :authentication_id, :integer
   end
 
   def self.down
