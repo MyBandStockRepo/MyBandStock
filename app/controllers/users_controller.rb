@@ -510,60 +510,19 @@ class UsersController < ApplicationController
   #************************
   #  USER Control Panel STUFF
   #************************
-  
-=begin
-  def auto_complete_for_recipient_band_name
-    unless ( (params[:recipient] && (band_name_search = params[:recipient][:band_name]) ) && (band_name_search.length >= 2) )
-      render :nothing => true
-      return false
-    end
-    
-    @bands = Band.find(:all, :conditions => ['name LIKE ?', "%#{band_name_search}%"], :limit => 15)
 
-    respond_to do |format|
-      format.html {
-                    render :nothing => true
-                  }
-      format.js   {
-                    #dont like calling render in the code but it is what it is
-                    render :partial => 'band_mails/band_recipient_autocomplete', :locals => {:band_collection => @bands}
-                  }
-    end
-    
-  end
-  
-=end  
   def control_panel
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
     authenticated?
     @user = User.find(session[:user_id])
-
-    # @bands is an array of band objects, or an empty array (never nil)
-    @bands = @user.bands.includes(:live_stream_series => :streamapi_streams) #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
-
-		
-		if @bands.count == 0
-			redirect_to :controller => 'bands', :action => 'index'
-		end
+	
+    flash[:error] = flash[:error]
+    flash[:notice] = flash[:notice]	
+		redirect_to :controller => 'bands', :action => 'index'	
   end
   
-=begin  
-  def manage_artists
-    unless ( @user = User.find_by_id(session[:user_id], :joins => {:earned_perks => {:google_checkout_order => :contributions}}) )
-      @user = User.find(session[:user_id]) #the above is done for bringing data out with inner joins for better performance.  Although since I use joins, when a user cant fill one of those join models it returns nil.  so we have to be careful.
-    end
-    
-    @total_shares = @user.total_shares
-    @total_friends = @user.friends.size
-    @user_net_worth = @user.net_worth
-    @number_of_invested_artists = @user.invested_artists.size
-    @prospective_artists = Band.find_all_by_id( @user.associations.find(:all, :conditions => ['name = ?', 'watching']).collect{|a| a.band_id} )
-    
-    @random_band = get_random_band()
 
-  end  
-=end  
 protected
 
 =begin

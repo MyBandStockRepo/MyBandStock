@@ -50,11 +50,9 @@ class ApplicationController < ActionController::Base
     if (session[:user_id])
       @user = User.find(session[:user_id])
       redirect_to '/me/control_panel'
+      flash[:error] = flash[:error]
+      flash[:notice] = flash[:notice]
     end
-    @bands = Band.all(:limit => 10)
-    if (session[:user_id])
-      @user = User.find(session[:user_id])
-    end  
   end  
   
   def event_splash
