@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
  protect_from_forgery :only => [:create, :update]
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+ before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
 
@@ -125,6 +126,8 @@ class UsersController < ApplicationController
     render :layout => 'lightbox' unless params[:lightbox].nil?
   end
   
+  def address
+  end
   
   # Update the specified user record. Expects the same input format as the #create action.
   def update
@@ -542,5 +545,17 @@ protected
   end
 =end
   
+  def find_user
+    unless (id = params[:id])
+      id = session[:user_id]
+    else
+      unless ( (id != session[:user_id]) && (User.find(session[:user_id]).site_admin) )
+        id = session[:user_id]
+      end
+    end
+    
+    @user = User.find(id)
+  end
+    
 
 end #end controller

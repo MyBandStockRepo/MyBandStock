@@ -572,6 +572,10 @@ end
     
   end
   
+  def shareholders
+    @band = Band.find(params[:band_id])
+    @shareholders = @band.all_shareholder_users
+  end
   
   
   

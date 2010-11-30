@@ -63,6 +63,7 @@ Cobain::Application.routes.draw do |map|
     match 'bands/:band_id/leaderboard', :to => 'bands#leaderboard_widget'
     match 'bands/:band_id/stats', :to => 'bands#stats'
     match 'bands/:band_id/dashboard', :to => 'bands#dashboard'
+    match 'bands/:band_id/shareholders', :to => 'bands#shareholders'    
   # /--- Band Actions ---- #
 
 
@@ -228,6 +229,7 @@ Cobain::Application.routes.draw do |map|
   match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_friends', :to => 'users#manage_friends'
   match '/me/profile', :to => 'users#show'
+  match '/me/address', :to => 'users#address'
 
 
 

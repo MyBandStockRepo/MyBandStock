@@ -33,6 +33,9 @@
         = link_to 'stream history', { :controller => 'recorded_videos', :action => 'index', :band_id => band.id}, :class => 'l_streamhistory'
       .link_darkbar
         = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+      .link_darkbar
+        = link_to 'shareholder addresses', { :controller => 'bands', :action => 'shareholders', :band_id => band.id }, :class => 'l_editbandprofile'
+
   .right_twothirds
     = render :partial => 'bands/series_list', :locals => { :band => band, :can_broadcast => @user.can_broadcast_for(band.id) }
   .clear
