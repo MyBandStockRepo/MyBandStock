@@ -6,6 +6,13 @@ Cobain::Application.configure do
   # Currently displayed when a user does not have access to a stream, but tries to view it.
   MBS_SUPPORT_EMAIL = 'support@mybandstock.com'
 
+  ####
+  # Facebook
+  # 
+  FACEBOOK_APP_ID = 144291128954782
+  FACEBOOK_APP_SECRET = 'efa0156e42947617a3168000fa8bcd8d'
+  #
+  ####
 
   # The test environment is used exclusively to run your application's
   # test suite.  You never need to work with it otherwise.  Remember that

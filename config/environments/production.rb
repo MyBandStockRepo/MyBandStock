@@ -14,6 +14,16 @@ Cobain::Application.configure do
   #   GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
   ####
 
+
+  ####
+  # Facebook
+  # 
+  FACEBOOK_APP_ID = 110251749041497
+  FACEBOOK_APP_SECRET = '158eb74a5eff840f0afb818e378f03aa'
+  #
+  ####
+
+
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -32,7 +42,7 @@ Cobain::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -52,4 +62,8 @@ Cobain::Application.configure do
 
   # Enable threaded mode
   # config.threadsafe!
+  
+  
+  
+  
 end

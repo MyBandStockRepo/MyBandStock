@@ -6,6 +6,15 @@ Cobain::Application.configure do
   SECURE_SITE_URL = 'http://gary.mybandstock.com'
   SITE_HOST = 'gary.mybandstock.com'
   
+  
+  ####
+  # Facebook
+  # 
+  FACEBOOK_APP_ID = 110251749041497
+  FACEBOOK_APP_SECRET = '158eb74a5eff840f0afb818e378f03aa'
+  #
+  ####  
+  
   GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
 
   # The production environment is meant for finished, "live" apps.

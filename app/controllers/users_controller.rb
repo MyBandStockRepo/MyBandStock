@@ -522,7 +522,14 @@ class UsersController < ApplicationController
 	
     flash[:error] = flash[:error]
     flash[:notice] = flash[:notice]	
-		redirect_to :controller => 'bands', :action => 'index'	
+    
+    # @bands is an array of band objects, or an empty array (never nil)
+    @bands = @user.bands #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
+
+		
+		if @bands.count == 0
+			redirect_to :controller => 'bands', :action => 'index'
+		end    
   end
   
 
