@@ -5,15 +5,15 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 5
-RAILS_ENV='production'
+script_downtime_minutes_allowed = 0.5
+RAILS_ENV='development'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
 SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
-TWEETS_ALLOWED_PER_HOUR = 1
+TWEETS_ALLOWED_PER_HOUR = 10
 
 
 require 'fileutils'
@@ -55,8 +55,7 @@ else
   #Connect to Twitter Oauth Stuff
   TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
-#  TWITTERAPI_ACCESS_TOKEN   = '149205307-PuLfH6MfIjaavon1yFuYAMgr6HIGRIgrdzqRXgGi'
-#  TWITTERAPI_SECRET_TOKEN   = 'y3PUmN9r7E4uJvw6HUOPMRLfCFmV09ZBwyYC1zLh0'
+
   MBS_REWARD_BOT_ACCESS_TOKEN = '202291092-onrcAsPHAut3EmnLxFvI1Dn6DIMBqTEwSYirVcxc'
   MBS_REWARD_BOT_ACCESS_SECRET = 'fvuBb12KVj7cXWqwSXPk4MqwRTkF4uO2SS3UAxG6lk'  
   
@@ -217,7 +216,7 @@ else
           
               #if user in the system, create share ledger entry
               if twitter_user.users.last
-                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true, :tweeted_at => r.created_at)
                 
                 #user in the system
                 #DO @ Replies                                    
@@ -241,7 +240,7 @@ else
                 end
               else
                 #user not in the system
-                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false, :tweeted_at => r.created_at)
 
                 #DO @ Replies                
                 if shares > 0

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101111193637) do
+ActiveRecord::Schema.define(:version => 20101201005253) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20101111193637) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "shares_awarded",              :default => false
+    t.datetime "tweeted_at"
   end
 
 # Could not dump table "twitter_users" because of following StandardError
