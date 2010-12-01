@@ -4,7 +4,7 @@ class UsersController < ApplicationController
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
  before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
+ skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
 
   def index
     #What do we do with this action?

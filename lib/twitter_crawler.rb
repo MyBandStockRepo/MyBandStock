@@ -5,15 +5,15 @@
 
 #if it has been less than this amount of time since the script ran last, then the script won't run again
 #in minutes
-script_downtime_minutes_allowed = 0.5
-RAILS_ENV='development'
+script_downtime_minutes_allowed = 5
+RAILS_ENV='production'
 #twitter results per page (max of 100, set as high as possible to limit api hits)
 rpp = 100
 #amount of time in seconds to sleep in between api hits
 sleep_num = 10
 URL_SHORTENER_HOST = 'http://mbs1.us'
 SHORT_REGISTRATION_LINK = 'http://mbs1.us/r'
-TWEETS_ALLOWED_PER_HOUR = 10
+TWEETS_ALLOWED_PER_HOUR = 1
 
 
 require 'fileutils'
