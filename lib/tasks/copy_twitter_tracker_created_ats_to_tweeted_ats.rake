@@ -8,8 +8,8 @@ task :copy_twitter_tracker_created_ats_to_tweeted_ats => :environment do
       tweet.tweeted_at = Twitter.status(tweet.tweet_id).created_at
       tweet.save
     rescue
-      tweet.tweeted_at = tweet.created_at
-      tweet.save
+#      tweet.tweeted_at = tweet.created_at
+#      tweet.save
     end
     sleep 1
   end
