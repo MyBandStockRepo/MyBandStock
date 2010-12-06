@@ -1,10 +1,63 @@
 class UsersController < ApplicationController
 
- protect_from_forgery :only => [:create, :update]
- before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
- before_filter :find_user, :only => [:edit, :address]
+  protect_from_forgery :only => [:create, :update]
+  before_filter :authenticated?, :except => [:register_with_band_external, :external_registration, :external_registration_error, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+  before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
+  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
+  before_filter :make_sure_band_id_session_exists, :only => [:external_registration]
+
+
+
+  def register_with_band_external
+    session[:test_cookies] = "doesthiswork?"
+    unless session[:test_cookies] == "doesthiswork?"
+      flash[:error] = "Cookies must be enabled to register."
+      redirect_to :controller => "application", :action => "external_error"
+      return false      
+    end
+    #no band id specified, halt the registration
+    if params[:band_id].blank?
+      flash[:error] = "Could not find the artist you are registering with."
+      redirect_to :controller => "application", :action => "external_error"
+      return false
+    end
+    @band = Band.find(params[:band_id])
+    if @band.blank?
+      flash[:error] = "Could not find the artist you are registering with."
+      redirect_to :controller => "application", :action => "external_error"
+      return false      
+    end
+    
+    session[:register_with_band_id] = @band.id
+    session[:extrenal_bar_registration] = true
+    
+    #if the mode of registration not specified, have them do a normal registration
+    if params[:mode].blank?
+      redirect_to :controller => "users", :action => "external_registration"
+      return true
+    end
+    
+    if params[:mode].downcase == "facebook"
+      redirect_to "/auth/facebook"      
+      return true
+    end    
+  end
+  
+  def external_registration
+    
+  end
+  
+  def external_registration_error
+    
+  end
+
+  def external_registration_complete
+    
+    
+    session[:register_with_band_id] = nil
+    session[:extrenal_bar_registration] = nil
+  end
 
   def index
     #What do we do with this action?
@@ -551,6 +604,21 @@ protected
     return (random_band || Band.new)
   end
 =end
+  
+  def make_sure_band_id_session_exists
+    #no band id specified, halt the registration
+    if session[:register_with_band_id].blank?
+      flash[:error] = "Could not find the artist you are registering with."
+      redirect_to :controller => "application", :action => "external_error"
+      return false
+    end
+    @band = Band.find(session[:register_with_band_id])
+    if @band.blank?
+      flash[:error] = "Could not find the artist you are registering with."
+      redirect_to :controller => "application", :action => "external_error"
+      return false      
+    end      
+  end
   
   def find_user
     unless (id = params[:id])

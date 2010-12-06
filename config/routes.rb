@@ -94,6 +94,14 @@ Cobain::Application.routes.draw do |map|
   match '/auth/failure' => 'authentications#failure'  
   match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
   
+  
+  #/ ----- Bar Stuff --------/#
+  match '/external/registration' => 'users#register_with_band_external'
+  match '/external/registration/form' => 'users#external_registration'
+  match '/external/registration/complete' => 'users#external_registration_complete'  
+  match '/external/registration/error' => 'users#external_registration_error'    
+  match '/external/error' => 'application#external_error'
+  
   resources :authentications
   resources :streamapi_stream_themes
   resources :facebook_publishers
