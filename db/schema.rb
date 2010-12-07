@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101201005253) do
+ActiveRecord::Schema.define(:version => 20101206233941) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -131,6 +131,12 @@ ActiveRecord::Schema.define(:version => 20101201005253) do
     t.string   "stream_quality_level"
     t.integer  "user_id"
     t.integer  "live_stream_series_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mailing_list_addresses", :force => true do |t|
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

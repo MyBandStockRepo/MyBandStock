@@ -2,6 +2,8 @@ Cobain::Application.routes.draw do |map|
 
 
 
+
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -66,7 +68,7 @@ Cobain::Application.routes.draw do |map|
     match 'bands/:band_id/shareholders', :to => 'bands#shareholders'    
   # /--- Band Actions ---- #
 
-
+  match '/stay_informed', :to => 'mailing_list_addresses#create'
   # ---- Share Codes ---- #
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
     match 'share_codes/redeem', :to => 'share_codes#redeem'
@@ -116,6 +118,7 @@ Cobain::Application.routes.draw do |map|
   resources :live_stream_series_permissions
   resources :twitter_crawler_hash_tags
   resources :promotional_codes  
+  resources :mailing_list_addresses  
   #codingisanart
 
 
@@ -200,8 +203,8 @@ Cobain::Application.routes.draw do |map|
 
 
   #main page
-  root :to => 'application#index'
-
+#  root :to => 'application#index'
+  root :to => 'statics#splash_page'
 
   # Band and Fan home and event splash
   match '/cp', :to => 'application#cp'
@@ -316,6 +319,7 @@ Cobain::Application.routes.draw do |map|
 
 	# Uncomment the following when we have band public profiles
 	#match '/bands/:band_short_name', :to =>  'bands#show'
+
 
 
   # PROD ROUTES

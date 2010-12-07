@@ -1,0 +1,21 @@
+<%= form_for(@mailing_list_address) do |f| %>
+  <% if @mailing_list_address.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mailing_list_address.errors.count, "error") %> prohibited this mailing_list_address from being saved:</h2>
+
+      <ul>
+      <% @mailing_list_address.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
