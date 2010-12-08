@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
   
   def external_error
-    
+    render :layout => "white-label"
   end
   
   def band_home

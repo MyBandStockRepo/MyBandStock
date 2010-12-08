@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
-  protect_from_forgery :only => [:create, :update]
-  before_filter :authenticated?, :except => [:register_with_band_external, :external_registration, :external_registration_error, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+  protect_from_forgery :only => [:create, :update, :external_registration_complete]
+  before_filter :authenticated?, :except => [:register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
   before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
   skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
@@ -31,32 +31,161 @@ class UsersController < ApplicationController
     
     session[:register_with_band_id] = @band.id
     session[:extrenal_bar_registration] = true
-    
+#DEBUGGING
+    logger.info "External bar: #{session[:extrenal_bar_registration]}"
+    logger.info "BAND ID: #{session[:register_with_band_id]} for band #{@band.name}"
+#DEBUGGING END    
     #if the mode of registration not specified, have them do a normal registration
     if params[:mode].blank?
       redirect_to :controller => "users", :action => "external_registration"
-      return true
+      return
     end
     
     if params[:mode].downcase == "facebook"
       redirect_to "/auth/facebook"      
-      return true
+      return
     end    
   end
   
   def external_registration
+    #DEBUGGING
+        logger.info "External bar: #{session[:extrenal_bar_registration]}"
+        logger.info "BAND ID: #{session[:register_with_band_id]}"
+    #DEBUGGING END    
     
+    if session[:user_hash]
+      user_hash = session[:user_hash]
+      if params[:user]   
+        @user = User.new(params[:user])
+      else
+        @user = User.new(:first_name => user_hash[:first_name], :last_name => user_hash[:last_name], :email => user_hash[:email], :email_confirmation => user_hash[:email])
+      end
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+    elsif params[:user]   
+      @user = User.new(params[:user])
+    else
+      @user = User.new()
+    end
+        
+    render :template => 'users/external/external_registration', :layout => 'white-label'
+    return
   end
   
   def external_registration_error
-    
+    render :template => 'users/external/external_registration_error', :layout => 'white-label'    
+    #DEBUGGING
+        logger.info "External bar: #{session[:extrenal_bar_registration]}"
+        logger.info "BAND ID: #{session[:register_with_band_id]}"
+    #DEBUGGING END
+    return
+
   end
 
-  def external_registration_complete
+  def external_registration_complete  
+    #DEBUGGING
+        logger.info "External bar: #{session[:extrenal_bar_registration]}"
+        logger.info "BAND ID: #{session[:register_with_band_id]}"
+    #DEBUGGING END    
+    @success = false
+    #if register through omniauth
+    if session[:user_hash]
+      user_hash = session[:user_hash]
+      @facebook_user = nil
+      @twitter_user = nil
+      @provider = user_hash[:provider]
+      @uid = user_hash[:uid]
+      
+      #note still have to save auth id into fb/twitter users table
+      if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+        
+      elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+
+      end
+      if params[:user]            
+        user_registration_info = params[:user]
+      else
+        user_registration_info = session[:user_hash]
+      end
+    #if theyve been here before
+    elsif params[:user]
+      user_registration_info = params[:user]
+      
+    else
+      flash[:error] = "Could not get parameters to register an account."
+      redirect_to :controller => "users", :action => "external_registration_error"
+      return false
+    end
+    @user = User.new(user_registration_info)
+    genpass = generate_key(16)
+		random = ActiveSupport::SecureRandom.hex(10)
+    salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+    salted_password = Digest::SHA2.hexdigest("#{salt}#{genpass}")
+    @user.password = salted_password
+    @user.password_salt = salt
+    @user.email_confirmation = @user.email
+    if (@user.save)      
+      #if from omniauth, save the authentication and connect to the twitter/facebook user
+      if session[:user_hash]
+        user_hash = session[:user_hash]
+        auth = @user.authentications.create(:provider => user_hash[:provider], :uid => user_hash[:uid])
+        if user_hash[:facebook_id] && @facebook_user = FacebookUser.find(user_hash[:facebook_id])
+          @facebook_user.authentication_id = auth.id
+          @facebook_user.save
+        elsif user_hash[:twitter_id] && @twitter_user = TwitterUser.find(user_hash[:twitter_id])
+          @twitter_user.authentication_id = auth.id
+          @twitter_user.save
+        end
+      end
+      
+      @band = Band.find(session[:register_with_band_id])
+      if @band.blank?
+        flash[:error] = "Could not determine which band you are registering with"
+        redirect_to :controller => "users", :action => "external_registration_error"
+        return false
+      end
+      
+      #reset session data
+      session[:user_hash] = nil
+      session[:user_id] = @user.id
+      session[:register_with_band_id] = nil
+      session[:extrenal_bar_registration] = nil
+      
+      @success = true
+      #email user
+      UserMailer.registration_notification(@user).deliver
+      #award twitter bandstock
+      if @user.twitter_user
+        @user.reward_tweet_bandstock_retroactively
+      end      
+      
+      render :template => 'users/external/external_registration_complete', :layout => 'white-label'    
+      return
+    else
+      flash[:error] = "An error prevented this user from registration."
+			redirect_to :controller => "users", :action => "external_registration", :user => params[:user]
+      return
+    end
     
     
-    session[:register_with_band_id] = nil
-    session[:extrenal_bar_registration] = nil
+    
+    # Hash the password before putting it into DB
+
+
+      
+      
+    
+    
+    #if from manual registration
+
+      #autogen password
+    
+      #try to save user
+    
+    #if failure, go back to the form
+
+    
+  
   end
 
   def index
@@ -332,13 +461,13 @@ class UsersController < ApplicationController
     #clicked new account button
     else
   		@request_uri = url_for()  
-  #		@newform = true
-      @user = User.new
+
       #check to see if they've been around before
       if params[:user]
-        @user = User.new(params[:user])
+        @user = User.new(params[:user])        
+      else
+        @user = User.new
       end
-
     
   		begin
   			unless @user.authenticated_with_twitter?

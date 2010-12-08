@@ -1,0 +1,94 @@
+/* Pop-up styles */
+body {
+	width:100%;
+  background-image:url(/images/backgrounds/bg.gif);
+  background-repeat:repeat-x;
+  background-color:#37332c;
+  margin:0px;
+  padding: 0;
+  font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;
+  font-size:12px;
+  line-height:17px;
+  color:#666666;
+}
+#mybandstock_body .content_padding{padding:10px 20px 0px 20px;}
+
+#mybandstock_white_label_page{}
+#mybandstock_white_label_page #branding{width:500px;height:120px;border:1px solid white;display:block;margin:auto;}
+#mybandstock_white_label_page #notifications{margin:0px 10px;width:400px;}
+#mybandstock_white_label_page #notifications .notice{font:normal 10px arial;padding:5px;margin:10px;background-color:black;border:1px solid #9eea8f;color:#9eea8f;width:400px;}
+#mybandstock_white_label_page #notifications .error{font:normal 10px arial;padding:5px;margin:10px;background-color:black;border:1px solid red;color:red;width:400px;}
+#mybandstock_white_label_page #content
+
+
+
+
+#mybandstock_body img {
+  border:0px;
+}
+
+#mybandstock_body a {color:#999;text-decoration:underline;}
+#mybandstock_body a:hover {color:#FFF;text-decoration:none;}
+#mybandstock_body em {
+  font-style: italic;
+}
+
+#mybandstock_body h1 {
+	line-height: 58px;
+	color: #fff;
+	font-size: 1.8em;
+	font-weight: normal;
+	text-align: center;
+  position: relative;
+}
+		
+#mybandstock_body h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
+#mybandstock_body h4 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:14px;line-height:20px;}
+
+#mybandstock_body h3 {
+	color: #fff;
+	font-size: 1.6em;
+	font-weight: bold;
+  margin: 2px 0 4px;
+}
+#mybandstock_body strong {
+  font-weight: bold;
+}
+
+
+
+/* New form style */
+.newform .fieldrow{width:100%;margin:0 auto;float:left}
+.newform .fieldleft{width:540px;margin-left:20px;float:left;}
+.newform .field{margin-bottom:10px;float:left;margin-top:20px;}
+.newform fieldset {border:0px;padding:0px;margin:0px;}
+.newform .fieldname {width:140px;float:left;text-transform:lowercase;font-family:TitilliumText14L800wt;font-size:16px;line-height:42px;color:#FFFFFF;margin:0px;}
+.newform .fieldnametop {height:27px;background:url(/images/forms/field_name_top.png);padding:0px;}
+.newform .fieldnametop label{margin-left:13px;}
+.newform .fieldnamebottom {height:15px;background:url(/images/forms/field_name_bottom.png);}
+.newform .fieldbox {float:left;width:400px;height:42px;background:url(/images/forms/field_entry.png);background-repeat:no-repeat;margin:0px;}
+.newform .fieldbox input{background:none !important;border:none !important;font-family:TitilliumText14L600wt;font-size:18px;line-height:normal;color:#333333;float:left;margin:10px 20px 0px 20px;padding:0px;height:auto;width:360px;}
+.newform .fieldbox input[type=password] {font-family: inherit;}
+.newform .fielderror{width:300px;margin:25px 15px 0px 0px;float:right;color:#F90;font-family:TitilliumText14L800wt;font-size:16px;}
+.newform .desc, .newform .description {margin: 5px 0px 10px 15px;float:left;}
+.newform .formbutton {width:140px;height:42px;float:right;margin-top:20px;}
+.newform .formbutton_left {width:140px;height:42px;float:left;margin-top:20px;}
+/*
+.newform .formbutton input, .newform .formbutton a, .newform .formbutton_nextto input, .newform .formbutton_nextto a, .newform .formbutton_left input, .newform .formbutton_left a{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;text-decoration:none;display:block;}
+.newform .formbutton input:hover, .newform .formbutton a:hover, .newform .formbutton_nextto input:hover, .newform .formbutton_nextto a:hover, .newform .formbutton_left input:hover, .newform .formbutton_left a:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;text-decoration:none;display:block;}
+*/
+
+.newform .formbutton input, .newform .formbutton_nextto input, .newform .formbutton_left input, .newform .formbutton_left_nextto input{height:42px;width:140px;padding:0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;}
+.newform .formbutton input:hover, .newform .formbutton_nextto input:hover, .newform .formbutton_left input:hover, .newform .formbutton_left_nextto input:hover{height:42px;padding:0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;}
+
+.newform .formbutton_nextto a, .newform .formbutton a, .newform .formbutton_left a, .newform .formbutton_left_nextto a{width:140px;padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button.png);outline:0px;border:0px;font-size:20px;font-family:TitilliumText14L999wt;color:#333333;text-transform:uppercase;text-decoration:none;display:block;text-align: center;height:30px;}
+.newform .formbutton_nextto a:hover, .newform .formbutton a:hover, .newform .formbutton_left a:hover, .newform .formbutton_left_nextto a:hover{padding:12px 0px 0px 0px;margin:0px;background:url(/images/forms/form_button_over.png);color:#FFFFFF; cursor: pointer;text-decoration:none;display:block;text-align: center;height:30px;}
+.newform .formbutton_nextto {width:140px;height:42px;float:right;margin:20px 10px 0px 0px;}
+.newform .fieldbox select {width:400px;height:42px;border:none;font-family:TitilliumText14L600wt;font-size:20px;line-height:normal;color:#333333;float:left;padding:0px;padding-left:20px;margin:0px;}
+.newform .LARGEfield .fieldbox {height:208px;width:400px;background:url(/images/forms/LARGEfield_entry.png);background-repeat:no-repeat;border:none;font-family:TitilliumText14L600wt;font-size:18px;line-height:36px;color:#333333;float:left;padding:0px;}
+.newform .LARGEfield .textarea {width:370px;height:195px;background-color:#FFFFFF;border:none;margin:0px;overflow:auto;margin:5px;font-family:TitilliumText14L600wt;font-size:16px;}
+.newform .LARGEfield .fieldnametop {height:193px;}
+
+
+
+

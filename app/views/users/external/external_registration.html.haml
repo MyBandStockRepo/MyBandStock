@@ -1,0 +1,14 @@
+.content_padding
+  %h2 Registration
+  .newform
+    = form_for(@user, :url => {:controller => "users", :action => "external_registration_complete"}) do |f|
+      =render '/users/field_required', :f => f, :field => :email,  :label => 'Email'
+      
+      =logger.info "ERRORS: #{@user.errors[:email]}"
+      .fieldrow
+        .fieldleft
+          .formbutton.condense3
+            = f.submit 'SUBMIT'
+
+    .clear
+    

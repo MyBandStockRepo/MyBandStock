@@ -1,2 +1,6 @@
+/* Bar Styles */
 .mybandstock_bar_spacer{height:50px;clear:both;}
 #mybandstock_bar{width:100%!important;padding:3px 30px 3px 20px;z-index:9999999!important;left:0px!important;bottom:0px!important;height:50px!important;background-color:#dfdfdf;position:fixed!important;}
+#mybandstock_bar .mybandstock_bar_manual_registration_link:hover{cursor:pointer;}
+#mybandstock_bar .mybandstock_bar_facebook_registration_link:hover{cursor:pointer;}
+
