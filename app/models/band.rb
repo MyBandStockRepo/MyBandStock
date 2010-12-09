@@ -306,7 +306,7 @@ class Band < ActiveRecord::Base
         GROUP BY day"    # t.tweeted_at
       )
       data_points = tweets.collect{|tweet|
-        [Time.parse(tweet.day).to_i*1000, tweet.count_for_date.to_i]
+        [Time.parse(tweet.day).to_i*1000, tweet.count_for_day.to_i]
       }
 
       return (data_points.length == 0) ? nil : data_points
