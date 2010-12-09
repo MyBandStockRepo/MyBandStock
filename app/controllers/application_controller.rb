@@ -109,6 +109,28 @@ class ApplicationController < ActionController::Base
     end
     return res
   end
+  
+  def api_call?
+    request.headers["API_KEY"] || request.xhr? || params[:format] == "json" || params[:format] == "xml"
+  end
+  
+  def authorize_api_access(api_key, input_hash, api_version)
+    if (api_key.nil? || input_hash.nil? || api_version.nil?)
+      logger.info 'Key, hash, or version not specified'
+      return false
+    end
+    unless api_user = ApiUser.find_by_api_key(api_key)
+      logger.info 'Invalid API User'
+      return false
+    end
+    secret_key = api_user.secret_key
+    test_hash = Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
+    if (input_hash != test_hash.to_s)
+      logger.info 'Incorrect hash'
+      return false
+    end
+    return true
+  end
  
   ##########
   protected
