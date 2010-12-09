@@ -307,20 +307,22 @@ class Band < ActiveRecord::Base
     # The first number in each element is Unix time in milliseconds. The second number is the number of tweets that occured on that day for the given band.
     # Returns nil if there are no results.
     #
+    # TODO: Use t.tweeted_at in place of t.created_at
+    #
       tweets = TwitterCrawlerTracker.find_by_sql(
        "SELECT
           DISTINCT t.tweet_id,
-          count(date(t.created_at)) as count_for_date,
-          date(t.created_at) as date,
+          count(date(t.created_at)) as count_for_day,
+          date(t.created_at) as day,
           t.*
         FROM twitter_crawler_trackers t
         JOIN twitter_crawler_hash_tags ht
           ON t.twitter_crawler_hash_tag_id = ht.id
         WHERE ht.band_id = #{ self.id }
-        GROUP BY date(t.created_at)"
+        GROUP BY day"    # t.tweeted_at
       )
       data_points = tweets.collect{|tweet|
-        [Time.parse(tweet.date).to_i*1000, tweet.count_for_date.to_i]
+        [Time.parse(tweet.day).to_i*1000, tweet.count_for_date.to_i]
       }
 
       return (data_points.length == 0) ? nil : data_points
@@ -342,6 +344,11 @@ class Band < ActiveRecord::Base
     # Returns an array of Twitter usernames in order of their number of followers on Twitter, or an empty array.
     # Called like @band.top_influencers(10).
     # Example: ["plagosus", "Ruri_Sakuma", "Haeroina", "jaffeon"]
+    #
+    # TODO:
+    #   Return num_followers too
+    #   TwitterUser where :authentication_id => not nil ordered by twitter_followers
+    #     ^^ To assure that the user has registered with us.
     #
       TwitterCrawlerTracker.joins(
         :twitter_crawler_hash_tag, :twitter_user
@@ -396,6 +403,7 @@ class Band < ActiveRecord::Base
     # Called like Band.first.top_ten_shareholders(), and it returns an array of ShareTotals.
     # Returns either an array of <= 10 ShareTotal objects, or nil if there are 0 shareholders in the band.
     # Example: emails = Band.find(1).top_ten_shareholders.collect { |st| st.user.email }
+    #
       self.top_shareholders(10)
     end  
 

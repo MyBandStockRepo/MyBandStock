@@ -1,3 +1,29 @@
-= render :partial => 'bands/band_manage', :collection => @bands
+-if @bands
+  -@bands.each do |band|
+    .orange_bar
+      -# __commented - white bar__
+        - if band_manage_counter == 0   # If this is the first band in the list
+          .white_bar.add_band
+            = link_to new_band_path do
+              %strong +
+              ADD BAND
+          .white_orange_divider
+        - else
+      .left_third
+      .orange_divider
+      .placement_streamschedule STREAM SCHEDULE
+      .placement_starts STARTS
+      -# __commented__
+        .placement_ends ENDS
 
-= javascript_include_tag 'series_list_accordion'
+    .content_onethird_bg
+      .left_third
+        .dark_bar
+          -# = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+          = link_to band.name, band_path(band.id), :class => 'schedule_band_name'
+        .dark_bar_large
+          = render :partial => 'bands/navigation', :locals => { :band => band }
+      .right_twothirds
+        = render :partial => 'bands/dashboard/statistics', :locals => { :band => band }
+      .clear
+

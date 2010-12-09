@@ -33,7 +33,7 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/opt_out_finish', :to => 'twitter_users#opt_out_finish'
 	
   #stream methods
-  match '/streams/manage', :to => 'users#control_panel'
+  match '/streams/manage', :to => 'streamapi_streams#manage' #'users#control_panel'
 	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'
 	match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'
 	match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'

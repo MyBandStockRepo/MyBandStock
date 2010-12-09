@@ -26,13 +26,7 @@
       -# = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
       = link_to band.name, band_path(band.id), :class => 'schedule_band_name'
     .dark_bar_large
-      .link_darkbar_padding
-      .link_darkbar
-        = link_to 'new stream', { :controller => 'streamapi_streams', :action => 'new', :band_id => band.id }, :class => 'l_newstream'
-      .link_darkbar
-        = link_to 'stream history', { :controller => 'recorded_videos', :action => 'index', :band_id => band.id}, :class => 'l_streamhistory'
-      .link_darkbar
-        = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+      = render :partial => 'bands/navigation', :locals => { :band => band }
   .right_twothirds
     = render :partial => 'bands/series_list', :locals => { :band => band, :can_broadcast => @user.can_broadcast_for(band.id) }
   .clear

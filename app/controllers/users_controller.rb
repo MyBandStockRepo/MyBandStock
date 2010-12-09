@@ -515,8 +515,11 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
 
     # @bands is an array of band objects, or an empty array (never nil)
-    @bands = @user.bands.includes(:live_stream_series => :streamapi_streams) #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
-
+    if @user.site_admin
+      @bands = Band.includes(:live_stream_series => :streamapi_streams).all
+    else
+      @bands = @user.bands.includes(:live_stream_series => :streamapi_streams) #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
+    end
 		
 		if @bands.count == 0
 			redirect_to :controller => 'bands', :action => 'index'
