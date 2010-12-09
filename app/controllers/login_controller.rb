@@ -9,10 +9,13 @@ class LoginController < ApplicationController
   
   def user
     logger.info "LCU: #{ session[:last_clean_url] }"
+
+    # Send to home page if user is already logged in.
     if session[:user_id]
       redirect_to :controller => 'users', :action => 'control_panel'
       return false
     end
+
     if ( (user_id = cookies[:saved_user_id]) && (salted_string = cookies[:salted_user_id]) )
       if (Digest::SHA256.digest(user_id.to_s+SHA_SALT_STRING) == salted_string)
         session[:auth_success] = true

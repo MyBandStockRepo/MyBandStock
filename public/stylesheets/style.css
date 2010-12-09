@@ -567,16 +567,16 @@ div#slides ul li.show {z-index:500}
 
 .left_third {width:340px;float:left;padding-bottom:20px;}
 .right_twothirds {float:left;padding-bottom:20px;padding-left:2px;}
-	.twothirds_info {width:638px;}
+	.twothirds_info {width:678px;}
 
 .dark_bar {height:40px;background:#141414;margin-top:20px;line-height:40px;color:#CCCCCC;}
 	.dark_bar a{color:#FF9900;text-decoration:none;}
 		.dark_bar a:hover{color:#FFFFFF;text-decoration:underline;}
 			.dark_accent{color:#666666;}
 
-.dark_bar_large {height:100px;background:#141414;margin-top:20px;color:#FFFFFF;padding-left:40px;}
+.dark_bar_large { height: 155px; background:#141414;margin-top:20px;color:#FFFFFF;padding-left:40px;}
 
-.content_onethird_bg {background-image:url(/images/content_onethird_bg.png);background-repeat:repeat-y;}
+/*.content_onethird_bg {background-image:url(/images/content_onethird_bg.png);background-repeat:repeat-y;}*/
 
 .formcontainer {width:545px;}
 fieldset {border:0px;padding:0px;margin:0px;}
@@ -776,7 +776,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		.link_darkbar:hover {text-decoration:underline;}
 			.l_newstream {background-image:url(/images/icons/new_stream.png);}
 			.l_streamhistory {background-image:url(/images/icons/stream_history.png);}
+			.l_stream-manage {background-image:url(/images/icons/broadcast_sprite.png); background-position:0px -16px;}
 			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
+			.l_stats {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
 
 
 
@@ -1077,7 +1079,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
     .dashboard-main .one-third {
       width: 33.3%;
       float: left;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       margin: 0;
       padding: 0;
     }
@@ -1090,8 +1093,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
       height: 200px;
       width: 96%;
       margin: 0 auto;
-      -moz-border-radius: 12px;
-      border-radius: 12px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
     }
       .stats-graph .stats-chart-notification {
         font-size: 10pt;
@@ -1143,18 +1146,18 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
       .stats-main .stats-module {
         position: relative;
-/*        height: 275px;*/
-        width: 225px;
+        width: 220px;
         margin: 5px auto;
         padding: 2px 2px 40px 2px;
-        -moz-border-radius: 12px;
-        border-radius: 12px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
         background-color: #777;
         
       }
       
         .stats-main .stats-module .stats-module-title {
           margin: 4px auto 6px;
+          font-size: 1.4em;
           text-shadow: 2px 2px 2px #333;
           text-align: center;
           color: #FFF;
@@ -1198,11 +1201,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
           width: 100%;
           height: 24px;
           padding-top: 5px;
-          -moz-border-radius: 12px;
-          border-radius: 12px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
           background-color: #F90;
           font-family: TitilliumText14L800wt;
-          font-size: 14pt;
+          font-size: 13pt;
           color: #FFF;
           text-shadow:2px 2px 2px #333;
           text-align: center;
@@ -1230,6 +1233,20 @@ fieldset {border:0px;padding:0px;margin:0px;}
       font-weight: normal;
       font-size: 9pt;
       padding: 2px 8px;
+    }
+
+  /* Artist CP specifics */
+    .left_third {
+      width: 300px;
+    }
+    
+    .right_twothirds .dashboard-main {
+      width: 665px;
+      padding: 5px;
+    }
+    
+    .right_twothirds .stats-main .one-third .stats-module {
+      width: 210px;
     }
 
 

@@ -1,0 +1,148 @@
+-if defined? band
+  - @band = band
+
+-if Rails.env == 'development'
+  - @tweets_per_day_data = '[[1287903600000, 79], [1287990000000, 25], [1288076400000, 61], [1288162800000, 30], [1288249200000, 22], [1288335600000, 21], [1288422000000, 6], [1288508400000, 21], [1288594800000, 4], [1288681200000, 13], [1288767600000, 25], [1288854000000, 15], [1288940400000, 32], [1289026800000, 29], [1289113200000, 7], [1289203200000, 8], [1289289600000, 10], [1289376000000, 10], [1289462400000, 10], [1289548800000, 29], [1289635200000, 15], [1289721600000, 19], [1289808000000, 7], [1289894400000, 26], [1289980800000, 15], [1290067200000, 24], [1290153600000, 32], [1290240000000, 10], [1290326400000, 18], [1290412800000, 14], [1290499200000, 4]]'
+-else
+  - @tweets_per_day_data = @band.tweets_per_day
+- @top_fans         = @band.top_shareholders(10)
+- @top_influencers  = @band.top_influencers(10)
+- @top_purchasers   = @band.top_purchasers(10)
+- @num_total_fans     = @band.share_totals.where('net >= 0').count
+- @num_new_fans       = @num_total_fans # @band.share_totals.joins(:user).includes(:user).where('net >= 0').where('users.created_at > ?', Time.now - time_range_start).count
+- @num_total_mentions = @band.num_total_mentions
+
+.dashboard-main
+  .stats-time-selector
+    .stats-caption Time range
+    = select_tag 'time_range', options_for_select(['all time'])
+
+  .feature
+    .stats-graph
+    
+  .stats-summary
+    .one-third
+      .stats-module.stats-new-fans{ :title => 'The number of new stockholders since the start of the specified time range.' }
+        .stats-caption New fans
+        .stats-value
+          = @num_total_fans
+    .one-third
+      .stats-module.stats-total-fans{ :title => 'Total number of fans for this band.' }
+        .stats-caption Total fans
+        .stats-value
+          = @num_total_fans
+    .one-third
+      .stats-module.stats-total-mentions{ :title => 'The number of times this band has been tweeted during the specified time range.' }
+        .stats-caption Total mentions
+        .stats-value
+          = @num_total_mentions
+  .stats-main
+    .one-third
+      .stats-module.top-fans
+        %h3.stats-module-title Fans
+        -if @top_fans
+          %ol.user-list
+            -@top_fans.each do |fan|
+              - user = fan.user
+              - location = user.display_location
+              %li
+                = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
+                -if location
+                  %span.shareholder_aside
+                    = " from #{ location }"
+        .send-email
+          %a{ :href => '#' } SEND EMAIL
+    .one-third
+      .stats-module.top-purchasers
+        %h3.stats-module-title Influencers
+        -if @top_influencers
+          %ol.user-list
+            -@top_influencers.each do |twitter_username|
+              - link = 'http://twitter.com/'+ twitter_username
+              %li
+                = link_to twitter_username, link, :target => '_blank', :class => "stats-user-name stats-twitter-link"
+          -# %a{ :href => '#' } SEND EMAIL
+    .one-third
+      .stats-module.top-purchasers
+        %h3.stats-module-title Purchasers
+        -if @top_purchasers
+          %ol.user-list
+            -@top_purchasers.each do |user|
+              - location = user.display_location
+              %li
+                = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
+                -if location
+                  %span.shareholder_aside
+                    = " from #{ location }"
+        .send-email
+          %a{ :href => '#' } SEND EMAIL
+
+:javascript
+  
+  var tweets_per_day_data = #{ @tweets_per_day_data || 'null' };
+  
+  jQuery(function() {
+  
+    // Set up tooltips
+      jQuery('.stats-twitter-link').tooltip({ 
+        delay: 0,
+        track: true,
+        showURL: false, 
+        bodyHandler: function() { 
+          return jQuery("<img/>").attr("src", '/images/twitter/t_logo-c.png'); 
+        }
+      });
+      //jQuery('.stats-new-fans, .stats-total-fans, .stats-total-mentions').tooltip({
+      //  delay: 700, 
+      //  extraClass: "stats-tooltip"
+      //});
+    
+    var plotOptions = {
+      colors: ['#123658', '#000000'],
+      series: {
+        lines: { show: true, lineWidth: 2 },
+        points: {
+          show: true
+        }
+      },
+      shadowSize: 5,
+      grid: {
+        hoverable: true,
+        clickable: true,
+        borderWidth: 1,
+        backgroundColor: { colors: ["#CCF0FF", "#777"] }
+      },
+      legend: {
+        show: false
+      },
+      xaxis: {
+        mode: "time",
+        timeformat: "%b %d",
+        minTickSize: [1, "day"] 
+      }
+    };
+    
+    if (tweets_per_day_data) {
+      jQuery.plot('.stats-graph', [ tweets_per_day_data ], plotOptions);
+    } else {
+      jQuery('.stats-graph').html('<div class="stats-chart-notification">No data to display</div>');
+    }
+  });
+  
+  // Flot chart example: http://weblogs.asp.net/rachit/archive/2010/01/26/jquery-flot-charts-with-time-series.aspx
+
+-# __commented__
+  start = Time.now.to_f
+  TwitterCrawlerTracker.find_by_sql(
+    'SELECT DISTINCT tt.twitter_user_id, tt.tweet_id from twitter_crawler_trackers tt JOIN users u ON u.twitter_user_id = tt.twitter_user_id order by twitter_followers').collect{|tt|
+      {
+        :twitter_user_id => tt.twitter_user_id,
+        :display_name => User.display_name(tt.email, tt.first_name),
+        :tweet_id => tt.tweet_id
+      }
+    }
+  p (Time.now.to_f - start).to_s
+  http://www.themomorohoax.com/2009/06/24/quickly-export-a-table-to-csv-in-the-rails-console-with-fastercsv
+
+  http://pastie.org/201610
+
