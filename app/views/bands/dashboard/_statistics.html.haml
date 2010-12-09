@@ -18,7 +18,7 @@
     = select_tag 'time_range', options_for_select(['all time'])
 
   .feature
-    .stats-graph
+    .stats-graph{ :class => "bandID_#{@band.id}" }
     
   .stats-summary
     .one-third
@@ -79,7 +79,7 @@
 
 :javascript
   
-  var tweets_per_day_data = #{ @tweets_per_day_data || 'null' };
+  var tweets_per_day_data_#{ @band.id } = #{ @tweets_per_day_data || 'null' };
   
   jQuery(function() {
   
@@ -122,10 +122,10 @@
       }
     };
     
-    if (tweets_per_day_data) {
-      jQuery.plot('.stats-graph', [ tweets_per_day_data ], plotOptions);
+    if (tweets_per_day_data_#{ @band.id }) {
+      jQuery.plot('.stats-graph.bandID_#{ @band.id }', [ tweets_per_day_data_#{ @band.id } ], plotOptions);
     } else {
-      jQuery('.stats-graph').html('<div class="stats-chart-notification">No data to display</div>');
+      jQuery('.stats-graph.bandID_#{ @band.id }').html('<div class="stats-chart-notification">No data to display</div>');
     }
   });
   
