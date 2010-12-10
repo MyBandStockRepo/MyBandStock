@@ -137,12 +137,7 @@ class UsersController < ApplicationController
     @user.password = salted_password
     @user.password_salt = salt
     @user.email_confirmation = @user.email
-    if (@user.save)     
-      #AWARD POINTS
-      if session[:register_with_band_id] && band_registered_in = Band.find(session[:register_with_band_id])
-        ShareLedgerEntry.create(:user_id => @user.id, :band_id => band_registered_in.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
-      end
-       
+    if (@user.save)            
       #if from omniauth, save the authentication and connect to the twitter/facebook user
       if session[:user_hash]
         user_hash = session[:user_hash]
@@ -163,21 +158,28 @@ class UsersController < ApplicationController
         return false
       end
       
+      
+      #SNED EMAIL
+      UserMailer.register_through_bar(@user, @band).deliver
+      
+      #AWARD POINTS
+      if session[:register_with_band_id] && @band
+        ShareLedgerEntry.create(:user_id => @user.id, :band_id => @band.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
+      end      
+      
+      
       #reset session data
       session[:user_hash] = nil
       session[:user_id] = @user.id
       
       @success = true
-      
-      #email user
-#      UserMailer.registration_notification(@user).deliver
-      
+
       
       #award twitter bandstock
       if @user.twitter_user
         @user.reward_tweet_bandstock_retroactively
       end      
-      
+      flash[:notice] = "Account successfully created!"
       redirect_to :controller => "users", :action => "external_registration_success"
       return
     else

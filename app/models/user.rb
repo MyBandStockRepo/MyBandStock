@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_length_of :zipcode, :maximum => 15, :unless => Proc.new {|user| user.zipcode.nil?}
-  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
+  validates_length_of :email, :maximum => 100, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
   def twitter_client

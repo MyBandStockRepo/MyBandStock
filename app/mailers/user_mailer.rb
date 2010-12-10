@@ -40,6 +40,22 @@ class UserMailer < ActionMailer::Base
   end
 
 
+  def register_through_bar(user, band)
+    if user.nil? || band.nil?
+      return false
+    end
+    
+    recipient = make_address(user)
+    
+    @user = user
+    @band = band
+		@host = SITE_HOST || 'mybandstock.com'
+		site_url = SITE_URL || 'http://mybandstock.com'
+
+    subject = "Rock on with Rewards in #{@band.name}"
+		mail(:to => recipient, :subject => subject)
+  end
+
 
 
 

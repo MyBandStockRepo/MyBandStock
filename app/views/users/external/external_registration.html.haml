@@ -1,5 +1,6 @@
 .content_padding
   %h2 Registration
+  %p We just need your email in order for you to register.
   .newform
     = form_for(@user, :url => {:controller => "users", :action => "external_registration_complete"}) do |f|
       =render '/users/field_required', :f => f, :field => :email,  :label => 'Email'

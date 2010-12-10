@@ -72,10 +72,12 @@ class AuthenticationsController < ApplicationController
             user.reward_tweet_bandstock_retroactively
           end
             
+          band_registered_in = Band.find(session[:register_with_band_id])
           #SNED EMAIL
+          UserMailer.register_through_bar(user, band_registered_in).deliver
           
           #AWARD POINTS
-          if session[:register_with_band_id] && band_registered_in = Band.find(session[:register_with_band_id])
+          if session[:register_with_band_id] && band_registered_in
             ShareLedgerEntry.create(:user_id => user.id, :band_id => band_registered_in.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
           end
 

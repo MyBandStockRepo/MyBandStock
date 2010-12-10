@@ -1,9 +1,10 @@
 jQuery.noConflict();
 
 // Set variables
-var mybandstock_bar_css_location = 'http://127.0.0.1:3000/stylesheets/mbs_bar.css';
-var mybandstock_bar_root_url = 'http://127.0.0.1:3000'
-var mybandstock_bar_bandID = 2;
+//var mybandstock_bar_css_location = 'http://127.0.0.1:3000/stylesheets/mbs_bar.css';
+//var mybandstock_bar_root_url = 'http://127.0.0.1:3000'
+var mybandstock_bar_css_location = 'http://mybandstock.com/stylesheets/mbs_bar.css';
+var mybandstock_bar_root_url = 'http://mybandstock.com'
 
 // import mbs bar css
 jQuery('head').append(
