@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
- before_filter :authenticated?, :except => [:index, :create]
+ before_filter :authenticated?, :except => [:index, :create, :failure]
  skip_filter :update_last_location, :except => [:index]
   
   def failure
@@ -73,9 +73,14 @@ class AuthenticationsController < ApplicationController
           end
             
           #SNED EMAIL
+          
+          #AWARD POINTS
+          if session[:register_with_band_id] && band_registered_in = Band.find(session[:register_with_band_id])
+            ShareLedgerEntry.create(:user_id => user.id, :band_id => band_registered_in.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
+          end
 
           flash[:notice] = "Account successfully created!"
-          redirect_to :controller => "users", :action => "external_registration_complete"
+          redirect_to :controller => "users", :action => "external_registration_success"
           return false
           
           
@@ -97,6 +102,7 @@ class AuthenticationsController < ApplicationController
           session[:user_hash] = user_hash
           flash[:error] = "We need a little more information from you to complete registration."
           redirect_to :controller => 'users', :action => 'external_registration'
+          return false
         end
 
 

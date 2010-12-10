@@ -14,7 +14,7 @@ body {
 #mybandstock_body .content_padding{padding:10px 20px 0px 20px;}
 
 #mybandstock_white_label_page{}
-#mybandstock_white_label_page #branding{width:500px;height:120px;border:1px solid white;display:block;margin:auto;}
+#mybandstock_white_label_page #branding{width:500px;height:120px;border:1px solid black;display:block;margin:auto;background-image:url('/images/bar/demo_branding.png');}
 #mybandstock_white_label_page #notifications{margin:0px 10px;width:400px;}
 #mybandstock_white_label_page #notifications .notice{font:normal 10px arial;padding:5px;margin:10px;background-color:black;border:1px solid #9eea8f;color:#9eea8f;width:400px;}
 #mybandstock_white_label_page #notifications .error{font:normal 10px arial;padding:5px;margin:10px;background-color:black;border:1px solid red;color:red;width:400px;}

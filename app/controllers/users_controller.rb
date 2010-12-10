@@ -1,15 +1,28 @@
 class UsersController < ApplicationController
 
   protect_from_forgery :only => [:create, :update, :external_registration_complete]
-  before_filter :authenticated?, :except => [:register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+  before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
   before_filter :find_user, :only => [:edit, :address]
 						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
   skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
   before_filter :make_sure_band_id_session_exists, :only => [:external_registration]
 
 
-
+  def external_registration_success
+    session[:register_with_band_id] = nil
+    session[:extrenal_bar_registration] = nil
+    render :template => 'users/external/external_registration_success', :layout => 'white-label'    
+  end
+  
+  
   def register_with_band_external
+    #log out users
+    reset_session #this is a built in rails method
+    cookies.delete(:saved_user_id)
+    cookies.delete(:salted_user_id)
+    #end logout
+    
+    
     session[:test_cookies] = "doesthiswork?"
     unless session[:test_cookies] == "doesthiswork?"
       flash[:error] = "Cookies must be enabled to register."
@@ -81,7 +94,7 @@ class UsersController < ApplicationController
     return
 
   end
-
+  #the post
   def external_registration_complete  
     #DEBUGGING
         logger.info "External bar: #{session[:extrenal_bar_registration]}"
@@ -124,7 +137,12 @@ class UsersController < ApplicationController
     @user.password = salted_password
     @user.password_salt = salt
     @user.email_confirmation = @user.email
-    if (@user.save)      
+    if (@user.save)     
+      #AWARD POINTS
+      if session[:register_with_band_id] && band_registered_in = Band.find(session[:register_with_band_id])
+        ShareLedgerEntry.create(:user_id => @user.id, :band_id => band_registered_in.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
+      end
+       
       #if from omniauth, save the authentication and connect to the twitter/facebook user
       if session[:user_hash]
         user_hash = session[:user_hash]
@@ -148,22 +166,34 @@ class UsersController < ApplicationController
       #reset session data
       session[:user_hash] = nil
       session[:user_id] = @user.id
-      session[:register_with_band_id] = nil
-      session[:extrenal_bar_registration] = nil
       
       @success = true
+      
       #email user
-      UserMailer.registration_notification(@user).deliver
+#      UserMailer.registration_notification(@user).deliver
+      
+      
       #award twitter bandstock
       if @user.twitter_user
         @user.reward_tweet_bandstock_retroactively
       end      
       
-      render :template => 'users/external/external_registration_complete', :layout => 'white-label'    
+      redirect_to :controller => "users", :action => "external_registration_success"
       return
     else
-      flash[:error] = "An error prevented this user from registration."
-			redirect_to :controller => "users", :action => "external_registration", :user => params[:user]
+      error_text = "An error prevented this user from completing registration. Email: "
+      cnt = 0
+      for e in @user.errors[:email]
+        if cnt > 0
+          error_text += ", #{e}"
+        else
+          error_text += " #{e}"
+        end
+        cnt +=1
+      end
+      flash[:error] = error_text
+      
+			redirect_to :controller => "users", :action => "external_registration", :user => @user
       return
     end
     

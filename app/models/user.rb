@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   
   before_save :expand_zipcode # Populates state and country from zipcode
-
+  validates :email, :email => true
   validates_presence_of :email
   validates_presence_of :password
   validates_confirmation_of :email

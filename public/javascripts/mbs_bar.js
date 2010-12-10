@@ -38,12 +38,14 @@ jQuery(document).ready(function() {
 	jQuery('body').append(mybandstock_bar_spacer);
 	// put the bar
 	var mybandstock_bar = jQuery(document.createElement('div')).attr('id', 'mybandstock_bar').append(
+		jQuery(document.createElement('div')).attr('id', 'bar_branding')
+	).append(
 		jQuery(document.createElement('div')).addClass('mybandstock_registration').append(
-			jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_manual_registration_link').addClass('mybandstock_bar_manual_registration_link').append("Manual Registration")
+			jQuery(document.createElement('img')).attr('src', mybandstock_bar_root_url+'/images/bar/facebook.png').attr('id', 'mybandstock_bar_facebook_registration_link').addClass('mybandstock_bar_facebook_registration_link').append("Facebook Registration")
 		).append(
 			jQuery(document.createElement('br'))
-		).append(
-			jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_facebook_registration_link').addClass('mybandstock_bar_facebook_registration_link').append("Facebook Registration")
+		).append(		
+			jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_manual_registration_link').addClass('mybandstock_bar_manual_registration_link').append("Manually Register")			
 		)
 	);
 	jQuery('body').append(mybandstock_bar);	
@@ -53,7 +55,7 @@ jQuery(document).ready(function() {
 			mybandstock_bar_popup_window_link(mybandstock_bar_root_url+'/external/registration?band_id='+mybandstock_bar_bandID, "Registration", 500, 620);
 		});
 	jQuery('#mybandstock_bar_facebook_registration_link').click(function () {
-			mybandstock_bar_popup_window_link(mybandstock_bar_root_url+'/external/registration?band_id='+mybandstock_bar_bandID+'&mode=facebook', "Registration", 500, 620);
+			mybandstock_bar_popup_window_link(mybandstock_bar_root_url+'/external/registration?band_id='+mybandstock_bar_bandID+'&mode=facebook', "Registration", 569, 995);
 		});	
 });
 

@@ -1,0 +1,21 @@
+%h2
+  = "Rock on with rewards in #{@band.name}"
+
+%p 
+  = "Dear #{@user.first_name},"
+%br
+%p
+  = "You just earned #{SHARES_AWARDED_DURING_BAR_REGISTRATION} BandStock for signing up with #{@band.name}. You are now a level 1 fan and get to know about everything new that #{@band.name} puts out!"
+
+%p
+  = "For more information on rewards in #{@band.name}, please visit "
+  = link_to @band.access_schedule_url @band.access_schedule_url
+
+%br
+%p
+  = "Have a super day,"
+  %br
+  = "#{@band.name}"
+
+
+= render :partial => 'bar_email_footer'

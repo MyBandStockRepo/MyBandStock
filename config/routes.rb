@@ -100,6 +100,7 @@ Cobain::Application.routes.draw do |map|
   match '/external/registration/form' => 'users#external_registration'
   match '/external/registration/complete' => 'users#external_registration_complete'  
   match '/external/registration/error' => 'users#external_registration_error'    
+  match '/external/registration/success' => 'users#external_registration_success'      
   match '/external/error' => 'application#external_error'
   
   resources :authentications
