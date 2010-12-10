@@ -23,7 +23,7 @@ class MerchantController < ApplicationController
     # Check to assure the band exists.
     band = ( (params[:band_id]) ? Band.find(params[:band_id].to_i) : nil )
     if band.nil?
-      flash[:error] = 'Could not buy BandStock: band does not exist or was not specified.'
+      flash[:error] = 'Could not buy BandStock: artist does not exist or was not specified.'
       redirect_to buy_stock_path(:lightbox => params[:lightbox]) and return
     end
 

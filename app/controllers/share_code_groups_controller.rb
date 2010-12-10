@@ -57,13 +57,13 @@ class ShareCodeGroupsController < ApplicationController
     logger.info "Band ID: " + params[:band_id].to_s
     
     #unless @band_id
-    #  flash[:error] = 'Band ID not specified'
+    #  flash[:error] = 'Artist ID not specified'
     #  return redirect_to '/band_home'
     #end
     
     @user = User.find(session[:user_id])
     #unless @user && @user.has_band_admin(@band_id)
-    #  flash[:error] = 'Only band admins can manage share codes.'
+    #  flash[:error] = 'Only artist admins can manage share codes.'
     #  return redirect_to '/band_home'
     #end
 
@@ -79,7 +79,7 @@ class ShareCodeGroupsController < ApplicationController
     @user = User.find(session[:user_id])
 
     unless @user && @user.site_admin
-      flash[:error] = "Only band admins can manage share codes."
+      flash[:error] = "Only artist admins can manage share codes."
       redirect_to '/band_home' #session[:last_clean_url]
       return false
     end

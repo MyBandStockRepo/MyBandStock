@@ -21,7 +21,7 @@ class AdminController < ApplicationController
   # Arbitrarily grant shares to users. Takes (user_id || user_email) && adjustment && band_id.
     # Check for band parameter
     if params[:band_id].blank? || params[:band_id] == 0 || (band = Band.find(params[:band_id])).nil?
-      @response_text = 'Band ID not specified, or band does not exist.'
+      @response_text = 'Artist ID not specified, or artist does not exist.'
       redirect_to grant_shares_path(:response_text => @response_text) and return
     end
     
@@ -191,7 +191,7 @@ private
         to_users = band.top_ten_shareholders().collect{|shareTotal| shareTotal.user}         
       else
         #couldn't find band
-        flash[:error] = "Could not find band."
+        flash[:error] = "Could not find artist."
         error = true
       end
     elsif to == 'lss'
@@ -209,7 +209,7 @@ private
         to_users = band.all_shareholder_users()
       else
         #couldn't find band
-        flash[:error] = "Could not find band."
+        flash[:error] = "Could not find artist."
         error = true
       end
     elsif to == 'all'

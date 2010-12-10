@@ -147,7 +147,7 @@ class FansController < ApplicationController
 			band = PledgedBand.find_by_name(new_pledged_band)
 			@band_name = band.name
 			@band_pledges_number = band.pledges_count
-			flash[:error] = "You have already made a suggestion for this band."
+			flash[:error] = "You have already made a suggestion for this artist."
 			format.html { render :action => "new", :locales => {@band_name,@band_pledges_number} }
 			format.xml  { render :xml => @fan.errors, :status => :unprocessable_entity }	
 	   else

@@ -1,11 +1,18 @@
 class AuthenticationsController < ApplicationController
- before_filter :authenticated?, :except => [:index, :create]
+ before_filter :authenticated?, :except => [:index, :create, :failure]
  skip_filter :update_last_location, :except => [:index]
   
   def failure
     if params[:message]
-      flash[:error] = params[:message].gsub(/[_]/, ' ')
+      flash[:error] = "Could not authenticate with third party network. #{params[:message].gsub(/[_]/, ' ')}"
     end
+
+    #if coming from an external site (in the bar), redirect
+    unless session[:extrenal_bar_registration].blank?      
+      redirect_to :controller => "users", :action => "external_registration_error"
+      return false
+    end
+    
     if session[:user_id]      
       redirect_to edit_user_path(session[:user_id])
     else
@@ -18,20 +25,96 @@ class AuthenticationsController < ApplicationController
     @authentications = @user.authentications if @user  
   end
   
+  
   def create
     omniauth = request.env["omniauth.auth"]
     if omniauth.blank? || omniauth['provider'].blank? || omniauth['uid'].blank?
       flash[:error] = "Could not get authentication parameters."  
-      if session[:user_id]      
+            
+      if session[:extrenal_bar_registration]
+        redirect_to :controller => "users", :action => "external_registrtion_error"
+      elsif session[:user_id]      
         redirect_to edit_user_path(session[:user_id])
       else
         redirect_to :controller => "login", :action => "user"
       end
-
       return false            
     end
 
-    if session[:user_id]
+    #if coming from the external bar
+    if session[:extrenal_bar_registration]
+      # see if a current account in our system is tied into the provider
+      authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
+      #if it is, send them to manual reg with an error
+      if authentication
+        flash[:error] = "Someone has already registered an account using that #{omniauth['provider']} account. Please manually register."
+        redirect_to :controller => "users", :action => "external_registration"
+        return false
+      #if not, create this new auth and new account          
+      else
+        
+        #auto gen password        
+  			genpass = generate_key(16)
+  			random = ActiveSupport::SecureRandom.hex(10)
+        salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+        salted_password = Digest::SHA2.hexdigest("#{salt}#{genpass}")
+                
+        user = User.new(:password => salted_password, :status => 'pending', :password_salt => salt)
+        authentication = user.apply_omniauth(omniauth, params)
+        
+
+        #if validation passes, log the user in
+        if user.save            
+          #create/update omniauth db info on login
+          create_or_update_omniauth_service(omniauth, authentication, params)
+
+          if user.twitter_user
+            user.reward_tweet_bandstock_retroactively
+          end
+            
+          band_registered_in = Band.find(session[:register_with_band_id])
+          #SNED EMAIL
+          UserMailer.register_through_bar(user, band_registered_in).deliver
+          
+          #AWARD POINTS
+          if session[:register_with_band_id] && band_registered_in
+            ShareLedgerEntry.create(:user_id => user.id, :band_id => band_registered_in.id, :adjustment => SHARES_AWARDED_DURING_BAR_REGISTRATION, :description => 'registered_from_bar')
+          end
+
+          flash[:notice] = "Account successfully created!"
+          redirect_to :controller => "users", :action => "external_registration_success"
+          return false
+          
+          
+        #take them to a form to fill in information that is necessary
+        else
+          #HERE
+          #have the new user model auto gen the password
+          create_or_update_omniauth_service(omniauth, nil, params)
+          facebook_id = omniauth['provider'].to_s.downcase == 'facebook' ? FacebookUser.find_by_facebook_id(omniauth['uid']) : nil
+          twitter_id = omniauth['provider'].to_s.downcase == 'twitter' ? TwitterUser.find_by_twitter_id(omniauth['uid']) : nil
+          user_hash = Hash.new
+          user_hash[:first_name] = user.first_name
+          user_hash[:last_name] = user.last_name
+          user_hash[:email] = user.email
+          user_hash[:facebook_id] = facebook_id
+          user_hash[:twitter_id] = twitter_id
+          user_hash[:provider] = omniauth['provider']
+          user_hash[:uid] = omniauth['uid']
+          session[:user_hash] = user_hash
+          flash[:error] = "We need a little more information from you to complete registration."
+          redirect_to :controller => 'users', :action => 'external_registration'
+          return false
+        end
+
+
+
+
+      end
+    end
+    #end stuff for external bar
+
+    if session[:user_id]      
       @user = User.find(session[:user_id])       
       
       #see if they already ahve an authentication with this provider
@@ -84,8 +167,8 @@ class AuthenticationsController < ApplicationController
         #create/update omniauth db info on login
         create_or_update_omniauth_service(omniauth, authentication, params)
         
-        if @user.twitter_user
-          @user.reward_tweet_bandstock_retroactively
+        if user.twitter_user
+          user.reward_tweet_bandstock_retroactively
         end
         
         #log user in      
