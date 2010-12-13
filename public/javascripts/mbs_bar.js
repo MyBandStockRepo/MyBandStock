@@ -39,15 +39,17 @@ jQuery(document).ready(function() {
 	jQuery('body').append(mybandstock_bar_spacer);
 	// put the bar
 	var mybandstock_bar = jQuery(document.createElement('div')).attr('id', 'mybandstock_bar').append(
-		jQuery(document.createElement('div')).attr('id', 'bar_branding')
-	).append(
-		jQuery(document.createElement('div')).addClass('mybandstock_registration').append(
-			jQuery(document.createElement('img')).attr('src', mybandstock_bar_root_url+'/images/bar/facebook.png').attr('id', 'mybandstock_bar_facebook_registration_link').addClass('mybandstock_bar_facebook_registration_link').append("Facebook Registration")
+			jQuery(document.createElement('div')).attr('id', 'bar_branding')
 		).append(
-			jQuery(document.createElement('br'))
-		).append(		
-			jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_manual_registration_link').addClass('mybandstock_bar_manual_registration_link').append("Manually Register")			
-		)
+			jQuery(document.createElement('div')).addClass('mybandstock_registration').append(
+				jQuery(document.createElement('img')).attr('src', mybandstock_bar_root_url+'/images/bar/facebook.png').attr('id', 'mybandstock_bar_facebook_registration_link').addClass('mybandstock_bar_facebook_registration_link').append("Facebook Registration")
+			).append(
+				jQuery(document.createElement('br'))
+			).append(		
+				jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_manual_registration_link').addClass('mybandstock_bar_manual_registration_link').append("Manually Register")			
+			)
+		).append(
+			jQuery(document.createElement('div')).addClass('mybandstock_bar_copy').append("Sign up to start earning BandStock towards rewards!")		
 	);
 	jQuery('body').append(mybandstock_bar);	
 	
