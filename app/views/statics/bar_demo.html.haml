@@ -1,0 +1,63 @@
+!!! 5
+%html
+  %head
+    %title MyBandStock
+    -# Stylesheets are declared explicitly here so we can establish an ordering (e.g., reset should be before style)
+    = stylesheet_link_tag 'reset'
+    = stylesheet_link_tag 'fonts'
+    = stylesheet_link_tag 'style'    
+    = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
+    = javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js'
+    
+    = render :partial => 'common_partials/meta'
+    = csrf_meta_tag
+  %body{ :id => @body_id, :style => "background-color: black; background-image: none;height:100%;top:0px;" }
+    .splash_page    
+      .splash_page_wrap
+        .copy
+          %p We strengthen the connection between artists and fans through rewards and incentives. If you want hear about our next platform release, please let us know.
+        .email_field
+          =form_tag({:controller => 'mailing_list_addresses', :action => 'create'}, :method => "post") do
+            %fieldset
+              #searchbox
+                = text_field  :mailing_list_address, :email, :value => "Enter your email...", :onFocus => "if(this.value=='Enter your email...')this.value='';", :onBlur => "if(this.value=='')this.value='Enter your email...';"
+              #searchbutton
+                = submit_tag 'Hell Yes.', :id => 'email_submit'              
+        .twitter_text
+          or follow us on
+          =link_to 'twitter', 'http://twitter.com/MyBandStock'
+        .error_positioning
+          -if flash[:error]
+            .error
+              = "#{flash[:error]}"
+          -if flash[:notice]
+            .notice
+              = "#{flash[:notice]}"
+        .clear
+        :javascript
+          var mybandstock_bar_bandID = 14;
+        = javascript_include_tag 'mbs_bar.js'          
+        :css
+          #mybandstock_bar #bar_branding{background-image:url('http://mybandstock.com/images/bar/demo_bar_branding.png');}
+        .partners
+          %p 
+            MyBandStock
+            %br
+            Partners
+          .partner.topspin            
+            =link_to image_tag('splash_page/topspin_logo.png'), 'http://www.topspinmedia.com/'
+          .partner.yowie
+            =link_to image_tag('splash_page/yowie_logo.png'), 'http://www.yowie.com/'
+          .clear
+        .clear
+        .copyright_text  
+          © Copyright 2010 Mybandstock Corporation | All Rights Reserved
+      = render :partial => 'common_partials/google_tracker'
+
+
+
+
+
+
+
+
