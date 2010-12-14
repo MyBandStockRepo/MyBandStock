@@ -104,6 +104,7 @@ Cobain::Application.routes.draw do |map|
   match '/external/registration/error' => 'users#external_registration_error'    
   match '/external/registration/success' => 'users#external_registration_success'      
   match '/external/error' => 'application#external_error'
+  match '/bar_demo', :to => 'statics#bar_demo'
   
   resources :authentications
   resources :streamapi_stream_themes

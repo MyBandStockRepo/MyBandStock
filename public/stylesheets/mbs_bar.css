@@ -1,8 +1,9 @@
 /* Bar Styles */
 .mybandstock_bar_spacer{height:50px;clear:both;}
-#mybandstock_bar{width:100%!important;padding:3px 30px 3px 0px;z-index:9999999!important;left:0px!important;bottom:0px!important;height:50px!important;background-color:#3b3b3b;position:fixed!important;}
+#mybandstock_bar{width:100%!important;padding:3px 30px 3px 0px;z-index:9999999!important;left:0px!important;bottom:0px!important;height:50px!important;background-color:#3b3b3b;position:fixed!important;line-height:1;}
 #mybandstock_bar #bar_branding{float:left;height:50px;width:150px;overflow:hidden;}
-#mybandstock_bar .mybandstock_registration{float:right;margin:10px 30px 0px 0px;}
+#mybandstock_bar .mybandstock_registration{float:right;margin:10px 30px 0px 0px;font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;}
 #mybandstock_bar .mybandstock_bar_manual_registration_link{cursor:pointer;margin-left:124px;font-size:7pt;}
 #mybandstock_bar .mybandstock_bar_facebook_registration_link{cursor:pointer;width:200px;margin-bottom:3px;}
 #mybandstock_bar .mybandstock_bar_copy{float:right;margin:15px 50px 0px 10px;color:white;font-size:11pt;}
+#mybandstock_bar .mybandstock_clear{clear:both;}

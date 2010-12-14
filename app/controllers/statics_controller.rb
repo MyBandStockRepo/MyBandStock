@@ -5,6 +5,9 @@ class StaticsController < ApplicationController
   def splash_page
     render :layout => false
   end
+  def bar_demo
+    render :layout => false
+  end
 
   def broadcast_faq
     

@@ -1,3 +1,4 @@
+// Make sure jQuery is installed
 jQuery.noConflict();
 
 // Set variables
@@ -44,7 +45,7 @@ jQuery(document).ready(function() {
 			jQuery(document.createElement('div')).addClass('mybandstock_registration').append(
 				jQuery(document.createElement('img')).attr('src', mybandstock_bar_root_url+'/images/bar/facebook.png').attr('id', 'mybandstock_bar_facebook_registration_link').addClass('mybandstock_bar_facebook_registration_link').append("Facebook Registration")
 			).append(
-				jQuery(document.createElement('br'))
+				jQuery(document.createElement('div')).addClass('mybandstock_clear')
 			).append(		
 				jQuery(document.createElement('a')).attr('id', 'mybandstock_bar_manual_registration_link').addClass('mybandstock_bar_manual_registration_link').append("Manually Register")			
 			)
