@@ -243,7 +243,12 @@ class UsersController < ApplicationController
     @top_invested_artists = @user.top_invested_artists
     
 =end    
-#    @random_band = get_random_band()    
+#    @random_band = get_random_band()
+    respond_to do |format|
+      format.html
+      format.js
+      format.xml
+    end    
   end
   
   def register_with_twitter

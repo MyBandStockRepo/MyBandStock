@@ -125,7 +125,6 @@ Cobain::Application.routes.draw do |map|
     resources :shareholders, :controller => "users"
   end
   resources :user_roles
-  resources :share_totals
   resources :twitter_users
   resources :twitter_crawler_hash_tags  
   resources :live_stream_series
