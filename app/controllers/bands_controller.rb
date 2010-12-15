@@ -78,7 +78,7 @@ def stats
     @users = @registered_users.collect{|u| u.users.last}    
     
   else
-    flash[:error] = "Could not find Band ID."
+    flash[:error] = "Could not find artist ID."
     return false
   end
 end
@@ -408,7 +408,7 @@ end
       #now that all that business is done, update the xml file
       @band.update_playlist_xml
 =end      
-      flash[:notice] = 'Band created successfully.'
+      flash[:notice] = 'Artist created successfully.'
       
       respond_to do |format|
         # If we're in HTML mode, redirect back to the master list.
@@ -430,9 +430,9 @@ end
     @band = Band.find(params[:band_id])
     unless @band
       if params[:lightbox]
-        render :text => "You've attempted to buy stock from an invalid band. Please try again.", :layout => 'lightbox'
+        render :text => "You've attempted to buy stock from an invalid artist. Please try again.", :layout => 'lightbox'
       else
-        flash[:notice] = "You've attempted to buy stock from an invalid band. Please try again."
+        flash[:notice] = "You've attempted to buy stock from an invalid artist. Please try again."
         redirect_to (session[:last_clean_url] || '/')
       end
       return false

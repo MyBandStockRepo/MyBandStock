@@ -18,14 +18,14 @@ class User < ActiveRecord::Base
   has_many :authentications
   
   before_save :expand_zipcode # Populates state and country from zipcode
-
+  validates :email, :email => true
   validates_presence_of :email
   validates_presence_of :password
   validates_confirmation_of :email
   validates_uniqueness_of :email
   validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
-
+  validates :email, :email => true
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
   validates_length_of :first_name, :maximum => 20, :unless => Proc.new {|user| user.first_name.nil?}
   validates_length_of :last_name, :maximum => 25, :unless => Proc.new {|user| user.last_name.nil?}
@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   validates_length_of :address2, :maximum => 100, :unless => Proc.new {|user| user.address2.nil?}
   validates_length_of :zipcode, :minimum => 1, :unless => Proc.new {|user| user.zipcode.nil? || user.zipcode == ''}
   validates_length_of :zipcode, :maximum => 15, :unless => Proc.new {|user| user.zipcode.nil?}
-  validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
+  validates_length_of :email, :maximum => 100, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
   API_ATTRIBUTES = %w(first_name last_name email)

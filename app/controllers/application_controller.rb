@@ -65,6 +65,10 @@ class ApplicationController < ActionController::Base
     authenticated?
   end
   
+  def external_error
+    render :layout => "white-label"
+  end
+  
   def band_home
     if @user = User.find_by_id(session[:user_id])
       # If a bandID was supplied, then show only that band. Otherwise, show all bands on which the user has permissions.
@@ -75,7 +79,7 @@ class ApplicationController < ActionController::Base
       end
     end
     if !@bands
-      flash[:error] = 'You do not manage any bands.'
+      flash[:error] = 'You do not manage any artists.'
       redirect_to '/me/home'
     end
   end

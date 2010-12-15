@@ -25,6 +25,14 @@ Cobain::Application.configure do
 	SECURE_SITE_URL = 'http://127.0.0.1:3000'
 	SITE_HOST = '127.0.0.1:3000'
  
+  ####
+  # Facebook
+  # 
+  FACEBOOK_APP_ID = 144291128954782
+  FACEBOOK_APP_SECRET = 'efa0156e42947617a3168000fa8bcd8d'
+  #
+  ####
+ 
 	STREAMS_URL = 'rtmp://localhost/vod'
 
   EMAIL_INTERCEPTOR_ADDRESS = 'brian@mybandstock.com'

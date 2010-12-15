@@ -3,10 +3,27 @@
   .placement_edituserprofile EDIT SHIPPING ADDRESS
   .orange_divider
 #content_login_bg
-  #login_wrap
+  #login_wrap{:style => "color:white;"}
+    %p Please enter your shipping address that you would like us to send rewards to.
+    %br
+
+    %br
     = form_for(@user) do |f|
       .newform
-        =render 'field_textarea', :f => f, :field => :address1, :label => 'Address'
-        =render 'field_required', :f => f, :field => :zipcode,  :label => 'ZIP Code'
+        =render 'field_required', :f => f, :field => :first_name,  :label => 'first_name'
+        =render 'field_required', :f => f, :field => :last_name,  :label => 'last_name'        
+        
+        %div{:style => "margin-left:35px; margin-top:20px; float:left;"}        
+          %p Your address should be in the form:
+          %div{:style => "margin-left:15px;"}
+            %p
+              ADDRESS LINE 1 (Required): 11111 STREET NAME 
+              %br
+              ADDRESS LINE 2 (Optional): APARTMENT
+              %br
+              CITY, STATE  ZIP CODE        
+        
+        =render 'field_textarea', :f => f, :field => :address1, :label => 'Address*'
+
         =render 'field_submit',   :f => f
       .clear

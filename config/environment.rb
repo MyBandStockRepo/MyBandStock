@@ -17,6 +17,7 @@ Cobain::Application.initialize!
   MINIMUM_SHARE_PURCHASE      = 5       # Minimum number of shares per purchase.
   MBS_SHARE_PRICE             = 15      # cents; This is the price per share, in cents, of stock on the site.
                                         # @band.share_price() returns this if it is set.
+  SHARES_AWARDED_DURING_BAR_REGISTRATION = 100
 ####
 
 # Email address to which support inquiries are sent.
@@ -55,8 +56,8 @@ STREAMAPI_SECRET_KEY = 'BNGTHGJCV1VHOI2FQ7YWB5PO6NDLSQJK'
 ####
 # Facebook
 #
-  FACEBOOK_APP_ID = 110251749041497
-  FACEBOOK_APP_SECRET = '158eb74a5eff840f0afb818e378f03aa'
+#  FACEBOOK_APP_ID = 110251749041497
+#  FACEBOOK_APP_SECRET = '158eb74a5eff840f0afb818e378f03aa'
 ####
 
 

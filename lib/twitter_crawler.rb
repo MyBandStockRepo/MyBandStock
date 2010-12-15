@@ -55,8 +55,7 @@ else
   #Connect to Twitter Oauth Stuff
   TWITTERAPI_KEY            = 'OxTeKBSHEM0ufsguoNNeg'
   TWITTERAPI_SECRET_KEY     = 'VFB4ZuSSZ5PDZvhzwjU4NOzh4b1vQHfnBETfYLeOWw'
-#  TWITTERAPI_ACCESS_TOKEN   = '149205307-PuLfH6MfIjaavon1yFuYAMgr6HIGRIgrdzqRXgGi'
-#  TWITTERAPI_SECRET_TOKEN   = 'y3PUmN9r7E4uJvw6HUOPMRLfCFmV09ZBwyYC1zLh0'
+
   MBS_REWARD_BOT_ACCESS_TOKEN = '202291092-onrcAsPHAut3EmnLxFvI1Dn6DIMBqTEwSYirVcxc'
   MBS_REWARD_BOT_ACCESS_SECRET = 'fvuBb12KVj7cXWqwSXPk4MqwRTkF4uO2SS3UAxG6lk'  
   
@@ -217,7 +216,7 @@ else
           
               #if user in the system, create share ledger entry
               if twitter_user.users.last
-                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => true, :tweeted_at => r.created_at)
                 
                 #user in the system
                 #DO @ Replies                                    
@@ -241,7 +240,7 @@ else
                 end
               else
                 #user not in the system
-                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false)
+                TwitterCrawlerTracker.create(:tweet_id => r.id.to_s, :tweet => r.text.to_s, :twitter_user_id => twitter_user.id, :twitter_crawler_hash_tag_id => search_item.id, :twitter_followers => user.followers_count.to_i, :share_value => shares, :shares_awarded => false, :tweeted_at => r.created_at)
 
                 #DO @ Replies                
                 if shares > 0

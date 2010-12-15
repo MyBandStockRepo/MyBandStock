@@ -1,0 +1,12 @@
+.link_darkbar_padding
+.link_darkbar
+  = link_to 'statistics', '/me/control_panel', :class => 'l_stats'
+.link_darkbar
+  = link_to 'new stream', { :controller => 'streamapi_streams', :action => 'new', :band_id => band.id }, :class => 'l_newstream'
+.link_darkbar
+  = link_to 'stream schedule', { :controller => 'streamapi_streams', :action => 'manage', :band_id => band.id}, :class => 'l_stream-manage'
+.link_darkbar
+  = link_to 'stream history', { :controller => 'recorded_videos', :action => 'index', :band_id => band.id}, :class => 'l_streamhistory'
+.link_darkbar
+  = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+

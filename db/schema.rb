@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101111193637) do
+ActiveRecord::Schema.define(:version => 20101206233941) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -102,8 +102,17 @@ ActiveRecord::Schema.define(:version => 20101111193637) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-# Could not dump table "facebook_users" because of following StandardError
-#   Unknown type 'belongs_to' for column 'authentication_id'
+  create_table "facebook_users", :force => true do |t|
+    t.string   "facebook_id"
+    t.string   "name"
+    t.string   "location"
+    t.string   "email"
+    t.string   "gender"
+    t.string   "access_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "authentication_id"
+  end
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -131,6 +140,12 @@ ActiveRecord::Schema.define(:version => 20101111193637) do
     t.string   "stream_quality_level"
     t.integer  "user_id"
     t.integer  "live_stream_series_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mailing_list_addresses", :force => true do |t|
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -329,35 +344,6 @@ ActiveRecord::Schema.define(:version => 20101111193637) do
     t.boolean  "currently_live",           :default => false, :null => false
   end
 
-  create_table "transactions", :force => true do |t|
-    t.string   "buyer_id"
-    t.string   "serial_number"
-    t.string   "google_order_number"
-    t.string   "peekok_order_number"
-    t.string   "financial_order_state"
-    t.string   "fulfillment_order_state"
-    t.float    "order_total"
-    t.float    "total_amount_charged"
-    t.text     "shopping_cart_xml"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "company_name"
-    t.string   "contact_name"
-    t.string   "country_code"
-    t.string   "email"
-    t.string   "fax"
-    t.string   "phone"
-    t.string   "postal_code"
-    t.string   "region"
-    t.datetime "timestamp"
-    t.boolean  "email_allowed"
-    t.boolean  "paid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-  end
-
   create_table "twitter_crawler_hash_tags", :force => true do |t|
     t.string   "term"
     t.string   "last_tweet_id"
@@ -376,10 +362,21 @@ ActiveRecord::Schema.define(:version => 20101111193637) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "shares_awarded",              :default => false
+    t.datetime "tweeted_at"
   end
 
-# Could not dump table "twitter_users" because of following StandardError
-#   Unknown type 'belongs_to' for column 'authentication_id'
+  create_table "twitter_users", :force => true do |t|
+    t.string   "name"
+    t.string   "user_name"
+    t.integer  "twitter_id",                             :null => false
+    t.string   "oauth_access_token"
+    t.string   "oauth_access_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "opt_out_of_messages", :default => false
+    t.string   "location"
+    t.integer  "authentication_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first_name"

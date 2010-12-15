@@ -22,7 +22,7 @@ class TwitterApiController < ApplicationController
     
     
     if params[:band_id].blank?
-      flash[:error] = "No band specified."
+      flash[:error] = "No artist specified."
       redirect_to session[:last_clean_url]
       return false
     end
@@ -62,7 +62,7 @@ class TwitterApiController < ApplicationController
 
       #make sure that it came from a band
       if posting_user_id != band_verifier_id
-        flash[:error] = "You can only retweet tweets from the band."
+        flash[:error] = "You can only retweet tweets from the artist."
         redirect_to session[:last_clean_url]
         return false
       end
@@ -102,7 +102,7 @@ class TwitterApiController < ApplicationController
   		  return false
       end
     else
-      flash[:error] = "No twitter account specified for band."
+      flash[:error] = "No twitter account specified for artist."
       redirect_to session[:last_clean_url]
       return false      
     end

@@ -16,6 +16,21 @@ respond_to :html, :js
  before_filter :where_to_go?, :only => [:view, :recorded]
 
 
+  def manage
+    #  If the user is a manager of one or more bands, he sees management listings for each band.
+    authenticated?
+    @user = User.find(session[:user_id])
+
+    # @bands is an array of band objects, or an empty array (never nil)
+    @bands = @user.bands.includes(:live_stream_series => :streamapi_streams) #.order('bands.id ASC, live_stream_series.id ASC, streamapi_streams.starts_at ASC')
+
+		
+		if @bands.count == 0
+			redirect_to :controller => 'bands', :action => 'index'
+		end
+  end
+  
+
   def email_stream_reminder
     user = User.find(session[:user_id])
 

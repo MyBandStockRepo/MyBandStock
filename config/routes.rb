@@ -2,6 +2,8 @@ Cobain::Application.routes.draw do |map|
 
 
 
+
+
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -35,7 +37,7 @@ Cobain::Application.routes.draw do |map|
 	match '/twitter/opt_out_finish', :to => 'twitter_users#opt_out_finish'
 
   #stream methods
-  match '/streams/manage', :to => 'users#control_panel'
+  match '/streams/manage', :to => 'streamapi_streams#manage' #'users#control_panel'
 	match '/streamapi_streams/listlivestreams', :to => 'streamapi_streams#listLiveStreams'
 	match '/streamapi_streams/getlivevideorecordings', :to => 'streamapi_streams#getLiveVideoRecordings'
 	match '/streamapi_streams/getlayoutthemes', :to => 'streamapi_streams#getLayoutThemes'
@@ -65,7 +67,7 @@ Cobain::Application.routes.draw do |map|
     match 'bands/:band_id/dashboard', :to => 'bands#dashboard'
   # /--- Band Actions ---- #
 
-
+  match '/stay_informed', :to => 'mailing_list_addresses#create'
   # ---- Share Codes ---- #
     match '/redeem_code(/:mbs_share_code)', :to => 'share_codes#redeem', :as => 'redeem_code'
     match 'share_codes/redeem', :to => 'share_codes#redeem'
@@ -92,6 +94,16 @@ Cobain::Application.routes.draw do |map|
   match '/auth/:provider/callback' => 'authentications#create'  
   match '/auth/failure' => 'authentications#failure'  
   match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
+  
+  
+  #/ ----- Bar Stuff --------/#
+  match '/external/registration' => 'users#register_with_band_external'
+  match '/external/registration/form' => 'users#external_registration'
+  match '/external/registration/complete' => 'users#external_registration_complete'  
+  match '/external/registration/error' => 'users#external_registration_error'    
+  match '/external/registration/success' => 'users#external_registration_success'      
+  match '/external/error' => 'application#external_error'
+  match '/bar_demo', :to => 'statics#bar_demo'
   
   resources :authentications
   resources :streamapi_stream_themes
@@ -120,6 +132,7 @@ Cobain::Application.routes.draw do |map|
   resources :live_stream_series_permissions
   resources :twitter_crawler_hash_tags
   resources :promotional_codes  
+  resources :mailing_list_addresses  
   #codingisanart
 
 
@@ -204,8 +217,8 @@ Cobain::Application.routes.draw do |map|
 
 
   #main page
-  root :to => 'application#index'
-
+#  root :to => 'application#index'
+  root :to => 'statics#splash_page'
 
   # Band and Fan home and event splash
   match '/cp', :to => 'application#cp'
@@ -320,6 +333,7 @@ Cobain::Application.routes.draw do |map|
 
 	# Uncomment the following when we have band public profiles
 	#match '/bands/:band_short_name', :to =>  'bands#show'
+
 
 
   # PROD ROUTES

@@ -159,7 +159,27 @@ table.admin_new_record_table tr td{padding: 10px;}
 
 
 /* END PROD STYLES */
-
+/* Splash page */
+.splash_page{background:url('/images/splash_page.jpg') center top no-repeat;width:100%;height:780px;}
+.splash_page_wrap{display:block;margin:auto;width:700px;}
+.splash_page_wrap .copy{display:block;margin:auto;width:573px;color:white;padding-top:181px;font-family:TitilliumText14L600wt;font-size:15px;line-height:20px;}
+.splash_page_wrap .email_field{display:block;margin:auto;width:595px;padding-top:15px;}
+.splash_page_wrap .email_field #searchbox{background-image:url('/images/splash_page/field.png');}
+.splash_page_wrap .email_field #searchbox #email_search_text{color:#d9d9d9;}
+.splash_page_wrap .email_field #searchbutton #email_submit{background-image:url('/images/splash_page/submit.png');color:white;font-size:16pt;}
+.splash_page_wrap .email_field #searchbutton #email_submit:hover{background-image:url('/images/splash_page/submit_hover.png');color:#fff09f;cursor: pointer;}
+.splash_page_wrap .twitter_text{color:#993300;font-family:TitilliumText14L600wt;font-size:16px;padding-top:5px;padding-left:77px;float:left;height:200px;}
+.splash_page_wrap a{color:white;text-decoration:none;}
+.splash_page_wrap a:hover{color:#fff09f;text-decoration:none;}
+.splash_page_wrap .error_positioning{margin-top:0px;float:left;margin-left:100px;width:300px;}
+.splash_page_wrap .notice, .splash_page_wrap .error{background-color:black;opacity:0.75;float:left;width:300px;margin:5px 0px 0px 0px;}
+.splash_page_wrap .partners{display:block;margin:auto;width:507px;margin-top:158px;}
+.splash_page_wrap .partners p{color:#3a1a00;font-family:TitilliumText14L600wt;font-size:20px;float:left;text-align:center;margin-right:20px;line-height:23px;}
+.splash_page_wrap .partners .partner{float:left;margin:0px 10px;}
+.splash_page_wrap .partners .topspin{margin-top:6px;}
+.splash_page_wrap .partners .yowie{margin-top:-9px;}
+.splash_page_wrap .copyright_text{color:#3a1a00;font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;font-size:8px;text-align:center;margin-top:10px;}
+/* END splash page */
 
 body {
   width:100%;
@@ -547,16 +567,16 @@ div#slides ul li.show {z-index:500}
 
 .left_third {width:340px;float:left;padding-bottom:20px;}
 .right_twothirds {float:left;padding-bottom:20px;padding-left:2px;}
-	.twothirds_info {width:638px;}
+	.twothirds_info {width:678px;}
 
 .dark_bar {height:40px;background:#141414;margin-top:20px;line-height:40px;color:#CCCCCC;}
 	.dark_bar a{color:#FF9900;text-decoration:none;}
 		.dark_bar a:hover{color:#FFFFFF;text-decoration:underline;}
 			.dark_accent{color:#666666;}
 
-.dark_bar_large {height:100px;background:#141414;margin-top:20px;color:#FFFFFF;padding-left:40px;}
+.dark_bar_large { height: 155px; background:#141414;margin-top:20px;color:#FFFFFF;padding-left:40px;}
 
-.content_onethird_bg {background-image:url(/images/content_onethird_bg.png);background-repeat:repeat-y;}
+/*.content_onethird_bg {background-image:url(/images/content_onethird_bg.png);background-repeat:repeat-y;}*/
 
 .formcontainer {width:545px;}
 fieldset {border:0px;padding:0px;margin:0px;}
@@ -756,7 +776,9 @@ fieldset {border:0px;padding:0px;margin:0px;}
 		.link_darkbar:hover {text-decoration:underline;}
 			.l_newstream {background-image:url(/images/icons/new_stream.png);}
 			.l_streamhistory {background-image:url(/images/icons/stream_history.png);}
+			.l_stream-manage {background-image:url(/images/icons/broadcast_sprite.png); background-position:0px -16px;}
 			.l_editbandprofile {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
+			.l_stats {background-image:url(/images/icons/edit_band_profile.png);background-repeat:no-repeat;}
 
 
 
@@ -1057,7 +1079,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
     .dashboard-main .one-third {
       width: 33.3%;
       float: left;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       margin: 0;
       padding: 0;
     }
@@ -1070,8 +1093,8 @@ fieldset {border:0px;padding:0px;margin:0px;}
       height: 200px;
       width: 96%;
       margin: 0 auto;
-      -moz-border-radius: 12px;
-      border-radius: 12px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
     }
       .stats-graph .stats-chart-notification {
         font-size: 10pt;
@@ -1123,18 +1146,18 @@ fieldset {border:0px;padding:0px;margin:0px;}
 
       .stats-main .stats-module {
         position: relative;
-/*        height: 275px;*/
-        width: 225px;
+        width: 220px;
         margin: 5px auto;
         padding: 2px 2px 40px 2px;
-        -moz-border-radius: 12px;
-        border-radius: 12px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
         background-color: #777;
         
       }
       
         .stats-main .stats-module .stats-module-title {
           margin: 4px auto 6px;
+          font-size: 1.4em;
           text-shadow: 2px 2px 2px #333;
           text-align: center;
           color: #FFF;
@@ -1178,11 +1201,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
           width: 100%;
           height: 24px;
           padding-top: 5px;
-          -moz-border-radius: 12px;
-          border-radius: 12px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
           background-color: #F90;
           font-family: TitilliumText14L800wt;
-          font-size: 14pt;
+          font-size: 13pt;
           color: #FFF;
           text-shadow:2px 2px 2px #333;
           text-align: center;
@@ -1210,6 +1233,20 @@ fieldset {border:0px;padding:0px;margin:0px;}
       font-weight: normal;
       font-size: 9pt;
       padding: 2px 8px;
+    }
+
+  /* Artist CP specifics */
+    .left_third {
+      width: 300px;
+    }
+    
+    .right_twothirds .dashboard-main {
+      width: 665px;
+      padding: 5px;
+    }
+    
+    .right_twothirds .stats-main .one-third .stats-module {
+      width: 210px;
     }
 
 
