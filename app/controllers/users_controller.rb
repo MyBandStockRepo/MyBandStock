@@ -3,13 +3,24 @@ class UsersController < ApplicationController
  protect_from_forgery :only => [:create, :update]
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
  before_filter :find_user, :only => [:edit, :address]
- before_filter :authorize_api_access, :if => :api_call?, :only => [:show]
+ before_filter :authorize_api_access, :if => :api_call?, :only => :index
+ before_filter :user_is_admin_of_a_band?, :only => :index, :unless => :api_call?
  # skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
- skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
-
+ skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists], :unless => :api_call?
   def index
-    #What do we do with this action?
-    redirect_to session[:last_clean_url]
+    if params[:band_id] 
+      @band = Band.find(params[:band_id])
+      @user = User.find_by_email(params[:email]) if params[:email]  #for api call
+      @shareholders = @band.shareholders
+      (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)) if @band && @user
+    else
+      return false #we should redirect somewhere
+    end
+    respond_to do |format|
+      format.html
+      format.js 
+      format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
+    end
   end
   
   
@@ -23,15 +34,7 @@ class UsersController < ApplicationController
     @top_invested_artists = @user.top_invested_artists
     
 =end    
-#    @random_band = get_random_band()
-    @band = Band.find(params[:band_id]) if params[:band_id]
-    (@share_total = ShareTotal.get_with_band_and_user_ids(@band, @user.id)) if (@band && @user)
-    respond_to do |format|
-      format.html
-      format.js 
-      format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
-    end
-    
+#    @random_band = get_random_band()    
   end
   
   def register_with_twitter
