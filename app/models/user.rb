@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :promotional_codes
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
+  has_many :invested_in_bands, :through => :share_totals, :source => "band"
   belongs_to :state
   belongs_to :country
   belongs_to :twitter_user
@@ -35,6 +36,10 @@ class User < ActiveRecord::Base
   validates_length_of :email, :maximum => 75, :unless => Proc.new {|user| user.email.nil?}
   validates_length_of :phone , :maximum => 20, :unless => Proc.new {|user| user.phone.nil?}
   
+  API_ATTRIBUTES = %w(first_name last_name email)
+  def api_attributes
+    self.attributes.reject{|k, v| !API_ATTRIBUTES.include?(k.to_s)}
+  end
   def twitter_client
     twitter_user_account = self.twitter_user
     if twitter_user_account

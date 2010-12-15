@@ -110,26 +110,29 @@ class ApplicationController < ActionController::Base
     return res
   end
   
-  def api_call?
-    request.headers["API_KEY"] || request.xhr? || params[:format] == "json" || params[:format] == "xml"
+  def api_call?#this should be refactored
+    request.headers["API_KEY"] || request.xhr? || params[:format] == "json" || params[:format] == "xml" || params[:api_key]
   end
   
-  def authorize_api_access(api_key, input_hash, api_version)
+  def authorize_api_access(api_key=params[:api_key], input_hash=params[:input_hash], api_version=1)
     if (api_key.nil? || input_hash.nil? || api_version.nil?)
-      logger.info 'Key, hash, or version not specified'
+      render :text => "Key, hash, or version not specified.\n", :status => 403
       return false
     end
-    unless api_user = ApiUser.find_by_api_key(api_key)
-      logger.info 'Invalid API User'
+    api_user = ApiUser.find_by_api_key(api_key)
+    if api_user.nil?
+      render :text => "Invalid API user.\n", :status => 403
       return false
+    else
+      secret_key = api_user.secret_key
+      test_hash = Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
+      if (input_hash != test_hash.to_s)
+        render :text => "Incorrect hash.\n", :status => 403
+        return false
+      else
+        return true
+      end
     end
-    secret_key = api_user.secret_key
-    test_hash = Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
-    if (input_hash != test_hash.to_s)
-      logger.info 'Incorrect hash'
-      return false
-    end
-    return true
   end
  
   ##########

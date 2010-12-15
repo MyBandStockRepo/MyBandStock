@@ -106,10 +106,15 @@ Cobain::Application.routes.draw do |map|
   resources :api_users
   resources :pledges
   resources :roles
-  resources :users
+  resources :users do
+    resources :invested_in_bands, :controller => "bands"
+  end
   resources :fans
-  resources :bands
+  resources :bands do
+    resources :shareholders, :controller => "users"
+  end
   resources :user_roles
+  resources :share_totals
   resources :twitter_users
   resources :twitter_crawler_hash_tags  
   resources :live_stream_series

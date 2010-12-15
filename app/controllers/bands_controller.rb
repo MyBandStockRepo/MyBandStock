@@ -161,7 +161,7 @@ end
  
 
   def index
-    
+
     @official_bands = Band.where(:mbs_official_band => true).order('id DESC')
   #  @top_pledged_bands = PledgedBand.order('pledges_count DESC').limit(5)
     

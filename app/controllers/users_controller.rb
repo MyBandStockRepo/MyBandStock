@@ -4,7 +4,7 @@ class UsersController < ApplicationController
  before_filter :authenticated?, :except => [:new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
  before_filter :find_user, :only => [:edit, :address]
  before_filter :authorize_api_access, :if => :api_call?, :only => [:show]
-						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
+ # skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists]
 
   def index
@@ -24,12 +24,12 @@ class UsersController < ApplicationController
     
 =end    
 #    @random_band = get_random_band()
-
-
+    @band = Band.find(params[:band_id]) if params[:band_id]
+    (@share_total = ShareTotal.get_with_band_and_user_ids(@band, @user.id)) if (@band && @user)
     respond_to do |format|
       format.html
       format.js 
-      format.xml
+      format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
     end
     
   end
