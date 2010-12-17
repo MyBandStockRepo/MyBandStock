@@ -165,10 +165,11 @@ table.admin_new_record_table tr td{padding: 10px;}
 .splash_page_wrap .copy{display:block;margin:auto;width:573px;color:white;padding-top:181px;font-family:TitilliumText14L600wt;font-size:15px;line-height:20px;}
 .splash_page_wrap .email_field{display:block;margin:auto;width:595px;padding-top:15px;}
 .splash_page_wrap .email_field #searchbox{background-image:url('/images/splash_page/field.png');}
-.splash_page_wrap .email_field #searchbox #email_search_text{color:#d9d9d9;}
+.splash_page_wrap .email_field #searchbox #email_search_text{color:#9f9f9f;}
+.splash_page_wrap .email_field #searchbox input{color:#9f9f9f;}
 .splash_page_wrap .email_field #searchbutton #email_submit{background-image:url('/images/splash_page/submit.png');color:white;font-size:16pt;}
 .splash_page_wrap .email_field #searchbutton #email_submit:hover{background-image:url('/images/splash_page/submit_hover.png');color:#fff09f;cursor: pointer;}
-.splash_page_wrap .twitter_text{color:#993300;font-family:TitilliumText14L600wt;font-size:16px;padding-top:5px;padding-left:77px;float:left;height:200px;}
+.splash_page_wrap .twitter_text{color:#993300;font-family:TitilliumText14L600wt;font-size:16px;padding-top:15px;padding-left:77px;float:left;height:200px;}
 .splash_page_wrap a{color:white;text-decoration:none;}
 .splash_page_wrap a:hover{color:#fff09f;text-decoration:none;}
 .splash_page_wrap .error_positioning{margin-top:0px;float:left;margin-left:100px;width:300px;}
@@ -178,7 +179,7 @@ table.admin_new_record_table tr td{padding: 10px;}
 .splash_page_wrap .partners .partner{float:left;margin:0px 10px;}
 .splash_page_wrap .partners .topspin{margin-top:6px;}
 .splash_page_wrap .partners .yowie{margin-top:-9px;}
-.splash_page_wrap .copyright_text{color:#3a1a00;font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;font-size:8px;text-align:center;margin-top:10px;}
+.splash_page_wrap .copyright_text{color:#3a1a00;font-family:"Lucida Grande","Lucida Sans",Verdana,Sans-Serif;font-size:10px;text-align:center;margin-top:10px;}
 /* END splash page */
 
 body {
