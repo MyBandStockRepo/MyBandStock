@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   protect_from_forgery :only => [:create, :update, :external_registration_complete]
-  before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
+  before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show], :unless => :api_call?
   before_filter :find_user, :only => [:edit, :address]
   before_filter :authorize_api_access, :if => :api_call?, :only => :index
   # skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
@@ -227,7 +227,7 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.js 
+      format.json {render :json => [@user.api_attributes.to_json, @share_total.to_json] } 
       format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
     end
   end

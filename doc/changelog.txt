@@ -27,15 +27,15 @@ API CALL
 The api call to get info on a shareholder's information in relation to a band is called through the
 index action because we won't have an id for the user. An example api url would be
 
-http://www.mybandstock.com/bands/1/shareholders.xml?email=jason@mybandstock.com 
+http://www.mybandstock.com/bands/1/shareholders.json?email=jason@mybandstock.com 
 
 If there's an email parameter, the api will look for and return info for the user with the 
-associated email. The returned parameters are set in a constant in the user.rb API_ATTRIBUTES and returned
+associated email. The attributes we want to return are set in a constant(API_ATTRIBUTES) in the user.rb and returned
 via the api_attributes instance method on user.
 
 API AUTHENTICATION
 
-Api authentication is called in a before filter for example
+Api authentication is called in a before filter, for example
 before_filter :authorize_api_access, :if => :api_call?, :only => :index
 where both the authorize_api_access and api_call? methods are set in the application_controller to be
 available to all controllers
@@ -44,15 +44,15 @@ api_call? checks several things such as the format and a parameter of api_key, t
 The authentication requires the following parameters:
 api_key which is set on the api_user
 api_version which is defaulted to 1
-input_hash which is a hash created from the api_user's secret_key and the api_key
+input_hash which is a hash created from the api_user's secret_key and the api_key with:
+
+Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
 
 Authentication checks that the hash we generate from the secret_key and the api_key is the same
 as the one passed in the request.
 
 A sample api request url with all parameters would be something like
-http://www.mybandstock.com/bands/1/shareholders.xml?email=jason@mybandstock.com&api_key=awert345rerwerwer&input_hash=23434erwerwerdfsdfdfsf34324
-
-This for the time being returns xml info but will return jsonp for use with the js bar. 
+http://www.mybandstock.com/bands/1/shareholders.json?email=jason@mybandstock.com&api_key=awert345rerwerwer&input_hash=23434erwerwerdfsdfdfsf34324
 
 If any of the steps in authentication fail, a 403 Forbidden status is returned along with an associated message
 
