@@ -51,8 +51,14 @@ jQuery(document).ready(function() {
 			)
 		).append(
 			jQuery(document.createElement('div')).addClass('mybandstock_bar_copy').append("Sign up to start earning BandStock towards rewards!")		
+		).append(
+			//quantcast
+			jQuery('<script type="text/javascript">_qoptions={qacct:"p-f0h8i9mIAp1XU"};</script>')
+		).append(
+			jQuery('<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>')
 	);
 	jQuery('body').append(mybandstock_bar);	
+	
 	
 	// on click listeners for links (makes it so chrome doesn't put the status bar over the bar)
 	jQuery('#mybandstock_bar_manual_registration_link').click(function () {
