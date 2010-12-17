@@ -13,6 +13,7 @@ gem 'omniauth'
 gem 'nifty-generators'
 gem 'oauth2'
 gem 'koala'
+gem 'hoptoad_notifier'
 
 #following added by JM so we can run this under ruby 1.9
 gem 'twitter-text', "1.1", :git => 'git://github.com/rubypond/twitter-text-rb.git'
