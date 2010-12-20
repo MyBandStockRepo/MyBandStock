@@ -124,11 +124,11 @@ function main() {
 	          jQuery('#js-bar-container').append(data.html);
 	        });
          });
-         jQuery("#js-bar-container span.email").mouseenter( function() {
-	      	jQuery(this).append("<div id=\"reward-box\">hello world</>");
-	      }).mouseleave( function() {
-	      	jQuery("div#box").remove();
-	      });
+         // jQuery("#js-bar-container span.email").mouseenter( function() {
+         // 	      	jQuery(this).append("<div id=\"reward-box\">hello world</>");
+         // 	      }).mouseleave( function() {
+         // 	      	jQuery("div#box").remove();
+         // 	      });
       });
 }
 
