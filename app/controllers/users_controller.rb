@@ -224,6 +224,7 @@ class UsersController < ApplicationController
       end 
       @shareholders = @band.shareholders
       (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)) if @band && @user
+      @net = @share_total.nil ? "0" : @share_total.net
     else
       return false #we should redirect somewhere
     end
@@ -865,7 +866,7 @@ protected
   def logged_in_info(user)
     "<p class=\"welcome\">Hi #{user.first_name}!</p>
     <div id=\"stats\">
-      <p class=\"shares\">You have #{@share_total.net} shares!</p>
+      <p class=\"shares\">You have #{@net} shares!</p>
       <span class=\"logout-link\">logout</span>
     </div>
     "
