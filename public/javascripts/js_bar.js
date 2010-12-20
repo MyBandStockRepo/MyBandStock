@@ -111,7 +111,7 @@ function main() {
 			    jQuery.cookie("_mbs", data.msg);
 			    jQuery("#user_submit").remove();
 		      };
-		      if (data.msg && data.msg != "delete"){//if the user can't be found from the cookie, pass "delete" to js to set the cookie to null and reset the bar
+		      if (data.msg && data.msg == "delete"){//if the user can't be found from the cookie, pass "delete" to js to set the cookie to null and reset the bar
 			    jQuery.cookie("_mbs", null);
 		       };
 		      jQuery("div.bar-login, p.message").remove();
