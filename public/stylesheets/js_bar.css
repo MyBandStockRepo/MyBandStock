@@ -1,8 +1,8 @@
 div#js-bar-container{
 	width:95%;
-	height:30px;
+	height:70px;
 	background: gray;
-	padding:20px;
+	padding:5px;
 	color:white;
 	position:fixed;
 	bottom:1em;
