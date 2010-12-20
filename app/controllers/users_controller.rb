@@ -811,7 +811,7 @@ protected
       data = need_password_html(@user.email)
     elsif @authentic && !@need_password #the user is authenticated, we don't need the password, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
-      message = @user.password_salt
+      message = @user.created_at
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need a new password try
       data = wrong_password(@user.email)
     elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one and sent them a confirmation email.
@@ -827,7 +827,7 @@ protected
     @authentic = false
     @need_password = false
     if params[:salt] && params[:salt] != 'undefined'
-      @user = User.where("password_salt = ?", params[:salt]).first
+      @user = User.where("created_at = ?", params[:salt]).first
       @authentic = true if @user
       @no_user = true unless @user
     end
