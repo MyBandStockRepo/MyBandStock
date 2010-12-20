@@ -47,7 +47,18 @@ class User < ActiveRecord::Base
     end
     return nil
   end
-  
+
+  def generate_or_salt_password(password=generate_key(8))
+  	#create salted password
+    random = ActiveSupport::SecureRandom.hex(10)
+    salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
+    salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
+    self.password_salt = salt
+    self.password = salted_password
+  end
+  def self.authenticate(passed_email, passed_password)
+    ( user = User.find_by_email(passed_email) ) && (( user.password_salt.blank? && user.password == Digest::SHA2.hexdigest(passed_password) ) || (!user.password_salt.blank? && user.password == Digest::SHA2.hexdigest("#{user.password_salt}#{passed_password}")))    
+  end
   #will return the twitter user through the authentications join table
   def twitter_user
     auth = self.authentications.find_by_provider('twitter')
@@ -57,7 +68,6 @@ class User < ActiveRecord::Base
     end
     return twitter
   end
-
   def authenticated_with_twitter?
     twitter_user_account = self.twitter_user
     if twitter_user_account
@@ -452,5 +462,9 @@ class User < ActiveRecord::Base
     end
     return true
   end
-
+  def generate_key(length = 16)
+  # Takes a string length and returns a random string
+    chars = ("a".."z").to_a + ('A'..'Z').to_a + ("0".."9").to_a;
+    Array.new(length, '').collect{chars[rand(chars.size)]}.join
+  end
 end

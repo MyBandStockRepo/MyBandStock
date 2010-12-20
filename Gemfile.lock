@@ -87,6 +87,8 @@ GEM
       money (>= 1.7.1)
     haml (3.0.3)
     hashie (0.4.0)
+    hoptoad_notifier (2.2.2)
+      activesupport
     i18n (0.4.2)
     json (1.4.6)
     json_pure (1.4.6)
@@ -227,6 +229,7 @@ DEPENDENCIES
   google4r
   google4r-checkout
   haml (= 3.0.3)
+  hoptoad_notifier
   koala
   launchy
   memcache-client

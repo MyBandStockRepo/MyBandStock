@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   protect_from_forgery :only => [:create, :update, :external_registration_complete]
   before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show], :unless => :api_call?
   before_filter :find_user, :only => [:edit, :address]
-  before_filter :authorize_api_access, :if => :api_call?, :only => :index
+  # before_filter :authorize_api_access, :if => :api_call?, :only => :index
   # skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
   skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address], :unless => :api_call?
   before_filter :make_sure_band_id_session_exists, :only => [:external_registration]
@@ -219,7 +219,9 @@ class UsersController < ApplicationController
   def index
     if params[:band_id] 
       @band = Band.find(params[:band_id])
-      @user = User.find_by_email(params[:email]) if params[:email]  #for api call
+      if params[:email] || (params[:salt]) 
+        login_or_create_user
+      end 
       @shareholders = @band.shareholders
       (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)) if @band && @user
     else
@@ -227,7 +229,7 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.json {render :json => [@user.api_attributes.to_json, @share_total.to_json] } 
+      format.json {render :text => get_jsonp } 
       format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
     end
   end
@@ -799,6 +801,79 @@ protected
     
     @user = User.find(id)
   end
-    
-
+  def get_jsonp
+    callback = params[:callback]
+    if @no_user
+      data = ""
+      message = "delete"
+    elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
+      data = need_password_html(@user.email)
+    elsif @authentic && !@need_password #the user is authenticated, we don't need the password, we return all the info for the user, including the salt to set the cookie
+      data = logged_in_info(@user)
+      message = @user.password_salt
+    elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need a new password try
+      data = wrong_password(@user.email)
+    elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one and sent them a confirmation email.
+      data = new_user_message(@user.email)
+    end
+    message ||= ""
+    json = {"html" => data, "msg" => message}.to_json
+    callback + "(" + json + ")"
+  end
+  
+  def login_or_create_user
+    @no_user = false
+    @authentic = false
+    @need_password = false
+    if params[:salt] && params[:salt] != 'undefined'
+      @user = User.where("password_salt = ?", params[:salt]).first
+      @authentic = true if @user
+      @no_user = true unless @user
+    end
+    @user = User.where("email = ?", params[:email]).first if params[:email]
+    if @user
+      if params[:password] && !params[:password].blank? && params[:password] != "undefined"
+        if User.authenticate(params[:email], params[:password])
+          @authentic = true
+        else
+          @authentic = false
+        end
+      else
+        @need_password = !@authentic
+      end
+    else
+      create_new_user
+    end 
+  end
+  def create_new_user
+    if @user = User.new(:email => params[:email], :password => generate_key(8))
+      @user.generate_or_salt_password(@user.password)
+      @user.save
+    end
+  end
+  def need_password_html(email)
+    "<div class =\"bar-login\">
+      <span class=\"email\"style=\"display:none;\">
+        Email: <input id=\"user_email\"name=\"user[email]\" size=\"30\" type=\"text\" value=\"#{email}\" />
+      </span>
+      Please enter your
+      <span class=\"pass\"> 
+        Password: <input id=\"user_password\" name=\"user[password]\" size=\"20\" type=\"password\" value=\"\" />
+      </span>
+    </div>"
+  end
+  def logged_in_info(user)
+    "<p class=\"welcome\">Hi #{user.first_name}!</p>
+    <div id=\"stats\">
+      <p class=\"shares\">You have #{@share_total.net} shares!</p>
+      <span class=\"logout-link\">logout</span>
+    </div>
+    "
+  end
+  def wrong_password(email)
+    "<p class=\"message\">Sorry, wrong password, please try again" + need_password_html(email) + "</p>"
+  end
+  def new_user_message(email)
+    "<p class=\"message\">Welcome, start collecting stock for #{@band.name} now and start receiving rewards. We sent you an email with more info.</p>"
+  end
 end #end controller
