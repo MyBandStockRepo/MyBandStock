@@ -85,7 +85,7 @@ function main() {
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "/stylesheets/js_bar.css" 
+            href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
         });
         css_link.appendTo('head');          
 
