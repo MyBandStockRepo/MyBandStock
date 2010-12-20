@@ -223,7 +223,9 @@ class UsersController < ApplicationController
         login_or_create_user
       end 
       @shareholders = @band.shareholders
-      (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)) if @band && @user
+      if (!@band.nil? && !@user.nil?)
+        (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id))
+      end
       @net = @share_total.nil? ? "0" : @share_total.net
     else
       return false #we should redirect somewhere
