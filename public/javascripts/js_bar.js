@@ -93,7 +93,7 @@ function main() {
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
         if (jQuery.cookie('_mbs')){
            var salt = jQuery.cookie("_mbs");
-           var jsonp_url = "http://notorius.mybandstock.com/bands/1/shareholders.json?callback=?&salt=" + salt; 
+           var jsonp_url = "http://notorious.mybandstock.com/bands/1/shareholders.json?callback=?&salt=" + salt; 
            jQuery.getJSON(jsonp_url, function(data) {
            jQuery('#js-bar-container').append(data.html);
            });
