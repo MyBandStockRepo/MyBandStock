@@ -1,6 +1,7 @@
 // just paste the following into the html to enable the bar
 // <script src="http://www.mybandstock.com/javascripts/js_bar.js" type="text/javascript"></script>
-// <div id="js-bar-container"><br class="clear" /></div>
+// <div id="js-bar-container" class="1234(this is the band id)"><br class="clear" /></div>
+// our function starts on line 83, the rest is the cookie plugin and initialization for jquery
 (function() {
 
 // Localize jQuery variable
@@ -88,13 +89,14 @@ function main() {
             href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
         });
         css_link.appendTo('head');          
-
+        var band_id = jQuery('#js-bar-container').attr('class'); // get the band id from the class attribute
+        
         /******* Load HTML *******/
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
-        if (jQuery.cookie('_mbs')){
+        if (jQuery.cookie('_mbs')){ 
            var salt = jQuery.cookie("_mbs");
-           var jsonp_url = "http://notorious.mybandstock.com/bands/1/shareholders.json?callback=?&salt=" + salt; 
-           jQuery.getJSON(jsonp_url, function(data) {
+           var jsonp_url = "http://notorious.mybandstock.com/bands/" + band_id + "/shareholders.json?callback=?&salt=" + salt; 
+           jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
            jQuery('#js-bar-container').append(data.html);
            });
          }else
@@ -103,15 +105,15 @@ function main() {
 	      };
         // User submits their info(either email or password depending on what's being asked for)
         jQuery('#js-bar-container #user_submit').click(function() {
-	        var email = jQuery('input#user_email').val();
-	        var pass = jQuery('input#user_password').val();
-	        var jsonp_url = "http://notorious.mybandstock.com/bands/1/shareholders.json?callback=?&email=" + email + "&password=" + pass;
+	        var email = jQuery('input#user_email').val(); //capture the email entered
+	        var pass = jQuery('input#user_password').val(); //capture the password entered
+	        var jsonp_url = "http://notorious.mybandstock.com/bands/" + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass; //pass those params to the query string
 	        jQuery.getJSON(jsonp_url, function(data) {
-		      if (data.msg && data.msg != "delete"){ 
+		      if (data.msg && data.msg != "delete"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
 			    jQuery.cookie("_mbs", data.msg);
 			    jQuery("#user_submit").remove();
 		      };
-		      if (data.msg && data.msg == "delete"){//if the user can't be found from the cookie, pass "delete" to js to set the cookie to null and reset the bar
+		      if (data.msg && data.msg == "delete"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
 			    jQuery.cookie("_mbs", null);
 		       };
 		      jQuery("div.bar-login, p.message").remove();
