@@ -219,7 +219,7 @@ class UsersController < ApplicationController
   def index
     if params[:band_id] 
       @band = Band.find(params[:band_id])
-      if params[:email] || (params[:salt]) 
+      if (params[:email] || (params[:salt])) && api_call? #this is an api call
         login_or_create_user
       end 
       @shareholders = @band.shareholders
@@ -806,17 +806,17 @@ protected
   end
   def get_jsonp
     callback = params[:callback]
-    if @no_user
+    if @no_user #there was a mbs cookie but the user couldn't be found from it, we'll reset the cookie and ask for the user's email
       data = ""
       message = "delete"
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
-    elsif @authentic && !@need_password #the user is authenticated, we don't need the password, we return all the info for the user, including the salt to set the cookie
+    elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
       message = @user.created_at
-    elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need a new password try
+    elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
       data = wrong_password(@user.email)
-    elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one and sent them a confirmation email.
+    elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one.
       data = new_user_message(@user.email)
     end
     message ||= ""
@@ -825,36 +825,41 @@ protected
   end
   
   def login_or_create_user
-    @no_user = false
-    @authentic = false
-    @need_password = false
-    if params[:salt] && params[:salt] != 'undefined'
-      @user = User.where("created_at = ?", params[:salt]).first
-      @authentic = true if @user
-      @no_user = true unless @user
+    #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
+    #combinations three variables will tell which response to send from the get_jsonp method
+    @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
+    @authentic = false #if this is true, the steps have been completed and we can send the user info
+    @need_password = false #if this is true, the user will be asked for their password
+    if params[:salt] && params[:salt] != 'undefined' #if there's a salt parameter, then we try to find the user from the cookie
+      @user = User.where("created_at = ?", params[:salt]).first #find the user with that token
+      @authentic = true if @user #set authentic var to true if we find the user, that's the only step, the user is logged in
+      @no_user = true unless @user #set no user if we can't find the user, that will reset the cookie to null
     end
-    @user = User.where("email = ?", params[:email]).first if params[:email]
+    @user = User.where("email = ?", params[:email]).first if params[:email] #both the email step and the pass step have an email param
     if @user
-      if params[:password] && !params[:password].blank? && params[:password] != "undefined"
-        if User.authenticate(params[:email], params[:password])
-          @authentic = true
+      if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
+        if User.authenticate(params[:email], params[:password]) #if the password matches
+          @authentic = true #the user is authenticated and get_jsonp can send the info
         else
           @authentic = false
         end
       else
-        @need_password = !@authentic
+        @need_password = !@authentic #if there's a user but no password, authentic may still be true if  
+                                     #logging in from a cookie. So need_password should be the opposite of authentic.
+                                     #if need_password is true, authentic is false and we know we need to send 
+                                     #the response "enter your password"
       end
     else
-      create_new_user
+      create_new_user #finally if there's no user with the passed email param, we create him.
     end 
   end
-  def create_new_user
-    if @user = User.new(:email => params[:email], :password => generate_key(8))
+  def create_new_user #create the user from the email passed if email not found in the system
+    if @user = User.new(:email => params[:email], :password => generate_key(8)) #generate a password for new user
       @user.generate_or_salt_password(@user.password)
       @user.save
     end
   end
-  def need_password_html(email)
+  def need_password_html(email) #html for step two, a password field and a hidden email field with the user's email
     "<div class =\"bar-login\">
       <span class=\"email\"style=\"display:none;\">
         Email: <input id=\"user_email\"name=\"user[email]\" size=\"30\" type=\"text\" value=\"#{email}\" />
@@ -865,7 +870,7 @@ protected
       </span>
     </div>"
   end
-  def logged_in_info(user)
+  def logged_in_info(user) #html for all info passed for a logged-in user
     "<p class=\"welcome\">Hi #{user.first_name}!</p>
     <div id=\"stats\">
       <p class=\"shares\">You have #{@net} shares!</p>
@@ -873,10 +878,10 @@ protected
     </div>
     "
   end
-  def wrong_password(email)
+  def wrong_password(email) #html for a user who entered the wrong email, should include a cancel button
     "<p class=\"message\">Sorry, wrong password, please try again" + need_password_html(email) + "</p>"
   end
-  def new_user_message(email)
+  def new_user_message(email) #html for a user we created from the email passed. Could ask for a password here and reset for the user from the bar.
     "<p class=\"message\">Welcome, start collecting stock for #{@band.name} now and start receiving rewards. We sent you an email with more info.</p>"
   end
 end #end controller
