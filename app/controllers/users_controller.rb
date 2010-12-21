@@ -813,7 +813,7 @@ protected
       data = need_password_html(@user.email)
     elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
-      message = @user.created_at
+      message = @user.password_salt
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
       data = wrong_password(@user.email)
     elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one.
@@ -831,7 +831,7 @@ protected
     @authentic = false #if this is true, the steps have been completed and we can send the user info
     @need_password = false #if this is true, the user will be asked for their password
     if params[:salt] && params[:salt] != 'undefined' #if there's a salt parameter, then we try to find the user from the cookie
-      @user = User.where("created_at = ?", params[:salt]).first #find the user with that token
+      @user = User.where("password_salt = ?", params[:salt]).first #find the user with that token
       @authentic = true if @user #set authentic var to true if we find the user, that's the only step, the user is logged in
       @no_user = true unless @user #set no user if we can't find the user, that will reset the cookie to null
     end
