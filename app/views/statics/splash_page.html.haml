@@ -9,7 +9,7 @@
     
     = render :partial => 'common_partials/meta'
     = csrf_meta_tag
-  %body{ :id => @body_id, :style => "background-color: black; background-image: none;height:100%;top:0px;" }
+  %body{ :id => @body_id, :style => "background-color: #120701; background-image: none;height:100%;top:0px;" }
     .splash_page    
       .splash_page_wrap
         .copy
@@ -47,7 +47,7 @@
         .copyright_text  
           © Copyright 2010 Mybandstock Corporation | All Rights Reserved
       = render :partial => 'common_partials/google_tracker'
-
+      = render :partial => 'common_partials/quantcast'
 
 
 
