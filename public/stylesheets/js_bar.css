@@ -3,7 +3,6 @@ div#js-bar-container{
 	height:45px;
 	background: #443A3A;
 	padding:7px;
-	padding-left: 1em;
 	color:white;
 	position:fixed;
 	bottom:.1em;
@@ -15,12 +14,13 @@ div#js-bar-container{
 	width:auto;
 	font-size:1.2em;
 	margin:6px;
-	margin-top:-3px;
+	margin-top: 1em;
+/*	margin-top:-3px;*/	
 	float:left;
 	display:inline;
 }
 #js-bar-container p.band-name{
-	margin-top:-10px;
+	margin-top:1em;
 	background:black;
 	border-radius:15px;
 	-moz-border-radius:15px;
@@ -87,7 +87,7 @@ div.user-form span.pass{
 	float:right;
 	color:white;
 	clear:right;
-	margin-top:-1.8em;
+/*	margin-top:-1.8em;*/
 }
 
 #js-bar-container span.logout-link a{
@@ -118,7 +118,7 @@ div#js-bar-container input#user_submit:hover{
 }
 .logout-link{
 	float:right;
-	margin-top:-1em;
+	/*margin-top:-1em;*/
 }
 #user_submit {
 	width:auto;
@@ -130,9 +130,9 @@ p.message {
 }
 span.rewards{
 	float:left;
-	position:relative;
+	position:absolute;
 	left:40%;
-	bottom:.5em;
+	top:1em;
 }
 span.rewards a{
 	background:#DEEBDA;
