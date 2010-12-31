@@ -39,3 +39,11 @@ p.message {
 	display:inline;
 	width:auto;
 }
+div#rewards{
+	position:absolute;
+	height:200px;
+	width:200px;
+	bottom: 5em;
+	background:red;
+	display:none;
+}

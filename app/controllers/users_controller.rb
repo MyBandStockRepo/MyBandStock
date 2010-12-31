@@ -890,6 +890,7 @@ protected
     <div id=\"stats\">
       <p class=\"shares\">You have #{@net} shares!</p>
     </div>
+    <div id=\"rewards\">awesom rewards!</div>
     "
   end
   def wrong_password(email) #html for a user who entered the wrong email, should include a cancel button
