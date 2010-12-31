@@ -138,10 +138,10 @@ function main() {
            });
         // User submits their info(either email or password depending on what's being asked for)
         jQuery('#js-bar-container #user_submit').click(function() {
-	        var first_name = jQuery('input#user_first_name').val();
-			var email = jQuery('input#user_email').val(); //capture the email entered
-	        var email_confirmation = jQuery('input#user_email_confirmation').val();//capture the email entered if new user
-	        var pass = jQuery('input#user_password').val(); //capture the password entered
+	        var first_name = jQuery('#js-bar-container input#user_first_name').val();
+			var email = jQuery('#js-bar-container input#user_email').val(); //capture the email entered
+	        var email_confirmation = jQuery('#js-bar-container input#user_email_confirmation').val();//capture the email entered if new user
+	        var pass = jQuery('#js-bar-container input#user_password').val(); //capture the password entered
 	        var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
 	        jQuery.getJSON(jsonp_url, function(data) {
 		      if (data.msg && data.msg != "delete" && data.msg != "need-password"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
