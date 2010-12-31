@@ -80,52 +80,82 @@ function main() {
 	        return cookieValue;
 	    }
 	};
+
 /********************main function***************/ 
     jQuery(document).ready(function($) { 
         /******* Load CSS *******/
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
+            href: "http://localhost.me:3000/stylesheets/js_bar.css" 
         });
         css_link.appendTo('head');          
         var band_id = jQuery('#js-bar-container').attr('class'); // get the band id from the class attribute
-        
+        var url_host = "http://localhost.me:3000/bands/"
         /******* Load HTML *******/
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
         if (jQuery.cookie('_mbs')){ 
            var salt = jQuery.cookie("_mbs");
-           var jsonp_url = "http://notorious.mybandstock.com/bands/" + band_id + "/shareholders.json?callback=?&salt=" + salt; 
-           jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
+           var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
+           jQuery('#js-bar-container').remove('span.logout-link');
+		   jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"http://localhost.me:3000/\"> logout</a></span>");
+		   jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
            jQuery('#js-bar-container').append(data.html);
+           jQuery('span.cancel').hide("fast");
            });
          }else
           {
-	       jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"user_submit\" name=\"commit\" type=\"submit\" value=\"SUBMIT\" />");
-	      };
-        // User submits their info(either email or password depending on what's being asked for)
-        jQuery('#js-bar-container #user_submit').click(function() {
-	        var email = jQuery('input#user_email').val(); //capture the email entered
-	        var pass = jQuery('input#user_password').val(); //capture the password entered
-	        var jsonp_url = "http://notorious.mybandstock.com/bands/" + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass; //pass those params to the query string
-	        jQuery.getJSON(jsonp_url, function(data) {
-		      if (data.msg && data.msg != "delete"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
-			    jQuery.cookie("_mbs", data.msg);
-			    jQuery("#user_submit").remove();
-		      };
-		      if (data.msg && data.msg == "delete"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
-			    jQuery.cookie("_mbs", null);
-		       };
-		      jQuery("div.bar-login, p.message").remove();
-	          jQuery('#js-bar-container').append(data.html);
-	        });
-          });
-         jQuery("span.logout").click(function() { //click the logout button
-         	jQuery.cookie("_mbs", null); //kill the cookie
+	       jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"http://localhost.me:3000/\"> logout</a></span>");
+	       jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"user_submit\" name=\"commit\" type=\"submit\" value=\"SUBMIT\" /><span class=\"cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
+	       jQuery('span.logout-link').hide('fast');
+		  };
+	   	  jQuery('#js-bar-container .cancel-this').click(function() {
+		    jQuery(this).hide("fast");
+		    jQuery('div.bar-login').remove();
+		    jQuery('p.message').remove();
+	   	    jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div>");
+	        return false;
+	      });
+	      jQuery('#js-bar-container span.logout-link a').click(function() { //click the logout button
+         	var email = null
+			var email_confirmation = null
+			var first_name = null
+			var pass = null
+			var salt = null
+			jQuery.cookie("_mbs", null); //kill the cookie
             jQuery.getJSON(jsonp_url, function(data) { //call the server to reset the bar
 	          jQuery('#js-bar-container').append(data.html);
 	        });
-         });
+           });
+        // User submits their info(either email or password depending on what's being asked for)
+        jQuery('#js-bar-container #user_submit').click(function() {
+	        var first_name = jQuery('input#user_first_name').val();
+			var email = jQuery('input#user_email').val(); //capture the email entered
+	        var email_confirmation = jQuery('input#user_email_confirmation').val();//capture the email entered if new user
+	        var pass = jQuery('input#user_password').val(); //capture the password entered
+	        var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
+	        jQuery.getJSON(jsonp_url, function(data) {
+		      if (data.msg && data.msg != "delete" && data.msg != "need-password"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
+			    jQuery.cookie("_mbs", data.msg);
+			    jQuery("#user_submit").remove();
+			    jQuery('span.cancel-this').remove();
+	            jQuery('span.logout-link').show('fast');
+		      };
+		      if (data.msg && data.msg == "delete" && data.msg != "need-password"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
+			    jQuery.cookie("_mbs", null);
+		       };
+		      if (data.msg && data.msg == "need-password"){
+			    jQuery("span.cancel").show("fast");
+	           };
+		      jQuery("div.bar-login, p.message").remove();
+	          jQuery('#js-bar-container').append(data.html);
+	          if (data.msg && data.msg == 'need password'){
+		        jQuery('span.cancel').css('display', 'inline');
+			  };
+	        });
+          });
+       
+
          // jQuery("#js-bar-container span.email").mouseenter( function() {
          // 	      	jQuery(this).append("<div id=\"reward-box\">hello world</>");
          // 	      }).mouseleave( function() {

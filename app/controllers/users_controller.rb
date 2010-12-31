@@ -223,8 +223,9 @@ class UsersController < ApplicationController
         login_or_create_user
       end 
       @shareholders = @band.shareholders
-      if (!@band.nil? && !@user.nil?)
-        (@share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id))
+      if @band && @user && !@user.new_record?
+        logger.info "This is the email #{@user.email}"
+        @share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)
       end
       @net = @share_total.nil? ? "0" : @share_total.net
     else
@@ -809,15 +810,19 @@ protected
     if @no_user #there was a mbs cookie but the user couldn't be found from it, we'll reset the cookie and ask for the user's email
       data = ""
       message = "delete"
+    elsif !@authentic && @user_error
+      data = sign_up_failure(@user)
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
+      message = "need-password"
     elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
       message = @user.password_salt
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
       data = wrong_password(@user.email)
+      message = "need-password"
     elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one.
-      data = new_user_message(@user.email)
+      data = user_form_html(@user)
     end
     message ||= ""
     json = {"html" => data, "msg" => message}.to_json
@@ -826,17 +831,21 @@ protected
   
   def login_or_create_user
     #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
-    #combinations three variables will tell which response to send from the get_jsonp method
+    #combinations four variables will tell which response to send from the get_jsonp method
+    @user_error = false
     @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
     @authentic = false #if this is true, the steps have been completed and we can send the user info
     @need_password = false #if this is true, the user will be asked for their password
+    @user = User.where("email = ?", params[:email]).first if params[:email] #both the email step and the pass step have an email param
     if params[:salt] && params[:salt] != 'undefined' #if there's a salt parameter, then we try to find the user from the cookie
       @user = User.where("password_salt = ?", params[:salt]).first #find the user with that token
-      @authentic = true if @user #set authentic var to true if we find the user, that's the only step, the user is logged in
-      @no_user = true unless @user #set no user if we can't find the user, that will reset the cookie to null
-    end
-    @user = User.where("email = ?", params[:email]).first if params[:email] #both the email step and the pass step have an email param
-    if @user
+      @authentic = true unless @user.nil? #set authentic var to true if we find the user, that's the only step, the user is logged in
+      @no_user = true if @user.nil? #set no user if we can't find the user, that will reset the cookie to null
+    elsif params[:email_confirmation] && params[:email_confirmation] != 'undefined'
+      @authentic = create_new_user
+      @user_error = !@authentic
+      @user = User.new(:email => params[:email]) if @user_error
+    elsif @user
       if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
         if User.authenticate(params[:email], params[:password]) #if the password matches
           @authentic = true #the user is authenticated and get_jsonp can send the info
@@ -850,13 +859,19 @@ protected
                                      #the response "enter your password"
       end
     else
-      create_new_user #finally if there's no user with the passed email param, we create him.
+      send_user_form #finally if there's no user with the passed email param, we render a signup form.
     end 
   end
+  def send_user_form
+    @user = User.new(:email => params[:email])
+  end
   def create_new_user #create the user from the email passed if email not found in the system
-    if @user = User.new(:email => params[:email], :password => generate_key(8)) #generate a password for new user
-      @user.generate_or_salt_password(@user.password)
-      @user.save
+    @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
+    @user.generate_or_salt_password(@user.password)
+    if @user.save
+      return true
+    else
+      return false
     end
   end
   def need_password_html(email) #html for step two, a password field and a hidden email field with the user's email
@@ -874,7 +889,6 @@ protected
     "<p class=\"welcome\">Hi #{user.first_name}!</p>
     <div id=\"stats\">
       <p class=\"shares\">You have #{@net} shares!</p>
-      <span class=\"logout-link\">logout</span>
     </div>
     "
   end
@@ -883,5 +897,27 @@ protected
   end
   def new_user_message(email) #html for a user we created from the email passed. Could ask for a password here and reset for the user from the bar.
     "<p class=\"message\">Welcome, start collecting stock for #{@band.name} now and start receiving rewards. We sent you an email with more info.</p>"
+  end
+  def user_form_html(user)
+    "<p class=\"message\">We couldn't find your email in the system. Sign up and get 1000 shares of #{@band.name} stock</p>
+    <div class =\"bar-login\">
+      <span class=\"first-name\">
+        First Name: <input id=\"user_first_name\"name=\"user[first_name]\" size=\"15\" type=\"text\" />
+      </span>
+      <span class=\"email\">
+        Email: <input id=\"user_email\"name=\"user[email]\" size=\"15\" type=\"text\" value=\"#{user.email}\" />
+      </span>
+      <span class=\"email\">
+        Confirm Email: <input id=\"user_email_confirmation\"name=\"user[email_confirmation]\" size=\"15\" type=\"text\" value=\"\" />
+      </span>
+      Please enter a
+      <span class=\"pass\"> 
+        Password: <input id=\"user_password\" name=\"user[password]\" size=\"15\" type=\"password\" value=\"\" />
+      </span>
+    </div>"
+  end
+  def sign_up_failure(user)
+    "<p class=\"message\">Sorry, something went wrong. Please try again</p>"
+    user_form_html(user)
   end
 end #end controller

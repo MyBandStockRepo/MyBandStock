@@ -13,7 +13,16 @@ div.bar-login{
 	display:inline;
 	padding:2px;
 }
-
+#js-bar-container span.cancel-this a {
+	float:right;
+	color:white;
+	clear:right;
+}
+#js-bar-container span.logout-link a{
+	float:right;
+	color:white;
+	clear:right;
+}
 div.bar-login span.pass{
 }
 div#js-bar-container input#user_submit{
@@ -21,4 +30,12 @@ div#js-bar-container input#user_submit{
 }
 .logout-link{
 	float:right;
+}
+#user_submit {
+	width:auto;
+	display:inline;
+}
+p.message {
+	display:inline;
+	width:auto;
 }
