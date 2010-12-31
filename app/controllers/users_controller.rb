@@ -886,12 +886,13 @@ protected
     </div>"
   end
   def logged_in_info(user) #html for all info passed for a logged-in user
-    "<p class=\"welcome\">Hi #{user.first_name}!</p>
+     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")     
+    "<p class=\"band-name\">#{@band.name}</p>
+    <p class=\"welcome\">Hey #{user.first_name}!</p>
     <div id=\"stats\">
-      <p class=\"shares\">You have #{@net} shares!</p>
+      <p class=\"shares\">You have #{@net} shares! Only <span class=\"number\">40,000</span> shares to the next level</p>
     </div>
-    <div id=\"rewards\">awesom rewards!</div>
-    "
+    <div id=\"rewards\"><ul>" + list + "</ul></div>"
   end
   def wrong_password(email) #html for a user who entered the wrong email, should include a cancel button
     "<p class=\"message\">Sorry, wrong password, please try again" + need_password_html(email) + "</p>"
@@ -900,22 +901,23 @@ protected
     "<p class=\"message\">Welcome, start collecting stock for #{@band.name} now and start receiving rewards. We sent you an email with more info.</p>"
   end
   def user_form_html(user)
-    "<p class=\"message\">We couldn't find your email in the system. Sign up and get 1000 shares of #{@band.name} stock</p>
-    <div class =\"bar-login\">
+    "<div class=\"user-form\">
+      <p class=\"user-form\">We couldn't find your email in the system. Sign up and get 1000 shares of #{@band.name} stock</p>
       <span class=\"first-name\">
-        First Name: <input id=\"user_first_name\"name=\"user[first_name]\" size=\"15\" type=\"text\" />
+        <label>First Name:</label> <input id=\"user_first_name\"name=\"user[first_name]\" size=\"25\" type=\"text\" />
       </span>
       <span class=\"email\">
-        Email: <input id=\"user_email\"name=\"user[email]\" size=\"15\" type=\"text\" value=\"#{user.email}\" />
+        <label>Email:</label> <input id=\"user_email\"name=\"user[email]\" size=\"25\" type=\"text\" value=\"#{user.email}\" />
       </span>
-      <span class=\"email\">
-        Confirm Email: <input id=\"user_email_confirmation\"name=\"user[email_confirmation]\" size=\"15\" type=\"text\" value=\"\" />
+      <span class=\"email-conf\">
+        <label>Confirm Email:</label> <input id=\"user_email_confirmation\"name=\"user[email_confirmation]\" size=\"25\" type=\"text\" value=\"\" />
       </span>
-      Please enter a
       <span class=\"pass\"> 
-        Password: <input id=\"user_password\" name=\"user[password]\" size=\"15\" type=\"password\" value=\"\" />
+        <label>Password:</label> <input id=\"user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
       </span>
-    </div>"
+      <br style=\"clear:both;\" />
+    </div>
+    "
   end
   def sign_up_failure(user)
     "<p class=\"message\">Sorry, something went wrong. Please try again</p>"
