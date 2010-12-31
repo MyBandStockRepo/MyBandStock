@@ -26,7 +26,6 @@ div#js-bar-container{
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	padding:7px;
-	margin-left:-5.5em;
 	
 }
 #js-bar-container p.shares{
@@ -44,7 +43,7 @@ div.bar-login{
 	float:right;
 	display:inline;
 	padding:2px;
-	margin:-1.3em 15% 0 0;
+	margin:0 15% 0 0;
 }
 div.user-form{
 	padding:15px;
