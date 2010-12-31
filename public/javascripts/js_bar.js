@@ -87,33 +87,34 @@ function main() {
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "http://localhost.me:3000/stylesheets/js_bar.css" 
+            href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
         });
         css_link.appendTo('head');          
         var band_id = jQuery('#js-bar-container').attr('class'); // get the band id from the class attribute
-        var url_host = "http://localhost.me:3000/bands/"
+        var url_host = "http://notorious.mybandstock.com/bands/"
         /******* Load HTML *******/
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
         if (jQuery.cookie('_mbs')){ 
            var salt = jQuery.cookie("_mbs");
+           var current_url = window.location.href.replace("undefined", "");
            var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
            jQuery('#js-bar-container').remove('span.logout-link');
-		   jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"http://localhost.me:3000/\"> logout</a></span></span><span class=\"rewards\">rewards</span>");
+		   jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"" + current_url + "\"> logout</a></span></span><span class=\"rewards\"><a href=\"#\">View Rewards</a></span>");
 		   jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
            jQuery('#js-bar-container').append(data.html);
-           jQuery('span.cancel').hide("fast");
-		   jQuery('span.rewards').show("fast");
+           jQuery('span.cancel').css("display","none");
+		   jQuery('span.rewards').fadeIn("fast");
            });
          }else
           {
-	       jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"http://localhost.me:3000/\"> logout</a></span><span class=\"rewards\">rewards</span>");
-	       jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"user_submit\" name=\"commit\" type=\"submit\" value=\"SUBMIT\" /><span class=\"cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
-	       jQuery('span.logout-link, span.rewards').hide('fast');
+	       jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"" + current_url + "\"> logout</a></span><span class=\"rewards\"><a href=\"#\">View Rewards</a></span>");
+	       jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"user_submit\" name=\"commit\" type=\"submit\" value=\"POW!\" /><span class=\"cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
+	       jQuery('span.logout-link, span.rewards').css("display","none");
 		  };
 	   	  jQuery('#js-bar-container .cancel-this').click(function() {
 		    jQuery(this).hide("fast");
 		    jQuery('div.bar-login').remove();
-		    jQuery('p.message').remove();
+		    jQuery('p.message, div.user-form').remove();
 	   	    jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div>");
 	        return false;
 	      });
@@ -145,7 +146,7 @@ function main() {
 	        jQuery.getJSON(jsonp_url, function(data) {
 		      if (data.msg && data.msg != "delete" && data.msg != "need-password"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
 			    jQuery.cookie("_mbs", data.msg);
-			    jQuery('span.cancel-this, #user_submit').remove();
+			    jQuery('span.cancel-this, #user_submit, div.user-form').remove();
 	            jQuery('span.logout-link, span.rewards').show('fast');
 		      };
 		      if (data.msg && data.msg == "delete" && data.msg != "need-password"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
