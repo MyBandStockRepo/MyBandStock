@@ -511,9 +511,17 @@ class UsersController < ApplicationController
   def control_panel
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
+    # TODO:
+    #  Build a drop-down menu to choose from your managed bands.
+    #  Influencers should only include those previously signed up with our site.
+    #  Show followers.
+    #
     authenticated?
     @user = User.find(session[:user_id])
-
+	
+    #flash[:error] = flash[:error]
+    #flash[:notice] = flash[:notice]	
+    
     # @bands is an array of band objects, or an empty array (never nil)
     if @user.site_admin
       @bands = Band.includes(:live_stream_series => :streamapi_streams).all
@@ -523,6 +531,16 @@ class UsersController < ApplicationController
 		
 		if @bands.count == 0
 			redirect_to :controller => 'bands', :action => 'index'
+		end
+		
+		# If the user selected a single band to display,
+		# then we assign that band to the band view variable.
+		unless params[:band_id].blank?
+		  @band = @bands.select{|band| band.id == params[:band_id].to_i }.first
+		  if @band.blank?
+		    flash[:error] = "You cannot access the band with ID #{ params[:band_id] }."
+		    @band = nil
+		  end
 		end
   end
   

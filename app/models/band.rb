@@ -384,9 +384,10 @@ class Band < ActiveRecord::Base
         'total DESC'
       ).limit(
         num_users
-      ).collect{ |sle|
-        sle.user
-      }
+      )
+      #.collect{ |sle|
+      #  sle.user
+      #}
     end
     
     

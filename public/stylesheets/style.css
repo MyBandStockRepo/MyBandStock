@@ -1114,11 +1114,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
           color: #FFF;
         }
         .stats-main .stats-module ol.user-list {
-          width: 195px;
+          width: 175px;
 /*          height: 220px;*/
-          padding: 0 0 15px 27px;
+          padding: 0 0 15px 29px;
           overflow-y: visible;
-          overflow-x: auto;
+/*          overflow-x: auto;*/
           font-size: 9pt;
           color: #FFF;
           text-shadow: 2px 2px 2px #000;
@@ -1134,6 +1134,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
           .stats-main .stats-module ol.user-list .shareholder_aside {
             font-size: 8pt;
             font-style: italic;
+            float: right;
           }
 
       
@@ -1186,9 +1187,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
       padding: 2px 8px;
     }
 
-  /* Artist CP specifics */
+  /* Artist CP */
+    .orange_bar .left_third {
+      padding-left: 6px;
+    }
+    
     .left_third {
       width: 300px;
+      padding-bottom: 0;
     }
     
     .right_twothirds .dashboard-main {
@@ -1198,6 +1204,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
     
     .right_twothirds .stats-main .one-third .stats-module {
       width: 210px;
+    }
+    
+    select.dashboard-band-selector {
+      font-family: TitilliumText14L600wt;
+      font-size: 14px;
     }
 
 
