@@ -237,7 +237,7 @@ Cobain::Application.routes.draw do |map|
 
   #users routes - this is stuff like '/users/edit' but it looks better this way
   match '/me/account', :to => 'users#edit'
-  match '/me/control_panel', :to => 'users#control_panel'
+  match '/me/control_panel', :to => 'users#control_panel', :as => 'user_control_panel'
   match '/me/forgot_password', :to => 'login#forgot_password'
   match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_friends', :to => 'users#manage_friends'

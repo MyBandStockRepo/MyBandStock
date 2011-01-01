@@ -44,12 +44,11 @@
           %ol.user-list
             -@top_fans.each do |fan|
               - user = fan.user
-              - location = user.display_location
+              - shares = fan.net
               %li
                 = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
-                -if location
-                  %span.shareholder_aside
-                    = " from #{ location }"
+                %span{ :class => 'shareholder_aside' }
+                  = shares
         .send-email
           %a{ :href => '#' } SEND EMAIL
     .one-third
@@ -67,13 +66,12 @@
         %h3.stats-module-title Purchasers
         -if @top_purchasers
           %ol.user-list
-            -@top_purchasers.each do |user|
-              - location = user.display_location
+            -@top_purchasers.each do |purchaser|
+              - user = purchaser.user
               %li
                 = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
-                -if location
-                  %span.shareholder_aside
-                    = " from #{ location }"
+                %span{ :class => 'shareholder_aside' }
+                  = "$#{purchaser.total}"
         .send-email
           %a{ :href => '#' } SEND EMAIL
 
