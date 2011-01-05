@@ -94,9 +94,9 @@ function main() {
         var url_host = "http://notorious.mybandstock.com/bands/"
         /******* Load HTML *******/
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
-        if (jQuery.cookie('_mbs')){ 
+        var current_url = window.location.href.replace("undefined", "");
+         if (jQuery.cookie('_mbs')){ 
            var salt = jQuery.cookie("_mbs");
-           var current_url = window.location.href.replace("undefined", "");
            var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
            jQuery('#js-bar-container').remove('span.mbs-logout-link');
 		   jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
