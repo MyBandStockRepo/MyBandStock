@@ -99,7 +99,7 @@ function main() {
            var current_url = window.location.href.replace("undefined", "");
            var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
            jQuery('#js-bar-container').remove('span.mbs-logout-link');
-		   jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url + "\"> logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
+		   jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
 		   jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
            jQuery('#js-bar-container').append(data.html);
            jQuery('span.mbs-cancel-this').css("display","none");
@@ -107,8 +107,8 @@ function main() {
            });
          }else
           {
-	       jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url + "\"> logout</a></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
-	       jQuery('#js-bar-container').append("<div class =\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"POW!\" /><span class=\"mbs-cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
+	       jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> logout</a></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
+	       jQuery('#js-bar-container').append("<div class =\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"POW!\" /><span class=\"mbs-cancel-this\"><a href=\"" + current_url + "\" title=\"cancel\">cancel</a></span>");
 	       jQuery('span.mbs-logout-link, span.mbs-rewards').css("display","none");
 		  };
 	   	  jQuery('#js-bar-container .mbs-cancel-this').click(function() {
