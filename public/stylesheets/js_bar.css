@@ -19,7 +19,7 @@ div#js-bar-container{
 	float:left;
 	display:inline;
 }
-#js-bar-container p.band-name{
+#js-bar-container p.mbs-band-name{
 	margin-top:.1em;
 	background:black;
 	border-radius:15px;
@@ -28,24 +28,24 @@ div#js-bar-container{
 	padding:7px;
 	
 }
-#js-bar-container p.shares{
+#js-bar-container p.mbs-shares{
 	float:right;
 	margin-right: 5%;
 }
-#js-bar-container p.shares span.number{
+#js-bar-container p.mbs-shares span.mbs-number{
 	font-style:italic;
 	color:#5CA749;
 }
-#js-bar-container p.user-form{
+#js-bar-container p.mbs-user-form{
 	margin-top:1em;
 }
-div.bar-login{
+div.mbs-bar-login{
 	float:right;
 	display:inline;
 	padding:2px;
 	margin:0 15% 0 0;
 }
-div.user-form{
+div.mbs-user-form{
 	padding:15px;
 	margin:0;
 	position:absolute;
@@ -56,10 +56,10 @@ div.user-form{
 	right:15%;
 	
 }
-div.user-form label{
+div.mbs-user-form label{
 	display:block;
 }
-div.user-form span{
+div.mbs-user-form span{
 	float:left;
 	margin:1em;
 }
@@ -83,26 +83,26 @@ div.user-form span.pass{
 	left:35%;
 	top:3em;
 }*/
-#js-bar-container span.cancel-this a {
+#js-bar-container span.mbs-cancel-this a {
 	float:right;
 	color:white;
 	clear:right;
 /*	margin-top:-1.8em;*/
 }
 
-#js-bar-container span.logout-link a{
+#js-bar-container span.mbs-logout-link a{
 	float:right;
 	color:white;
 	clear:right;
 }
-div.bar-login span.pass{
+div.mbs-bar-login span.mbs-pass{
 }
 #js-bar-container input {
 	border-radius:15px;
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 }
-div#js-bar-container input#user_submit{
+div#js-bar-container input#mbs_user_submit{
 	float:right;
 	background:green;
 	color:white;
@@ -110,31 +110,31 @@ div#js-bar-container input#user_submit{
 	right:8%;
 	bottom:2.2em;
 }
-div#js-bar-container input#user_submit:hover{
+div#js-bar-container input#mbs_user_submit:hover{
 	cursor:pointer;
 	cursor:hand;
 	background:white;
 	color:green;
 }
-.logout-link{
+.mbs-logout-link{
 	float:right;
 	/*margin-top:-1em;*/
 }
-#user_submit {
+#mbs_user_submit {
 	width:auto;
 	display:inline;
 }
-p.message {
+p.mbs-message {
 	display:inline;
 	width:auto;
 }
-span.rewards{
+span.mbs-rewards{
 	float:left;
 	position:absolute;
 	left:33%;
 	top:1em;
 }
-span.rewards a{
+span.mbs-rewards a{
 	background:#DEEBDA;
 	text-decoration:none;
 	padding:7px;
@@ -145,11 +145,11 @@ span.rewards a{
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 }
-span.rewards a:hover{
+span.mbs-rewards a:hover{
 	background:#A5EB94;
 	border-bottom:1px solid gray;
 }
-div#rewards{
+div#mbs-rewards{
 	position:absolute;
 	width:200px;
 	float:left;
@@ -165,18 +165,18 @@ div#rewards{
 	box-shadow: 3px 3px 4px #000;
 	right: 36%;
 	}
-div#rewards ul {
+div#mbs-rewards ul {
 	list-style-type:none;
 	width:100%;
 }
-div#rewards ul li span {
+div#mbs-rewards ul li span {
 	display:block;
 	color:black;
 	margin-right:1em;
 	font-style:italic;
 	width:100%;
 }
-div#rewards ul li {
+div#mbs-rewards ul li {
 	margin-bottom:1em;
 	width:100%;
 }

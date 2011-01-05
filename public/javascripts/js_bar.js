@@ -90,7 +90,7 @@ function main() {
             href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
         });
         css_link.appendTo('head');          
-        var band_id = jQuery('#js-bar-container').attr('class'); // get the band id from the class attribute
+        var band_id = jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
         var url_host = "http://notorious.mybandstock.com/bands/"
         /******* Load HTML *******/
         // check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
@@ -98,34 +98,34 @@ function main() {
            var salt = jQuery.cookie("_mbs");
            var current_url = window.location.href.replace("undefined", "");
            var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
-           jQuery('#js-bar-container').remove('span.logout-link');
-		   jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"" + current_url + "\"> logout</a></span></span><span class=\"rewards\"><a href=\"#\">View Rewards</a></span>");
+           jQuery('#js-bar-container').remove('span.mbs-logout-link');
+		   jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url + "\"> logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
 		   jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
            jQuery('#js-bar-container').append(data.html);
-           jQuery('span.cancel').css("display","none");
-		   jQuery('span.rewards').fadeIn("fast");
+           jQuery('span.mbs-cancel-this').css("display","none");
+		   jQuery('span.mbs-rewards').fadeIn("fast");
            });
          }else
           {
-	       jQuery('#js-bar-container').append("<span class=\"logout-link\"><a href=\"" + current_url + "\"> logout</a></span><span class=\"rewards\"><a href=\"#\">View Rewards</a></span>");
-	       jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"user_submit\" name=\"commit\" type=\"submit\" value=\"POW!\" /><span class=\"cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
-	       jQuery('span.logout-link, span.rewards').css("display","none");
+	       jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url + "\"> logout</a></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
+	       jQuery('#js-bar-container').append("<div class =\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"POW!\" /><span class=\"mbs-cancel-this\"><a href=\"http://localhost.me:3000\" title=\"cancel\">cancel</a></span>");
+	       jQuery('span.mbs-logout-link, span.mbs-rewards').css("display","none");
 		  };
-	   	  jQuery('#js-bar-container .cancel-this').click(function() {
+	   	  jQuery('#js-bar-container .mbs-cancel-this').click(function() {
 		    jQuery(this).hide("fast");
-		    jQuery('div.bar-login').remove();
-		    jQuery('p.message, div.user-form').remove();
-	   	    jQuery('#js-bar-container').append("<div class =\"bar-login\"><span class=\"email\">Email: <input id=\"user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div>");
+		    jQuery('div.mbs-bar-login').remove();
+		    jQuery('p.mbs-message, div.mbs-user-form').remove();
+	   	    jQuery('#js-bar-container').append("<div class =\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div>");
 	        return false;
 	      });
-	      jQuery('span.rewards').click(function() {
-	      	jQuery('div#rewards').toggle("fast");
+	      jQuery('span.mbs-rewards').click(function() {
+	      	jQuery('div#mbs-rewards').toggle("fast");
 	        return false;
 	      })
-	       jQuery('body').not('span.rewards').not('div#rewards').click(function() {
-	       	jQuery('div#rewards').hide("fast");
+	       jQuery('body').not('span.mbs-rewards').not('div#mbs-rewards').click(function() {
+	       	jQuery('div#mbs-rewards').hide("fast");
 	       })
-	      jQuery('#js-bar-container span.logout-link a').click(function() { //click the logout button
+	      jQuery('#js-bar-container span.mbs-logout-link a').click(function() { //click the logout button
          	var email = null
 			var email_confirmation = null
 			var first_name = null
@@ -137,28 +137,28 @@ function main() {
 	        });
            });
         // User submits their info(either email or password depending on what's being asked for)
-        jQuery('#js-bar-container #user_submit').click(function() {
-	        var first_name = jQuery('#js-bar-container input#user_first_name').val();
-			var email = jQuery('#js-bar-container input#user_email').val(); //capture the email entered
-	        var email_confirmation = jQuery('#js-bar-container input#user_email_confirmation').val();//capture the email entered if new user
-	        var pass = jQuery('#js-bar-container input#user_password').val(); //capture the password entered
+        jQuery('#js-bar-container #mbs_user_submit').click(function() {
+	        var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
+			var email = jQuery('#js-bar-container input#mbs_user_email').val(); //capture the email entered
+	        var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
+	        var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
 	        var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
 	        jQuery.getJSON(jsonp_url, function(data) {
 		      if (data.msg && data.msg != "delete" && data.msg != "need-password"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
 			    jQuery.cookie("_mbs", data.msg);
-			    jQuery('span.cancel-this, #user_submit, div.user-form').remove();
-	            jQuery('span.logout-link, span.rewards').show('fast');
+			    jQuery('span.mbs-cancel-this, #mbs_user_submit, div.mbs-user-form').remove();
+	            jQuery('span.mbs-logout-link, span.mbs-rewards').show('fast');
 		      };
 		      if (data.msg && data.msg == "delete" && data.msg != "need-password"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
 			    jQuery.cookie("_mbs", null);
 		       };
 		      if (data.msg && data.msg == "need-password"){
-			    jQuery("span.cancel").show("fast");
+			    jQuery("span.mbs-cancel-this").show("fast");
 	           };
-		      jQuery("div.bar-login, p.message").remove();
+		      jQuery("div.mbs-bar-login, p.mbs-message").remove();
 	          jQuery('#js-bar-container').append(data.html);
 	          if (data.msg && data.msg == 'need password'){
-		        jQuery('span.cancel').css('display', 'inline');
+		        jQuery('span.mbs-cancel-this').css('display', 'inline');
 			  };
 	        });
           });
