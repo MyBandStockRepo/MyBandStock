@@ -732,7 +732,6 @@ class UsersController < ApplicationController
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
     # TODO:
-    #  Build a drop-down menu to choose from your managed bands.
     #  Influencers should only include those previously signed up with our site.
     #  Show followers.
     #

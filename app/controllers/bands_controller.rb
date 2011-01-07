@@ -260,7 +260,7 @@ end
     @band = Band.find(id)
     #check and make sure only an authorized user can edit
     unless User.find(session[:user_id]).has_band_admin(@band.id)
-      redirect_to '/stage/'
+      return redirect_to '/stage/'
     end
     
     unless @band.country_id.nil?
@@ -339,6 +339,12 @@ end
       return false
     end
     @band = Band.find(id)
+
+    #check and make sure only an authorized user can edit
+    unless User.find(session[:user_id]).has_band_admin(@band.id)
+      return redirect_to user_control_panel_path
+    end
+
 		@request_uri = edit_band_url(id)
  		begin
 			unless @band.twitter_user
