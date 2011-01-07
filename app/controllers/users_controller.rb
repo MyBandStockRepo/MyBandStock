@@ -224,7 +224,6 @@ class UsersController < ApplicationController
       end 
       @shareholders = @band.shareholders
       if @band && @user && !@user.new_record?
-        logger.info "This is the email #{@user.email}"
         @share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)
       end
       @net = @share_total.nil? ? "0" : @share_total.net
@@ -862,6 +861,7 @@ protected
       send_user_form #finally if there's no user with the passed email param, we render a signup form.
     end 
   end
+  
   def send_user_form
     @user = User.new(:email => params[:email])
   end
