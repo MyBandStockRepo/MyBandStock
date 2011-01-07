@@ -56,10 +56,13 @@
         %h3.stats-module-title Influencers
         -if @top_influencers
           %ol.user-list
-            -@top_influencers.each do |twitter_username|
+            -@top_influencers.each do |tweet|
+              - twitter_username = tweet.twitter_user.user_name
               - link = 'http://twitter.com/'+ twitter_username
               %li
                 = link_to twitter_username, link, :target => '_blank', :class => "stats-user-name stats-twitter-link"
+                %span{ :class => 'shareholder_aside' }
+                  = "#{tweet.twitter_followers}"
           -# %a{ :href => '#' } SEND EMAIL
     .one-third
       .stats-module.top-purchasers
