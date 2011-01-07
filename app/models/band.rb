@@ -291,13 +291,11 @@ class Band < ActiveRecord::Base
     # The first number in each element is Unix time in milliseconds. The second number is the number of tweets that occured on that day for the given band.
     # Returns nil if there are no results.
     #
-    # TODO: Use t.tweeted_at in place of t.created_at
-    #
       tweets = TwitterCrawlerTracker.find_by_sql(
        "SELECT
           DISTINCT t.tweet_id,
-          count(date(t.created_at)) as count_for_day,
-          date(t.created_at) as day,
+          count(date(t.tweeted_at)) as count_for_day,
+          date(t.tweeted_at) as day,
           t.*
         FROM twitter_crawler_trackers t
         JOIN twitter_crawler_hash_tags ht
