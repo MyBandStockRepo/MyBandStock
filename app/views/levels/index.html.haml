@@ -1,0 +1,9 @@
+%h1= "Levels for #{@band.name}"
+-if logged_in? && current_user.has_band_admin(@band.id)
+  %p=link_to "Add a new level", new_band_level_path(@band)
+.content_onethird_bg
+  .left_third
+    .dark_bar_large
+      = render :partial => 'bands/navigation', :locals => { :band => @band }
+  .clear
+

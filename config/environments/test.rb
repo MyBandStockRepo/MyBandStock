@@ -39,4 +39,22 @@ Cobain::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
+  SITE_URL = 'http://127.0.0.1:3000'
+	SECURE_SITE_URL = 'http://127.0.0.1:3000'
+	SITE_HOST = '127.0.0.1:3000'
+ 
+  ####
+  # Facebook
+  # 
+  FACEBOOK_APP_ID = 144291128954782
+  FACEBOOK_APP_SECRET = 'efa0156e42947617a3168000fa8bcd8d'
+  #
+  ####
+ 
+	STREAMS_URL = 'rtmp://localhost/vod'
+
+  EMAIL_INTERCEPTOR_ADDRESS = 'brian@mybandstock.com'
+
+  GOOGLE_CHECKOUT_CONFIGURATION = { :merchant_id => '330891329620486', :merchant_key => 'aFwCQ3T3icPNahynA_S6zA', :use_sandbox => true }
+  
 end

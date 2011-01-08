@@ -9,4 +9,6 @@
   = link_to 'stream history', { :controller => 'recorded_videos', :action => 'index', :band_id => band.id}, :class => 'l_streamhistory'
 .link_darkbar
   = link_to 'edit band profile', { :controller => 'bands', :action => 'edit', :id => band.id }, :class => 'l_editbandprofile'
+.link_darkbar
+  = link_to 'levels and rewards', band_levels_url(band), :class => 'l_newstream'
 

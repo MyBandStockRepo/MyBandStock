@@ -3,7 +3,7 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-
+  helper_method :logged_in?, :current_user
 	
 	include SslRequirement
 	require 'uri'
@@ -63,6 +63,12 @@ class ApplicationController < ActionController::Base
   def fan_home
     @bodytag_id = "homepages"
     authenticated?
+  end
+  def current_user
+    logged_in? ? User.find(session[:user_id]) : nil
+  end
+  def logged_in?
+    session[:user_id] && session[:auth_success] 
   end
   
   def external_error
@@ -196,7 +202,7 @@ class ApplicationController < ActionController::Base
   
   
   def user_has_site_admin
-    unless ( session[:user_id] && User.find(session[:user_id]).site_admin == true )
+    unless is_site_admin?
       redirect_to '/me/control_panel'
       return false
     else
@@ -221,9 +227,17 @@ class ApplicationController < ActionController::Base
       redirect_to session[:last_clean_url]
       return false      
     end
-
+  end
+  def is_site_admin?
+    current_user && current_user.site_admin 
+  end
+  def is_site_admin_or_current_band_admin?
+    is_site_admin? || is_current_band_admin?
   end
   
+  def is_current_band_admin?  
+    params[:band_id] && current_user && Association.find_admin(params[:user_id], params[:band_id]).any?
+  end
   def user_part_of_or_admin_of_a_band?
   	if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
   		return true
