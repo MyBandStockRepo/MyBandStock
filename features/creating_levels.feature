@@ -42,12 +42,10 @@ Feature: Creating levels
     |reward_points| 200|
     |reward_description| you get to go out with Jason |
     |reward_limit|200|
-    Then show me the page
     And I press "Save Reward"
-    Then show me the page
     Then I should be on the new level reward page for "Captain" and the band "Jason's Awesome Band"
     And I should see "New Reward Added!"
-    And I should see "Reward title"
+    And I should see "Dinner with Jason"
     And I should see "This level has 1 reward"
   
   

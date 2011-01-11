@@ -1,9 +1,17 @@
 %h1= "Levels for #{@band.name}"
--if logged_in? && current_user.has_band_admin(@band.id)
-  %p=link_to "Add a new level", new_band_level_path(@band)
 .content_onethird_bg
   .left_third
     .dark_bar_large
       = render :partial => 'bands/navigation', :locals => { :band => @band }
-  .clear
+  #levels
+    %ul
+      -for level in @levels
+        %li
+          %span.level-points="#{level.points} points" 
+          %span.level-name=link_to level.name, band_level_path(level.band, level)
+-if logged_in? && current_user.has_band_admin(@band.id)
+  .fieldrow#level-button
+    .fieldleft
+      .formbutton.condense3
+        =link_to "Add levels", new_band_level_path(@band)
 

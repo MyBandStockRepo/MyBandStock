@@ -1,2 +1,12 @@
-<h1>Rewards#edit</h1>
-<p>Find me in app/views/rewards/edit.html.erb</p>
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h1= "Edit #{@reward.name}"
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @level.band }
+        .clear
+        = render :partial => "mini_list", :locals => {:levels => @level.rewards}       
+      = render :partial => "form"
+      .clear

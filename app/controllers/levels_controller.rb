@@ -31,7 +31,12 @@ class LevelsController < ApplicationController
     
   end
   def destroy
-    
+    if @level.destroy
+      redirect_to session[:last_clean_url]
+      flash[:notice] = "Level successfully deleted"
+    else
+      render :new
+    end
   end
   
 private

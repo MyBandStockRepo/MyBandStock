@@ -1,2 +1,16 @@
-<h1>Levels#edit</h1>
-<p>Find me in app/views/levels/edit.html.erb</p>
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h1= "Edit #{@level.name}"
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @band }
+        .clear
+        = render :partial => "mini_list", :locals => {:levels => @band.levels}     
+        .fieldrow#level-button
+          .fieldleft
+            .formbutton.condense3
+              =link_to "Add rewards", new_level_reward_path(@level)         
+      = render :partial => "form"
+      .clear

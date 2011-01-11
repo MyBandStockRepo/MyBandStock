@@ -1,7 +1,7 @@
 class RewardsController < ApplicationController
   before_filter :get_level
   before_filter :get_reward, :except => [:index, :new, :create]
-  # before_filter :restrict_non_admin, :except => [:index, :show]
+  before_filter :restrict_non_admin, :except => [:index, :show]
   def new
     @reward = @level.rewards.build
   end
@@ -18,7 +18,12 @@ class RewardsController < ApplicationController
   def edit
   end
   def update
-    
+    if @reward.update_attributes(params[:reward])
+      redirect_to edit_level_reward_path(@level)
+      flash[:notice]
+    else
+      render :new
+    end
   end
 
   def show
@@ -28,7 +33,12 @@ class RewardsController < ApplicationController
     @rewards = @level.rewards
   end
   def destroy
-    
+    if @reward.destroy
+      redirect_to session[:last_clean_url]
+      flash[:notice] = "Reward successfully deleted"
+    else
+      render :new
+    end
   end
 private
   def get_reward

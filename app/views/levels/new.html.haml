@@ -1,7 +1,12 @@
-%h1= "Add New level"
-= render :partial => "form"
-.content_onethird_bg
-  .left_third
-    .dark_bar_large
-      = render :partial => 'bands/navigation', :locals => { :band => @band }
-  .clear
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h1= "Add New level"
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @band }
+        .clear
+        = render :partial => "mini_list", :locals => {:levels => @band.levels}              
+      = render :partial => "form"
+      .clear
