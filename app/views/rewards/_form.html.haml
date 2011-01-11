@@ -1,0 +1,45 @@
+= form_for [@level, @reward] do |f|
+  =f.error_messages
+  .newform  
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          %fieldset
+            .fieldname
+              .fieldnametop
+                =f.label :name
+              .fieldnamebottom
+            .fieldbox.required.condense2
+              =f.text_field :name
+    .fieldrow
+      .fieldleft
+        .field
+          .LARGEfield
+            .fieldname
+              .fieldnametop
+                =f.label :description
+              .fieldnamebottom
+            .fieldbox
+              =f.text_area :description, {:class => 'textarea'} 
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              =f.label :points
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            =f.text_field :points, :size => "5"
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              =f.label :limit
+            .fieldnamebottom
+          .fieldbox.required.condense2   
+            =f.text_field :limit, :size => "5"
+    .fieldrow
+      .fieldleft
+        .formbutton.condense3
+          =f.submit 'Save Reward'

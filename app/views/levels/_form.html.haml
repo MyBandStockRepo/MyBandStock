@@ -1,3 +1,13 @@
 = form_for [@band, @level] do |f|
   =f.error_messages
-  f.label :
+  =f.label :name
+  =f.text_field :name
+  =f.label :description
+  =f.text_area :description, {:cols => 50, :rows => 10}
+  =f.label :points
+  =f.text_field :points, :size => "5"
+  =f.label :multiplier, "Multiply points earnings by this factor(ie 1.2)"
+  =f.text_field :multiplier, :size => "2"
+  =f.label :limit
+  =f.text_field :limit, :size => "5"
+  =f.submit "Save Level"

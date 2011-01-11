@@ -1539,3 +1539,15 @@ fieldset {border:0px;padding:0px;margin:0px;}
   text-align: center;
   margin-bottom: 10px;
 }
+#new-reward .newform .fieldrow {
+	float:right;
+	width:60%;
+}
+#new-reward {
+	float:right; 
+	margin-right:1em;
+}
+#new-reward .content_onethird_bg {
+	float:left;
+	width:35%
+}

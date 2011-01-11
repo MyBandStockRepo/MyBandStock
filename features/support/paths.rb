@@ -15,10 +15,10 @@ module NavigationHelpers
     # when /^the new reward page for "(.+)"$/i
     when /^the levels index page for "(.+)"$/i
       band_levels_path(Band.find_by_name($1))
-    when /^the new reward page for "(.+)" and the band "(.+)"$/i
+    when /^the new level reward page for "(.+)" and the band "(.+)"$/i
       band = Band.find_by_name($2)
       new_level_reward_path(band.levels.find_by_name($1))
-    when /^new level page for "(.+)"$/ 
+    when /^the new level page for "(.+)"$/ 
       new_band_level_path(Band.find_by_name($1))
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

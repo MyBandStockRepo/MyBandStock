@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110108162609) do
+ActiveRecord::Schema.define(:version => 20110110225317) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -124,12 +124,14 @@ ActiveRecord::Schema.define(:version => 20110108162609) do
 
   create_table "levels", :force => true do |t|
     t.string   "name"
-    t.integer  "order"
+    t.integer  "position"
     t.float    "multiplier"
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "points"
+    t.text     "description"
+    t.integer  "limit"
   end
 
   create_table "live_stream_series", :force => true do |t|
@@ -229,12 +231,12 @@ ActiveRecord::Schema.define(:version => 20110108162609) do
   create_table "rewards", :force => true do |t|
     t.string   "name"
     t.integer  "level_id"
-    t.integer  "band_id"
     t.text     "description"
     t.datetime "expires_at"
     t.integer  "limit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "points"
   end
 
   create_table "roles", :force => true do |t|

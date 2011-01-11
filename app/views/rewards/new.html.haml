@@ -1,2 +1,15 @@
-<h1>Rewards#new</h1>
-<p>Find me in app/views/rewards/new.html.erb</p>
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      %h1= "Add New Reward to #{@level.name}"
+      %p="This level has #{pluralize(@level.rewards.size, 'reward')}"
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @level.band }
+        .clear
+      = render :partial => "form"
+%h2 Rewards
+%ul
+  -for reward in @level.rewards.reject{|r| r.new_record?}
+    %li= link_to reward.name, level_reward_path(reward.level.id, reward.id)

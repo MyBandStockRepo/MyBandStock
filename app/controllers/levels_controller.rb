@@ -1,6 +1,6 @@
 class LevelsController < ApplicationController
-  before_filter :get_level, :except => [:index, :new, :create]
   before_filter :get_band
+  before_filter :get_level, :except => [:index, :new, :create]
   before_filter :restrict_non_admin, :except => [:index, :show]
   def index
     @band = Band.find(params[:band_id])
@@ -22,7 +22,7 @@ class LevelsController < ApplicationController
     @level = @band.levels.build(params[:level])
     if @level.save
       redirect_to new_level_reward_path(@level)
-      flash[:success] = "Level Created! Would you like to add rewards for this level?"
+      flash[:notice] = "Level Created! Would you like to add rewards for this level?"
     else
       render :new
     end

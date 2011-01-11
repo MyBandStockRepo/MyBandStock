@@ -1,25 +1,5 @@
 Cobain::Application.routes.draw do |map|
 
-
-
-
-
-  get "rewards/new"
-
-  get "rewards/edit"
-
-  get "rewards/show"
-
-  get "rewards/index"
-
-  get "levels/new"
-
-  get "levels/edit"
-
-  get "levels/show"
-
-  get "levels/index"
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
