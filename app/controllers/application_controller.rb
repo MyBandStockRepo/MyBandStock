@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   
   #prod stuff
-  # rescue_from ActionController::RoutingError, :with => :routingerror_exception
-  #   rescue_from ActionController::UnknownAction, :with => :routingerror_exception
-  #   rescue_from ActionController::InvalidAuthenticityToken, :with => :routingerror_exception  
+  rescue_from ActionController::RoutingError, :with => :routingerror_exception
+  rescue_from ActionController::UnknownAction, :with => :routingerror_exception
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :routingerror_exception  
   
   
   protect_from_forgery :secret => 'cbf5a700435e9c9137b5e3f8fea944887d78c5c74e684c48d256e0da9c8e081fc6b98180617556928d657c2460db54364b7518b804d7d93c12a4f7fd6c3f3acd'
