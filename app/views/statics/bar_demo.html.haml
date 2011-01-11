@@ -34,11 +34,17 @@
             .notice
               = "#{flash[:notice]}"
         .clear
-        :javascript
-          var mybandstock_bar_bandID = 14;
-        = javascript_include_tag 'mbs_bar.js'          
-        :css
-          #mybandstock_bar #bar_branding{background-image:url('http://mybandstock.com/images/bar/demo_bar_branding.png');}
+        -#
+          :javascript
+            var mybandstock_bar_bandID = 14;
+          = javascript_include_tag 'mbs_bar.js'          
+          :css
+            #mybandstock_bar #bar_branding{background-image:url('http://mybandstock.com/images/bar/demo_bar_branding.png');}
+            
+        = javascript_include_tag 'js_bar.js'
+        #js-bar-container.2
+
+            
         .partners
           %p 
             MyBandStock

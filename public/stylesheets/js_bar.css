@@ -1,13 +1,276 @@
+/* Reset CSS */
+#js-bar-container html, #js-bar-container body, #js-bar-container div, #js-bar-container span, #js-bar-container applet, #js-bar-container object, #js-bar-container iframe,
+#js-bar-container h1, #js-bar-container h2, #js-bar-container h3, #js-bar-container h4, #js-bar-container h5, #js-bar-container h6, #js-bar-container p, #js-bar-container blockquote, #js-bar-container pre,
+#js-bar-container a, #js-bar-container abbr, #js-bar-container acronym, #js-bar-container address, #js-bar-container big, #js-bar-container cite, #js-bar-container code,
+#js-bar-container del, #js-bar-container dfn, #js-bar-container em, #js-bar-container font, #js-bar-container img, #js-bar-container ins, #js-bar-container kbd, #js-bar-container q, #js-bar-container s, #js-bar-container samp,
+#js-bar-container small, #js-bar-container strike, #js-bar-container strong, #js-bar-container sub, #js-bar-container sup, #js-bar-container tt, #js-bar-container var,
+#js-bar-container dl, #js-bar-container dt, #js-bar-container dd, #js-bar-container ol, #js-bar-container ul, #js-bar-container li,
+#js-bar-container fieldset, #js-bar-container form, #js-bar-container label, #js-bar-container legend,
+#js-bar-container table, #js-bar-container caption, #js-bar-container tbody, #js-bar-container tfoot, #js-bar-container thead, #js-bar-container tr, #js-bar-container th, #js-bar-container td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+/* remember to define focus styles! */
+#js-bar-container :focus {
+	outline: 0;
+}
+#js-bar-container body {
+	line-height: 1;
+	color: black;
+	background: white;
+}
+#js-bar-container ol, #js-bar-container ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+#js-bar-container table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+#js-bar-container caption, #js-bar-container th, #js-bar-container td {
+	text-align: left;
+	font-weight: normal;
+}
+#js-bar-container blockquote:before, #js-bar-container blockquote:after,
+#js-bar-container q:before, #js-bar-container q:after {
+	content: "";
+}
+#js-bar-container blockquote, #js-bar-container q {
+	quotes: "" "";
+}
+/* End Reset CSS */
+
+
+/* General Styles */
+.mybandstock_bar_spacer{
+	height:67px;
+	clear:both;
+}
 div#js-bar-container{
 	width:99%;
 	height:45px;
-	background: #443A3A;
+	background: black;
 	padding:7px;
 	color:white;
 	position:fixed;
 	bottom:.1em;
 	right:.01em;
-	border-top: 3px solid #5CA749;
+	border-top: 3px groove #868686;
+	float:right;
+	z-index:999999;
+}
+#js-bar-container p {
+	float:left;
+	display:inline;
+}
+p.mbs-message {
+	display:inline;
+	width:auto;
+}
+div#mbs-bar-message-box{
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border:2px groove #868686;
+	border-bottom:0px;
+	background-color:black;	
+	width:300px;
+	height:15px;
+	bottom:63px;
+	padding:5px;
+	position:fixed;
+	right:.01em;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	font-size:7pt;
+	color:#FF9900;
+	z-index:999998;
+}
+
+#mbs-bar-message-box #mbs-bar-close-notifications{
+	float:right;
+	text-decoration:none;
+	cursor:pointer;
+}
+/* End General Styles */
+
+
+/* User Info Stuff */
+#js-bar-container .mbs-email {
+	float:left;
+}
+#js-bar-container .mbs_user_email {
+	float:left;
+}
+#js-bar-container p.mbs-band-name{
+	margin-top:.1em;
+	padding:7px;	
+}
+#js-bar-container p.mbs-shares{
+	float:right;
+	margin-right: 5%;
+}
+#js-bar-container p.mbs-shares span.mbs-number{
+	font-style:italic;
+	color:#5CA749;
+}
+#js-bar-container p.mbs-user-form{
+	margin-top:1em;
+}
+/* End User Info Stuff */
+
+
+/* Login Stuff */
+div.mbs-bar-login-wrapper{
+	float:right;
+	display:block;
+	width:275px;
+}
+div.mbs-bar-login{
+	float:right;
+}
+#js-bar-container span.mbs-cancel-this{
+	float:left;
+	margin-left:175px;
+	margin-top:4px;
+}
+#js-bar-container span.mbs-cancel-this a {
+	float:right;
+	color:white;
+}
+#js-bar-container span.mbs-logout-link a{
+	float:right;
+	color:white;
+}
+div#js-bar-container input#mbs_user_submit{
+	float:right;
+	margin-top:3px;
+}
+div#js-bar-container input#mbs_user_submit:hover{
+	cursor:pointer;
+	cursor:hand;
+}
+.mbs-logout-link{
+	float:right;
+}
+#mbs_user_submit {
+	width:auto;
+	display:inline;
+}
+div.mbs-bar-login span.mbs-pass{
+}
+/* End Login Stuff */
+
+
+/* New User Stuff */
+#js-bar-container div.mbs-user-form{
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border:2px groove #868686;
+	border-bottom:0px;
+	background-color:black;	
+	width:430px;
+	height:135px;
+	bottom:63px;
+	position:fixed;
+	right:.01em;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	font-size:7pt;
+	z-index:999999;
+}
+#js-bar-container div.mbs-user-form input{
+	margin-left:15px;
+	margin-bottom:5px;
+}
+#js-bar-container div.mbs-user-form label{
+	margin-left:15px;
+}
+#js-bar-container div.mbs-user-form p{
+	margin:15px 15px 10px 15px;
+}
+div.mbs-user-form label{
+	display:block;
+}
+div.mbs-user-form span{
+	float:left;
+	margin:1em;
+}
+/* End New User Stuff */
+
+
+/* Rewards stuff */
+span.mbs-rewards{
+	float:left;
+	position:absolute;
+	left:33%;
+	top:1em;
+}
+span.mbs-rewards a{
+	background:#DEEBDA;
+	text-decoration:none;
+	padding:7px;
+	font-size:1em;
+	font-weight:bold;
+	color:#443A3A;
+}
+span.mbs-rewards a:hover{
+	background:#A5EB94;
+	border-bottom:1px solid gray;
+}
+div#mbs-rewards{
+	position:absolute;
+	width:200px;
+	float:left;
+	bottom: 3.5em;
+	background:gray;
+	display:none;
+	color:white;
+	font-size: 1.3em;
+	padding:10px;
+    border:2px solid gainsboro;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	right: 36%;
+	}
+div#mbs-rewards ul {
+	list-style-type:none;
+	width:100%;
+}
+div#mbs-rewards ul li span {
+	display:block;
+	color:black;
+	margin-right:1em;
+	font-style:italic;
+	width:100%;
+}
+div#mbs-rewards ul li {
+	margin-bottom:1em;
+	width:100%;
+}
+/* End Rewards Stuff */
+
+
+
+/*
+.mybandstock_bar_spacer{height:67px;clear:both;}
+div#js-bar-container{
+	width:99%;
+	height:45px;
+	background: #black;
+	padding:7px;
+	color:white;
+	position:fixed;
+	bottom:.1em;
+	right:.01em;
+	border-top: 3px groove #868686;
 	float:right;
 }
 #js-bar-container p {
@@ -15,7 +278,6 @@ div#js-bar-container{
 	font-size:1.2em;
 	margin:6px;
 	margin-top: .5em;
-/*	margin-top:-3px;*/	
 	float:left;
 	display:inline;
 }
@@ -63,6 +325,7 @@ div.mbs-user-form span{
 	float:left;
 	margin:1em;
 }
+*/
 /*div.user-form span.first-name{
 	position:absolute;
 	left:5%;
@@ -83,11 +346,11 @@ div.user-form span.pass{
 	left:35%;
 	top:3em;
 }*/
+/*
 #js-bar-container span.mbs-cancel-this a {
 	float:right;
 	color:white;
 	clear:right;
-/*	margin-top:-1.8em;*/
 }
 
 #js-bar-container span.mbs-logout-link a{
@@ -118,7 +381,6 @@ div#js-bar-container input#mbs_user_submit:hover{
 }
 .mbs-logout-link{
 	float:right;
-	/*margin-top:-1em;*/
 }
 #mbs_user_submit {
 	width:auto;
@@ -180,3 +442,4 @@ div#mbs-rewards ul li {
 	margin-bottom:1em;
 	width:100%;
 }
+*/

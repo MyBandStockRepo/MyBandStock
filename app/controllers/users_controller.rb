@@ -812,20 +812,26 @@ protected
       message = "delete"
     elsif !@authentic && @user_error
       data = sign_up_failure(@user)
+      message = "user-error"
+      notification = "Sorry, something went wrong. Please try again."
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
       message = "need-password"
     elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
       message = @user.password_salt
+      notification = "Thanks for logging in!"
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
-      data = wrong_password(@user.email)
+      data = need_password_html(@user.email)
       message = "need-password"
+      notification = "Sorry, that password is incorrect."
     elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one.
       data = user_form_html(@user)
+      message = "create-new-user"
     end
     message ||= ""
-    json = {"html" => data, "msg" => message}.to_json
+    notification ||= ""
+    json = {"html" => data, "msg" => message, "notification" => notification}.to_json
     callback + "(" + json + ")"
   end
   
@@ -874,17 +880,16 @@ protected
       return false
     end
   end
+    
   def need_password_html(email) #html for step two, a password field and a hidden email field with the user's email
-    "<div class =\"mbs-bar-login\">
-      <span class=\"mbs-email\"style=\"display:none;\">
-        Email: <input id=\"mbs_user_email\"name=\"user[email]\" size=\"30\" type=\"text\" value=\"#{email}\" />
-      </span>
-      Please enter your
-      <span class=\"mbs-pass\"> 
-        Password: <input id=\"mbs_user_password\" name=\"user[password]\" size=\"20\" type=\"password\" value=\"\" />
-      </span>
-    </div>"
+    "<span class=\"mbs-email\"style=\"display:none;\">
+      Email: <input id=\"mbs_user_email\"name=\"user[email]\" size=\"30\" type=\"text\" value=\"#{email}\" />
+    </span>
+    <span class=\"mbs-pass\"> 
+      Password: <input id=\"mbs_user_password\" name=\"user[password]\" size=\"20\" type=\"password\" value=\"\" />
+    </span>"
   end
+  
   def logged_in_info(user) #html for all info passed for a logged-in user
      list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")     
     "<p class=\"mbs-band-name\">#{@band.name}</p>
@@ -894,21 +899,20 @@ protected
     </div>
     <div id=\"mbs-rewards\"><ul>" + list + "</ul></div>"
   end
-  def wrong_password(email) #html for a user who entered the wrong email, should include a cancel button
-    "<p class=\"mbs-message\">Sorry, wrong password, please try again" + need_password_html(email) + "</p>"
-  end
   
   def user_form_html(user)
     "<div class=\"mbs-user-form\">
-      <p class=\"mbs-user-form\">We couldn't find your email in the system. Sign up and get 1000 shares of #{@band.name} stock</p>
-      <span class=\"mbs-first-name\">
-        <label>First Name:</label> <input id=\"mbs_user_first_name\"name=\"user[first_name]\" size=\"25\" type=\"text\" />
-      </span>
+      <p class=\"mbs-user-form\">We couldn't find your email in the system. Sign up today and start earning rewards!</p>
+
       <span class=\"mbs-email\">
         <label>Email:</label> <input id=\"mbs_user_email\"name=\"user[email]\" size=\"25\" type=\"text\" value=\"#{user.email}\" />
       </span>
       <span class=\"mbs-email-conf\">
         <label>Confirm Email:</label> <input id=\"mbs_user_email_confirmation\"name=\"user[email_confirmation]\" size=\"25\" type=\"text\" value=\"\" />
+      </span>
+
+      <span class=\"mbs-first-name\">
+        <label>First Name:</label> <input id=\"mbs_user_first_name\"name=\"user[first_name]\" size=\"25\" type=\"text\" />
       </span>
       <span class=\"mbs-pass\"> 
         <label>Password:</label> <input id=\"mbs_user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
@@ -918,7 +922,7 @@ protected
     "
   end
   def sign_up_failure(user)
-    "<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
+    #"<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
     user_form_html(user)
   end
 end #end controller
