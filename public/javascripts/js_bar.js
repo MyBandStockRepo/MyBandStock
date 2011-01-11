@@ -102,14 +102,14 @@
 			var css_link = $("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
-				// href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
-				href: "http://127.0.0.1:3000/stylesheets/js_bar.css"
+				 href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
+				//href: "http://127.0.0.1:3000/stylesheets/js_bar.css"
 			});
         
 			css_link.appendTo('head');          
 			var band_id = jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
-			// var url_host = "http://notorious.mybandstock.com/bands/"
-	    var url_host = "http://127.0.0.1:3000/bands/"
+			 var url_host = "http://notorious.mybandstock.com/bands/"
+	    //var url_host = "http://127.0.0.1:3000/bands/"
     
 			/******* Load HTML *******/
 			// make space on the website so our bar doesn't cover existing content
