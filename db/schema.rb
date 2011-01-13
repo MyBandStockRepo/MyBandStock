@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110225317) do
+ActiveRecord::Schema.define(:version => 20110111220216) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20110110225317) do
     t.datetime "updated_at"
     t.integer  "last_rank"
     t.integer  "current_rank"
+    t.integer  "level_id"
   end
 
   create_table "short_urls", :force => true do |t|
