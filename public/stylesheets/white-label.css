@@ -93,6 +93,8 @@ body {
 /* Authentications */
   .authentications {
     margin:20px 0px 30px 0px;
+		float:left;
+		width:100%;
   }
 
   .authentication {

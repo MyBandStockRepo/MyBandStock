@@ -221,6 +221,21 @@ class UsersController < ApplicationController
   
   
   def connect_social_networks
+    @user = User.find(session[:user_id])
+    @authentications = @user.authentications if @user
+    fb = @user.authentications.where(:provider => 'facebook').first
+    if fb
+      @facebook_user = FacebookUser.find_by_authentication_id(fb.id)
+    else
+      @facebook_user = nil
+    end
+    twit = @user.authentications.where(:provider => 'twitter').first    
+    if twit
+      @twitter_user = TwitterUser.find_by_authentication_id(twit.id)
+    else
+      @twitter_user = nil
+    end
+    
     render :layout => 'white-label'    
   end
   
@@ -951,7 +966,7 @@ protected
     
     ways_to_earn = ""
     if user.twitter_user.blank? || user.facebook_user.blank?
-      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social','Connect To Social Networks',380,580)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social','Connect To Social Networks',500,600)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
     end
     unless user.twitter_user.blank?
       ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"      
