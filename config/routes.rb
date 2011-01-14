@@ -53,6 +53,7 @@ Cobain::Application.routes.draw do |map|
 
 	match '/users/activate', :to => 'users#activate'
   match '/users/clear_new', :to => 'users#clear_twitter_registration_session'
+  match '/connect_social', :to => 'users#connect_social_networks', :as => 'connect_social_networks'
 
   # ---- Band Actions ---- #
 	  match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
@@ -92,14 +93,15 @@ Cobain::Application.routes.draw do |map|
   match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
   
   
-  #/ ----- Bar Stuff --------/#
-  match '/external/registration' => 'users#register_with_band_external'
-  match '/external/registration/form' => 'users#external_registration'
-  match '/external/registration/complete' => 'users#external_registration_complete'  
-  match '/external/registration/error' => 'users#external_registration_error'    
-  match '/external/registration/success' => 'users#external_registration_success'      
-  match '/external/error' => 'application#external_error'
-  match '/bar_demo', :to => 'statics#bar_demo'
+  # ---- Bar Stuff ---- #
+    match '/external/registration' => 'users#register_with_band_external'
+    match '/external/registration/form' => 'users#external_registration'
+    match '/external/registration/complete' => 'users#external_registration_complete'  
+    match '/external/registration/error' => 'users#external_registration_error'    
+    match '/external/registration/success' => 'users#external_registration_success'      
+    match '/external/error' => 'application#external_error'
+    match '/bar_demo', :to => 'statics#bar_demo'
+  # /--- Bar Stuff ---- #
   
   resources :authentications
   resources :streamapi_stream_themes

@@ -218,6 +218,13 @@ class UsersController < ApplicationController
     
     #if failure, go back to the form  
   end
+  
+  
+  def connect_social_networks
+    render :layout => 'white-label'    
+  end
+  
+  
   def index
     if params[:band_id] 
       @band = Band.find(params[:band_id])
@@ -871,6 +878,8 @@ protected
       if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
         if User.authenticate(params[:email], params[:password]) #if the password matches
           @authentic = true #the user is authenticated and get_jsonp can send the info
+          #log the user in to the MBS site
+          log_user_in(@user.id)
         else
           @authentic = false
         end
