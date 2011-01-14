@@ -62,7 +62,7 @@ div#js-bar-container{
 	position:fixed;
 	bottom:.1em;
 	right:.01em;
-	border-top: 3px groove #868686;
+	border-top: 2px groove #868686;
 	float:right;
 	z-index:999999;
 }
@@ -82,26 +82,87 @@ div#mbs-bar-message-box{
 	background-color:black;	
 	width:300px;
 	height:15px;
-	bottom:63px;
+	bottom:62px;
 	padding:5px;
 	position:fixed;
 	right:.01em;
-	opacity:0.8;
-	filter:alpha(opacity=80);
+/*	opacity:0.8;
+	filter:alpha(opacity=80);*/
 	font-size:7pt;
 	color:#FF9900;
 	z-index:999998;
 }
-
 #mbs-bar-message-box #mbs-bar-close-notifications{
 	float:right;
 	text-decoration:none;
 	cursor:pointer;
 }
+@font-face {
+	font-family: 'TitilliumText14L999wt';
+	src: url('/fonts/TitilliumText999wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText999wt-webfont.woff') format('woff'), url('/fonts/TitilliumText999wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText999wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+.mbs-alpha80 {
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) !important;
+	/* RGBa with 0.6 opacity */
+	background: rgba(0, 0, 0, 0.8) !important;
+	/* For IE 5.5 - 7.   First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000) !important;
+	/* For IE 8.    First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)" !important;
+}
 /* End General Styles */
 
 
 /* User Info Stuff */
+#js-bar-container .mbs-user-info-wrapper{
+	width:180px;
+	float:left;
+}
+#js-bar-container .mbs-welcome-div{
+	padding-left:5px;
+}
+#js-bar-container .mbs-score-box {
+	width:126px;
+	float:left;
+}
+#js-bar-container .mbs-score-box-left {
+	width:28px;
+	height:25px;
+	float:left;
+	-moz-border-radius-topleft:7px;
+	-webkit-border-top-left-radius:7px;	
+	-moz-border-radius-bottomleft:7px;
+	-webkit-border-bottom-left-radius:7px;
+	border:2px solid #151515;
+	border-right:1px solid #5c5c5c;
+	padding-left:2px;
+	background-color:#212121;
+}
+#js-bar-container .mbs-score-box-left img{
+	width:19px;
+	height:19px;
+	margin:3px 3px 3px 4px;
+}
+#js-bar-container .mbs-score-box-right {
+	width:80px;
+	height:21px;
+	float:right;
+	-moz-border-radius-topright:7px;
+	-webkit-border-top-right-radius:7px;	
+	-moz-border-radius-bottomright:7px;
+	-webkit-border-bottom-right-radius:7px;
+	border:2px solid #151515;
+	border-left:1px solid black;		
+	background-color:#2a2a2a;
+	font-size:14pt;
+	text-align:right;
+	padding:4px 5px 0px 5px;
+	color: white;
+}
 #js-bar-container .mbs-email {
 	float:left;
 }
@@ -144,9 +205,16 @@ div.mbs-bar-login{
 	float:right;
 	color:white;
 }
+#js-bar-container span.mbs-cancel-this a:hover {
+	color:#F90;
+}
 #js-bar-container span.mbs-logout-link a{
 	float:right;
 	color:white;
+	cursor:pointer;
+}
+#js-bar-container span.mbs-logout-link a:hover {
+	color:#F90;
 }
 div#js-bar-container input#mbs_user_submit{
 	float:right;
@@ -173,24 +241,28 @@ div.mbs-bar-login span.mbs-pass{
 	-moz-border-radius-topleft:10px;
 	-webkit-border-top-left-radius:10px;
 	border:2px groove #868686;
-	border-bottom:0px;
+	border-bottom:2px solid black;
+	border-right:0px;
 	background-color:black;	
 	width:430px;
 	height:135px;
-	bottom:63px;
+	bottom:60px;
 	position:fixed;
 	right:.01em;
+/*
 	opacity:0.8;
 	filter:alpha(opacity=80);
+*/
 	font-size:7pt;
 	z-index:999999;
 }
 #js-bar-container div.mbs-user-form input{
-	margin-left:15px;
+	margin-left:22px;
 	margin-bottom:5px;
+	width:183px;
 }
 #js-bar-container div.mbs-user-form label{
-	margin-left:15px;
+	margin-left:22px;
 }
 #js-bar-container div.mbs-user-form p{
 	margin:15px 15px 10px 15px;
@@ -206,56 +278,183 @@ div.mbs-user-form span{
 
 
 /* Rewards stuff */
+#js-bar-container .mbs-points-containers{
+	float:left;
+	width:300px;
+	height:45px;
+}
 span.mbs-rewards{
 	float:left;
-	position:absolute;
-	left:33%;
-	top:1em;
 }
-span.mbs-rewards a{
-	background:#DEEBDA;
+#js-bar-container .mbs-points-containers span.mbs-rewards a, #js-bar-container .mbs-points-containers span.mbs-earn-points a{
+	width:140px;
+	padding:12px 0px 0px 0px;
+	background:url(/images/forms/form_button.png);
+	outline:0px;
+	font-size:15px;
+	font-family:TitilliumText14L999wt;
+	color:#333333;
+	text-transform:uppercase;
 	text-decoration:none;
-	padding:7px;
-	font-size:1em;
-	font-weight:bold;
-	color:#443A3A;
+	display:block;
+	text-align: center;
+	height:30px;
 }
-span.mbs-rewards a:hover{
-	background:#A5EB94;
-	border-bottom:1px solid gray;
+#js-bar-container .mbs-points-containers span.mbs-rewards a:hover , #js-bar-container .mbs-points-containers span.mbs-earn-points a:hover{
+	padding:12px 0px 0px 0px;
+	background:url(/images/forms/form_button_over.png);
+	color:#FFFFFF; 
+	cursor: pointer;
+	text-decoration:none;
+	display:block;
+	text-align: center;
+	height:30px;	
 }
-div#mbs-rewards{
-	position:absolute;
-	width:200px;
+#js-bar-container .mbs-points-containers span.mbs-rewards a{
 	float:left;
-	bottom: 3.5em;
-	background:gray;
-	display:none;
+}
+#js-bar-container .mbs-points-containers span.mbs-earn-points a{
+	float:right;
+}
+div#mbs-ways-to-earn{
+	position:fixed;
+	width:250px;
+	float:left;
+	bottom: 62px;
+	background:black;
 	color:white;
 	font-size: 1.3em;
 	padding:10px;
-    border:2px solid gainsboro;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;	
+	border:2px groove #868686;
 	-moz-box-shadow: 3px 3px 4px #000;
 	-webkit-box-shadow: 3px 3px 4px #000;
 	box-shadow: 3px 3px 4px #000;
-	right: 36%;
-	}
+	left: 345px;
+	max-height:350px;
+	overflow:auto;
+}
+div#mbs-rewards{
+	position:fixed;
+	width:250px;
+	float:left;
+	bottom: 62px;
+	background:black;
+	color:white;
+	font-size: 1.3em;
+	padding:10px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;	
+	border:2px groove #868686;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	left: 55px;
+	max-height:350px;
+	overflow:auto;
+}
 div#mbs-rewards ul {
 	list-style-type:none;
 	width:100%;
+	font-family:TitilliumText14L999wt;	
 }
-div#mbs-rewards ul li span {
+div#mbs-rewards ul li{
+	margin-bottom:10px;
+}
+div#mbs-rewards .mbs-level-number{
+	color:#F90;
+	font-size:10pt;
+	text-transform:uppercase;
+	display:inline;	
+}
+div#mbs-rewards .mbs-level-name{
+	color:white;
+	font-size:10pt;
+	display:inline;	
+}
+div#mbs-rewards .mbs-level-points-needed{
+	color:#adadad;
+	font-size:8pt;
+	display:block;	
+	line-height:8px;
+	margin-bottom:5px;
+}
+div#mbs-rewards .mbs-level-unlock-rewards{
+	color:white;
+	font-size:8pt;
+	display:block;	
+	text-transform:uppercase;
+	margin-left:5px;
+}
+div#mbs-rewards .mbs-level-reward-description{
+	color:white;
 	display:block;
-	color:black;
-	margin-right:1em;
-	font-style:italic;
-	width:100%;
 }
-div#mbs-rewards ul li {
-	margin-bottom:1em;
-	width:100%;
+div#mbs-rewards .mbs-rewards-list{
+	list-style-type:disc;
+	margin-left:18px;
+	width:210px;
+	font-size:8pt;	
 }
+div#mbs-rewards .mbs-rewards-list li{
+	margin:0px;
+	line-height:12px;
+}
+div#mbs-ways-to-earn img{
+	float:left;
+}
+div#mbs-ways-to-earn ul{
+	font-size:10pt;
+	color:white;
+}
+div#mbs-ways-to-earn ul li{
+	margin-bottom:1px;
+	height:33px;
+	width:250px;
+}
+div#mbs-ways-to-earn ul li .mbs-way-to-earn span{
+	float:left;
+	margin:7px 0px 0px 10px;
+}
+div#mbs-ways-to-earn ul li:hover{
+	border-bottom:1px solid #f90;
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) !important;
+	/* RGBa with 0.6 opacity */
+	background: rgba(255, 255, 255, 0.2) !important;
+	/* For IE 5.5 - 7.   First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF, endColorstr=#33FFFFFF) !important;
+	/* For IE 8.    First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF, endColorstr=#33FFFFFF)" !important;
+	cursor:pointer;
+	margin-bottom:0px;
+}
+
 /* End Rewards Stuff */
+
+
+
+
+
+
+
+
+
+
+
 
 
 

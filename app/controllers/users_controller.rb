@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  include ActionView::Helpers::NumberHelper
+
   protect_from_forgery :only => [:create, :update, :external_registration_complete]
   before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show], :unless => :api_call?
   before_filter :find_user, :only => [:edit, :address]
@@ -891,19 +893,67 @@ protected
   end
   
   def logged_in_info(user) #html for all info passed for a logged-in user
-     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")     
+#     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")
+    levels = levels_for_demo
+#    list = levels.collect{|level| "<li>Level #{level[:number]}: #{level[:name]} (need #{level[:points_needed]} BandStock) Unlock rewards:<br /> #{levels[:rewards].collect{|reward| "#{reward[:description]}<br />"}}</li>"}.join("")
+    list = ""
+    for level in levels
+      list += "<li><span class=\"mbs-level-number\">Level #{level[:number]}: </span><span class=\"mbs-level-name\">#{level[:name]}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level[:points_needed], :delimiter => ",")} BandStock</span>"
+      unless level[:rewards].blank?
+       list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
+       for reward in level[:rewards]
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward[:description]}</span></li>"
+       end
+       list += "</ul>"       
+      end
+      list += "</li>"
+    end
+    hash_tag = "#mbs-demo-band"
+    hash_tag_url_encoded = hash_tag.gsub('#', '%23')
+    hash_tag_url_encoded.gsub!('@', '%40')    
+    hash_tag_url_encoded.gsub!(' ', '%20')        
+    ways_to_earn = "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"
+    
+    "<div class=\"mbs-user-info-wrapper\">
+      <div class=\"mbs-welcome-div\">Welcome back <span class=\"mbs-user-name\">#{user.display_name}</span>!</div>
+      <div class=\"mbs-score-box\">
+        <div class=\"mbs-score-box-left\">
+          <img src=\"#{SITE_URL}/images/bar/mbs-logo.png\" alt=\"BandStock\" />
+        </div>
+        <div class=\"mbs-score-box-right\">
+          #{number_with_delimiter(@net, :delimiter => ",")}
+        </div>      
+      </div>
+    </div>
+    <div id=\"mbs-rewards\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + list + "</ul></div>
+    <div id=\"mbs-ways-to-earn\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + ways_to_earn + "</ul></div>
+    <div>
+    
+    </div>"
+
+=begin
+    <div class=\"mbs-points-containers\">
+      <span class=\"mbs-earn-points\"><a href=\"#\">Earn Bandstock</a></span>          
+      <span class=\"mbs-rewards\"><a href=\"#\" id=\"mbs-rewards-link\">View Rewards</a></span>
+    </div>
+    <div class=\"mbs-next-level-data\">
+    </div>    
+    
+    " 
+=end
+=begin 
     "<p class=\"mbs-band-name\">#{@band.name}</p>
     <p class=\"mbs-welcome\">Hey #{user.first_name}!</p>
     <div id=\"mbs-stats\">
       <p class=\"mbs-shares\">You have #{@net} shares! Only <span class=\"mbs-number\">40,000</span> shares to the next level</p>
     </div>
     <div id=\"mbs-rewards\"><ul>" + list + "</ul></div>"
+=end
   end
   
   def user_form_html(user)
     "<div class=\"mbs-user-form\">
       <p class=\"mbs-user-form\">We couldn't find your email in the system. Sign up today and start earning rewards!</p>
-
       <span class=\"mbs-email\">
         <label>Email:</label> <input id=\"mbs_user_email\"name=\"user[email]\" size=\"25\" type=\"text\" value=\"#{user.email}\" />
       </span>
@@ -925,4 +975,82 @@ protected
     #"<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
     user_form_html(user)
   end
+  
+  def levels_for_demo
+
+    levels_array = Array.new
+    
+    level1 = Hash.new    
+    level1[:number] = 1
+    level1[:name] = "Enlistee"
+    level1[:points_needed] = 500
+    rewards1 = Array.new
+    level1[:rewards] = rewards1
+    levels_array[0] = level1
+
+    level2 = Hash.new
+    level2[:number] = 2
+    level2[:name] = "Private"
+    level2[:points_needed] = 1000
+    rewards2 = Array.new
+    level2[:rewards] = rewards2
+    levels_array[1] = level2
+
+    level3 = Hash.new
+    level3[:number] = 3
+    level3[:name] = "Sergeant"
+    level3[:points_needed] = 2000
+    rewards3 = Array.new
+    rewards3_1 = Hash.new
+    rewards3_1[:description] = "Access to Private Chamilitary Twitter Account"
+    rewards3[0] = rewards3_1
+    level3[:rewards] = rewards3
+    levels_array[2] = level3
+
+    level4 = Hash.new
+    level4[:number] = 4
+    level4[:name] = "Lieutenant"
+    level4[:points_needed] = 7500    
+    rewards4 = Array.new
+    rewards4_1 = Hash.new
+    rewards4_1[:description] = "Chamilitary Group Chat Access"
+    rewards4[0] = rewards4_1
+    level4[:rewards] = rewards4    
+    levels_array[3] = level4
+    
+    level5 = Hash.new
+    level5[:number] = 5
+    level5[:name] = "Captain"
+    level5[:points_needed] = 15000
+    rewards5 = Array.new
+    rewards5_1 = Hash.new
+    rewards5_1[:description] = "Front of Line Admission"
+    rewards5[0] = rewards5_1
+    rewards5_2 = Hash.new
+    rewards5_2[:description] = "Private Video Chat"
+    rewards5[1] = rewards5_2
+    level5[:rewards] = rewards5
+    levels_array[4] = level5
+
+    level6 = Hash.new    
+    level6[:number] = 6
+    level6[:name] = "General"
+    level6[:points_needed] = 30000
+    rewards6 = Array.new
+    rewards6_1 = Hash.new
+    rewards6_1[:description] = "Meet and Greet"
+    rewards6[0] = rewards6_1
+    levels_array[5] = level6
+
+#    puts levels_array.to_yaml
+    return levels_array
+  end
+  
+  def ways_to_earn_bandstock
+    earn_array = Array.new
+    
+    earn_array
+  end
+  
+  
 end #end controller

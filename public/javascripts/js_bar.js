@@ -2,10 +2,13 @@
 // <script src="http://www.mybandstock.com/javascripts/js_bar.js" type="text/javascript"></script>
 // <div id="js-bar-container" class="1234(this is the band id)"><br class="clear" /></div>
 // our function starts on line 83, the rest is the cookie plugin and initialization for jquery
-(function() {
 
+
+(function() {
 	// Localize jQuery variable
 	var jQuery;
+	var source_url = "http://127.0.0.1:3000"
+	//	var source_url = "http://notorious.mybandstock.com"
 
 	/******** Load jQuery if not present *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.4.2') {
@@ -33,16 +36,6 @@
     jQuery = window.jQuery.noConflict(true);
     // Call our main function
     main(); 
-	}
-
-	/******** Display a notification to the user ****/
-	function displayUserNotification(notification)
-	{
-		if (notification != "" && notification != null){	// if a user should be presented with a notification
-			jQuery('#mbs-bar-notification').html(""+notification);
-			jQuery('#mbs-bar-message-box').show();
-		}
-		return;
 	}
 
 	/****cookie plugin*****/
@@ -102,41 +95,49 @@
 			var css_link = $("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
-				// href: "http://notorious.mybandstock.com/stylesheets/js_bar.css" 
-				href: "http://127.0.0.1:3000/stylesheets/js_bar.css"
+				href: source_url+"/stylesheets/js_bar.css"
 			});
         
 			css_link.appendTo('head');          
 			var band_id = jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
-			// var url_host = "http://notorious.mybandstock.com/bands/"
-	    var url_host = "http://127.0.0.1:3000/bands/"
+	    var url_host = source_url+"/bands/"
     
+	// Build the bar
+			var current_url = window.location.href.replace("undefined", "");
+
+			// Initial Bar State
+			var mbs_initial_bar_state = "<div class=\"mbs-bar-login-wrapper\"><div class=\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><div class=\"clear\"></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"Submit\" /><span class=\"mbs-cancel-this\" style=\"display:none;\"><a href=\""+ current_url +"\" title=\"cancel\">cancel</a></span></div>";
+
+		
 			/******* Load HTML *******/
 			// make space on the website so our bar doesn't cover existing content
 			var mybandstock_bar_spacer = jQuery(document.createElement('div')).addClass('mybandstock_bar_spacer');
 			jQuery('body').append(mybandstock_bar_spacer);
 
 			// make notification box
-			jQuery('body').append('<div id="mbs-bar-message-box" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>')
+			jQuery('body').append('<div id="mbs-bar-message-box" class="mbs-alpha80" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>');
+			
+			
+			// Rewards buttons
+			var rewards_buttons = "<div class=\"mbs-points-containers\"><span class=\"mbs-earn-points\"><a id=\"mbs-ways-to-earn-link\" onClick=\"mybandstockToggleWaysToEarn()\">Earn Bandstock</a></span><span class=\"mbs-rewards\"><a id=\"mbs-rewards-link\" onClick=\"mybandstockToggleRewardsDiv()\">View Levels</a></span></div>";
 			
 
-			// Build the bar
-			var current_url = window.location.href.replace("undefined", "");
-			
-			// Initial Bar State
-			var mbs_initial_bar_state = '<div class="mbs-bar-login-wrapper"><div class="mbs-bar-login"><span class="mbs-email">Email: <input id="mbs_user_email" name="user[email]" size="30" type="text" /></span></div><div class="clear"></div><input id="mbs_user_submit" name="commit" type="submit" value="Submit" /><span class="mbs-cancel-this" style="display:none;"><a href="' + current_url + '" title="cancel">cancel</a></span></div>';
 			
 			// check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
 			if (jQuery.cookie('_mbs'))
 			{ 
 				var salt = jQuery.cookie("_mbs");
-				var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt; 
-				jQuery('#js-bar-container').remove('span.mbs-logout-link');
-				jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
+				var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt;
+
+//				jQuery('#js-bar-container').remove('span.mbs-logout-link');
+//				jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> Logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
 				jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
-					jQuery('#js-bar-container').append(data.html);
-					jQuery('span.mbs-cancel-this').css("display","none");
-					jQuery('span.mbs-rewards').fadeIn("fast");
+					jQuery('#js-bar-container').html(data.html);
+					jQuery('#js-bar-container').append(rewards_buttons);
+//					jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> Logout</a></span></div>");
+					jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");					
+//					jQuery('span.mbs-cancel-this').css("display","none");
+//					jQuery('span.mbs-rewards').fadeIn("fast");
 				});
 			} else {
 				//login stuff
@@ -149,12 +150,15 @@
 
 				jQuery('span.mbs-logout-link, span.mbs-rewards').css("display","none");
 */
-		  };
+		  }
 	   	
+
+	
 	
 	  	// Listeners
 			jQuery('#mbs-bar-close-notifications').click(function() {
 				jQuery('#mbs-bar-message-box').hide();
+				return false;
 			});
 	
 			jQuery('#js-bar-container .mbs-cancel-this').click(function() {
@@ -164,19 +168,17 @@
 				return false;
 			});
 			
-			// show/hide rewards
-			jQuery('span.mbs-rewards').click(function() {
-				jQuery('div#mbs-rewards').toggle("fast");
-				return false;
-			});
-			
 			// hide rewards when a user clicks out of the bar
+/*
 			jQuery('body').not('span.mbs-rewards').not('div#mbs-rewards').click(function() {
-				jQuery('div#mbs-rewards').hide("fast");
+				jQuery('div#mbs-rewards').hide();
 			});
-	      
+*/
+	
 			//click the logout button
+/*			
 			jQuery('#js-bar-container span.mbs-logout-link a').click(function() { 
+				alert('LOGGED OUT');
 				var email = null
 				var email_confirmation = null
 				var first_name = null
@@ -185,10 +187,10 @@
 				jQuery.cookie("_mbs", null); //kill the cookie
 				jQuery.getJSON(jsonp_url, function(data) { //call the server to reset the bar
 					jQuery('#js-bar-container').append(data.html);
-					displayUserNotification(data.notification);
+					mybandstockDisplayUserNotification(data.notification);
 				});
 			});
-        
+*/        
 			// User submits their info(either email or password depending on what's being asked for)
 			jQuery('#js-bar-container #mbs_user_submit').click(function() {
         var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
@@ -196,10 +198,10 @@
         var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
         var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
         var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
-        
+
 				jQuery.getJSON(jsonp_url, function(data) {
 					// show user notification if there is one
-					displayUserNotification(data.notification);
+					mybandstockDisplayUserNotification(data.notification);
 					
 					// BAR STATES
 					// Log the user in
@@ -207,7 +209,9 @@
 		    		jQuery.cookie("_mbs", data.msg);	// sets their session cookie
 //						jQuery('span.mbs-cancel-this, #mbs_user_submit, div.mbs-user-form').remove();
 //            jQuery('span.mbs-logout-link, span.mbs-rewards').show('fast');
-						jQuery('#js-bar-container').html(data.html);
+						jQuery('#js-bar-container').html(data.html);						
+						jQuery('#js-bar-container').append(rewards_buttons);
+						jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");											
 	      	}
 					// Need to delete user cookie
 	      	else if (data.msg && data.msg == "delete"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
@@ -246,3 +250,68 @@
 		}); // end doc.ready
 	}
 })();
+
+// Show/hide rewards
+function mybandstockToggleRewardsDiv(){
+	jQuery('div#mbs-rewards').toggle();
+	if(jQuery('#mbs-rewards-link').html() == "View Levels")
+	{
+		jQuery('#mbs-rewards-link').html("Hide Levels");
+	}
+	else
+	{
+		jQuery('#mbs-rewards-link').html("View Levels");					
+	}				
+	return;
+}
+
+// Show/hide ways to earn
+function mybandstockToggleWaysToEarn(){
+	jQuery('div#mbs-ways-to-earn').toggle();
+	return;
+}
+
+/******** Display a notification to the user ****/
+function mybandstockDisplayUserNotification(notification)
+{
+	if (notification != "" && notification != null){	// if a user should be presented with a notification
+		jQuery('#mbs-bar-notification').html(""+notification);
+		jQuery('#mbs-bar-message-box').show();
+	}
+	return;
+}
+
+// Open the popup
+function mybandstock_bar_popup_window_link(link_location,name,height,width)
+{
+	options = 'status=yes,location=no,scrollbars=yes,toolbar=no,directories=no,menubar=no';
+	height_offset = 0;
+	width_offset = 0;
+	if (width != null)
+	{
+		options += ",width="+width;
+		width_offset = width / 2;
+	}
+	if (height != null)
+	{
+		options += ",height="+height;
+		height_offset = height / 2;
+	}
+	mywindow = window.open(link_location,name,options);
+	mywindow.moveTo(screen.width/2-width_offset,screen.height/2-height_offset)	
+	return true
+}
+
+//log out user
+function mybandstock_log_user_out()
+{
+	var email = null
+	var email_confirmation = null
+	var first_name = null
+	var pass = null
+	var salt = null
+	jQuery.cookie("_mbs", null); //kill the cookie
+	jQuery('#js-bar-container').html("");
+	mybandstockDisplayUserNotification('Logged out.');
+	window.location.reload();
+}
