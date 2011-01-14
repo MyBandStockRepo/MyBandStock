@@ -1,0 +1,19 @@
+.orange_bar
+  .placement_editbandprofilepic
+  .placement_editbandprofile= "EDIT #{@level.name}"
+  .orange_divider
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @band }
+        .clear
+        = render :partial => "mini_list", :locals => {:levels => @band.levels}     
+        .fieldrow#level-button
+          .fieldleft
+            .formbutton.condense3
+              =link_to "Add rewards", new_level_reward_path(@level)         
+      = render :partial => "form"
+      .clear

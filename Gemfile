@@ -44,13 +44,21 @@ gem 'ruby-mysql', :group => :production
 
 
 # TDD/ BDD gems
-group :test do
+group :development, :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'cucumber-rails'
   gem 'cucumber'
-  gem 'rspec-rails'
+  gem 'test_notifier'
+  gem 'rspec-rails', '~> 2.3.1'
+  # gem 'autotest'
   gem 'spork'
-  gem 'launchy'    # So you can do Then show me the page
+  gem 'launchy' 
+  gem 'rcov'
+  gem 'rspec', '>= 2.3.0'
+  gem 'factory_girl_rails'
+  gem 'mocha'
+  gem 'webrat'
+  gem 'fakeweb'
+  gem 'ZenTest'
 end
-gem "mocha", :group => :test

@@ -8,6 +8,7 @@ class Band < ActiveRecord::Base
   has_many :associations, :dependent => :destroy
   has_many :users, :through => :associations
   has_many :shareholders, :through => :share_totals, :source => "user"
+  has_many :levels
 
   has_many :members, :through => :associations, :source => :user, :conditions => "associations.name = 'member'"
   has_many :admins, :through => :associations, :source => :user, :conditions => "associations.name = 'admin'"

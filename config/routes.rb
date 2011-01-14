@@ -1,9 +1,5 @@
 Cobain::Application.routes.draw do |map|
 
-
-
-
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -123,6 +119,10 @@ Cobain::Application.routes.draw do |map|
   resources :fans
   resources :bands do
     resources :shareholders, :controller => "users"
+    resources :levels
+  end
+  resources :levels do
+    resources :rewards
   end
   resources :user_roles
   resources :twitter_users

@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
+  has_many :rewards, :through => :redemptions
+  has_many :levels, :through => :share_totals
+  has_many :redemptions
   has_and_belongs_to_many :promotional_codes
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
