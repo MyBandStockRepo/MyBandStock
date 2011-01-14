@@ -822,6 +822,8 @@ protected
     elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
       message = @user.password_salt
+      twitter_connected = @user.twitter_user.blank? ? false : true
+      facebook_connected = @user.facebook_user.blank? ? false : true      
       notification = "Thanks for logging in!"
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
       data = need_password_html(@user.email)
@@ -833,7 +835,9 @@ protected
     end
     message ||= ""
     notification ||= ""
-    json = {"html" => data, "msg" => message, "notification" => notification}.to_json
+    twitter_connected ||= false
+    facebook_connected ||= false    
+    json = {"html" => data, "msg" => message, "notification" => notification, "twitter_connected" => twitter_connected, "facebook_connected" => facebook_connected}.to_json
     callback + "(" + json + ")"
   end
   
@@ -911,8 +915,26 @@ protected
     hash_tag = "#mbs-demo-band"
     hash_tag_url_encoded = hash_tag.gsub('#', '%23')
     hash_tag_url_encoded.gsub!('@', '%40')    
-    hash_tag_url_encoded.gsub!(' ', '%20')        
-    ways_to_earn = "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"
+    hash_tag_url_encoded.gsub!(' ', '%20')
+    
+    current_level = user.levels.where(:band_id => @band.id).first
+    user_level = current_level.number#level number
+    user_level_name = current_level.name #level name
+    next_level = user.next_level_for_band(@band)
+    user_points_required_at_level = next_level.points
+    user_next_level = next_level.name
+    user_points_to_next_level = user.points_to_next_level_for_band(@band)
+    user_percentage_to_next_level = user.percent_of_level_completed_for_band(@band).round
+    
+    ways_to_earn = ""
+    if user.twitter_user.blank? || user.facebook_user.blank?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social','Connect To Social Networks',380,580)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
+    end
+    unless user.twitter_user.blank?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"      
+    end
+            
+
     
     "<div class=\"mbs-user-info-wrapper\">
       <div class=\"mbs-welcome-div\">Welcome back <span class=\"mbs-user-name\">#{user.display_name}</span>!</div>
@@ -927,8 +949,11 @@ protected
     </div>
     <div id=\"mbs-rewards\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + list + "</ul></div>
     <div id=\"mbs-ways-to-earn\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + ways_to_earn + "</ul></div>
-    <div>
-    
+    <div id=\"mbs-level-progress\">
+      <div class=\"mbs-user-level\"><span class=\"mbs-user-level-number\">Level #{user_level}</span><span class=\"mbs-user-level-name\">#{user_level_name}</span></div>
+      <div class=\"mbs-level-progress-background\" onMouseOver=\"mybandstockShowProgressTooltip()\" onMouseOut=\"mybandstockHideProgressTooltip()\"><div class=\"mbs-level-progress-bar\" style=\"width:#{user_percentage_to_next_level}%;\"></div></div>
+      <div class=\"mbs-next-level-status\">#{user_percentage_to_next_level}% to the next level</div>
+      <div class=\"mbs-level-progress-tooltip mbs-alpha80\" style=\"display:none;\"><span class=\"mbs-progress-next-level-tooltip\">Next Level: #{user_next_level} in #{number_with_delimiter(user_points_to_next_level, :delimiter => ",")} BandStock</span><span class=\"mbs-progress-ratio-tooltip\">#{number_with_delimiter(@net, :delimiter => ",")} / #{number_with_delimiter(user_points_required_at_level, :delimiter => ",")} BandStock</span></div>
     </div>"
 
 =begin
@@ -983,7 +1008,7 @@ protected
     level1 = Hash.new    
     level1[:number] = 1
     level1[:name] = "Enlistee"
-    level1[:points_needed] = 500
+    level1[:points_needed] = 0
     rewards1 = Array.new
     level1[:rewards] = rewards1
     levels_array[0] = level1

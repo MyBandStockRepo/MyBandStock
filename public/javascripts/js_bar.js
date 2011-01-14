@@ -315,3 +315,12 @@ function mybandstock_log_user_out()
 	mybandstockDisplayUserNotification('Logged out.');
 	window.location.reload();
 }
+
+function mybandstockShowProgressTooltip()
+{
+	jQuery('.mbs-level-progress-tooltip').show()
+}
+function mybandstockHideProgressTooltip()
+{
+	jQuery('.mbs-level-progress-tooltip').hide()	
+}

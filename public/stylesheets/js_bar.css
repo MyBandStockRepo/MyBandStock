@@ -415,19 +415,20 @@ div#mbs-rewards .mbs-rewards-list li{
 }
 div#mbs-ways-to-earn img{
 	float:left;
+	margin:3px;
 }
 div#mbs-ways-to-earn ul{
 	font-size:10pt;
 	color:white;
 }
 div#mbs-ways-to-earn ul li{
-	margin-bottom:1px;
-	height:33px;
+	border-bottom:1px solid #3a3a3a;
+	height:37px;
 	width:250px;
 }
 div#mbs-ways-to-earn ul li .mbs-way-to-earn span{
 	float:left;
-	margin:7px 0px 0px 10px;
+	margin:10px 0px 0px 10px;
 }
 div#mbs-ways-to-earn ul li:hover{
 	border-bottom:1px solid #f90;
@@ -441,204 +442,99 @@ div#mbs-ways-to-earn ul li:hover{
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF, endColorstr=#33FFFFFF)" !important;
 	cursor:pointer;
 	margin-bottom:0px;
+	color:#F90;
 }
-
 /* End Rewards Stuff */
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-/*
-.mybandstock_bar_spacer{height:67px;clear:both;}
-div#js-bar-container{
-	width:99%;
+/* Level Progress */
+#js-bar-container #mbs-level-progress{
 	height:45px;
-	background: #black;
-	padding:7px;
-	color:white;
-	position:fixed;
-	bottom:.1em;
-	right:.01em;
-	border-top: 3px groove #868686;
-	float:right;
-}
-#js-bar-container p {
-	width:auto;
-	font-size:1.2em;
-	margin:6px;
-	margin-top: .5em;
-	float:left;
-	display:inline;
-}
-#js-bar-container p.mbs-band-name{
-	margin-top:.1em;
-	background:black;
-	border-radius:15px;
-	-moz-border-radius:15px;
-	-webkit-border-radius:15px;
-	padding:7px;
-	
-}
-#js-bar-container p.mbs-shares{
-	float:right;
-	margin-right: 5%;
-}
-#js-bar-container p.mbs-shares span.mbs-number{
-	font-style:italic;
-	color:#5CA749;
-}
-#js-bar-container p.mbs-user-form{
-	margin-top:1em;
-}
-div.mbs-bar-login{
-	float:right;
-	display:inline;
-	padding:2px;
-	margin:0 15% 0 0;
-}
-div.mbs-user-form{
-	padding:15px;
-	margin:0;
 	position:absolute;
-	width:30%;
-	background:#443A3A;
-	border:1px solid gainsboro;
-	bottom:1em;
-	right:15%;
-	
+	width:302px;
+	left:545px;
 }
-div.mbs-user-form label{
+#js-bar-container #mbs-level-progress .mbs-user-level{
+	width:100px;
+	margin-top:5px;
+	font-size:12pt;
+	float:left;
+}
+#js-bar-container #mbs-level-progress .mbs-user-level .mbs-user-level-number{
+	display:block;
+	color:#F90;
+	font-size:10pt;
+}
+#js-bar-container #mbs-level-progress .mbs-user-level .mbs-user-level-name{
 	display:block;
 }
-div.mbs-user-form span{
-	float:left;
-	margin:1em;
-}
-*/
-/*div.user-form span.first-name{
-	position:absolute;
-	left:5%;
-	top:1em;
-}
-div.user-form span.email{
-	position:absolute;
-	left:5%;
-	top:3em;
-}
-div.user-form span.email-conf{
-	position:absolute;
-	left:35%;
-	top:1em;
-}
-div.user-form span.pass{
-	position:absolute;
-	left:35%;
-	top:3em;
-}*/
-/*
-#js-bar-container span.mbs-cancel-this a {
+
+#js-bar-container #mbs-level-progress .mbs-level-progress-background{
+	-moz-border-radius-topleft:4px;
+	-webkit-border-top-left-radius:4px;
+	-moz-border-radius-topright:4px;
+	-webkit-border-top-right-radius:4px;	
+	-moz-border-radius-bottomleft:4px;
+	-webkit-border-bottom-left-radius:4px;
+	-moz-border-radius-bottomright:4px;
+	-webkit-border-bottom-right-radius:4px;
+	background-color:#2d2d2d;
+	height:10px;
+	width:200px;
+	border:1px solid #3d3d3d;
 	float:right;
-	color:white;
-	clear:right;
+	margin-top:15px;
+}
+#js-bar-container #mbs-level-progress .mbs-level-progress-bar{
+	-moz-border-radius-topleft:4px;
+	-webkit-border-top-left-radius:4px;
+	-moz-border-radius-topright:4px;
+	-webkit-border-top-right-radius:4px;	
+	-moz-border-radius-bottomleft:4px;
+	-webkit-border-bottom-left-radius:4px;
+	-moz-border-radius-bottomright:4px;
+	-webkit-border-bottom-right-radius:4px;
+	background-color:#F90;
+	height:100%;
+	float:left;
+	margin:0px;
+}
+#js-bar-container #mbs-level-progress .mbs-next-level-status{
+	font-size:7pt;
+	color:#5d5d5d;
+	float:right;
 }
 
-#js-bar-container span.mbs-logout-link a{
-	float:right;
-	color:white;
-	clear:right;
-}
-div.mbs-bar-login span.mbs-pass{
-}
-#js-bar-container input {
-	border-radius:15px;
-	-moz-border-radius:15px;
-	-webkit-border-radius:15px;
-}
-div#js-bar-container input#mbs_user_submit{
-	float:right;
-	background:green;
-	color:white;
-	position:absolute;
-	right:8%;
-	bottom:2.2em;
-}
-div#js-bar-container input#mbs_user_submit:hover{
-	cursor:pointer;
-	cursor:hand;
-	background:white;
-	color:green;
-}
-.mbs-logout-link{
-	float:right;
-}
-#mbs_user_submit {
-	width:auto;
-	display:inline;
-}
-p.mbs-message {
-	display:inline;
-	width:auto;
-}
-span.mbs-rewards{
-	float:left;
-	position:absolute;
-	left:33%;
-	top:1em;
-}
-span.mbs-rewards a{
-	background:#DEEBDA;
-	text-decoration:none;
-	padding:7px;
-	font-size:1em;
-	font-weight:bold;
-	color:#443A3A;
-	border-radius:15px;
-	-moz-border-radius:15px;
-	-webkit-border-radius:15px;
-}
-span.mbs-rewards a:hover{
-	background:#A5EB94;
-	border-bottom:1px solid gray;
-}
-div#mbs-rewards{
-	position:absolute;
-	width:200px;
-	float:left;
-	bottom: 3.5em;
-	background:gray;
-	display:none;
-	color:white;
-	font-size: 1.3em;
+#js-bar-container #mbs-level-progress .mbs-level-progress-tooltip{
 	padding:10px;
-    border:2px solid gainsboro;
+	position:fixed;
+	left:626px;
+	float:left;
+	bottom:50px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;	
+	border:2px groove #868686;
 	-moz-box-shadow: 3px 3px 4px #000;
 	-webkit-box-shadow: 3px 3px 4px #000;
-	box-shadow: 3px 3px 4px #000;
-	right: 36%;
-	}
-div#mbs-rewards ul {
-	list-style-type:none;
-	width:100%;
+	box-shadow: 3px 3px 4px #000;	
+	text-align:center;
 }
-div#mbs-rewards ul li span {
+#js-bar-container #mbs-level-progress .mbs-level-progress-tooltip .mbs-progress-ratio-tooltip{
+	color:#f90;
+	font-size:8pt;
 	display:block;
-	color:black;
-	margin-right:1em;
-	font-style:italic;
-	width:100%;
 }
-div#mbs-rewards ul li {
-	margin-bottom:1em;
-	width:100%;
+#js-bar-container #mbs-level-progress .mbs-level-progress-tooltip .mbs-progress-next-level-tooltip{
+	display:block;
+	
 }
-*/
+/* End Level Progress */

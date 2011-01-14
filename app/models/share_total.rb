@@ -5,6 +5,16 @@ class ShareTotal < ActiveRecord::Base
   #The 'gross' share total accounts only for positive account adjustments
   belongs_to :user
   belongs_to :band
+  belongs_to :level
+  
+  after_save :update_level_id  
+  
+  def update_level_id
+    if self.level.next && self.gross > self.level.next.points
+      self.level = self.level.next
+      self.save
+    end
+  end  
   
   def self.get_with_band_and_user_ids(band_id, user_id)
     joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").first

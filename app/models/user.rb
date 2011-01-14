@@ -43,6 +43,33 @@ class User < ActiveRecord::Base
   def api_attributes
     self.attributes.reject{|k, v| !API_ATTRIBUTES.include?(k.to_s)}
   end
+  
+  
+  def points_to_next_level_for_band(band)
+    if total = self.share_total_for_band(band)
+      total.level.next ? (total.level.next.points - total.gross) : "0"
+    end 
+  end
+  def share_total_for_band(band)
+#    self.share_totals.where(:band_id => band.id)
+    ShareTotal.where(:band_id => band.id, :user_id => self.id).first
+  end
+  def next_level_for_band(band)
+    if total = self.share_total_for_band(band)
+      total.level.next
+    end
+  end
+  def percent_of_level_completed_for_band(band)
+    total = self.share_total_for_band(band)
+    ((total.gross.to_f - total.level.points.to_f)/(total.level.next.points.to_f - total.level.points.to_f)) * 100
+  end
+  def percent_to_next_level_for_band(band)
+    100 - self.percent_of_level_completed_for_band(band)
+  end  
+  
+  
+  
+  
   def twitter_client
     twitter_user_account = self.twitter_user
     if twitter_user_account
