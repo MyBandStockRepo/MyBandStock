@@ -44,12 +44,11 @@
           %ol.user-list
             -@top_fans.each do |fan|
               - user = fan.user
-              - location = user.display_location
+              - shares = fan.net
               %li
                 = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
-                -if location
-                  %span.shareholder_aside
-                    = " from #{ location }"
+                %span{ :class => 'shareholder_aside' }
+                  = shares
         .send-email
           %a{ :href => '#' } SEND EMAIL
     .one-third
@@ -57,23 +56,25 @@
         %h3.stats-module-title Influencers
         -if @top_influencers
           %ol.user-list
-            -@top_influencers.each do |twitter_username|
+            -@top_influencers.each do |tweet|
+              - twitter_username = tweet.twitter_user.user_name
               - link = 'http://twitter.com/'+ twitter_username
               %li
                 = link_to twitter_username, link, :target => '_blank', :class => "stats-user-name stats-twitter-link"
+                %span{ :class => 'shareholder_aside' }
+                  = "#{tweet.twitter_followers}"
           -# %a{ :href => '#' } SEND EMAIL
     .one-third
       .stats-module.top-purchasers
         %h3.stats-module-title Purchasers
         -if @top_purchasers
           %ol.user-list
-            -@top_purchasers.each do |user|
-              - location = user.display_location
+            -@top_purchasers.each do |purchaser|
+              - user = purchaser.user
               %li
                 = link_to user.display_name, user, :target => '_blank', :class => "stats-user-name"
-                -if location
-                  %span.shareholder_aside
-                    = " from #{ location }"
+                %span{ :class => 'shareholder_aside' }
+                  = "$#{purchaser.total}"
         .send-email
           %a{ :href => '#' } SEND EMAIL
 

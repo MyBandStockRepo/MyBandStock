@@ -293,19 +293,17 @@ class Band < ActiveRecord::Base
     # The first number in each element is Unix time in milliseconds. The second number is the number of tweets that occured on that day for the given band.
     # Returns nil if there are no results.
     #
-    # TODO: Use t.tweeted_at in place of t.created_at
-    #
       tweets = TwitterCrawlerTracker.find_by_sql(
        "SELECT
           DISTINCT t.tweet_id,
-          count(date(t.created_at)) as count_for_day,
-          date(t.created_at) as day,
+          count(date(t.tweeted_at)) as count_for_day,
+          date(t.tweeted_at) as day,
           t.*
         FROM twitter_crawler_trackers t
         JOIN twitter_crawler_hash_tags ht
           ON t.twitter_crawler_hash_tag_id = ht.id
         WHERE ht.band_id = #{ self.id }
-        GROUP BY day"    # t.tweeted_at
+        GROUP BY day"
       )
       data_points = tweets.collect{|tweet|
         [Time.parse(tweet.day).to_i*1000, tweet.count_for_day.to_i]
@@ -345,17 +343,19 @@ class Band < ActiveRecord::Base
     
     
     def top_influencers(num_users = nil)
-    # Returns an array of Twitter usernames in order of their number of followers on Twitter, or an empty array.
-    # Called like @band.top_influencers(10).
-    # Example: ["plagosus", "Ruri_Sakuma", "Haeroina", "jaffeon"]
+    # Returns an array of TwitterCrawlerTracker rows, in order of the poster's number of followers on Twitter, or an empty array.
+    # Also includes TwitterUser and TwitterCrawlerHashTag information.
+    # Example:  @band.top_influencers(10).collect{ |i| i.twitter_user.user_name }
+    #       =>  ["plagosus", "Ruri_Sakuma", "Haeroina", "jaffeon"]
     #
     # TODO:
-    #   Return num_followers too
     #   TwitterUser where :authentication_id => not nil ordered by twitter_followers
     #     ^^ To assure that the user has registered with us.
     #
       TwitterCrawlerTracker.joins(
         :twitter_crawler_hash_tag, :twitter_user
+      ).group(
+        "twitter_users.user_name"
       ).where(
         "twitter_crawler_hash_tags.band_id = #{ self.id }"
       ).includes(
@@ -364,9 +364,7 @@ class Band < ActiveRecord::Base
         'twitter_followers DESC'
       ).limit(
         num_users
-      ).collect{ |a|
-        a.twitter_user.user_name
-      }.uniq
+      ).uniq
     end
     
     
@@ -388,9 +386,10 @@ class Band < ActiveRecord::Base
         'total DESC'
       ).limit(
         num_users
-      ).collect{ |sle|
-        sle.user
-      }
+      )
+      #.collect{ |sle|
+      #  sle.user
+      #}
     end
     
     

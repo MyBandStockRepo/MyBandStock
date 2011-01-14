@@ -218,6 +218,13 @@ class UsersController < ApplicationController
     
     #if failure, go back to the form  
   end
+  
+  
+  def connect_social_networks
+    render :layout => 'white-label'    
+  end
+  
+  
   def index
     if params[:band_id] 
       @band = Band.find(params[:band_id])
@@ -743,11 +750,15 @@ class UsersController < ApplicationController
   def control_panel
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
+    # TODO:
+    #  Influencers should only include those previously signed up with our site.
+    #  Show followers.
+    #
     authenticated?
     @user = User.find(session[:user_id])
 	
-    flash[:error] = flash[:error]
-    flash[:notice] = flash[:notice]	
+    #flash[:error] = flash[:error]
+    #flash[:notice] = flash[:notice]	
     
     # @bands is an array of band objects, or an empty array (never nil)
     if @user.site_admin
@@ -758,7 +769,17 @@ class UsersController < ApplicationController
 		
 		if @bands.count == 0
 			redirect_to :controller => 'bands', :action => 'index'
-		end    
+		end
+		
+		# If the user selected a single band to display,
+		# then we assign that band to the band view variable.
+		unless params[:band_id].blank?
+		  @band = @bands.select{|band| band.id == params[:band_id].to_i }.first
+		  if @band.blank?
+		    flash[:error] = "You cannot access the band with ID #{ params[:band_id] }."
+		    @band = nil
+		  end
+		end
   end
   
 
@@ -861,6 +882,8 @@ protected
       if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
         if User.authenticate(params[:email], params[:password]) #if the password matches
           @authentic = true #the user is authenticated and get_jsonp can send the info
+          #log the user in to the MBS site
+          log_user_in(@user.id)
         else
           @authentic = false
         end
