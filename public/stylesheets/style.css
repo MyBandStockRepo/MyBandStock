@@ -1550,3 +1550,74 @@ fieldset {border:0px;padding:0px;margin:0px;}
   text-align: center;
   margin-bottom: 10px;
 }
+#new-reward .newform .fieldrow {
+	float:right;
+	width:60%;
+}
+#new-reward {
+	float:right; 
+	margin-right:1em;
+}
+#new-reward .content_onethird_bg {
+	float:left;
+	width:35%
+}
+#delete-form{
+	display:inline;
+}
+.rewards .reward-name a, .levels .level-name a, .levels .level-points{
+	color:#ff8700;
+	font-size: 120%;
+	margin-right: 10px;
+}
+.dark_bar_large{
+	padding-bottom:25px;
+}
+.rewards, .levels {
+	margin: -8px 28px 0 0;
+	padding:8px;
+	padding-left:40px;
+	background:#141414;
+	color:#fff;
+}
+.rewards span, .rewards h2, .rewards p, .levels span, .levels h2, .levels p{
+	margin-bottom:7px;
+}
+.rewards a, .levels a {
+	color:#fff;
+}
+.fieldrow#level-button .fieldleft{
+	width:auto;
+	float:right;
+}
+.fieldrow#level-button {
+	float:right;
+	margin:1em;
+}
+.content_onethird_bg .fieldrow#level-button {
+	margin-right:9em;
+}
+p.done {
+	display:inline;
+	width:auto;
+	margin:1em;
+	float:right;
+	clear:both;
+}
+#levels {
+	display:inline;
+	width:60%;
+    float:right;
+    background:#141414;
+    font-size: 1.6em;
+    color:#fff;
+    margin-right:2em;
+    padding:1em;
+    margin-top:1em;
+}
+#levels li {
+	margin:.3em;
+}
+/*span.level-points{
+	margin-right:5px;
+}*/

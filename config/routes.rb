@@ -1,9 +1,5 @@
 Cobain::Application.routes.draw do |map|
 
-
-
-
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -65,7 +61,6 @@ Cobain::Application.routes.draw do |map|
     match 'bands/:band_id/leaderboard', :to => 'bands#leaderboard_widget'
     match 'bands/:band_id/stats', :to => 'bands#stats'
     match 'bands/:band_id/dashboard', :to => 'bands#dashboard'
-    match 'bands/:band_id/shareholders', :to => 'bands#shareholders'    
   # /--- Band Actions ---- #
 
   match '/stay_informed', :to => 'mailing_list_addresses#create'
@@ -118,9 +113,17 @@ Cobain::Application.routes.draw do |map|
   resources :api_users
   resources :pledges
   resources :roles
-  resources :users
+  resources :users do
+    resources :invested_in_bands, :controller => "bands"
+  end
   resources :fans
-  resources :bands
+  resources :bands do
+    resources :shareholders, :controller => "users"
+    resources :levels
+  end
+  resources :levels do
+    resources :rewards
+  end
   resources :user_roles
   resources :twitter_users
   resources :twitter_crawler_hash_tags  

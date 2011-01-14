@@ -6,6 +6,10 @@ class ShareTotal < ActiveRecord::Base
   belongs_to :user
   belongs_to :band
   
+  def self.get_with_band_and_user_ids(band_id, user_id)
+    joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").first
+  end
+  
   def self.initialize_ranks(band_id=nil)
     if band_id.nil?
       all_bands = Band.all

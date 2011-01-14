@@ -144,7 +144,7 @@ end
  
 
   def index
-    
+
     @official_bands = Band.where(:mbs_official_band => true).order('id DESC')
   #  @top_pledged_bands = PledgedBand.order('pledges_count DESC').limit(5)
     
@@ -538,18 +538,8 @@ end
     @fresh_association = Association.new(:band_id => @band.id)
     
     @number_of_admins = @band.associations.find(:all, :conditions => ['name = ?', 'admin']).size
-    @number_of_members = @band.associations.find(:all, :conditions => ['name = ?', 'member']).size
-    
-    
+    @number_of_members = @band.associations.find(:all, :conditions => ['name = ?', 'member']).size  
   end
-  
-  def shareholders
-    @band = Band.find(params[:band_id])
-    @shareholders = @band.all_shareholder_users
-  end
-  
-  
-  
   
 protected
   

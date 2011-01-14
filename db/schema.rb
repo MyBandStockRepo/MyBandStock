@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101206233941) do
+ActiveRecord::Schema.define(:version => 20110111220216) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -122,6 +122,18 @@ ActiveRecord::Schema.define(:version => 20101206233941) do
     t.datetime "updated_at"
   end
 
+  create_table "levels", :force => true do |t|
+    t.string   "name"
+    t.integer  "position"
+    t.float    "multiplier"
+    t.integer  "band_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "points"
+    t.text     "description"
+    t.integer  "limit"
+  end
+
   create_table "live_stream_series", :force => true do |t|
     t.string   "title",                          :null => false
     t.datetime "starts_at",                      :null => false
@@ -197,6 +209,13 @@ ActiveRecord::Schema.define(:version => 20101206233941) do
     t.datetime "updated_at"
   end
 
+  create_table "redemptions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "reward_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "retweets", :force => true do |t|
     t.string   "original_tweet_id"
     t.string   "retweet_tweet_id"
@@ -207,6 +226,17 @@ ActiveRecord::Schema.define(:version => 20101206233941) do
     t.integer  "share_value"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "rewards", :force => true do |t|
+    t.string   "name"
+    t.integer  "level_id"
+    t.text     "description"
+    t.datetime "expires_at"
+    t.integer  "limit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "points"
   end
 
   create_table "roles", :force => true do |t|
@@ -275,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20101206233941) do
     t.datetime "updated_at"
     t.integer  "last_rank"
     t.integer  "current_rank"
+    t.integer  "level_id"
   end
 
   create_table "short_urls", :force => true do |t|
@@ -342,6 +373,35 @@ ActiveRecord::Schema.define(:version => 20101206233941) do
     t.datetime "updated_at"
     t.boolean  "users_have_been_notified", :default => false, :null => false
     t.boolean  "currently_live",           :default => false, :null => false
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.string   "buyer_id"
+    t.string   "serial_number"
+    t.string   "google_order_number"
+    t.string   "peekok_order_number"
+    t.string   "financial_order_state"
+    t.string   "fulfillment_order_state"
+    t.float    "order_total"
+    t.float    "total_amount_charged"
+    t.text     "shopping_cart_xml"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "company_name"
+    t.string   "contact_name"
+    t.string   "country_code"
+    t.string   "email"
+    t.string   "fax"
+    t.string   "phone"
+    t.string   "postal_code"
+    t.string   "region"
+    t.datetime "timestamp"
+    t.boolean  "email_allowed"
+    t.boolean  "paid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "twitter_crawler_hash_tags", :force => true do |t|

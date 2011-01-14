@@ -1,0 +1,59 @@
+--jason's changes from api_branch 12/14/10
+Modifying the api auth to be more universal it is now moved it to the application controller
+There is also an api_call? method that determines if the request is an api call
+
+Associations are now specified to make the app more restful. With the following lines
+-- in band.rb:
+has_many :shareholders, :through => :share_totals, :source => "user"
+-- in user.rb:
+has_many :invested_in_bands, :through => :share_totals, :source => "band"
+
+along with the following routes:
+resources :users do
+  resources :invested_in_bands, :controller => "bands"
+end
+resources :bands do
+  resources :shareholders, :controller => "users"
+end
+
+We now can call @band.shareholders and @user.invested_in_bands. It also gives us a host of new methods
+ie @band.shareholders.create etc, see http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
+
+This eliminates the need for the shareholders method in the band controller and uses the users#index action
+instead because its calling and displaying a list of shareholders(users).
+
+API CALL
+
+The api call to get info on a shareholder's information in relation to a band is called through the
+index action because we won't have an id for the user. An example api url would be
+
+http://www.mybandstock.com/bands/1/shareholders.json?email=jason@mybandstock.com 
+
+If there's an email parameter, the api will look for and return info for the user with the 
+associated email. The attributes we want to return are set in a constant(API_ATTRIBUTES) in the user.rb and returned
+via the api_attributes instance method on user.
+
+API AUTHENTICATION
+
+Api authentication is called in a before filter, for example
+before_filter :authorize_api_access, :if => :api_call?, :only => :index
+where both the authorize_api_access and api_call? methods are set in the application_controller to be
+available to all controllers
+api_call? checks several things such as the format and a parameter of api_key, this could/should be refactored
+
+The authentication requires the following parameters:
+api_key which is set on the api_user
+api_version which is defaulted to 1
+input_hash which is a hash created from the api_user's secret_key and the api_key with:
+
+Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
+
+Authentication checks that the hash we generate from the secret_key and the api_key is the same
+as the one passed in the request.
+
+A sample api request url with all parameters would be something like
+http://www.mybandstock.com/bands/1/shareholders.json?email=jason@mybandstock.com&api_key=awert345rerwerwer&input_hash=23434erwerwerdfsdfdfsf34324
+
+If any of the steps in authentication fail, a 403 Forbidden status is returned along with an associated message
+
+

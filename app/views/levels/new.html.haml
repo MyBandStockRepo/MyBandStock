@@ -1,0 +1,15 @@
+.orange_bar
+  .placement_editbandprofilepic
+  .placement_editbandprofile="ADD A NEW LEVEL TO #{@band.name}"
+  .orange_divider
+#new-reward
+  #content_login_bg
+    #login_wrap.lightboxpad
+      .content_onethird_bg
+        .left_third
+          .dark_bar_large
+            = render :partial => 'bands/navigation', :locals => { :band => @band }
+        .clear
+        = render :partial => "mini_list", :locals => {:levels => @band.levels}              
+      = render :partial => "form"
+      .clear

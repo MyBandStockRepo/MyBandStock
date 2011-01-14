@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
 
-  protect_from_forgery :only => [:create, :update, :external_registration_complete]
-  before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show]
-  before_filter :find_user, :only => [:edit, :address]
-						# skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
-  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address]
-  before_filter :make_sure_band_id_session_exists, :only => [:external_registration]
+  include ActionView::Helpers::NumberHelper
 
+  protect_from_forgery :only => [:create, :update, :external_registration_complete]
+  before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show], :unless => :api_call?
+  before_filter :find_user, :only => [:edit, :address]
+  # before_filter :authorize_api_access, :if => :api_call?, :only => :index
+  # skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :manage_friends, :inbox, :purchases]
+  skip_filter :update_last_location, :except => [:show, :edit, :membership, :control_panel, :manage_artists, :address], :unless => :api_call?
+  before_filter :make_sure_band_id_session_exists, :only => [:external_registration]
 
   def external_registration_success
     session[:register_with_band_id] = nil
@@ -214,15 +216,28 @@ class UsersController < ApplicationController
     
       #try to save user
     
-    #if failure, go back to the form
-
-    
-  
+    #if failure, go back to the form  
   end
-
   def index
-    #What do we do with this action?
-    redirect_to session[:last_clean_url]
+    if params[:band_id] 
+      @band = Band.find(params[:band_id])
+      if (params[:email] || (params[:salt])) && api_call? #this is an api call
+        login_or_create_user
+      end 
+      @shareholders = @band.shareholders
+      if @band && @user && !@user.new_record?
+        logger.info "This is the email #{@user.email}"
+        @share_total = ShareTotal.get_with_band_and_user_ids(@band.id, @user.id)
+      end
+      @net = @share_total.nil? ? "0" : @share_total.net
+    else
+      return false #we should redirect somewhere
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :text => get_jsonp } 
+      format.xml { render :xml => [@user.api_attributes.to_xml, @share_total.to_xml] }
+    end
   end
   
   
@@ -237,14 +252,11 @@ class UsersController < ApplicationController
     
 =end    
 #    @random_band = get_random_band()
-
-
     respond_to do |format|
       format.html
       format.js
       format.xml
-    end
-    
+    end    
   end
   
   def register_with_twitter
@@ -809,6 +821,250 @@ protected
     
     @user = User.find(id)
   end
+  def get_jsonp
+    callback = params[:callback]
+    if @no_user #there was a mbs cookie but the user couldn't be found from it, we'll reset the cookie and ask for the user's email
+      data = ""
+      message = "delete"
+    elsif !@authentic && @user_error
+      data = sign_up_failure(@user)
+      message = "user-error"
+      notification = "Sorry, something went wrong. Please try again."
+    elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
+      data = need_password_html(@user.email)
+      message = "need-password"
+    elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
+      data = logged_in_info(@user)
+      message = @user.password_salt
+      notification = "Thanks for logging in!"
+    elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
+      data = need_password_html(@user.email)
+      message = "need-password"
+      notification = "Sorry, that password is incorrect."
+    elsif !@authentic && !@need_password #We didn't find a user with that email, so we created a new one.
+      data = user_form_html(@user)
+      message = "create-new-user"
+    end
+    message ||= ""
+    notification ||= ""
+    json = {"html" => data, "msg" => message, "notification" => notification}.to_json
+    callback + "(" + json + ")"
+  end
+  
+  def login_or_create_user
+    #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
+    #combinations four variables will tell which response to send from the get_jsonp method
+    @user_error = false
+    @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
+    @authentic = false #if this is true, the steps have been completed and we can send the user info
+    @need_password = false #if this is true, the user will be asked for their password
+    @user = User.where("email = ?", params[:email]).first if params[:email] #both the email step and the pass step have an email param
+    if params[:salt] && params[:salt] != 'undefined' #if there's a salt parameter, then we try to find the user from the cookie
+      @user = User.where("password_salt = ?", params[:salt]).first #find the user with that token
+      @authentic = true unless @user.nil? #set authentic var to true if we find the user, that's the only step, the user is logged in
+      @no_user = true if @user.nil? #set no user if we can't find the user, that will reset the cookie to null
+    elsif params[:email_confirmation] && params[:email_confirmation] != 'undefined'
+      @authentic = create_new_user
+      @user_error = !@authentic
+      @user = User.new(:email => params[:email]) if @user_error
+    elsif @user
+      if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
+        if User.authenticate(params[:email], params[:password]) #if the password matches
+          @authentic = true #the user is authenticated and get_jsonp can send the info
+        else
+          @authentic = false
+        end
+      else
+        @need_password = !@authentic #if there's a user but no password, authentic may still be true if  
+                                     #logging in from a cookie. So need_password should be the opposite of authentic.
+                                     #if need_password is true, authentic is false and we know we need to send 
+                                     #the response "enter your password"
+      end
+    else
+      send_user_form #finally if there's no user with the passed email param, we render a signup form.
+    end 
+  end
+  def send_user_form
+    @user = User.new(:email => params[:email])
+  end
+  def create_new_user #create the user from the user form sent
+    @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
+    @user.generate_or_salt_password(@user.password)
+    if @user.save
+      return true
+    else
+      return false
+    end
+  end
     
+  def need_password_html(email) #html for step two, a password field and a hidden email field with the user's email
+    "<span class=\"mbs-email\"style=\"display:none;\">
+      Email: <input id=\"mbs_user_email\"name=\"user[email]\" size=\"30\" type=\"text\" value=\"#{email}\" />
+    </span>
+    <span class=\"mbs-pass\"> 
+      Password: <input id=\"mbs_user_password\" name=\"user[password]\" size=\"20\" type=\"password\" value=\"\" />
+    </span>"
+  end
+  
+  def logged_in_info(user) #html for all info passed for a logged-in user
+#     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")
+    levels = levels_for_demo
+#    list = levels.collect{|level| "<li>Level #{level[:number]}: #{level[:name]} (need #{level[:points_needed]} BandStock) Unlock rewards:<br /> #{levels[:rewards].collect{|reward| "#{reward[:description]}<br />"}}</li>"}.join("")
+    list = ""
+    for level in levels
+      list += "<li><span class=\"mbs-level-number\">Level #{level[:number]}: </span><span class=\"mbs-level-name\">#{level[:name]}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level[:points_needed], :delimiter => ",")} BandStock</span>"
+      unless level[:rewards].blank?
+       list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
+       for reward in level[:rewards]
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward[:description]}</span></li>"
+       end
+       list += "</ul>"       
+      end
+      list += "</li>"
+    end
+    hash_tag = "#mbs-demo-band"
+    hash_tag_url_encoded = hash_tag.gsub('#', '%23')
+    hash_tag_url_encoded.gsub!('@', '%40')    
+    hash_tag_url_encoded.gsub!(' ', '%20')        
+    ways_to_earn = "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"
+    
+    "<div class=\"mbs-user-info-wrapper\">
+      <div class=\"mbs-welcome-div\">Welcome back <span class=\"mbs-user-name\">#{user.display_name}</span>!</div>
+      <div class=\"mbs-score-box\">
+        <div class=\"mbs-score-box-left\">
+          <img src=\"#{SITE_URL}/images/bar/mbs-logo.png\" alt=\"BandStock\" />
+        </div>
+        <div class=\"mbs-score-box-right\">
+          #{number_with_delimiter(@net, :delimiter => ",")}
+        </div>      
+      </div>
+    </div>
+    <div id=\"mbs-rewards\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + list + "</ul></div>
+    <div id=\"mbs-ways-to-earn\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + ways_to_earn + "</ul></div>
+    <div>
+    
+    </div>"
 
+=begin
+    <div class=\"mbs-points-containers\">
+      <span class=\"mbs-earn-points\"><a href=\"#\">Earn Bandstock</a></span>          
+      <span class=\"mbs-rewards\"><a href=\"#\" id=\"mbs-rewards-link\">View Rewards</a></span>
+    </div>
+    <div class=\"mbs-next-level-data\">
+    </div>    
+    
+    " 
+=end
+=begin 
+    "<p class=\"mbs-band-name\">#{@band.name}</p>
+    <p class=\"mbs-welcome\">Hey #{user.first_name}!</p>
+    <div id=\"mbs-stats\">
+      <p class=\"mbs-shares\">You have #{@net} shares! Only <span class=\"mbs-number\">40,000</span> shares to the next level</p>
+    </div>
+    <div id=\"mbs-rewards\"><ul>" + list + "</ul></div>"
+=end
+  end
+  
+  def user_form_html(user)
+    "<div class=\"mbs-user-form\">
+      <p class=\"mbs-user-form\">We couldn't find your email in the system. Sign up today and start earning rewards!</p>
+      <span class=\"mbs-email\">
+        <label>Email:</label> <input id=\"mbs_user_email\"name=\"user[email]\" size=\"25\" type=\"text\" value=\"#{user.email}\" />
+      </span>
+      <span class=\"mbs-email-conf\">
+        <label>Confirm Email:</label> <input id=\"mbs_user_email_confirmation\"name=\"user[email_confirmation]\" size=\"25\" type=\"text\" value=\"\" />
+      </span>
+
+      <span class=\"mbs-first-name\">
+        <label>First Name:</label> <input id=\"mbs_user_first_name\"name=\"user[first_name]\" size=\"25\" type=\"text\" />
+      </span>
+      <span class=\"mbs-pass\"> 
+        <label>Password:</label> <input id=\"mbs_user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
+      </span>
+      <br style=\"clear:both;\" />
+    </div>
+    "
+  end
+  def sign_up_failure(user)
+    #"<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
+    user_form_html(user)
+  end
+  
+  def levels_for_demo
+
+    levels_array = Array.new
+    
+    level1 = Hash.new    
+    level1[:number] = 1
+    level1[:name] = "Enlistee"
+    level1[:points_needed] = 500
+    rewards1 = Array.new
+    level1[:rewards] = rewards1
+    levels_array[0] = level1
+
+    level2 = Hash.new
+    level2[:number] = 2
+    level2[:name] = "Private"
+    level2[:points_needed] = 1000
+    rewards2 = Array.new
+    level2[:rewards] = rewards2
+    levels_array[1] = level2
+
+    level3 = Hash.new
+    level3[:number] = 3
+    level3[:name] = "Sergeant"
+    level3[:points_needed] = 2000
+    rewards3 = Array.new
+    rewards3_1 = Hash.new
+    rewards3_1[:description] = "Access to Private Chamilitary Twitter Account"
+    rewards3[0] = rewards3_1
+    level3[:rewards] = rewards3
+    levels_array[2] = level3
+
+    level4 = Hash.new
+    level4[:number] = 4
+    level4[:name] = "Lieutenant"
+    level4[:points_needed] = 7500    
+    rewards4 = Array.new
+    rewards4_1 = Hash.new
+    rewards4_1[:description] = "Chamilitary Group Chat Access"
+    rewards4[0] = rewards4_1
+    level4[:rewards] = rewards4    
+    levels_array[3] = level4
+    
+    level5 = Hash.new
+    level5[:number] = 5
+    level5[:name] = "Captain"
+    level5[:points_needed] = 15000
+    rewards5 = Array.new
+    rewards5_1 = Hash.new
+    rewards5_1[:description] = "Front of Line Admission"
+    rewards5[0] = rewards5_1
+    rewards5_2 = Hash.new
+    rewards5_2[:description] = "Private Video Chat"
+    rewards5[1] = rewards5_2
+    level5[:rewards] = rewards5
+    levels_array[4] = level5
+
+    level6 = Hash.new    
+    level6[:number] = 6
+    level6[:name] = "General"
+    level6[:points_needed] = 30000
+    rewards6 = Array.new
+    rewards6_1 = Hash.new
+    rewards6_1[:description] = "Meet and Greet"
+    rewards6[0] = rewards6_1
+    levels_array[5] = level6
+
+#    puts levels_array.to_yaml
+    return levels_array
+  end
+  
+  def ways_to_earn_bandstock
+    earn_array = Array.new
+    
+    earn_array
+  end
+  
+  
 end #end controller

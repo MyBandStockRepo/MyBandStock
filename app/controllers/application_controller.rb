@@ -3,7 +3,7 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-
+  helper_method :logged_in?, :current_user
 	
 	include SslRequirement
 	require 'uri'
@@ -64,6 +64,12 @@ class ApplicationController < ActionController::Base
     @bodytag_id = "homepages"
     authenticated?
   end
+  def current_user
+    logged_in? ? User.find(session[:user_id]) : nil
+  end
+  def logged_in?
+    session[:user_id] && session[:auth_success] 
+  end
   
   def external_error
     render :layout => "white-label"
@@ -112,6 +118,31 @@ class ApplicationController < ActionController::Base
       session[:passed_captcha] = false
     end
     return res
+  end
+  
+  def api_call?#this should be refactored
+    request.headers["API_KEY"] || request.xhr? || params[:format] == "json" || params[:format] == "xml" || params[:api_key]
+  end
+  
+  def authorize_api_access(api_key=params[:api_key], input_hash=params[:input_hash], api_version=1)
+    if (api_key.nil? || input_hash.nil? || api_version.nil?)
+      render :text => "Key, hash, or version not specified.\n", :status => 403
+      return false
+    end
+    api_user = ApiUser.find_by_api_key(api_key)
+    if api_user.nil?
+      render :text => "Invalid API user.\n", :status => 403
+      return false
+    else
+      secret_key = api_user.secret_key
+      test_hash = Digest::SHA2.hexdigest(api_key.to_s + secret_key.to_s)
+      if (input_hash != test_hash.to_s)
+        render :text => "Incorrect hash.\n", :status => 403
+        return false
+      else
+        return true
+      end
+    end
   end
  
   ##########
@@ -171,7 +202,7 @@ class ApplicationController < ActionController::Base
   
   
   def user_has_site_admin
-    unless ( session[:user_id] && User.find(session[:user_id]).site_admin == true )
+    unless is_site_admin?
       redirect_to '/me/control_panel'
       return false
     else
@@ -196,9 +227,17 @@ class ApplicationController < ActionController::Base
       redirect_to session[:last_clean_url]
       return false      
     end
-
+  end
+  def is_site_admin?
+    current_user && current_user.site_admin 
+  end
+  def is_site_admin_or_current_band_admin?(band_id = params[:band_id]) 
+    is_site_admin? || is_current_band_admin?(band_id) 
   end
   
+  def is_current_band_admin?(band_id = params[:band_id]) 
+    band_id && current_user && Association.find_admin(params[:user_id], band_id).any?
+  end
   def user_part_of_or_admin_of_a_band?
   	if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
   		return true

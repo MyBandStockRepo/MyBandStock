@@ -1,0 +1,644 @@
+/* Reset CSS */
+#js-bar-container html, #js-bar-container body, #js-bar-container div, #js-bar-container span, #js-bar-container applet, #js-bar-container object, #js-bar-container iframe,
+#js-bar-container h1, #js-bar-container h2, #js-bar-container h3, #js-bar-container h4, #js-bar-container h5, #js-bar-container h6, #js-bar-container p, #js-bar-container blockquote, #js-bar-container pre,
+#js-bar-container a, #js-bar-container abbr, #js-bar-container acronym, #js-bar-container address, #js-bar-container big, #js-bar-container cite, #js-bar-container code,
+#js-bar-container del, #js-bar-container dfn, #js-bar-container em, #js-bar-container font, #js-bar-container img, #js-bar-container ins, #js-bar-container kbd, #js-bar-container q, #js-bar-container s, #js-bar-container samp,
+#js-bar-container small, #js-bar-container strike, #js-bar-container strong, #js-bar-container sub, #js-bar-container sup, #js-bar-container tt, #js-bar-container var,
+#js-bar-container dl, #js-bar-container dt, #js-bar-container dd, #js-bar-container ol, #js-bar-container ul, #js-bar-container li,
+#js-bar-container fieldset, #js-bar-container form, #js-bar-container label, #js-bar-container legend,
+#js-bar-container table, #js-bar-container caption, #js-bar-container tbody, #js-bar-container tfoot, #js-bar-container thead, #js-bar-container tr, #js-bar-container th, #js-bar-container td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+/* remember to define focus styles! */
+#js-bar-container :focus {
+	outline: 0;
+}
+#js-bar-container body {
+	line-height: 1;
+	color: black;
+	background: white;
+}
+#js-bar-container ol, #js-bar-container ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+#js-bar-container table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+#js-bar-container caption, #js-bar-container th, #js-bar-container td {
+	text-align: left;
+	font-weight: normal;
+}
+#js-bar-container blockquote:before, #js-bar-container blockquote:after,
+#js-bar-container q:before, #js-bar-container q:after {
+	content: "";
+}
+#js-bar-container blockquote, #js-bar-container q {
+	quotes: "" "";
+}
+/* End Reset CSS */
+
+
+/* General Styles */
+.mybandstock_bar_spacer{
+	height:67px;
+	clear:both;
+}
+div#js-bar-container{
+	width:99%;
+	height:45px;
+	background: black;
+	padding:7px;
+	color:white;
+	position:fixed;
+	bottom:.1em;
+	right:.01em;
+	border-top: 2px groove #868686;
+	float:right;
+	z-index:999999;
+}
+#js-bar-container p {
+	float:left;
+	display:inline;
+}
+p.mbs-message {
+	display:inline;
+	width:auto;
+}
+div#mbs-bar-message-box{
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border:2px groove #868686;
+	border-bottom:0px;
+	background-color:black;	
+	width:300px;
+	height:15px;
+	bottom:62px;
+	padding:5px;
+	position:fixed;
+	right:.01em;
+/*	opacity:0.8;
+	filter:alpha(opacity=80);*/
+	font-size:7pt;
+	color:#FF9900;
+	z-index:999998;
+}
+#mbs-bar-message-box #mbs-bar-close-notifications{
+	float:right;
+	text-decoration:none;
+	cursor:pointer;
+}
+@font-face {
+	font-family: 'TitilliumText14L999wt';
+	src: url('/fonts/TitilliumText999wt-webfont.eot');
+	src: local('?'), url('/fonts/TitilliumText999wt-webfont.woff') format('woff'), url('/fonts/TitilliumText999wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText999wt-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+.mbs-alpha80 {
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) !important;
+	/* RGBa with 0.6 opacity */
+	background: rgba(0, 0, 0, 0.8) !important;
+	/* For IE 5.5 - 7.   First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000) !important;
+	/* For IE 8.    First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)" !important;
+}
+/* End General Styles */
+
+
+/* User Info Stuff */
+#js-bar-container .mbs-user-info-wrapper{
+	width:180px;
+	float:left;
+}
+#js-bar-container .mbs-welcome-div{
+	padding-left:5px;
+}
+#js-bar-container .mbs-score-box {
+	width:126px;
+	float:left;
+}
+#js-bar-container .mbs-score-box-left {
+	width:28px;
+	height:25px;
+	float:left;
+	-moz-border-radius-topleft:7px;
+	-webkit-border-top-left-radius:7px;	
+	-moz-border-radius-bottomleft:7px;
+	-webkit-border-bottom-left-radius:7px;
+	border:2px solid #151515;
+	border-right:1px solid #5c5c5c;
+	padding-left:2px;
+	background-color:#212121;
+}
+#js-bar-container .mbs-score-box-left img{
+	width:19px;
+	height:19px;
+	margin:3px 3px 3px 4px;
+}
+#js-bar-container .mbs-score-box-right {
+	width:80px;
+	height:21px;
+	float:right;
+	-moz-border-radius-topright:7px;
+	-webkit-border-top-right-radius:7px;	
+	-moz-border-radius-bottomright:7px;
+	-webkit-border-bottom-right-radius:7px;
+	border:2px solid #151515;
+	border-left:1px solid black;		
+	background-color:#2a2a2a;
+	font-size:14pt;
+	text-align:right;
+	padding:4px 5px 0px 5px;
+	color: white;
+}
+#js-bar-container .mbs-email {
+	float:left;
+}
+#js-bar-container .mbs_user_email {
+	float:left;
+}
+#js-bar-container p.mbs-band-name{
+	margin-top:.1em;
+	padding:7px;	
+}
+#js-bar-container p.mbs-shares{
+	float:right;
+	margin-right: 5%;
+}
+#js-bar-container p.mbs-shares span.mbs-number{
+	font-style:italic;
+	color:#5CA749;
+}
+#js-bar-container p.mbs-user-form{
+	margin-top:1em;
+}
+/* End User Info Stuff */
+
+
+/* Login Stuff */
+div.mbs-bar-login-wrapper{
+	float:right;
+	display:block;
+	width:275px;
+}
+div.mbs-bar-login{
+	float:right;
+}
+#js-bar-container span.mbs-cancel-this{
+	float:left;
+	margin-left:175px;
+	margin-top:4px;
+}
+#js-bar-container span.mbs-cancel-this a {
+	float:right;
+	color:white;
+}
+#js-bar-container span.mbs-cancel-this a:hover {
+	color:#F90;
+}
+#js-bar-container span.mbs-logout-link a{
+	float:right;
+	color:white;
+	cursor:pointer;
+}
+#js-bar-container span.mbs-logout-link a:hover {
+	color:#F90;
+}
+div#js-bar-container input#mbs_user_submit{
+	float:right;
+	margin-top:3px;
+}
+div#js-bar-container input#mbs_user_submit:hover{
+	cursor:pointer;
+	cursor:hand;
+}
+.mbs-logout-link{
+	float:right;
+}
+#mbs_user_submit {
+	width:auto;
+	display:inline;
+}
+div.mbs-bar-login span.mbs-pass{
+}
+/* End Login Stuff */
+
+
+/* New User Stuff */
+#js-bar-container div.mbs-user-form{
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border:2px groove #868686;
+	border-bottom:2px solid black;
+	border-right:0px;
+	background-color:black;	
+	width:430px;
+	height:135px;
+	bottom:60px;
+	position:fixed;
+	right:.01em;
+/*
+	opacity:0.8;
+	filter:alpha(opacity=80);
+*/
+	font-size:7pt;
+	z-index:999999;
+}
+#js-bar-container div.mbs-user-form input{
+	margin-left:22px;
+	margin-bottom:5px;
+	width:183px;
+}
+#js-bar-container div.mbs-user-form label{
+	margin-left:22px;
+}
+#js-bar-container div.mbs-user-form p{
+	margin:15px 15px 10px 15px;
+}
+div.mbs-user-form label{
+	display:block;
+}
+div.mbs-user-form span{
+	float:left;
+	margin:1em;
+}
+/* End New User Stuff */
+
+
+/* Rewards stuff */
+#js-bar-container .mbs-points-containers{
+	float:left;
+	width:300px;
+	height:45px;
+}
+span.mbs-rewards{
+	float:left;
+}
+#js-bar-container .mbs-points-containers span.mbs-rewards a, #js-bar-container .mbs-points-containers span.mbs-earn-points a{
+	width:140px;
+	padding:12px 0px 0px 0px;
+	background:url(/images/forms/form_button.png);
+	outline:0px;
+	font-size:15px;
+	font-family:TitilliumText14L999wt;
+	color:#333333;
+	text-transform:uppercase;
+	text-decoration:none;
+	display:block;
+	text-align: center;
+	height:30px;
+}
+#js-bar-container .mbs-points-containers span.mbs-rewards a:hover , #js-bar-container .mbs-points-containers span.mbs-earn-points a:hover{
+	padding:12px 0px 0px 0px;
+	background:url(/images/forms/form_button_over.png);
+	color:#FFFFFF; 
+	cursor: pointer;
+	text-decoration:none;
+	display:block;
+	text-align: center;
+	height:30px;	
+}
+#js-bar-container .mbs-points-containers span.mbs-rewards a{
+	float:left;
+}
+#js-bar-container .mbs-points-containers span.mbs-earn-points a{
+	float:right;
+}
+div#mbs-ways-to-earn{
+	position:fixed;
+	width:250px;
+	float:left;
+	bottom: 62px;
+	background:black;
+	color:white;
+	font-size: 1.3em;
+	padding:10px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;	
+	border:2px groove #868686;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	left: 345px;
+	max-height:350px;
+	overflow:auto;
+}
+div#mbs-rewards{
+	position:fixed;
+	width:250px;
+	float:left;
+	bottom: 62px;
+	background:black;
+	color:white;
+	font-size: 1.3em;
+	padding:10px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;	
+	border:2px groove #868686;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	left: 55px;
+	max-height:350px;
+	overflow:auto;
+}
+div#mbs-rewards ul {
+	list-style-type:none;
+	width:100%;
+	font-family:TitilliumText14L999wt;	
+}
+div#mbs-rewards ul li{
+	margin-bottom:10px;
+}
+div#mbs-rewards .mbs-level-number{
+	color:#F90;
+	font-size:10pt;
+	text-transform:uppercase;
+	display:inline;	
+}
+div#mbs-rewards .mbs-level-name{
+	color:white;
+	font-size:10pt;
+	display:inline;	
+}
+div#mbs-rewards .mbs-level-points-needed{
+	color:#adadad;
+	font-size:8pt;
+	display:block;	
+	line-height:8px;
+	margin-bottom:5px;
+}
+div#mbs-rewards .mbs-level-unlock-rewards{
+	color:white;
+	font-size:8pt;
+	display:block;	
+	text-transform:uppercase;
+	margin-left:5px;
+}
+div#mbs-rewards .mbs-level-reward-description{
+	color:white;
+	display:block;
+}
+div#mbs-rewards .mbs-rewards-list{
+	list-style-type:disc;
+	margin-left:18px;
+	width:210px;
+	font-size:8pt;	
+}
+div#mbs-rewards .mbs-rewards-list li{
+	margin:0px;
+	line-height:12px;
+}
+div#mbs-ways-to-earn img{
+	float:left;
+}
+div#mbs-ways-to-earn ul{
+	font-size:10pt;
+	color:white;
+}
+div#mbs-ways-to-earn ul li{
+	margin-bottom:1px;
+	height:33px;
+	width:250px;
+}
+div#mbs-ways-to-earn ul li .mbs-way-to-earn span{
+	float:left;
+	margin:7px 0px 0px 10px;
+}
+div#mbs-ways-to-earn ul li:hover{
+	border-bottom:1px solid #f90;
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) !important;
+	/* RGBa with 0.6 opacity */
+	background: rgba(255, 255, 255, 0.2) !important;
+	/* For IE 5.5 - 7.   First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF, endColorstr=#33FFFFFF) !important;
+	/* For IE 8.    First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF, endColorstr=#33FFFFFF)" !important;
+	cursor:pointer;
+	margin-bottom:0px;
+}
+
+/* End Rewards Stuff */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+.mybandstock_bar_spacer{height:67px;clear:both;}
+div#js-bar-container{
+	width:99%;
+	height:45px;
+	background: #black;
+	padding:7px;
+	color:white;
+	position:fixed;
+	bottom:.1em;
+	right:.01em;
+	border-top: 3px groove #868686;
+	float:right;
+}
+#js-bar-container p {
+	width:auto;
+	font-size:1.2em;
+	margin:6px;
+	margin-top: .5em;
+	float:left;
+	display:inline;
+}
+#js-bar-container p.mbs-band-name{
+	margin-top:.1em;
+	background:black;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	padding:7px;
+	
+}
+#js-bar-container p.mbs-shares{
+	float:right;
+	margin-right: 5%;
+}
+#js-bar-container p.mbs-shares span.mbs-number{
+	font-style:italic;
+	color:#5CA749;
+}
+#js-bar-container p.mbs-user-form{
+	margin-top:1em;
+}
+div.mbs-bar-login{
+	float:right;
+	display:inline;
+	padding:2px;
+	margin:0 15% 0 0;
+}
+div.mbs-user-form{
+	padding:15px;
+	margin:0;
+	position:absolute;
+	width:30%;
+	background:#443A3A;
+	border:1px solid gainsboro;
+	bottom:1em;
+	right:15%;
+	
+}
+div.mbs-user-form label{
+	display:block;
+}
+div.mbs-user-form span{
+	float:left;
+	margin:1em;
+}
+*/
+/*div.user-form span.first-name{
+	position:absolute;
+	left:5%;
+	top:1em;
+}
+div.user-form span.email{
+	position:absolute;
+	left:5%;
+	top:3em;
+}
+div.user-form span.email-conf{
+	position:absolute;
+	left:35%;
+	top:1em;
+}
+div.user-form span.pass{
+	position:absolute;
+	left:35%;
+	top:3em;
+}*/
+/*
+#js-bar-container span.mbs-cancel-this a {
+	float:right;
+	color:white;
+	clear:right;
+}
+
+#js-bar-container span.mbs-logout-link a{
+	float:right;
+	color:white;
+	clear:right;
+}
+div.mbs-bar-login span.mbs-pass{
+}
+#js-bar-container input {
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}
+div#js-bar-container input#mbs_user_submit{
+	float:right;
+	background:green;
+	color:white;
+	position:absolute;
+	right:8%;
+	bottom:2.2em;
+}
+div#js-bar-container input#mbs_user_submit:hover{
+	cursor:pointer;
+	cursor:hand;
+	background:white;
+	color:green;
+}
+.mbs-logout-link{
+	float:right;
+}
+#mbs_user_submit {
+	width:auto;
+	display:inline;
+}
+p.mbs-message {
+	display:inline;
+	width:auto;
+}
+span.mbs-rewards{
+	float:left;
+	position:absolute;
+	left:33%;
+	top:1em;
+}
+span.mbs-rewards a{
+	background:#DEEBDA;
+	text-decoration:none;
+	padding:7px;
+	font-size:1em;
+	font-weight:bold;
+	color:#443A3A;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}
+span.mbs-rewards a:hover{
+	background:#A5EB94;
+	border-bottom:1px solid gray;
+}
+div#mbs-rewards{
+	position:absolute;
+	width:200px;
+	float:left;
+	bottom: 3.5em;
+	background:gray;
+	display:none;
+	color:white;
+	font-size: 1.3em;
+	padding:10px;
+    border:2px solid gainsboro;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	right: 36%;
+	}
+div#mbs-rewards ul {
+	list-style-type:none;
+	width:100%;
+}
+div#mbs-rewards ul li span {
+	display:block;
+	color:black;
+	margin-right:1em;
+	font-style:italic;
+	width:100%;
+}
+div#mbs-rewards ul li {
+	margin-bottom:1em;
+	width:100%;
+}
+*/

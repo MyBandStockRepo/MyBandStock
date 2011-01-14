@@ -1,0 +1,14 @@
+.levels
+  %h2 Levels
+  %p
+    ="This band has #{pluralize((@band.levels.size - 1), 'level')}"
+    %span.edit= link_to "Add levels", new_band_level_path(@band)
+  %ul
+    -for level in @band.levels.reject{|r| r.new_record?}
+      %li
+        %span.level-points= "#{level.points} pts."
+        %span.level-name= link_to level.name, band_level_path(level.band.id, level.id)
+        %span.edit= link_to "Edit", edit_band_level_path(@band, level)
+        %span.delete 
+          -form_tag(band_level_path(@band, level), :method => "delete", :id => "delete-form") do 
+            = submit_tag("delete", :confirm => "Are you sure you want to delete this level?")
