@@ -214,7 +214,7 @@ div#mbs-bar-message-box{
 	float:none !important;
 	font-size:11px !important;
 	line-height:normal !important;
-	padding:1px !important;
+
 	font-family: 'Lucida Grande' !important;	
 }
 
@@ -304,7 +304,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 #js-bar-container div.mbs-user-form input{
 	margin-left:22px !important;
 	margin-bottom:5px !important;
-	width:183px !important;
+	width:165px !important;
 }
 #js-bar-container div.mbs-user-form label{
 	margin-left:22px !important;
@@ -317,7 +317,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 }
 #js-bar-container div.mbs-user-form span{
 	float:left !important;
-	margin:1em !important;
+	margin:5px !important;
 }
 /* End New User Stuff */
 
