@@ -46,13 +46,17 @@ class User < ActiveRecord::Base
   
   
   def points_to_next_level_for_band(band)
-    if total = self.share_total_for_band(band) #user has points in band
-      return total.level.next ? (total.level.next.points - total.gross) : "0"
-    elsif low_level = band.levels.order(:points).first #band has level
-      return low_level.next ? (low_level.next.points - 0) : 0
-    else  #band has no levels
+    begin
+      if total = self.share_total_for_band(band) #user has points in band
+        return total.level.next ? (total.level.next.points - total.gross) : "0"
+      elsif low_level = band.levels.order(:points).first #band has level
+        return low_level.next ? (low_level.next.points - 0) : 0
+      else  #band has no levels
+        return 0
+      end     
+    rescue
       return 0
-    end     
+    end
   end
   
   def share_total_for_band(band)
