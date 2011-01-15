@@ -115,13 +115,6 @@ div#mbs-bar-message-box{
 	text-decoration:none !important;
 	cursor:pointer !important;
 }
-@font-face {
-	font-family: 'TitilliumText14L999wt';
-	src: url('/fonts/TitilliumText999wt-webfont.eot');
-	src: local('?'), url('/fonts/TitilliumText999wt-webfont.woff') format('woff'), url('/fonts/TitilliumText999wt-webfont.ttf') format('truetype'), url('/fonts/TitilliumText999wt-webfont.svg#webfont') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
 .mbs-alpha80 {
 	/* Fallback for web browsers that doesn't support RGBa */
 	background: rgb(0, 0, 0) !important;
@@ -185,7 +178,7 @@ div#mbs-bar-message-box{
 	text-align:right !important;
 	padding:4px 5px 0px 5px !important;
 	color: white !important;
-	font-family:TitilliumText14L999wt !important;	
+	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 }
 #js-bar-container .mbs-email {
 	float:left !important;
@@ -344,7 +337,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	background:url(/images/forms/form_button.png) !important;
 	outline:0px !important;
 	font-size:15px !important;
-	font-family:TitilliumText14L999wt !important;
+	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;
 	color:#333333 !important;
 	text-transform:uppercase !important;
 	text-decoration:none !important;
@@ -402,7 +395,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	color:white !important;
 	font-size: 1.3em !important;
 	padding:10px !important;
-	font-family:TitilliumText14L999wt !important;	
+	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 	-moz-border-radius-topleft:10px !important;
 	-webkit-border-top-left-radius:10px !important;
 	-moz-border-radius-topright:10px !important;
@@ -422,7 +415,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 #js-bar-container div#mbs-rewards ul {
 	list-style-type:none !important;
 	width:100% !important;
-	font-family:TitilliumText14L999wt !important;	
+	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 }
 #js-bar-container div#mbs-rewards ul li{
 	margin-bottom:10px !important;

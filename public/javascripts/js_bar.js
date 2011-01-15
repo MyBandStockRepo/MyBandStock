@@ -93,13 +93,22 @@
 		jQuery(document).ready(function($) 
 		{ 
 			/******* Load CSS *******/
+			var fonts_css_link = jQuery("<link>", { 
+				rel: "stylesheet", 
+				type: "text/css", 
+				href: source_url+"/stylesheets/fonts.css"
+			});
+
+
 			var css_link = jQuery("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
 				href: source_url+"/stylesheets/js_bar.css"
 			});
         
-			css_link.appendTo('head');          
+
+			css_link.appendTo('head');   
+			fonts_css_link.appendTo('head');
 			var band_id = mybandstockArtistID//jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
 	    var url_host = source_url+"/bands/"
     
