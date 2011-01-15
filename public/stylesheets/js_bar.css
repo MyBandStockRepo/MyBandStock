@@ -134,7 +134,7 @@ div#mbs-bar-message-box{
 }
 #js-bar-container .clear{
 	clear:both;
-	height:none;
+	height:0px;
 	width:auto;
 }
 /* End General Styles */
@@ -212,8 +212,8 @@ div#mbs-bar-message-box{
 
 /* Login Stuff */
 #js-bar-container div.mbs-bar-login-wrapper input{
-	height:13px;
-	width:169px;
+	height:auto;
+	width:auto;
 	margin:2px;
 	color:black;
 	display:inline-block;
@@ -401,6 +401,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	color:white;
 	font-size: 1.3em;
 	padding:10px;
+	font-family:TitilliumText14L999wt;	
 	-moz-border-radius-topleft:10px;
 	-webkit-border-top-left-radius:10px;
 	-moz-border-radius-topright:10px;
