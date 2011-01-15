@@ -14,5 +14,11 @@ class Authentication < ActiveRecord::Base
       return false
     end
   end
+
+  def award_bandstock_for_authenticating(band_id)
+    point_value = 500
+    
+    ShareLedgerEntry.create(:user_id => self.user.id, :band_id => band_id, :adjustment => point_value, :description => "authenticated_with_#{self.provider}")
+  end
   
 end

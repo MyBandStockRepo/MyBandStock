@@ -46,25 +46,47 @@ class User < ActiveRecord::Base
   
   
   def points_to_next_level_for_band(band)
-    if total = self.share_total_for_band(band)
-      total.level.next ? (total.level.next.points - total.gross) : "0"
-    end 
+    if total = self.share_total_for_band(band) #user has points in band
+      return total.level.next ? (total.level.next.points - total.gross) : "0"
+    elsif low_level = band.levels.order(:points).first #band has level
+      return low_level.next ? (low_level.next.points - 0) : 0
+    else  #band has no levels
+      return 0
+    end     
   end
+  
   def share_total_for_band(band)
-#    self.share_totals.where(:band_id => band.id)
     ShareTotal.where(:band_id => band.id, :user_id => self.id).first
   end
+  
   def next_level_for_band(band)
-    if total = self.share_total_for_band(band)
-      total.level.next
+    if total = self.share_total_for_band(band) #user has points in band
+      return total.level.next
+    elsif low_level = band.levels.order(:points).first #band has level
+      return low_level.next
+    else
+      return nil
     end
   end
+  
   def percent_of_level_completed_for_band(band)
-    total = self.share_total_for_band(band)
-    ((total.gross.to_f - total.level.points.to_f)/(total.level.next.points.to_f - total.level.points.to_f)) * 100
+    if total = self.share_total_for_band(band)
+      begin
+        return ((total.gross.to_f - total.level.points.to_f)/(total.level.next.points.to_f - total.level.points.to_f)) * 100
+      rescue
+        return 0
+      end
+    else
+      return 0
+    end
   end
+  
   def percent_to_next_level_for_band(band)
-    100 - self.percent_of_level_completed_for_band(band)
+    begin
+      return 100 - self.percent_of_level_completed_for_band(band)
+    rescue
+      return 0
+    end
   end  
   
   

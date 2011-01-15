@@ -235,7 +235,7 @@ class UsersController < ApplicationController
     else
       @twitter_user = nil
     end
-    
+    session[:authenticating_with_band_id] = params[:band_id]
     render :layout => 'white-label'    
   end
   
@@ -919,6 +919,7 @@ protected
     @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
     @user.generate_or_salt_password(@user.password)
     if @user.save
+      log_user_in(@user.id)
       return true
     else
       return false
@@ -950,23 +951,27 @@ protected
       end
       list += "</li>"
     end
-    hash_tag = "#mbs-demo-band"
+    hash_tag = TwitterCrawlerHashTag.where(:band_id => @band.id).first.term.to_s
     hash_tag_url_encoded = hash_tag.gsub('#', '%23')
     hash_tag_url_encoded.gsub!('@', '%40')    
     hash_tag_url_encoded.gsub!(' ', '%20')
     
-    current_level = user.levels.where(:band_id => @band.id).first
-    user_level = current_level.number#level number
-    user_level_name = current_level.name #level name
+    current_level = user.levels.where(:band_id => @band.id).first    
+    if current_level.blank?
+      current_level = @band.levels.order(:points).first
+    end
+    
+    user_level = current_level ? current_level.number : 0#level number
+    user_level_name = current_level ? current_level.name : "N/A" #level name
     next_level = user.next_level_for_band(@band)
-    user_points_required_at_level = next_level.points
-    user_next_level = next_level.name
+    user_points_required_at_level = next_level ? next_level.points : 0
+    user_next_level = next_level ? next_level.name : "N/A"
     user_points_to_next_level = user.points_to_next_level_for_band(@band)
     user_percentage_to_next_level = user.percent_of_level_completed_for_band(@band).round
     
     ways_to_earn = ""
     if user.twitter_user.blank? || user.facebook_user.blank?
-      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social','Connect To Social Networks',500,600)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social?band_id=#{@band.id}','Connect To Social Networks',600,600)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
     end
     unless user.twitter_user.blank?
       ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"      

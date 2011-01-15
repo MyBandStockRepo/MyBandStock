@@ -7,7 +7,11 @@ class Level < ActiveRecord::Base
   
   #there might be a nicer way but it should work fine
   def next
-    self.band.levels[band.levels.index(self) + 1]
+    begin
+      self.band.levels[band.levels.index(self) + 1]
+    rescue
+      return nil
+    end
   end
   
   def number

@@ -195,8 +195,15 @@
 			jQuery('#js-bar-container #mbs_user_submit').click(function() {
         var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
 				var email = jQuery('#js-bar-container input#mbs_user_email').val(); //capture the email entered
+
         var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
         var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
+
+				if(email_confirmation != null)
+					email_confirmation = email_confirmation.replace("+", "%2B");
+				if(email != null)
+					email = email.replace("+", "%2B");
+				
         var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
 
 				jQuery.getJSON(jsonp_url, function(data) {

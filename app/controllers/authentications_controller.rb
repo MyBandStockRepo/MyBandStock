@@ -34,7 +34,8 @@ class AuthenticationsController < ApplicationController
       if session[:extrenal_bar_registration]
         redirect_to :controller => "users", :action => "external_registrtion_error"
       elsif session[:user_id]      
-        redirect_to edit_user_path(session[:user_id])
+        redirect_to :controller => "users", :action => "connect_social_networks"
+#        redirect_to edit_user_path(session[:user_id])
       else
         redirect_to :controller => "login", :action => "user"
       end
@@ -120,7 +121,8 @@ class AuthenticationsController < ApplicationController
       #see if they already ahve an authentication with this provider
       unless @user.authentications.find_by_provider(omniauth['provider']).blank?
         flash[:error] = "You have already connected a #{omniauth['provider']} account to this MyBandStock account."  
-        redirect_to edit_user_path(session[:user_id])   
+#        redirect_to edit_user_path(session[:user_id])   
+        redirect_to :controller => "users", :action => "connect_social_networks"
         return false      
       end      
     end
@@ -131,7 +133,8 @@ class AuthenticationsController < ApplicationController
     if authentication
       if @user
         flash[:error] = "Sorry, this account has already been linked to another account."          
-        redirect_to edit_user_path(session[:user_id])   
+#        redirect_to edit_user_path(session[:user_id])   
+        redirect_to :controller => "users", :action => "connect_social_networks"
         return false
       end
       session[:authentication_id] = authentication.id
@@ -153,9 +156,17 @@ class AuthenticationsController < ApplicationController
         @user.reward_tweet_bandstock_retroactively
       end
       
-      flash[:notice] = "Authentication successful."  
-      redirect_to edit_user_path(session[:user_id])   
+      #award bandstock for tying into an account
+      unless session[:authenticating_with_band_id].blank?
+        authentication.award_bandstock_for_authenticating(session[:authenticating_with_band_id])
+        session[:authenticating_with_band_id] = nil
+      end
       
+      
+      
+      flash[:notice] = "Authentication successful."  
+#      redirect_to edit_user_path(session[:user_id])   
+         redirect_to :controller => "users", :action => "connect_social_networks"     
     #Don't have a website account, redirect to new users
     else
       user = User.new
@@ -220,7 +231,8 @@ class AuthenticationsController < ApplicationController
       
       @authentication.destroy  
       flash[:notice] = "Successfully removed authentication."  
-      redirect_to edit_user_path(session[:user_id])   
+#      redirect_to edit_user_path(session[:user_id])   
+        redirect_to :controller => "users", :action => "connect_social_networks"
     else
       flash[:notice] = "Could not get a User to delete their Authentication."
       redirect_to :controller => "login", :action => "user"
