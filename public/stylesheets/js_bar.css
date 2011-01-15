@@ -304,7 +304,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 #js-bar-container div.mbs-user-form input{
 	margin-left:22px !important;
 	margin-bottom:5px !important;
-	width:165px !important;
+	width:185px !important;
 }
 #js-bar-container div.mbs-user-form label{
 	margin-left:22px !important;
@@ -317,7 +317,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 }
 #js-bar-container div.mbs-user-form span{
 	float:left !important;
-	margin:5px !important;
+	margin:0px !important;
 }
 /* End New User Stuff */
 
@@ -338,7 +338,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	outline:0px !important;
 	font-size:13px !important;
 	font-weight:bold;
-	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;
+	font-family: 'Lucida Sans', Verdana, sans-serif !important;
 	color:#333333 !important;
 	text-transform:uppercase !important;
 	text-decoration:none !important;
