@@ -50,21 +50,39 @@
 
 /* General Styles */
 .mybandstock_bar_spacer{
-	height:67px;
-	clear:both;
+	height:67px !important;
+	clear:both !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	outline: 0 !important;
+	font-weight: inherit !important;
+	font-style: inherit !important;
+	font-size: 100% !important;
+	font-family: inherit !important;
+	vertical-align: baseline !important;	
 }
 div#js-bar-container{
-	width:99%;
-	height:45px;
-	background: black;
-	padding:7px;
-	color:white;
-	position:fixed;
-	bottom:.1em;
-	right:.01em;
-	border-top: 2px groove #868686;
-	float:right;
-	z-index:999999;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	outline: 0 !important;
+	font-weight: inherit !important;
+	font-style: inherit !important;
+	font-size: 100% !important;
+	font-family: inherit !important;
+	vertical-align: baseline !important;	
+	width:99% !important;
+	height:45px !important;
+	background: black !important;
+	padding:7px !important;
+	color:white !important;
+	position:fixed !important;
+	bottom:.1em !important;
+	right:.01em !important;
+	border-top: 2px groove #868686 !important;
+	float:right !important;
+	z-index:999999 !important;
 }
 #js-bar-container p {
 	float:left;

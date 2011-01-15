@@ -93,14 +93,14 @@
 		jQuery(document).ready(function($) 
 		{ 
 			/******* Load CSS *******/
-			var css_link = $("<link>", { 
+			var css_link = jQuery("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
 				href: source_url+"/stylesheets/js_bar.css"
 			});
         
 			css_link.appendTo('head');          
-			var band_id = jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
+			var band_id = mybandstockArtistID//jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
 	    var url_host = source_url+"/bands/"
     
 	// Build the bar
@@ -114,7 +114,9 @@
 			// make space on the website so our bar doesn't cover existing content
 			var mybandstock_bar_spacer = jQuery(document.createElement('div')).addClass('mybandstock_bar_spacer');
 			jQuery('body').append(mybandstock_bar_spacer);
-
+			
+			jQuery('body').append("<div class='"+band_id+"' id='js-bar-container'></div>");
+			
 			// make notification box
 			jQuery('body').append('<div id="mbs-bar-message-box" class="mbs-alpha80" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>');
 			
