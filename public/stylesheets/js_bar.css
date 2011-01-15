@@ -49,7 +49,7 @@
 
 
 /* General Styles */
-.mybandstock_bar_spacer{
+div.mybandstock_bar_spacer{
 	height:67px !important;
 	clear:both !important;
 	margin: 0 !important;
@@ -67,10 +67,10 @@ div#js-bar-container{
 	padding: 0 !important;
 	border: 0 !important;
 	outline: 0 !important;
-	font-weight: inherit !important;
-	font-style: inherit !important;
-	font-size: 100% !important;
-	font-family: inherit !important;
+	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;
+	font-size: 12px !important;
+	font-style: normal !important;
+	font-weight: normal !important;
 	vertical-align: baseline !important;	
 	width:99% !important;
 	height:45px !important;
@@ -131,6 +131,11 @@ div#mbs-bar-message-box{
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000) !important;
 	/* For IE 8.    First 2 digits represent opacity in hex.  0.8*255 -> hex = 0xCC*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)" !important;
+}
+#js-bar-container .clear{
+	clear:both;
+	height:none;
+	width:auto;
 }
 /* End General Styles */
 
@@ -206,18 +211,46 @@ div#mbs-bar-message-box{
 
 
 /* Login Stuff */
-div.mbs-bar-login-wrapper{
+#js-bar-container div.mbs-bar-login-wrapper input{
+	height:13px;
+	width:169px;
+	margin:2px;
+	color:black;
+	display:inline-block;
+	float:none;
+	font-size:11px;
+	line-height:normal;
+	padding:1px;
+	font-family: 'Lucida Grande';
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: white;
+	background-image: none;
+	background-origin: padding-box;
+	border-bottom-style: inset;
+	border-bottom-width: 2px;
+	border-left-style: inset;
+	border-left-width: 2px;
+	border-right-style: inset;
+	border-right-width: 2px;
+	border-top-color: #EEE;
+	border-top-style: inset;
+	border-top-width: 2px;
+}
+#js-bar-container div.mbs-bar-login-wrapper{
 	float:right;
 	display:block;
 	width:275px;
 }
-div.mbs-bar-login{
+#js-bar-container div.mbs-bar-login{
 	float:right;
 }
 #js-bar-container span.mbs-cancel-this{
 	float:left;
 	margin-left:175px;
 	margin-top:4px;
+	color:white;
+	text-decoration:none;
 }
 #js-bar-container span.mbs-cancel-this a {
 	float:right;
@@ -242,14 +275,14 @@ div#js-bar-container input#mbs_user_submit:hover{
 	cursor:pointer;
 	cursor:hand;
 }
-.mbs-logout-link{
+#js-bar-container .mbs-logout-link{
 	float:right;
 }
-#mbs_user_submit {
+#js-bar-container #mbs_user_submit {
 	width:auto;
 	display:inline;
 }
-div.mbs-bar-login span.mbs-pass{
+#js-bar-container div.mbs-bar-login span.mbs-pass{
 }
 /* End Login Stuff */
 
@@ -285,10 +318,10 @@ div.mbs-bar-login span.mbs-pass{
 #js-bar-container div.mbs-user-form p{
 	margin:15px 15px 10px 15px;
 }
-div.mbs-user-form label{
+#js-bar-container div.mbs-user-form label{
 	display:block;
 }
-div.mbs-user-form span{
+#js-bar-container div.mbs-user-form span{
 	float:left;
 	margin:1em;
 }
@@ -301,7 +334,7 @@ div.mbs-user-form span{
 	width:300px;
 	height:45px;
 }
-span.mbs-rewards{
+#js-bar-container span.mbs-rewards{
 	float:left;
 }
 #js-bar-container .mbs-points-containers span.mbs-rewards a, #js-bar-container .mbs-points-containers span.mbs-earn-points a{
@@ -321,7 +354,7 @@ span.mbs-rewards{
 #js-bar-container .mbs-points-containers span.mbs-rewards a:hover , #js-bar-container .mbs-points-containers span.mbs-earn-points a:hover{
 	padding:12px 0px 0px 0px;
 	background:url(/images/forms/form_button_over.png);
-	color:#FFFFFF; 
+	color:#FFFFFF !important; 
 	cursor: pointer;
 	text-decoration:none;
 	display:block;
@@ -334,7 +367,7 @@ span.mbs-rewards{
 #js-bar-container .mbs-points-containers span.mbs-earn-points a{
 	float:right;
 }
-div#mbs-ways-to-earn{
+#js-bar-container div#mbs-ways-to-earn{
 	position:fixed;
 	width:250px;
 	float:left;
@@ -359,7 +392,7 @@ div#mbs-ways-to-earn{
 	max-height:350px;
 	overflow:auto;
 }
-div#mbs-rewards{
+#js-bar-container div#mbs-rewards{
 	position:fixed;
 	width:250px;
 	float:left;
@@ -384,71 +417,71 @@ div#mbs-rewards{
 	max-height:350px;
 	overflow:auto;
 }
-div#mbs-rewards ul {
+#js-bar-container div#mbs-rewards ul {
 	list-style-type:none;
 	width:100%;
 	font-family:TitilliumText14L999wt;	
 }
-div#mbs-rewards ul li{
+#js-bar-container div#mbs-rewards ul li{
 	margin-bottom:10px;
 }
-div#mbs-rewards .mbs-level-number{
+#js-bar-container div#mbs-rewards .mbs-level-number{
 	color:#F90;
 	font-size:10pt;
 	text-transform:uppercase;
 	display:inline;	
 }
-div#mbs-rewards .mbs-level-name{
+#js-bar-container div#mbs-rewards .mbs-level-name{
 	color:white;
 	font-size:10pt;
 	display:inline;	
 }
-div#mbs-rewards .mbs-level-points-needed{
+#js-bar-container div#mbs-rewards .mbs-level-points-needed{
 	color:#adadad;
 	font-size:8pt;
 	display:block;	
 	line-height:8px;
 	margin-bottom:5px;
 }
-div#mbs-rewards .mbs-level-unlock-rewards{
+#js-bar-container div#mbs-rewards .mbs-level-unlock-rewards{
 	color:white;
 	font-size:8pt;
 	display:block;	
 	text-transform:uppercase;
 	margin-left:5px;
 }
-div#mbs-rewards .mbs-level-reward-description{
+#js-bar-container div#mbs-rewards .mbs-level-reward-description{
 	color:white;
 	display:block;
 }
-div#mbs-rewards .mbs-rewards-list{
+#js-bar-container div#mbs-rewards .mbs-rewards-list{
 	list-style-type:disc;
 	margin-left:18px;
 	width:210px;
 	font-size:8pt;	
 }
-div#mbs-rewards .mbs-rewards-list li{
+#js-bar-container div#mbs-rewards .mbs-rewards-list li{
 	margin:0px;
 	line-height:12px;
 }
-div#mbs-ways-to-earn img{
+#js-bar-container div#mbs-ways-to-earn img{
 	float:left;
 	margin:3px;
 }
-div#mbs-ways-to-earn ul{
+#js-bar-container div#mbs-ways-to-earn ul{
 	font-size:10pt;
 	color:white;
 }
-div#mbs-ways-to-earn ul li{
+#js-bar-container div#mbs-ways-to-earn ul li{
 	border-bottom:1px solid #3a3a3a;
 	height:37px;
 	width:250px;
 }
-div#mbs-ways-to-earn ul li .mbs-way-to-earn span{
+#js-bar-container div#mbs-ways-to-earn ul li .mbs-way-to-earn span{
 	float:left;
 	margin:10px 0px 0px 10px;
 }
-div#mbs-ways-to-earn ul li:hover{
+#js-bar-container div#mbs-ways-to-earn ul li:hover{
 	border-bottom:1px solid #f90;
 	/* Fallback for web browsers that doesn't support RGBa */
 	background: rgb(0, 0, 0) !important;
