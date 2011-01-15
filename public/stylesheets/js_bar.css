@@ -178,7 +178,8 @@ div#mbs-bar-message-box{
 	text-align:right !important;
 	padding:4px 5px 0px 5px !important;
 	color: white !important;
-	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
+	line-height:17px;
+	font-family:'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 }
 #js-bar-container .mbs-email {
 	float:left !important;
@@ -216,20 +217,6 @@ div#mbs-bar-message-box{
 	line-height:normal !important;
 	padding:1px !important;
 	font-family: 'Lucida Grande' !important;
-	background-attachment: scroll !important;
-	background-clip: border-box !important;
-	background-color: white !important;
-	background-image: none !important;
-	background-origin: padding-box !important;
-	border-bottom-style: inset !important;
-	border-bottom-width: 2px !important;
-	border-left-style: inset !important;
-	border-left-width: 2px !important;
-	border-right-style: inset !important;
-	border-right-width: 2px !important;
-	border-top-color: #EEE !important;
-	border-top-style: inset !important;
-	border-top-width: 2px !important;
 }
 #js-bar-container div.mbs-bar-login-wrapper{
 	float:right !important;
@@ -336,8 +323,9 @@ div#js-bar-container input#mbs_user_submit:hover{
 	padding:12px 0px 0px 0px !important;
 	background:url(/images/forms/form_button.png) !important;
 	outline:0px !important;
-	font-size:15px !important;
-	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;
+	font-size:13px !important;
+	font-weight:bold;
+	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;
 	color:#333333 !important;
 	text-transform:uppercase !important;
 	text-decoration:none !important;
@@ -395,7 +383,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	color:white !important;
 	font-size: 1.3em !important;
 	padding:10px !important;
-	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
+	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 	-moz-border-radius-topleft:10px !important;
 	-webkit-border-top-left-radius:10px !important;
 	-moz-border-radius-topright:10px !important;
@@ -409,13 +397,13 @@ div#js-bar-container input#mbs_user_submit:hover{
 	-webkit-box-shadow: 3px 3px 4px #000 !important;
 	box-shadow: 3px 3px 4px #000 !important;
 	left: 55px !important;
-	max-height:350px !important;
+	max-height:371px !important;
 	overflow:auto !important;
 }
 #js-bar-container div#mbs-rewards ul {
 	list-style-type:none !important;
 	width:100% !important;
-	font-family:TitilliumText14L999wt, 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
+	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
 }
 #js-bar-container div#mbs-rewards ul li{
 	margin-bottom:10px !important;
@@ -508,6 +496,7 @@ div#js-bar-container input#mbs_user_submit:hover{
 	margin-top:5px !important;
 	font-size:12pt !important;
 	float:left !important;
+	line-height:17px !important;
 }
 #js-bar-container #mbs-level-progress .mbs-user-level .mbs-user-level-number{
 	display:block !important;
