@@ -7,7 +7,8 @@
 (function() {
 	// Localize jQuery variable
 	var jQuery;
-	var source_url = "http://127.0.0.1:3000"
+//	var source_url = "http://127.0.0.1:3000"
+	var source_url = "http://mybandstock.com"	
 	//	var source_url = "http://notorious.mybandstock.com"
 
 	/******** Load jQuery if not present *********/
