@@ -205,6 +205,19 @@ div#mbs-bar-message-box{
 /* End User Info Stuff */
 
 
+#js-bar-container input{
+	height:auto !important;
+	width:auto !important;
+	margin:2px !important;
+	color:black !important;
+	display:inline-block !important;
+	float:none !important;
+	font-size:11px !important;
+	line-height:normal !important;
+	padding:1px !important;
+	font-family: 'Lucida Grande' !important;	
+}
+
 /* Login Stuff */
 #js-bar-container div.mbs-bar-login-wrapper input{
 	height:auto !important;
