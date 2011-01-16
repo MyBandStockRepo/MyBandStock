@@ -1059,7 +1059,7 @@ protected
     level2 = Hash.new
     level2[:number] = 2
     level2[:name] = "Private"
-    level2[:points_needed] = 1000
+    level2[:points_needed] = 500
     rewards2 = Array.new
     level2[:rewards] = rewards2
     levels_array[1] = level2
