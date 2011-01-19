@@ -936,9 +936,7 @@ protected
   end
   
   def logged_in_info(user) #html for all info passed for a logged-in user
-#     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")
     levels = levels_for_demo
-#    list = levels.collect{|level| "<li>Level #{level[:number]}: #{level[:name]} (need #{level[:points_needed]} BandStock) Unlock rewards:<br /> #{levels[:rewards].collect{|reward| "#{reward[:description]}<br />"}}</li>"}.join("")
     list = ""
     for level in levels
       list += "<li><span class=\"mbs-level-number\">Level #{level[:number]}: </span><span class=\"mbs-level-name\">#{level[:name]}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level[:points_needed], :delimiter => ",")} BandStock</span>"
@@ -998,25 +996,6 @@ protected
       <div class=\"mbs-next-level-status\">#{user_percentage_to_next_level}% to the next level</div>
       <div class=\"mbs-level-progress-tooltip mbs-alpha80\" style=\"display:none;\"><span class=\"mbs-progress-next-level-tooltip\">Next Level: #{user_next_level} in #{number_with_delimiter(user_points_to_next_level, :delimiter => ",")} BandStock</span><span class=\"mbs-progress-ratio-tooltip\">#{number_with_delimiter(@net, :delimiter => ",")} / #{number_with_delimiter(user_points_required_at_level, :delimiter => ",")} BandStock</span></div>
     </div>"
-
-=begin
-    <div class=\"mbs-points-containers\">
-      <span class=\"mbs-earn-points\"><a href=\"#\">Earn Bandstock</a></span>          
-      <span class=\"mbs-rewards\"><a href=\"#\" id=\"mbs-rewards-link\">View Rewards</a></span>
-    </div>
-    <div class=\"mbs-next-level-data\">
-    </div>    
-    
-    " 
-=end
-=begin 
-    "<p class=\"mbs-band-name\">#{@band.name}</p>
-    <p class=\"mbs-welcome\">Hey #{user.first_name}!</p>
-    <div id=\"mbs-stats\">
-      <p class=\"mbs-shares\">You have #{@net} shares! Only <span class=\"mbs-number\">40,000</span> shares to the next level</p>
-    </div>
-    <div id=\"mbs-rewards\"><ul>" + list + "</ul></div>"
-=end
   end
   
   def user_form_html(user)
@@ -1040,7 +1019,6 @@ protected
     "
   end
   def sign_up_failure(user)
-    #"<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
     user_form_html(user)
   end
   
@@ -1110,7 +1088,6 @@ protected
     rewards6[0] = rewards6_1
     levels_array[5] = level6
 
-#    puts levels_array.to_yaml
     return levels_array
   end
   

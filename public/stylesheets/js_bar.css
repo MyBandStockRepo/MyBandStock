@@ -104,8 +104,6 @@ div#mbs-bar-message-box{
 	padding:5px !important;
 	position:fixed !important;
 	right:.01em !important;
-/*	opacity:0.8;
-	filter:alpha(opacity=80);*/
 	font-size:7pt !important;
 	color:#FF9900 !important;
 	z-index:999998 !important;
@@ -294,10 +292,6 @@ div#js-bar-container input#mbs_user_submit:hover{
 	bottom:60px !important;
 	position:fixed !important;
 	right:.01em !important;
-/*
-	opacity:0.8;
-	filter:alpha(opacity=80);
-*/
 	font-size:7pt !important;
 	z-index:999999 !important;
 }

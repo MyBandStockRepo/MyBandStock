@@ -7,10 +7,20 @@
 (function() {
 	// Localize jQuery variable
 	var jQuery;
-//	var source_url = "http://127.0.0.1:3000"
+	
+	
+	
+	
+	
+	/* ///////// SET THE SOURCE URL /////////////// */
+	//	var source_url = "http://127.0.0.1:3000"
 	var source_url = "http://mybandstock.com"	
 	//	var source_url = "http://notorious.mybandstock.com"
 
+	
+	
+	
+	
 	/******** Load jQuery if not present *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.4.2') {
 		var script_tag = document.createElement('script');
@@ -109,10 +119,10 @@
 
 			css_link.appendTo('head');   
 			fonts_css_link.appendTo('head');
-			var band_id = mybandstockArtistID//jQuery('#js-bar-container').attr('class').replace("mbs-", ""); // get the band id from the class attribute
+			var band_id = mybandstockArtistID;
 	    var url_host = source_url+"/bands/"
     
-	// Build the bar
+			// Build the bar
 			var current_url = window.location.href.replace("undefined", "");
 
 			// Initial Bar State
@@ -122,51 +132,30 @@
 			/******* Load HTML *******/
 			// make space on the website so our bar doesn't cover existing content
 			var mybandstock_bar_spacer = jQuery(document.createElement('div')).addClass('mybandstock_bar_spacer');
-			jQuery('body').append(mybandstock_bar_spacer);
-			
+			jQuery('body').append(mybandstock_bar_spacer);			
 			jQuery('body').append("<div class='"+band_id+"' id='js-bar-container'></div>");
 			
 			// make notification box
 			jQuery('body').append('<div id="mbs-bar-message-box" class="mbs-alpha80" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>');
-			
-			
+						
 			// Rewards buttons
 			var rewards_buttons = "<div class=\"mbs-points-containers\"><span class=\"mbs-earn-points\"><a id=\"mbs-ways-to-earn-link\" onClick=\"mybandstockToggleWaysToEarn()\">Earn Bandstock</a></span><span class=\"mbs-rewards\"><a id=\"mbs-rewards-link\" onClick=\"mybandstockToggleRewardsDiv()\">View Levels</a></span></div>";
-			
-
-			
+						
 			// check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
 			if (jQuery.cookie('_mbs'))
 			{ 
 				var salt = jQuery.cookie("_mbs");
 				var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&salt=" + salt;
-
-//				jQuery('#js-bar-container').remove('span.mbs-logout-link');
-//				jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> Logout</a></span></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
 				jQuery.getJSON(jsonp_url, function(data) { // send the params to the app and append the response to the main container
 					jQuery('#js-bar-container').html(data.html);
 					jQuery('#js-bar-container').append(rewards_buttons);
-//					jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> Logout</a></span></div>");
 					jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");					
-//					jQuery('span.mbs-cancel-this').css("display","none");
-//					jQuery('span.mbs-rewards').fadeIn("fast");
 				});
 			} else {
 				//login stuff
 				jQuery('#js-bar-container').html(mbs_initial_bar_state);
-				
-
-/*
-				jQuery('#js-bar-container').append("<span class=\"mbs-logout-link\"><a href=\"" + current_url.replace("undefined", "") + "\"> logout</a></span><span class=\"mbs-rewards\"><a href=\"#\">View Rewards</a></span>");
-				jQuery('#js-bar-container').append("<div class =\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><div class=\"clear\"></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"Submit\" /><span class=\"mbs-cancel-this\"><a href=\"" + current_url + "\" title=\"cancel\">cancel</a></span>");
-
-				jQuery('span.mbs-logout-link, span.mbs-rewards').css("display","none");
-*/
 		  }
-	   	
-
-	
-	
+	   		
 	  	// Listeners
 			jQuery('#mbs-bar-close-notifications').click(function() {
 				jQuery('#mbs-bar-message-box').hide();
@@ -180,29 +169,6 @@
 				return false;
 			});
 			
-			// hide rewards when a user clicks out of the bar
-/*
-			jQuery('body').not('span.mbs-rewards').not('div#mbs-rewards').click(function() {
-				jQuery('div#mbs-rewards').hide();
-			});
-*/
-	
-			//click the logout button
-/*			
-			jQuery('#js-bar-container span.mbs-logout-link a').click(function() { 
-				alert('LOGGED OUT');
-				var email = null
-				var email_confirmation = null
-				var first_name = null
-				var pass = null
-				var salt = null
-				jQuery.cookie("_mbs", null); //kill the cookie
-				jQuery.getJSON(jsonp_url, function(data) { //call the server to reset the bar
-					jQuery('#js-bar-container').append(data.html);
-					mybandstockDisplayUserNotification(data.notification);
-				});
-			});
-*/        
 			// User submits their info(either email or password depending on what's being asked for)
 			jQuery('#js-bar-container #mbs_user_submit').click(function() {
         var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
@@ -226,8 +192,6 @@
 					// Log the user in
 	      	if (data.msg && data.msg != "delete" && data.msg != "need-password" && data.msg != "create-new-user" && data.msg != "user-error"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
 		    		jQuery.cookie("_mbs", data.msg);	// sets their session cookie
-//						jQuery('span.mbs-cancel-this, #mbs_user_submit, div.mbs-user-form').remove();
-//            jQuery('span.mbs-logout-link, span.mbs-rewards').show('fast');
 						jQuery('#js-bar-container').html(data.html);						
 						jQuery('#js-bar-container').append(rewards_buttons);
 						jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");											
@@ -256,14 +220,7 @@
 					}
 					else{
 						jQuery('#js-bar-container').html(data.html);
-					}
-					
-//	      	jQuery("div.mbs-bar-login, p.mbs-message").remove();
-//          jQuery('.mbs-bar-login').html(data.html);
-//					jQuery('#js-bar-container').html(data.html);
-//          if (data.msg && data.msg == 'need password'){
-//	        	jQuery('span.mbs-cancel-this').css('display', 'inline');
-//		  		}
+					}					
 				});
 			});
 		}); // end doc.ready
