@@ -13,7 +13,7 @@
 	
 	
 	/* ///////// SET THE SOURCE URL /////////////// */
-	//	var source_url = "http://127.0.0.1:3000"
+//	var source_url = "http://127.0.0.1:3000"
 	var source_url = "http://mybandstock.com"	
 	//	var source_url = "http://notorious.mybandstock.com"
 
@@ -126,14 +126,14 @@
 			var current_url = window.location.href.replace("undefined", "");
 
 			// Initial Bar State
-			var mbs_initial_bar_state = "<div class=\"mbs-bar-login-wrapper\"><div class=\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><div class=\"clear\"></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"Submit\" /><span class=\"mbs-cancel-this\" style=\"display:none;\"><a href=\""+ current_url +"\" title=\"cancel\">cancel</a></span></div>";
+			var mbs_initial_bar_state = "<div class=\"mbs-bar-branding\"></div><div class=\"mbs-bar-login-wrapper\"><div class=\"mbs-bar-login\"><span class=\"mbs-email\">Email: <input id=\"mbs_user_email\" name=\"user[email]\" size=\"30\" type=\"text\" /></span></div><div class=\"clear\"></div><input id=\"mbs_user_submit\" name=\"commit\" type=\"submit\" value=\"Submit\" /><span class=\"mbs-cancel-this\" style=\"display:none;\"><a href=\""+ current_url +"\" title=\"cancel\">cancel</a></span></div><div class=\"mbs-bar-instructions\">Start earning rewards today!<br />Enter an email address to login or sign-up.</div>";
 
 		
 			/******* Load HTML *******/
 			// make space on the website so our bar doesn't cover existing content
 			var mybandstock_bar_spacer = jQuery(document.createElement('div')).addClass('mybandstock_bar_spacer');
 			jQuery('body').append(mybandstock_bar_spacer);			
-			jQuery('body').append("<div class='"+band_id+"' id='js-bar-container'></div>");
+			jQuery('body').append("<div id='js-bar-container'></div>");
 			
 			// make notification box
 			jQuery('body').append('<div id="mbs-bar-message-box" class="mbs-alpha80" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>');
@@ -173,7 +173,6 @@
 			jQuery('#js-bar-container #mbs_user_submit').click(function() {
         var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
 				var email = jQuery('#js-bar-container input#mbs_user_email').val(); //capture the email entered
-
         var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
         var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
 
