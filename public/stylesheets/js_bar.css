@@ -62,6 +62,19 @@ div.mybandstock_bar_spacer{
 	font-family: inherit !important;
 	vertical-align: baseline !important;	
 }
+div#js-bar-container .mbs-bar-branding{
+	width: 200px !important;
+	float: left !important;
+	height: 55px !important;
+}
+div#js-bar-container .mbs-bar-instructions{
+	width: 400px !important;
+	float: right !important;
+	height: 55px !important;
+	font-size:12pt !important;
+	line-height:22px;
+	font-family: 'Lucida Grande', 'Lucida Sans', Verdana, sans-serif !important;	
+}
 div#js-bar-container{
 	margin: 0 !important;
 	padding: 0 !important;
