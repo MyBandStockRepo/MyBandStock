@@ -290,8 +290,13 @@ function mybandstock_log_user_out()
 	jQuery.cookie("_mbs", null); //kill the cookie
 	jQuery('#js-bar-container').html("");
 	mybandstockDisplayUserNotification('Logged out.');
-	jQuery.getJSON(jsonp_url);
-	// window.location.reload();
+	jQuery.ajax({
+	  url: jsonp_url,
+	  dataType: 'json',
+	  async: false,
+	});
+	// jQuery.getJSON(jsonp_url, async: false);
+	window.location.reload();
 }
 
 function mybandstockShowProgressTooltip()
