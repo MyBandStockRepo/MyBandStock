@@ -936,14 +936,14 @@ protected
   end
   
   def logged_in_info(user) #html for all info passed for a logged-in user
-    levels = levels_for_demo
+    levels = @band.levels
     list = ""
-    for level in levels
-      list += "<li><span class=\"mbs-level-number\">Level #{level[:number]}: </span><span class=\"mbs-level-name\">#{level[:name]}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level[:points_needed], :delimiter => ",")} BandStock</span>"
-      unless level[:rewards].blank?
+    levels.each_with_index do |level, i|
+      list += "<li><span class=\"mbs-level-number\">Level #{i + 1}: </span><span class=\"mbs-level-name\">#{level.name}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level.points, :delimiter => ",")} BandStock</span>"
+      unless level.rewards.empty?
        list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
-       for reward in level[:rewards]
-         list += "<li><span class=\"mbs-level-reward-description\">#{reward[:description]}</span></li>"
+       for reward in level.rewards
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward.description}</span></li>"
        end
        list += "</ul>"       
       end
@@ -956,7 +956,7 @@ protected
     
     current_level = user.levels.where(:band_id => @band.id).first    
     if current_level.blank?
-      current_level = @band.levels.order(:points).first
+      current_level = @band.levels.first
     end
     
     user_level = current_level ? current_level.number : 0#level number
@@ -1014,6 +1014,8 @@ protected
       <span class=\"mbs-pass\"> 
         <label>Password:</label> <input id=\"mbs_user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
       </span>
+      <p class=\"mbs-user-form\" style=\"width:60%; float:left; display:inline;margin-top:-2em;\">By clicking on 'Submit', you are agreeing to the MyBandStock
+      <a href=\"/legal/tos\" target=\"_blank\" title=\"Terms of service\">Terms of Service</a></p>
       <br style=\"clear:both;\" />
     </div>
     "

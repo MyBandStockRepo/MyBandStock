@@ -236,7 +236,7 @@ class ApplicationController < ActionController::Base
   end
   
   def is_current_band_admin?(band_id = params[:band_id]) 
-    band_id && current_user && Association.find_admin(params[:user_id], band_id).any?
+    band_id && current_user && Association.find_admin(session[:user_id], band_id).any?
   end
   def user_part_of_or_admin_of_a_band?
   	if session[:user_id] && (User.find(session[:user_id]).is_part_of_a_band? || User.find(session[:user_id]).is_admin_of_a_band? || User.find(session[:user_id]).site_admin == true)
