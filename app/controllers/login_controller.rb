@@ -181,7 +181,7 @@ class LoginController < ApplicationController
     cookies.delete(:salted_user_id)
     return true
     respond_to do |format|
-      # format.html redirect_to :controller => 'application', :action => 'index'
+      format.html redirect_to :controller => 'application', :action => 'index'
       format.json render :text => get_json
     end
   end
