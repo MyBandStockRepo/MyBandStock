@@ -13,8 +13,8 @@
 	
 	
 	/* ///////// SET THE SOURCE URL /////////////// */
-	//	var source_url = "http://127.0.0.1:3000"
-	var source_url = "http://mybandstock.com"	
+	var source_url = "http://localhost.me:3000"
+	// var source_url = "http://mybandstock.com"	
 	//	var source_url = "http://notorious.mybandstock.com"
 
 	
@@ -286,10 +286,12 @@ function mybandstock_log_user_out()
 	var first_name = null
 	var pass = null
 	var salt = null
+	var jsonp_url = 'http://localhost.me:3000/login/logout.json?callback=?'
 	jQuery.cookie("_mbs", null); //kill the cookie
 	jQuery('#js-bar-container').html("");
 	mybandstockDisplayUserNotification('Logged out.');
-	window.location.reload();
+	jQuery.getJSON(jsonp_url);
+	// window.location.reload();
 }
 
 function mybandstockShowProgressTooltip()

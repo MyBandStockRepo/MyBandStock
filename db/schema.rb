@@ -102,8 +102,17 @@ ActiveRecord::Schema.define(:version => 20110111220216) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-# Could not dump table "facebook_users" because of following StandardError
-#   Unknown type 'belongs_to' for column 'authentication_id'
+  create_table "facebook_users", :force => true do |t|
+    t.string   "facebook_id"
+    t.string   "name"
+    t.string   "location"
+    t.string   "email"
+    t.string   "gender"
+    t.string   "access_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "authentication_id"
+  end
 
   create_table "fans", :force => true do |t|
     t.string   "first_name"
@@ -416,8 +425,18 @@ ActiveRecord::Schema.define(:version => 20110111220216) do
     t.datetime "tweeted_at"
   end
 
-# Could not dump table "twitter_users" because of following StandardError
-#   Unknown type 'belongs_to' for column 'authentication_id'
+  create_table "twitter_users", :force => true do |t|
+    t.string   "name"
+    t.string   "user_name"
+    t.integer  "twitter_id",                             :null => false
+    t.string   "oauth_access_token"
+    t.string   "oauth_access_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "opt_out_of_messages", :default => false
+    t.string   "location"
+    t.integer  "authentication_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first_name"
