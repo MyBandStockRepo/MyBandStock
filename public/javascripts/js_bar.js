@@ -14,8 +14,8 @@
 	
 	/* ///////// SET THE SOURCE URL /////////////// */
 //	var source_url = "http://127.0.0.1:3000"
-	// var source_url = "http://mybandstock.com"
-	var source_url = "http://localhost.me:3000"	
+	 var source_url = "http://mybandstock.com"
+	//var source_url = "http://localhost:3000"	
 	//	var source_url = "http://notorious.mybandstock.com"
 
 	

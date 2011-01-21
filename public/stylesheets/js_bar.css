@@ -68,8 +68,10 @@ div#js-bar-container .mbs-bar-branding{
 	height: 55px !important;
 }
 div#js-bar-container .mbs-bar-instructions{
-	width: 400px !important;
-	float: right !important;
+	display:block !important;
+	margin:auto !important;
+	width: 335px !important;
+	float: center !important;
 	height: 55px !important;
 	font-size:12pt !important;
 	line-height:22px;
