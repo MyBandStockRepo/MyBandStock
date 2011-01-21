@@ -936,14 +936,14 @@ protected
   end
   
   def logged_in_info(user) #html for all info passed for a logged-in user
-    levels = levels_for_demo
+    levels = @band.levels
     list = ""
-    for level in levels
-      list += "<li><span class=\"mbs-level-number\">Level #{level[:number]}: </span><span class=\"mbs-level-name\">#{level[:name]}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level[:points_needed], :delimiter => ",")} BandStock</span>"
-      unless level[:rewards].blank?
+    levels.each_with_index do |level, i|
+      list += "<li><span class=\"mbs-level-number\">Level #{i + 1}: </span><span class=\"mbs-level-name\">#{level.name}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level.points, :delimiter => ",")} BandStock</span>"
+      unless level.rewards.empty?
        list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
-       for reward in level[:rewards]
-         list += "<li><span class=\"mbs-level-reward-description\">#{reward[:description]}</span></li>"
+       for reward in level.rewards
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward.description}</span></li>"
        end
        list += "</ul>"       
       end
@@ -956,7 +956,7 @@ protected
     
     current_level = user.levels.where(:band_id => @band.id).first    
     if current_level.blank?
-      current_level = @band.levels.order(:points).first
+      current_level = @band.levels.first
     end
     
     user_level = current_level ? current_level.number : 0#level number
@@ -1014,81 +1014,14 @@ protected
       <span class=\"mbs-pass\"> 
         <label>Password:</label> <input id=\"mbs_user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
       </span>
+      <p class=\"mbs-user-form\" style=\"width:60%; float:left; display:inline;margin-top:-2em;\">By clicking on 'Submit', you are agreeing to the MyBandStock
+      <a href=\"/legal/tos\" target=\"_blank\" title=\"Terms of service\">Terms of Service</a></p>
       <br style=\"clear:both;\" />
     </div>
     "
   end
   def sign_up_failure(user)
     user_form_html(user)
-  end
-  
-  def levels_for_demo
-
-    levels_array = Array.new
-    
-    level1 = Hash.new    
-    level1[:number] = 1
-    level1[:name] = "Enlistee"
-    level1[:points_needed] = 0
-    rewards1 = Array.new
-    level1[:rewards] = rewards1
-    levels_array[0] = level1
-
-    level2 = Hash.new
-    level2[:number] = 2
-    level2[:name] = "Private"
-    level2[:points_needed] = 500
-    rewards2 = Array.new
-    level2[:rewards] = rewards2
-    levels_array[1] = level2
-
-    level3 = Hash.new
-    level3[:number] = 3
-    level3[:name] = "Sergeant"
-    level3[:points_needed] = 2000
-    rewards3 = Array.new
-    rewards3_1 = Hash.new
-    rewards3_1[:description] = "Access to Private Chamilitary Twitter Account"
-    rewards3[0] = rewards3_1
-    level3[:rewards] = rewards3
-    levels_array[2] = level3
-
-    level4 = Hash.new
-    level4[:number] = 4
-    level4[:name] = "Lieutenant"
-    level4[:points_needed] = 7500    
-    rewards4 = Array.new
-    rewards4_1 = Hash.new
-    rewards4_1[:description] = "Chamilitary Group Chat Access"
-    rewards4[0] = rewards4_1
-    level4[:rewards] = rewards4    
-    levels_array[3] = level4
-    
-    level5 = Hash.new
-    level5[:number] = 5
-    level5[:name] = "Captain"
-    level5[:points_needed] = 15000
-    rewards5 = Array.new
-    rewards5_1 = Hash.new
-    rewards5_1[:description] = "Front of Line Admission"
-    rewards5[0] = rewards5_1
-    rewards5_2 = Hash.new
-    rewards5_2[:description] = "Private Video Chat"
-    rewards5[1] = rewards5_2
-    level5[:rewards] = rewards5
-    levels_array[4] = level5
-
-    level6 = Hash.new    
-    level6[:number] = 6
-    level6[:name] = "General"
-    level6[:points_needed] = 30000
-    rewards6 = Array.new
-    rewards6_1 = Hash.new
-    rewards6_1[:description] = "Meet and Greet"
-    rewards6[0] = rewards6_1
-    levels_array[5] = level6
-
-    return levels_array
   end
   
   def ways_to_earn_bandstock
