@@ -851,7 +851,7 @@ protected
     elsif !@authentic && @user_error
       data = sign_up_failure(@user)
       message = "user-error"
-      notification = "Sorry, something went wrong. Please try again."
+      notification = @errors
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
       message = "need-password"
@@ -922,6 +922,7 @@ protected
       log_user_in(@user.id)
       return true
     else
+      @errors = @user.errors.full_messages.join(", ")
       return false
     end
   end
