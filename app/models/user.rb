@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
-  validates :email, :email => true
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
   validates_length_of :first_name, :maximum => 20, :unless => Proc.new {|user| user.first_name.nil?}
   validates_length_of :last_name, :maximum => 25, :unless => Proc.new {|user| user.last_name.nil?}

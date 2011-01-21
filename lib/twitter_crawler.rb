@@ -30,8 +30,7 @@ else
   require 'active_record'
   require 'yaml'
   require 'logger'
-  require 'twitter'
-  
+  require 'twitter'  
 
 
   #connect activerecord to DB
@@ -40,6 +39,7 @@ else
   ActiveRecord::Base.default_timezone = :utc
   
   #models
+  require current_directory+'/../lib/email_validator.rb'    
   require current_directory+'/../app/models/authentication.rb'
   require current_directory+'/../app/models/band.rb'
   require current_directory+'/../app/models/twitter_user.rb'
@@ -50,6 +50,8 @@ else
   require current_directory+'/../app/models/share_ledger_entry.rb'
   require current_directory+'/../app/models/share_total.rb'
   require current_directory+'/../app/models/short_url.rb'
+  require current_directory+'/../app/models/level.rb'
+  
   
   
   #Connect to Twitter Oauth Stuff

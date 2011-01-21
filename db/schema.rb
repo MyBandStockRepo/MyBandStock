@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110111220216) do
+ActiveRecord::Schema.define(:version => 20110121010541) do
 
   create_table "api_users", :force => true do |t|
     t.string   "api_key",    :null => false
@@ -401,6 +401,7 @@ ActiveRecord::Schema.define(:version => 20110111220216) do
     t.integer  "band_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "at_reply_user"
   end
 
   create_table "twitter_crawler_trackers", :force => true do |t|
