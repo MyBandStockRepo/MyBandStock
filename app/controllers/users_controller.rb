@@ -917,8 +917,9 @@ protected
   end
   def create_new_user #create the user from the user form sent
     @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
-    @user.generate_or_salt_password(@user.password)
     if @user.save
+      @user.salt_password(@user.password)
+      @user.save
       log_user_in(@user.id)
       return true
     else

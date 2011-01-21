@@ -185,7 +185,7 @@
 				
                 var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
 
-				jQuery.getJSON(jsonp_url, function(data) {
+				jQuery.getJSON(jsonp_url.replace("undefined", ""), function(data) {
 					// show user notification if there is one
 				  mybandstockDisplayUserNotification(data.notification);
 					
