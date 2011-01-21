@@ -852,6 +852,7 @@ protected
       data = sign_up_failure(@user)
       message = "user-error"
       notification = @errors
+      
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
       message = "need-password"
@@ -881,6 +882,7 @@ protected
     #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
     #combinations four variables will tell which response to send from the get_jsonp method
     @user_error = false
+    @errors = nil
     @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
     @authentic = false #if this is true, the steps have been completed and we can send the user info
     @need_password = false #if this is true, the user will be asked for their password

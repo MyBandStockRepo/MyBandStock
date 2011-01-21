@@ -14,7 +14,7 @@
 	
 	/* ///////// SET THE SOURCE URL /////////////// */
     //var source_url = "http://127.0.0.1:3000"
-	 var source_url = "http://mybandstock.com"
+	var source_url = "http://mybandstock.com"
 	// var source_url = "http://localhost.me:3000"	/* specific to Jason */
 	//	var source_url = "http://localhost:3000"
 	//	var source_url = "http://notorious.mybandstock.com"
@@ -177,15 +177,17 @@
 				var email = jQuery('#js-bar-container input#mbs_user_email').val(); //capture the email entered
                 var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
                 var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
-
+                jQuery("js-bar-container").html("<h1>Loading...</h1>");
 				if(email_confirmation != null)
 					email_confirmation = email_confirmation.replace("+", "%2B");
 				if(email != null)
 					email = email.replace("+", "%2B");
-				
-                var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
+			    var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
+                if (typeof data != 'undefined' && data.msg && data.msg == "create-new-user"){
+	              var jsonp_url = jsonp_url.replace("undefined", "");
+                 }
 
-				jQuery.getJSON(jsonp_url.replace("undefined", ""), function(data) {
+				jQuery.getJSON(jsonp_url, function(data) {
 					// show user notification if there is one
 				  mybandstockDisplayUserNotification(data.notification);
 					
