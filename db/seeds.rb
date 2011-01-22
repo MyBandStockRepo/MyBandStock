@@ -10,7 +10,7 @@
 
 #the creation tree goes as follows
 #user ->
-include Konstants
+
 COUNTRY_LIST.each do |row|
   Country.find_or_create_by_name(:name => row[0], :abbreviation => row[1])
 end
