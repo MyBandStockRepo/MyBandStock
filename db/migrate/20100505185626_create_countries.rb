@@ -12,9 +12,9 @@ class CreateCountries < ActiveRecord::Migration
     Country.create(:name => 'Not Specified', :abbreviation => 'N/A')
     
     #populate with data, note that this list is semi-colon delimited
-    reader = CSV.foreach("#{Rails.root}/lib/data/countries.csv", :col_sep => ";") do |row|
-      Country.create(:name => row[0], :abbreviation => row[1])
-    end    
+    # reader = CSV.foreach("#{Rails.root}/lib/data/countries.csv", :col_sep => ";") do |row|
+    #       Country.create(:name => row[0], :abbreviation => row[1])
+    #     end    
   end
 
   def self.down
