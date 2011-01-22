@@ -1,4 +1,3 @@
-module CountryList
   COUNTRY_LIST =
   [
   ["AFGHANISTAN", "AF"],
@@ -246,4 +245,3 @@ module CountryList
   ["ZAMBIA", "ZM"],
   ["ZIMBABWE", "ZW"],
   ]
-end
