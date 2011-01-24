@@ -109,6 +109,9 @@ class User < ActiveRecord::Base
 
   def generate_or_salt_password(password=generate_key(8))
   	#create salted password
+    self.salt_password(password)
+  end
+  def salt_password(password)
     random = ActiveSupport::SecureRandom.hex(10)
     salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
     salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")

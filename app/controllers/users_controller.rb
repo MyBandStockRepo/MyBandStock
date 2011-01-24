@@ -851,7 +851,8 @@ protected
     elsif !@authentic && @user_error
       data = sign_up_failure(@user)
       message = "user-error"
-      notification = "Sorry, something went wrong. Please try again."
+      notification = @errors
+      
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
       message = "need-password"
@@ -881,6 +882,7 @@ protected
     #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
     #combinations four variables will tell which response to send from the get_jsonp method
     @user_error = false
+    @errors = nil
     @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
     @authentic = false #if this is true, the steps have been completed and we can send the user info
     @need_password = false #if this is true, the user will be asked for their password
@@ -917,11 +919,13 @@ protected
   end
   def create_new_user #create the user from the user form sent
     @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
-    @user.generate_or_salt_password(@user.password)
     if @user.save
+      @user.salt_password(@user.password)
+      @user.save
       log_user_in(@user.id)
       return true
     else
+      @errors = @user.errors.full_messages.join(", ")
       return false
     end
   end

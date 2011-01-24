@@ -13,9 +13,10 @@
 	
 	
 	/* ///////// SET THE SOURCE URL /////////////// */
-//	var source_url = "http://127.0.0.1:3000"
-	 var source_url = "http://mybandstock.com"
-//	var source_url = "http://localhost:3000"	
+    //var source_url = "http://127.0.0.1:3000"
+	var source_url = "http://mybandstock.com"
+	// var source_url = "http://localhost.me:3000"	/* specific to Jason */
+	//	var source_url = "http://localhost:3000"
 	//	var source_url = "http://notorious.mybandstock.com"
 
 	
@@ -121,7 +122,7 @@
 			css_link.appendTo('head');   
 			fonts_css_link.appendTo('head');
 			var band_id = mybandstockArtistID;
-	    var url_host = source_url+"/bands/"
+	        var url_host = source_url+"/bands/"
     
 			// Build the bar
 			var current_url = window.location.href.replace("undefined", "");
@@ -172,41 +173,43 @@
 			
 			// User submits their info(either email or password depending on what's being asked for)
 			jQuery('#js-bar-container #mbs_user_submit').click(function() {
-        var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
+                var first_name = jQuery('#js-bar-container input#mbs_user_first_name').val();
 				var email = jQuery('#js-bar-container input#mbs_user_email').val(); //capture the email entered
-        var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
-        var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
-
+                var email_confirmation = jQuery('#js-bar-container input#mbs_user_email_confirmation').val();//capture the email entered if new user
+                var pass = jQuery('#js-bar-container input#mbs_user_password').val(); //capture the password entered
+                jQuery("js-bar-container").html("<h1>Loading...</h1>");
 				if(email_confirmation != null)
 					email_confirmation = email_confirmation.replace("+", "%2B");
 				if(email != null)
 					email = email.replace("+", "%2B");
-				
-        var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
+			    var jsonp_url = url_host + band_id + "/shareholders.json?callback=?&email=" + email + "&password=" + pass + "&email_confirmation=" + email_confirmation + "&first_name=" + first_name; //pass those params to the query string
+                if (typeof data != 'undefined' && data.msg && data.msg == "create-new-user"){
+	              var jsonp_url = jsonp_url.replace("undefined", "");
+                 }
 
 				jQuery.getJSON(jsonp_url, function(data) {
 					// show user notification if there is one
-					mybandstockDisplayUserNotification(data.notification);
+				  mybandstockDisplayUserNotification(data.notification);
 					
 					// BAR STATES
 					// Log the user in
-	      	if (data.msg && data.msg != "delete" && data.msg != "need-password" && data.msg != "create-new-user" && data.msg != "user-error"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
+	      	      if (data.msg && data.msg != "delete" && data.msg != "need-password" && data.msg != "create-new-user" && data.msg != "user-error"){ //if the app sent a message that is not delete, we set a cookie, log in the user and remove the submit button
 		    		jQuery.cookie("_mbs", data.msg);	// sets their session cookie
-						jQuery('#js-bar-container').html(data.html);						
-						jQuery('#js-bar-container').append(rewards_buttons);
-						jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");											
-	      	}
+					jQuery('#js-bar-container').html(data.html);						
+					jQuery('#js-bar-container').append(rewards_buttons);
+					jQuery('#js-bar-container').append("<div class=\"mbs-bar-login-wrapper\"><span class=\"mbs-logout-link\"><a onClick=\"mybandstock_log_user_out()\"> Logout</a></span></div>");											
+	      	       }
 					// Need to delete user cookie
-	      	else if (data.msg && data.msg == "delete"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
+	      	       else if (data.msg && data.msg == "delete"){//if the app sent a message of 'delete'(the user couldn't be found from the cookie info), we reset the cookie
 		    		jQuery.cookie("_mbs", null);
 						//re-do login
-						jQuery('#js-bar-container').html(mbs_initial_bar_state);
-	       	}
+					jQuery('#js-bar-container').html(mbs_initial_bar_state);
+	       	       }
 					// Either wrong password, or need to put in password for the first time
-	      	else if (data.msg && data.msg == "need-password"){
+	      	       else if (data.msg && data.msg == "need-password"){
 		    		jQuery("span.mbs-cancel-this").show();
-						jQuery('.mbs-bar-login').html(data.html);
-          }
+					jQuery('.mbs-bar-login').html(data.html);
+                   }
 					// Need to create a new user
 					else if (data.msg && data.msg == "create-new-user"){
 						jQuery('.mbs-bar-login').html("");
@@ -295,7 +298,6 @@ function mybandstock_log_user_out()
 	  dataType: 'json',
 	  async: false,
 	});
-	// jQuery.getJSON(jsonp_url, async: false);
 	window.location.reload();
 }
 
