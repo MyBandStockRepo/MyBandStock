@@ -13,6 +13,10 @@
     <%= f.label :band %><br />
     <%= collection_select 'twitter_crawler_hash_tag', 'band_id', Band.all, 'id', 'name', :class => 'select' %>
   </div>
+  <div class="field">
+    <%= f.label :at_reply_user %><br />
+    <%= f.check_box :at_reply_user %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

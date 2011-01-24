@@ -5,6 +5,7 @@
     <th>Term</th>
     <th>Last tweet</th>
     <th>Band</th>
+    <th>@reply user</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +16,7 @@
     <td><%= twitter_crawler_hash_tag.term %></td>
     <td><%= twitter_crawler_hash_tag.last_tweet_id %></td>
     <td><%= twitter_crawler_hash_tag.band.name %></td>
+    <td><%= twitter_crawler_hash_tag.at_reply_user %></td>    
     <td><%= link_to 'Show', twitter_crawler_hash_tag %></td>
     <td><%= link_to 'Edit', edit_twitter_crawler_hash_tag_path(twitter_crawler_hash_tag) %></td>
     <td><%= link_to 'Destroy', twitter_crawler_hash_tag, :confirm => 'Are you sure?', :method => :delete %></td>
