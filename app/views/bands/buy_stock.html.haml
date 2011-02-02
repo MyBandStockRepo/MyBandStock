@@ -1,4 +1,6 @@
 - purchase_submit_text = 'POW!'
+- logger.info @min_amount.blank?
+- logger.info @max_amount.blank?
 
 -if @band.commerce_allowed
 
@@ -14,7 +16,7 @@
         .errbox
           = flash[:error]    
         .clear
-      -if @min_amount < @max_amount
+      -if !@min_amount.blank? and !@max_amount.blank? and @min_amount < @max_amount
         %p
           You can buy between
           -# some conditions, max < available with cap or >.  There is no cap. available < min.
@@ -48,7 +50,11 @@
         #purchase_cost
           Current cost per share:
           %span#current_share_price
-            = number_to_currency(@band.share_price) + '.'
+            - share_price = @band.share_price
+            -if (share_price)
+              = number_to_currency(@band.share_price) + '.'
+            -else
+              = "--"
           Estimated total cost (before tax):
           %span#purchase_cost_value
         -if @available_shares > 0
