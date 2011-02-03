@@ -1,4 +1,5 @@
 Developer Workflow
+
 Our dev setup certainly isn't enterprise grade, so please bear with us.
 
 It all hinges on a git repo, which keeps master branch. You could certainly push your own branches to remote as well for dev.

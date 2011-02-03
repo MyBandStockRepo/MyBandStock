@@ -10,6 +10,10 @@
 
 #the creation tree goes as follows
 #user ->
+require 'country_list'
+COUNTRY_LIST.each do |row|
+  Country.find_or_create_by_name(:name => row[0], :abbreviation => row[1])
+end
 
 password = "test123"
 random = ActiveSupport::SecureRandom.hex(10)
@@ -74,6 +78,7 @@ b_flo = Band.create(  :name => 'Flobots',
                   :zipcode => '80201',
                   :city => 'Denver')
 #make user-band associations
+jm.save
 jm.associations.create(:band_id => b_amp.id, :name => 'admin')
 jm.associations.create(:band_id => b_flo.id, :name => 'admin')
 jm.associations.create(:band_id => b_dos.id, :name => 'admin')
