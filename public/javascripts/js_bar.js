@@ -3,25 +3,19 @@
 // <div id="js-bar-container" class="1234(this is the band id)"><br class="clear" /></div>
 // our function starts on line 83, the rest is the cookie plugin and initialization for jquery
 
+/* ///////// SET THE SOURCE URL /////////////// */
+var secure_mbs_source_url;
+//var mbs_source_url = "http://127.0.0.1:3000";
+var mbs_source_url = "http://mybandstock.com"; secure_mbs_source_url = 'https://mybandstock.com';
+// var mbs_source_url = "http://localhost.me:3000";	/* specific to Jason */
+//	var mbs_source_url = "http://localhost:3000";
+//	var mbs_source_url = "http://notorious.mybandstock.com";
 
 (function() {
 	// Localize jQuery variable
 	var jQuery;
-	
-	
-	
-	
-	
-	/* ///////// SET THE SOURCE URL /////////////// */
-    //var source_url = "http://127.0.0.1:3000"
-	var source_url = "http://mybandstock.com"
-	// var source_url = "http://localhost.me:3000"	/* specific to Jason */
-	//	var source_url = "http://localhost:3000"
-	//	var source_url = "http://notorious.mybandstock.com"
 
-	
-	
-	
+  secure_mbs_source_url = (window.secure_mbs_source_url === undefined) ? mbs_source_url : secure_mbs_source_url;
 	
 	/******** Load jQuery if not present *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.4.2') {
@@ -108,21 +102,21 @@
 			var fonts_css_link = jQuery("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
-				href: source_url+"/stylesheets/fonts.css"
+				href: mbs_source_url+"/stylesheets/fonts.css"
 			});
 
 
 			var css_link = jQuery("<link>", { 
 				rel: "stylesheet", 
 				type: "text/css", 
-				href: source_url+"/stylesheets/js_bar.css"
+				href: mbs_source_url+"/stylesheets/js_bar.css"
 			});
         
 
 			css_link.appendTo('head');   
 			fonts_css_link.appendTo('head');
 			var band_id = mybandstockArtistID;
-	        var url_host = source_url+"/bands/"
+      var url_host = secure_mbs_source_url+"/bands/"; // AJAX requests with user secrets should be send over the secure URL.
     
 			// Build the bar
 			var current_url = window.location.href.replace("undefined", "");
@@ -289,7 +283,7 @@ function mybandstock_log_user_out()
 	var first_name = null
 	var pass = null
 	var salt = null
-	var jsonp_url = 'http://localhost.me:3000/login/logout.json?callback=?'
+	var jsonp_url = mbs_source_url + '/login/logout.json?callback=?';
 	jQuery.cookie("_mbs", null); //kill the cookie
 	jQuery('#js-bar-container').html("");
 	mybandstockDisplayUserNotification('Logged out.');
