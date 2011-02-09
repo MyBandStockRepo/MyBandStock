@@ -972,6 +972,9 @@ protected
     user_percentage_to_next_level = user.percent_of_level_completed_for_band(@band).round
     
     ways_to_earn = ""
+    if @band.available_shares_for_purchase && @band.commerce_allowed?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/bands/#{@band.id}/buy_stock','Buy Stock',400,800)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/dollar.jpeg"}\" /><span>Buy Band Stock</span></div></li>"
+    end            
     if user.twitter_user.blank? || user.facebook_user.blank?
       ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social?band_id=#{@band.id}','Connect To Social Networks',600,600)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
     end

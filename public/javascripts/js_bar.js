@@ -116,7 +116,7 @@ var mbs_source_url = "http://mybandstock.com"; secure_mbs_source_url = 'https://
 			css_link.appendTo('head');   
 			fonts_css_link.appendTo('head');
 			var band_id = mybandstockArtistID;
-      var url_host = secure_mbs_source_url+"/bands/"; // AJAX requests with user secrets should be send over the secure URL.
+            var url_host = secure_mbs_source_url+"/bands/"; // AJAX requests with user secrets should be send over the secure URL.
     
 			// Build the bar
 			var current_url = window.location.href.replace("undefined", "");
@@ -135,7 +135,7 @@ var mbs_source_url = "http://mybandstock.com"; secure_mbs_source_url = 'https://
 			jQuery('body').append('<div id="mbs-bar-message-box" class="mbs-alpha80" style="display:none;"><span id="mbs-bar-notification"></span><a id=\"mbs-bar-close-notifications\">X</a></div>');
 						
 			// Rewards buttons
-			var rewards_buttons = "<div class=\"mbs-points-containers\"><span class=\"mbs-earn-points\"><a id=\"mbs-ways-to-earn-link\" onClick=\"mybandstockToggleWaysToEarn()\">Earn Bandstock</a></span><span class=\"mbs-rewards\"><a id=\"mbs-rewards-link\" onClick=\"mybandstockToggleRewardsDiv()\">View Levels</a></span></div>";
+			var rewards_buttons = "<div class=\"mbs-points-containers\"><span class=\"mbs-earn-points\"><a id=\"mbs-ways-to-earn-link\" onClick=\"mybandstockToggleWaysToEarn()\">Get Bandstock</a></span><span class=\"mbs-rewards\"><a id=\"mbs-rewards-link\" onClick=\"mybandstockToggleRewardsDiv()\">View Levels</a></span></div>";
 						
 			// check to see if there's a cookie set, if there is, ping the server to find the user, if not, render the login
 			if (jQuery.cookie('_mbs'))
