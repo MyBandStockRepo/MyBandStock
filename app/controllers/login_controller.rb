@@ -191,9 +191,11 @@ class LoginController < ApplicationController
   private
   #######
   def get_json
-    callback = params[:callback]
-    json = {"html" => "success"}.to_json
-    callback + "(" + json + ")"
+    if params[:callback]
+      callback = params[:callback]
+      json = {"html" => "success"}.to_json
+      callback + "(" + json + ")"
+    end
   end
   def set_view_variables
     @login_only = true if (!params[:login_only].blank? or !params[:show_login_only].blank?)
