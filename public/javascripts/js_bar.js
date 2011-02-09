@@ -6,8 +6,8 @@
 /* ///////// SET THE SOURCE URL /////////////// */
 var secure_mbs_source_url;
 //var mbs_source_url = "http://127.0.0.1:3000";
-var mbs_source_url = "http://mybandstock.com"; secure_mbs_source_url = 'https://mybandstock.com';
-// var mbs_source_url = "http://localhost.me:3000";	/* specific to Jason */
+// var mbs_source_url = "http://mybandstock.com"; secure_mbs_source_url = 'https://mybandstock.com';
+var mbs_source_url = "http://localhost.me:3000";	/* specific to Jason */
 //	var mbs_source_url = "http://localhost:3000";
 //	var mbs_source_url = "http://notorious.mybandstock.com";
 
