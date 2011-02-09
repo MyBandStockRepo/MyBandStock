@@ -179,9 +179,10 @@ class LoginController < ApplicationController
     reset_session #this is a built in rails method
     cookies.delete(:saved_user_id)
     cookies.delete(:salted_user_id)
-    return true
+    # return true
+    redirect_to :controller => "application", :action => "index" and return unless api_call?
     respond_to do |format|
-      format.html redirect_to :controller => 'application', :action => 'index'
+      format.html "/" 
       format.json render :text => get_json
     end
   end
@@ -190,9 +191,11 @@ class LoginController < ApplicationController
   private
   #######
   def get_json
-    callback = params[:callback]
-    json = {"html" => "success"}.to_json
-    callback + "(" + json + ")"
+    if params[:callback]
+      callback = params[:callback]
+      json = {"html" => "success"}.to_json
+      callback + "(" + json + ")"
+    end
   end
   def set_view_variables
     @login_only = true if (!params[:login_only].blank? or !params[:show_login_only].blank?)
