@@ -30,8 +30,7 @@ else
   require 'active_record'
   require 'yaml'
   require 'logger'
-  require 'twitter'
-  
+  require 'twitter'  
 
 
   #connect activerecord to DB
@@ -40,6 +39,7 @@ else
   ActiveRecord::Base.default_timezone = :utc
   
   #models
+  require current_directory+'/../lib/email_validator.rb'    
   require current_directory+'/../app/models/authentication.rb'
   require current_directory+'/../app/models/band.rb'
   require current_directory+'/../app/models/twitter_user.rb'
@@ -50,6 +50,8 @@ else
   require current_directory+'/../app/models/share_ledger_entry.rb'
   require current_directory+'/../app/models/share_total.rb'
   require current_directory+'/../app/models/short_url.rb'
+  require current_directory+'/../app/models/level.rb'
+  
   
   
   #Connect to Twitter Oauth Stuff
@@ -103,17 +105,22 @@ else
     rescue
       
     end
-   # puts 'MESSAGE: '+message.to_s
   end
 
-
+  def user_recieve_message(opt_out, at_reply)
+    if opt_out.nil? || at_reply.nil?
+      return false
+    end
+    val = !(opt_out || !at_reply)
+    return val
+  end
   
   def no_mbs_account_stock_available_reply(twitter_user, band, shares, registration_link)
 #    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. You now have BandStock! #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
-    tweet_reply("@#{twitter_user.user_name} you have #{shares} shares in @#{band.twitter_username}. You must register at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)} to redeem the private video chat!")
+#    tweet_reply("@#{twitter_user.user_name} you have #{shares} shares in @#{band.twitter_username}. You must register at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)} to redeem the private video chat!")
   end
   def no_mbs_account_no_stock_available_reply(twitter_user, band, shares, registration_link)
-    #tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
+    tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. Check it out at #{ShortUrl.generate_short_url('http://mybandstock.com/register/twitter/'+band.id.to_s)}")
   end
   def no_mbs_account_rate_limit_reply(twitter_user, band, shares, registration_link)
     tweet_reply("@#{twitter_user.user_name} @#{band.twitter_username} is working w/ @MyBandStock to reward fans for tweeting. We can only reward #{TWEETS_ALLOWED_PER_HOUR.to_s} per hour, so try later! "+randomcode.to_s)
@@ -194,7 +201,7 @@ else
               
               if tweets_in_last_hour.nil? || tweets_in_last_hour >= TWEETS_ALLOWED_PER_HOUR
                 #here dont message people who have opted out
-                unless twitter_user.opt_out_of_messages
+                if user_recieve_message(twitter_user.opt_out_of_messages, search_item.at_reply_user)
                   #if user in the system
                   if twitter_user.users.last
                     yes_mbs_account_rate_limit_reply(twitter_user, search_item.band, 0, '')
@@ -229,12 +236,12 @@ else
                   )
                   band = search_item.band
                   
-                  unless twitter_user.opt_out_of_messages
+                  if user_recieve_message(twitter_user.opt_out_of_messages, search_item.at_reply_user)
                     yes_mbs_account_stock_available_reply(twitter_user, band, shares)
                   end
                 else
                   band = search_item.band
-                  unless twitter_user.opt_out_of_messages
+                  if user_recieve_message(twitter_user.opt_out_of_messages, search_item.at_reply_user)
                     yes_mbs_account_no_stock_available_reply(twitter_user, band, shares)
                   end
                 end
@@ -245,14 +252,14 @@ else
                 #DO @ Replies                
                 if shares > 0
                   band = search_item.band
-                  unless twitter_user.opt_out_of_messages
+                  if user_recieve_message(twitter_user.opt_out_of_messages, search_item.at_reply_user)
                     sum_points = 0
                     share_points = twitter_user.twitter_crawler_trackers.all.each{|t| sum_points = sum_points + t.share_value}
                     no_mbs_account_stock_available_reply(twitter_user, band, sum_points, 'registration_link')
                   end
                 else
                   band = search_item.band
-                  unless twitter_user.opt_out_of_messages                  
+                  if user_recieve_message(twitter_user.opt_out_of_messages, search_item.at_reply_user)
                     no_mbs_account_no_stock_available_reply(twitter_user, band, shares, 'registration_link')
                   end
                 end

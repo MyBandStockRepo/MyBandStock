@@ -13,6 +13,11 @@
   <%= @twitter_crawler_hash_tag.band.name %>
 </p>
 
+<p>
+  <b>@reply user:</b>
+  <%= @twitter_crawler_hash_tag.at_reply_user %>
+</p>
+
 
 <%= link_to 'Edit', edit_twitter_crawler_hash_tag_path(@twitter_crawler_hash_tag) %> |
 <%= link_to 'Back', twitter_crawler_hash_tags_path %>

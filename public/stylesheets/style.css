@@ -1164,11 +1164,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
           color: #FFF;
         }
         .stats-main .stats-module ol.user-list {
-          width: 195px;
+          width: 175px;
 /*          height: 220px;*/
-          padding: 0 0 15px 27px;
+          padding: 0 0 15px 29px;
           overflow-y: visible;
-          overflow-x: auto;
+/*          overflow-x: auto;*/
           font-size: 9pt;
           color: #FFF;
           text-shadow: 2px 2px 2px #000;
@@ -1184,6 +1184,7 @@ fieldset {border:0px;padding:0px;margin:0px;}
           .stats-main .stats-module ol.user-list .shareholder_aside {
             font-size: 8pt;
             font-style: italic;
+            float: right;
           }
 
       
@@ -1236,9 +1237,14 @@ fieldset {border:0px;padding:0px;margin:0px;}
       padding: 2px 8px;
     }
 
-  /* Artist CP specifics */
+  /* Artist CP */
+    .orange_bar .left_third {
+      padding-left: 6px;
+    }
+    
     .left_third {
       width: 300px;
+      padding-bottom: 0;
     }
     
     .right_twothirds .dashboard-main {
@@ -1248,6 +1254,11 @@ fieldset {border:0px;padding:0px;margin:0px;}
     
     .right_twothirds .stats-main .one-third .stats-module {
       width: 210px;
+    }
+    
+    select.dashboard-band-selector {
+      font-family: TitilliumText14L600wt;
+      font-size: 14px;
     }
 
 
@@ -1539,3 +1550,74 @@ fieldset {border:0px;padding:0px;margin:0px;}
   text-align: center;
   margin-bottom: 10px;
 }
+#new-reward .newform .fieldrow {
+	float:right;
+	width:60%;
+}
+#new-reward {
+	float:right; 
+	margin-right:1em;
+}
+#new-reward .content_onethird_bg {
+	float:left;
+	width:35%
+}
+#delete-form{
+	display:inline;
+}
+.rewards .reward-name a, .levels .level-name a, .levels .level-points{
+	color:#ff8700;
+	font-size: 120%;
+	margin-right: 10px;
+}
+.dark_bar_large{
+	padding-bottom:25px;
+}
+.rewards, .levels {
+	margin: -8px 28px 0 0;
+	padding:8px;
+	padding-left:40px;
+	background:#141414;
+	color:#fff;
+}
+.rewards span, .rewards h2, .rewards p, .levels span, .levels h2, .levels p{
+	margin-bottom:7px;
+}
+.rewards a, .levels a {
+	color:#fff;
+}
+.fieldrow#level-button .fieldleft{
+	width:auto;
+	float:right;
+}
+.fieldrow#level-button {
+	float:right;
+	margin:1em;
+}
+.content_onethird_bg .fieldrow#level-button {
+	margin-right:9em;
+}
+p.done {
+	display:inline;
+	width:auto;
+	margin:1em;
+	float:right;
+	clear:both;
+}
+#levels {
+	display:inline;
+	width:60%;
+    float:right;
+    background:#141414;
+    font-size: 1.6em;
+    color:#fff;
+    margin-right:2em;
+    padding:1em;
+    margin-top:1em;
+}
+#levels li {
+	margin:.3em;
+}
+/*span.level-points{
+	margin-right:5px;
+}*/

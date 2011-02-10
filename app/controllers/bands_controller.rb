@@ -36,23 +36,6 @@ def dashboard
   redirect_to root_url and return if params[:band_id].blank?
   @band = Band.where(:id => params[:band_id]).first
   redirect_to root_url and return unless @band
-  
-  # time_range_start = 
-  # time_range_end = 
-    
-  @top_fans         = @band.top_shareholders(10)
-  @top_influencers  = @band.top_influencers(10)
-  @top_purchasers   = @band.top_purchasers(10)
-
-  @num_total_fans     = @band.share_totals.where('net >= 0').count
-  @num_new_fans       = @num_total_fans # @band.share_totals.joins(:user).includes(:user).where('net >= 0').where('users.created_at > ?', Time.now - time_range_start).count
-  @num_total_mentions = @band.num_total_mentions
-  
-  if Rails.env == 'development'
-    @tweets_per_day_data = '[[1287903600000, 79], [1287990000000, 25], [1288076400000, 61], [1288162800000, 30], [1288249200000, 22], [1288335600000, 21], [1288422000000, 6], [1288508400000, 21], [1288594800000, 4], [1288681200000, 13], [1288767600000, 25], [1288854000000, 15], [1288940400000, 32], [1289026800000, 29], [1289113200000, 7], [1289203200000, 8], [1289289600000, 10], [1289376000000, 10], [1289462400000, 10], [1289548800000, 29], [1289635200000, 15], [1289721600000, 19], [1289808000000, 7], [1289894400000, 26], [1289980800000, 15], [1290067200000, 24], [1290153600000, 32], [1290240000000, 10], [1290326400000, 18], [1290412800000, 14], [1290499200000, 4]]'
-  else
-    @tweets_per_day_data = @band.tweets_per_day_as_string
-  end
 
   render 'bands/dashboard/statistics' and return
 end
@@ -260,7 +243,7 @@ end
     @band = Band.find(id)
     #check and make sure only an authorized user can edit
     unless User.find(session[:user_id]).has_band_admin(@band.id)
-      redirect_to '/stage/'
+      return redirect_to '/stage/'
     end
     
     unless @band.country_id.nil?
@@ -339,6 +322,12 @@ end
       return false
     end
     @band = Band.find(id)
+
+    #check and make sure only an authorized user can edit
+    unless User.find(session[:user_id]).has_band_admin(@band.id)
+      return redirect_to user_control_panel_path
+    end
+
 		@request_uri = edit_band_url(id)
  		begin
 			unless @band.twitter_user
@@ -437,15 +426,19 @@ end
       end
       return false
     end
-    if @band.commerce_allowed == true    
-      @available_shares = @band.available_shares_for_purchase()
-      if @available_shares < @band.min_share_purchase_amount
-        flash[:error] = 'There are no more shares available to purchase today. New shares are released every day at noon, so check back!'
-      end
     
-      @min_amount = @band.min_share_purchase_amount
-      @max_amount = @band.max_share_purchase_amount > @available_shares ? @available_shares : @band.max_share_purchase_amount
+    @available_shares = @band.available_shares_for_purchase()
+    
+    if @band.commerce_allowed == true and !@band.share_price.blank?
+    
+      @min_amount = @band.min_share_purchase_amount.to_i
+      @max_amount = @band.max_share_purchase_amount.to_i > @available_shares ? @available_shares : @band.max_share_purchase_amount.to_i
+
+      if @available_shares < @min_amount
+        flash[:error] = 'There are no more shares available to purchase today. New shares are released every day at noon ET, so check back!'
+      end
     else
+    
       flash[:error] = "This artist is not currently offering BandStock for sale. Thank you for your interest."      
     end
     render :layout => 'lightbox' if params[:lightbox]
@@ -534,24 +527,6 @@ end
     end
     
     @band = Band.find(id)
-=begin    
-    #create the list vars
-    @news_entries = @band.news_entries.paginate(:page => params[:news_entries_page], :order => ['updated_at DESC'], :per_page => 3)
-    @concerts = @band.concerts.paginate(:page => params[:concerts_page], :order => ['created_at desc'], :per_page => 5)
-    @stage_comments = @band.stage_comments.paginate(:page => params[:stage_comments_page], :order => ['created_at desc'], :per_page => 4)
-    if @band.active_project
-      @ledger_entries = @band.active_project.ledger_entries.paginate(:page => params["project_#{@band.active_project.id}_ledger_entries_page"], :per_page => 10)
-    else
-      @ledger_entries = []
-    end
-    @perks = @band.perks.paginate(:page => params[:perks_page], :order => ['created_at desc'], :per_page => 10)
-    
-    #stats
-    @band_total_shares = @band.contributions.find(:all, :include => [:contribution_level]).collect {|c| c.contribution_level.number_of_shares}.sum
-    @top_fans = @band.top_fans
-    @new_fans_yesterday = Rails.cache.fetch("band_#{@band.id}_new_fans_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.associations.find(:all, :conditions => ['name = ? AND created_at > ? AND created_at < ?', 'fan',  1.day.ago.midnight,Time.now.midnight]).size.to_i }
-    @new_shares_yesterday = Rails.cache.fetch("band_#{@band.id}_new_shares_yesterday", :expires_in => (1.days.from_now.midnight-Time.now) ) { @band.contributions.find(:all, :joins => [:contribution_level], :conditions => ['contributions.created_at > ? AND contributions.created_at < ?', 1.day.ago.midnight, Time.now.midnight]).collect{|c| c.contribution_level.number_of_shares}.sum }
-=end    
   end
 
 

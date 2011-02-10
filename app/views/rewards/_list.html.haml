@@ -1,0 +1,5 @@
+%h2 Rewards
+%ul
+  -for reward in rewards
+    %li= link_to reward.name, level_reward_path(reward.level, reward)
+  

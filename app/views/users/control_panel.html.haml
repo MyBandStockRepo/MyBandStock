@@ -1,29 +1,41 @@
--if @bands
-  -@bands.each do |band|
-    .orange_bar
-      -# __commented - white bar__
-        - if band_manage_counter == 0   # If this is the first band in the list
-          .white_bar.add_band
-            = link_to new_band_path do
-              %strong +
-              ADD BAND
-          .white_orange_divider
-        - else
-      .left_third
-      .orange_divider
-      .placement_streamschedule STREAM SCHEDULE
-      .placement_starts STARTS
-      -# __commented__
-        .placement_ends ENDS
+:javascript
+  jQuery(function() {
+    jQuery('#dashboard-band-selector').change(function() {
+      document.location.href = '#{ user_control_panel_path }?band_id='+ this.value;
+    });
+  });
 
-    .content_onethird_bg
-      .left_third
-        .dark_bar
-          -# = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
-          = link_to band.name, band_path(band.id), :class => 'schedule_band_name'
-        .dark_bar_large
-          = render :partial => 'bands/navigation', :locals => { :band => band }
-      .right_twothirds
-        = render :partial => 'bands/dashboard/statistics', :locals => { :band => band }
-      .clear
+-# We display the control panel for the chosen band, or the first of the user's bands.
+-if @band.blank?
+  - @band = @bands.first
+
+-unless @band.blank?
+  .orange_bar
+    -# __commented - white bar__
+      - if band_manage_counter == 0   # If this is the first band in the list
+        .white_bar.add_band
+          = link_to new_band_path do
+            %strong +
+            ADD BAND
+        .white_orange_divider
+      - else
+    .left_third
+      = label_tag 'dashboard-band-selector', 'Select band'
+      = select_tag :band_id, options_from_collection_for_select(@bands, "id", "name", @band.id), :id => 'dashboard-band-selector', :class => 'dashboard-band-selector'
+    .orange_divider
+    .placement_streamschedule STREAM SCHEDULE
+    .placement_starts STARTS
+    -# __commented__
+      .placement_ends ENDS
+
+  .content_onethird_bg
+    .left_third
+      .dark_bar
+        -# = link_to band.name, { :controller => 'bands', :action => 'show', :id => band.id }, :class => 'schedule_band_name'
+        = link_to @band.name, band_path(@band.id), :class => 'schedule_band_name'
+      .dark_bar_large
+        = render :partial => 'bands/navigation', :locals => { :band => @band }
+    .right_twothirds
+      = render :partial => 'bands/dashboard/statistics', :locals => { :band => @band }
+    .clear
 

@@ -5,7 +5,4 @@ class SocialNetworksController < ApplicationController
 	def index
 		@twitter_not_authorized =  true
 	end
-
-
-
 end

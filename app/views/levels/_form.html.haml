@@ -1,0 +1,56 @@
+= form_for [@band, @level] do |f|
+  =f.error_messages
+  .newform  
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          %fieldset
+            .fieldname
+              .fieldnametop
+                =f.label :name
+              .fieldnamebottom
+            .fieldbox.required.condense2
+              =f.text_field :name
+    .fieldrow
+      .fieldleft
+        .field
+          .LARGEfield
+            .fieldname
+              .fieldnametop
+                =f.label :description
+              .fieldnamebottom
+            .fieldbox
+              =f.text_area :description, {:class => 'textarea'} 
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              =f.label :points
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            =f.text_field :points, :size => "5"
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              =f.label :multiplier
+            .fieldnamebottom
+          .fieldbox.required.condense2
+            =f.text_field :multiplier, :size => "2"
+        .desc
+          Multiply points earnings by this factor(ie 1.2) for this level
+    .fieldrow
+      .fieldleft      
+        .field.condense4
+          .fieldname
+            .fieldnametop
+              =f.label :limit
+            .fieldnamebottom
+          .fieldbox.required.condense2   
+            =f.text_field :limit, :size => "5"
+    .fieldrow
+      .fieldleft
+        .formbutton.condense3
+          =f.submit "Save Level"

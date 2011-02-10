@@ -14,11 +14,17 @@ private
     #Does a share_total entry exist for this user and band combo?
     share_total = ShareTotal.where(:user_id => self.user_id, :band_id => self.band_id).first
     unless ( share_total )
+      
+      band = self.band
+      low_level = band.levels.order(:points).first
+      
+      
       #create the entry for 0 shares, then update the rank
       share_total = ShareTotal.create(:user_id => self.user_id,
                                       :band_id => self.band_id,
                                       :gross => 0,
-                                      :net => 0
+                                      :net => 0,
+                                      :level_id => low_level.id
                                       )
       
       #set the rank (+1 because starts at 0)

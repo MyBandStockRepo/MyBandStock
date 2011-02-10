@@ -1,0 +1,11 @@
+.rewards
+  %h2 Rewards
+  %p="This level has #{pluralize((@level.rewards.size - 1), 'reward')}"
+  %ul
+    -for reward in @level.rewards.reject{|r| r.new_record?}
+      %li
+        %span.reward-name= link_to reward.name, level_reward_path(reward.level.id, reward.id)
+        %span.edit= link_to "Edit", edit_level_reward_path(@level, reward)
+        %span.delete 
+          -form_tag(level_reward_path(@level, reward), :method => "delete", :id => "delete-form") do 
+            = submit_tag("delete", :confirm => "Are you sure you want to delete this reward?")

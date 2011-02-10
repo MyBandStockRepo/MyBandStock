@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  include ActionView::Helpers::NumberHelper
+
   protect_from_forgery :only => [:create, :update, :external_registration_complete]
   before_filter :authenticated?, :except => [:external_registration_success, :register_with_band_external, :external_registration, :external_registration_error, :external_registration_complete, :new, :create, :state_select, :activate, :register_with_twitter, :register_with_twitter_step_2, :clear_twitter_registration_session, :show], :unless => :api_call?
   before_filter :find_user, :only => [:edit, :address]
@@ -216,6 +218,28 @@ class UsersController < ApplicationController
     
     #if failure, go back to the form  
   end
+  
+  
+  def connect_social_networks
+    @user = User.find(session[:user_id])
+    @authentications = @user.authentications if @user
+    fb = @user.authentications.where(:provider => 'facebook').first
+    if fb
+      @facebook_user = FacebookUser.find_by_authentication_id(fb.id)
+    else
+      @facebook_user = nil
+    end
+    twit = @user.authentications.where(:provider => 'twitter').first    
+    if twit
+      @twitter_user = TwitterUser.find_by_authentication_id(twit.id)
+    else
+      @twitter_user = nil
+    end
+    session[:authenticating_with_band_id] = params[:band_id]
+    render :layout => 'white-label'    
+  end
+  
+  
   def index
     if params[:band_id] 
       @band = Band.find(params[:band_id])
@@ -741,11 +765,15 @@ class UsersController < ApplicationController
   def control_panel
     # This is for the user's landing / main page. He sees some basic user editing stuff.
     #  If the user is a manager of one or more bands, he sees management listings for each band.
+    # TODO:
+    #  Influencers should only include those previously signed up with our site.
+    #  Show followers.
+    #
     authenticated?
     @user = User.find(session[:user_id])
 	
-    flash[:error] = flash[:error]
-    flash[:notice] = flash[:notice]	
+    #flash[:error] = flash[:error]
+    #flash[:notice] = flash[:notice]	
     
     # @bands is an array of band objects, or an empty array (never nil)
     if @user.site_admin
@@ -756,7 +784,17 @@ class UsersController < ApplicationController
 		
 		if @bands.count == 0
 			redirect_to :controller => 'bands', :action => 'index'
-		end    
+		end
+		
+		# If the user selected a single band to display,
+		# then we assign that band to the band view variable.
+		unless params[:band_id].blank?
+		  @band = @bands.select{|band| band.id == params[:band_id].to_i }.first
+		  if @band.blank?
+		    flash[:error] = "You cannot access the band with ID #{ params[:band_id] }."
+		    @band = nil
+		  end
+		end
   end
   
 
@@ -813,13 +851,16 @@ protected
     elsif !@authentic && @user_error
       data = sign_up_failure(@user)
       message = "user-error"
-      notification = "Sorry, something went wrong. Please try again."
+      notification = @errors
+      
     elsif !@authentic && @need_password #we found the user with this email, now we need a password to authenticate
       data = need_password_html(@user.email)
       message = "need-password"
     elsif @authentic && !@need_password #the user is authenticated, all steps have passed, we return all the info for the user, including the salt to set the cookie
       data = logged_in_info(@user)
       message = @user.password_salt
+      twitter_connected = @user.twitter_user.blank? ? false : true
+      facebook_connected = @user.facebook_user.blank? ? false : true      
       notification = "Thanks for logging in!"
     elsif params[:password] && !params[:password].blank? && params[:password] != "undefined" && !@authentic && !@need_password #all variations of why we'd need to re-enter a password
       data = need_password_html(@user.email)
@@ -831,7 +872,9 @@ protected
     end
     message ||= ""
     notification ||= ""
-    json = {"html" => data, "msg" => message, "notification" => notification}.to_json
+    twitter_connected ||= false
+    facebook_connected ||= false    
+    json = {"html" => data, "msg" => message, "notification" => notification, "twitter_connected" => twitter_connected, "facebook_connected" => facebook_connected}.to_json
     callback + "(" + json + ")"
   end
   
@@ -839,6 +882,7 @@ protected
     #this is run for several steps, logging in from cookie, reading the email step, and reading the password step
     #combinations four variables will tell which response to send from the get_jsonp method
     @user_error = false
+    @errors = nil
     @no_user = false #this is used if there's an mbs cookie but a user can't be found from it. It will reset the cookie and prompt the user for an email
     @authentic = false #if this is true, the steps have been completed and we can send the user info
     @need_password = false #if this is true, the user will be asked for their password
@@ -855,6 +899,8 @@ protected
       if params[:password] && !params[:password].blank? && params[:password] != "undefined" #if there's a password param, this is step two
         if User.authenticate(params[:email], params[:password]) #if the password matches
           @authentic = true #the user is authenticated and get_jsonp can send the info
+          #log the user in to the MBS site
+          log_user_in(@user.id)
         else
           @authentic = false
         end
@@ -873,10 +919,13 @@ protected
   end
   def create_new_user #create the user from the user form sent
     @user = User.new(:email => params[:email], :email_confirmation => params[:email_confirmation], :password => params[:password], :first_name => params[:first_name])
-    @user.generate_or_salt_password(@user.password)
     if @user.save
+      @user.salt_password(@user.password)
+      @user.save
+      log_user_in(@user.id)
       return true
     else
+      @errors = @user.errors.full_messages.join(", ")
       return false
     end
   end
@@ -891,19 +940,74 @@ protected
   end
   
   def logged_in_info(user) #html for all info passed for a logged-in user
-     list = %w(one two three four).collect{|c| "<li>Level #{c}: <span>This great reward!</span></li>"}.join("")     
-    "<p class=\"mbs-band-name\">#{@band.name}</p>
-    <p class=\"mbs-welcome\">Hey #{user.first_name}!</p>
-    <div id=\"mbs-stats\">
-      <p class=\"mbs-shares\">You have #{@net} shares! Only <span class=\"mbs-number\">40,000</span> shares to the next level</p>
+    levels = @band.levels
+    list = ""
+    levels.each_with_index do |level, i|
+      list += "<li><span class=\"mbs-level-number\">Level #{i + 1}: </span><span class=\"mbs-level-name\">#{level.name}</span><span class=\"mbs-level-points-needed\">need #{number_with_delimiter(level.points, :delimiter => ",")} BandStock</span>"
+      unless level.rewards.empty?
+       list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
+       for reward in level.rewards
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward.description}</span></li>"
+       end
+       list += "</ul>"       
+      end
+      list += "</li>"
+    end
+    hash_tag = TwitterCrawlerHashTag.where(:band_id => @band.id).first.term.to_s
+    hash_tag_url_encoded = hash_tag.gsub('#', '%23')
+    hash_tag_url_encoded.gsub!('@', '%40')    
+    hash_tag_url_encoded.gsub!(' ', '%20')
+    
+    current_level = user.levels.where(:band_id => @band.id).first    
+    if current_level.blank?
+      current_level = @band.levels.first
+    end
+    
+    user_level = current_level ? current_level.number : 0#level number
+    user_level_name = current_level ? current_level.name : "N/A" #level name
+    next_level = user.next_level_for_band(@band)
+    user_points_required_at_level = next_level ? next_level.points : 0
+    user_next_level = next_level ? next_level.name : "N/A"
+    user_points_to_next_level = user.points_to_next_level_for_band(@band)
+    user_percentage_to_next_level = user.percent_of_level_completed_for_band(@band).round
+    
+    ways_to_earn = ""
+    if @band.available_shares_for_purchase && @band.commerce_allowed?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/bands/#{@band.id}/buy_stock','Buy Stock',400,800)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/dollar.jpeg"}\" /><span>Buy Band Stock</span></div></li>"
+    end            
+    if user.twitter_user.blank? || user.facebook_user.blank?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('#{SITE_URL}/connect_social?band_id=#{@band.id}','Connect To Social Networks',600,600)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/bar/connect-social.png"}\" /><span>Link with Social Networks</span></div></li>"            
+    end
+    unless user.twitter_user.blank?
+      ways_to_earn += "<li onClick=\"mybandstock_bar_popup_window_link('http://twitter.com/home?status=#{hash_tag_url_encoded}','Tweet for BandStock',500,1024)\"><div class=\"mbs-way-to-earn\"><img src=\"#{SITE_URL+"/images/authbuttons/twitter_32.png"}\" /><span>Tweet #{hash_tag}</span></div></li>"      
+    end
+            
+
+    
+    "<div class=\"mbs-user-info-wrapper\">
+      <div class=\"mbs-welcome-div\">Welcome back <span class=\"mbs-user-name\">#{user.display_name}</span>!</div>
+      <div class=\"mbs-score-box\">
+        <div class=\"mbs-score-box-left\">
+          <img src=\"#{SITE_URL}/images/bar/mbs-logo.png\" alt=\"BandStock\" />
+        </div>
+        <div class=\"mbs-score-box-right\">
+          #{number_with_delimiter(@net, :delimiter => ",")}
+        </div>      
+      </div>
     </div>
-    <div id=\"mbs-rewards\"><ul>" + list + "</ul></div>"
+    <div id=\"mbs-rewards\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + list + "</ul></div>
+    <div id=\"mbs-ways-to-earn\" class=\"mbs-alpha80\" style=\"display:none;\"><ul>" + ways_to_earn + "</ul></div>
+    <div id=\"mbs-level-progress\">
+      <div class=\"mbs-user-level\"><span class=\"mbs-user-level-number\">Level #{user_level}</span><span class=\"mbs-user-level-name\">#{user_level_name}</span></div>
+      <div class=\"mbs-level-progress-background\" onMouseOver=\"mybandstockShowProgressTooltip()\" onMouseOut=\"mybandstockHideProgressTooltip()\"><div class=\"mbs-level-progress-bar\" style=\"width:#{user_percentage_to_next_level}%;\"></div></div>
+      <div class=\"mbs-next-level-status\">#{user_percentage_to_next_level}% to the next level</div>
+      <div class=\"mbs-level-progress-tooltip mbs-alpha80\" style=\"display:none;\"><span class=\"mbs-progress-next-level-tooltip\">Next Level: #{user_next_level} in #{number_with_delimiter(user_points_to_next_level, :delimiter => ",")} BandStock</span><span class=\"mbs-progress-ratio-tooltip\">#{number_with_delimiter(@net, :delimiter => ",")} / #{number_with_delimiter(user_points_required_at_level, :delimiter => ",")} BandStock</span></div>
+    </div>"
   end
   
   def user_form_html(user)
     "<div class=\"mbs-user-form\">
       <p class=\"mbs-user-form\">We couldn't find your email in the system. Sign up today and start earning rewards!</p>
-
       <span class=\"mbs-email\">
         <label>Email:</label> <input id=\"mbs_user_email\"name=\"user[email]\" size=\"25\" type=\"text\" value=\"#{user.email}\" />
       </span>
@@ -917,12 +1021,21 @@ protected
       <span class=\"mbs-pass\"> 
         <label>Password:</label> <input id=\"mbs_user_password\" name=\"user[password]\" size=\"25\" type=\"password\" value=\"\" />
       </span>
+      <p class=\"mbs-user-form\" style=\"width:60%; float:left; display:inline;margin-top:-2em;\">By clicking on 'Submit', you are agreeing to the MyBandStock
+      <a href=\"/legal/tos\" target=\"_blank\" title=\"Terms of service\">Terms of Service</a></p>
       <br style=\"clear:both;\" />
     </div>
     "
   end
   def sign_up_failure(user)
-    #"<p class=\"mbs-message\">Sorry, something went wrong. Please try again</p>"
     user_form_html(user)
   end
+  
+  def ways_to_earn_bandstock
+    earn_array = Array.new
+    
+    earn_array
+  end
+  
+  
 end #end controller

@@ -41,9 +41,12 @@
           :css
             #mybandstock_bar #bar_branding{background-image:url('http://mybandstock.com/images/bar/demo_bar_branding.png');}
             
+        
+        :javascript
+          var mybandstockArtistID = 2;
         = javascript_include_tag 'js_bar.js'
-        #js-bar-container.2
-
+        :css
+          div#js-bar-container .mbs-bar-branding{background-image:url("#{SITE_URL}/images/bar/demo_bar_branding_2.png");background-repeat:no-repeat;}
             
         .partners
           %p 

@@ -1,9 +1,5 @@
 Cobain::Application.routes.draw do |map|
 
-
-
-
-
 # http://www.engineyard.com/blog/2010/the-lowdown-on-routes-in-rails-3/
 
   # API methods
@@ -57,6 +53,7 @@ Cobain::Application.routes.draw do |map|
 
 	match '/users/activate', :to => 'users#activate'
   match '/users/clear_new', :to => 'users#clear_twitter_registration_session'
+  match '/connect_social', :to => 'users#connect_social_networks', :as => 'connect_social_networks'
 
   # ---- Band Actions ---- #
 	  match 'bands/:band_id/buy_stock', :to => 'bands#buy_stock', :as => :buy_stock
@@ -96,14 +93,15 @@ Cobain::Application.routes.draw do |map|
   match '/auth/facebook/access_token_callback' => 'authentications#facebook_access_token_callback'
   
   
-  #/ ----- Bar Stuff --------/#
-  match '/external/registration' => 'users#register_with_band_external'
-  match '/external/registration/form' => 'users#external_registration'
-  match '/external/registration/complete' => 'users#external_registration_complete'  
-  match '/external/registration/error' => 'users#external_registration_error'    
-  match '/external/registration/success' => 'users#external_registration_success'      
-  match '/external/error' => 'application#external_error'
-  match '/bar_demo', :to => 'statics#bar_demo'
+  # ---- Bar Stuff ---- #
+    match '/external/registration' => 'users#register_with_band_external'
+    match '/external/registration/form' => 'users#external_registration'
+    match '/external/registration/complete' => 'users#external_registration_complete'  
+    match '/external/registration/error' => 'users#external_registration_error'    
+    match '/external/registration/success' => 'users#external_registration_success'      
+    match '/external/error' => 'application#external_error'
+    match '/bar_demo', :to => 'statics#bar_demo'
+  # /--- Bar Stuff ---- #
   
   resources :authentications
   resources :streamapi_stream_themes
@@ -123,6 +121,10 @@ Cobain::Application.routes.draw do |map|
   resources :fans
   resources :bands do
     resources :shareholders, :controller => "users"
+    resources :levels
+  end
+  resources :levels do
+    resources :rewards
   end
   resources :user_roles
   resources :twitter_users
@@ -240,7 +242,7 @@ Cobain::Application.routes.draw do |map|
 
   #users routes - this is stuff like '/users/edit' but it looks better this way
   match '/me/account', :to => 'users#edit'
-  match '/me/control_panel', :to => 'users#control_panel'
+  match '/me/control_panel', :to => 'users#control_panel', :as => 'user_control_panel'
   match '/me/forgot_password', :to => 'login#forgot_password'
   match '/me/home', :to => 'users#control_panel'
 #  match '/me/manage_friends', :to => 'users#manage_friends'

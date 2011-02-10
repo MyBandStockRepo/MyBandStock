@@ -15,7 +15,7 @@
     = csrf_meta_tag
   %body#mybandstock_body
     #mybandstock_white_label_page
-      #branding
+      #brandings
     
       -if flash[:error] || flash[:notice]
         #notifications                   
@@ -29,3 +29,4 @@
         = yield      
     = render :partial => 'common_partials/google_tracker'
     = render :partial => 'common_partials/quantcast'
+

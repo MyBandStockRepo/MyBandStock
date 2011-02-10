@@ -43,6 +43,7 @@ body {
 }
 		
 #mybandstock_body h2 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
+#mybandstock_body .placement_edituserprofile {margin: 10px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:18px;}
 #mybandstock_body h4 {margin:0px;color:#FFFFFF;font-family:TitilliumText14L600wt;font-size:14px;line-height:20px;}
 
 #mybandstock_body h3 {
@@ -89,6 +90,74 @@ body {
 .newform .LARGEfield .textarea {width:370px;height:195px;background-color:#FFFFFF;border:none;margin:0px;overflow:auto;margin:5px;font-family:TitilliumText14L600wt;font-size:16px;}
 .newform .LARGEfield .fieldnametop {height:193px;}
 
+/* Authentications */
+  .authentications {
+    margin:20px 0px 30px 0px;
+		float:left;
+		width:100%;
+  }
 
+  .authentication {
+    width: 300px;
+    float: left;
+    background-color: #EEE;
+    padding: 5px 10px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    position: relative;
+    margin:15px 0px 0px 0px;
+  }
+
+  .authentication .remove {
+    text-decoration: none;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    color: #333;
+    padding: 2px 4px;
+    font-size: 10px;
+  }
+
+  .authentication .remove:hover {
+    color: #CCC;
+    background-color: #777;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+  }
+
+  .authentication img {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .authentication .provider {
+    font-weight: bold;
+  }
+
+  .authentication .uid {
+    color: #666;
+    font-size: 11px;
+  }
+  .authentication .name {
+    color: #666;
+    font-size: 11px;
+  }
+  .auth_provider img {
+    display: block;
+  }
+
+  .auth_provider {
+    float: left;
+    text-decoration: none;
+    margin-right: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+    a.auth_provider {
+      text-decoration: none !important;
+    }
+
+
+.fieldleft{width:540px;margin-left:20px;float:left;}
 
 

@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
+  has_many :rewards, :through => :redemptions
+  has_many :levels, :through => :share_totals
+  has_many :redemptions
   has_and_belongs_to_many :promotional_codes
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
@@ -25,7 +28,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_uniqueness_of :twitter_user_id, :unless => Proc.new {|user| user.twitter_user_id.nil? || user.twitter_user_id == ''}
   validates_numericality_of :phone, :unless => Proc.new {|user| user.phone.nil? || user.phone == ''}
-  validates :email, :email => true
   validates_length_of :first_name, :minimum => 1, :unless => Proc.new {|user| user.first_name.nil? || user.first_name == ''}
   validates_length_of :first_name, :maximum => 20, :unless => Proc.new {|user| user.first_name.nil?}
   validates_length_of :last_name, :maximum => 25, :unless => Proc.new {|user| user.last_name.nil?}
@@ -40,6 +42,63 @@ class User < ActiveRecord::Base
   def api_attributes
     self.attributes.reject{|k, v| !API_ATTRIBUTES.include?(k.to_s)}
   end
+  
+  
+  def points_to_next_level_for_band(band)
+    begin
+      if total = self.share_total_for_band(band) #user has points in band
+        return total.level.next ? (total.level.next.points - total.gross) : "0"
+      elsif low_level = band.levels.order(:points).first #band has level
+        return low_level.next ? (low_level.next.points - 0) : 0
+      else  #band has no levels
+        return 0
+      end     
+    rescue
+      return 0
+    end
+  end
+  
+  def share_total_for_band(band)
+    ShareTotal.where(:band_id => band.id, :user_id => self.id).first
+  end
+  
+  def next_level_for_band(band)
+    begin
+      if total = self.share_total_for_band(band) #user has points in band
+        return total.level.next
+      elsif low_level = band.levels.order(:points).first #band has level
+        return low_level.next
+      else
+        return nil
+      end
+    rescue
+      return nil
+    end
+  end
+  
+  def percent_of_level_completed_for_band(band)
+    if total = self.share_total_for_band(band)
+      begin
+        return ((total.gross.to_f - total.level.points.to_f)/(total.level.next.points.to_f - total.level.points.to_f)) * 100
+      rescue
+        return 0
+      end
+    else
+      return 0
+    end
+  end
+  
+  def percent_to_next_level_for_band(band)
+    begin
+      return 100 - self.percent_of_level_completed_for_band(band)
+    rescue
+      return 0
+    end
+  end  
+  
+  
+  
+  
   def twitter_client
     twitter_user_account = self.twitter_user
     if twitter_user_account
@@ -50,6 +109,9 @@ class User < ActiveRecord::Base
 
   def generate_or_salt_password(password=generate_key(8))
   	#create salted password
+    self.salt_password(password)
+  end
+  def salt_password(password)
     random = ActiveSupport::SecureRandom.hex(10)
     salt = Digest::SHA2.hexdigest("#{Time.now.utc}#{random}")
     salted_password = Digest::SHA2.hexdigest("#{salt}#{password}")
