@@ -2,7 +2,7 @@ Cobain::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
 	
-  SITE_URL = 'http://gary.mybandstock.com'
+  SITE_URL = 'http://notorious.mybandstock.com'
   SECURE_SITE_URL = 'http://gary.mybandstock.com'
   SITE_HOST = 'gary.mybandstock.com'
   
