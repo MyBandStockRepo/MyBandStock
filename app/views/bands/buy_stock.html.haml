@@ -1,6 +1,4 @@
-- purchase_submit_text = 'POW!'
-- logger.info @min_amount.blank?
-- logger.info @max_amount.blank?
+- purchase_submit_text = 'POW!' 
 
 -if @band.commerce_allowed
 
@@ -27,7 +25,7 @@
 
 
     .newform
-      = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }) do
+      = form_tag({ :controller => 'merchant', :action => 'make_stock_purchase' }, :target => "_blank") do
         = hidden_field_tag 'band_id', @band.id
         = hidden_field_tag 'lightbox', true if params[:lightbox]
         .fieldrow
