@@ -17,6 +17,7 @@ class LevelsController < ApplicationController
   end
 
   def show
+    
   end
   def create
     @level = @band.levels.build(params[:level])
@@ -28,7 +29,12 @@ class LevelsController < ApplicationController
     end
   end
   def update
-    
+    if @level.update_attributes(params[:level])
+      redirect_to edit_band_level_path(@level.band, @level)
+      flash[:notice] = "Changes saved!"
+    else
+      render :new
+    end
   end
   def destroy
     if @level.destroy
