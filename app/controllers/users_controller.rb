@@ -947,7 +947,9 @@ protected
       unless level.rewards.empty?
        list += "<span class=\"mbs-level-unlock-rewards\">Unlock rewards:</span><ul class=\"mbs-rewards-list\">"
        for reward in level.rewards
-         list += "<li><span class=\"mbs-level-reward-description\">#{reward.description}</span></li>"
+         list += "<li><span class=\"mbs-level-reward-description\">#{reward.description}</span>"
+         list += "<a class=\"redeem\" href=\"#{level_reward_url(level, reward)}\">Redeem</a>" if reward.redeemable_by(user)
+         list += "</li>"
        end
        list += "</ul>"       
       end

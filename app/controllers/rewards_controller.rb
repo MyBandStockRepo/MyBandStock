@@ -27,6 +27,7 @@ class RewardsController < ApplicationController
   end
 
   def show
+    @redemption = @reward.redemptions.build
   end
 
   def index

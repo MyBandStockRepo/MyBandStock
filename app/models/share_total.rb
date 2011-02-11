@@ -9,6 +9,9 @@ class ShareTotal < ActiveRecord::Base
   
   after_save :update_level_id  
   
+  # def net
+  #     self.attributes[:net] || 0
+  #   end
   
   def update_level_id
     if self.level && self.level.next && self.gross >= self.level.next.points
@@ -18,7 +21,8 @@ class ShareTotal < ActiveRecord::Base
   end  
   
   def self.get_with_band_and_user_ids(band_id, user_id)
-    joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").first
+    total = joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").first
+    total.nil? ? ShareTotal.create(:user_id => user_id, :band_id => band_id) : total
   end
   
   def self.initialize_ranks(band_id=nil)

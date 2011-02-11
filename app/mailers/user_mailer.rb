@@ -146,6 +146,16 @@ class UserMailer < ActionMailer::Base
       format.html{ render 'app/views/user_mailer/reminder.html.erb', :locals => {:stream_starts_at => stream_starts_at} }    
     end
 	end
+	def redemption_notification_to_admins(users)
+	 subject = "There's a new redemption"
+	 message = "Congrats on the new redemption"
+	 self.send_announcement(users, subject, message)
+	end
+	def redemption_confirmation_to_user(users)
+	  subject = "Your reward is on the way!"
+  	message = "Congrats on the new reward"
+  	self.send_announcement(users, subject, message)
+	end
 
 	def send_announcement(users, subject, message)
   	if users.nil? || subject.nil? || message.nil?

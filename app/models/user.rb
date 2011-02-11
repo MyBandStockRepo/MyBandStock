@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
   has_many :rewards, :through => :redemptions
-  has_many :levels, :through => :share_totals
   has_many :redemptions
+  has_many :levels, :through => :share_totals
   has_and_belongs_to_many :promotional_codes
   has_many :associations, :dependent => :destroy
   has_many :bands, :through => :associations, :uniq => true
@@ -43,7 +43,12 @@ class User < ActiveRecord::Base
     self.attributes.reject{|k, v| !API_ATTRIBUTES.include?(k.to_s)}
   end
   
-  
+  def has_not_redeemed?(reward)
+    !self.has_redeemed?(reward)
+  end
+  def has_redeemed?(reward)
+    self.rewards.include?(reward)
+  end
   def points_to_next_level_for_band(band)
     begin
       if total = self.share_total_for_band(band) #user has points in band

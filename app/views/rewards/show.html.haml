@@ -1,2 +1,12 @@
-<h1>Rewards#show</h1>
-<p>Find me in app/views/rewards/show.html.erb</p>
+%h1= @reward.name
+
+%h1 Description
+%p= @reward.description
+
+-if current_user
+  / -if @reward.redeemable_by(current_user)
+  =form_for [@reward, @redemption] do |f|
+    =f.error_messages
+    =f.submit "Redeem", :confirm => "You would like to redeem #{@reward.name} for #{@reward.points} Music Miles?"
+  / -elsif current_user.has_redeemed?(@reward)
+  /   %h2="You've already redeemed this reward!"
