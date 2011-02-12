@@ -11,4 +11,11 @@ class RedemptionsController < ApplicationController
       flash[:notice] = "Something has gone wrong, please try again or contact us if the problem persists."
     end
   end
+  def index
+    if params[:band_id]
+      @redemptions = Band.find(params[:band_id]).redemptions
+    else
+      @redemptions = Redemption.order("created_at DESC")
+    end
+  end
 end

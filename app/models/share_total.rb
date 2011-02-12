@@ -9,10 +9,6 @@ class ShareTotal < ActiveRecord::Base
   
   after_save :update_level_id  
   
-  # def net
-  #     self.attributes[:net] || 0
-  #   end
-  
   def update_level_id
     if self.level && self.level.next && self.gross >= self.level.next.points
       self.level = self.level.next

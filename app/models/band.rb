@@ -61,7 +61,9 @@ class Band < ActiveRecord::Base
 
   validate :valid_purchasing_options?
 
-  
+  def redemptions
+    self.users.collect(&:redemptions).flatten!.reject{|r| r.reward.level.band.id != self.id}
+  end
   def twitter_client
     twitter_user_account = self.twitter_user
     if twitter_user_account

@@ -42,7 +42,11 @@ class User < ActiveRecord::Base
   def api_attributes
     self.attributes.reject{|k, v| !API_ATTRIBUTES.include?(k.to_s)}
   end
-  
+  def reduce_net_shares_by_redemption_amount(redemption)
+    total = ShareTotal.get_with_band_and_user_ids(redemption.reward.level.band.id, self.id)
+    new_net = (total.net - redemption.reward.points)
+    total.update_attributes(:net => "#{new_net}")
+  end
   def has_not_redeemed?(reward)
     !self.has_redeemed?(reward)
   end
