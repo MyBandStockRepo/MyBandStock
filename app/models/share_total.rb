@@ -17,7 +17,7 @@ class ShareTotal < ActiveRecord::Base
   end  
   
   def self.get_with_band_and_user_ids(band_id, user_id)
-    total = joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").first
+    total = joins(:user, :band).where("band_id = #{band_id} and user_id = #{user_id}").readonly(false).first
     total.nil? ? ShareTotal.create(:user_id => user_id, :band_id => band_id) : total
   end
   
