@@ -1,4 +1,5 @@
 class RedemptionsController < ApplicationController
+  before_filter :restrict_non_admin, :only => [:index, :update]
   def create
     @reward = Reward.find(params[:reward_id])
     @redemption = @reward.redemptions.build(params[:redemption])
@@ -25,6 +26,16 @@ class RedemptionsController < ApplicationController
       flash[:notice] = "You have updated the redemption record successfully"
     else
       redirect_to :action => "index", :band_id => params[:band_id] and return
+    end
+  end
+private
+  def restrict_non_admin
+    unless logged_in? && is_site_admin_or_current_band_admin?
+      if logged_in? 
+        redirect_to "/me/control_panel"
+      else
+        redirect_to "/login"
+      end
     end
   end
 end

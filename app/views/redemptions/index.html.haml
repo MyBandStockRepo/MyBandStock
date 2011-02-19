@@ -1,0 +1,25 @@
+%table{:style => "background:white; font-size:1.2em; padding: .4em"}
+  %tr
+    %th Band Name
+    %th User Email
+    %th Reward
+    %th Points
+    %th Filled?
+  - for redemption in @redemptions
+    %tr
+      %td 
+        = redemption.reward.level.band.name
+      %td
+        = redemption.user.email
+      %td
+        = redemption.reward.points
+      %td
+        -if redemption.filled?
+          Filled
+        -else
+          = form_for redemption do |f|
+            =f.label :filled, "Fill?" 
+            =f.check_box :filled
+            =f.submit "Fill"
+  %br{:style => "clear:both;"}
+		  
