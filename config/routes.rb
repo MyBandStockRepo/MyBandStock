@@ -122,6 +122,7 @@ Cobain::Application.routes.draw do |map|
   resources :bands do
     resources :shareholders, :controller => "users"
     resources :levels
+    resources :redemptions, :only => [:index, :update]
   end
   resources :levels do
     resources :rewards
@@ -129,6 +130,7 @@ Cobain::Application.routes.draw do |map|
   resources :rewards do
     resources :redemptions, :only => :create
   end 
+  resources :redemptions, :only => [:index, :update]
   resources :user_roles
   resources :twitter_users
   resources :twitter_crawler_hash_tags  

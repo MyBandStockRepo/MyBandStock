@@ -18,4 +18,13 @@ class RedemptionsController < ApplicationController
       @redemptions = Redemption.order("created_at DESC")
     end
   end
+  def update
+    @redemption = Redemption.find(params[:id])
+    if @redemption.update_attributes(params[:redemption])
+      redirect_to :action => "index", :band_id => params[:band_id] and return
+      flash[:notice] = "You have updated the redemption record successfully"
+    else
+      redirect_to :action => "index", :band_id => params[:band_id] and return
+    end
+  end
 end
